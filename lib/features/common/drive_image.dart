@@ -160,9 +160,9 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
               padding: const EdgeInsets.all(24),
               child: Text(
                 'Não foi possível abrir esta imagem.',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white70,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                 textAlign: TextAlign.center,
               ),
             ),

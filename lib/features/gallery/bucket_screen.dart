@@ -15,11 +15,7 @@ import 'media_viewer_screen.dart';
 
 /// Grade com todos os arquivos de um balde de idade.
 class BucketScreen extends ConsumerWidget {
-  const BucketScreen({
-    required this.type,
-    required this.bucketKey,
-    super.key,
-  });
+  const BucketScreen({required this.type, required this.bucketKey, super.key});
 
   final EntryType type;
   final String bucketKey;
@@ -30,9 +26,7 @@ class BucketScreen extends ConsumerWidget {
     final List<Entry> entries = ref.watch(entriesOfTypeProvider(type));
 
     if (profile == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     final AgeBucketUnit unit = _unitFromKey(bucketKey);
@@ -64,12 +58,11 @@ class BucketScreen extends ConsumerWidget {
           ? EmptyState(icon: type.icon, title: S.noItemsYet)
           : GridView.builder(
               padding: const EdgeInsets.all(12),
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
               itemCount: files.length,
               itemBuilder: (BuildContext context, int index) {
                 final (Entry entry, EntryFile file) = files[index];

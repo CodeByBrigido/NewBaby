@@ -18,8 +18,7 @@ class LetterEditorScreen extends ConsumerStatefulWidget {
   final String? entryId;
 
   @override
-  ConsumerState<LetterEditorScreen> createState() =>
-      _LetterEditorScreenState();
+  ConsumerState<LetterEditorScreen> createState() => _LetterEditorScreenState();
 }
 
 class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
@@ -60,19 +59,23 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
     try {
       final Entry? existing = _existing;
       if (existing == null) {
-        await ref.read(memoryRepositoryProvider).addLetter(
-          uid: uid,
-          profile: profile,
-          title: title.isEmpty ? 'Carta' : title,
-          message: message,
-        );
+        await ref
+            .read(memoryRepositoryProvider)
+            .addLetter(
+              uid: uid,
+              profile: profile,
+              title: title.isEmpty ? 'Carta' : title,
+              message: message,
+            );
       } else {
-        await ref.read(memoryRepositoryProvider).updateLetter(
-          uid,
-          existing,
-          title: title.isEmpty ? 'Carta' : title,
-          message: message,
-        );
+        await ref
+            .read(memoryRepositoryProvider)
+            .updateLetter(
+              uid,
+              existing,
+              title: title.isEmpty ? 'Carta' : title,
+              message: message,
+            );
       }
       if (mounted) {
         context.canPop() ? context.pop() : context.go(Routes.letters);

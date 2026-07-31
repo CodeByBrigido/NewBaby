@@ -116,11 +116,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 }
 
 class _Fixed extends StatelessWidget {
-  const _Fixed({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
+  const _Fixed({required this.icon, required this.title, required this.value});
 
   final IconData icon;
   final String title;

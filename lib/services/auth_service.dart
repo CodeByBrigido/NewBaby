@@ -57,20 +57,21 @@ class AuthService {
     );
     _initialized = true;
 
-    _googleSignIn.authenticationEvents
-        .listen(
-          (GoogleSignInAuthenticationEvent event) {
-            _account = switch (event) {
-              GoogleSignInAuthenticationEventSignIn(:final GoogleSignInAccount user) =>
-                user,
-              GoogleSignInAuthenticationEventSignOut() => null,
-            };
-          },
-          onError: (Object _) {
-            // Falhas silenciosas de restauração de sessão não devem derrubar
-            // o app; a tela de login cuida do caminho manual.
-          },
-        );
+    _googleSignIn.authenticationEvents.listen(
+      (GoogleSignInAuthenticationEvent event) {
+        _account = switch (event) {
+          GoogleSignInAuthenticationEventSignIn(
+            :final GoogleSignInAccount user,
+          ) =>
+            user,
+          GoogleSignInAuthenticationEventSignOut() => null,
+        };
+      },
+      onError: (Object _) {
+        // Falhas silenciosas de restauração de sessão não devem derrubar
+        // o app; a tela de login cuida do caminho manual.
+      },
+    );
 
     try {
       await _googleSignIn.attemptLightweightAuthentication();

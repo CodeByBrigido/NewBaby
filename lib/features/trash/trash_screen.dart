@@ -130,11 +130,7 @@ class TrashScreen extends ConsumerWidget {
     if (context.mounted) showMessage(context, 'Item restaurado.');
   }
 
-  Future<void> _purge(
-    BuildContext context,
-    WidgetRef ref,
-    Entry entry,
-  ) async {
+  Future<void> _purge(BuildContext context, WidgetRef ref, Entry entry) async {
     final bool confirmed = await confirm(
       context,
       title: S.deleteForever,

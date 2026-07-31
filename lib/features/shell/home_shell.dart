@@ -141,9 +141,7 @@ class _BarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = selected
-        ? AppColors.primary
-        : AppColors.textSecondary;
+    final Color color = selected ? AppColors.primary : AppColors.textSecondary;
 
     return Expanded(
       child: InkWell(
@@ -180,9 +178,8 @@ AppBar simpleAppBar(
     leading: showBack
         ? IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.canPop()
-                ? context.pop()
-                : context.go(Routes.timeline),
+            onPressed: () =>
+                context.canPop() ? context.pop() : context.go(Routes.timeline),
           )
         : null,
     actions: actions,

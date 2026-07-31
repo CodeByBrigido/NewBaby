@@ -41,11 +41,7 @@ class AboutScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(
-            S.appName,
-            textAlign: TextAlign.center,
-            style: text.titleLarge,
-          ),
+          Text(S.appName, textAlign: TextAlign.center, style: text.titleLarge),
           const SizedBox(height: 6),
           Text(
             S.appTagline,

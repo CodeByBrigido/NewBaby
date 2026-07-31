@@ -20,7 +20,9 @@ class GrowthChartScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     // Do mais antigo para o mais novo: um gráfico lê da esquerda para a direita.
-    final List<Entry> records = ref.watch(growthRecordsProvider).reversed
+    final List<Entry> records = ref
+        .watch(growthRecordsProvider)
+        .reversed
         .toList();
 
     return Scaffold(
@@ -91,10 +93,7 @@ class _ChartCard extends StatelessWidget {
     // real, e não em intervalos iguais.
     final List<FlSpot> spots = <FlSpot>[
       for (final Entry entry in records)
-        FlSpot(
-          profile.ageAt(entry.date).totalDays.toDouble(),
-          valueOf(entry),
-        ),
+        FlSpot(profile.ageAt(entry.date).totalDays.toDouble(), valueOf(entry)),
     ];
 
     final double minY = spots
@@ -129,10 +128,8 @@ class _ChartCard extends StatelessWidget {
                 maxY: maxY + pad,
                 gridData: FlGridData(
                   drawVerticalLine: false,
-                  getDrawingHorizontalLine: (double _) => const FlLine(
-                    color: AppColors.divider,
-                    strokeWidth: 1,
-                  ),
+                  getDrawingHorizontalLine: (double _) =>
+                      const FlLine(color: AppColors.divider, strokeWidth: 1),
                 ),
                 borderData: FlBorderData(show: false),
                 titlesData: FlTitlesData(

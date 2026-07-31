@@ -103,10 +103,7 @@ class EntryDetailScreen extends ConsumerWidget {
                     MaterialPageRoute<void>(
                       builder: (_) => MediaViewerScreen(
                         files: entry.files,
-                        entries: List<Entry>.filled(
-                          entry.files.length,
-                          entry,
-                        ),
+                        entries: List<Entry>.filled(entry.files.length, entry),
                         initialIndex: index,
                       ),
                     ),
@@ -158,11 +155,7 @@ class EntryDetailScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _retry(
-    BuildContext context,
-    WidgetRef ref,
-    Entry entry,
-  ) async {
+  Future<void> _retry(BuildContext context, WidgetRef ref, Entry entry) async {
     final String? uid = ref.read(uidProvider);
     final BabyProfile? profile = ref.read(profileProvider).value;
     if (uid == null || profile == null) return;
@@ -170,11 +163,7 @@ class EntryDetailScreen extends ConsumerWidget {
     if (context.mounted) showMessage(context, S.uploadSending);
   }
 
-  Future<void> _delete(
-    BuildContext context,
-    WidgetRef ref,
-    Entry entry,
-  ) async {
+  Future<void> _delete(BuildContext context, WidgetRef ref, Entry entry) async {
     final bool confirmed = await confirm(
       context,
       title: S.deleteConfirmTitle,

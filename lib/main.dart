@@ -28,9 +28,6 @@ Future<void> main() async {
       .initialize(serverClientId: DefaultFirebaseOptions.serverClientId);
 
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const MeuBebeApp(),
-    ),
+    UncontrolledProviderScope(container: container, child: const MeuBebeApp()),
   );
 }

@@ -28,12 +28,7 @@ EntryFile fileOf({
   String mime = 'image/jpeg',
   int bytes = 1024,
 }) {
-  return EntryFile(
-    driveId: 'd1',
-    name: name,
-    mimeType: mime,
-    sizeBytes: bytes,
-  );
+  return EntryFile(driveId: 'd1', name: name, mimeType: mime, sizeBytes: bytes);
 }
 
 void main() {

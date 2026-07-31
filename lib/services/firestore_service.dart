@@ -95,8 +95,9 @@ class FirestoreService {
     return ref.id;
   }
 
-  Future<void> updateEntry(String uid, Entry entry) =>
-      _entriesRef(uid).doc(entry.id).set(entry.toMap(), SetOptions(merge: true));
+  Future<void> updateEntry(String uid, Entry entry) => _entriesRef(
+    uid,
+  ).doc(entry.id).set(entry.toMap(), SetOptions(merge: true));
 
   Future<void> patchEntry(
     String uid,
@@ -115,22 +116,16 @@ class FirestoreService {
 
   /// Move para a lixeira. O arquivo no Drive é tratado à parte, pelo
   /// repositório, para que os dois lados fiquem coerentes.
-  Future<void> moveToTrash(String uid, String entryId) => patchEntry(
-    uid,
-    entryId,
-    <String, Object?>{
-      'status': EntryStatus.trashed.id,
-      'excluidoEm': Timestamp.fromDate(DateTime.now()),
-    },
-  );
+  Future<void> moveToTrash(String uid, String entryId) =>
+      patchEntry(uid, entryId, <String, Object?>{
+        'status': EntryStatus.trashed.id,
+        'excluidoEm': Timestamp.fromDate(DateTime.now()),
+      });
 
   Future<void> restoreFromTrash(String uid, String entryId) => patchEntry(
     uid,
     entryId,
-    <String, Object?>{
-      'status': EntryStatus.active.id,
-      'excluidoEm': null,
-    },
+    <String, Object?>{'status': EntryStatus.active.id, 'excluidoEm': null},
   );
 
   Future<void> deleteEntry(String uid, String entryId) =>

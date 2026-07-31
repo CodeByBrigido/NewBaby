@@ -160,11 +160,7 @@ abstract final class AgeCalculator {
     final DateTime anchor = addMonths(b, months);
     final int daysInMonth = d.difference(anchor).inDays;
 
-    return Age(
-      totalDays: totalDays,
-      months: months,
-      daysInMonth: daysInMonth,
-    );
+    return Age(totalDays: totalDays, months: months, daysInMonth: daysInMonth);
   }
 
   /// Soma meses de calendário preservando o fim do mês.
@@ -188,7 +184,9 @@ abstract final class AgeCalculator {
     if (age.months < 12) {
       // Semana 01 é a primeira semana de vida; a última semana do primeiro
       // ano é limitada a 52 para não criar uma "Semana 53" de dois dias.
-      final int index = (age.totalDays ~/ 7) + 1 > 52 ? 52 : (age.totalDays ~/ 7) + 1;
+      final int index = (age.totalDays ~/ 7) + 1 > 52
+          ? 52
+          : (age.totalDays ~/ 7) + 1;
       final DateTime start = b.add(Duration(days: (index - 1) * 7));
       final DateTime end = index == 52
           ? addMonths(b, 12).subtract(const Duration(days: 1))

@@ -86,13 +86,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final TimeOfDay time = _birthTime ?? const TimeOfDay(hour: 0, minute: 0);
     final BabyProfile profile = BabyProfile(
       name: _name.text.trim(),
-      birth: DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-      ),
+      birth: DateTime(date.year, date.month, date.day, time.hour, time.minute),
       birthWeightGrams: _parseWeightGrams(_weight.text),
       birthHeightCm: _parseDecimal(_height.text),
       hospital: _hospital.text.trim().isEmpty ? null : _hospital.text.trim(),
@@ -100,11 +94,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     setState(() => _saving = true);
     try {
-      await ref.read(memoryRepositoryProvider).setUpBaby(
-        uid: uid,
-        profile: profile,
-        birthPhoto: _photo,
-      );
+      await ref
+          .read(memoryRepositoryProvider)
+          .setUpBaby(uid: uid, profile: profile, birthPhoto: _photo);
       // O roteador leva para a linha do tempo assim que o perfil existe.
     } on Exception catch (e) {
       if (mounted) {
@@ -141,7 +133,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                 ),
                 const SizedBox(height: 28),
-                Center(child: _PhotoPicker(photo: _photo, onTap: _pickPhoto)),
+                Center(
+                  child: _PhotoPicker(photo: _photo, onTap: _pickPhoto),
+                ),
                 const SizedBox(height: 28),
                 TextFormField(
                   controller: _name,
@@ -286,10 +280,7 @@ class _PhotoPicker extends StatelessWidget {
                 : Image.file(photo!, fit: BoxFit.cover),
           ),
           const SizedBox(height: 10),
-          Text(
-            S.birthPhoto,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          Text(S.birthPhoto, style: Theme.of(context).textTheme.bodySmall),
         ],
       ),
     );
@@ -320,10 +311,7 @@ class _PickerField extends StatelessWidget {
           labelText: label,
           suffixIcon: Icon(icon, size: 20),
         ),
-        child: Text(
-          value ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        child: Text(value ?? '', style: Theme.of(context).textTheme.bodyLarge),
       ),
     );
   }

@@ -27,9 +27,8 @@ class BucketSummary {
   final List<Entry> entries;
   final int fileCount;
 
-  EntryFile? get cover => entries
-      .firstWhereOrNull((Entry e) => e.coverFile != null)
-      ?.coverFile;
+  EntryFile? get cover =>
+      entries.firstWhereOrNull((Entry e) => e.coverFile != null)?.coverFile;
 }
 
 /// Agrupa as entradas de um tipo nos baldes de idade da unidade escolhida.
@@ -128,9 +127,7 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen> {
   @override
   Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
-    final List<Entry> entries = ref.watch(
-      entriesOfTypeProvider(widget.type),
-    );
+    final List<Entry> entries = ref.watch(entriesOfTypeProvider(widget.type));
 
     return Scaffold(
       appBar: AppBar(

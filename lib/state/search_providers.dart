@@ -37,8 +37,7 @@ final Provider<List<Entry>> searchResultsProvider = Provider<List<Entry>>((
 ) {
   final String query = ref.watch(searchQueryProvider).trim().toLowerCase();
   final EntryType? category = ref.watch(searchCategoryProvider);
-  final List<Entry> all =
-      ref.watch(entriesProvider).value ?? const <Entry>[];
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
 
   if (query.isEmpty && category == null) return const <Entry>[];
 
@@ -57,8 +56,9 @@ final Provider<List<Entry>> searchResultsProvider = Provider<List<Entry>>((
 
 /// Buscas recentes, guardadas no aparelho.
 final AsyncNotifierProvider<RecentSearches, List<String>>
-recentSearchesProvider =
-    AsyncNotifierProvider<RecentSearches, List<String>>(RecentSearches.new);
+recentSearchesProvider = AsyncNotifierProvider<RecentSearches, List<String>>(
+  RecentSearches.new,
+);
 
 class RecentSearches extends AsyncNotifier<List<String>> {
   static const String _key = 'buscas_recentes';
@@ -74,9 +74,10 @@ class RecentSearches extends AsyncNotifier<List<String>> {
     final String value = term.trim();
     if (value.isEmpty) return;
 
-    final List<String> current = List<String>.from(state.value ?? const <String>[])
-      ..removeWhere((String t) => t.toLowerCase() == value.toLowerCase())
-      ..insert(0, value);
+    final List<String> current =
+        List<String>.from(state.value ?? const <String>[])
+          ..removeWhere((String t) => t.toLowerCase() == value.toLowerCase())
+          ..insert(0, value);
     final List<String> trimmed = current.take(_max).toList();
 
     state = AsyncData<List<String>>(trimmed);
