@@ -176,6 +176,14 @@ Google Drive com as seis subpastas e abre o cadastro inicial.
 
 ---
 
+## Não quer instalar Flutter no computador?
+
+Depois de concluir os passos acima, o **[INSTALAR.md](INSTALAR.md)** mostra
+como fazer o próprio GitHub compilar o APK para você — basta guardar dois
+segredos no repositório e clicar num botão.
+
+---
+
 ## Verificação rápida
 
 ```bash

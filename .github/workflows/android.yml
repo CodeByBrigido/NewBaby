@@ -1,0 +1,148 @@
+name: Android
+
+# Duas coisas diferentes acontecem aqui:
+#
+# 1. `compilar` roda em todo pull request e prova que o projeto Android
+#    compila, usando o google-services.json de exemplo que está versionado.
+#    Não precisa de segredo nenhum — e é a única verificação que existe do
+#    lado Gradle, já que `flutter analyze` e `flutter test` rodam na Dart VM
+#    e não encostam no build nativo.
+#
+# 2. `apk` só roda quando pedido (ou em uma tag) e usa a configuração real
+#    do Firebase, guardada nos segredos do repositório, para gerar o APK
+#    que dá para instalar no celular.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  compilar:
+    name: Compila o app Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.8
+          channel: stable
+          cache: true
+
+      - name: Usar a configuração de exemplo
+        # Só para o plugin do Google Services encontrar um arquivo válido.
+        # O APK que sai daqui NÃO serve para instalar: com estas chaves ele
+        # abre e falha no Firebase.initializeApp.
+        run: cp android/app/google-services.json.example android/app/google-services.json
+
+      - name: Baixar dependências
+        run: flutter pub get
+
+      - name: Build de debug
+        run: flutter build apk --debug
+
+      - name: Conferir que o APK saiu
+        run: |
+          set -euo pipefail
+          apk=build/app/outputs/flutter-apk/app-debug.apk
+          test -f "$apk"
+          echo "APK gerado: $(du -h "$apk" | cut -f1)"
+          unzip -l "$apk" | grep -q AndroidManifest.xml
+          echo "Estrutura do APK conferida."
+
+  apk:
+    name: Gerar APK para instalar
+    # Só quando pedido de propósito: este é o job que usa a conta real.
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Conferir os segredos antes de tentar
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: |
+          set -euo pipefail
+          faltando=0
+          if [ -z "${GOOGLE_SERVICES_JSON}" ]; then
+            echo "::error::Falta o segredo GOOGLE_SERVICES_JSON."
+            faltando=1
+          fi
+          if [ -z "${FIREBASE_OPTIONS_DART}" ]; then
+            echo "::error::Falta o segredo FIREBASE_OPTIONS_DART."
+            faltando=1
+          fi
+          if [ "$faltando" = "1" ]; then
+            echo "Veja o passo a passo em INSTALAR.md, seção 'Passo 1'."
+            exit 1
+          fi
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.8
+          channel: stable
+          cache: true
+
+      - name: Restaurar a configuração real do Firebase
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: |
+          set -euo pipefail
+          echo "$GOOGLE_SERVICES_JSON" | base64 -d > android/app/google-services.json
+          echo "$FIREBASE_OPTIONS_DART" | base64 -d > lib/firebase_options.dart
+          # Falha cedo e com mensagem clara se o base64 veio truncado.
+          python3 -c "import json;json.load(open('android/app/google-services.json'))"
+          grep -q 'class DefaultFirebaseOptions' lib/firebase_options.dart
+          if grep -q 'SEU_WEB_CLIENT_ID' lib/firebase_options.dart; then
+            echo "::error::O firebase_options.dart enviado ainda tem o placeholder do serverClientId."
+            echo "Sem o Client ID Web o login falha no Android. Veja o SETUP.md, passo 6.3."
+            exit 1
+          fi
+
+      - name: Baixar dependências
+        run: flutter pub get
+
+      - name: Build de release
+        # Um APK por arquitetura: cada um fica bem menor que o universal.
+        run: flutter build apk --release --split-per-abi
+
+      - name: Listar o que foi gerado
+        run: |
+          set -euo pipefail
+          ls -lh build/app/outputs/flutter-apk/*.apk
+          for apk in build/app/outputs/flutter-apk/*-release.apk; do
+            unzip -l "$apk" | grep -q AndroidManifest.xml
+          done
+          echo "Todos os APKs têm estrutura válida."
+
+      - name: Publicar os APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: meu-bebe-apk
+          path: build/app/outputs/flutter-apk/*-release.apk
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Anexar ao Release quando for uma tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/*-release.apk
+          generate_release_notes: true

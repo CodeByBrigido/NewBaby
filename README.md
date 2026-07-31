@@ -101,6 +101,11 @@ test/              idade, formatação, modelos e linha do tempo
 
 ---
 
+## Quero instalar no celular
+
+O caminho sem instalar nada no computador: o GitHub compila e você baixa o
+APK. O passo a passo está em **[INSTALAR.md](INSTALAR.md)**.
+
 ## Rodando
 
 O aplicativo precisa de um projeto Firebase e de credenciais OAuth para
