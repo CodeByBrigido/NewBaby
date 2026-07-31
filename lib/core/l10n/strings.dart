@@ -4,7 +4,8 @@
 /// escrita consistente e facilita revisar o tom de voz num lugar só.
 abstract final class S {
   static const String appName = 'Meu Bebê';
-  static const String appTagline = 'Cada momento, uma lembrança para a vida toda.';
+  static const String appTagline =
+      'Cada momento, uma lembrança para a vida toda.';
 
   // Login
   static const String signInWithGoogle = 'Entrar com Google';
@@ -46,8 +47,7 @@ abstract final class S {
   static const String settings = 'Configurações';
   static const String about = 'Sobre o aplicativo';
   static const String signOut = 'Sair';
-  static const String storedWithLove =
-      'Armazenado com amor na conta Google de';
+  static const String storedWithLove = 'Armazenado com amor na conta Google de';
 
   // Adicionar
   static const String add = 'Adicionar';

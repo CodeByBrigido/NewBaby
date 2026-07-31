@@ -44,9 +44,7 @@ class DriveService {
     'Crescimento',
   ];
 
-  Future<T> _withApi<T>(
-    Future<T> Function(drive.DriveApi api) action,
-  ) async {
+  Future<T> _withApi<T>(Future<T> Function(drive.DriveApi api) action) async {
     final gapis.AuthClient client = await _auth.driveClient();
     try {
       return await action(drive.DriveApi(client));
@@ -64,9 +62,7 @@ class DriveService {
     return _withApi((drive.DriveApi api) async {
       final String rootId = await _ensureFolder(api, rootFolderName, null);
       await Future.wait(
-        topLevelFolders.map(
-          (String name) => _ensureFolder(api, name, rootId),
-        ),
+        topLevelFolders.map((String name) => _ensureFolder(api, name, rootId)),
       );
       return rootId;
     });
@@ -102,7 +98,8 @@ class DriveService {
         : "'$parentId' in parents";
 
     final drive.FileList found = await api.files.list(
-      q: "name = '$escaped' and mimeType = '$_folderMime' "
+      q:
+          "name = '$escaped' and mimeType = '$_folderMime' "
           'and $parentClause and trashed = false',
       $fields: 'files(id)',
       pageSize: 1,
@@ -211,9 +208,8 @@ class DriveService {
   }
 
   /// URL de leitura direta do arquivo. Precisa acompanhar [authHeaders].
-  static Uri mediaUrl(String driveId) => Uri.parse(
-    'https://www.googleapis.com/drive/v3/files/$driveId?alt=media',
-  );
+  static Uri mediaUrl(String driveId) =>
+      Uri.parse('https://www.googleapis.com/drive/v3/files/$driveId?alt=media');
 
   /// Cabeçalho `Authorization` para exibir imagens e tocar vídeos do Drive
   /// direto no aplicativo, sem baixar antes.
@@ -234,10 +230,8 @@ class DriveService {
   /// miniatura local não existe (outro aparelho, app reinstalado).
   Future<String?> thumbnailLink(String driveId) async {
     return _withApi((drive.DriveApi api) async {
-      final drive.File file = await api.files.get(
-        driveId,
-        $fields: 'thumbnailLink',
-      ) as drive.File;
+      final drive.File file =
+          await api.files.get(driveId, $fields: 'thumbnailLink') as drive.File;
       return file.thumbnailLink;
     });
   }

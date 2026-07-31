@@ -242,9 +242,9 @@ class _Button extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 label,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.primaryDark,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.primaryDark),
               ),
             ],
           ),

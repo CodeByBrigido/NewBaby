@@ -42,9 +42,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              _filter == null
-                  ? Icons.filter_list
-                  : Icons.filter_list_alt,
+              _filter == null ? Icons.filter_list : Icons.filter_list_alt,
               color: _filter == null ? null : AppColors.primary,
             ),
             onPressed: _showFilter,

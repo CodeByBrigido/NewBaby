@@ -159,11 +159,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.icon,
-    required this.label,
-    required this.route,
-  });
+  const _Item({required this.icon, required this.label, required this.route});
 
   final IconData icon;
   final String label;

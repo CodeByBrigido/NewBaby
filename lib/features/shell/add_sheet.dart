@@ -48,10 +48,7 @@ class _AddSheet extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              S.addQuestion,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(S.addQuestion, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 20),
             _Option(
               type: EntryType.photo,
@@ -124,11 +121,10 @@ Future<void> _addPhotos(BuildContext context, WidgetRef ref) async {
     ref,
     type: EntryType.photo,
     files: picked
-        .map(
-          (XFile f) => PendingFile(path: f.path, kind: EntryType.photo),
-        )
+        .map((XFile f) => PendingFile(path: f.path, kind: EntryType.photo))
         .toList(),
-    message: 'Enviando ${picked.length == 1 ? 'a foto' : '${picked.length} fotos'}...',
+    message:
+        'Enviando ${picked.length == 1 ? 'a foto' : '${picked.length} fotos'}...',
   );
 }
 
@@ -168,11 +164,8 @@ Future<void> _addVideos(BuildContext context, WidgetRef ref) async {
     files: files
         .where((PlatformFile f) => f.path != null)
         .map(
-          (PlatformFile f) => PendingFile(
-            path: f.path!,
-            kind: EntryType.video,
-            name: f.name,
-          ),
+          (PlatformFile f) =>
+              PendingFile(path: f.path!, kind: EntryType.video, name: f.name),
         )
         .toList(),
     message: 'Convertendo para 720p e enviando...',
@@ -234,13 +227,15 @@ Future<void> _send(
   if (!keepSheetOpen) Navigator.of(context).pop();
 
   try {
-    await ref.read(memoryRepositoryProvider).addFiles(
-      uid: ctx.uid,
-      profile: ctx.profile,
-      type: type,
-      files: files,
-      title: title,
-    );
+    await ref
+        .read(memoryRepositoryProvider)
+        .addFiles(
+          uid: ctx.uid,
+          profile: ctx.profile,
+          type: type,
+          files: files,
+          title: title,
+        );
     if (context.mounted) showMessage(context, message);
   } on Exception catch (e) {
     if (context.mounted) showMessage(context, 'Não foi possível enviar: $e');

@@ -56,11 +56,7 @@ class ProfileScreen extends ConsumerWidget {
                           value: Fmt.date(profile.birth),
                         ),
                       ),
-                      Container(
-                        width: 1,
-                        height: 34,
-                        color: AppColors.divider,
-                      ),
+                      Container(width: 1, height: 34, color: AppColors.divider),
                       Expanded(
                         child: _Fact(
                           label: S.currentAge,

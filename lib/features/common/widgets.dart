@@ -264,10 +264,7 @@ class InfoNote extends StatelessWidget {
           Icon(icon, size: 18, color: AppColors.textSecondary),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
-              message,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(message, style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
@@ -289,10 +286,7 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+            child: Text(title, style: Theme.of(context).textTheme.titleSmall),
           ),
           ?trailing,
         ],

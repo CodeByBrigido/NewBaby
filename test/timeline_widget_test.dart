@@ -71,9 +71,7 @@ Entry entry({
 /// Monta só a lista da linha do tempo, sem Firebase nem Google Drive.
 Widget harness(List<Entry> entries) {
   return ProviderScope(
-    overrides: [
-      thumbnailServiceProvider.overrideWithValue(_NoThumbnails()),
-    ],
+    overrides: [thumbnailServiceProvider.overrideWithValue(_NoThumbnails())],
     child: MaterialApp(
       theme: AppTheme.build(),
       locale: const Locale('pt', 'BR'),

@@ -100,9 +100,7 @@ abstract final class AppTheme {
         selectedColor: AppColors.primarySoft,
         side: BorderSide.none,
         labelStyle: text.labelMedium,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.background,
@@ -139,16 +137,12 @@ abstract final class AppTheme {
         behavior: SnackBarBehavior.floating,
         backgroundColor: AppColors.textPrimary,
         contentTextStyle: text.bodyMedium?.copyWith(color: Colors.white),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
       listTileTheme: const ListTileThemeData(
         iconColor: AppColors.textSecondary,

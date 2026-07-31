@@ -139,10 +139,7 @@ class _Suggestions extends ConsumerWidget {
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.history, size: 20),
-              title: Text(
-                term,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              title: Text(term, style: Theme.of(context).textTheme.bodyMedium),
               trailing: const Icon(Icons.north_west, size: 16),
               onTap: () => onPick(term),
             ),

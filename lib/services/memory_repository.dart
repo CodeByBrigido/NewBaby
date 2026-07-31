@@ -263,7 +263,12 @@ class MemoryRepository {
         // índice, para a busca também encontrar por data.
         'busca': entry.copyWith(files: uploaded).searchable,
       });
-      _emit(entry.id, UploadStatus.ready, done: pending.length, total: pending.length);
+      _emit(
+        entry.id,
+        UploadStatus.ready,
+        done: pending.length,
+        total: pending.length,
+      );
     } on Exception catch (e) {
       debugPrint('Falha no envio de ${entry.id}: $e');
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
@@ -458,9 +463,7 @@ class MemoryRepository {
   }) => firestore.patchEntry(uid, entry.id, <String, Object?>{
     'titulo': title,
     'descricao': message,
-    'busca': entry
-        .copyWith(title: title, description: message)
-        .searchable,
+    'busca': entry.copyWith(title: title, description: message).searchable,
   });
 
   // ------------------------------------------------------------- lixeira
@@ -545,9 +548,8 @@ class MemoryRepository {
       '.doc' => 'application/msword',
       '.docx' =>
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      _ => type == EntryType.document
-          ? 'application/octet-stream'
-          : 'image/jpeg',
+      _ =>
+        type == EntryType.document ? 'application/octet-stream' : 'image/jpeg',
     };
   }
 

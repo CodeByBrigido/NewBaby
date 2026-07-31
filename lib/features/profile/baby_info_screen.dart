@@ -41,10 +41,7 @@ class BabyInfoScreen extends ConsumerWidget {
                         value: Fmt.longDate(profile.birth),
                       ),
                       const Divider(height: 26),
-                      _Row(
-                        label: S.birthTime,
-                        value: Fmt.time(profile.birth),
-                      ),
+                      _Row(label: S.birthTime, value: Fmt.time(profile.birth)),
                       if (profile.birthWeightGrams != null) ...<Widget>[
                         const Divider(height: 26),
                         _Row(
@@ -94,11 +91,7 @@ class _Row extends StatelessWidget {
         Expanded(child: Text(label, style: text.bodySmall)),
         const SizedBox(width: 16),
         Flexible(
-          child: Text(
-            value,
-            style: text.titleSmall,
-            textAlign: TextAlign.end,
-          ),
+          child: Text(value, style: text.titleSmall, textAlign: TextAlign.end),
         ),
       ],
     );

@@ -55,7 +55,13 @@ class LetterScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
         children: <Widget>[
-          const Center(child: CategoryBadge(type: EntryType.letter, size: 64, iconSize: 30)),
+          const Center(
+            child: CategoryBadge(
+              type: EntryType.letter,
+              size: 64,
+              iconSize: 30,
+            ),
+          ),
           const SizedBox(height: 24),
           Text(
             letter.title ?? S.letters,

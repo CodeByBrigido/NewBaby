@@ -88,8 +88,7 @@ class MediaOptimizer {
     final int targetWidth = size == null ? 0 : (size.$1 / 2).round();
     final int targetHeight = size == null ? 0 : (size.$2 / 2).round();
     final bool worthResizing =
-        size != null &&
-        (size.$1 > _minDimension || size.$2 > _minDimension);
+        size != null && (size.$1 > _minDimension || size.$2 > _minDimension);
 
     final XFile? result = await FlutterImageCompress.compressAndGetFile(
       source.path,

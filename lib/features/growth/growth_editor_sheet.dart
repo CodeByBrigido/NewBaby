@@ -80,14 +80,16 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
 
     setState(() => _saving = true);
     try {
-      await ref.read(memoryRepositoryProvider).addGrowth(
-        uid: uid,
-        profile: profile,
-        weightGrams: (kg * 1000).round(),
-        heightCm: cm,
-        date: _date,
-        photo: _photo,
-      );
+      await ref
+          .read(memoryRepositoryProvider)
+          .addGrowth(
+            uid: uid,
+            profile: profile,
+            weightGrams: (kg * 1000).round(),
+            heightCm: cm,
+            date: _date,
+            photo: _photo,
+          );
       if (mounted) Navigator.of(context).pop();
     } on Exception catch (e) {
       if (mounted) {
@@ -122,10 +124,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              S.addGrowth,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(S.addGrowth, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 20),
             Row(
               children: <Widget>[

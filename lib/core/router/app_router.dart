@@ -91,22 +91,13 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       return null;
     },
     routes: <RouteBase>[
-      GoRoute(
-        path: Routes.login,
-        builder: (_, _) => const LoginScreen(),
-      ),
+      GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
       GoRoute(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
       ),
-      GoRoute(
-        path: Routes.timeline,
-        builder: (_, _) => const HomeShell(),
-      ),
-      GoRoute(
-        path: Routes.search,
-        builder: (_, _) => const SearchScreen(),
-      ),
+      GoRoute(path: Routes.timeline, builder: (_, _) => const HomeShell()),
+      GoRoute(path: Routes.search, builder: (_, _) => const SearchScreen()),
       GoRoute(
         path: Routes.photos,
         builder: (_, _) => const GalleryScreen(type: EntryType.photo),
@@ -137,10 +128,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         path: Routes.letters,
         builder: (_, _) => const LettersScreen(),
         routes: <RouteBase>[
-          GoRoute(
-            path: 'nova',
-            builder: (_, _) => const LetterEditorScreen(),
-          ),
+          GoRoute(path: 'nova', builder: (_, _) => const LetterEditorScreen()),
           GoRoute(
             path: ':id',
             builder: (_, GoRouterState state) =>
@@ -148,18 +136,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
             routes: <RouteBase>[
               GoRoute(
                 path: 'editar',
-                builder: (_, GoRouterState state) => LetterEditorScreen(
-                  entryId: state.pathParameters['id'],
-                ),
+                builder: (_, GoRouterState state) =>
+                    LetterEditorScreen(entryId: state.pathParameters['id']),
               ),
             ],
           ),
         ],
       ),
-      GoRoute(
-        path: Routes.drawings,
-        builder: (_, _) => const DrawingsScreen(),
-      ),
+      GoRoute(path: Routes.drawings, builder: (_, _) => const DrawingsScreen()),
       GoRoute(
         path: Routes.documents,
         builder: (_, _) => const DocumentsScreen(),
@@ -181,26 +165,11 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
           ),
         ],
       ),
-      GoRoute(
-        path: Routes.stats,
-        builder: (_, _) => const StatsScreen(),
-      ),
-      GoRoute(
-        path: Routes.trash,
-        builder: (_, _) => const TrashScreen(),
-      ),
-      GoRoute(
-        path: Routes.settings,
-        builder: (_, _) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: Routes.about,
-        builder: (_, _) => const AboutScreen(),
-      ),
-      GoRoute(
-        path: Routes.babyInfo,
-        builder: (_, _) => const BabyInfoScreen(),
-      ),
+      GoRoute(path: Routes.stats, builder: (_, _) => const StatsScreen()),
+      GoRoute(path: Routes.trash, builder: (_, _) => const TrashScreen()),
+      GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
+      GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
       GoRoute(
         path: '/memoria/:id',
         builder: (_, GoRouterState state) =>

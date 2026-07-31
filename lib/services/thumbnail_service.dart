@@ -81,7 +81,9 @@ class ThumbnailService implements ThumbnailStore {
 
         // Os links do Drive vêm num tamanho pequeno; `=s600` pede uma versão
         // boa o suficiente para a grade e para o cartão da linha do tempo.
-        final Uri url = Uri.parse(link.replaceFirst(RegExp(r'=s\d+$'), '=s600'));
+        final Uri url = Uri.parse(
+          link.replaceFirst(RegExp(r'=s\d+$'), '=s600'),
+        );
         final List<int> bytes = await _drive.fetchBytes(url);
 
         final File target = await _fileFor(driveId);

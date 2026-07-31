@@ -77,10 +77,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
           style: const TextStyle(fontSize: 16),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.ios_share),
-            onPressed: _share,
-          ),
+          IconButton(icon: const Icon(Icons.ios_share), onPressed: _share),
         ],
       ),
       body: Column(
@@ -183,8 +180,9 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
             .localCopy(widget.file);
       }
 
-      final VideoPlayerController controller =
-          VideoPlayerController.file(source);
+      final VideoPlayerController controller = VideoPlayerController.file(
+        source,
+      );
       await controller.initialize();
       if (!mounted) {
         await controller.dispose();

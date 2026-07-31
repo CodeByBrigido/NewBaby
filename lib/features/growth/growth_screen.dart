@@ -55,10 +55,7 @@ class GrowthScreen extends ConsumerWidget {
                     itemCount: records.length,
                     separatorBuilder: (_, _) => const SizedBox(height: 10),
                     itemBuilder: (BuildContext context, int index) =>
-                        _GrowthTile(
-                          entry: records[index],
-                          profile: profile,
-                        ),
+                        _GrowthTile(entry: records[index], profile: profile),
                   ),
                 ),
                 if (records.length > 1)
@@ -169,10 +166,13 @@ class _Measure extends StatelessWidget {
       children: <Widget>[
         Icon(icon, size: 14, color: AppColors.textSecondary),
         const SizedBox(width: 5),
-        Text(value, style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: AppColors.textPrimary,
-          fontWeight: FontWeight.w600,
-        )),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }

@@ -40,9 +40,8 @@ final Provider<FirestoreService> firestoreServiceProvider =
       (Ref ref) => FirestoreService(FirebaseFirestore.instance),
     );
 
-final Provider<MediaOptimizer> mediaOptimizerProvider = Provider<MediaOptimizer>(
-  (Ref ref) => MediaOptimizer(),
-);
+final Provider<MediaOptimizer> mediaOptimizerProvider =
+    Provider<MediaOptimizer>((Ref ref) => MediaOptimizer());
 
 final Provider<ThumbnailStore> thumbnailServiceProvider =
     Provider<ThumbnailStore>(
@@ -85,12 +84,13 @@ final StreamProvider<BabyProfile?> profileProvider =
 // -------------------------------------------------------------- entradas
 
 /// Todas as memórias ativas, já ordenadas da mais recente para a mais antiga.
-final StreamProvider<List<Entry>> entriesProvider =
-    StreamProvider<List<Entry>>((Ref ref) {
-      final String? uid = ref.watch(uidProvider);
-      if (uid == null) return Stream<List<Entry>>.value(const <Entry>[]);
-      return ref.watch(firestoreServiceProvider).watchEntries(uid);
-    });
+final StreamProvider<List<Entry>> entriesProvider = StreamProvider<List<Entry>>(
+  (Ref ref) {
+    final String? uid = ref.watch(uidProvider);
+    if (uid == null) return Stream<List<Entry>>.value(const <Entry>[]);
+    return ref.watch(firestoreServiceProvider).watchEntries(uid);
+  },
+);
 
 final StreamProvider<List<Entry>> trashProvider = StreamProvider<List<Entry>>((
   Ref ref,
@@ -101,22 +101,20 @@ final StreamProvider<List<Entry>> trashProvider = StreamProvider<List<Entry>>((
 });
 
 /// Entradas de um tipo só — usado pelas telas de Fotos, Vídeos, Cartas...
-final entriesOfTypeProvider =
-    Provider.family<List<Entry>, EntryType>((Ref ref, EntryType type) {
-      final List<Entry> all =
-          ref.watch(entriesProvider).value ?? const <Entry>[];
-      return all.where((Entry e) => e.type == type).toList();
-    });
+final entriesOfTypeProvider = Provider.family<List<Entry>, EntryType>((
+  Ref ref,
+  EntryType type,
+) {
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
+  return all.where((Entry e) => e.type == type).toList();
+});
 
 /// Registros de crescimento em ordem cronológica, incluindo o nascimento.
 final Provider<List<Entry>> growthRecordsProvider = Provider<List<Entry>>((
   Ref ref,
 ) {
-  final List<Entry> all =
-      ref.watch(entriesProvider).value ?? const <Entry>[];
-  final List<Entry> records = all
-      .where((Entry e) => e.growth != null)
-      .toList()
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
+  final List<Entry> records = all.where((Entry e) => e.growth != null).toList()
     ..sort((Entry a, Entry b) => b.date.compareTo(a.date));
   return records;
 });
@@ -131,11 +129,8 @@ final StreamProvider<UploadProgress> uploadProgressProvider =
 final Provider<List<Entry>> failedUploadsProvider = Provider<List<Entry>>((
   Ref ref,
 ) {
-  final List<Entry> all =
-      ref.watch(entriesProvider).value ?? const <Entry>[];
-  return all
-      .where((Entry e) => e.uploadStatus == UploadStatus.failed)
-      .toList();
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
+  return all.where((Entry e) => e.uploadStatus == UploadStatus.failed).toList();
 });
 
 /// Envios ainda em curso.
@@ -144,8 +139,7 @@ final Provider<List<Entry>> activeUploadsProvider = Provider<List<Entry>>((
 ) {
   // Reconstrói a cada evento de progresso, para a faixa acompanhar o envio.
   ref.watch(uploadProgressProvider);
-  final List<Entry> all =
-      ref.watch(entriesProvider).value ?? const <Entry>[];
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
   return all.where((Entry e) => e.uploadStatus.isBusy).toList();
 });
 
@@ -153,10 +147,7 @@ final Provider<List<Entry>> activeUploadsProvider = Provider<List<Entry>>((
 
 /// Contadores da tela de Estatísticas.
 class MemoryStats {
-  const MemoryStats({
-    required this.byType,
-    required this.totalBytes,
-  });
+  const MemoryStats({required this.byType, required this.totalBytes});
 
   final Map<EntryType, int> byType;
   final int totalBytes;
@@ -165,8 +156,7 @@ class MemoryStats {
 }
 
 final Provider<MemoryStats> statsProvider = Provider<MemoryStats>((Ref ref) {
-  final List<Entry> all =
-      ref.watch(entriesProvider).value ?? const <Entry>[];
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
   final Map<EntryType, int> byType = <EntryType, int>{};
   int bytes = 0;
 
@@ -186,6 +176,7 @@ final Provider<MemoryStats> statsProvider = Provider<MemoryStats>((Ref ref) {
   return MemoryStats(byType: byType, totalBytes: bytes);
 });
 
-final FutureProvider<DriveQuota> driveQuotaProvider = FutureProvider<DriveQuota>(
-  (Ref ref) => ref.watch(driveServiceProvider).quota(),
-);
+final FutureProvider<DriveQuota> driveQuotaProvider =
+    FutureProvider<DriveQuota>(
+      (Ref ref) => ref.watch(driveServiceProvider).quota(),
+    );

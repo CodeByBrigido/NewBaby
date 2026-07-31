@@ -188,10 +188,7 @@ class _VideoBody extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            DriveThumbnail(
-              file: file,
-              borderRadius: BorderRadius.circular(12),
-            ),
+            DriveThumbnail(file: file, borderRadius: BorderRadius.circular(12)),
             Center(
               child: Container(
                 width: 46,
@@ -269,15 +266,9 @@ class _GrowthBody extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
       child: Row(
         children: <Widget>[
-          _Measure(
-            value: Fmt.weight(growth.weightGrams),
-            label: S.weightField,
-          ),
+          _Measure(value: Fmt.weight(growth.weightGrams), label: S.weightField),
           const SizedBox(width: 10),
-          _Measure(
-            value: Fmt.height(growth.heightCm),
-            label: S.heightField,
-          ),
+          _Measure(value: Fmt.height(growth.heightCm), label: S.heightField),
           if (entry.coverFile != null) ...<Widget>[
             const SizedBox(width: 10),
             SizedBox(
@@ -418,10 +409,7 @@ class _DescriptionOnly extends StatelessWidget {
     }
     return Padding(
       padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-      child: Text(
-        description,
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
+      child: Text(description, style: Theme.of(context).textTheme.bodySmall),
     );
   }
 }
