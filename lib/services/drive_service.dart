@@ -207,25 +207,6 @@ class DriveService {
     }
   }
 
-  /// URL de leitura direta do arquivo. Precisa acompanhar [authHeaders].
-  static Uri mediaUrl(String driveId) =>
-      Uri.parse('https://www.googleapis.com/drive/v3/files/$driveId?alt=media');
-
-  /// Cabeçalho `Authorization` para exibir imagens e tocar vídeos do Drive
-  /// direto no aplicativo, sem baixar antes.
-  Future<Map<String, String>> authHeaders() async {
-    final gapis.AuthClient client = await _auth.driveClient();
-    try {
-      return <String, String>{
-        'Authorization':
-            '${client.credentials.accessToken.type} '
-            '${client.credentials.accessToken.data}',
-      };
-    } finally {
-      client.close();
-    }
-  }
-
   /// Miniatura gerada pelo próprio Drive. Serve de reserva quando a
   /// miniatura local não existe (outro aparelho, app reinstalado).
   Future<String?> thumbnailLink(String driveId) async {

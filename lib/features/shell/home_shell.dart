@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
@@ -164,24 +162,4 @@ class _BarItem extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Barra superior comum às telas internas.
-AppBar simpleAppBar(
-  BuildContext context, {
-  required String title,
-  List<Widget>? actions,
-  bool showBack = true,
-}) {
-  return AppBar(
-    title: Text(title),
-    leading: showBack
-        ? IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () =>
-                context.canPop() ? context.pop() : context.go(Routes.timeline),
-          )
-        : null,
-    actions: actions,
-  );
 }

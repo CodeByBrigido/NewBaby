@@ -13,8 +13,6 @@ abstract final class S {
       'Todas as memórias serão salvas na conta Google da sua filha.';
   static const String signInError =
       'Não foi possível entrar. Verifique a conexão e tente de novo.';
-  static const String signInPermissionNeeded =
-      'Precisamos da sua permissão para guardar os arquivos no Google Drive.';
 
   // Onboarding
   static const String onboardingGreeting = 'Olá!';
@@ -50,7 +48,6 @@ abstract final class S {
   static const String storedWithLove = 'Armazenado com amor na conta Google de';
 
   // Adicionar
-  static const String add = 'Adicionar';
   static const String addQuestion = 'O que você deseja adicionar?';
   static const String addPhoto = 'Foto';
   static const String addPhotoHint = 'Adicionar fotos da sua bebê';
@@ -98,7 +95,6 @@ abstract final class S {
   static const String messageField = 'Mensagem';
   static const String descriptionOptional = 'Descrição (opcional)';
   static const String milestoneOptional = 'Marco (opcional)';
-  static const String dateField = 'Data';
   static const String weightField = 'Peso';
   static const String heightField = 'Altura';
   static const String photoOptional = 'Foto (opcional)';
@@ -113,10 +109,6 @@ abstract final class S {
   static const String view = 'Visualizar';
   static const String download = 'Baixar';
   static const String retry = 'Tentar de novo';
-  static const String close = 'Fechar';
-  static const String remove = 'Remover';
-  static const String chooseFromGallery = 'Escolher da galeria';
-  static const String takePhoto = 'Tirar foto';
 
   // Abas de agrupamento
   static const String weeks = 'Semanas';
@@ -137,7 +129,6 @@ abstract final class S {
   static const String uploadSending = 'Enviando...';
   static const String uploadFailed = 'Falha no envio';
   static const String uploadingCount = 'Enviando';
-  static const String uploadRetryAll = 'Reenviar tudo';
 
   // Busca
   static const String searchHint = 'Buscar memórias...';
@@ -180,10 +171,7 @@ abstract final class S {
 
   // Erros e estados
   static const String genericError = 'Algo deu errado. Tente de novo.';
-  static const String offlineNote =
-      'Sem conexão. O envio continua assim que a internet voltar.';
   static const String noItemsYet = 'Nada por aqui ainda.';
   static const String requiredField = 'Preencha este campo';
   static const String invalidNumber = 'Informe um número válido';
-  static const String loading = 'Carregando...';
 }

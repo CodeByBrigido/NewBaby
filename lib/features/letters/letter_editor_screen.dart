@@ -70,11 +70,11 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
       } else {
         await ref
             .read(memoryRepositoryProvider)
-            .updateLetter(
+            .updateDetails(
               uid,
               existing,
               title: title.isEmpty ? 'Carta' : title,
-              message: message,
+              description: message,
             );
       }
       if (mounted) {

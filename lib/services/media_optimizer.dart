@@ -174,9 +174,6 @@ class MediaOptimizer {
     );
   }
 
-  /// Cancela uma conversão de vídeo em andamento.
-  Future<void> cancelVideo() => VideoCompress.cancelCompression();
-
   /// Limpa o que as bibliotecas deixaram para trás.
   Future<void> clearCaches() async {
     try {
