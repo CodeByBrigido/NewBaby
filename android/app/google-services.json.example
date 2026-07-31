@@ -1,0 +1,40 @@
+{
+  "_comentario": "MODELO — substitua pelo arquivo real gerado por `flutterfire configure` e salve como google-services.json (que está no .gitignore).",
+  "project_info": {
+    "project_number": "000000000000",
+    "project_id": "seu-projeto-firebase",
+    "storage_bucket": "seu-projeto-firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "android_client_info": {
+          "package_name": "br.com.brigido.meu_bebe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "SEU_WEB_CLIENT_ID.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "SUA_API_KEY_ANDROID"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "SEU_WEB_CLIENT_ID.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
