@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Meu Bebê — cada conta só enxerga os próprios dados.
+//
+// Todo o conteúdo do aplicativo vive sob users/{uid}. Como o app é usado por
+// uma única conta Google (a da bebê), não existe compartilhamento entre
+// contas: qualquer leitura ou escrita fora do próprio uid é negada.
+//
+// Os arquivos em si não passam por aqui — eles ficam no Google Drive, sob a
+// permissão OAuth `drive.file`. O Firestore guarda apenas metadados.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      // perfil/bebe, entradas/{id}, pastas/{chave}
+      match /{document=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Nada mais é acessível.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
