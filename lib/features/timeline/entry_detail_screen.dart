@@ -12,6 +12,7 @@ import '../../state/providers.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
 import '../gallery/media_viewer_screen.dart';
+import 'details_editor_sheet.dart';
 
 /// Detalhe de uma entrada com arquivos: grade, descrição e ações.
 class EntryDetailScreen extends ConsumerWidget {
@@ -53,6 +54,11 @@ class EntryDetailScreen extends ConsumerWidget {
               context.canPop() ? context.pop() : context.go(Routes.timeline),
         ),
         actions: <Widget>[
+          IconButton(
+            tooltip: S.milestoneOptional,
+            icon: const Icon(Icons.edit_outlined),
+            onPressed: () => showDetailsEditor(context, entry),
+          ),
           IconButton(
             icon: const Icon(Icons.delete_outline),
             onPressed: () => _delete(context, ref, entry),

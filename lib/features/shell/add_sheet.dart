@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +13,7 @@ import '../../services/memory_repository.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../growth/growth_editor_sheet.dart';
+import '../timeline/details_editor_sheet.dart';
 
 /// Folha "O que você deseja adicionar?".
 ///
@@ -227,7 +226,7 @@ Future<void> _send(
   if (!keepSheetOpen) Navigator.of(context).pop();
 
   try {
-    await ref
+    final Entry entry = await ref
         .read(memoryRepositoryProvider)
         .addFiles(
           uid: ctx.uid,
@@ -236,7 +235,27 @@ Future<void> _send(
           files: files,
           title: title,
         );
-    if (context.mounted) showMessage(context, message);
+    if (!context.mounted) return;
+
+    // Documentos já vêm com o nome do arquivo como título; para foto, vídeo
+    // e desenho o aviso é a chance de dizer que aquilo foi o "Primeiro
+    // sorriso" — opcional, e sem segurar o envio.
+    if (type == EntryType.document) {
+      showMessage(context, message);
+      return;
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: const Duration(seconds: 6),
+          action: SnackBarAction(
+            label: 'Marcar',
+            onPressed: () => showDetailsEditor(context, entry),
+          ),
+        ),
+      );
   } on Exception catch (e) {
     if (context.mounted) showMessage(context, 'Não foi possível enviar: $e');
   }
@@ -294,14 +313,5 @@ class _Option extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-/// Usado pelas telas de detalhe para compartilhar um arquivo do Drive.
-Future<File?> downloadForSharing(WidgetRef ref, EntryFile file) async {
-  try {
-    return await ref.read(memoryRepositoryProvider).localCopy(file);
-  } on Exception {
-    return null;
   }
 }

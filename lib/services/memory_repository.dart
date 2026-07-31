@@ -455,16 +455,44 @@ class MemoryRepository {
     return entry;
   }
 
-  Future<void> updateLetter(
+  /// Muda o título/marco e a descrição de qualquer entrada.
+  ///
+  /// Serve tanto para editar uma carta quanto para marcar depois que aquele
+  /// lote de fotos era o "Primeiro sorriso" — é assim que os marcos entram
+  /// na linha do tempo sem atrapalhar o envio em dois toques.
+  Future<void> updateDetails(
     String uid,
     Entry entry, {
     required String title,
-    required String message,
-  }) => firestore.patchEntry(uid, entry.id, <String, Object?>{
-    'titulo': title,
-    'descricao': message,
-    'busca': entry.copyWith(title: title, description: message).searchable,
-  });
+    required String description,
+  }) {
+    final String? newTitle = title.trim().isEmpty ? null : title.trim();
+    final String? newDescription = description.trim().isEmpty
+        ? null
+        : description.trim();
+
+    // A entrada é remontada em vez de usar copyWith porque o índice de busca
+    // também precisa refletir um campo que acabou de ser apagado.
+    final Entry updated = Entry(
+      id: entry.id,
+      type: entry.type,
+      date: entry.date,
+      createdAt: entry.createdAt,
+      ageDays: entry.ageDays,
+      bucketKey: entry.bucketKey,
+      bucketName: entry.bucketName,
+      title: newTitle,
+      description: newDescription,
+      files: entry.files,
+      growth: entry.growth,
+    );
+
+    return firestore.patchEntry(uid, entry.id, <String, Object?>{
+      'titulo': newTitle,
+      'descricao': newDescription,
+      'busca': updated.searchable,
+    });
+  }
 
   // ------------------------------------------------------------- lixeira
 

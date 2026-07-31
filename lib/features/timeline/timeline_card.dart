@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../common/drive_image.dart';
@@ -413,6 +412,3 @@ class _DescriptionOnly extends StatelessWidget {
     );
   }
 }
-
-/// Reexportado para os cartões usarem o mesmo raio do resto do app.
-const double timelineCardRadius = kCardRadius;
