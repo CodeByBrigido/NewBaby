@@ -13,6 +13,7 @@ import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Visualizador em tela cheia, com deslize entre os arquivos.
 class MediaViewerScreen extends ConsumerStatefulWidget {
@@ -55,7 +56,9 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
         ShareParams(files: <XFile>[XFile(local.path)]),
       );
     } on Exception catch (e) {
-      if (mounted) showMessage(context, 'Não foi possível compartilhar: $e');
+      if (mounted) {
+        showMessage(context, userMessage(e, context: 'Compartilhar'));
+      }
     }
   }
 

@@ -9,6 +9,7 @@ import '../../models/baby_profile.dart';
 import '../../services/session_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Apagar a conta e tudo o que foi guardado sobre ela.
 ///
@@ -52,7 +53,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
     } on Exception catch (e) {
       if (mounted) {
         setState(() => _working = false);
-        showMessage(context, 'Não foi possível apagar a conta: $e');
+        showMessage(context, userMessage(e, context: 'Apagar conta'));
       }
     }
   }

@@ -6,6 +6,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -25,7 +26,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await ref.read(memoryRepositoryProvider).clearDownloads();
       if (mounted) showMessage(context, 'Cache limpo.');
     } on Exception catch (e) {
-      if (mounted) showMessage(context, 'Não foi possível limpar: $e');
+      if (mounted) {
+        showMessage(context, userMessage(e, context: 'Limpar cache'));
+      }
     } finally {
       if (mounted) setState(() => _clearing = false);
     }

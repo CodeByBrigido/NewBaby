@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meu_bebe/core/utils/error_text.dart';
 import 'package:meu_bebe/models/entry.dart';
+import 'package:meu_bebe/services/auth_service.dart';
 import 'package:meu_bebe/services/drive_service.dart';
 import 'package:meu_bebe/services/memory_repository.dart';
 
@@ -90,6 +94,44 @@ void main() {
       expect(
         MemoryRepository.safeFileName('Certidão de nascimento.pdf'),
         'Certidão de nascimento.pdf',
+      );
+    });
+  });
+
+  group('mensagens de erro não carregam detalhe interno', () {
+    test('caminho de arquivo não chega à tela', () {
+      final String message = userMessage(
+        const FileSystemException(
+          'Cannot open file',
+          '/storage/emulated/0/Android/data/br.com.brigido.meu_bebe/files/x.jpg',
+        ),
+      );
+      expect(message, isNot(contains('/storage')));
+      expect(message, isNot(contains('br.com.brigido')));
+      expect(message, 'Não foi possível ler o arquivo no aparelho.');
+    });
+
+    test('detalhe de rede vira uma frase que ajuda', () {
+      final String message = userMessage(
+        const SocketException('Failed host lookup: firestore.googleapis.com'),
+      );
+      expect(message, isNot(contains('googleapis')));
+      expect(message, contains('conexão'));
+    });
+
+    test('exceção desconhecida não expõe o toString', () {
+      final String message = userMessage(
+        StateError('token=ya29.SEGREDO id=1a2b3c'),
+      );
+      expect(message, isNot(contains('ya29')));
+      expect(message, isNot(contains('1a2b3c')));
+    });
+
+    test('mensagem já escrita para o usuário é preservada', () {
+      // Estas nascem prontas; traduzi-las de novo pioraria a experiência.
+      expect(
+        userMessage(const AuthFailure('Login cancelado.')),
+        'Login cancelado.',
       );
     });
   });

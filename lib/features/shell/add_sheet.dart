@@ -13,6 +13,7 @@ import '../../models/entry.dart';
 import '../../services/memory_repository.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 import '../growth/growth_editor_sheet.dart';
 import '../timeline/details_editor_sheet.dart';
 
@@ -259,7 +260,9 @@ Future<void> _send(
         ),
       );
   } on Exception catch (e) {
-    if (context.mounted) showMessage(context, 'Não foi possível enviar: $e');
+    if (context.mounted) {
+      showMessage(context, userMessage(e, context: 'Enviar memória'));
+    }
   }
 }
 

@@ -14,6 +14,7 @@ import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Detalhe de um documento: abrir, baixar ou compartilhar.
 class DocumentScreen extends ConsumerStatefulWidget {
@@ -33,7 +34,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     try {
       return await ref.read(memoryRepositoryProvider).localCopy(file);
     } on Exception catch (e) {
-      if (mounted) showMessage(context, 'Não foi possível baixar: $e');
+      if (mounted) {
+        showMessage(context, userMessage(e, context: 'Baixar documento'));
+      }
       return null;
     } finally {
       if (mounted) setState(() => _busy = false);
