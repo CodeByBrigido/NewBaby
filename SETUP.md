@@ -184,6 +184,23 @@ firebase deploy --only firestore:rules,firestore:indexes
 Ou cole o conteúdo de `firebase/firestore.rules` direto no console, em
 **Firestore Database → Regras**.
 
+> **Confira que as regras subiram.** Elas são a única barreira entre os dados
+> de uma família e os de outra. No console, em *Firestore Database → Regras*,
+> o texto exibido tem que ser o do repositório. Se estiver lá o padrão do
+> "modo de teste", o banco fica aberto a qualquer pessoa até a data que
+> aparece na primeira linha.
+
+Para conferir o comportamento das regras, e não só o texto:
+
+```bash
+cd firebase/teste
+npm install
+npm test     # sobe o emulador oficial e roda 19 verificações
+```
+
+Isso testa isolamento entre contas, listagem negada e recusa de documentos
+fora do formato. Roda também a cada pull request.
+
 ---
 
 ## 9. Rodar

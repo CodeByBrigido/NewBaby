@@ -54,3 +54,9 @@ ios/Runner/GoogleService-Info.plist
 android/key.properties
 *.jks
 *.keystore
+
+# Verificação das regras do Firestore (só ferramentas de teste)
+firebase/teste/node_modules/
+firebase-debug.log
+firestore-debug.log
+.firebase/
