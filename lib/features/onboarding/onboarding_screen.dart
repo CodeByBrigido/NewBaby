@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/l10n/gendered.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/utils/limits.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
@@ -152,7 +153,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 TextFormField(
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(labelText: S.fullName),
+                  maxLength: Limits.babyName,
+                  decoration: const InputDecoration(
+                    labelText: S.fullName,
+                    // O contador atrapalha mais do que ajuda num campo que
+                    // ninguém chega perto de encher.
+                    counterText: '',
+                  ),
                   validator: (String? v) =>
                       (v == null || v.trim().isEmpty) ? S.requiredField : null,
                 ),
@@ -214,8 +221,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 TextFormField(
                   controller: _hospital,
                   textCapitalization: TextCapitalization.words,
+                  maxLength: Limits.hospital,
                   decoration: const InputDecoration(
                     labelText: S.hospitalOptional,
+                    counterText: '',
                   ),
                 ),
                 const SizedBox(height: 32),

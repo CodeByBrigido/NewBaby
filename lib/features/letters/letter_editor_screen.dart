@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/gendered.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/utils/limits.dart';
 import '../../core/router/app_router.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -122,8 +123,10 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
             TextField(
               controller: _title,
               textCapitalization: TextCapitalization.sentences,
+              maxLength: Limits.title,
               style: Theme.of(context).textTheme.titleLarge,
               decoration: InputDecoration(
+                counterText: '',
                 labelText: S.titleField,
                 hintText: G
                     .of(ref.watch(profileProvider).value?.gender)
@@ -135,6 +138,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               child: TextField(
                 controller: _message,
                 textCapitalization: TextCapitalization.sentences,
+                maxLength: Limits.description,
                 maxLines: null,
                 expands: true,
                 textAlignVertical: TextAlignVertical.top,

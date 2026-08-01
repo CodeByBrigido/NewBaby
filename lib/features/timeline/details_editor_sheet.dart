@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/utils/limits.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -133,8 +134,10 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
             TextField(
               controller: _description,
               textCapitalization: TextCapitalization.sentences,
+              maxLength: Limits.description,
               maxLines: 3,
               decoration: const InputDecoration(
+                counterText: '',
                 labelText: S.descriptionOptional,
                 alignLabelWithHint: true,
               ),
