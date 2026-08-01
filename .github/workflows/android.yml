@@ -63,6 +63,39 @@ jobs:
           unzip -l "$apk" | grep -q AndroidManifest.xml
           echo "Estrutura do APK conferida."
 
+      - name: Conferir as permissões do APK
+        # O manifesto que vai para a loja não é o que está no repositório: a
+        # fusão acrescenta o que cada plugin declara. O open_filex pede a
+        # galeria inteira (imagens, vídeos e áudio) e o video_compress pede
+        # escrita no armazenamento — nada disso é usado aqui, e o
+        # `tools:node="remove"` do nosso manifesto tira os cinco.
+        #
+        # Só que isso é invisível no código: um plugin novo, ou uma
+        # atualização que mude o nome de uma permissão, volta a incluí-la sem
+        # aviso. Aqui a lista final é conferida contra o que a gente admite.
+        run: |
+          set -euo pipefail
+          apk=build/app/outputs/flutter-apk/app-release.apk
+
+          aapt2=$(find "$ANDROID_HOME/build-tools" -name aapt2 -type f | sort -V | tail -1)
+          test -n "$aapt2"
+
+          "$aapt2" dump permissions "$apk" \
+            | sed -n "s/^uses-permission: name='\([^']*\)'.*/\1/p" \
+            | sort -u > permissoes.txt
+
+          echo "Permissões no APK:"
+          cat permissoes.txt
+
+          printf 'android.permission.INTERNET\n' > esperado.txt
+          if ! diff -u esperado.txt permissoes.txt; then
+            echo "::error::O APK declara permissões que este aplicativo não usa."
+            echo "Veja o comentário sobre tools:node=\"remove\" em"
+            echo "android/app/src/main/AndroidManifest.xml."
+            exit 1
+          fi
+          echo "Só INTERNET, como esperado."
+
   apk:
     name: Gerar APK para instalar
     # Só quando pedido de propósito: este é o job que usa a conta real.
