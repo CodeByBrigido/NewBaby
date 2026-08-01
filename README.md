@@ -1,4 +1,4 @@
-# Meu Bebê
+# Meu Bebê: Cápsula do Tempo
 
 > Cada momento, uma lembrança para a vida toda.
 
@@ -19,7 +19,7 @@ Aplicativo Flutter para Android e iOS, inteiramente em português.
 Cloud Firestore.**
 
 Cada pessoa que instala entra com a própria conta Google e o aplicativo cria
-a pasta `Cápsula do Tempo - Meu Bebê/` no Drive dela. As fotos nunca passam por servidor de
+a pasta `Meu Bebê - Cápsula do Tempo/` no Drive dela. As fotos nunca passam por servidor de
 terceiros, e o armazenamento pesado não custa nada para quem publica o app.
 
 Essa separação é o que faz o aplicativo abrir instantâneo: a linha do tempo
@@ -28,7 +28,7 @@ pastas do Drive. O Drive é o arquivo permanente - e continua legível por
 gente, sem o aplicativo.
 
 ```
-Cápsula do Tempo - Meu Bebê/
+Meu Bebê - Cápsula do Tempo/
 ├── Fotos/
 │   ├── Semana 01 · Semana 02 · … · Semana 52
 │   ├── Mês 13 · Mês 14 · … · Mês 24

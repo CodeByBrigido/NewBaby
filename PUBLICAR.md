@@ -1,4 +1,4 @@
-# Publicar o Meu Bebê na Google Play
+# Publicar o Meu Bebê: Cápsula do Tempo na Google Play
 
 Guia para colocar o aplicativo na loja, onde qualquer família baixa e entra
 com a **própria** conta Google.
@@ -10,7 +10,7 @@ com a **própria** conta Google.
 Cada pessoa que instala:
 
 1. entra com a conta Google **dela**;
-2. o aplicativo cria a pasta `Cápsula do Tempo - Meu Bebê/` **no Drive dela**;
+2. o aplicativo cria a pasta `Meu Bebê - Cápsula do Tempo/` **no Drive dela**;
 3. as fotos e vídeos ficam no Drive **dela** - você nunca os vê;
 4. o Firestore do **seu** projeto guarda só o índice: título de carta, peso,
    altura, datas e os ids dos arquivos.
@@ -123,7 +123,19 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
 ## Passo 5 - Conta e ficha da loja
 
 1. Crie a conta de desenvolvedor: US$ 25, pagamento único.
-2. Preencha a ficha: nome, descrição, ícone, capturas de tela, categoria.
+2. Preencha a ficha. Os nomes já estão definidos:
+
+   | Campo | Valor | Limite |
+   |---|---|---|
+   | Nome do app (título) | `Meu Bebê: Cápsula do Tempo` | 30 caracteres, e ele usa 26 |
+   | Descrição breve | `A história do seu filho, guardada no seu próprio Google Drive.` | 80 |
+
+   > O nome embaixo do ícone no celular é **outro campo**, definido no
+   > `AndroidManifest.xml`, e continua sendo o curto `Meu Bebê`. Isso é
+   > proposital: o Android corta o rótulo do ícone por volta do 11º
+   > caractere, e o nome completo viraria "Meu Bebê: C...".
+
+   Faltam o ícone, as capturas de tela e a categoria.
 3. **Política de privacidade** - obrigatória, e com peso extra aqui: o app
    guarda dados de crianças. Ela precisa dizer, com clareza, que
    as fotos vão para o Drive do próprio usuário e que o aplicativo guarda
@@ -171,7 +183,7 @@ na ficha da loja e na política, algo com este teor:
 
 > O aplicativo solicita a permissão `drive.file`, que concede acesso
 > **apenas aos arquivos criados pelo próprio aplicativo**. Todos eles ficam
-> em uma única pasta, `Cápsula do Tempo - Meu Bebê`, criada na sua conta.
+> em uma única pasta, `Meu Bebê - Cápsula do Tempo`, criada na sua conta.
 > O aplicativo não lê, não lista e não acessa nenhum outro arquivo ou pasta
 > do seu Google Drive - essa restrição é aplicada pelos servidores do
 > Google, não apenas pelo aplicativo.

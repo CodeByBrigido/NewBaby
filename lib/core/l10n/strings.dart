@@ -3,7 +3,19 @@
 /// O app é de idioma único por decisão de produto; centralizar aqui mantém a
 /// escrita consistente e facilita revisar o tom de voz num lugar só.
 abstract final class S {
+  /// Nome curto, para o ícone e as barras de título.
+  ///
+  /// O Android corta o rótulo embaixo do ícone por volta do 11º caractere.
+  /// O nome completo ali viraria "Meu Bebê: C...", então ele fica só onde há
+  /// espaço de verdade: a loja, a tela de entrada e a tela Sobre.
   static const String appName = 'Meu Bebê';
+
+  /// Nome completo, para a loja e para quem ainda não conhece o aplicativo.
+  static const String appFullName = 'Meu Bebê: Cápsula do Tempo';
+
+  /// A segunda linha da tela de entrada, sob o nome curto.
+  static const String appSubtitle = 'Cápsula do Tempo';
+
   static const String appTagline =
       'Cada momento, uma lembrança para a vida toda.';
 
@@ -199,7 +211,7 @@ abstract final class S {
       'Também retiramos a permissão de acesso ao seu Google Drive.\n\n'
       'Esta ação não pode ser desfeita.';
   static const String deleteAccountDriveQuestion =
-      'E a pasta "Cápsula do Tempo" no seu Google Drive?';
+      'E a pasta "Meu Bebê - Cápsula do Tempo" no seu Drive?';
   static const String deleteAccountKeepDrive = 'Manter os arquivos';
   static const String deleteAccountKeepDriveHint =
       'As fotos, os vídeos e os documentos continuam no seu Drive, '

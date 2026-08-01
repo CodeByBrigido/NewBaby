@@ -91,6 +91,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  // O nome completo em duas linhas: assim ele cabe sem
+                  // encolher a marca, e diz o que o aplicativo é para quem
+                  // está vendo pela primeira vez.
+                  Text(
+                    S.appSubtitle,
+                    style: text.titleMedium?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     S.appTagline,
