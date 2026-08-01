@@ -153,18 +153,29 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
           faltando=0
-          if [ -z "${GOOGLE_SERVICES_JSON}" ]; then
-            echo "::error::Falta o segredo GOOGLE_SERVICES_JSON."
-            faltando=1
-          fi
-          if [ -z "${FIREBASE_OPTIONS_DART}" ]; then
-            echo "::error::Falta o segredo FIREBASE_OPTIONS_DART."
-            faltando=1
-          fi
+          for nome in GOOGLE_SERVICES_JSON FIREBASE_OPTIONS_DART \
+                      RELEASE_KEYSTORE KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!nome:-}" ]; then
+              echo "::error::Falta o segredo $nome."
+              faltando=1
+            fi
+          done
           if [ "$faltando" = "1" ]; then
+            echo
+            echo "Os quatro segredos da chave de assinatura não são opcionais."
+            echo "Sem eles o Gradle assina com a chave de debug, que é gerada"
+            echo "NOVA a cada execução aqui. Como o Google Sign-In amarra o"
+            echo "login ao SHA-1 de quem assinou, o APK abriria e falharia no"
+            echo "login com ApiException: 10 - e com um SHA-1 diferente a cada"
+            echo "build, não haveria como cadastrar."
+            echo
             echo "Veja o passo a passo em INSTALAR.md, seção 'Passo 1'."
             exit 1
           fi
@@ -197,12 +208,73 @@ jobs:
             exit 1
           fi
 
+      - name: Restaurar a chave de assinatura
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          keystore="$RUNNER_TEMP/meu-bebe-release.jks"
+          echo "$RELEASE_KEYSTORE" | base64 -d > "$keystore"
+
+          # Confere que o base64 não veio truncado antes de o Gradle tentar.
+          if ! keytool -list -keystore "$keystore" \
+                 -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" \
+                 > /dev/null 2>&1; then
+            echo "::error::Não consegui abrir a chave de assinatura."
+            echo "Ou o base64 do RELEASE_KEYSTORE veio pela metade, ou a senha"
+            echo "ou o alias estão diferentes do que está no arquivo .jks."
+            exit 1
+          fi
+
+          # O caminho vai absoluto: o build.gradle.kts resolve `storeFile`
+          # relativo a android/app, e um caminho relativo aqui apontaria para
+          # o lugar errado.
+          {
+            echo "storeFile=$keystore"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > android/key.properties
+
+          echo "Chave de assinatura pronta."
+
       - name: Baixar dependências
         run: flutter pub get
 
       - name: Build de release
         # Um APK por arquitetura: cada um fica bem menor que o universal.
         run: flutter build apk --release --split-per-abi
+
+      - name: Conferir a assinatura e mostrar o SHA-1
+        # A falha que este passo existe para pegar é silenciosa: se o
+        # key.properties não for lido, o Gradle assina com a chave de debug e
+        # o APK sai normalmente - só não loga. Melhor descobrir aqui.
+        run: |
+          set -euo pipefail
+          apksigner=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -1)
+          test -n "$apksigner"
+
+          apk=$(ls build/app/outputs/flutter-apk/*-release.apk | head -1)
+          "$apksigner" verify --print-certs "$apk" > certs.txt
+          cat certs.txt
+
+          if grep -q "CN=Android Debug" certs.txt; then
+            echo "::error::O APK foi assinado com a chave de DEBUG."
+            echo "O key.properties não chegou ao Gradle. Este APK instala mas"
+            echo "falha no login, porque o SHA-1 muda a cada build."
+            exit 1
+          fi
+
+          sha1=$(grep -i "SHA-1 digest" certs.txt | head -1 | sed 's/.*: *//' \
+                 | tr -d ' :' | tr 'a-z' 'A-Z' | sed 's/../&:/g;s/:$//')
+          echo
+          echo "::notice::SHA-1 da chave que assinou este APK: $sha1"
+          echo "Este é o valor que precisa estar cadastrado no cliente OAuth"
+          echo "Android, no Google Cloud. Sem ele o login falha com"
+          echo "ApiException: 10. Veja o SETUP.md, passo 6.1."
 
       - name: Listar o que foi gerado
         run: |

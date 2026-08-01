@@ -78,9 +78,20 @@ keytool -genkey -v -keystore ~/meu-bebe-release.jks \
   -keyalg RSA -keysize 2048 -validity 10000 -alias meu-bebe
 ```
 
-Copie `android/key.properties.example` para `android/key.properties` e
-preencha com o caminho do `.jks` e as senhas. O arquivo está no
-`.gitignore` - ele nunca deve ir para o repositório.
+Para compilar **no seu computador**, copie `android/key.properties.example`
+para `android/key.properties` e preencha com o caminho do `.jks` e as senhas.
+O arquivo está no `.gitignore` - ele nunca deve ir para o repositório.
+
+Para compilar **pelo GitHub**, a chave vai como segredo e o workflow monta o
+`key.properties` sozinho. São quatro segredos, descritos no
+[INSTALAR.md](INSTALAR.md), passo 2: `RELEASE_KEYSTORE`,
+`KEYSTORE_PASSWORD`, `KEY_ALIAS` e `KEY_PASSWORD`.
+
+> Se faltar qualquer um deles, o workflow para antes de compilar. Isso é de
+> propósito: sem a chave o Gradle assinaria com a de debug e o APK sairia
+> normal, só sem conseguir logar. Depois do build, um passo confere a
+> assinatura do APK e imprime o SHA-1 dela - o valor que precisa estar
+> cadastrado no cliente OAuth Android.
 
 > ⚠️ **Guarde o `.jks` e as senhas em lugar seguro, com cópia.** Se você
 > perder essa chave, não existe forma de publicar atualização do aplicativo:
