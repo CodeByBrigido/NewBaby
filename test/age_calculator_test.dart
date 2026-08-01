@@ -73,7 +73,9 @@ void main() {
 
   group('rótulo curto (estilo da especificação)', () {
     test('dias, semanas, meses e anos', () {
-      expect(ageOn(2027, 1, 22).shortLabel, 'Recém-nascida');
+      // "No nascimento" descreve o momento, não a criança: o cálculo de
+      // idade fica sem gênero e serve para menino e menina.
+      expect(ageOn(2027, 1, 22).shortLabel, 'No nascimento');
       expect(ageOn(2027, 1, 23).shortLabel, '1 dia');
       expect(ageOn(2027, 1, 25).shortLabel, '3 dias');
       expect(ageOn(2027, 2, 5).shortLabel, '2 semanas');

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/l10n/gendered.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/baby_profile.dart';
@@ -32,6 +33,7 @@ class _AddSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final G g = G.of(ref.watch(profileProvider).value?.gender);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
@@ -52,19 +54,19 @@ class _AddSheet extends ConsumerWidget {
             _Option(
               type: EntryType.photo,
               title: S.addPhoto,
-              subtitle: S.addPhotoHint,
+              subtitle: g.addPhotoHint,
               onTap: () => _addPhotos(context, ref),
             ),
             _Option(
               type: EntryType.video,
               title: S.addVideo,
-              subtitle: S.addVideoHint,
+              subtitle: g.addVideoHint,
               onTap: () => _addVideos(context, ref),
             ),
             _Option(
               type: EntryType.letter,
               title: S.addLetter,
-              subtitle: S.addLetterHint,
+              subtitle: g.addLetterHint,
               onTap: () {
                 Navigator.of(context).pop();
                 context.push(Routes.newLetter);

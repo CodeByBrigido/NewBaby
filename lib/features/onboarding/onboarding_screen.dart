@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/l10n/gendered.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
+import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -28,6 +30,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final TextEditingController _height = TextEditingController();
   final TextEditingController _hospital = TextEditingController();
 
+  BabyGender? _gender;
   DateTime? _birthDate;
   TimeOfDay? _birthTime;
   File? _photo;
@@ -74,6 +77,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
+    final BabyGender? gender = _gender;
+    if (gender == null) {
+      showMessage(context, 'Escolha se é menino ou menina.');
+      return;
+    }
+
     final DateTime? date = _birthDate;
     if (date == null) {
       showMessage(context, 'Escolha a data de nascimento.');
@@ -86,6 +95,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final TimeOfDay time = _birthTime ?? const TimeOfDay(hour: 0, minute: 0);
     final BabyProfile profile = BabyProfile(
       name: _name.text.trim(),
+      gender: gender,
       birth: DateTime(date.year, date.month, date.day, time.hour, time.minute),
       birthWeightGrams: _parseWeightGrams(_weight.text),
       birthHeightCm: _parseDecimal(_height.text),
@@ -126,7 +136,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  S.onboardingSubtitle,
+                  // Antes de escolher menino ou menina o texto é neutro.
+                  G.of(_gender).onboardingSubtitle,
                   textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
                     color: AppColors.textSecondary,
@@ -143,6 +154,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   decoration: const InputDecoration(labelText: S.fullName),
                   validator: (String? v) =>
                       (v == null || v.trim().isEmpty) ? S.requiredField : null,
+                ),
+                const SizedBox(height: 16),
+                _GenderPicker(
+                  value: _gender,
+                  onChanged: (BabyGender g) => setState(() => _gender = g),
                 ),
                 const SizedBox(height: 16),
                 _PickerField(
@@ -283,6 +299,62 @@ class _PhotoPicker extends StatelessWidget {
           Text(S.birthPhoto, style: Theme.of(context).textTheme.bodySmall),
         ],
       ),
+    );
+  }
+}
+
+/// Menino ou menina — define a concordância de todos os textos do app.
+class _GenderPicker extends StatelessWidget {
+  const _GenderPicker({required this.value, required this.onChanged});
+
+  final BabyGender? value;
+  final ValueChanged<BabyGender> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(S.gender, style: Theme.of(context).textTheme.labelMedium),
+        const SizedBox(height: 8),
+        Row(
+          children: <Widget>[
+            for (final BabyGender gender in BabyGender.values) ...<Widget>[
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => onChanged(gender),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    decoration: BoxDecoration(
+                      color: value == gender
+                          ? AppColors.primarySoft
+                          : AppColors.surface,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: value == gender
+                            ? AppColors.primary
+                            : AppColors.divider,
+                        width: value == gender ? 1.6 : 1,
+                      ),
+                    ),
+                    child: Text(
+                      gender.label,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: value == gender
+                            ? AppColors.primaryDark
+                            : AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (gender != BabyGender.values.last) const SizedBox(width: 12),
+            ],
+          ],
+        ),
+      ],
     );
   }
 }

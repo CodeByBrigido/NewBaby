@@ -1,0 +1,13 @@
+# MODELO — copie para android/key.properties (que está no .gitignore)
+# e preencha com os dados da SUA chave de publicação.
+#
+# Gere a chave com:
+#   keytool -genkey -v -keystore ~/meu-bebe-release.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias meu-bebe
+#
+# Guarde o .jks e as senhas em lugar seguro: sem eles a Play Store não
+# aceita nenhuma atualização futura do aplicativo.
+storeFile=/caminho/absoluto/para/meu-bebe-release.jks
+storePassword=SUA_SENHA_DO_KEYSTORE
+keyAlias=meu-bebe
+keyPassword=SUA_SENHA_DA_CHAVE

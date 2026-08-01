@@ -3,8 +3,23 @@
 Este guia deixa o aplicativo rodando no celular. Leva cerca de trinta
 minutos e só precisa ser feito uma vez.
 
-Nada aqui está no repositório por um motivo: os arquivos gerados apontam
-para o **seu** projeto e para a conta Google da sua filha.
+## Primeiro, o que este guia NÃO pede
+
+Ele **não** pede a conta nem o Google Drive de ninguém da sua família.
+
+O que você vai criar aqui é a **identidade do aplicativo**: um projeto
+Firebase e credenciais OAuth registrados em **seu nome, como
+desenvolvedor**. É o crachá que o Google exige para deixar o app pedir
+login — mais parecido com o CNPJ da empresa do que com o CPF do cliente.
+
+Como esse crachá vai compilado dentro do APK, ele precisa existir **antes**
+de compilar. Sem ele, o Google recusa qualquer tentativa de login.
+
+Quem instalar o aplicativo entra com a **própria** conta Google, e as fotos
+vão para o Drive **dessa pessoa**. Você nunca as vê: seu projeto guarda
+apenas o índice (títulos, datas, peso, altura e os ids dos arquivos).
+
+Para publicar na Google Play, veja também o **[PUBLICAR.md](PUBLICAR.md)**.
 
 ---
 
@@ -26,8 +41,8 @@ dart pub global activate flutterfire_cli
 
 ## 2. Criar o projeto Firebase
 
-1. Abra <https://console.firebase.google.com> **entrando com a conta Google
-   da sua filha** — é essa conta que vai guardar tudo.
+1. Abra <https://console.firebase.google.com> entrando com a **sua** conta
+   de desenvolvedor. É o projeto do aplicativo, não o acervo de ninguém.
 2. Crie um projeto (por exemplo `meu-bebe`). Pode desativar o Google Analytics.
 3. Em **Criação → Firestore Database**, clique em *Criar banco de dados*.
    Escolha o modo de produção e a região `southamerica-east1` (São Paulo).
@@ -71,14 +86,21 @@ Em **APIs e serviços → Tela de permissão OAuth**:
 
 - Tipo de usuário: **Externo**
 - Nome do app: `Meu Bebê`
-- E-mail de suporte e de contato: a conta da sua filha
+- E-mail de suporte e de contato: o **seu**
 - Em **Escopos**, adicione:
   `https://www.googleapis.com/auth/drive.file`
-- Em **Usuários de teste**, adicione o e-mail dela e os de vocês.
+- Em **Usuários de teste**, adicione os e-mails que vão testar.
+
+> Enquanto a tela estiver em "Teste", **só os e-mails cadastrados aqui
+> conseguem entrar** (limite de 100). Para abrir ao público da loja é
+> preciso publicar a tela em produção — veja o
+> [PUBLICAR.md](PUBLICAR.md).
 
 > `drive.file` dá acesso **apenas** aos arquivos que o próprio aplicativo
-> cria. Por ser um escopo não sensível, o Google **não exige** verificação
-> do app — com os usuários de teste cadastrados, funciona para sempre.
+> cria — é o escopo mais estreito do Drive, escolhido justamente por ser o
+> que o Google recomenda para evitar a revisão pesada. Com os usuários de
+> teste cadastrados, funciona sem verificação nenhuma. Para abrir ao
+> público, confirme a política vigente: veja o [PUBLICAR.md](PUBLICAR.md).
 
 ---
 
@@ -207,7 +229,8 @@ errado. Ele tem que ser o ID do cliente **Web** (passo 6.3).
 Falta adicionar o e-mail em **Usuários de teste**, no passo 5.
 
 **A foto sobe mas a pasta não aparece no Drive**
-Procure por `Meu Bebê` na raiz do Drive **da conta da bebê** — não da sua.
+Procure por `Meu Bebê` na raiz do Drive **da conta que está logada no
+aplicativo**. Se você entrou com outra conta, a pasta está lá.
 
 **O vídeo falha ao converter**
 Vídeos muito longos podem estourar a memória em aparelhos antigos. O
@@ -220,11 +243,11 @@ no cartão marcado com erro.
 
 | O quê | Onde |
 |---|---|
-| Fotos, vídeos, desenhos, documentos | Google Drive da conta da bebê, em `Meu Bebê/` |
-| Texto das cartas, peso e altura, índice da linha do tempo | Cloud Firestore, em `users/{uid}` |
+| Fotos, vídeos, desenhos, documentos | Google Drive de quem está logado, em `Meu Bebê/` |
+| Texto das cartas, peso e altura, índice da linha do tempo | Cloud Firestore do seu projeto, em `users/{uid}` |
 | Miniaturas e arquivos temporários | Cache do próprio aparelho |
 | Fotos e vídeos originais | Continuam na galeria do celular, intactos |
 
-Se um dia este aplicativo deixar de existir, o acervo continua no Drive —
-organizado por idade, com nomes de arquivo por data, e navegável por
-qualquer pessoa.
+Se um dia este aplicativo deixar de existir, o acervo continua no Drive de
+cada família — organizado por idade, com nomes de arquivo por data, e
+navegável por qualquer pessoa.

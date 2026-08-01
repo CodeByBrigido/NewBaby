@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/gendered.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../models/baby_profile.dart';
@@ -121,9 +122,11 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               controller: _title,
               textCapitalization: TextCapitalization.sentences,
               style: Theme.of(context).textTheme.titleLarge,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: S.titleField,
-                hintText: 'Para minha filha 💜',
+                hintText: G
+                    .of(ref.watch(profileProvider).value?.gender)
+                    .letterHint,
               ),
             ),
             const SizedBox(height: 16),
