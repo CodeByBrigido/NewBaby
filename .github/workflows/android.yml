@@ -40,19 +40,24 @@ jobs:
       - name: Usar a configuração de exemplo
         # Só para o plugin do Google Services encontrar um arquivo válido.
         # O APK que sai daqui NÃO serve para instalar: com estas chaves ele
-        # abre e falha no Firebase.initializeApp.
+        # abre e falha no Firebase.initializeApp. Serve para provar que o
+        # projeto compila e sobrevive à ofuscação.
         run: cp android/app/google-services.json.example android/app/google-services.json
 
       - name: Baixar dependências
         run: flutter pub get
 
-      - name: Build de debug
-        run: flutter build apk --debug
+      - name: Build de release
+        # Release, não debug, de propósito: é o build que passa pelo R8
+        # (minify + shrink). Os modelos do googleapis são montados por
+        # reflexão, então uma regra de ProGuard faltando só aparece aqui —
+        # nunca em debug, nunca no analyze, nunca nos testes.
+        run: flutter build apk --release
 
       - name: Conferir que o APK saiu
         run: |
           set -euo pipefail
-          apk=build/app/outputs/flutter-apk/app-debug.apk
+          apk=build/app/outputs/flutter-apk/app-release.apk
           test -f "$apk"
           echo "APK gerado: $(du -h "$apk" | cut -f1)"
           unzip -l "$apk" | grep -q AndroidManifest.xml
