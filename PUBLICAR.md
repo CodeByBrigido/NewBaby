@@ -126,6 +126,53 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
 
 ---
 
+## Passo 5.1 — Proteger a sua conta de nuvem
+
+O modelo é generoso com o usuário e desprotegido com você: qualquer pessoa
+instala, entra e passa a poder escrever no Firestore do **seu** projeto. Três
+medidas, em ordem de importância:
+
+1. **Alerta de orçamento** no projeto do Google Cloud (*Faturamento →
+   Orçamentos e alertas*). É o que evita descobrir um problema pela fatura.
+   Faça isso antes de publicar, não depois.
+2. **App Check com Play Integrity** (*Firebase → App Check*). Sem ele, a chave
+   e o id do projeto — que viajam dentro do APK — bastam para chamar o
+   Firestore de fora do aplicativo.
+3. **Regras validando formato**, já no repositório. Elas recusam documento
+   fora do formato esperado e limitam o tamanho dos textos. Rode
+   `cd firebase/teste && npm test` depois de qualquer mudança nelas.
+
+---
+
+## Passo 5.2 — Exclusão de conta e política de privacidade
+
+Desde 2023 o Google Play exige, para todo aplicativo com criação de conta:
+
+- exclusão **dentro do aplicativo** — já existe, em *Perfil → Apagar minha
+  conta e meus dados*;
+- uma **URL pública** onde a exclusão possa ser pedida sem instalar o app.
+  Você precisa criar essa página e informá-la no Play Console.
+
+A política de privacidade precisa dizer, sem rodeio, o que fica em cada lugar:
+
+| O quê | Onde | Quem vê |
+|---|---|---|
+| Fotos, vídeos, desenhos, documentos | Google Drive do usuário | só o usuário |
+| Nome, data de nascimento, hospital, peso, altura, **texto das cartas** | Firestore do **seu** projeto | o usuário e **você**, como administrador |
+| E-mail e nome da conta Google | Firebase Auth do seu projeto | o usuário e você |
+
+Dizer "nenhum dado é coletado" no formulário de Segurança dos Dados seria
+falso. O correto é declarar informações pessoais e conteúdo do usuário,
+armazenados nos seus servidores, não compartilhados e não vendidos, com
+exclusão a pedido.
+
+E vale saber o que você está assumindo: com dados de criança em jogo, a LGPD
+trata você como **controlador**. Isso traz base legal (art. 14 é específico
+sobre criança), canal de contato, atendimento a pedido de exclusão e
+comunicação em caso de incidente.
+
+---
+
 ## Passo 6 — Testes antes do público
 
 Comece por **teste interno** (libera em minutos, até 100 pessoas) para você
@@ -141,7 +188,16 @@ produção.
 - [ ] SHA-1 da chave de release cadastrado no cliente OAuth Android
 - [ ] `android/key.properties` fora do repositório, com cópia da chave guardada
 - [ ] Regras do Firestore publicadas (`firebase deploy --only firestore:rules`)
+      e conferidas no console — não as do "modo de teste"
+- [ ] `cd firebase/teste && npm test` passando
+- [ ] Alerta de orçamento configurado no Google Cloud
+- [ ] App Check ativado com Play Integrity
 - [ ] Política de privacidade no ar e acessível
+- [ ] URL pública de exclusão de conta no ar e informada no Play Console
+- [ ] Testado o "Apagar minha conta e meus dados" de ponta a ponta, conferindo
+      no console do Firebase que `users/{uid}` sumiu
+- [ ] Conferido no APK que só há a permissão `INTERNET`
+      (`aapt dump permissions app-release.apk`)
 - [ ] Testado em menino **e** menina — os textos concordam com o gênero
 - [ ] Testado com internet ruim: o envio continua em segundo plano
 

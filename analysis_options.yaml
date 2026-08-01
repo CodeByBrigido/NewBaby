@@ -9,6 +9,13 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    # As ferramentas que testam as regras do Firestore são um projeto Node.
+    # O `firebase-tools` traz modelos em Dart que não são código deste
+    # aplicativo e não compilam fora do contexto deles.
+    - firebase/teste/node_modules/**
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`

@@ -2,12 +2,17 @@ rules_version = '2';
 
 // Meu Bebê — cada conta só enxerga os próprios dados.
 //
-// Todo o conteúdo do aplicativo vive sob users/{uid}. Como o app é usado por
-// uma única conta Google (a da bebê), não existe compartilhamento entre
-// contas: qualquer leitura ou escrita fora do próprio uid é negada.
+// Todo o conteúdo do aplicativo vive sob users/{uid}. Qualquer leitura ou
+// escrita fora do próprio uid é negada.
 //
 // Os arquivos em si não passam por aqui — eles ficam no Google Drive, sob a
 // permissão OAuth `drive.file`. O Firestore guarda apenas metadados.
+//
+// Além do isolamento entre contas, estas regras limitam o **formato** do que
+// pode ser gravado. Não é excesso de zelo: o aplicativo é público, então
+// qualquer pessoa instala, entra e passa a poder escrever no próprio espaço —
+// e quem paga essa conta é quem publicou. Um documento fora do formato
+// esperado só pode ter vindo de algo que não é este aplicativo.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -15,12 +20,87 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
-    match /users/{uid} {
-      allow read, write: if isOwner(uid);
+    // Campo de texto ausente, nulo, ou dentro do limite de caracteres.
+    function textUpTo(field, max) {
+      let data = request.resource.data;
+      return !(field in data)
+          || data[field] == null
+          || (data[field] is string && data[field].size() <= max);
+    }
 
-      // perfil/bebe, entradas/{id}, pastas/{chave}
-      match /{document=**} {
-        allow read, write: if isOwner(uid);
+    function isValidProfile() {
+      return request.resource.data.keys().hasOnly([
+               'nome', 'nascimento', 'genero', 'pesoGramas',
+               'alturaCm', 'hospital', 'fotoDriveId', 'pastaRaizId'
+             ])
+          && textUpTo('nome', 120)
+          && textUpTo('hospital', 200)
+          && textUpTo('genero', 20)
+          && textUpTo('fotoDriveId', 200)
+          && textUpTo('pastaRaizId', 200);
+    }
+
+    function isValidEntry() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+               'tipo', 'data', 'criadoEm', 'idadeDias', 'balde', 'baldeNome',
+               'titulo', 'descricao', 'arquivos', 'crescimento', 'status',
+               'uploadStatus', 'excluidoEm', 'erro',
+               // Legado: versões antigas gravavam aqui uma segunda cópia do
+               // texto das cartas. O aplicativo não escreve mais este campo,
+               // mas quem tem documentos antigos precisa poder editá-los.
+               'busca'
+             ])
+          && textUpTo('titulo', 200)
+          // Uma carta pode ser longa. 20 mil caracteres é folgado e ainda
+          // muito abaixo do limite de 1 MiB por documento do Firestore.
+          && textUpTo('descricao', 20000)
+          && textUpTo('erro', 500)
+          && textUpTo('tipo', 30)
+          && textUpTo('status', 20)
+          && textUpTo('uploadStatus', 20)
+          && (!('arquivos' in data)
+              || data.arquivos == null
+              || (data.arquivos is list && data.arquivos.size() <= 60));
+    }
+
+    function isValidFolder() {
+      return request.resource.data.keys().hasOnly([
+               'caminho', 'driveId', 'criadoEm'
+             ])
+          && textUpTo('caminho', 200)
+          && textUpTo('driveId', 200);
+    }
+
+    match /users/{uid} {
+      // O aplicativo nunca grava neste documento: ele existe só como pai das
+      // subcoleções. Apagar precisa ser possível, para "apagar minha conta".
+      allow read, delete: if isOwner(uid);
+      allow create, update: if false;
+
+      match /perfil/{documento} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidProfile();
+      }
+
+      match /entradas/{entrada} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidEntry();
+      }
+
+      match /pastas/{chave} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidFolder();
+      }
+
+      // Qualquer subcoleção que este aplicativo não conhece: negada.
+      //
+      // Antes havia aqui um `match /{document=**}` liberando tudo. Como no
+      // Firestore basta uma regra permitir para o acesso passar, aquele
+      // curinga anularia toda a validação escrita acima — é o tipo de erro
+      // que não aparece em teste nenhum, porque tudo continua funcionando.
+      match /{outra}/{documento=**} {
+        allow read, write: if false;
       }
     }
 

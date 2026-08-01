@@ -33,3 +33,32 @@ jobs:
 
       - name: Testes
         run: flutter test
+
+  regras:
+    name: Regras do Firestore
+    runs-on: ubuntu-latest
+    # As regras são a única barreira entre os dados de uma família e os de
+    # outra. Aqui elas rodam contra o emulador oficial do Firestore — o mesmo
+    # motor que a produção usa —, e não contra uma leitura nossa do arquivo.
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: firebase/teste/package-lock.json
+
+      - uses: actions/setup-java@v4
+        # O emulador do Firestore é um .jar.
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Instalar as ferramentas de teste
+        working-directory: firebase/teste
+        run: npm ci
+
+      - name: Verificar o isolamento entre contas e a validação de formato
+        working-directory: firebase/teste
+        run: npm test

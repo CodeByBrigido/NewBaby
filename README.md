@@ -65,8 +65,21 @@ pessoa digita, sem índice externo.
 **`drive.file` e nada mais.** O aplicativo só enxerga o que ele mesmo criou.
 Não é um escopo sensível, então o Google não exige verificação do app.
 
-**Nada passa por servidor nosso.** As fotos vão do celular direto para o
-Google Drive.
+**Os arquivos não passam por servidor nosso — o índice passa.** As fotos vão
+do celular direto para o Google Drive. Mas o índice (nome, data de nascimento,
+peso, altura, datas e o **texto das cartas**) fica no Firestore de quem
+publica o aplicativo, em texto puro. As regras isolam uma família da outra;
+não escondem nada de quem é dono do projeto. Isso está dito na tela Sobre, e
+precisa estar na política de privacidade.
+
+**Sem EXIF.** As fotos sobem sem o bloco de metadados — o que descarta as
+coordenadas de GPS de onde cada foto foi tirada. A orientação é corrigida
+antes, então nada muda visualmente.
+
+**Dá para apagar tudo.** Perfil → *Apagar minha conta e meus dados* remove o
+índice do servidor, revoga o acesso ao Drive e encerra a conta, com a opção de
+manter ou não os arquivos no Drive. Sair, sozinho, já apaga miniaturas,
+downloads e o cache local.
 
 ---
 
@@ -101,7 +114,8 @@ lib/
 ├── state/         providers do Riverpod
 └── features/      uma pasta por tela
 firebase/          regras e índices do Firestore
-test/              idade, formatação, modelos e linha do tempo
+  teste/           regras rodando contra o emulador oficial
+test/              idade, formatação, modelos, privacidade e linha do tempo
 ```
 
 ---
