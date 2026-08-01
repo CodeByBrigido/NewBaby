@@ -70,9 +70,9 @@ jobs:
         # escrita no armazenamento — nada disso é usado aqui, e o
         # `tools:node="remove"` do nosso manifesto tira os cinco.
         #
-        # Só que isso é invisível no código: um plugin novo, ou uma
-        # atualização que mude o nome de uma permissão, volta a incluí-la sem
-        # aviso. Aqui a lista final é conferida contra o que a gente admite.
+        # Isso é invisível no código: um plugin novo, ou uma atualização que
+        # renomeie uma permissão, volta a incluí-la sem nenhum sinal. Então a
+        # lista é lida do APK montado e conferida de duas formas.
         run: |
           set -euo pipefail
           apk=build/app/outputs/flutter-apk/app-release.apk
@@ -84,17 +84,60 @@ jobs:
             | sed -n "s/^uses-permission: name='\([^']*\)'.*/\1/p" \
             | sort -u > permissoes.txt
 
-          echo "Permissões no APK:"
-          cat permissoes.txt
+          echo "Permissões declaradas no APK:"
+          sed 's/^/  /' permissoes.txt
 
-          printf 'android.permission.INTERNET\n' > esperado.txt
-          if ! diff -u esperado.txt permissoes.txt; then
-            echo "::error::O APK declara permissões que este aplicativo não usa."
-            echo "Veja o comentário sobre tools:node=\"remove\" em"
+          # 1. Barreira dura. Nenhuma destas pode aparecer, nunca. São as de
+          #    nível "dangerous" — as que abrem uma caixa de diálogo e dão
+          #    acesso ao acervo pessoal de quem instalou. Um aplicativo que
+          #    promete privacidade não pede acesso à galeria inteira, e a
+          #    política de Photo and Video Permissions do Google Play recusa
+          #    quem faz isso podendo usar o seletor do sistema.
+          proibidas='READ_MEDIA_IMAGES|READ_MEDIA_VIDEO|READ_MEDIA_AUDIO'
+          proibidas="$proibidas|READ_EXTERNAL_STORAGE|WRITE_EXTERNAL_STORAGE"
+          proibidas="$proibidas|MANAGE_EXTERNAL_STORAGE|READ_MEDIA_VISUAL_USER_SELECTED"
+          proibidas="$proibidas|CAMERA|RECORD_AUDIO|ACCESS_FINE_LOCATION"
+          proibidas="$proibidas|ACCESS_COARSE_LOCATION|READ_CONTACTS|GET_ACCOUNTS"
+          proibidas="$proibidas|READ_PHONE_STATE|QUERY_ALL_PACKAGES"
+
+          if grep -qE "\.($proibidas)$" permissoes.txt; then
+            echo "::error::O APK pede acesso a dados pessoais do aparelho."
+            grep -E "\.($proibidas)$" permissoes.txt | sed 's/^/  → /'
+            echo "As fotos entram pelo seletor do sistema e os documentos pelo"
+            echo "SAF; nenhum dos dois precisa de permissão. Se um plugin novo"
+            echo "trouxe isso, remova com tools:node=\"remove\" em"
             echo "android/app/src/main/AndroidManifest.xml."
             exit 1
           fi
-          echo "Só INTERNET, como esperado."
+
+          # 2. Rede de segurança. A lista completa também é fixada, para que
+          #    qualquer permissão nova — mesmo inofensiva — apareça na revisão
+          #    em vez de entrar de carona numa atualização de dependência.
+          #
+          #    Além da INTERNET, que é nossa, todas vêm da pilha do Firebase,
+          #    do Google Play Services e do Credential Manager (que o
+          #    google_sign_in 7 usa para o login). São de nível normal ou de
+          #    assinatura: não abrem caixa de diálogo nenhuma.
+          cat > esperado.txt <<'PERMISSOES'
+          android.permission.ACCESS_NETWORK_STATE
+          android.permission.INTERNET
+          android.permission.USE_BIOMETRIC
+          android.permission.USE_FINGERPRINT
+          android.permission.WAKE_LOCK
+          br.com.brigido.meu_bebe.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+          com.google.android.providers.gsf.permission.READ_GSERVICES
+          PERMISSOES
+          sed -i 's/^ *//' esperado.txt
+
+          if ! diff -u esperado.txt permissoes.txt; then
+            echo "::error::A lista de permissões do APK mudou."
+            echo "Nenhuma delas é perigosa (a checagem acima já passou), mas"
+            echo "a mudança precisa ser consciente: confira de onde veio e"
+            echo "atualize a lista neste arquivo se for aceitável."
+            exit 1
+          fi
+
+          echo "Nenhuma permissão de acesso a dados pessoais. Lista inalterada."
 
   apk:
     name: Gerar APK para instalar
