@@ -1,9 +1,25 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // Lê o android/app/google-services.json gerado pelo `flutterfire configure`.
     id("com.google.gms.google-services")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Chave de publicação. Fica em android/key.properties, fora do repositório
+// (veja o .gitignore) — perder esse arquivo significa nunca mais conseguir
+// atualizar o aplicativo na Play Store.
+//
+// Quando ele não existe, o build de release cai na chave de debug: dá para
+// instalar no celular e testar, mas a Play Store recusa. O PUBLICAR.md
+// explica como gerar a chave.
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+val hasReleaseKeystore = keystorePropertiesFile.exists()
+if (hasReleaseKeystore) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
 }
 
 android {
@@ -26,12 +42,32 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: trocar pela sua assinatura de release antes de publicar.
-            // Enquanto isso, assina com a chave de debug para que
-            // `flutter run --release` funcione.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseKeystore) {
+                signingConfigs.getByName("release")
+            } else {
+                // Sem key.properties o build ainda funciona para instalar e
+                // testar — só não serve para a loja.
+                signingConfigs.getByName("debug")
+            }
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

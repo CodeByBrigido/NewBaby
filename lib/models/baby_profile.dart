@@ -2,13 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import '../core/utils/age_calculator.dart';
+import 'baby_gender.dart';
 
-/// Cadastro inicial da bebê. Documento único em `users/{uid}/perfil/bebe`.
+/// Cadastro inicial da criança. Documento único em
+/// `users/{uid}/perfil/bebe`.
 @immutable
 class BabyProfile {
   const BabyProfile({
     required this.name,
     required this.birth,
+    this.gender,
     this.birthWeightGrams,
     this.birthHeightCm,
     this.hospital,
@@ -22,6 +25,10 @@ class BabyProfile {
   /// Data **e hora** de nascimento. A hora aparece no perfil; os cálculos de
   /// idade usam apenas o dia.
   final DateTime birth;
+
+  /// Menino ou menina — define a concordância dos textos. `null` em
+  /// cadastros antigos, e aí a interface usa a forma neutra.
+  final BabyGender? gender;
 
   final int? birthWeightGrams;
   final double? birthHeightCm;
@@ -49,6 +56,7 @@ class BabyProfile {
   BabyProfile copyWith({
     String? name,
     DateTime? birth,
+    BabyGender? gender,
     int? birthWeightGrams,
     double? birthHeightCm,
     String? hospital,
@@ -58,6 +66,7 @@ class BabyProfile {
     return BabyProfile(
       name: name ?? this.name,
       birth: birth ?? this.birth,
+      gender: gender ?? this.gender,
       birthWeightGrams: birthWeightGrams ?? this.birthWeightGrams,
       birthHeightCm: birthHeightCm ?? this.birthHeightCm,
       hospital: hospital ?? this.hospital,
@@ -69,6 +78,7 @@ class BabyProfile {
   Map<String, Object?> toMap() => <String, Object?>{
     'nome': name,
     'nascimento': Timestamp.fromDate(birth),
+    'genero': gender?.id,
     'pesoGramas': birthWeightGrams,
     'alturaCm': birthHeightCm,
     'hospital': hospital,
@@ -80,6 +90,7 @@ class BabyProfile {
     return BabyProfile(
       name: (map['nome'] as String?) ?? '',
       birth: _toDate(map['nascimento']) ?? DateTime.now(),
+      gender: BabyGender.fromId(map['genero'] as String?),
       birthWeightGrams: (map['pesoGramas'] as num?)?.toInt(),
       birthHeightCm: (map['alturaCm'] as num?)?.toDouble(),
       hospital: map['hospital'] as String?,

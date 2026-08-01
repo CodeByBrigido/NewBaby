@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/l10n/gendered.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/baby_profile.dart';
@@ -97,7 +98,7 @@ class AppDrawer extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    '${S.storedWithLove} ${profile?.firstName ?? 'sua bebê'} 💜',
+                    '${S.storedWithLove} ${profile?.firstName ?? G.neutral.yourBaby} 💜',
                     textAlign: TextAlign.center,
                     style: text.bodySmall?.copyWith(
                       color: AppColors.primaryDark,

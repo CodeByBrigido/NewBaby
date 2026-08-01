@@ -75,8 +75,13 @@ class Age {
 
   /// Rótulo curto, no estilo pedido na especificação:
   /// `3 dias`, `2 semanas`, `5 semanas`, `4 meses`, `1 ano e 2 meses`.
+  ///
+  /// Nenhum rótulo daqui tem gênero: no dia zero diz "No nascimento", que
+  /// descreve o momento em vez da criança. Assim o cálculo de idade fica
+  /// livre de concordância, e o texto com gênero mora só na camada de
+  /// interface, onde o cadastro está disponível.
   String get shortLabel {
-    if (totalDays == 0) return 'Recém-nascida';
+    if (totalDays == 0) return 'No nascimento';
     if (totalDays < 7) return _plural(totalDays, 'dia', 'dias');
     if (totalDays < 84) {
       return _plural(totalWeeks, 'semana', 'semanas');
@@ -93,7 +98,7 @@ class Age {
   /// Com [alwaysShowDays] o `e 0 dias` é mantido — é o formato do perfil
   /// e do menu lateral (`3 meses e 0 dias`).
   String detailedLabel({bool alwaysShowDays = false}) {
-    if (totalDays == 0) return 'Recém-nascida';
+    if (totalDays == 0) return 'No nascimento';
     if (months == 0) return _plural(totalDays, 'dia', 'dias');
 
     final String head = months < 12

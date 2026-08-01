@@ -4,16 +4,17 @@ O que está neste repositório é **código-fonte**, não um aplicativo pronto.
 Alguém precisa compilar. Este guia faz o GitHub compilar para você — sem
 instalar Flutter, Android Studio nem nada no seu computador.
 
-**Você vai precisar de:** uma conta Google (a da sua filha), um celular
-Android e cerca de meia hora, quase toda no passo 0.
+**Você vai precisar de:** uma conta Google, um celular Android e cerca de
+meia hora, quase toda no passo 0.
 
 ---
 
 ## Antes de tudo: o passo que ninguém pula
 
-O aplicativo **não funciona** sem um projeto Firebase e as credenciais
-OAuth da conta da sua filha. Nenhum APK resolve isso — se você instalar sem
-essa configuração, o app abre, mostra a tela de login e falha ali.
+O aplicativo **não funciona** sem um projeto Firebase e credenciais OAuth
+registrados em seu nome — a *identidade do aplicativo*, não a conta de
+ninguém da família. Nenhum APK resolve isso: sem essa configuração o app
+abre, mostra a tela de login e falha ali.
 
 👉 **Faça o [SETUP.md](SETUP.md) primeiro.** Ele leva você até ter três
 arquivos gerados:
@@ -28,9 +29,9 @@ Volte aqui quando tiver os dois primeiros.
 
 ## Passo 1 — guardar a configuração no GitHub
 
-Os arquivos acima ficam fora do repositório de propósito: eles apontam para
-a conta da sua filha. Vamos guardá-los como **segredos**, que ninguém vê e
-que não são expostos nem em repositório público.
+Os arquivos acima ficam fora do repositório de propósito: eles identificam
+o **seu** projeto. Vamos guardá-los como **segredos**, que ninguém vê e que
+não são expostos nem em repositório público.
 
 Na pasta do projeto, no seu computador, rode:
 
@@ -88,8 +89,12 @@ Na dúvida, pegue o **arm64-v8a**. Se ele não instalar, tente o armeabi-v7a.
 O aviso é normal: ele aparece para qualquer app que não venha da Play
 Store. Você está instalando algo que você mesmo mandou compilar.
 
-Abra o app, entre com a conta Google da sua filha, autorize o acesso ao
-Drive e preencha o cadastro. Pronto.
+Abra o app, entre com a sua conta Google, autorize o acesso ao Drive e
+preencha o cadastro — nome, se é menino ou menina, data de nascimento.
+Pronto.
+
+A pasta `Meu Bebê/` é criada no Drive da conta que fez login. Quem instalar
+depois, com outra conta, terá a própria pasta e a própria linha do tempo.
 
 ---
 
@@ -164,12 +169,13 @@ SHA-1 errado — veja "Problemas comuns" no SETUP.md.
 
 ---
 
-## Por que não está na Play Store?
+## E a Play Store?
 
-Dá para publicar (US$ 25, uma vez só), e aí a família instala como qualquer
-outro aplicativo. Mas envolve política de privacidade, formulário de
-segurança de dados e revisão do Google — que costuma implicar com apps que
-pedem acesso ao Drive.
+Dá para publicar, e aí qualquer família instala como qualquer outro
+aplicativo — cada uma entrando com a própria conta Google. O passo a passo
+está em **[PUBLICAR.md](PUBLICAR.md)**: conta de desenvolvedor (US$ 25, uma
+vez só), chave de assinatura, tela de consentimento em produção e política
+de privacidade.
 
-Para um aplicativo que vai ser instalado em dois ou três celulares da mesma
-família, o APK direto é mais simples e resolve igual.
+Para instalar em dois ou três celulares da mesma família, o APK direto
+continua sendo mais simples e resolve igual.

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/l10n/gendered.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/age_calculator.dart';
@@ -72,7 +73,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             return EmptyState(
               icon: Icons.auto_awesome_outlined,
               title: _filter == null ? S.timelineEmptyTitle : S.noItemsYet,
-              message: _filter == null ? S.timelineEmptyBody : null,
+              message: _filter == null
+                  ? G.of(profile.gender).timelineEmptyBody
+                  : null,
             );
           }
 

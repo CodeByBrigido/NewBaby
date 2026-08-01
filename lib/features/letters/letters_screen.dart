@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/l10n/gendered.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
@@ -39,10 +40,10 @@ class LettersScreen extends ConsumerWidget {
         label: const Text('Escrever'),
       ),
       body: letters.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.mail_outline,
               title: 'Nenhuma carta ainda',
-              message: 'Escreva a primeira mensagem para ela ler um dia.',
+              message: G.of(profile?.gender).lettersEmptyBody,
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),

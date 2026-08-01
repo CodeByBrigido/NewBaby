@@ -15,7 +15,12 @@ Aplicativo Flutter para Android e iOS, inteiramente em português.
 
 ## Como funciona
 
-**Os arquivos ficam no Google Drive. Os metadados ficam no Cloud Firestore.**
+**Os arquivos ficam no Google Drive de cada família. Os metadados ficam no
+Cloud Firestore.**
+
+Cada pessoa que instala entra com a própria conta Google e o aplicativo cria
+a pasta `Meu Bebê/` no Drive dela. As fotos nunca passam por servidor de
+terceiros, e o armazenamento pesado não custa nada para quem publica o app.
 
 Essa separação é o que faz o aplicativo abrir instantâneo: a linha do tempo
 e a busca leem o cache local do Firestore, sem nunca varrer a árvore de
@@ -105,6 +110,11 @@ test/              idade, formatação, modelos e linha do tempo
 
 O caminho sem instalar nada no computador: o GitHub compila e você baixa o
 APK. O passo a passo está em **[INSTALAR.md](INSTALAR.md)**.
+
+## Quero publicar na Google Play
+
+O guia completo — OAuth em produção, chave de assinatura, política de
+privacidade e ficha da loja — está em **[PUBLICAR.md](PUBLICAR.md)**.
 
 ## Rodando
 

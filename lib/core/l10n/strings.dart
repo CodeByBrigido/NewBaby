@@ -10,15 +10,14 @@ abstract final class S {
   // Login
   static const String signInWithGoogle = 'Entrar com Google';
   static const String signInNote =
-      'Todas as memórias serão salvas na conta Google da sua filha.';
+      'Suas memórias ficam guardadas no seu próprio Google Drive.';
   static const String signInError =
       'Não foi possível entrar. Verifique a conexão e tente de novo.';
 
   // Onboarding
   static const String onboardingGreeting = 'Olá!';
-  static const String onboardingSubtitle =
-      'Vamos configurar o app para guardar todas as memórias da sua bebê.';
   static const String fullName = 'Nome completo';
+  static const String gender = 'Menino ou menina?';
   static const String birthDate = 'Data de nascimento';
   static const String birthTime = 'Hora de nascimento';
   static const String birthWeight = 'Peso ao nascer';
@@ -45,16 +44,13 @@ abstract final class S {
   static const String settings = 'Configurações';
   static const String about = 'Sobre o aplicativo';
   static const String signOut = 'Sair';
-  static const String storedWithLove = 'Armazenado com amor na conta Google de';
+  static const String storedWithLove = 'Guardado com amor no Drive de';
 
   // Adicionar
   static const String addQuestion = 'O que você deseja adicionar?';
   static const String addPhoto = 'Foto';
-  static const String addPhotoHint = 'Adicionar fotos da sua bebê';
   static const String addVideo = 'Vídeo';
-  static const String addVideoHint = 'Adicionar vídeos da sua bebê';
   static const String addLetter = 'Carta';
-  static const String addLetterHint = 'Escrever uma carta para ela';
   static const String addDrawing = 'Desenho';
   static const String addDrawingHint = 'Adicionar um desenho';
   static const String addDocument = 'Documento';
@@ -64,8 +60,6 @@ abstract final class S {
 
   // Linha do tempo
   static const String timelineEmptyTitle = 'A história começa aqui';
-  static const String timelineEmptyBody =
-      'Toque no + para guardar a primeira memória da sua bebê.';
   static const String birth = 'Nascimento';
   static const String photosAdded = 'Fotos adicionadas';
   static const String photoAdded = 'Foto adicionada';
@@ -162,12 +156,11 @@ abstract final class S {
       'Esta ação não pode ser desfeita.';
 
   // Perfil
-  static const String babyInfo = 'Informações da bebê';
   static const String googleAccount = 'Conta Google';
   static const String currentAge = 'Idade atual';
   static const String signOutConfirmTitle = 'Sair da conta?';
   static const String signOutConfirmBody =
-      'Suas memórias continuam guardadas no Google Drive.';
+      'Suas memórias continuam guardadas no seu Google Drive.';
 
   // Erros e estados
   static const String genericError = 'Algo deu errado. Tente de novo.';

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/l10n/gendered.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
@@ -71,7 +72,7 @@ class ProfileScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 _Tile(
                   icon: Icons.person_outline,
-                  title: S.babyInfo,
+                  title: G.of(profile.gender).babyInfo,
                   onTap: () => context.push(Routes.babyInfo),
                 ),
                 if (email != null)

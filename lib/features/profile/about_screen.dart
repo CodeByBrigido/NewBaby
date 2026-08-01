@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/gendered.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
+import '../../state/providers.dart';
 import '../common/widgets.dart';
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme text = Theme.of(context).textTheme;
+    final G g = G.of(ref.watch(profileProvider).value?.gender);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,15 +53,7 @@ class AboutScreen extends StatelessWidget {
             style: text.bodySmall,
           ),
           const SizedBox(height: 32),
-          const SoftCard(
-            child: Text(
-              'As fotos, os vídeos e os documentos ficam guardados no Google '
-              'Drive da própria conta dela, em pastas organizadas por idade. '
-              'O aplicativo é só a maneira bonita de folhear tudo isso.\n\n'
-              'Mesmo daqui a muitos anos, sem este aplicativo, o acervo '
-              'continua lá — legível, organizado e dela.',
-            ),
-          ),
+          SoftCard(child: Text(g.aboutStorage)),
           const SizedBox(height: 20),
           const InfoNote(
             message:
