@@ -1,11 +1,41 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Envio para o Google Drive e login com a conta Google. -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Permissões que NÃO queremos, removidas na fusão dos manifestos.
+
+         O `open_filex` declara acesso de leitura à galeria inteira (imagens,
+         vídeos e até áudio) e o `video_compress` declara escrita no
+         armazenamento externo. Nenhuma delas é usada aqui: as fotos entram
+         pelo seletor do sistema (`image_picker`) e os documentos pelo SAF
+         (`file_picker`), e nenhum dos dois exige permissão.
+
+         Sem esta remoção o aplicativo apareceria na loja pedindo acesso a
+         toda a biblioteca de fotos, vídeos e música — o oposto da promessa
+         que ele faz — e cairia na política de Photo and Video Permissions do
+         Google Play, que recusa quem poderia ter usado o seletor. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:node="remove"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:node="remove"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:node="remove"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
+
+    <!-- Backup desligado. Nada do que fica no aparelho precisa sair dele: o
+         cache do Firestore (que guarda o texto das cartas), as miniaturas e
+         os downloads são todos recuperáveis do Drive na próxima entrada.
+         Desligar evita que essa cópia viaje no backup automático do Android e
+         na transferência entre aparelhos.
+
+         `dataExtractionRules` é o formato do Android 12+; `fullBackupContent`
+         cobre as versões anteriores. Os dois apontam para "não copie nada". -->
     <application
         android:label="Meu Bebê"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".MainActivity"
             android:exported="true"

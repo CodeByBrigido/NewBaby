@@ -37,7 +37,6 @@ dependencies:
   video_player: ^2.11.0
 
   # Apresentação
-  cached_network_image: ^3.4.1
   fl_chart: ^1.2.0
 
   # Utilidades
