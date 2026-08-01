@@ -22,7 +22,7 @@ class AuthFailure implements Exception {
 /// pessoa (e devolve o `idToken` que alimenta o Firebase Auth), e o
 /// `authorizationClient` cuida do consentimento para os escopos do Drive.
 /// Isso significa que o token de acesso precisa ser pedido de novo a cada uso
-/// — o próprio plugin devolve um token válido do cache quando possível.
+/// - o próprio plugin devolve um token válido do cache quando possível.
 class AuthService {
   AuthService({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignIn})
     : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -31,7 +31,7 @@ class AuthService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  /// `drive.file` dá acesso apenas ao que o próprio aplicativo cria — é um
+  /// `drive.file` dá acesso apenas ao que o próprio aplicativo cria - é um
   /// escopo não sensível, então não exige verificação do app pelo Google.
   static const List<String> driveScopes = <String>[
     'https://www.googleapis.com/auth/drive.file',
@@ -167,7 +167,7 @@ class AuthService {
   /// Diferente de [signOut], que apenas encerra a sessão: aqui o consentimento
   /// do Drive some da conta Google da pessoa, e o aplicativo deixa de existir
   /// na lista de aplicativos com acesso. É o que se espera de quem apaga a
-  /// conta — sair não devolve a permissão.
+  /// conta - sair não devolve a permissão.
   Future<void> disconnect() async {
     _account = null;
     try {

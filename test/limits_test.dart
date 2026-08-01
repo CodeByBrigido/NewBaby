@@ -7,7 +7,7 @@ import 'package:meu_bebe/core/utils/limits.dart';
 /// usa para não deixar a pessoa escrever além do permitido, e nas regras do
 /// Firestore, que recusam quem não passou pela interface.
 ///
-/// A regra do servidor é a que vale — ela não pode depender de o cliente se
+/// A regra do servidor é a que vale - ela não pode depender de o cliente se
 /// comportar. Mas se os dois saírem de sincronia, alguém escreve à vontade e
 /// só descobre o limite na hora de salvar, com uma mensagem genérica. Este
 /// teste existe para que essa divergência apareça aqui, e não lá.

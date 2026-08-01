@@ -12,7 +12,7 @@ import '../common/widgets.dart';
 
 /// Cartão de um item da linha do tempo. O desenho muda com o tipo: fotos
 /// viram grade, vídeo vira player, carta vira texto, crescimento vira
-/// números — o que evita a sensação de lista de arquivos.
+/// números - o que evita a sensação de lista de arquivos.
 class TimelineCard extends ConsumerWidget {
   const TimelineCard({required this.entry, super.key});
 

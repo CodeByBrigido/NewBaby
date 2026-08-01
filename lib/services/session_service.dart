@@ -12,7 +12,7 @@ import 'media_optimizer.dart';
 import 'memory_repository.dart';
 import 'thumbnail_service.dart';
 
-/// O que fazer com a pasta `Meu Bebê` no Drive ao apagar a conta.
+/// O que fazer com a pasta da cápsula no Drive ao apagar a conta.
 enum DriveDisposal {
   /// O acervo continua onde está, sob controle exclusivo da família.
   keep,
@@ -45,7 +45,7 @@ class SessionService {
 
   /// Marca que o cache do Firestore deve ser descartado na próxima abertura.
   ///
-  /// O `clearPersistence` do Firestore só pode rodar com o cliente parado —
+  /// O `clearPersistence` do Firestore só pode rodar com o cliente parado -
   /// depois de `terminate()`, qualquer outra chamada na mesma instância lança
   /// exceção. Fazer isso no meio da sessão deixaria o aplicativo inutilizável
   /// até o próximo início. Então a limpeza fica agendada e acontece em
@@ -105,7 +105,7 @@ class SessionService {
   /// Descarta o cache do Firestore quando há uma limpeza pendente.
   ///
   /// Chamado no início do aplicativo, antes da primeira consulta. É o único
-  /// momento em que o `clearPersistence` é seguro — o cliente ainda não
+  /// momento em que o `clearPersistence` é seguro - o cliente ainda não
   /// começou.
   ///
   /// O que está sendo apagado aqui não é pouco: o cache do Firestore guarda,
@@ -116,7 +116,7 @@ class SessionService {
   /// outra pessoa entrou sem fechar o aplicativo, a marca continua posta, e
   /// no próximo início o `clearPersistence` levaria junto as escritas que a
   /// segunda pessoa fez sem internet e que ainda estavam na fila. Com sessão
-  /// ativa a limpeza é adiada — o próximo "Sair" volta a marcá-la.
+  /// ativa a limpeza é adiada - o próximo "Sair" volta a marcá-la.
   static Future<void> clearPendingCache({required bool signedIn}) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();

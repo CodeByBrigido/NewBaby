@@ -15,7 +15,7 @@ import '../../core/utils/error_text.dart';
 ///
 /// Existe por dois motivos, e os dois pesam: a Google Play exige que todo
 /// aplicativo com conta ofereça a exclusão de dentro do próprio aplicativo, e
-/// desinstalar não apaga nada — sem esta tela, o cadastro da criança e o texto
+/// desinstalar não apaga nada - sem esta tela, o cadastro da criança e o texto
 /// das cartas ficariam no servidor para sempre.
 class DeleteAccountScreen extends ConsumerStatefulWidget {
   const DeleteAccountScreen({super.key});

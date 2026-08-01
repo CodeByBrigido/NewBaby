@@ -18,7 +18,7 @@ import '../services/thumbnail_service.dart';
 /// Chave do Scaffold da casca do aplicativo.
 ///
 /// As telas internas (Início, Linha do Tempo) têm o próprio Scaffold, então
-/// `Scaffold.of(context)` acharia o Scaffold errado — o de dentro, que não
+/// `Scaffold.of(context)` acharia o Scaffold errado - o de dentro, que não
 /// tem menu lateral. A chave dá acesso direto ao Scaffold externo, que é o
 /// dono do menu.
 final Provider<GlobalKey<ScaffoldState>> shellScaffoldKeyProvider =
@@ -61,7 +61,7 @@ final Provider<MemoryRepository> memoryRepositoryProvider =
       return repository;
     });
 
-/// Sair e apagar a conta — os dois caminhos que precisam falar com todos os
+/// Sair e apagar a conta - os dois caminhos que precisam falar com todos os
 /// serviços ao mesmo tempo.
 final Provider<SessionService> sessionServiceProvider =
     Provider<SessionService>(
@@ -115,7 +115,7 @@ final StreamProvider<List<Entry>> trashProvider = StreamProvider<List<Entry>>((
   return ref.watch(firestoreServiceProvider).watchTrash(uid);
 });
 
-/// Entradas de um tipo só — usado pelas telas de Fotos, Vídeos, Cartas...
+/// Entradas de um tipo só - usado pelas telas de Fotos, Vídeos, Cartas...
 final entriesOfTypeProvider = Provider.family<List<Entry>, EntryType>((
   Ref ref,
   EntryType type,

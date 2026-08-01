@@ -12,8 +12,8 @@
          (`file_picker`), e nenhum dos dois exige permissão.
 
          Sem esta remoção o aplicativo apareceria na loja pedindo acesso a
-         toda a biblioteca de fotos, vídeos e música — o oposto da promessa
-         que ele faz — e cairia na política de Photo and Video Permissions do
+         toda a biblioteca de fotos, vídeos e música - o oposto da promessa
+         que ele faz - e cairia na política de Photo and Video Permissions do
          Google Play, que recusa quem poderia ter usado o seletor. -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:node="remove"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:node="remove"/>

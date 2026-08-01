@@ -13,7 +13,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
-/// Escrever ou editar uma carta. Só dois campos — título e mensagem.
+/// Escrever ou editar uma carta. Só dois campos - título e mensagem.
 class LetterEditorScreen extends ConsumerStatefulWidget {
   const LetterEditorScreen({super.key, this.entryId});
 

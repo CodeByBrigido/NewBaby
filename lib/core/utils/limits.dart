@@ -4,7 +4,7 @@
 /// alguém escreva além do permitido, e em `firebase/firestore.rules`, para o
 /// servidor recusar quem não passou pela interface.
 ///
-/// A duplicação é proposital — a regra do servidor é a que vale, e ela não
+/// A duplicação é proposital - a regra do servidor é a que vale, e ela não
 /// pode depender de o cliente se comportar. Mas se um lado mudar sem o outro,
 /// a pessoa escreve à vontade e só descobre o limite na hora de salvar, com
 /// uma mensagem genérica. `test/limits_test.dart` compara os dois arquivos

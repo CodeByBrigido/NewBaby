@@ -170,7 +170,7 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
         }
         final File? file = snapshot.data;
         if (file == null) {
-          // Enquanto baixa, a miniatura já preenche a tela — nunca um vazio.
+          // Enquanto baixa, a miniatura já preenche a tela - nunca um vazio.
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[

@@ -10,7 +10,7 @@ Ele **não** pede a conta nem o Google Drive de ninguém da sua família.
 O que você vai criar aqui é a **identidade do aplicativo**: um projeto
 Firebase e credenciais OAuth registrados em **seu nome, como
 desenvolvedor**. É o crachá que o Google exige para deixar o app pedir
-login — mais parecido com o CNPJ da empresa do que com o CPF do cliente.
+login - mais parecido com o CNPJ da empresa do que com o CPF do cliente.
 
 Como esse crachá vai compilado dentro do APK, ele precisa existir **antes**
 de compilar. Sem ele, o Google recusa qualquer tentativa de login.
@@ -50,7 +50,7 @@ dart pub global activate flutterfire_cli
    **Google**.
 
 O plano gratuito (Spark) dá conta com folga: o Firestore guarda só
-metadados — nenhuma foto passa por ele.
+metadados - nenhuma foto passa por ele.
 
 ---
 
@@ -93,11 +93,11 @@ Em **APIs e serviços → Tela de permissão OAuth**:
 
 > Enquanto a tela estiver em "Teste", **só os e-mails cadastrados aqui
 > conseguem entrar** (limite de 100). Para abrir ao público da loja é
-> preciso publicar a tela em produção — veja o
+> preciso publicar a tela em produção - veja o
 > [PUBLICAR.md](PUBLICAR.md).
 
 > `drive.file` dá acesso **apenas** aos arquivos que o próprio aplicativo
-> cria — é o escopo mais estreito do Drive, escolhido justamente por ser o
+> cria - é o escopo mais estreito do Drive, escolhido justamente por ser o
 > que o Google recomenda para evitar a revisão pesada. Com os usuários de
 > teste cadastrados, funciona sem verificação nenhuma. Para abrir ao
 > público, confirme a política vigente: veja o [PUBLICAR.md](PUBLICAR.md).
@@ -131,7 +131,7 @@ Ao gerar a versão de release, repita com o SHA-1 da sua chave de publicação
 - Tipo: **iOS**
 - ID do pacote: `br.com.brigido.meuBebe`
 
-### 6.3 Web — o mais importante
+### 6.3 Web - o mais importante
 
 - Tipo: **Aplicativo da Web**
 - Nome: `Meu Bebê (serverClientId)`
@@ -210,7 +210,7 @@ flutter pub get
 flutter run
 ```
 
-No primeiro acesso o aplicativo pede o login, cria a pasta `Meu Bebê` no
+No primeiro acesso o aplicativo pede o login, cria a pasta `Cápsula do Tempo - Meu Bebê` no
 Google Drive com as seis subpastas e abre o cadastro inicial.
 
 ---
@@ -218,7 +218,7 @@ Google Drive com as seis subpastas e abre o cadastro inicial.
 ## Não quer instalar Flutter no computador?
 
 Depois de concluir os passos acima, o **[INSTALAR.md](INSTALAR.md)** mostra
-como fazer o próprio GitHub compilar o APK para você — basta guardar dois
+como fazer o próprio GitHub compilar o APK para você - basta guardar dois
 segredos no repositório e clicar num botão.
 
 ---
@@ -246,7 +246,7 @@ errado. Ele tem que ser o ID do cliente **Web** (passo 6.3).
 Falta adicionar o e-mail em **Usuários de teste**, no passo 5.
 
 **A foto sobe mas a pasta não aparece no Drive**
-Procure por `Meu Bebê` na raiz do Drive **da conta que está logada no
+Procure por `Cápsula do Tempo - Meu Bebê` na raiz do Drive **da conta que está logada no
 aplicativo**. Se você entrou com outra conta, a pasta está lá.
 
 **O vídeo falha ao converter**
@@ -260,11 +260,11 @@ no cartão marcado com erro.
 
 | O quê | Onde |
 |---|---|
-| Fotos, vídeos, desenhos, documentos | Google Drive de quem está logado, em `Meu Bebê/` |
+| Fotos, vídeos, desenhos, documentos | Google Drive de quem está logado, em `Cápsula do Tempo - Meu Bebê/` |
 | Texto das cartas, peso e altura, índice da linha do tempo | Cloud Firestore do seu projeto, em `users/{uid}` |
 | Miniaturas e arquivos temporários | Cache do próprio aparelho |
 | Fotos e vídeos originais | Continuam na galeria do celular, intactos |
 
 Se um dia este aplicativo deixar de existir, o acervo continua no Drive de
-cada família — organizado por idade, com nomes de arquivo por data, e
+cada família - organizado por idade, com nomes de arquivo por data, e
 navegável por qualquer pessoa.

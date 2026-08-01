@@ -26,12 +26,31 @@ class DriveQuota {
 ///
 /// O Drive é só o armazém: a estrutura de pastas existe para que, daqui a
 /// muitos anos, o acervo continue navegável mesmo sem o aplicativo.
+///
+/// ## O que este aplicativo NÃO alcança
+///
+/// O único escopo pedido é `drive.file` (veja [AuthService.driveScopes]), que
+/// dá acesso **por arquivo, apenas ao que o próprio aplicativo criou**. Uma
+/// pasta que já existia na conta é invisível daqui: não aparece em listagem
+/// nenhuma, e um `files.get` no id dela responde 404. Isso não é uma escolha
+/// do nosso código, é o que o Google impõe no servidor - o token que
+/// recebemos não carrega permissão para o resto do Drive.
+///
+/// Por isso também nada aqui consulta a raiz do Drive. O id da pasta da
+/// cápsula é guardado no Firestore e reaproveitado; quando falta, a pasta é
+/// criada, nunca procurada. Uma consequência: se a pessoa já tiver uma pasta
+/// com o mesmo nome, feita à mão, o aplicativo não a enxerga e cria a sua.
 class DriveService {
   DriveService(this._auth);
 
   final AuthService _auth;
 
-  static const String rootFolderName = 'Meu Bebê';
+  /// A pasta única onde tudo do aplicativo vive, na raiz do Drive.
+  ///
+  /// O nome é distintivo de propósito: nada do aplicativo é criado fora
+  /// daqui, e quem abrir o Drive precisa reconhecer de imediato o que é da
+  /// cápsula e o que é dele.
+  static const String rootFolderName = 'Cápsula do Tempo - Meu Bebê';
   static const String _folderMime = 'application/vnd.google-apps.folder';
 
   /// Pastas de primeiro nível criadas no primeiro acesso.
@@ -53,14 +72,14 @@ class DriveService {
     }
   }
 
-  /// Cria (ou reencontra) `Meu Bebê` e as seis pastas de categoria.
+  /// Cria (ou reencontra) a pasta da cápsula e as seis de categoria.
   ///
-  /// As pastas de idade — `Semana 07`, `Mês 14` — **não** são criadas aqui:
+  /// As pastas de idade - `Semana 07`, `Mês 14` - **não** são criadas aqui:
   /// seriam mais de cem chamadas no primeiro acesso. Elas nascem sob demanda
   /// em [ensureAgeFolder], no primeiro conteúdo daquela idade.
-  Future<String> ensureRootStructure() async {
+  Future<String> ensureRootStructure({String? knownRootId}) async {
     return _withApi((drive.DriveApi api) async {
-      final String rootId = await _ensureFolder(api, rootFolderName, null);
+      final String rootId = await _ensureRootFolder(api, knownRootId);
       await Future.wait(
         topLevelFolders.map((String name) => _ensureFolder(api, name, rootId)),
       );
@@ -68,7 +87,29 @@ class DriveService {
     });
   }
 
-  /// Pasta de uma categoria (`Fotos`, `Cartas`, ...) dentro de `Meu Bebê`.
+  /// Encontra ou cria a pasta da cápsula **sem consultar a raiz do Drive**.
+  ///
+  /// O id vem do Firestore, que é onde ele fica guardado desde o cadastro.
+  /// Se ainda não existe, a pasta é criada direto. Em nenhum momento o
+  /// aplicativo pergunta ao Drive o que mais existe na raiz da conta.
+  Future<String> _ensureRootFolder(drive.DriveApi api, String? knownId) async {
+    if (knownId != null && knownId.isNotEmpty) {
+      try {
+        final drive.File existing =
+            await api.files.get(knownId, $fields: 'id,trashed') as drive.File;
+        final String? id = existing.id;
+        if (existing.trashed != true && id != null) return id;
+      } on drive.DetailedApiRequestError catch (e) {
+        // 404 é a pasta apagada de vez: cabe criar outra. Qualquer outro
+        // erro é rede ou permissão, e criar uma segunda pasta aí seria
+        // duplicar o acervo da pessoa por causa de uma falha passageira.
+        if (e.status != 404) rethrow;
+      }
+    }
+    return _createFolder(api, rootFolderName, null);
+  }
+
+  /// Pasta de uma categoria (`Fotos`, `Cartas`, ...) dentro da cápsula.
   Future<String> ensureCategoryFolder(String rootId, String category) {
     return _withApi(
       (drive.DriveApi api) => _ensureFolder(api, category, rootId),
@@ -87,20 +128,22 @@ class DriveService {
     });
   }
 
+  /// Subpasta dentro da cápsula: `Fotos`, `Semana 07`.
+  ///
+  /// A busca aqui é sempre limitada a um `parentId` que o próprio aplicativo
+  /// criou - nunca à raiz da conta. E, mesmo assim, o `drive.file` já
+  /// devolveria apenas o que é nosso.
   Future<String> _ensureFolder(
     drive.DriveApi api,
     String name,
-    String? parentId,
+    String parentId,
   ) async {
     final String escaped = name.replaceAll(r'\', r'\\').replaceAll("'", r"\'");
-    final String parentClause = parentId == null
-        ? "'root' in parents"
-        : "'$parentId' in parents";
 
     final drive.FileList found = await api.files.list(
       q:
           "name = '$escaped' and mimeType = '$_folderMime' "
-          'and $parentClause and trashed = false',
+          "and '$parentId' in parents and trashed = false",
       $fields: 'files(id)',
       pageSize: 1,
     );
@@ -109,6 +152,14 @@ class DriveService {
       return files.first.id!;
     }
 
+    return _createFolder(api, name, parentId);
+  }
+
+  Future<String> _createFolder(
+    drive.DriveApi api,
+    String name,
+    String? parentId,
+  ) async {
     final drive.File created = await api.files.create(
       drive.File(
         name: name,
@@ -185,7 +236,7 @@ class DriveService {
     }
   }
 
-  /// Baixa o conteúdo de um arquivo — usado para abrir documentos e
+  /// Baixa o conteúdo de um arquivo - usado para abrir documentos e
   /// compartilhar mídia.
   Future<File> downloadTo(String driveId, File target) async {
     final gapis.AuthClient client = await _auth.driveClient();

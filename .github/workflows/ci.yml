@@ -38,8 +38,8 @@ jobs:
     name: Regras do Firestore
     runs-on: ubuntu-latest
     # As regras são a única barreira entre os dados de uma família e os de
-    # outra. Aqui elas rodam contra o emulador oficial do Firestore — o mesmo
-    # motor que a produção usa —, e não contra uma leitura nossa do arquivo.
+    # outra. Aqui elas rodam contra o emulador oficial do Firestore - o mesmo
+    # motor que a produção usa -, e não contra uma leitura nossa do arquivo.
     steps:
       - uses: actions/checkout@v5
 
@@ -51,7 +51,7 @@ jobs:
 
       - uses: actions/setup-java@v4
         # O emulador do Firestore é um .jar, e o firebase-tools exige JDK 21
-        # ou superior — com 17 ele nem chega a subir o emulador.
+        # ou superior - com 17 ele nem chega a subir o emulador.
         #
         # É um Java diferente do usado no build Android (17, exigido pelo AGP
         # e pelos plugins). São jobs separados, então não conflitam.

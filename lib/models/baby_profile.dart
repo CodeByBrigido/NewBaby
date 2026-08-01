@@ -26,7 +26,7 @@ class BabyProfile {
   /// idade usam apenas o dia.
   final DateTime birth;
 
-  /// Menino ou menina — define a concordância dos textos. `null` em
+  /// Menino ou menina - define a concordância dos textos. `null` em
   /// cadastros antigos, e aí a interface usa a forma neutra.
   final BabyGender? gender;
 
@@ -37,10 +37,13 @@ class BabyProfile {
   /// Foto do nascimento já enviada ao Drive.
   final String? photoDriveId;
 
-  /// Id da pasta `Meu Bebê` no Drive, raiz de toda a estrutura.
+  /// Id da pasta da cápsula no Drive, raiz de toda a estrutura.
+  ///
+  /// É por este id que a pasta é reencontrada: o aplicativo nunca procura
+  /// nada na raiz do Drive de quem instalou.
   final String? rootFolderId;
 
-  /// Primeiro nome — o que aparece nos cabeçalhos.
+  /// Primeiro nome - o que aparece nos cabeçalhos.
   String get firstName => name.trim().split(RegExp(r'\s+')).first;
 
   DateTime get birthDay => AgeCalculator.dayOf(birth);

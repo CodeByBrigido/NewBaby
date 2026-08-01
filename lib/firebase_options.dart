@@ -1,4 +1,4 @@
-// PLACEHOLDER — substitua este arquivo pelo gerado no seu projeto Firebase.
+// PLACEHOLDER - substitua este arquivo pelo gerado no seu projeto Firebase.
 //
 //   dart pub global activate flutterfire_cli
 //   flutterfire configure --project=<id-do-seu-projeto>

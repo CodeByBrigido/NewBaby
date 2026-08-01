@@ -7,7 +7,7 @@
 
   Não há perda: o acervo está no Google Drive e o índice no Firestore. Ao
   entrar de novo, o aplicativo remonta o que precisa. O que ficaria de fora do
-  aparelho, se nada fosse dito aqui, é o cache do Firestore — que contém o
+  aparelho, se nada fosse dito aqui, é o cache do Firestore - que contém o
   nome da criança, a data de nascimento e o texto integral das cartas.
 -->
 <data-extraction-rules>

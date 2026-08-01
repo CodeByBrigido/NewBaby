@@ -71,7 +71,7 @@ abstract final class S {
   static const String filterAll = 'Tudo';
   static const String filterTitle = 'Filtrar por tipo';
 
-  // Marcos sugeridos — atalhos, nunca obrigatórios.
+  // Marcos sugeridos - atalhos, nunca obrigatórios.
   static const List<String> milestoneSuggestions = <String>[
     'Primeira foto',
     'Primeiro banho',
@@ -134,6 +134,12 @@ abstract final class S {
   // Estatísticas
   static const String storageUsed = 'Armazenamento usado';
   static const String storageOf = 'de';
+  static const String capsuleStorage = 'Cápsula do Tempo';
+  static const String driveStorage = 'Seu Google Drive';
+  static const String driveStorageNote =
+      'O total acima é da sua conta Google inteira. O aplicativo enxerga '
+      'apenas os arquivos que ele mesmo criou, dentro da pasta da cápsula. '
+      'O conteúdo do resto do seu Drive ele não alcança.';
 
   // Crescimento
   static const String viewChart = 'Ver gráfico';
@@ -172,7 +178,7 @@ abstract final class S {
       'Também retiramos a permissão de acesso ao seu Google Drive.\n\n'
       'Esta ação não pode ser desfeita.';
   static const String deleteAccountDriveQuestion =
-      'E a pasta "Meu Bebê" no seu Google Drive?';
+      'E a pasta "Cápsula do Tempo" no seu Google Drive?';
   static const String deleteAccountKeepDrive = 'Manter os arquivos';
   static const String deleteAccountKeepDriveHint =
       'As fotos, os vídeos e os documentos continuam no seu Drive, '

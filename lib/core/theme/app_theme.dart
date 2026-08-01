@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
 
-/// Raio padrão dos cartões — cantos generosos, como no mockup.
+/// Raio padrão dos cartões - cantos generosos, como no mockup.
 const double kCardRadius = 20;
 const double kPagePadding = 20;
 

@@ -3,7 +3,7 @@ import '../../models/baby_gender.dart';
 /// Os textos que mudam conforme a criança é menino ou menina.
 ///
 /// Tudo que não muda continua em [S]. Aqui ficam só as frases em que o
-/// português exige concordância — e a forma neutra, para as telas que
+/// português exige concordância - e a forma neutra, para as telas que
 /// aparecem antes de o cadastro existir (login e início do cadastro).
 ///
 /// A escolha do neutro é o masculino porque "bebê" é substantivo masculino
@@ -14,7 +14,7 @@ class G {
   /// Textos para uma criança já cadastrada.
   factory G.of(BabyGender? gender) => G._(gender);
 
-  /// Antes de saber o gênero — login e primeira parte do cadastro.
+  /// Antes de saber o gênero - login e primeira parte do cadastro.
   static const G neutral = G._(null);
 
   final BabyGender? _gender;
@@ -38,7 +38,7 @@ class G {
   /// `para ela` / `para ele`
   String get forThem => _pick('para ela', 'para ele');
 
-  /// `a` / `o` — artigo para concordar com um nome próprio.
+  /// `a` / `o` - artigo para concordar com um nome próprio.
   String get article => _pick('a', 'o');
 
   // -------------------------------------------------------------- frases
@@ -67,5 +67,5 @@ class G {
       'da sua própria conta, em pastas organizadas por idade. O aplicativo é '
       'só a maneira bonita de folhear tudo isso.\n\n'
       'Mesmo daqui a muitos anos, sem este aplicativo, o acervo continua '
-      'lá — legível, organizado e $theirs.';
+      'lá - legível, organizado e $theirs.';
 }

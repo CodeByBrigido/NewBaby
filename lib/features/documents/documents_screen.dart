@@ -34,7 +34,7 @@ class DocumentsScreen extends ConsumerWidget {
               icon: Icons.description_outlined,
               title: 'Nenhum documento ainda',
               message:
-                  'Certidão, carteira de vacinação, passaporte — tudo em um '
+                  'Certidão, carteira de vacinação, passaporte - tudo em um '
                   'lugar só.',
             )
           : ListView.separated(

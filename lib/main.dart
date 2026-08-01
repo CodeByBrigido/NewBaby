@@ -23,7 +23,7 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Espera a sessão anterior ser restaurada. O primeiro evento de
-  // `authStateChanges` já vem com o estado final — `currentUser` lido direto
+  // `authStateChanges` já vem com o estado final - `currentUser` lido direto
   // pode ainda estar nulo enquanto a restauração acontece.
   final User? restored = await FirebaseAuth.instance.authStateChanges().first;
 

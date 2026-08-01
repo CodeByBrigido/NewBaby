@@ -163,7 +163,7 @@ class _GoogleButton extends StatelessWidget {
   }
 }
 
-/// O "G" do Google desenhado em quatro quadrantes — evita depender de um
+/// O "G" do Google desenhado em quatro quadrantes - evita depender de um
 /// arquivo de imagem só para o botão de login.
 class _GoogleMark extends StatelessWidget {
   const _GoogleMark();

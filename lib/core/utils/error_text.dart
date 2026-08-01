@@ -9,7 +9,7 @@ import '../../services/media_optimizer.dart';
 /// Transforma uma exceção em algo que dá para mostrar a uma pessoa.
 ///
 /// Exceções carregam caminho completo de arquivo, id do Drive e detalhe de
-/// protocolo. Nada disso ajuda quem está com o celular na mão — e num
+/// protocolo. Nada disso ajuda quem está com o celular na mão - e num
 /// aplicativo que guarda o registro de uma criança, o hábito de despejar o
 /// texto cru na tela (e no banco, onde ele fica gravado) é o que um dia
 /// entrega algo que não devia.

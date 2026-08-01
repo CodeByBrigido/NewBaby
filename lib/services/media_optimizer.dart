@@ -12,7 +12,7 @@ import 'package:video_compress/video_compress.dart';
 /// Resultado de uma otimização: o arquivo **temporário** que será enviado.
 ///
 /// O original nunca sai do aparelho e nunca é alterado. O arquivo aqui dentro
-/// é descartável — sempre chame [dispose] depois do upload.
+/// é descartável - sempre chame [dispose] depois do upload.
 class OptimizedMedia {
   OptimizedMedia({
     required this.file,
@@ -54,8 +54,8 @@ class OptimizedMedia {
 /// Comprime fotos e vídeos antes do upload, sem perguntar nada ao usuário.
 ///
 /// Regras fixas, vindas da especificação:
-/// * foto — metade da resolução, qualidade visual preservada;
-/// * vídeo — sempre 720p com bitrate otimizado;
+/// * foto - metade da resolução, qualidade visual preservada;
+/// * vídeo - sempre 720p com bitrate otimizado;
 /// * o original permanece no celular e o temporário é apagado após o envio.
 class MediaOptimizer {
   MediaOptimizer({this.imageQuality = 88});
@@ -98,7 +98,7 @@ class MediaOptimizer {
       minHeight: worthResizing ? targetHeight : (size?.$2 ?? 1080),
       // O EXIF é descartado de propósito. Ele carrega latitude e longitude,
       // ou seja, o endereço de casa, da creche e da maternidade dentro de
-      // cada foto — e vai junto no dia em que alguém compartilhar o arquivo.
+      // cada foto - e vai junto no dia em que alguém compartilhar o arquivo.
       //
       // A orientação não depende disso: `autoCorrectionAngle` já é `true` por
       // padrão e gira a imagem antes de gravar, então a foto tirada de lado

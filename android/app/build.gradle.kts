@@ -9,7 +9,7 @@ plugins {
 }
 
 // Chave de publicação. Fica em android/key.properties, fora do repositório
-// (veja o .gitignore) — perder esse arquivo significa nunca mais conseguir
+// (veja o .gitignore) - perder esse arquivo significa nunca mais conseguir
 // atualizar o aplicativo na Play Store.
 //
 // Quando ele não existe, o build de release cai na chave de debug: dá para
@@ -59,7 +59,7 @@ android {
                 signingConfigs.getByName("release")
             } else {
                 // Sem key.properties o build ainda funciona para instalar e
-                // testar — só não serve para a loja.
+                // testar - só não serve para a loja.
                 signingConfigs.getByName("debug")
             }
             isMinifyEnabled = true

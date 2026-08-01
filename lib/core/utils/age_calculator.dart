@@ -95,7 +95,7 @@ class Age {
   /// Rótulo detalhado usado na linha do tempo, como no mockup:
   /// `22 dias`, `1 mês e 29 dias`, `2 meses e 27 dias`, `1 ano e 2 meses`.
   ///
-  /// Com [alwaysShowDays] o `e 0 dias` é mantido — é o formato do perfil
+  /// Com [alwaysShowDays] o `e 0 dias` é mantido - é o formato do perfil
   /// e do menu lateral (`3 meses e 0 dias`).
   String detailedLabel({bool alwaysShowDays = false}) {
     if (totalDays == 0) return 'No nascimento';
@@ -134,8 +134,8 @@ class Age {
 
 /// Converte data de nascimento + data do evento em idade e pasta de destino.
 ///
-/// Este é o núcleo do aplicativo: tudo — nome da pasta no Drive, rótulo da
-/// linha do tempo, agrupamento das telas de fotos e vídeos — sai daqui.
+/// Este é o núcleo do aplicativo: tudo - nome da pasta no Drive, rótulo da
+/// linha do tempo, agrupamento das telas de fotos e vídeos - sai daqui.
 abstract final class AgeCalculator {
   /// Normaliza para meia-noite, para que a idade não dependa do horário.
   static DateTime dayOf(DateTime date) =>
@@ -144,7 +144,7 @@ abstract final class AgeCalculator {
   /// Idade em [date] para quem nasceu em [birth].
   ///
   /// Datas anteriores ao nascimento são tratadas como o próprio dia do
-  /// nascimento — nada no aplicativo deve exibir idade negativa.
+  /// nascimento - nada no aplicativo deve exibir idade negativa.
   static Age ageAt(DateTime birth, DateTime date) {
     final DateTime b = dayOf(birth);
     final DateTime d = dayOf(date);
@@ -156,8 +156,8 @@ abstract final class AgeCalculator {
 
     // O mês só está completo quando a data já alcançou o aniversário mensal.
     // A comparação usa [addMonths] em vez de comparar o dia diretamente para
-    // que quem nasce em 31/01 complete um mês em 28/02 — o último dia de
-    // fevereiro — e não fique "0 meses" até 01/03.
+    // que quem nasce em 31/01 complete um mês em 28/02 - o último dia de
+    // fevereiro - e não fique "0 meses" até 01/03.
     int months = (d.year - b.year) * 12 + (d.month - b.month);
     if (months > 0 && addMonths(b, months).isAfter(d)) months -= 1;
     if (months < 0) months = 0;

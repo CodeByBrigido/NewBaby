@@ -7,7 +7,7 @@ import '../models/entry.dart';
 
 /// Índice de tudo que existe no aplicativo.
 ///
-/// O Firestore guarda apenas metadados — nenhum byte de foto passa por aqui.
+/// O Firestore guarda apenas metadados - nenhum byte de foto passa por aqui.
 /// Como o cache offline fica no aparelho, a linha do tempo abre instantânea e
 /// a busca acontece sem rede, sem nunca varrer as pastas do Drive.
 class FirestoreService {
