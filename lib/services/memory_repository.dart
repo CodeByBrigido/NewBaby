@@ -269,6 +269,13 @@ class MemoryRepository {
         done: pending.length,
         total: pending.length,
       );
+
+      // Só depois de o Firestore já ter os ids do Drive: a partir daqui a
+      // miniatura vem do cache por driveId e a cópia do seletor não faz
+      // mais falta. Antes disso ela ainda é a fonte da imagem na tela.
+      for (final PendingFile item in pending) {
+        await _discardPickedCopy(item.path);
+      }
     } on Exception catch (e) {
       // A mensagem é traduzida antes de sair daqui. O texto cru da exceção
       // traz caminho de arquivo e id do Drive, e este campo não é passageiro:
@@ -284,6 +291,45 @@ class MemoryRepository {
       for (final OptimizedMedia media in temporaries) {
         if (media.file.path != media.originalPath) await media.dispose();
       }
+    }
+  }
+
+  /// Apaga a cópia que o seletor deixou no cache do aplicativo.
+  ///
+  /// O `image_picker` e o `file_picker` não entregam o arquivo da galeria:
+  /// eles copiam para `{cache}/{uuid}/{nome}` e devolvem esse caminho. A cópia
+  /// tem a resolução original e ninguém a apaga — sem isto, cada foto
+  /// escolhida deixa uma segunda via inteira no aparelho, para sempre.
+  ///
+  /// Só apaga o que está **dentro** do diretório temporário do aplicativo. O
+  /// arquivo da galeria nunca é tocado: é dele que a promessa "o original
+  /// continua no celular, intacto" depende.
+  ///
+  /// Em envio que falhou isto não roda: o caminho é o que o reenvio usa.
+  /// Se [path] está mesmo dentro do cache do aplicativo.
+  ///
+  /// É a única coisa que separa "apagar a cópia do seletor" de "apagar a foto
+  /// da família". Fica isolada e testada por isso.
+  static bool isInsideAppCache(String cacheRoot, String path) =>
+      p.isWithin(cacheRoot, path);
+
+  Future<void> _discardPickedCopy(String path) async {
+    try {
+      final Directory temp = await getTemporaryDirectory();
+      if (!isInsideAppCache(temp.path, path)) return;
+
+      final File file = File(path);
+      if (!await file.exists()) return;
+      await file.delete();
+
+      // Cada escolha ganha uma pasta com um uuid; vazia, ela só ocupa espaço.
+      final Directory parent = file.parent;
+      if (isInsideAppCache(temp.path, parent.path) &&
+          await parent.list().isEmpty) {
+        await parent.delete();
+      }
+    } on FileSystemException catch (e) {
+      debugPrint('Cópia do seletor não pôde ser apagada: $e');
     }
   }
 

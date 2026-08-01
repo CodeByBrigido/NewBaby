@@ -98,6 +98,51 @@ void main() {
     });
   });
 
+  group('a foto da galeria nunca é apagada', () {
+    // O seletor copia o arquivo escolhido para o cache do aplicativo e
+    // devolve esse caminho. A cópia é apagada depois do envio; o original,
+    // que está na galeria, jamais. Esta é a checagem que separa as duas
+    // coisas — e errar aqui significa apagar a foto de alguém.
+    const String cache = '/data/user/0/br.com.brigido.meu_bebe/cache';
+
+    test('a cópia do seletor é reconhecida', () {
+      expect(
+        MemoryRepository.isInsideAppCache(cache, '$cache/a1b2/IMG_0001.jpg'),
+        isTrue,
+      );
+    });
+
+    test('o arquivo da galeria não é', () {
+      for (final String path in <String>[
+        '/storage/emulated/0/DCIM/Camera/IMG_20260801.jpg',
+        '/storage/emulated/0/Pictures/foto.jpg',
+        '/data/user/0/outro.app/cache/x.jpg',
+        // Prefixo parecido, diretório diferente.
+        '/data/user/0/br.com.brigido.meu_bebe/cache-outro/x.jpg',
+      ]) {
+        expect(
+          MemoryRepository.isInsideAppCache(cache, path),
+          isFalse,
+          reason: '$path não pode ser apagado.',
+        );
+      }
+    });
+
+    test('não dá para sair do cache com ".."', () {
+      expect(
+        MemoryRepository.isInsideAppCache(
+          cache,
+          '$cache/../../../../storage/emulated/0/DCIM/Camera/IMG.jpg',
+        ),
+        isFalse,
+      );
+    });
+
+    test('o próprio cache não conta como estando dentro de si', () {
+      expect(MemoryRepository.isInsideAppCache(cache, cache), isFalse);
+    });
+  });
+
   group('mensagens de erro não carregam detalhe interno', () {
     test('caminho de arquivo não chega à tela', () {
       final String message = userMessage(
