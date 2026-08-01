@@ -1,4 +1,4 @@
-# Configuração do Meu Bebê
+# Configuração do Meu Bebê: Cápsula do Tempo
 
 Este guia deixa o aplicativo rodando no celular. Leva cerca de trinta
 minutos e só precisa ser feito uma vez.
@@ -85,7 +85,8 @@ Os dois últimos estão no `.gitignore` de propósito. Os arquivos
 Em **APIs e serviços → Tela de permissão OAuth**:
 
 - Tipo de usuário: **Externo**
-- Nome do app: `Meu Bebê`
+- Nome do app: `Meu Bebê: Cápsula do Tempo`
+  (este é o nome que a pessoa vê na tela de consentimento do Google)
 - E-mail de suporte e de contato: o **seu**
 - Em **Escopos**, adicione:
   `https://www.googleapis.com/auth/drive.file`
@@ -134,7 +135,7 @@ Ao gerar a versão de release, repita com o SHA-1 da sua chave de publicação
 ### 6.3 Web - o mais importante
 
 - Tipo: **Aplicativo da Web**
-- Nome: `Meu Bebê (serverClientId)`
+- Nome: `Meu Bebê - serverClientId`
 
 Copie o **ID do cliente** gerado e coloque em
 `lib/firebase_options.dart`:
@@ -210,7 +211,7 @@ flutter pub get
 flutter run
 ```
 
-No primeiro acesso o aplicativo pede o login, cria a pasta `Cápsula do Tempo - Meu Bebê` no
+No primeiro acesso o aplicativo pede o login, cria a pasta `Meu Bebê - Cápsula do Tempo` no
 Google Drive com as seis subpastas e abre o cadastro inicial.
 
 ---
@@ -246,7 +247,7 @@ errado. Ele tem que ser o ID do cliente **Web** (passo 6.3).
 Falta adicionar o e-mail em **Usuários de teste**, no passo 5.
 
 **A foto sobe mas a pasta não aparece no Drive**
-Procure por `Cápsula do Tempo - Meu Bebê` na raiz do Drive **da conta que está logada no
+Procure por `Meu Bebê - Cápsula do Tempo` na raiz do Drive **da conta que está logada no
 aplicativo**. Se você entrou com outra conta, a pasta está lá.
 
 **O vídeo falha ao converter**
@@ -260,7 +261,7 @@ no cartão marcado com erro.
 
 | O quê | Onde |
 |---|---|
-| Fotos, vídeos, desenhos, documentos | Google Drive de quem está logado, em `Cápsula do Tempo - Meu Bebê/` |
+| Fotos, vídeos, desenhos, documentos | Google Drive de quem está logado, em `Meu Bebê - Cápsula do Tempo/` |
 | Texto das cartas, peso e altura, índice da linha do tempo | Cloud Firestore do seu projeto, em `users/{uid}` |
 | Miniaturas e arquivos temporários | Cache do próprio aparelho |
 | Fotos e vídeos originais | Continuam na galeria do celular, intactos |

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/utils/limits.dart';
 
 /// Os limites de texto existem em dois lugares: no `Limits`, que a interface
@@ -43,6 +44,33 @@ void main() {
 
     test('descrição e corpo da carta', () {
       expect(Limits.description, limitInRules('descricao'));
+    });
+  });
+
+  group('os dois nomes do aplicativo', () {
+    // São dois de propósito: o Android corta o rótulo embaixo do ícone por
+    // volta do 11º caractere, então o nome completo viraria "Meu Bebê: C...".
+    // O curto fica no ícone; o completo, na loja e na tela de entrada.
+
+    test('o curto cabe embaixo do ícone', () {
+      expect(S.appName.length, lessThanOrEqualTo(12));
+    });
+
+    test('o completo cabe no título da Play Store', () {
+      // A Play recusa título com mais de 30 caracteres.
+      expect(S.appFullName.length, lessThanOrEqualTo(30));
+    });
+
+    test('o completo começa pelo curto, para ser a mesma marca', () {
+      expect(S.appFullName, startsWith(S.appName));
+      expect(S.appFullName, contains(S.appSubtitle));
+    });
+
+    test('o rótulo do ícone no Android é o nome curto', () {
+      final String manifest = File(
+        'android/app/src/main/AndroidManifest.xml',
+      ).readAsStringSync();
+      expect(manifest, contains('android:label="${S.appName}"'));
     });
   });
 

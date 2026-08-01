@@ -50,7 +50,7 @@ class DriveService {
   /// O nome é distintivo de propósito: nada do aplicativo é criado fora
   /// daqui, e quem abrir o Drive precisa reconhecer de imediato o que é da
   /// cápsula e o que é dele.
-  static const String rootFolderName = 'Cápsula do Tempo - Meu Bebê';
+  static const String rootFolderName = 'Meu Bebê - Cápsula do Tempo';
   static const String _folderMime = 'application/vnd.google-apps.folder';
 
   /// Pastas de primeiro nível criadas no primeiro acesso.

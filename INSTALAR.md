@@ -1,4 +1,4 @@
-# Instalar o Meu Bebê no celular
+# Instalar o Meu Bebê: Cápsula do Tempo no celular
 
 O que está neste repositório é **código-fonte**, não um aplicativo pronto.
 Alguém precisa compilar. Este guia faz o GitHub compilar para você - sem
@@ -129,7 +129,7 @@ Abra o app, entre com a sua conta Google, autorize o acesso ao Drive e
 preencha o cadastro - nome, se é menino ou menina, data de nascimento.
 Pronto.
 
-A pasta `Cápsula do Tempo - Meu Bebê/` é criada no Drive da conta que fez login. Quem instalar
+A pasta `Meu Bebê - Cápsula do Tempo/` é criada no Drive da conta que fez login. Quem instalar
 depois, com outra conta, terá a própria pasta e a própria linha do tempo.
 
 ---

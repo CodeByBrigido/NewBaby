@@ -45,7 +45,11 @@ class AboutScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(S.appName, textAlign: TextAlign.center, style: text.titleLarge),
+          Text(
+            S.appFullName,
+            textAlign: TextAlign.center,
+            style: text.titleLarge,
+          ),
           const SizedBox(height: 6),
           Text(
             S.appTagline,
@@ -66,8 +70,8 @@ class AboutScreen extends ConsumerWidget {
             message:
                 'O aplicativo não enxerga o resto do seu Drive. A permissão '
                 'que você concede dá acesso apenas aos arquivos que ele '
-                'mesmo cria, todos dentro da pasta "Cápsula do Tempo - Meu '
-                'Bebê". Suas outras pastas são invisíveis para ele.',
+                'mesmo cria, todos dentro da pasta "Meu Bebê - Cápsula do '
+                'Tempo". Suas outras pastas são invisíveis para ele.',
             icon: Icons.folder_off_outlined,
           ),
           const SizedBox(height: 12),

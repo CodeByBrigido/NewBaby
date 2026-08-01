@@ -133,7 +133,11 @@ void main() {
     });
 
     test('tudo vive numa pasta única e identificável', () {
-      expect(DriveService.rootFolderName, 'Cápsula do Tempo - Meu Bebê');
+      expect(DriveService.rootFolderName, 'Meu Bebê - Cápsula do Tempo');
+      // Dois-pontos quebram nome de arquivo no Windows, e quem sincroniza
+      // o Drive no computador teria problema. O nome do app usa dois-pontos;
+      // o da pasta, hífen.
+      expect(DriveService.rootFolderName, isNot(contains(':')));
     });
 
     test('nenhum código consulta a raiz do Drive', () {
