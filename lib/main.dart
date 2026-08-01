@@ -6,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'app.dart';
 import 'firebase_options.dart';
+import 'services/session_service.dart';
 import 'state/providers.dart';
 
 Future<void> main() async {
@@ -19,6 +20,11 @@ Future<void> main() async {
   await initializeDateFormatting('pt_BR');
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Antes de qualquer consulta: se a última sessão pediu para descartar o
+  // cache local do Firestore, este é o único momento em que dá para fazer
+  // isso sem quebrar o cliente.
+  await SessionService.clearPendingCache();
 
   final ProviderContainer container = ProviderContainer();
   // O login silencioso roda antes da primeira tela: quem já entrou não vê

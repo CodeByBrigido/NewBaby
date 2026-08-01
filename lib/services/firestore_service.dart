@@ -154,4 +154,48 @@ class FirestoreService {
   /// Ids do Firestore não aceitam `/`, então o caminho vira um identificador.
   static String _slug(String key) =>
       key.replaceAll('/', '__').replaceAll(RegExp(r'\s+'), '_');
+
+  // ------------------------------------------------------- apagar tudo
+
+  /// Todas as coleções que o aplicativo cria sob `users/{uid}`.
+  static const List<String> _allCollections = <String>[
+    _profile,
+    _entries,
+    _folders,
+  ];
+
+  /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
+  static const int _deleteBatchSize = 300;
+
+  /// Apaga tudo o que existe sob `users/{uid}`, sem deixar rastro.
+  ///
+  /// O Firestore não apaga subcoleções junto com o documento pai, então cada
+  /// coleção é varrida explicitamente. As leituras vão direto ao servidor: o
+  /// cache local diria "não há mais nada" enquanto os documentos continuariam
+  /// lá, e a promessa de exclusão precisa valer no servidor.
+  Future<void> deleteAllUserData(String uid) async {
+    for (final String name in _allCollections) {
+      await _deleteCollection(_user(uid).collection(name));
+    }
+    await _user(uid).delete();
+  }
+
+  Future<void> _deleteCollection(
+    CollectionReference<Map<String, Object?>> collection,
+  ) async {
+    while (true) {
+      final QuerySnapshot<Map<String, Object?>> page = await collection
+          .limit(_deleteBatchSize)
+          .get(const GetOptions(source: Source.server));
+      if (page.docs.isEmpty) return;
+
+      final WriteBatch batch = _db.batch();
+      for (final QueryDocumentSnapshot<Map<String, Object?>> doc in page.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+
+      if (page.docs.length < _deleteBatchSize) return;
+    }
+  }
 }

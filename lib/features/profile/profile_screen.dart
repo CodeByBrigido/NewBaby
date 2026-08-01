@@ -101,6 +101,18 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   child: const Text(S.signOut),
                 ),
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: () => context.push(Routes.deleteAccount),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.textSecondary,
+                    minimumSize: const Size.fromHeight(44),
+                  ),
+                  child: const Text(
+                    S.deleteAccount,
+                    style: TextStyle(fontSize: 13),
+                  ),
+                ),
               ],
             ),
     );
@@ -114,7 +126,10 @@ class ProfileScreen extends ConsumerWidget {
       confirmLabel: S.signOut,
     );
     if (!confirmed) return;
-    await ref.read(authServiceProvider).signOut();
+    // Pelo SessionService, e não pelo AuthService: sair também apaga as
+    // miniaturas, os downloads, as buscas recentes e agenda o descarte do
+    // cache do Firestore.
+    await ref.read(sessionServiceProvider).signOut();
   }
 }
 
