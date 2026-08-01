@@ -4,8 +4,9 @@ O que está neste repositório é **código-fonte**, não um aplicativo pronto.
 Alguém precisa compilar. Este guia faz o GitHub compilar para você - sem
 instalar Flutter, Android Studio nem nada no seu computador.
 
-**Você vai precisar de:** uma conta Google, um celular Android e cerca de
-meia hora, quase toda no passo 0.
+**Você vai precisar de:** uma conta Google, um celular Android, o Java
+instalado (para criar a chave de assinatura) e cerca de uma hora, quase toda
+no SETUP.
 
 ---
 
@@ -27,17 +28,47 @@ Volte aqui quando tiver os dois primeiros.
 
 ---
 
-## Passo 1 - guardar a configuração no GitHub
+## Passo 1 - a chave de assinatura
 
-Os arquivos acima ficam fora do repositório de propósito: eles identificam
-o **seu** projeto. Vamos guardá-los como **segredos**, que ninguém vê e que
-não são expostos nem em repositório público.
+Esta parte não dá para pular, e o motivo é o mesmo que faz o login
+funcionar: o Google Sign-In amarra o login ao **SHA-1 da chave que assinou o
+aplicativo**. Sem uma chave sua, o Gradle assina com a chave de debug - que
+aqui no GitHub é **gerada nova a cada execução**. O APK instalaria e falharia
+no login toda vez, com um SHA-1 diferente a cada build, sem como cadastrar.
 
-Na pasta do projeto, no seu computador, rode:
+Crie a chave uma vez (precisa do Java instalado, que traz o `keytool`):
+
+```bash
+keytool -genkey -v -keystore ~/meu-bebe-release.jks \
+  -keyalg RSA -keysize 2048 -validity 10000 -alias meu-bebe
+```
+
+Ele pergunta uma senha e alguns dados. Guarde o SHA-1, que você vai
+cadastrar no cliente OAuth Android (SETUP.md, passo 6.1):
+
+```bash
+keytool -list -v -keystore ~/meu-bebe-release.jks -alias meu-bebe | grep SHA1
+```
+
+> ⚠️ **Guarde o `.jks` e as senhas em dois lugares.** Perder essa chave
+> significa nunca mais conseguir atualizar o aplicativo na Play Store: o
+> Google trata como se fosse outro app. É o erro mais caro de quem publica
+> pela primeira vez.
+
+---
+
+## Passo 2 - guardar tudo no GitHub
+
+Esses arquivos ficam fora do repositório de propósito: eles identificam o
+**seu** projeto e a **sua** chave. Vão como **segredos**, que ninguém vê e
+que não são expostos nem em repositório público.
+
+Na pasta do projeto, rode:
 
 ```bash
 base64 -w0 android/app/google-services.json ; echo
 base64 -w0 lib/firebase_options.dart        ; echo
+base64 -w0 ~/meu-bebe-release.jks           ; echo
 ```
 
 > No macOS o `base64` não tem `-w0`. Use `base64 -i arquivo` no lugar.
@@ -46,24 +77,29 @@ Cada comando cospe uma linha comprida de letras e números. Agora:
 
 1. Abra **Settings → Secrets and variables → Actions** no repositório.
 2. Clique em **New repository secret**.
-3. Crie os dois, colando a linha correspondente:
+3. Crie os seis:
 
 | Nome do segredo | O que colar |
 |---|---|
 | `GOOGLE_SERVICES_JSON` | a saída do primeiro comando |
 | `FIREBASE_OPTIONS_DART` | a saída do segundo comando |
+| `RELEASE_KEYSTORE` | a saída do terceiro comando |
+| `KEYSTORE_PASSWORD` | a senha que você escolheu ao criar a chave |
+| `KEY_ALIAS` | `meu-bebe` |
+| `KEY_PASSWORD` | a senha da chave (normalmente a mesma) |
 
-O nome tem que ser exatamente esse, em maiúsculas.
+Os nomes têm que ser exatamente esses, em maiúsculas. Se faltar qualquer um,
+o workflow para logo no primeiro passo e diz qual é.
 
 ---
 
-## Passo 2 - mandar o GitHub gerar o APK
+## Passo 3 - mandar o GitHub gerar o APK
 
 1. Vá na aba **Actions** do repositório.
 2. Na lista da esquerda, escolha **Android**.
 3. Clique em **Run workflow** → **Run workflow**.
 
-Leva uns cinco minutos. Quando terminar com um ✅, abra a execução e role
+Leva uns dez minutos. Quando terminar com um ✅, abra a execução e role
 até o fim: em **Artifacts** vai estar **`meu-bebe-apk`**. Baixe - vem um
 `.zip` com três arquivos:
 
@@ -77,7 +113,7 @@ Na dúvida, pegue o **arm64-v8a**. Se ele não instalar, tente o armeabi-v7a.
 
 ---
 
-## Passo 3 - instalar no celular
+## Passo 4 - instalar no celular
 
 1. Mande o APK para o celular (WhatsApp para você mesmo, Drive, cabo - tanto faz).
 2. Toque no arquivo.
@@ -146,12 +182,24 @@ investir, não haja meses de quebra acumulada.
 ## Quando algo dá errado
 
 **O workflow falha dizendo "Falta o segredo..."**
-Os segredos do passo 1 não foram criados, ou o nome está diferente.
-Confira maiúsculas e se não sobrou espaço no início.
+Algum dos seis segredos do passo 2 não foi criado, ou o nome está
+diferente. Confira maiúsculas e se não sobrou espaço no início.
 
 **Falha em "Restaurar a configuração real do Firebase"**
 O base64 foi copiado pela metade. Ele é uma linha só, bem comprida - copie
 tudo, sem quebra de linha.
+
+**Falha em "Não consegui abrir a chave de assinatura"**
+Ou o base64 do `RELEASE_KEYSTORE` veio truncado, ou o `KEYSTORE_PASSWORD` /
+`KEY_ALIAS` estão diferentes do que você usou ao criar o `.jks`. Confira com:
+
+```bash
+keytool -list -keystore ~/meu-bebe-release.jks -alias meu-bebe
+```
+
+**Falha dizendo "O APK foi assinado com a chave de DEBUG"**
+O `key.properties` não chegou ao Gradle. Não instale esse APK: ele abre e
+falha no login. Abra uma issue - é bug do workflow, não seu.
 
 **Falha dizendo que o `serverClientId` ainda é placeholder**
 Você rodou o `flutterfire configure` mas não colou o Client ID **Web** no
@@ -164,8 +212,10 @@ Quase sempre é o APK da arquitetura errada. Tente o `armeabi-v7a`. Se você
 já tinha uma versão instalada assinada com outra chave, desinstale antes.
 
 **O app instala mas trava no login**
-A configuração do OAuth está incompleta. O erro `ApiException: 10` significa
-SHA-1 errado - veja "Problemas comuns" no SETUP.md.
+`ApiException: 10` significa SHA-1 errado. O próprio workflow imprime, no
+passo "Conferir a assinatura e mostrar o SHA-1", o valor exato da chave que
+assinou aquele APK. Cadastre-o no cliente OAuth Android (SETUP.md, passo
+6.1) e tente de novo.
 
 ---
 
