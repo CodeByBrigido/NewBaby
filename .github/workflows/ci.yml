@@ -50,10 +50,14 @@ jobs:
           cache-dependency-path: firebase/teste/package-lock.json
 
       - uses: actions/setup-java@v4
-        # O emulador do Firestore é um .jar.
+        # O emulador do Firestore é um .jar, e o firebase-tools exige JDK 21
+        # ou superior — com 17 ele nem chega a subir o emulador.
+        #
+        # É um Java diferente do usado no build Android (17, exigido pelo AGP
+        # e pelos plugins). São jobs separados, então não conflitam.
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Instalar as ferramentas de teste
         working-directory: firebase/teste
