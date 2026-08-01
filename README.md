@@ -94,6 +94,13 @@ precisa estar na política de privacidade.
 coordenadas de GPS de onde cada foto foi tirada. A orientação é corrigida
 antes, então nada muda visualmente.
 
+**Trava opcional, desligada por padrão.** Quem quiser pede a digital, o
+rosto ou o PIN do aparelho para abrir o app, em Configurações. Vem desligada
+porque num aplicativo de família a trava obrigatória irrita mais do que
+protege. Escolher uma foto ou compartilhar leva o app para segundo plano sem
+que a pessoa tenha saído: essas passagens são marcadas para a trava não
+disparar no meio da tarefa.
+
 **Dá para apagar tudo.** Perfil → *Apagar minha conta e meus dados* remove o
 índice do servidor, revoga o acesso ao Drive e encerra a conta, com a opção de
 manter ou não os arquivos no Drive. Sair, sozinho, já apaga miniaturas,

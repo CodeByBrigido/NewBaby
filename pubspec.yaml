@@ -50,6 +50,7 @@ dependencies:
   uuid: ^4.6.0
   collection: ^1.19.1
   meta: ^1.16.0
+  local_auth: ^3.0.2
 
 dev_dependencies:
   flutter_test:

@@ -11,6 +11,7 @@ import '../../core/theme/app_colors.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../services/memory_repository.dart';
+import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
@@ -110,10 +111,12 @@ class _AddSheet extends ConsumerWidget {
 }
 
 Future<void> _addPhotos(BuildContext context, WidgetRef ref) async {
-  final List<XFile> picked = await ImagePicker().pickMultiImage(
-    // Sem metadados completos a seleção é bem mais rápida; a orientação é
-    // preservada na compressão.
-    requestFullMetadata: false,
+  final List<XFile> picked = await ExternalActivity.run(
+    () => ImagePicker().pickMultiImage(
+      // Sem metadados completos a seleção é bem mais rápida; a orientação é
+      // preservada na compressão.
+      requestFullMetadata: false,
+    ),
   );
   if (picked.isEmpty) return;
   if (!context.mounted) return;
@@ -131,8 +134,8 @@ Future<void> _addPhotos(BuildContext context, WidgetRef ref) async {
 }
 
 Future<void> _addDrawings(BuildContext context, WidgetRef ref) async {
-  final List<XFile> picked = await ImagePicker().pickMultiImage(
-    requestFullMetadata: false,
+  final List<XFile> picked = await ExternalActivity.run(
+    () => ImagePicker().pickMultiImage(requestFullMetadata: false),
   );
   if (picked.isEmpty) return;
   if (!context.mounted) return;
@@ -151,9 +154,8 @@ Future<void> _addDrawings(BuildContext context, WidgetRef ref) async {
 Future<void> _addVideos(BuildContext context, WidgetRef ref) async {
   // `image_picker` só escolhe um vídeo por vez; o `file_picker` permite
   // vários de uma vez, que é o que a especificação pede.
-  final FilePickerResult? result = await FilePicker.pickFiles(
-    type: FileType.video,
-    allowMultiple: true,
+  final FilePickerResult? result = await ExternalActivity.run(
+    () => FilePicker.pickFiles(type: FileType.video, allowMultiple: true),
   );
   final List<PlatformFile> files = result?.files ?? const <PlatformFile>[];
   if (files.isEmpty) return;
@@ -175,8 +177,8 @@ Future<void> _addVideos(BuildContext context, WidgetRef ref) async {
 }
 
 Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
-  final FilePickerResult? result = await FilePicker.pickFiles(
-    allowMultiple: true,
+  final FilePickerResult? result = await ExternalActivity.run(
+    () => FilePicker.pickFiles(allowMultiple: true),
   );
   final List<PlatformFile> files = result?.files ?? const <PlatformFile>[];
   if (files.isEmpty) return;

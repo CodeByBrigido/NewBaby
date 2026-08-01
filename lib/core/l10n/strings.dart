@@ -141,6 +141,27 @@ abstract final class S {
       'apenas os arquivos que ele mesmo criou, dentro da pasta da cápsula. '
       'O conteúdo do resto do seu Drive ele não alcança.';
 
+  // Trava do aplicativo
+  static const String lockSection = 'Privacidade';
+  static const String lockTitle = 'Trava do aplicativo';
+  static const String lockBody =
+      'Pede sua digital, o rosto ou o PIN do aparelho para abrir o '
+      'aplicativo. Vem desligada.';
+  static const String lockUnavailable =
+      'Este aparelho não tem digital, rosto nem PIN configurado. Configure '
+      'uma trava nas configurações do Android para poder usar esta opção.';
+  static const String lockNote =
+      'A trava protege quem pega o seu celular já destravado. Ela não '
+      'criptografa nada: é uma porta a mais, não um cofre.';
+  static const String lockFailed =
+      'Não foi possível confirmar. A trava continua desligada.';
+  static const String lockReason =
+      'Confirme que é você para abrir as memórias.';
+  static const String lockedTitle = 'Aplicativo trancado';
+  static const String lockedBody =
+      'Confirme sua identidade para ver as memórias.';
+  static const String unlock = 'Desbloquear';
+
   // Crescimento
   static const String viewChart = 'Ver gráfico';
   static const String growthChart = 'Gráfico de crescimento';
