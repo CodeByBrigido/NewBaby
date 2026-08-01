@@ -32,6 +32,8 @@
 	<string>Precisamos do microfone para gravar o som dos vídeos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Precisamos de permissão para salvar na galeria as memórias que você baixar.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Usamos o Face ID para destravar o aplicativo, se você ligar essa opção nas Configurações.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>

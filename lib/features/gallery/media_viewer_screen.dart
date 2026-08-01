@@ -10,6 +10,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
+import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
@@ -52,8 +53,10 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
           .read(memoryRepositoryProvider)
           .localCopy(file);
       if (!mounted) return;
-      await SharePlus.instance.share(
-        ShareParams(files: <XFile>[XFile(local.path)]),
+      await ExternalActivity.run(
+        () => SharePlus.instance.share(
+          ShareParams(files: <XFile>[XFile(local.path)]),
+        ),
       );
     } on Exception catch (e) {
       if (mounted) {

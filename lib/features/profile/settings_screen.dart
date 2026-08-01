@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
+import '../../state/lock_providers.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
@@ -80,6 +81,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 'que mantém o acervo leve por muitos anos.',
           ),
           const SizedBox(height: 28),
+          const SectionHeader(title: S.lockSection),
+          const _LockTile(),
+          const SizedBox(height: 12),
+          const InfoNote(message: S.lockNote, icon: Icons.lock_outline),
+          const SizedBox(height: 28),
           const SectionHeader(title: 'Armazenamento no aparelho'),
           SoftCard(
             onTap: _clearing ? null : _clearCaches,
@@ -117,6 +123,69 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ],
       ),
     );
+  }
+}
+
+/// A trava opcional, com o estado do aparelho levado em conta.
+///
+/// Num aparelho sem digital, rosto ou PIN configurado, a opção aparece
+/// desabilitada com a explicação. Ligar uma trava que não abre seria trancar
+/// a pessoa do lado de fora do próprio acervo.
+class _LockTile extends ConsumerWidget {
+  const _LockTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool supported = ref.watch(lockSupportedProvider).value ?? false;
+    final AsyncValue<bool> enabled = ref.watch(lockEnabledProvider);
+
+    return SoftCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              const Icon(Icons.fingerprint),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      S.lockTitle,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      supported ? S.lockBody : S.lockUnavailable,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Switch(
+                value: enabled.value ?? false,
+                onChanged: supported && !enabled.isLoading
+                    ? (bool value) => _toggle(context, ref, value: value)
+                    : null,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _toggle(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool value,
+  }) async {
+    final bool ok = await ref
+        .read(lockEnabledProvider.notifier)
+        .set(value: value);
+    if (!ok && context.mounted) showMessage(context, S.lockFailed);
   }
 }
 

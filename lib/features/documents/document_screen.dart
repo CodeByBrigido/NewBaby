@@ -12,6 +12,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
+import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
@@ -46,7 +47,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   Future<void> _open(EntryFile file) async {
     final File? local = await _fetch(file);
     if (local == null) return;
-    final OpenResult result = await OpenFilex.open(local.path);
+    final OpenResult result = await ExternalActivity.run(
+      () => OpenFilex.open(local.path),
+    );
     if (result.type != ResultType.done && mounted) {
       showMessage(context, 'Nenhum aplicativo consegue abrir este arquivo.');
     }
@@ -61,8 +64,10 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   Future<void> _share(EntryFile file) async {
     final File? local = await _fetch(file);
     if (local == null || !mounted) return;
-    await SharePlus.instance.share(
-      ShareParams(files: <XFile>[XFile(local.path)]),
+    await ExternalActivity.run(
+      () => SharePlus.instance.share(
+        ShareParams(files: <XFile>[XFile(local.path)]),
+      ),
     );
   }
 

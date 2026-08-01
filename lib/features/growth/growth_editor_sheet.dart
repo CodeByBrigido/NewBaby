@@ -9,6 +9,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
+import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
@@ -60,9 +61,11 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
   }
 
   Future<void> _pickPhoto() async {
-    final XFile? picked = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      requestFullMetadata: false,
+    final XFile? picked = await ExternalActivity.run(
+      () => ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        requestFullMetadata: false,
+      ),
     );
     if (picked != null) setState(() => _photo = File(picked.path));
   }
