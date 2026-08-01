@@ -58,7 +58,7 @@ abstract final class Routes {
 final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   final ValueNotifier<int> refresh = ValueNotifier<int>(0);
   // O roteador precisa reavaliar o redirecionamento sempre que a sessão ou
-  // o cadastro mudarem — é o que leva o usuário de login → cadastro → app.
+  // o cadastro mudarem - é o que leva o usuário de login → cadastro → app.
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);

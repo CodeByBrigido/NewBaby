@@ -13,7 +13,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
-/// Registrar peso e altura — três campos, um toque para salvar.
+/// Registrar peso e altura - três campos, um toque para salvar.
 Future<void> showGrowthEditor(BuildContext context) {
   return showModalBottomSheet<void>(
     context: context,

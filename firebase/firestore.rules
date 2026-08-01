@@ -1,16 +1,16 @@
 rules_version = '2';
 
-// Meu Bebê — cada conta só enxerga os próprios dados.
+// Meu Bebê - cada conta só enxerga os próprios dados.
 //
 // Todo o conteúdo do aplicativo vive sob users/{uid}. Qualquer leitura ou
 // escrita fora do próprio uid é negada.
 //
-// Os arquivos em si não passam por aqui — eles ficam no Google Drive, sob a
+// Os arquivos em si não passam por aqui - eles ficam no Google Drive, sob a
 // permissão OAuth `drive.file`. O Firestore guarda apenas metadados.
 //
 // Além do isolamento entre contas, estas regras limitam o **formato** do que
 // pode ser gravado. Não é excesso de zelo: o aplicativo é público, então
-// qualquer pessoa instala, entra e passa a poder escrever no próprio espaço —
+// qualquer pessoa instala, entra e passa a poder escrever no próprio espaço -
 // e quem paga essa conta é quem publicou. Um documento fora do formato
 // esperado só pode ter vindo de algo que não é este aplicativo.
 service cloud.firestore {
@@ -97,7 +97,7 @@ service cloud.firestore {
       //
       // Antes havia aqui um `match /{document=**}` liberando tudo. Como no
       // Firestore basta uma regra permitir para o acesso passar, aquele
-      // curinga anularia toda a validação escrita acima — é o tipo de erro
+      // curinga anularia toda a validação escrita acima - é o tipo de erro
       // que não aparece em teste nenhum, porque tudo continua funcionando.
       match /{outra}/{documento=**} {
         allow read, write: if false;

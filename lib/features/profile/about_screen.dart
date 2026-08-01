@@ -62,8 +62,17 @@ class AboutScreen extends ConsumerWidget {
             icon: Icons.lock_outline,
           ),
           const SizedBox(height: 12),
+          const InfoNote(
+            message:
+                'O aplicativo não enxerga o resto do seu Drive. A permissão '
+                'que você concede dá acesso apenas aos arquivos que ele '
+                'mesmo cria, todos dentro da pasta "Cápsula do Tempo - Meu '
+                'Bebê". Suas outras pastas são invisíveis para ele.',
+            icon: Icons.folder_off_outlined,
+          ),
+          const SizedBox(height: 12),
           // A frase acima é verdadeira e é fácil de ler como se valesse para
-          // tudo. Vale para os arquivos — e só. O índice fica num servidor
+          // tudo. Vale para os arquivos - e só. O índice fica num servidor
           // nosso, e quem confia o registro de um filho a um aplicativo tem o
           // direito de saber disso sem precisar procurar.
           const InfoNote(

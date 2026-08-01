@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- MODELO — substitua pelo arquivo real gerado por `flutterfire configure`
+	<!-- MODELO - substitua pelo arquivo real gerado por `flutterfire configure`
 	     e salve como GoogleService-Info.plist (que está no .gitignore). -->
 	<key>API_KEY</key>
 	<string>SUA_API_KEY_IOS</string>

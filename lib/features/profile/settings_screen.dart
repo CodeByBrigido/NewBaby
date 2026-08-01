@@ -76,7 +76,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 12),
           const InfoNote(
             message:
-                'A otimização é automática e não pode ser desligada — é o '
+                'A otimização é automática e não pode ser desligada - é o '
                 'que mantém o acervo leve por muitos anos.',
           ),
           const SizedBox(height: 28),

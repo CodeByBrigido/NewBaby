@@ -13,7 +13,7 @@ import '../../state/search_providers.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
 
-/// Busca instantânea sobre o cache local — nada vai ao servidor.
+/// Busca instantânea sobre o cache local - nada vai ao servidor.
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key, this.embedded = false});
 

@@ -57,7 +57,7 @@ class UploadProgress {
 /// criar a pasta certa → enviar ao Drive → registrar na linha do tempo.
 ///
 /// A entrada é gravada no Firestore **antes** do upload. Assim ela aparece
-/// na hora, com a miniatura local, e o envio acontece em segundo plano — que
+/// na hora, com a miniatura local, e o envio acontece em segundo plano - que
 /// é o que faz o aplicativo parecer instantâneo mesmo com internet ruim.
 class MemoryRepository {
   MemoryRepository({
@@ -88,7 +88,9 @@ class MemoryRepository {
     required BabyProfile profile,
     File? birthPhoto,
   }) async {
-    final String rootId = await drive.ensureRootStructure();
+    final String rootId = await drive.ensureRootStructure(
+      knownRootId: profile.rootFolderId,
+    );
     BabyProfile saved = profile.copyWith(rootFolderId: rootId);
     await firestore.saveProfile(uid, saved);
 
@@ -152,7 +154,7 @@ class MemoryRepository {
 
   /// Cria uma entrada com arquivos e dispara o envio em segundo plano.
   ///
-  /// Retorna assim que a entrada existe no Firestore — a interface não
+  /// Retorna assim que a entrada existe no Firestore - a interface não
   /// espera o upload.
   Future<Entry> addFiles({
     required String uid,
@@ -298,7 +300,7 @@ class MemoryRepository {
   ///
   /// O `image_picker` e o `file_picker` não entregam o arquivo da galeria:
   /// eles copiam para `{cache}/{uuid}/{nome}` e devolvem esse caminho. A cópia
-  /// tem a resolução original e ninguém a apaga — sem isto, cada foto
+  /// tem a resolução original e ninguém a apaga - sem isto, cada foto
   /// escolhida deixa uma segunda via inteira no aparelho, para sempre.
   ///
   /// Só apaga o que está **dentro** do diretório temporário do aplicativo. O
@@ -348,7 +350,7 @@ class MemoryRepository {
         .toList();
 
     if (pending.length != entry.files.length) {
-      // Os originais estão em outro aparelho — não há como reenviar daqui.
+      // Os originais estão em outro aparelho - não há como reenviar daqui.
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
         'uploadStatus': UploadStatus.failed.id,
         'erro':
@@ -382,7 +384,8 @@ class MemoryRepository {
     required AgeBucket bucket,
   }) async {
     final String rootId =
-        profile.rootFolderId ?? await drive.ensureRootStructure();
+        profile.rootFolderId ??
+        await drive.ensureRootStructure(knownRootId: profile.rootFolderId);
 
     final String key = type.bucketsByAge
         ? '${type.folder}/${bucket.folderName}'
@@ -507,7 +510,7 @@ class MemoryRepository {
   /// Muda o título/marco e a descrição de qualquer entrada.
   ///
   /// Serve tanto para editar uma carta quanto para marcar depois que aquele
-  /// lote de fotos era o "Primeiro sorriso" — é assim que os marcos entram
+  /// lote de fotos era o "Primeiro sorriso" - é assim que os marcos entram
   /// na linha do tempo sem atrapalhar o envio em dois toques.
   Future<void> updateDetails(
     String uid,
@@ -521,7 +524,7 @@ class MemoryRepository {
         : description.trim();
 
     // `null` apaga o campo no Firestore, e a busca é recalculada em memória a
-    // partir do que sobrou — não há índice gravado para sair de sincronia.
+    // partir do que sobrou - não há índice gravado para sair de sincronia.
     return firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
@@ -578,11 +581,11 @@ class MemoryRepository {
   /// Reduz um nome vindo do Drive a algo que pode virar nome de arquivo.
   ///
   /// Nomes no Drive aceitam barra e `..`. Usados direto num `p.join`, seriam
-  /// interpretados como caminho e a gravação sairia da pasta de downloads —
+  /// interpretados como caminho e a gravação sairia da pasta de downloads -
   /// inclusive por cima de arquivos internos do aplicativo.
   static String safeFileName(String name) {
     // `p.basename('/')` devolve `/`, então o separador ainda é retirado
-    // depois — o resultado precisa não conter caminho nenhum.
+    // depois - o resultado precisa não conter caminho nenhum.
     final String base = p
         .basename(name.replaceAll(r'\', '/'))
         .replaceAll('/', '')
@@ -603,8 +606,8 @@ class MemoryRepository {
 
   /// Apaga os arquivos baixados para leitura e compartilhamento.
   ///
-  /// É aqui que ficam documentos abertos pelo aplicativo — certidão, cartão
-  /// de vacina —, então o botão "Limpar cache" precisa alcançar esta pasta.
+  /// É aqui que ficam documentos abertos pelo aplicativo - certidão, cartão
+  /// de vacina -, então o botão "Limpar cache" precisa alcançar esta pasta.
   Future<void> clearDownloads() async {
     try {
       final Directory dir = await _downloadsDir();

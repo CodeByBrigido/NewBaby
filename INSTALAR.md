@@ -1,7 +1,7 @@
 # Instalar o Meu Bebê no celular
 
 O que está neste repositório é **código-fonte**, não um aplicativo pronto.
-Alguém precisa compilar. Este guia faz o GitHub compilar para você — sem
+Alguém precisa compilar. Este guia faz o GitHub compilar para você - sem
 instalar Flutter, Android Studio nem nada no seu computador.
 
 **Você vai precisar de:** uma conta Google, um celular Android e cerca de
@@ -12,7 +12,7 @@ meia hora, quase toda no passo 0.
 ## Antes de tudo: o passo que ninguém pula
 
 O aplicativo **não funciona** sem um projeto Firebase e credenciais OAuth
-registrados em seu nome — a *identidade do aplicativo*, não a conta de
+registrados em seu nome - a *identidade do aplicativo*, não a conta de
 ninguém da família. Nenhum APK resolve isso: sem essa configuração o app
 abre, mostra a tela de login e falha ali.
 
@@ -27,7 +27,7 @@ Volte aqui quando tiver os dois primeiros.
 
 ---
 
-## Passo 1 — guardar a configuração no GitHub
+## Passo 1 - guardar a configuração no GitHub
 
 Os arquivos acima ficam fora do repositório de propósito: eles identificam
 o **seu** projeto. Vamos guardá-los como **segredos**, que ninguém vê e que
@@ -57,14 +57,14 @@ O nome tem que ser exatamente esse, em maiúsculas.
 
 ---
 
-## Passo 2 — mandar o GitHub gerar o APK
+## Passo 2 - mandar o GitHub gerar o APK
 
 1. Vá na aba **Actions** do repositório.
 2. Na lista da esquerda, escolha **Android**.
 3. Clique em **Run workflow** → **Run workflow**.
 
 Leva uns cinco minutos. Quando terminar com um ✅, abra a execução e role
-até o fim: em **Artifacts** vai estar **`meu-bebe-apk`**. Baixe — vem um
+até o fim: em **Artifacts** vai estar **`meu-bebe-apk`**. Baixe - vem um
 `.zip` com três arquivos:
 
 | Arquivo | Para quem |
@@ -77,9 +77,9 @@ Na dúvida, pegue o **arm64-v8a**. Se ele não instalar, tente o armeabi-v7a.
 
 ---
 
-## Passo 3 — instalar no celular
+## Passo 3 - instalar no celular
 
-1. Mande o APK para o celular (WhatsApp para você mesmo, Drive, cabo — tanto faz).
+1. Mande o APK para o celular (WhatsApp para você mesmo, Drive, cabo - tanto faz).
 2. Toque no arquivo.
 3. O Android vai avisar que não instala apps de "fontes desconhecidas".
    Toque em **Configurações**, ligue a permissão para o app que está
@@ -90,10 +90,10 @@ O aviso é normal: ele aparece para qualquer app que não venha da Play
 Store. Você está instalando algo que você mesmo mandou compilar.
 
 Abra o app, entre com a sua conta Google, autorize o acesso ao Drive e
-preencha o cadastro — nome, se é menino ou menina, data de nascimento.
+preencha o cadastro - nome, se é menino ou menina, data de nascimento.
 Pronto.
 
-A pasta `Meu Bebê/` é criada no Drive da conta que fez login. Quem instalar
+A pasta `Cápsula do Tempo - Meu Bebê/` é criada no Drive da conta que fez login. Quem instalar
 depois, com outra conta, terá a própria pasta e a própria linha do tempo.
 
 ---
@@ -101,7 +101,7 @@ depois, com outra conta, terá a própria pasta e a própria linha do tempo.
 ## Atualizar depois
 
 Rode o workflow de novo e instale o novo APK por cima do antigo. **Nada se
-perde**: as fotos estão no Google Drive e a linha do tempo no Firestore —
+perde**: as fotos estão no Google Drive e a linha do tempo no Firestore -
 o celular não guarda nada que não possa ser baixado de novo.
 
 Só não desinstale para reinstalar; instalar por cima preserva a sessão.
@@ -118,7 +118,7 @@ git push origin v1.0.0
 ```
 
 O GitHub gera os APKs e cria um **Release** com eles anexados. Fica mais
-fácil de achar depois — e dá para mandar o link para a mãe instalar no
+fácil de achar depois - e dá para mandar o link para a mãe instalar no
 celular dela.
 
 ---
@@ -128,7 +128,7 @@ celular dela.
 Aqui a resposta é desconfortável, e é melhor ser direto: **hoje não há
 caminho instalável.** A Apple não permite instalar um aplicativo sem que
 ele seja assinado por um desenvolvedor registrado. Isso não é limitação
-deste projeto — é como o iOS funciona.
+deste projeto - é como o iOS funciona.
 
 As duas saídas reais:
 
@@ -138,7 +138,7 @@ As duas saídas reais:
 | **Mac + Apple ID gratuito** | grátis, mas exige um Mac | Instala pelo Xcode com o iPhone no cabo. **O app para de abrir a cada 7 dias** e precisa ser reinstalado. Serve para experimentar, não para o dia a dia |
 
 O código iOS já está escrito e o workflow **iOS** confere a cada mudança na
-`main` que ele continua compilando — para que, no dia em que você decidir
+`main` que ele continua compilando - para que, no dia em que você decidir
 investir, não haja meses de quebra acumulada.
 
 ---
@@ -150,7 +150,7 @@ Os segredos do passo 1 não foram criados, ou o nome está diferente.
 Confira maiúsculas e se não sobrou espaço no início.
 
 **Falha em "Restaurar a configuração real do Firebase"**
-O base64 foi copiado pela metade. Ele é uma linha só, bem comprida — copie
+O base64 foi copiado pela metade. Ele é uma linha só, bem comprida - copie
 tudo, sem quebra de linha.
 
 **Falha dizendo que o `serverClientId` ainda é placeholder**
@@ -165,14 +165,14 @@ já tinha uma versão instalada assinada com outra chave, desinstale antes.
 
 **O app instala mas trava no login**
 A configuração do OAuth está incompleta. O erro `ApiException: 10` significa
-SHA-1 errado — veja "Problemas comuns" no SETUP.md.
+SHA-1 errado - veja "Problemas comuns" no SETUP.md.
 
 ---
 
 ## E a Play Store?
 
 Dá para publicar, e aí qualquer família instala como qualquer outro
-aplicativo — cada uma entrando com a própria conta Google. O passo a passo
+aplicativo - cada uma entrando com a própria conta Google. O passo a passo
 está em **[PUBLICAR.md](PUBLICAR.md)**: conta de desenvolvedor (US$ 25, uma
 vez só), chave de assinatura, tela de consentimento em produção e política
 de privacidade.

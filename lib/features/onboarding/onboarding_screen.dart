@@ -258,7 +258,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 }
 
-/// Aceita `3,250` e `3.250` — brasileiro digita com vírgula.
+/// Aceita `3,250` e `3.250` - brasileiro digita com vírgula.
 final TextInputFormatter _decimalFormatter = FilteringTextInputFormatter.allow(
   RegExp(r'[0-9.,]'),
 );
@@ -313,7 +313,7 @@ class _PhotoPicker extends StatelessWidget {
   }
 }
 
-/// Menino ou menina — define a concordância de todos os textos do app.
+/// Menino ou menina - define a concordância de todos os textos do app.
 class _GenderPicker extends StatelessWidget {
   const _GenderPicker({required this.value, required this.onChanged});
 

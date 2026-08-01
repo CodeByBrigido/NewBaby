@@ -13,7 +13,7 @@ import 'package:meu_bebe/state/providers.dart';
 
 /// Substitui o cache de miniaturas: em teste não há Drive nem disco.
 /// Devolver `null` também exercita o caminho real de um arquivo cuja
-/// miniatura ainda não chegou — que é o que o aparelho vê ao abrir o app
+/// miniatura ainda não chegou - que é o que o aparelho vê ao abrir o app
 /// depois de reinstalar.
 class _NoThumbnails implements ThumbnailStore {
   @override

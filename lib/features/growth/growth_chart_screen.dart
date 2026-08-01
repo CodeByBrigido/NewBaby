@@ -89,7 +89,7 @@ class _ChartCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
 
-    // O eixo X é a idade em dias — assim os pontos ficam espaçados no tempo
+    // O eixo X é a idade em dias - assim os pontos ficam espaçados no tempo
     // real, e não em intervalos iguais.
     final List<FlSpot> spots = <FlSpot>[
       for (final Entry entry in records)

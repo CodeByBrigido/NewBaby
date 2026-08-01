@@ -80,7 +80,8 @@ class StatsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              data: (DriveQuota data) => _StorageCard(quota: data),
+              data: (DriveQuota data) =>
+                  _StorageCard(quota: data, capsuleBytes: stats.totalBytes),
             ),
             const SizedBox(height: 16),
             const InfoNote(
@@ -134,46 +135,101 @@ class _CountTile extends StatelessWidget {
 }
 
 class _StorageCard extends StatelessWidget {
-  const _StorageCard({required this.quota});
+  const _StorageCard({required this.quota, required this.capsuleBytes});
 
   final DriveQuota quota;
 
+  /// Soma dos arquivos que o próprio aplicativo enviou, vinda do índice.
+  ///
+  /// É calculada com o que já está em memória, sem perguntar nada ao Drive.
+  final int capsuleBytes;
+
   @override
   Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
-    final double? fraction = quota.fraction;
+    final int? limit = quota.limitBytes;
 
     return SoftCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(S.storageUsed, style: text.titleSmall),
-          const SizedBox(height: 10),
-          Text(
-            quota.limitBytes == null
+          _Bar(
+            label: S.capsuleStorage,
+            value: Fmt.bytes(capsuleBytes),
+            fraction: limit == null || limit <= 0
+                ? null
+                : (capsuleBytes / limit).clamp(0.0, 1.0),
+            color: AppColors.primary,
+          ),
+          const Divider(height: 28),
+          _Bar(
+            label: S.driveStorage,
+            value: limit == null
                 ? Fmt.bytes(quota.usedBytes)
                 : '${Fmt.bytes(quota.usedBytes)} ${S.storageOf} '
-                      '${Fmt.bytes(quota.limitBytes!)}',
-            style: text.bodyMedium,
+                      '${Fmt.bytes(limit)}',
+            fraction: quota.fraction,
+            color: AppColors.textSecondary,
           ),
-          const SizedBox(height: 14),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: fraction ?? 0,
-              minHeight: 8,
-              backgroundColor: AppColors.primarySoft,
-            ),
+          const SizedBox(height: 12),
+          // Este número é da conta Google inteira. Dizer isso na tela evita
+          // que alguém leia "8 GB usados" como se fosse a cápsula ocupando
+          // tudo aquilo - e deixa claro que o aplicativo só conhece o total,
+          // nunca o que há nos outros arquivos.
+          Text(
+            S.driveStorageNote,
+            style: Theme.of(context).textTheme.labelSmall,
           ),
-          if (fraction != null) ...<Widget>[
-            const SizedBox(height: 8),
-            Text(
-              '${(fraction * 100).toStringAsFixed(0)}%',
-              style: text.labelSmall,
-            ),
-          ],
         ],
       ),
+    );
+  }
+}
+
+class _Bar extends StatelessWidget {
+  const _Bar({
+    required this.label,
+    required this.value,
+    required this.fraction,
+    required this.color,
+  });
+
+  final String label;
+  final String value;
+  final double? fraction;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+    final double? f = fraction;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(label, style: text.titleSmall),
+            if (f != null)
+              Text(
+                '${(f * 100).toStringAsFixed(f < 0.1 ? 1 : 0)}%',
+                style: text.labelSmall,
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(value, style: text.bodyMedium),
+        const SizedBox(height: 12),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: LinearProgressIndicator(
+            value: f ?? 0,
+            minHeight: 8,
+            backgroundColor: AppColors.surfaceMuted,
+            valueColor: AlwaysStoppedAnimation<Color>(color),
+          ),
+        ),
+      ],
     );
   }
 }

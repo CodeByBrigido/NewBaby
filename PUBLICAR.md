@@ -10,8 +10,8 @@ com a **própria** conta Google.
 Cada pessoa que instala:
 
 1. entra com a conta Google **dela**;
-2. o aplicativo cria a pasta `Meu Bebê/` **no Drive dela**;
-3. as fotos e vídeos ficam no Drive **dela** — você nunca os vê;
+2. o aplicativo cria a pasta `Cápsula do Tempo - Meu Bebê/` **no Drive dela**;
+3. as fotos e vídeos ficam no Drive **dela** - você nunca os vê;
 4. o Firestore do **seu** projeto guarda só o índice: título de carta, peso,
    altura, datas e os ids dos arquivos.
 
@@ -20,7 +20,7 @@ e pelo escopo `drive.file`, que só enxerga o que o próprio aplicativo criou.
 
 **Consequência para o seu bolso:** o armazenamento pesado fica distribuído
 entre os usuários e não custa nada para você. Só o índice roda na sua conta,
-e ele é minúsculo — alguns kilobytes por família.
+e ele é minúsculo - alguns kilobytes por família.
 
 ---
 
@@ -33,23 +33,23 @@ e ele é minúsculo — alguns kilobytes por família.
 | Índice da linha do tempo | de cada usuário, no seu projeto | `users/{uid}` no seu Firestore |
 
 O `google-services.json` e o `firebase_options.dart` são a **identidade do
-aplicativo** — o crachá que o Google exige para permitir que ele peça login.
+aplicativo** - o crachá que o Google exige para permitir que ele peça login.
 Eles vão compilados dentro do APK e não têm nenhuma relação com a conta de
 quem instala.
 
 ---
 
-## Passo 1 — Firebase na sua conta
+## Passo 1 - Firebase na sua conta
 
 Siga o **[SETUP.md](SETUP.md)**, criando o projeto na **sua** conta de
 desenvolvedor (não na conta de nenhum familiar).
 
 ---
 
-## Passo 2 — Abrir o OAuth para o público
+## Passo 2 - Abrir o OAuth para o público
 
 Enquanto a tela de consentimento estiver em **"Teste"**, só os e-mails
-cadastrados como testadores conseguem entrar — no máximo 100.
+cadastrados como testadores conseguem entrar - no máximo 100.
 
 Em **APIs e serviços → Tela de permissão OAuth**, clique em
 **Publicar aplicativo** para mover o estado para *Em produção*.
@@ -69,7 +69,7 @@ Você vai precisar, no mínimo, de:
 
 ---
 
-## Passo 3 — Chave de publicação
+## Passo 3 - Chave de publicação
 
 A Play Store recusa qualquer APK assinado com a chave de debug.
 
@@ -80,7 +80,7 @@ keytool -genkey -v -keystore ~/meu-bebe-release.jks \
 
 Copie `android/key.properties.example` para `android/key.properties` e
 preencha com o caminho do `.jks` e as senhas. O arquivo está no
-`.gitignore` — ele nunca deve ir para o repositório.
+`.gitignore` - ele nunca deve ir para o repositório.
 
 > ⚠️ **Guarde o `.jks` e as senhas em lugar seguro, com cópia.** Se você
 > perder essa chave, não existe forma de publicar atualização do aplicativo:
@@ -97,7 +97,7 @@ keytool -list -v -keystore ~/meu-bebe-release.jks -alias meu-bebe | grep SHA1
 
 ---
 
-## Passo 4 — Gerar o pacote
+## Passo 4 - Gerar o pacote
 
 A Play Store pede **AAB**, não APK:
 
@@ -109,24 +109,24 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
 
 ---
 
-## Passo 5 — Conta e ficha da loja
+## Passo 5 - Conta e ficha da loja
 
 1. Crie a conta de desenvolvedor: US$ 25, pagamento único.
 2. Preencha a ficha: nome, descrição, ícone, capturas de tela, categoria.
-3. **Política de privacidade** — obrigatória, e com peso extra aqui: o app
+3. **Política de privacidade** - obrigatória, e com peso extra aqui: o app
    guarda dados de crianças. Ela precisa dizer, com clareza, que
    as fotos vão para o Drive do próprio usuário e que o aplicativo guarda
    apenas metadados.
-4. **Segurança dos dados** — declare o que é coletado. Neste app:
+4. **Segurança dos dados** - declare o que é coletado. Neste app:
    identificadores da conta (para o login) e conteúdo do usuário (o índice
    no Firestore). Nada é vendido nem compartilhado.
-5. **Público-alvo** — o aplicativo é usado por **adultos** (os pais), mesmo
+5. **Público-alvo** - o aplicativo é usado por **adultos** (os pais), mesmo
    sendo *sobre* crianças. Declarar público infantil por engano ativa as
    regras da política Famílias, bem mais rígidas.
 
 ---
 
-## Passo 5.1 — Proteger a sua conta de nuvem
+## Passo 5.1 - Proteger a sua conta de nuvem
 
 O modelo é generoso com o usuário e desprotegido com você: qualquer pessoa
 instala, entra e passa a poder escrever no Firestore do **seu** projeto. Três
@@ -136,7 +136,7 @@ medidas, em ordem de importância:
    Orçamentos e alertas*). É o que evita descobrir um problema pela fatura.
    Faça isso antes de publicar, não depois.
 2. **App Check com Play Integrity** (*Firebase → App Check*). Sem ele, a chave
-   e o id do projeto — que viajam dentro do APK — bastam para chamar o
+   e o id do projeto - que viajam dentro do APK - bastam para chamar o
    Firestore de fora do aplicativo.
 3. **Regras validando formato**, já no repositório. Elas recusam documento
    fora do formato esperado e limitam o tamanho dos textos. Rode
@@ -144,16 +144,34 @@ medidas, em ordem de importância:
 
 ---
 
-## Passo 5.2 — Exclusão de conta e política de privacidade
+## Passo 5.2 - Exclusão de conta e política de privacidade
 
 Desde 2023 o Google Play exige, para todo aplicativo com criação de conta:
 
-- exclusão **dentro do aplicativo** — já existe, em *Perfil → Apagar minha
+- exclusão **dentro do aplicativo** - já existe, em *Perfil → Apagar minha
   conta e meus dados*;
 - uma **URL pública** onde a exclusão possa ser pedida sem instalar o app.
   Você precisa criar essa página e informá-la no Play Console.
 
-A política de privacidade precisa dizer, sem rodeio, o que fica em cada lugar:
+### O que dizer sobre o acesso ao Google Drive
+
+Este é o ponto que mais gera desconfiança - e onde a resposta é forte. Diga,
+na ficha da loja e na política, algo com este teor:
+
+> O aplicativo solicita a permissão `drive.file`, que concede acesso
+> **apenas aos arquivos criados pelo próprio aplicativo**. Todos eles ficam
+> em uma única pasta, `Cápsula do Tempo - Meu Bebê`, criada na sua conta.
+> O aplicativo não lê, não lista e não acessa nenhum outro arquivo ou pasta
+> do seu Google Drive - essa restrição é aplicada pelos servidores do
+> Google, não apenas pelo aplicativo.
+
+É verdade e é verificável: `drive.file` é o escopo mais estreito do Drive, e
+o repositório tem testes que falham a integração contínua se alguém
+acrescentar um escopo mais amplo ou uma consulta à raiz da conta.
+
+### O que fica em cada lugar
+
+A política de privacidade precisa dizer, sem rodeio:
 
 | O quê | Onde | Quem vê |
 |---|---|---|
@@ -173,7 +191,7 @@ comunicação em caso de incidente.
 
 ---
 
-## Passo 6 — Testes antes do público
+## Passo 6 - Testes antes do público
 
 Comece por **teste interno** (libera em minutos, até 100 pessoas) para você
 e a família validarem o login e o envio de verdade. Depois promova para
@@ -188,7 +206,7 @@ produção.
 - [ ] SHA-1 da chave de release cadastrado no cliente OAuth Android
 - [ ] `android/key.properties` fora do repositório, com cópia da chave guardada
 - [ ] Regras do Firestore publicadas (`firebase deploy --only firestore:rules`)
-      e conferidas no console — não as do "modo de teste"
+      e conferidas no console - não as do "modo de teste"
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity
@@ -198,7 +216,7 @@ produção.
       no console do Firebase que `users/{uid}` sumiu
 - [ ] Conferido no APK que só há a permissão `INTERNET`
       (`aapt dump permissions app-release.apk`)
-- [ ] Testado em menino **e** menina — os textos concordam com o gênero
+- [ ] Testado em menino **e** menina - os textos concordam com o gênero
 - [ ] Testado com internet ruim: o envio continua em segundo plano
 
 ---
@@ -209,5 +227,5 @@ produção.
 |---|---|
 | Conta de desenvolvedor Google Play | US$ 25, uma vez |
 | Firebase (Firestore, só índice) | gratuito no plano Spark; pay-as-you-go se crescer muito |
-| Armazenamento das fotos | **zero** — fica no Drive de cada usuário |
+| Armazenamento das fotos | **zero** - fica no Drive de cada usuário |
 | GitHub Actions | gratuito, porque o repositório é público |

@@ -4,7 +4,7 @@ name: Android
 #
 # 1. `compilar` roda em todo pull request e prova que o projeto Android
 #    compila, usando o google-services.json de exemplo que está versionado.
-#    Não precisa de segredo nenhum — e é a única verificação que existe do
+#    Não precisa de segredo nenhum - e é a única verificação que existe do
 #    lado Gradle, já que `flutter analyze` e `flutter test` rodam na Dart VM
 #    e não encostam no build nativo.
 #
@@ -50,7 +50,7 @@ jobs:
       - name: Build de release
         # Release, não debug, de propósito: é o build que passa pelo R8
         # (minify + shrink). Os modelos do googleapis são montados por
-        # reflexão, então uma regra de ProGuard faltando só aparece aqui —
+        # reflexão, então uma regra de ProGuard faltando só aparece aqui -
         # nunca em debug, nunca no analyze, nunca nos testes.
         run: flutter build apk --release
 
@@ -67,7 +67,7 @@ jobs:
         # O manifesto que vai para a loja não é o que está no repositório: a
         # fusão acrescenta o que cada plugin declara. O open_filex pede a
         # galeria inteira (imagens, vídeos e áudio) e o video_compress pede
-        # escrita no armazenamento — nada disso é usado aqui, e o
+        # escrita no armazenamento - nada disso é usado aqui, e o
         # `tools:node="remove"` do nosso manifesto tira os cinco.
         #
         # Isso é invisível no código: um plugin novo, ou uma atualização que
@@ -88,7 +88,7 @@ jobs:
           sed 's/^/  /' permissoes.txt
 
           # 1. Barreira dura. Nenhuma destas pode aparecer, nunca. São as de
-          #    nível "dangerous" — as que abrem uma caixa de diálogo e dão
+          #    nível "dangerous" - as que abrem uma caixa de diálogo e dão
           #    acesso ao acervo pessoal de quem instalou. Um aplicativo que
           #    promete privacidade não pede acesso à galeria inteira, e a
           #    política de Photo and Video Permissions do Google Play recusa
@@ -111,7 +111,7 @@ jobs:
           fi
 
           # 2. Rede de segurança. A lista completa também é fixada, para que
-          #    qualquer permissão nova — mesmo inofensiva — apareça na revisão
+          #    qualquer permissão nova - mesmo inofensiva - apareça na revisão
           #    em vez de entrar de carona numa atualização de dependência.
           #
           #    Além da INTERNET, que é nossa, todas vêm da pilha do Firebase,

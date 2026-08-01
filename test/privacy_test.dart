@@ -98,11 +98,71 @@ void main() {
     });
   });
 
+  group('o aplicativo não alcança o resto do Google Drive', () {
+    // Esta é a garantia mais importante do projeto e a mais fácil de perder
+    // sem querer: basta alguém acrescentar um escopo para "resolver" um
+    // problema de acesso, e o aplicativo passa a poder ler a conta inteira
+    // de quem instalou. Aqui isso falha o CI.
+
+    test('o único escopo pedido é o drive.file', () {
+      expect(AuthService.driveScopes, <String>[
+        'https://www.googleapis.com/auth/drive.file',
+      ]);
+    });
+
+    test('nenhum escopo amplo do Drive aparece', () {
+      const List<String> proibidos = <String>[
+        'auth/drive', // acesso total
+        'drive.readonly',
+        'drive.metadata',
+        'drive.appdata',
+        'drive.photos.readonly',
+      ];
+      for (final String scope in AuthService.driveScopes) {
+        for (final String proibido in proibidos) {
+          final bool isExactDriveFile =
+              scope == 'https://www.googleapis.com/auth/drive.file';
+          if (proibido == 'auth/drive' && isExactDriveFile) continue;
+          expect(
+            scope.contains(proibido),
+            isFalse,
+            reason: '"$scope" daria acesso além do que o app cria.',
+          );
+        }
+      }
+    });
+
+    test('tudo vive numa pasta única e identificável', () {
+      expect(DriveService.rootFolderName, 'Cápsula do Tempo - Meu Bebê');
+    });
+
+    test('nenhum código consulta a raiz do Drive', () {
+      // Sob o drive.file uma busca na raiz já devolveria só o que é nosso,
+      // então isto não é sobre vazamento: é sobre o aplicativo nem sequer
+      // perguntar o que existe na conta de quem instalou.
+      final List<String> offenders = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((File f) => f.path.endsWith('.dart'))
+          .where((File f) => f.readAsStringSync().contains("'root' in parents"))
+          .map((File f) => f.path)
+          .toList();
+
+      expect(
+        offenders,
+        isEmpty,
+        reason:
+            'A pasta da cápsula é reencontrada pelo id guardado no Firestore, '
+            'nunca procurada na raiz. Veja DriveService._ensureRootFolder.',
+      );
+    });
+  });
+
   group('a foto da galeria nunca é apagada', () {
     // O seletor copia o arquivo escolhido para o cache do aplicativo e
     // devolve esse caminho. A cópia é apagada depois do envio; o original,
     // que está na galeria, jamais. Esta é a checagem que separa as duas
-    // coisas — e errar aqui significa apagar a foto de alguém.
+    // coisas - e errar aqui significa apagar a foto de alguém.
     const String cache = '/data/user/0/br.com.brigido.meu_bebe/cache';
 
     test('a cópia do seletor é reconhecida', () {

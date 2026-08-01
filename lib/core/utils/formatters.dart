@@ -14,19 +14,19 @@ abstract final class Fmt {
   /// `22/01/2027`
   static String date(DateTime d) => _short.format(d);
 
-  /// `22/01` — usado nos intervalos das telas de fotos e vídeos.
+  /// `22/01` - usado nos intervalos das telas de fotos e vídeos.
   static String dayMonth(DateTime d) => _dayMonth.format(d);
 
   /// `22 de janeiro de 2027`
   static String longDate(DateTime d) => _long.format(d);
 
-  /// `Janeiro de 2027` — cabeçalho de agrupamento.
+  /// `Janeiro de 2027` - cabeçalho de agrupamento.
   static String monthYear(DateTime d) => _capitalize(_monthYear.format(d));
 
   /// `14:35`
   static String time(DateTime d) => _time.format(d);
 
-  /// `22/01 a 28/01` — subtítulo dos baldes de idade.
+  /// `22/01 a 28/01` - subtítulo dos baldes de idade.
   static String dateRange(DateTime start, DateTime end) =>
       '${dayMonth(start)} a ${dayMonth(end)}';
 
@@ -43,7 +43,7 @@ abstract final class Fmt {
     return date(target);
   }
 
-  /// `3,250 kg` — peso guardado em gramas.
+  /// `3,250 kg` - peso guardado em gramas.
   static String weight(int grams) {
     final String value = NumberFormat('#,##0.000', locale).format(grams / 1000);
     return '$value kg';
@@ -57,7 +57,7 @@ abstract final class Fmt {
     return '${f.format(cm)} cm';
   }
 
-  /// `1,2 MB`, `12,4 GB` — tamanho de arquivo em português.
+  /// `1,2 MB`, `12,4 GB` - tamanho de arquivo em português.
   static String bytes(int value) {
     if (value < 1024) return '$value B';
     const List<String> units = <String>['KB', 'MB', 'GB', 'TB'];
@@ -73,7 +73,7 @@ abstract final class Fmt {
     return '${f.format(size)} ${units[unit]}';
   }
 
-  /// `0:24` — duração de vídeo.
+  /// `0:24` - duração de vídeo.
   static String duration(Duration d) {
     final int minutes = d.inMinutes;
     final String seconds = (d.inSeconds % 60).toString().padLeft(2, '0');

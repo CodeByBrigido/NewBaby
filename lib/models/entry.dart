@@ -20,7 +20,7 @@ enum EntryType {
   /// Valor gravado no Firestore.
   final String id;
 
-  /// Pasta de primeiro nível dentro de `Meu Bebê`.
+  /// Pasta de primeiro nível dentro da pasta da cápsula.
   final String folder;
 
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).
@@ -204,7 +204,7 @@ class Entry {
   final String id;
   final EntryType type;
 
-  /// Data do acontecimento — é ela que ordena a linha do tempo e escolhe a
+  /// Data do acontecimento - é ela que ordena a linha do tempo e escolhe a
   /// pasta de idade, não a data em que o registro foi criado.
   final DateTime date;
   final DateTime createdAt;
@@ -249,7 +249,7 @@ class Entry {
     };
   }
 
-  /// Texto usado pela busca — comparado já em minúsculas.
+  /// Texto usado pela busca - comparado já em minúsculas.
   ///
   /// É calculado na hora, a partir do objeto que já está em memória, e **não**
   /// é gravado no Firestore. Guardar uma cópia do texto lá significaria uma

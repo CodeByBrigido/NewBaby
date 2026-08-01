@@ -17,7 +17,7 @@ enum BabyGender {
 
   bool get isGirl => this == BabyGender.girl;
 
-  /// `null` para cadastros antigos ou incompletos — quem lê deve cair na
+  /// `null` para cadastros antigos ou incompletos - quem lê deve cair na
   /// forma neutra, nunca adivinhar.
   static BabyGender? fromId(String? id) {
     for (final BabyGender gender in values) {

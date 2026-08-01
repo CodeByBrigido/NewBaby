@@ -19,7 +19,7 @@ import '../timeline/details_editor_sheet.dart';
 
 /// Folha "O que você deseja adicionar?".
 ///
-/// Cada opção leva ao envio em dois ou três toques — sem formulário
+/// Cada opção leva ao envio em dois ou três toques - sem formulário
 /// obrigatório em nenhum caminho.
 Future<void> showAddSheet(BuildContext context) {
   return showModalBottomSheet<void>(
@@ -242,7 +242,7 @@ Future<void> _send(
 
     // Documentos já vêm com o nome do arquivo como título; para foto, vídeo
     // e desenho o aviso é a chance de dizer que aquilo foi o "Primeiro
-    // sorriso" — opcional, e sem segurar o envio.
+    // sorriso" - opcional, e sem segurar o envio.
     if (type == EntryType.document) {
       showMessage(context, message);
       return;

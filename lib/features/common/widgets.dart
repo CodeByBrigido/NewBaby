@@ -7,7 +7,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import 'drive_image.dart';
 
-/// Ícone, cor e rótulo de cada categoria — um só lugar para todos eles.
+/// Ícone, cor e rótulo de cada categoria - um só lugar para todos eles.
 extension EntryTypeVisuals on EntryType {
   IconData get icon => switch (this) {
     EntryType.birth => Icons.child_care_outlined,
@@ -127,7 +127,7 @@ class BabyAvatar extends StatelessWidget {
   }
 }
 
-/// Etiqueta arredondada com a idade — `2 meses e 27 dias`.
+/// Etiqueta arredondada com a idade - `2 meses e 27 dias`.
 class AgeChip extends StatelessWidget {
   const AgeChip({required this.age, super.key, this.compact = false});
 
