@@ -160,7 +160,29 @@ abstract final class S {
   static const String currentAge = 'Idade atual';
   static const String signOutConfirmTitle = 'Sair da conta?';
   static const String signOutConfirmBody =
-      'Suas memórias continuam guardadas no seu Google Drive.';
+      'Suas memórias continuam guardadas no seu Google Drive. As miniaturas '
+      'e os arquivos baixados são apagados deste aparelho.';
+
+  // Exclusão de conta
+  static const String deleteAccount = 'Apagar minha conta e meus dados';
+  static const String deleteAccountTitle = 'Apagar a conta?';
+  static const String deleteAccountBody =
+      'Apagamos do nosso servidor tudo o que guardamos sobre você: o cadastro, '
+      'a linha do tempo, os registros de crescimento e o texto das cartas. '
+      'Também retiramos a permissão de acesso ao seu Google Drive.\n\n'
+      'Esta ação não pode ser desfeita.';
+  static const String deleteAccountDriveQuestion =
+      'E a pasta "Meu Bebê" no seu Google Drive?';
+  static const String deleteAccountKeepDrive = 'Manter os arquivos';
+  static const String deleteAccountKeepDriveHint =
+      'As fotos, os vídeos e os documentos continuam no seu Drive, '
+      'organizados por idade. Recomendado.';
+  static const String deleteAccountTrashDrive = 'Mandar para a lixeira';
+  static const String deleteAccountTrashDriveHint =
+      'A pasta vai para a lixeira do Google Drive e pode ser recuperada por '
+      '30 dias.';
+  static const String deleteAccountWorking = 'Apagando...';
+  static const String deleteAccountDone = 'Conta apagada.';
 
   // Erros e estados
   static const String genericError = 'Algo deu errado. Tente de novo.';

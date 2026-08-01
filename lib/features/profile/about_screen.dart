@@ -61,6 +61,19 @@ class AboutScreen extends ConsumerWidget {
                 'celular para o Google Drive.',
             icon: Icons.lock_outline,
           ),
+          const SizedBox(height: 12),
+          // A frase acima é verdadeira e é fácil de ler como se valesse para
+          // tudo. Vale para os arquivos — e só. O índice fica num servidor
+          // nosso, e quem confia o registro de um filho a um aplicativo tem o
+          // direito de saber disso sem precisar procurar.
+          const InfoNote(
+            message:
+                'O que fica no nosso servidor é o índice: nome, data de '
+                'nascimento, peso, altura, datas e o texto das cartas. É o '
+                'que faz a linha do tempo e a busca funcionarem. Você pode '
+                'apagar tudo isso a qualquer momento, no seu perfil.',
+            icon: Icons.storage_outlined,
+          ),
         ],
       ),
     );

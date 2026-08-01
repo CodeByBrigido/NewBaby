@@ -16,6 +16,7 @@ import '../../features/letters/letters_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/profile/about_screen.dart';
 import '../../features/profile/baby_info_screen.dart';
+import '../../features/profile/delete_account_screen.dart';
 import '../../features/profile/settings_screen.dart';
 import '../../features/search/search_screen.dart';
 import '../../features/shell/home_shell.dart';
@@ -43,6 +44,7 @@ abstract final class Routes {
   static const String settings = '/configuracoes';
   static const String about = '/sobre';
   static const String babyInfo = '/perfil/bebe';
+  static const String deleteAccount = '/perfil/apagar';
   static const String newLetter = '/cartas/nova';
 
   static String bucket(String type, String bucketKey) =>
@@ -170,6 +172,10 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
       GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
+      GoRoute(
+        path: Routes.deleteAccount,
+        builder: (_, _) => const DeleteAccountScreen(),
+      ),
       GoRoute(
         path: '/memoria/:id',
         builder: (_, GoRouterState state) =>

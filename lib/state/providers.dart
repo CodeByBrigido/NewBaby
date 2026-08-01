@@ -12,6 +12,7 @@ import '../services/drive_service.dart';
 import '../services/firestore_service.dart';
 import '../services/media_optimizer.dart';
 import '../services/memory_repository.dart';
+import '../services/session_service.dart';
 import '../services/thumbnail_service.dart';
 
 /// Chave do Scaffold da casca do aplicativo.
@@ -59,6 +60,20 @@ final Provider<MemoryRepository> memoryRepositoryProvider =
       ref.onDispose(repository.dispose);
       return repository;
     });
+
+/// Sair e apagar a conta — os dois caminhos que precisam falar com todos os
+/// serviços ao mesmo tempo.
+final Provider<SessionService> sessionServiceProvider =
+    Provider<SessionService>(
+      (Ref ref) => SessionService(
+        auth: ref.watch(authServiceProvider),
+        firestore: ref.watch(firestoreServiceProvider),
+        drive: ref.watch(driveServiceProvider),
+        memories: ref.watch(memoryRepositoryProvider),
+        optimizer: ref.watch(mediaOptimizerProvider),
+        thumbnails: ref.watch(thumbnailServiceProvider),
+      ),
+    );
 
 // ------------------------------------------------------------------ auth
 

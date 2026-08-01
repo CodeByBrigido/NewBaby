@@ -162,6 +162,59 @@ class AuthService {
     await _firebaseAuth.signOut();
   }
 
+  /// Revoga a autorização concedida ao aplicativo.
+  ///
+  /// Diferente de [signOut], que apenas encerra a sessão: aqui o consentimento
+  /// do Drive some da conta Google da pessoa, e o aplicativo deixa de existir
+  /// na lista de aplicativos com acesso. É o que se espera de quem apaga a
+  /// conta — sair não devolve a permissão.
+  Future<void> disconnect() async {
+    _account = null;
+    try {
+      await _googleSignIn.disconnect();
+    } on GoogleSignInException catch (e) {
+      // Se a revogação falhar, o resto da exclusão precisa continuar: dados
+      // apagados importam mais que o consentimento pendurado.
+      debugPrint('Revogação do acesso falhou: ${e.code}');
+    }
+  }
+
+  /// Remove a conta do Firebase Auth.
+  ///
+  /// O Firebase recusa a exclusão quando o login é antigo; nesse caso a pessoa
+  /// passa pela tela do Google de novo e a exclusão é refeita.
+  Future<void> deleteAccount() async {
+    final User? user = _firebaseAuth.currentUser;
+    if (user == null) return;
+
+    try {
+      await user.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code != 'requires-recent-login') rethrow;
+
+      final String? idToken = await _reauthenticationToken();
+      if (idToken == null) {
+        throw const AuthFailure(
+          'Para apagar a conta, entre de novo e repita a operação.',
+        );
+      }
+      await user.reauthenticateWithCredential(
+        GoogleAuthProvider.credential(idToken: idToken),
+      );
+      await user.delete();
+    }
+  }
+
+  Future<String?> _reauthenticationToken() async {
+    try {
+      final GoogleSignInAccount account = await _googleSignIn.authenticate();
+      _account = account;
+      return account.authentication.idToken;
+    } on GoogleSignInException catch (e) {
+      throw AuthFailure(_messageFor(e));
+    }
+  }
+
   String _messageFor(GoogleSignInException e) => switch (e.code) {
     GoogleSignInExceptionCode.canceled => 'Login cancelado.',
     GoogleSignInExceptionCode.interrupted ||
