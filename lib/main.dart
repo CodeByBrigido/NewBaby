@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,10 +22,15 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // Espera a sessão anterior ser restaurada. O primeiro evento de
+  // `authStateChanges` já vem com o estado final — `currentUser` lido direto
+  // pode ainda estar nulo enquanto a restauração acontece.
+  final User? restored = await FirebaseAuth.instance.authStateChanges().first;
+
   // Antes de qualquer consulta: se a última sessão pediu para descartar o
   // cache local do Firestore, este é o único momento em que dá para fazer
   // isso sem quebrar o cliente.
-  await SessionService.clearPendingCache();
+  await SessionService.clearPendingCache(signedIn: restored != null);
 
   final ProviderContainer container = ProviderContainer();
   // O login silencioso roda antes da primeira tela: quem já entrou não vê

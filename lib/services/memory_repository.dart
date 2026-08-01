@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/utils/age_calculator.dart';
+import '../core/utils/error_text.dart';
 import '../core/utils/formatters.dart';
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
@@ -269,12 +270,15 @@ class MemoryRepository {
         total: pending.length,
       );
     } on Exception catch (e) {
-      debugPrint('Falha no envio de ${entry.id}: $e');
+      // A mensagem é traduzida antes de sair daqui. O texto cru da exceção
+      // traz caminho de arquivo e id do Drive, e este campo não é passageiro:
+      // fica gravado no Firestore, ou seja, no servidor de quem publicou.
+      final String message = userMessage(e, context: 'Envio de ${entry.id}');
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
         'uploadStatus': UploadStatus.failed.id,
-        'erro': e.toString(),
+        'erro': message,
       });
-      _emit(entry.id, UploadStatus.failed, message: e.toString());
+      _emit(entry.id, UploadStatus.failed, message: message);
     } finally {
       // O comprimido é descartável; o original do usuário nunca é tocado.
       for (final OptimizedMedia media in temporaries) {

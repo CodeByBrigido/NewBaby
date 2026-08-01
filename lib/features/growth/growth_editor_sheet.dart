@@ -11,6 +11,7 @@ import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Registrar peso e altura — três campos, um toque para salvar.
 Future<void> showGrowthEditor(BuildContext context) {
@@ -94,7 +95,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
     } on Exception catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        showMessage(context, 'Não foi possível salvar: $e');
+        showMessage(context, userMessage(e, context: 'Salvar crescimento'));
       }
     }
   }

@@ -111,10 +111,17 @@ class SessionService {
   /// O que está sendo apagado aqui não é pouco: o cache do Firestore guarda,
   /// em texto puro, o nome da criança, a data de nascimento, os registros de
   /// crescimento e o texto integral das cartas.
-  static Future<void> clearPendingCache() async {
+  ///
+  /// [signedIn] evita um caso estreito de perda de dado: se alguém saiu e
+  /// outra pessoa entrou sem fechar o aplicativo, a marca continua posta, e
+  /// no próximo início o `clearPersistence` levaria junto as escritas que a
+  /// segunda pessoa fez sem internet e que ainda estavam na fila. Com sessão
+  /// ativa a limpeza é adiada — o próximo "Sair" volta a marcá-la.
+  static Future<void> clearPendingCache({required bool signedIn}) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if (prefs.getBool(_pendingCacheKey) != true) return;
+      if (signedIn) return;
 
       await FirebaseFirestore.instance.clearPersistence();
       await prefs.remove(_pendingCacheKey);

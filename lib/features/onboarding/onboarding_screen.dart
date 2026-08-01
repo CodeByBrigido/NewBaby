@@ -13,6 +13,7 @@ import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Cadastro inicial. Tudo que o aplicativo precisa para calcular idade,
 /// escolher pastas e montar a linha do tempo sai daqui.
@@ -111,7 +112,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     } on Exception catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        showMessage(context, 'Não foi possível concluir o cadastro: $e');
+        showMessage(context, userMessage(e, context: 'Concluir cadastro'));
       }
     }
   }

@@ -10,6 +10,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Escrever ou editar uma carta. Só dois campos — título e mensagem.
 class LetterEditorScreen extends ConsumerStatefulWidget {
@@ -84,7 +85,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
     } on Exception catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        showMessage(context, 'Não foi possível salvar: $e');
+        showMessage(context, userMessage(e, context: 'Salvar carta'));
       }
     }
   }

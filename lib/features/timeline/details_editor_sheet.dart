@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../../core/utils/error_text.dart';
 
 /// Dá nome a uma memória depois que ela já foi guardada.
 ///
@@ -68,7 +69,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
     } on Exception catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        showMessage(context, 'Não foi possível salvar: $e');
+        showMessage(context, userMessage(e, context: 'Salvar detalhes'));
       }
     }
   }
