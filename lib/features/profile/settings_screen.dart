@@ -22,6 +22,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     try {
       await ref.read(mediaOptimizerProvider).clearCaches();
       await ref.read(thumbnailServiceProvider).clear();
+      await ref.read(memoryRepositoryProvider).clearDownloads();
       if (mounted) showMessage(context, 'Cache limpo.');
     } on Exception catch (e) {
       if (mounted) showMessage(context, 'Não foi possível limpar: $e');
@@ -93,8 +94,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'Apaga miniaturas e arquivos temporários. Nada é '
-                        'perdido: tudo continua no Google Drive.',
+                        'Apaga miniaturas, arquivos temporários e os '
+                        'documentos já baixados. Nada é perdido: tudo '
+                        'continua no Google Drive.',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

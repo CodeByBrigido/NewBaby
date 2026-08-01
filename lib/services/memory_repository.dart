@@ -240,7 +240,6 @@ class MemoryRepository {
           width: media.width,
           height: media.height,
           durationSeconds: media.durationSeconds,
-          originalPath: media.originalPath,
         );
 
         final File? thumb = media.thumbnail;
@@ -256,12 +255,12 @@ class MemoryRepository {
       }
 
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
+        // A lista substitui os placeholders: com os ids definitivos do Drive
+        // e sem o `caminhoLocal`, que só fazia falta enquanto o envio não
+        // tinha terminado.
         'arquivos': uploaded.map((EntryFile f) => f.toMap()).toList(),
         'uploadStatus': UploadStatus.ready.id,
         'erro': null,
-        // Os nomes definitivos no Drive (`2027-04-22_143500.jpg`) entram no
-        // índice, para a busca também encontrar por data.
-        'busca': entry.copyWith(files: uploaded).searchable,
       });
       _emit(
         entry.id,
@@ -471,26 +470,11 @@ class MemoryRepository {
         ? null
         : description.trim();
 
-    // A entrada é remontada em vez de usar copyWith porque o índice de busca
-    // também precisa refletir um campo que acabou de ser apagado.
-    final Entry updated = Entry(
-      id: entry.id,
-      type: entry.type,
-      date: entry.date,
-      createdAt: entry.createdAt,
-      ageDays: entry.ageDays,
-      bucketKey: entry.bucketKey,
-      bucketName: entry.bucketName,
-      title: newTitle,
-      description: newDescription,
-      files: entry.files,
-      growth: entry.growth,
-    );
-
+    // `null` apaga o campo no Firestore, e a busca é recalculada em memória a
+    // partir do que sobrou — não há índice gravado para sair de sincronia.
     return firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
-      'busca': updated.searchable,
     });
   }
 
@@ -533,14 +517,51 @@ class MemoryRepository {
 
   // ------------------------------------------------------------ downloads
 
+  /// Pasta dos arquivos baixados para visualizar ou compartilhar.
+  static const String _downloadsFolder = 'meu_bebe_downloads';
+
+  Future<Directory> _downloadsDir() async {
+    final Directory base = await getTemporaryDirectory();
+    return Directory(p.join(base.path, _downloadsFolder));
+  }
+
+  /// Reduz um nome vindo do Drive a algo que pode virar nome de arquivo.
+  ///
+  /// Nomes no Drive aceitam barra e `..`. Usados direto num `p.join`, seriam
+  /// interpretados como caminho e a gravação sairia da pasta de downloads —
+  /// inclusive por cima de arquivos internos do aplicativo.
+  static String safeFileName(String name) {
+    // `p.basename('/')` devolve `/`, então o separador ainda é retirado
+    // depois — o resultado precisa não conter caminho nenhum.
+    final String base = p
+        .basename(name.replaceAll(r'\', '/'))
+        .replaceAll('/', '')
+        .trim();
+    if (base.isEmpty || base == '.' || base == '..') return 'arquivo';
+    return base;
+  }
+
   /// Baixa um arquivo para o cache, para visualizar ou compartilhar.
   Future<File> localCopy(EntryFile file) async {
-    final Directory base = await getTemporaryDirectory();
+    final Directory base = await _downloadsDir();
     final File target = File(
-      p.join(base.path, 'meu_bebe_downloads', file.driveId, file.name),
+      p.join(base.path, file.driveId, safeFileName(file.name)),
     );
     if (await target.exists()) return target;
     return drive.downloadTo(file.driveId, target);
+  }
+
+  /// Apaga os arquivos baixados para leitura e compartilhamento.
+  ///
+  /// É aqui que ficam documentos abertos pelo aplicativo — certidão, cartão
+  /// de vacina —, então o botão "Limpar cache" precisa alcançar esta pasta.
+  Future<void> clearDownloads() async {
+    try {
+      final Directory dir = await _downloadsDir();
+      if (await dir.exists()) await dir.delete(recursive: true);
+    } on FileSystemException catch (e) {
+      debugPrint('Cache de downloads já estava limpo: $e');
+    }
   }
 
   void _emit(

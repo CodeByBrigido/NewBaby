@@ -250,6 +250,11 @@ class Entry {
   }
 
   /// Texto usado pela busca — comparado já em minúsculas.
+  ///
+  /// É calculado na hora, a partir do objeto que já está em memória, e **não**
+  /// é gravado no Firestore. Guardar uma cópia do texto lá significaria uma
+  /// segunda via do corpo inteiro de cada carta no banco de quem publica o
+  /// aplicativo, sem nada em troca: a busca nunca leu esse campo.
   String get searchable => <String?>[
     title,
     description,
@@ -306,8 +311,6 @@ class Entry {
     'uploadStatus': uploadStatus.id,
     'excluidoEm': deletedAt == null ? null : Timestamp.fromDate(deletedAt!),
     'erro': errorMessage,
-    // Guardado em minúsculas para a busca funcionar mesmo sobre o cache.
-    'busca': searchable,
   };
 
   static Entry fromMap(String id, Map<String, Object?> map) {

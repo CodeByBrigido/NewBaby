@@ -136,7 +136,6 @@ class DriveService {
     int? width,
     int? height,
     int? durationSeconds,
-    String? originalPath,
     void Function(int sent, int total)? onProgress,
   }) async {
     final int length = await file.length();
@@ -163,7 +162,12 @@ class DriveService {
         width: width,
         height: height,
         durationSeconds: durationSeconds,
-        localPath: originalPath,
+        // `localPath` fica de fora de propósito: depois que o arquivo está no
+        // Drive, guardar o caminho no aparelho de quem enviou só serviria
+        // para gravar no banco algo como
+        // `/storage/emulated/0/DCIM/Camera/IMG_20260801.jpg`, expondo a
+        // estrutura de pastas do celular. A miniatura já foi salva sob o
+        // `driveId`, então a exibição instantânea não depende mais disso.
       );
     });
   }
@@ -240,15 +244,45 @@ class DriveService {
     });
   }
 
+  /// Domínios para os quais é aceitável mandar o token de acesso do Drive.
+  ///
+  /// O cliente do `googleapis_auth` cola `Authorization: Bearer <token>` em
+  /// **qualquer** requisição que passe por ele, sem olhar o destino. Como a
+  /// URL da miniatura vem de dentro de uma resposta do servidor, e não do
+  /// nosso código, ela é conferida antes de o token sair do aparelho.
+  static const List<String> _allowedHosts = <String>[
+    'google.com',
+    'googleapis.com',
+    'googleusercontent.com',
+  ];
+
+  /// Se é seguro mandar o token de acesso para este endereço.
+  static bool isTrustedMediaHost(Uri url) {
+    if (url.scheme != 'https') return false;
+    final String host = url.host.toLowerCase();
+    return _allowedHosts.any(
+      (String allowed) => host == allowed || host.endsWith('.$allowed'),
+    );
+  }
+
   /// Baixa bytes de uma URL do Drive (miniatura) com autenticação.
   Future<List<int>> fetchBytes(Uri url) async {
+    if (!isTrustedMediaHost(url)) {
+      throw StateError('Endereço de miniatura fora do Google: ${url.host}');
+    }
+
     final gapis.AuthClient client = await _auth.driveClient();
     try {
-      final http.Response response = await client.get(url);
+      // Sem seguir redirecionamento: o `package:http` repassa os cabeçalhos
+      // ao seguir um 302, e é exatamente assim que um token vazaria para
+      // fora do Google sem ninguém perceber.
+      final http.Request request = http.Request('GET', url)
+        ..followRedirects = false;
+      final http.StreamedResponse response = await client.send(request);
       if (response.statusCode != 200) {
         throw StateError('Falha ao baixar (${response.statusCode}).');
       }
-      return response.bodyBytes;
+      return await response.stream.toBytes();
     } finally {
       client.close();
     }

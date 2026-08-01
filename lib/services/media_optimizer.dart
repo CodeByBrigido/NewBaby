@@ -96,8 +96,14 @@ class MediaOptimizer {
       quality: imageQuality,
       minWidth: worthResizing ? targetWidth : (size?.$1 ?? 1080),
       minHeight: worthResizing ? targetHeight : (size?.$2 ?? 1080),
-      // Mantém a orientação correta em fotos tiradas de lado.
-      keepExif: true,
+      // O EXIF é descartado de propósito. Ele carrega latitude e longitude,
+      // ou seja, o endereço de casa, da creche e da maternidade dentro de
+      // cada foto — e vai junto no dia em que alguém compartilhar o arquivo.
+      //
+      // A orientação não depende disso: `autoCorrectionAngle` já é `true` por
+      // padrão e gira a imagem antes de gravar, então a foto tirada de lado
+      // continua saindo em pé.
+      keepExif: false,
       format: CompressFormat.jpeg,
     );
 
