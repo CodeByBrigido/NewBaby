@@ -20,7 +20,7 @@ class DefaultFirebaseOptions {
   /// É ele que o `google_sign_in` usa como `serverClientId` para devolver o
   /// `idToken` que o Firebase Auth aceita. Sem ele o login falha no Android.
   static const String serverClientId =
-      'SEU_WEB_CLIENT_ID.apps.googleusercontent.com';
+      '14672319711-vev1b5hibhkfhh5828u243dhh2ijnt67.apps.googleusercontent.com';
 
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -45,11 +45,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'SUA_API_KEY_ANDROID',
-    appId: '1:000000000000:android:0000000000000000000000',
-    messagingSenderId: '000000000000',
-    projectId: 'seu-projeto-firebase',
-    storageBucket: 'seu-projeto-firebase.firebasestorage.app',
+    apiKey: 'AIzaSyB1mg3GBDThtcL2iWjqSPnMXzMkI1ad8_w',
+    appId: '1:14672319711:android:5e7a63df5208a70bae456a',
+    messagingSenderId: '14672319711',
+    projectId: 'meu-bebe-16a7d',
+    storageBucket: 'meu-bebe-16a7d.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
