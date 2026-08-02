@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../core/l10n/gendered.dart';
+import '../../core/l10n/strings.dart';
+import '../../core/router/app_router.dart';
+import '../../core/theme/app_colors.dart';
+import '../../state/providers.dart';
+import '../common/widgets.dart';
+
+class AboutScreen extends ConsumerWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextTheme text = Theme.of(context).textTheme;
+    final G g = G.of(ref.watch(profileProvider).value?.gender);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(S.about),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () =>
+              context.canPop() ? context.pop() : context.go(Routes.timeline),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+        children: <Widget>[
+          Center(
+            child: Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: const Icon(
+                Icons.favorite_rounded,
+                color: Colors.white,
+                size: 34,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            S.appFullName,
+            textAlign: TextAlign.center,
+            style: text.titleLarge,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            S.appTagline,
+            textAlign: TextAlign.center,
+            style: text.bodySmall,
+          ),
+          const SizedBox(height: 32),
+          SoftCard(child: Text(g.aboutStorage)),
+          const SizedBox(height: 20),
+          const InfoNote(
+            message:
+                'Nenhuma foto passa por servidor nosso: elas vão direto do '
+                'celular para o Google Drive.',
+            icon: Icons.lock_outline,
+          ),
+          const SizedBox(height: 12),
+          const InfoNote(
+            message:
+                'O aplicativo não enxerga o resto do seu Drive. A permissão '
+                'que você concede dá acesso apenas aos arquivos que ele '
+                'mesmo cria, todos dentro da pasta "Meu Bebê - Cápsula do '
+                'Tempo". Suas outras pastas são invisíveis para ele.',
+            icon: Icons.folder_off_outlined,
+          ),
+          const SizedBox(height: 12),
+          // A frase acima é verdadeira e é fácil de ler como se valesse para
+          // tudo. Vale para os arquivos - e só. O índice fica num servidor
+          // nosso, e quem confia o registro de um filho a um aplicativo tem o
+          // direito de saber disso sem precisar procurar.
+          const InfoNote(
+            message:
+                'O que fica no nosso servidor é o índice: nome, data de '
+                'nascimento, peso, altura, datas e o texto das cartas. É o '
+                'que faz a linha do tempo e a busca funcionarem. Você pode '
+                'apagar tudo isso a qualquer momento, no seu perfil.',
+            icon: Icons.storage_outlined,
+          ),
+        ],
+      ),
+    );
+  }
+}
