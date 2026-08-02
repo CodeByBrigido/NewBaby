@@ -1,0 +1,38 @@
+name: iOS
+
+# Só verifica se o lado iOS ainda compila.
+#
+# Não gera nada instalável: a Apple exige que o app seja assinado com um
+# certificado de desenvolvedor, e isso depende de uma conta paga. O objetivo
+# aqui é que, no dia em que valer a pena investir no iOS, não haja meses de
+# quebra acumulada para consertar.
+#
+# Fica fora dos pull requests porque o runner macOS é lento - roda quando
+# algo entra na main, ou quando pedido na mão.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  compilar:
+    name: Compila o app iOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.8
+          channel: stable
+          cache: true
+
+      - name: Usar a configuração de exemplo
+        run: cp ios/Runner/GoogleService-Info.plist.example ios/Runner/GoogleService-Info.plist
+
+      - name: Baixar dependências
+        run: flutter pub get
+
+      - name: Build sem assinatura
+        run: flutter build ios --release --no-codesign

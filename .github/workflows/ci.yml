@@ -1,0 +1,68 @@
+name: CI
+
+# Verifica o que dá para verificar sem credenciais: análise estática,
+# formatação e a suíte de testes. O build de release não roda aqui porque
+# depende do google-services.json / GoogleService-Info.plist reais, que não
+# estão no repositório de propósito.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  analisar-e-testar:
+    name: Análise e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.8
+          channel: stable
+          cache: true
+
+      - name: Baixar dependências
+        run: flutter pub get
+
+      - name: Conferir a formatação
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Análise estática
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Testes
+        run: flutter test
+
+  regras:
+    name: Regras do Firestore
+    runs-on: ubuntu-latest
+    # As regras são a única barreira entre os dados de uma família e os de
+    # outra. Aqui elas rodam contra o emulador oficial do Firestore - o mesmo
+    # motor que a produção usa -, e não contra uma leitura nossa do arquivo.
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: firebase/teste/package-lock.json
+
+      - uses: actions/setup-java@v4
+        # O emulador do Firestore é um .jar, e o firebase-tools exige JDK 21
+        # ou superior - com 17 ele nem chega a subir o emulador.
+        #
+        # É um Java diferente do usado no build Android (17, exigido pelo AGP
+        # e pelos plugins). São jobs separados, então não conflitam.
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Instalar as ferramentas de teste
+        working-directory: firebase/teste
+        run: npm ci
+
+      - name: Verificar o isolamento entre contas e a validação de formato
+        working-directory: firebase/teste
+        run: npm test

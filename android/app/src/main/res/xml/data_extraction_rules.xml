@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12 e superiores.
+
+  `cloud-backup` é o backup automático para a conta Google; `device-transfer`
+  é a cópia direta na troca de aparelho. Os dois excluem tudo.
+
+  Não há perda: o acervo está no Google Drive e o índice no Firestore. Ao
+  entrar de novo, o aplicativo remonta o que precisa. O que ficaria de fora do
+  aparelho, se nada fosse dito aqui, é o cache do Firestore - que contém o
+  nome da criança, a data de nascimento e o texto integral das cartas.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </device-transfer>
+</data-extraction-rules>
