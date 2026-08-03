@@ -189,25 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 2 - Home viva e timeline agrupada
-
-O maior salto visual pelo menor custo.
-
-- Home com saudação por horário, idade por extenso, cartões dinâmicos
-  (hoje faz exatamente X, faltam N dias para o aniversário, última foto,
-  última carta, último crescimento)
-- Botão "Registrar momento" abrindo o BottomSheet que já existe
-- Timeline agrupada por dia, com resumo e expansão
-- **Foto da criança como avatar**, corrigindo o `photoDriveId` que hoje
-  nunca chega a ser gravado
-- Aproximação da referência visual enviada no início do projeto
-
-Arquivos: `features/home/*`, `features/timeline/*`,
-`services/memory_repository.dart`, novos componentes reutilizáveis.
-
-**Pronto quando:** a Home responde "como está a Maria hoje" sem rolar a
-tela, e a timeline mostra o dia antes de mostrar os arquivos.
-
 ### Fase 3 - Momentos, eventos e checklists
 
 Os itens 3, 4 e 7 são a mesma espinha: um catálogo de sugestões avaliado
@@ -323,6 +304,42 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 2 - Home viva e timeline agrupada ✅
+
+**As contas saíram da tela.** `CapsulePulse` responde, sem tocar em rede,
+que idade a criança tem hoje, se hoje é data redonda, quanto falta para o
+próximo aniversário e há quantos dias foi o último registro de cada tipo.
+Vive separado porque data erra em silêncio, e porque as notificações da
+Fase 6 precisam exatamente destas mesmas contas.
+
+16 casos de borda cobertos, incluindo nascida em 29 de fevereiro (o
+aniversário some três anos em cada quatro se ninguém tratar), nascida em
+31, virada de ano, e registro com data futura virando número negativo.
+
+**Home.** Saudação por horário, "Hoje a Maria está com 8 meses e 12 dias"
+em destaque, e cartões que só aparecem quando têm resposta: cartão vazio é
+ruído, e ruído na primeira tela faz a pessoa parar de olhar. Cada cartão
+de "última foto" leva para a categoria ao ser tocado. Botão "Registrar
+momento" abrindo o BottomSheet que já existia.
+
+Quando um tipo nunca aconteceu, o cartão convida em vez de acusar.
+
+**Timeline agrupada.** Dia com mais de 4 itens abre recolhido, mostrando
+"12 fotos" com um toque para expandir. Dia curto nunca recolhe: esconder
+duas fotos atrás de um toque seria trocar a memória por um menu. O resumo
+junta como se escreve em português, "2 fotos, 1 vídeo e 1 carta", e mantém
+sempre a mesma ordem para que dois dias parecidos se pareçam na tela.
+
+**Avatar.** O caminho antigo tentava gravar `photoDriveId` logo depois de
+escolher a foto, mas o envio ao Drive é assíncrono e naquele instante o id
+ainda é vazio: a foto nunca chegava ao perfil. Agora o avatar é derivado
+das entradas, então aparece sozinho quando o envio termina e sobrevive à
+exclusão da foto escolhida. O caminho morto saiu.
+
+**Verificação:** 147 testes (26 novos), analisador e formatador limpos.
+Um dos testes novos pegou um erro que teria ido para o celular: o cartão
+do aniversário mostraria "19 faltam 19 dias".
 
 ### Fase 1 - Identidade e linguagem ✅
 

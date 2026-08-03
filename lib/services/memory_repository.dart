@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -99,7 +98,7 @@ class MemoryRepository {
 
     if (birthPhoto != null) {
       try {
-        final Entry entry = await addFiles(
+        await addFiles(
           uid: uid,
           profile: saved,
           type: EntryType.photo,
@@ -109,11 +108,11 @@ class MemoryRepository {
           date: saved.birth,
           title: 'Primeira foto',
         );
-        final String? photoId = entry.files.firstOrNull?.driveId;
-        if (photoId != null && photoId.isNotEmpty) {
-          saved = saved.copyWith(photoDriveId: photoId);
-          await firestore.saveProfile(uid, saved);
-        }
+        // Aqui não adianta gravar `photoDriveId`: `addFiles` volta antes de
+        // o envio terminar, então o id ainda é vazio. O avatar é derivado
+        // das entradas (veja `avatarPhotoProvider`) e aparece sozinho quando
+        // o envio conclui. O campo continua no cadastro para quando houver
+        // escolha manual de foto de perfil.
       } on Exception catch (e) {
         // O cadastro não pode falhar por causa da foto; ela pode ser
         // adicionada depois pela linha do tempo.

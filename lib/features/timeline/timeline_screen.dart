@@ -10,6 +10,7 @@ import '../../core/theme/app_palette.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
+import '../../models/day_summary.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -210,7 +211,15 @@ class _BabyHeader extends StatelessWidget {
 
 /// Um dia da linha do tempo: a data e a idade à esquerda, os cartões à
 /// direita, ligados pelo trilho vertical.
-class _DayGroup extends StatelessWidget {
+///
+/// Dia cheio começa recolhido, mostrando só o resumo. O limite não é
+/// enfeite: um aniversário com trinta fotos, aberto, empurra o resto do mês
+/// para fora da tela, e quem está folheando a infância inteira perde o fio.
+///
+/// Dia curto nunca recolhe. Esconder duas fotos atrás de um toque seria
+/// trocar a memória por um menu, que é exatamente o que este aplicativo não
+/// quer ser.
+class _DayGroup extends StatefulWidget {
   const _DayGroup({
     required this.day,
     required this.entries,
@@ -218,15 +227,27 @@ class _DayGroup extends StatelessWidget {
     required this.isLast,
   });
 
+  /// Acima disto, o dia abre recolhido.
+  static const int limiteParaRecolher = 4;
+
   final DateTime day;
   final List<Entry> entries;
   final BabyProfile profile;
   final bool isLast;
 
   @override
+  State<_DayGroup> createState() => _DayGroupState();
+}
+
+class _DayGroupState extends State<_DayGroup> {
+  late bool _aberto = widget.entries.length <= _DayGroup.limiteParaRecolher;
+
+  @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
-    final Age age = profile.ageAt(day);
+    final Age age = widget.profile.ageAt(widget.day);
+    final bool podeRecolher =
+        widget.entries.length > _DayGroup.limiteParaRecolher;
 
     return IntrinsicHeight(
       child: Row(
@@ -240,7 +261,7 @@ class _DayGroup extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    Fmt.timelineDay(day),
+                    Fmt.timelineDay(widget.day),
                     style: text.labelMedium?.copyWith(
                       color: context.cores.textPrimary,
                       fontWeight: FontWeight.w600,
@@ -258,22 +279,79 @@ class _DayGroup extends StatelessWidget {
               ),
             ),
           ),
-          _Rail(isLast: isLast),
+          _Rail(isLast: widget.isLast),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(right: 16, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  for (final Entry entry in entries) ...<Widget>[
-                    TimelineCard(entry: entry),
-                    if (entry != entries.last) const SizedBox(height: 10),
-                  ],
+                  if (podeRecolher)
+                    _DaySummary(
+                      resumo: summarizeDay(widget.entries),
+                      aberto: _aberto,
+                      onTap: () => setState(() => _aberto = !_aberto),
+                    ),
+                  if (_aberto)
+                    for (final Entry entry in widget.entries) ...<Widget>[
+                      if (entry != widget.entries.first || podeRecolher)
+                        const SizedBox(height: 10),
+                      TimelineCard(entry: entry),
+                    ],
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A linha que resume o dia e abre ou fecha os cartões.
+class _DaySummary extends StatelessWidget {
+  const _DaySummary({
+    required this.resumo,
+    required this.aberto,
+    required this.onTap,
+  });
+
+  final String resumo;
+  final bool aberto;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: context.cores.surfaceMuted,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  resumo,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: context.cores.textPrimary,
+                  ),
+                ),
+              ),
+              AnimatedRotation(
+                turns: aberto ? 0.5 : 0,
+                duration: const Duration(milliseconds: 180),
+                child: Icon(
+                  Icons.expand_more,
+                  size: 20,
+                  color: context.cores.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
