@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
+import '../../state/providers.dart';
 import 'drive_image.dart';
 
 /// Ícone, cor e rótulo de cada categoria - um só lugar para todos eles.
@@ -39,6 +41,29 @@ extension EntryTypeVisuals on EntryType {
     EntryType.drawing => context.cores.drawingSoft,
     EntryType.document => context.cores.documentSoft,
     EntryType.growth => context.cores.growthSoft,
+  };
+
+  /// No singular, já com o artigo de "último", porque em português a
+  /// concordância muda com a palavra: última foto, último vídeo.
+  String get lastLabel => switch (this) {
+    EntryType.birth => 'Último nascimento',
+    EntryType.photo => 'Última foto',
+    EntryType.video => 'Último vídeo',
+    EntryType.letter => 'Última carta',
+    EntryType.drawing => 'Último desenho',
+    EntryType.document => 'Último documento',
+    EntryType.growth => 'Última medição',
+  };
+
+  /// No singular, para frases como "nenhuma foto ainda".
+  String get singular => switch (this) {
+    EntryType.birth => 'nascimento',
+    EntryType.photo => 'foto',
+    EntryType.video => 'vídeo',
+    EntryType.letter => 'carta',
+    EntryType.drawing => 'desenho',
+    EntryType.document => 'documento',
+    EntryType.growth => 'medição',
   };
 
   String get label => switch (this) {
@@ -80,7 +105,7 @@ class CategoryBadge extends StatelessWidget {
 }
 
 /// Foto de perfil da criança, com as iniciais como reserva.
-class BabyAvatar extends StatelessWidget {
+class BabyAvatar extends ConsumerWidget {
   const BabyAvatar({
     required this.profile,
     super.key,
@@ -93,9 +118,11 @@ class BabyAvatar extends StatelessWidget {
   final EntryFile? photo;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final String initials = _initials(profile?.name ?? '');
-    final EntryFile? file = photo;
+    // Sem foto explícita, o avatar acha a dele sozinho: assim nenhuma das
+    // telas que o usam precisa saber de onde a foto vem.
+    final EntryFile? file = photo ?? ref.watch(avatarPhotoProvider);
 
     return CircleAvatar(
       radius: radius,

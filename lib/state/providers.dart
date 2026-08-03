@@ -99,6 +99,52 @@ final StreamProvider<BabyProfile?> profileProvider =
 // -------------------------------------------------------------- entradas
 
 /// Todas as memórias ativas, já ordenadas da mais recente para a mais antiga.
+/// A foto que representa a criança no aplicativo.
+///
+/// Deriva das entradas em vez de guardar um id à parte, e isso é de
+/// propósito. O caminho antigo tentava gravar o id no cadastro logo depois
+/// de escolher a foto, mas o envio ao Drive é assíncrono: naquele instante
+/// o id ainda é vazio, e a foto nunca chegava ao perfil.
+///
+/// Derivada, ela aparece sozinha assim que o envio termina, sobrevive à
+/// exclusão da foto escolhida (cai para a próxima) e dispensa uma segunda
+/// fonte de verdade que pode divergir.
+///
+/// A ordem é: a escolha explícita de quem cadastrou, depois a foto do
+/// nascimento, depois a mais recente.
+final Provider<EntryFile?> avatarPhotoProvider = Provider<EntryFile?>((
+  Ref ref,
+) {
+  final BabyProfile? profile = ref.watch(profileProvider).value;
+  if (profile == null) return null;
+  final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
+
+  bool pronta(EntryFile f) => f.driveId.isNotEmpty && f.isImage;
+
+  final String? escolhida = profile.photoDriveId;
+  if (escolhida != null && escolhida.isNotEmpty) {
+    for (final Entry entry in all) {
+      for (final EntryFile file in entry.files) {
+        if (file.driveId == escolhida) return file;
+      }
+    }
+  }
+
+  for (final Entry entry in all) {
+    if (entry.type != EntryType.birth) continue;
+    final EntryFile? file = entry.files.where(pronta).firstOrNull;
+    if (file != null) return file;
+  }
+
+  for (final Entry entry in all) {
+    if (entry.type != EntryType.photo) continue;
+    final EntryFile? file = entry.files.where(pronta).firstOrNull;
+    if (file != null) return file;
+  }
+
+  return null;
+});
+
 final StreamProvider<List<Entry>> entriesProvider = StreamProvider<List<Entry>>(
   (Ref ref) {
     final String? uid = ref.watch(uidProvider);

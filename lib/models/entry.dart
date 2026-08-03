@@ -23,6 +23,30 @@ enum EntryType {
   /// Pasta de primeiro nível dentro da pasta da cápsula.
   final String folder;
 
+  /// Como o tipo é contado numa frase: "5 fotos e 1 vídeo".
+  ///
+  /// Fica no modelo, e não junto dos ícones, porque é palavra e não desenho:
+  /// o resumo de um dia precisa disto sem depender de nada de tela.
+  String get one => switch (this) {
+    EntryType.birth => 'nascimento',
+    EntryType.photo => 'foto',
+    EntryType.video => 'vídeo',
+    EntryType.letter => 'carta',
+    EntryType.drawing => 'desenho',
+    EntryType.document => 'documento',
+    EntryType.growth => 'medição',
+  };
+
+  String get many => switch (this) {
+    EntryType.birth => 'nascimentos',
+    EntryType.photo => 'fotos',
+    EntryType.video => 'vídeos',
+    EntryType.letter => 'cartas',
+    EntryType.drawing => 'desenhos',
+    EntryType.document => 'documentos',
+    EntryType.growth => 'medições',
+  };
+
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).
   /// Cartas, documentos e crescimento ficam direto na pasta da categoria.
   bool get bucketsByAge => this == EntryType.photo || this == EntryType.video;

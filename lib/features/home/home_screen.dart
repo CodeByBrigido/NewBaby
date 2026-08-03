@@ -10,9 +10,12 @@ import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
+import '../../models/capsule_pulse.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
+import '../shell/add_sheet.dart';
 import '../timeline/upload_banner.dart';
+import 'pulse_cards.dart';
 
 /// Início: um resumo caloroso, com as últimas memórias e os atalhos.
 class HomeScreen extends ConsumerWidget {
@@ -27,6 +30,12 @@ class HomeScreen extends ConsumerWidget {
     if (profile == null) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    final Copy copy = Copy.of(profile);
+    final CapsulePulse pulse = CapsulePulse.from(
+      profile: profile,
+      entries: entries,
+    );
 
     final List<Entry> recentPhotos = entries
         .where(
@@ -55,8 +64,16 @@ class HomeScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
         children: <Widget>[
-          _Hero(profile: profile),
-          const SizedBox(height: 16),
+          _Hero(profile: profile, pulse: pulse, copy: copy),
+          const SizedBox(height: 14),
+          PulseCards(pulse: pulse, copy: copy),
+          const SizedBox(height: 18),
+          FilledButton.icon(
+            onPressed: () => showAddSheet(context),
+            icon: const Icon(Icons.add),
+            label: const Text('Registrar momento'),
+          ),
+          const SizedBox(height: 8),
           const UploadBanner(),
           const SectionHeader(title: 'Atalhos'),
           _Shortcuts(),
@@ -76,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
             EmptyState(
               icon: Icons.auto_awesome_outlined,
               title: S.timelineEmptyTitle,
-              message: Copy.of(profile).timelineEmptyBody,
+              message: copy.timelineEmptyBody,
             ),
         ],
       ),
@@ -84,10 +101,16 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// O cabeçalho: quem, quantos anos, e desde quando.
+///
+/// A frase é a mesma que alguém diria em voz alta ao ser perguntado, e é
+/// por isso que a idade vem grande e o resto vem pequeno.
 class _Hero extends StatelessWidget {
-  const _Hero({required this.profile});
+  const _Hero({required this.profile, required this.pulse, required this.copy});
 
   final BabyProfile profile;
+  final CapsulePulse pulse;
+  final Copy copy;
 
   @override
   Widget build(BuildContext context) {
@@ -99,27 +122,33 @@ class _Hero extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[context.cores.primarySoft, Color(0xFFF9EAF1)],
+          colors: <Color>[context.cores.primarySoft, context.cores.accentSoft],
         ),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          BabyAvatar(profile: profile, radius: 32),
-          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(profile.firstName, style: text.headlineSmall),
-                const SizedBox(height: 4),
                 Text(
-                  profile.ageNow().detailedLabel(alwaysShowDays: true),
+                  '${Fmt.greeting(DateTime.now())}!',
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.primaryDark,
                   ),
                 ),
+                const SizedBox(height: 10),
+                Text('Hoje ${copy.theName} está com', style: text.bodyMedium),
                 const SizedBox(height: 2),
+                Text(
+                  pulse.age.detailedLabel(alwaysShowDays: true),
+                  style: text.headlineSmall?.copyWith(
+                    color: context.cores.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Text(
                   'Nasceu em ${Fmt.longDate(profile.birth)}',
                   style: text.bodySmall,
@@ -127,6 +156,8 @@ class _Hero extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 16),
+          BabyAvatar(profile: profile, radius: 34),
         ],
       ),
     );
