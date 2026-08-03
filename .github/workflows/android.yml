@@ -201,48 +201,10 @@ jobs:
           echo "$FIREBASE_OPTIONS_DART" | base64 -d > lib/firebase_options.dart
           # Falha cedo e com mensagem clara se o base64 veio truncado.
           python3 -c "import json;json.load(open('android/app/google-services.json'))"
-          grep -q 'class DefaultFirebaseOptions' lib/firebase_options.dart
-
-          # Nenhum valor de exemplo pode sobrar. Um firebase_options.dart
-          # preenchido pela metade compila, instala e abre - e só então
-          # falha, sem dizer o porquê, porque o Firebase nao valida essas
-          # chaves na inicializacao. Melhor recusar aqui.
-          marcas=(
-            "SEU_WEB_CLIENT_ID|o serverClientId, que é o ID do cliente OAuth Web. Sem ele o login falha. SETUP.md, passo 6."
-            "SUA_API_KEY_ANDROID|a apiKey. Está em client[0].api_key[0].current_key no google-services.json."
-            "SUA_API_KEY_IOS|a apiKey do iOS. Se você não usa iPhone, pode repetir a do Android."
-            "seu-projeto-firebase|o projectId e o storageBucket. Estão em project_info no google-services.json."
-            "1:000000000000|o appId. Está em client[0].client_info.mobilesdk_app_id no google-services.json."
-          )
-          faltou=0
-          for entrada in "${marcas[@]}"; do
-            marca="${entrada%%|*}"
-            explicacao="${entrada#*|}"
-            if grep -q "$marca" lib/firebase_options.dart; then
-              echo "::error::O firebase_options.dart ainda tem o valor de exemplo \"$marca\"."
-              echo "  Esse campo é $explicacao"
-              faltou=1
-            fi
-          done
-
-          if [ "$faltou" = "1" ]; then
-            echo
-            echo "Corrija o arquivo, gere o base64 de novo e atualize o"
-            echo "segredo FIREBASE_OPTIONS_DART. Veja o passo 7 do INSTALAR.md."
-            exit 1
-          fi
-
-          # O projectId do Dart e o do google-services.json tem que ser o
-          # mesmo projeto. Quando divergem, o aplicativo abre e falha depois,
-          # na primeira consulta - longe da causa.
-          esperado=$(python3 -c "import json;print(json.load(open('android/app/google-services.json'))['project_info']['project_id'])")
-          if ! grep -q "projectId: '$esperado'" lib/firebase_options.dart; then
-            echo "::error::O projectId do firebase_options.dart não bate com o do google-services.json."
-            echo "O google-services.json é do projeto '$esperado'."
-            echo "Os dois arquivos precisam vir do mesmo projeto Firebase."
-            exit 1
-          fi
-          echo "Configuração do Firebase conferida: projeto $esperado."
+          # A conferência é por bloco: este job compila um APK **Android**, e
+          # o bloco `ios` do firebase_options.dart nem é lido por ele. Quem
+          # não tem iPhone não pode ficar travado por causa dele.
+          python3 .github/scripts/conferir_firebase.py android
 
       - name: Restaurar a chave de assinatura
         env:
