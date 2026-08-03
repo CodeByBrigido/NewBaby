@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -34,7 +34,7 @@ class LettersScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(Routes.newLetter),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.cores.primary,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.edit_outlined),
         label: const Text('Escrever'),
@@ -43,7 +43,7 @@ class LettersScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.mail_outline,
               title: 'Nenhuma carta ainda',
-              message: G.of(profile?.gender).lettersEmptyBody,
+              message: Copy.of(profile).lettersEmptyBody,
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),

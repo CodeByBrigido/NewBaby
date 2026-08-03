@@ -6,7 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -263,8 +263,8 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
             VideoProgressIndicator(
               controller,
               allowScrubbing: true,
-              colors: const VideoProgressColors(
-                playedColor: AppColors.primary,
+              colors: VideoProgressColors(
+                playedColor: context.cores.primary,
                 bufferedColor: Colors.white24,
                 backgroundColor: Colors.white12,
               ),

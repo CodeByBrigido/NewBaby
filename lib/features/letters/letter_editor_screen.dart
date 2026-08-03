@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
 import '../../core/router/app_router.dart';
@@ -128,9 +128,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               decoration: InputDecoration(
                 counterText: '',
                 labelText: S.titleField,
-                hintText: G
-                    .of(ref.watch(profileProvider).value?.gender)
-                    .letterHint,
+                hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
               ),
             ),
             const SizedBox(height: 16),

@@ -9,7 +9,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../services/lock_service.dart';
@@ -134,13 +134,13 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               height: 140,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.documentSoft,
+                color: context.cores.documentSoft,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Text(
                 file?.extensionLabel ?? 'DOC',
                 style: text.headlineSmall?.copyWith(
-                  color: AppColors.document,
+                  color: context.cores.document,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -237,7 +237,7 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.primarySoft,
+      color: context.cores.primarySoft,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: busy ? null : onTap,
@@ -246,13 +246,13 @@ class _Button extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14),
           child: Column(
             children: <Widget>[
-              Icon(icon, size: 22, color: AppColors.primaryDark),
+              Icon(icon, size: 22, color: context.cores.primaryDark),
               const SizedBox(height: 6),
               Text(
                 label,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(color: AppColors.primaryDark),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: context.cores.primaryDark,
+                ),
               ),
             ],
           ),

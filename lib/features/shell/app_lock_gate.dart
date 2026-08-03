@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../services/lock_service.dart';
 import '../../state/lock_providers.dart';
 
@@ -107,7 +107,7 @@ class _LockScreen extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Material(
-      color: AppColors.background,
+      color: context.cores.background,
       child: SafeArea(
         child: Center(
           child: Padding(
@@ -119,12 +119,12 @@ class _LockScreen extends StatelessWidget {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
-                    color: AppColors.primarySoft,
+                    color: context.cores.primarySoft,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.lock_outline,
-                    color: AppColors.primaryDark,
+                    color: context.cores.primaryDark,
                     size: 32,
                   ),
                 ),

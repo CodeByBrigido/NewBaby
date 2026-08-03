@@ -88,7 +88,7 @@ final Provider<String?> uidProvider = Provider<String?>((Ref ref) {
 
 // --------------------------------------------------------------- perfil
 
-/// Cadastro da bebê. `null` significa "ainda não passou pelo onboarding".
+/// Cadastro da criança. `null` significa "ainda não passou pelo onboarding".
 final StreamProvider<BabyProfile?> profileProvider =
     StreamProvider<BabyProfile?>((Ref ref) {
       final String? uid = ref.watch(uidProvider);

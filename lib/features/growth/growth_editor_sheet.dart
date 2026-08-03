@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../services/lock_service.dart';
@@ -122,7 +122,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.divider,
+                  color: context.cores.divider,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -187,7 +187,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                       minimumSize: const Size.fromHeight(48),
                       foregroundColor: _photo == null
                           ? null
-                          : AppColors.primaryDark,
+                          : context.cores.primaryDark,
                     ),
                     icon: Icon(
                       _photo == null

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -89,7 +89,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.divider,
+                  color: context.cores.divider,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -120,9 +120,9 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                   final String suggestion = S.milestoneSuggestions[index];
                   return ActionChip(
                     label: Text(suggestion),
-                    backgroundColor: AppColors.primarySoft,
+                    backgroundColor: context.cores.primarySoft,
                     labelStyle: Theme.of(context).textTheme.labelSmall
-                        ?.copyWith(color: AppColors.primaryDark),
+                        ?.copyWith(color: context.cores.primaryDark),
                     onPressed: () => setState(() {
                       _title.text = suggestion;
                     }),

@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -76,7 +76,7 @@ class HomeScreen extends ConsumerWidget {
             EmptyState(
               icon: Icons.auto_awesome_outlined,
               title: S.timelineEmptyTitle,
-              message: G.of(profile.gender).timelineEmptyBody,
+              message: Copy.of(profile).timelineEmptyBody,
             ),
         ],
       ),
@@ -96,10 +96,10 @@ class _Hero extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[AppColors.primarySoft, Color(0xFFF9EAF1)],
+          colors: <Color>[context.cores.primarySoft, Color(0xFFF9EAF1)],
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -116,7 +116,7 @@ class _Hero extends StatelessWidget {
                 Text(
                   profile.ageNow().detailedLabel(alwaysShowDays: true),
                   style: text.bodyMedium?.copyWith(
-                    color: AppColors.primaryDark,
+                    color: context.cores.primaryDark,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -155,7 +155,7 @@ class _Shortcuts extends StatelessWidget {
       children: <Widget>[
         for (final (EntryType type, String route) in items)
           Material(
-            color: type.soft,
+            color: type.soft(context),
             borderRadius: BorderRadius.circular(18),
             child: InkWell(
               onTap: () => context.push(route),
@@ -163,12 +163,12 @@ class _Shortcuts extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(type.icon, color: type.accent, size: 26),
+                  Icon(type.icon, color: type.accent(context), size: 26),
                   const SizedBox(height: 8),
                   Text(
                     type.label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.textPrimary,
+                      color: context.cores.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

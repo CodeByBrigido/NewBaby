@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -54,13 +54,13 @@ class DocumentsScreen extends ConsumerWidget {
                         height: 48,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: AppColors.documentSoft,
+                          color: context.cores.documentSoft,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Text(
                           file?.extensionLabel ?? 'DOC',
                           style: text.labelSmall?.copyWith(
-                            color: AppColors.document,
+                            color: context.cores.document,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -95,10 +95,10 @@ class DocumentsScreen extends ConsumerWidget {
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       else
-                        const Icon(
+                        Icon(
                           Icons.chevron_right,
                           size: 20,
-                          color: AppColors.textSecondary,
+                          color: context.cores.textSecondary,
                         ),
                     ],
                   ),

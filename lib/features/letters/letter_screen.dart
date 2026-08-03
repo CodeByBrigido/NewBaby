@@ -6,7 +6,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -152,8 +152,8 @@ class _Action extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = destructive
-        ? AppColors.danger
-        : AppColors.textSecondary;
+        ? AppPalette.danger
+        : context.cores.textSecondary;
 
     return InkWell(
       onTap: onTap,

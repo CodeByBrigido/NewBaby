@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -44,7 +44,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           IconButton(
             icon: Icon(
               _filter == null ? Icons.filter_list : Icons.filter_list_alt,
-              color: _filter == null ? null : AppColors.primary,
+              color: _filter == null ? null : context.cores.primary,
             ),
             onPressed: _showFilter,
           ),
@@ -74,7 +74,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
               icon: Icons.auto_awesome_outlined,
               title: _filter == null ? S.timelineEmptyTitle : S.noItemsYet,
               message: _filter == null
-                  ? G.of(profile.gender).timelineEmptyBody
+                  ? Copy.of(profile).timelineEmptyBody
                   : null,
             );
           }
@@ -104,7 +104,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             for (final EntryType type in EntryType.values)
               if (type != EntryType.birth)
                 ListTile(
-                  leading: Icon(type.icon, color: type.accent),
+                  leading: Icon(type.icon, color: type.accent(context)),
                   title: Text(type.label),
                   selected: _filter == type,
                   onTap: () => Navigator.of(context).pop(type),
@@ -179,7 +179,7 @@ class _BabyHeader extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.primarySoft,
+          color: context.cores.primarySoft,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -195,7 +195,7 @@ class _BabyHeader extends StatelessWidget {
                   Text(
                     Fmt.longDate(profile.birth),
                     style: text.bodySmall?.copyWith(
-                      color: AppColors.primaryDark,
+                      color: context.cores.primaryDark,
                     ),
                   ),
                 ],
@@ -242,7 +242,7 @@ class _DayGroup extends StatelessWidget {
                   Text(
                     Fmt.timelineDay(day),
                     style: text.labelMedium?.copyWith(
-                      color: AppColors.textPrimary,
+                      color: context.cores.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -250,7 +250,7 @@ class _DayGroup extends StatelessWidget {
                   Text(
                     age.detailedLabel(),
                     style: text.labelSmall?.copyWith(
-                      color: AppColors.textSecondary,
+                      color: context.cores.textSecondary,
                       height: 1.3,
                     ),
                   ),
@@ -295,17 +295,17 @@ class _Rail extends StatelessWidget {
           Container(
             width: 10,
             height: 10,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
+            decoration: BoxDecoration(
+              color: context.cores.primary,
               shape: BoxShape.circle,
             ),
           ),
           if (!isLast)
-            const Expanded(
+            Expanded(
               child: VerticalDivider(
                 width: 1,
                 thickness: 1.5,
-                color: AppColors.primarySoft,
+                color: context.cores.primarySoft,
               ),
             ),
         ],

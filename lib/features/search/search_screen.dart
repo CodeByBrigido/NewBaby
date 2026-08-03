@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -166,19 +166,21 @@ class _CategoryButton extends ConsumerWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: type.soft,
+              color: type.soft(context),
               borderRadius: BorderRadius.circular(16),
               border: selected
-                  ? Border.all(color: type.accent, width: 2)
+                  ? Border.all(color: type.accent(context), width: 2)
                   : null,
             ),
-            child: Icon(type.icon, color: type.accent, size: 24),
+            child: Icon(type.icon, color: type.accent(context), size: 24),
           ),
           const SizedBox(height: 6),
           Text(
             type.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: selected ? type.accent : AppColors.textSecondary,
+              color: selected
+                  ? type.accent(context)
+                  : context.cores.textSecondary,
               fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
