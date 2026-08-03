@@ -42,17 +42,19 @@ Future<void> main() async {
 
     await SessionService.clearPendingCache(signedIn: await _restoredSession());
 
-    // O login silencioso roda antes da primeira tela para quem já entrou não
-    // ver a tela de login piscar. Se ele falhar - configuração do Google
-    // incompleta, Play Services ausente, aparelho sem rede - o aplicativo
-    // ainda tem que abrir: a tela de login sabe lidar com isso e explica o
-    // problema para quem está com o celular na mão.
+    // Prepara o login com Google. O `AuthService` já tem prazo por dentro e
+    // solta a restauração da sessão anterior sem esperar; o prazo aqui é a
+    // rede de segurança, para o caso de a trava aparecer num lugar novo.
+    //
+    // Falhar aqui não pode impedir o aplicativo de abrir: quem sabe explicar
+    // um problema de login é a tela de login, com a pessoa olhando.
     try {
       await container
           .read(authServiceProvider)
-          .initialize(serverClientId: DefaultFirebaseOptions.serverClientId);
+          .initialize(serverClientId: DefaultFirebaseOptions.serverClientId)
+          .timeout(const Duration(seconds: 12));
     } on Object catch (error) {
-      debugPrint('Login silencioso indisponível: $error');
+      debugPrint('Preparo do login indisponível: $error');
     }
 
     runApp(

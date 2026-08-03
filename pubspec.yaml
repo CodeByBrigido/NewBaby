@@ -56,6 +56,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  # Adianta o relógio nos testes de prazo, em vez de esperar de verdade.
+  fake_async: ^1.3.3
+  # Só para os testes: o `google_sign_in` não deixa criar uma instância dublê
+  # (construtor privado), mas a camada de plataforma abaixo dele, sim. É o que
+  # permite simular um aparelho onde o login trava.
+  google_sign_in_platform_interface: ^3.1.0
 
 flutter:
   uses-material-design: true
