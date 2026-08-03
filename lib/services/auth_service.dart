@@ -38,6 +38,9 @@ class AuthService {
   ];
 
   bool _initialized = false;
+  Future<void>? _pluginReady;
+  String? _clientId;
+  String? _serverClientId;
   GoogleSignInAccount? _account;
 
   User? get currentUser => _firebaseAuth.currentUser;
@@ -47,14 +50,46 @@ class AuthService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  /// Inicializa o plugin e tenta reaproveitar uma sessão anterior sem
-  /// mostrar nenhuma tela. Chamado uma vez, na abertura do app.
+  /// Quanto o preparo do login pode demorar antes de desistir da espera.
+  ///
+  /// Nada aqui pode segurar a primeira tela: uma espera sem prazo no caminho
+  /// da abertura vira tela em branco, sem erro e sem pista.
+  static const Duration _prazo = Duration(seconds: 8);
+
+  /// Inicializa o plugin e tenta reaproveitar uma sessão anterior sem mostrar
+  /// nenhuma tela.
+  ///
+  /// Chamado na abertura do aplicativo e, se ali o prazo tiver estourado, de
+  /// novo quando a pessoa toca em Entrar. Desistir da espera não pode virar
+  /// um login quebrado para sempre.
   Future<void> initialize({String? clientId, String? serverClientId}) async {
     if (_initialized) return;
-    await _googleSignIn.initialize(
+
+    // Guardados para a tentativa de Entrar poder repetir o preparo com a
+    // mesma configuração, sem depender de quem chamou daqui.
+    _clientId = clientId ?? _clientId;
+    _serverClientId = serverClientId ?? _serverClientId;
+
+    // A chamada fica guardada. Se o prazo estourar, ela continua correndo por
+    // baixo, e a próxima tentativa espera por essa mesma - o plugin diz, na
+    // documentação, que `initialize` é para ser chamado uma única vez, e
+    // chamar duas vezes tem comportamento indefinido.
+    final Future<void> pendente = _pluginReady ??= _googleSignIn.initialize(
       clientId: clientId,
       serverClientId: serverClientId,
     );
+
+    try {
+      await pendente.timeout(_prazo);
+    } on TimeoutException {
+      // Ainda pode chegar; segura a referência para quem tentar de novo.
+      rethrow;
+    } on Object {
+      // Falhou de verdade. Aí sim vale começar outra do zero.
+      if (identical(_pluginReady, pendente)) _pluginReady = null;
+      rethrow;
+    }
+
     _initialized = true;
 
     _googleSignIn.authenticationEvents.listen(
@@ -73,10 +108,28 @@ class AuthService {
       },
     );
 
+    // Sem `await`, de propósito.
+    //
+    // Restaurar a sessão anterior é conforto, não requisito: serve para quem
+    // já entrou não ver a tela de login piscar. Esperar por isso na abertura
+    // custa caro demais - a chamada conversa com o Play Services, e num
+    // aparelho onde ela não responde o aplicativo simplesmente não abre.
+    //
+    // Solto, o resultado chega pelo `authenticationEvents` quando chegar, e o
+    // roteador reage. O pior caso vira um piscar da tela de login, em vez de
+    // uma tela em branco para sempre.
+    unawaited(_attemptSilentSignIn());
+  }
+
+  Future<void> _attemptSilentSignIn() async {
     try {
-      await _googleSignIn.attemptLightweightAuthentication();
+      await _googleSignIn.attemptLightweightAuthentication()?.timeout(_prazo);
     } on GoogleSignInException catch (e) {
       debugPrint('Login silencioso não disponível: ${e.code}');
+    } on TimeoutException {
+      debugPrint('Login silencioso demorou demais; seguindo sem ele.');
+    } on Object catch (e) {
+      debugPrint('Login silencioso falhou: $e');
     }
   }
 
@@ -84,7 +137,19 @@ class AuthService {
   /// a sessão ao Firebase.
   Future<void> signIn() async {
     if (!_initialized) {
-      throw const AuthFailure('O login ainda está sendo preparado.');
+      // O preparo da abertura pode ter estourado o prazo. Aqui a pessoa está
+      // olhando a tela e pediu para entrar: dá para esperar de novo, e o que
+      // falhar vira uma frase que ela lê, em vez de um beco sem saída.
+      try {
+        await initialize(clientId: _clientId, serverClientId: _serverClientId);
+      } on TimeoutException {
+        throw const AuthFailure(
+          'O login com Google está demorando para responder. '
+          'Confira a conexão e tente de novo.',
+        );
+      } on GoogleSignInException catch (e) {
+        throw AuthFailure(_messageFor(e));
+      }
     }
     if (!_googleSignIn.supportsAuthenticate()) {
       throw const AuthFailure(
@@ -152,7 +217,18 @@ class AuthService {
       }
       return await account.authorizationClient.authorizeScopes(driveScopes);
     } on GoogleSignInException catch (e) {
-      throw AuthFailure(_messageFor(e), needsPermission: true);
+      throw AuthFailure(
+        _messageFor(
+          e,
+          // Aqui a conta já foi escolhida; o que foi recusado é a permissão
+          // do Drive. Dizer "Login cancelado." mandaria a pessoa refazer a
+          // parte que já tinha dado certo.
+          canceled:
+              'Você não autorizou o acesso ao Google Drive. É lá que as '
+              'memórias ficam guardadas, na sua própria conta.',
+        ),
+        needsPermission: true,
+      );
     }
   }
 
@@ -215,8 +291,16 @@ class AuthService {
     }
   }
 
-  String _messageFor(GoogleSignInException e) => switch (e.code) {
-    GoogleSignInExceptionCode.canceled => 'Login cancelado.',
+  /// Traduz a falha do plugin.
+  ///
+  /// [canceled] existe porque desistir tem significados diferentes conforme o
+  /// passo: fechar a lista de contas não é a mesma coisa que recusar o acesso
+  /// ao Drive, e a mesma frase para as duas coisas confunde.
+  String _messageFor(
+    GoogleSignInException e, {
+    String canceled = 'Login cancelado.',
+  }) => switch (e.code) {
+    GoogleSignInExceptionCode.canceled => canceled,
     GoogleSignInExceptionCode.interrupted ||
     GoogleSignInExceptionCode.uiUnavailable =>
       'Não foi possível abrir a tela do Google. Tente de novo.',
