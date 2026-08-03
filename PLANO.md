@@ -77,31 +77,58 @@ Compartilhamento exige um modelo novo por cima, sem afrouxar o que existe.
 
 ---
 
-## O bloqueio técnico do item 6
+## O desenho do compartilhamento (item 6)
 
-**Compartilhar a pasta no Drive não faz o aplicativo do familiar
-conseguir ler os arquivos.**
+O modelo mental é o do próprio Drive, e está certo: o pai compartilha a
+pasta `Meu Bebê - Cápsula do Tempo` como leitor com um email específico, o
+código de 48 horas amarra o convite àquele email, e o familiar precisa das
+duas coisas para entrar.
 
-O escopo é `drive.file`, que dá acesso apenas ao que *aquele aplicativo,
-naquela conta*, criou. Quando o pai compartilha a pasta, o familiar passa
-a ver o conteúdo em `drive.google.com`, mas o aplicativo instalado no
-celular dele continua sem permissão: não foi ele quem criou aqueles
-arquivos.
+Só um passo não fecha sozinho.
 
-Isto não é um detalhe de implementação. É a diferença entre o item 6
-funcionar e não funcionar.
+**O aplicativo do familiar não consegue ler a pasta só porque ela foi
+compartilhada.** O escopo `drive.file` dá acesso ao que *aquele
+aplicativo, naquela conta*, criou. A pasta foi criada pelo aplicativo na
+conta do pai. Para o aplicativo do familiar, aquilo é arquivo de estranho,
+mesmo aparecendo no Drive dele.
 
-As saídas possíveis:
+Para o aplicativo achar a pasta sozinho, ele precisaria poder listar o
+Drive do familiar. Aí passaria a poder ler tudo que a pessoa tem, que é
+exatamente o risco que este projeto foi construído para evitar.
 
-| Caminho | O que custa |
+**A saída é o familiar apontar a pasta uma vez**, pelo Google Picker: uma
+tela, um toque, "escolha a pasta que foi compartilhada com você". Dali em
+diante o aplicativo alcança aquela pasta e nada mais, garantido pelo
+Google e não por promessa nossa.
+
+Esse toque não é fricção, é a prova. Ele é o consentimento explícito e é
+também a validação "o Drive foi mesmo compartilhado" que o fluxo já pedia.
+As duas coisas viram uma.
+
+### O que isso destrava, e o que não trava
+
+Timeline, datas, tipos e gráfico de crescimento moram no **Firestore**,
+não no Drive. Só as fotos e os vídeos em si estão no Drive.
+
+Então o aplicativo do familiar mostra a linha do tempo e o crescimento
+**antes** de ele apontar a pasta. O Picker destrava só as imagens. Quem
+nunca fizer esse passo não fica com um aplicativo quebrado, fica com um
+aplicativo sem foto.
+
+Isso também define a ordem de construção: o modo leitura funciona primeiro,
+o Picker entra depois.
+
+### Descartados, e por quê
+
+| Caminho | Motivo |
 |---|---|
-| **Google Picker** (recomendado) | O familiar escolhe uma vez a pasta compartilhada. É o caminho oficial do Google para este caso exato, e serve de brinde como a validação "o Drive realmente foi compartilhado" que você já queria. Precisa de uma tela web embutida. |
-| Ampliar o escopo do familiar para `drive.readonly` | O aplicativo passaria a poder ler o Drive inteiro da pessoa. É exatamente o risco que você levantou lá atrás e que o projeto foi construído para evitar. Descartado. |
-| Link público (`anyoneWithLink`) | Fotos de criança acessíveis por quem tiver o link. Inaceitável. |
+| Ampliar o escopo do familiar para `drive.readonly` | Devolveria ao aplicativo o Drive inteiro da pessoa |
+| Link público (`anyoneWithLink`) | Foto de criança acessível por quem tiver o link |
+| Espelhar as mídias no Firebase Storage | Novo armazenamento, novo custo, e contraria o Drive como fonte única |
 
-Recomendo o Picker. **Preciso confirmar na documentação se escolher uma
-pasta cascateia o acesso para o conteúdo dela**, ou se o acesso é item a
-item; isso muda o desenho da tela e eu não vou afirmar sem verificar.
+**A confirmar antes de codificar:** se escolher uma pasta no Picker
+cascateia o acesso para o conteúdo dela ou se é item a item. Muda o
+desenho da tela e não vou afirmar sem verificar.
 
 ### Duas perguntas do item 6 que ainda não têm resposta
 
@@ -117,14 +144,50 @@ item; isso muda o desenho da tela e eu não vou afirmar sem verificar.
 
 ---
 
+## O que não está na lista dos 12 e entra assim mesmo
+
+A lista numerada não é o escopo inteiro. Duas outras coisas pertencem a
+este plano, e ficaram de fora da primeira versão dele por engano meu.
+
+### Pendências já conhecidas
+
+- **Ícone do aplicativo.** Ainda é o do Flutter, idêntico ao do modelo
+- **Foto da criança como avatar.** O campo `photoDriveId` existe, nunca é
+  gravado (o envio retorna antes do upload terminar) e nunca é lido
+- **Ajuste visual** conforme a referência enviada no início do projeto
+- **Itens da Play Store:** política de privacidade publicada, URL de
+  exclusão de conta, alerta de orçamento no Firebase, App Check
+
+### O que a régua da cápsula exige e o produto ainda não tem
+
+- **Voz.** Os tipos são foto, vídeo, carta, desenho, documento e
+  crescimento. Nenhum áudio. A voz é a primeira coisa que a memória perde
+  e a mais densa que existe: trinta segundos da mãe dizendo "hoje você deu
+  o primeiro passo" valem mais que duzentas fotos. O encanamento de upload
+  já existe, então o custo é baixo e o retorno é o maior da lista inteira
+- **Cápsula lacrada.** O aplicativo se chama Cápsula do Tempo e não tem
+  cápsula. Carta hoje é texto com data. Falta lacrar algo com data de
+  abertura ("abrir quando você fizer 18 anos"), que é o que transforma
+  arquivo em presente
+- **A cápsula pode morrer antes da criança.** O Google apaga contas
+  inativas por 2 anos. Se esta conta parar de ser usada daqui a 8 anos, o
+  acervo vai junto e a cápsula de 20 anos vira nada
+- **O aplicativo é o elo mais frágil da corrente.** Em 25 anos o Flutter,
+  o Firebase e o Android terão mudado. A cápsula precisa ser legível **sem
+  o aplicativo**: uma exportação que gere pasta navegável com as mídias e
+  um índice que abra em qualquer computador do futuro. Um produto de longo
+  prazo precisa presumir a própria morte
+
+---
+
 ## Fases
 
-São seis, não três. A sua lista é grande e algumas partes dependem de
-outras; espremer em três criaria fases que não compilam no meio. Cada uma
-abaixo termina com o aplicativo compilando, testado e instalável.
+São nove. A lista é grande, algumas partes dependem de outras, e espremer
+em três criaria fases que não compilam no meio. Cada uma abaixo termina
+com o aplicativo compilando, testado e instalável.
 
-A ordem é por retorno emocional dividido por risco. O compartilhamento
-vai por último de propósito: é o único item que mexe em privacidade.
+A ordem é por retorno emocional dividido por risco. O compartilhamento vai
+tarde de propósito: é o único item que mexe em privacidade.
 
 ### Fase 1 - Identidade e linguagem
 
@@ -138,12 +201,13 @@ Base de tudo que vem depois. Sem isto, cada tela nova nasce com o problema.
 - Varredura de "sua bebê" / "seu bebê" e de toda frase que só funciona num
   dos sexos
 - Revisão de estados vazios, títulos e rótulos
+- **Ícone do aplicativo**, no lugar do ícone do Flutter
 
-Arquivos: `core/theme/*`, `core/l10n/*`, e passagem mecânica pelos 61
-arquivos que citam `AppColors`.
+Arquivos: `core/theme/*`, `core/l10n/*`, `android/app/src/main/res/*`, e
+passagem mecânica pelos 61 arquivos que citam `AppColors`.
 
-**Pronto quando:** trocar o sexo no cadastro muda o app inteiro, e não
-sobra nenhuma frase de gênero fixo.
+**Pronto quando:** trocar o sexo no cadastro muda o app inteiro, não sobra
+nenhuma frase de gênero fixo, e o ícone na tela do celular é do produto.
 
 ### Fase 2 - Home viva e timeline agrupada
 
@@ -154,9 +218,12 @@ O maior salto visual pelo menor custo.
   última carta, último crescimento)
 - Botão "Registrar momento" abrindo o BottomSheet que já existe
 - Timeline agrupada por dia, com resumo e expansão
+- **Foto da criança como avatar**, corrigindo o `photoDriveId` que hoje
+  nunca chega a ser gravado
+- Aproximação da referência visual enviada no início do projeto
 
-Arquivos: `features/home/*`, `features/timeline/*`, novos componentes
-reutilizáveis.
+Arquivos: `features/home/*`, `features/timeline/*`,
+`services/memory_repository.dart`, novos componentes reutilizáveis.
 
 **Pronto quando:** a Home responde "como está a Maria hoje" sem rolar a
 tela, e a timeline mostra o dia antes de mostrar os arquivos.
@@ -176,7 +243,25 @@ três motores parecidos.
 **Pronto quando:** acrescentar um momento novo é acrescentar uma linha ao
 catálogo.
 
-### Fase 4 - Aba Inspirações
+### Fase 4 - Voz e cápsula lacrada
+
+Não estava na lista numerada. É a fase de maior retorno emocional do plano
+inteiro, e a que mais responde à régua dos 20 anos.
+
+- Novo tipo de memória: **áudio**, com gravação dentro do aplicativo
+- Reprodução na timeline, sem sair para outro aplicativo
+- **Lacre com data de abertura** em cartas, vídeos e áudios: guardado
+  agora, abre no aniversário de 15, de 18, ou na data que a pessoa
+  escolher
+- Tela que mostra o que está lacrado sem revelar o conteúdo, porque a
+  espera faz parte do presente
+
+O encanamento de upload, otimização e organização por idade já existe;
+áudio entra como mais um `EntryType`.
+
+**Pronto quando:** dá para gravar a voz da mãe e lacrar para 2044.
+
+### Fase 5 - Aba Inspirações
 
 - Nova aba na navegação inferior, no lugar da Busca
 - Busca migra para a lupa no AppBar, sem perder nada
@@ -186,7 +271,7 @@ catálogo.
 **Pronto quando:** trocar o asset por uma chamada de rede é trocar uma
 classe.
 
-### Fase 5 - Notificações inteligentes
+### Fase 6 - Notificações inteligentes
 
 Reaproveita o motor de regras da Fase 3.
 
@@ -198,20 +283,49 @@ Reaproveita o motor de regras da Fase 3.
 **Pronto quando:** acrescentar uma notificação nova é acrescentar uma
 regra, e nada dispara sem a pessoa ter permitido.
 
-### Fase 6 - Compartilhamento com familiares
+### Fase 7 - Compartilhamento com familiares
 
 A maior e a única que mexe em privacidade. Só começa com as duas perguntas
-acima respondidas e o Picker confirmado.
+acima respondidas e o comportamento do Picker confirmado.
 
-- Escolha de papel no primeiro acesso
-- Tela de convite: nome, email, compartilhamento da pasta, código de 48h
-- Entrada por código, com validação tripla (código, email, acesso ao Drive)
-- Timeline em modo leitura, sem nenhum caminho de escrita
-- Regras do Firestore para o novo modelo, testadas no emulador como as
-  atuais
+Construída em duas metades, porque a primeira já entrega valor sozinha:
+
+**7a, sem Drive.** Escolha de papel no primeiro acesso; tela de convite
+(nome, email, compartilhamento da pasta, código de 48h); entrada por
+código com validação de código e email; timeline e crescimento em modo
+leitura, sem nenhum caminho de escrita; regras do Firestore para o novo
+modelo, testadas no emulador como as atuais.
+
+**7b, com Drive.** Google Picker para o familiar apontar a pasta
+compartilhada, destravando as fotos e os vídeos, e a validação de que o
+compartilhamento realmente aconteceu.
 
 **Pronto quando:** o familiar vê o que foi liberado e nada além, provado
 por teste no emulador e não por inspeção de tela.
+
+### Fase 8 - Longevidade
+
+A fase que quase nenhum aplicativo faz e que este precisa fazer, porque o
+horizonte dele é de décadas.
+
+- **Exportação legível sem o aplicativo:** pasta navegável com as mídias e
+  um índice que abra em qualquer computador, hoje ou em 2051
+- **Aviso de conta inativa:** o Google apaga contas sem uso por 2 anos.
+  Quem guarda uma cápsula de 20 anos precisa saber disso e ser lembrado
+- Instruções de herança: como a criança recebe a cápsula quando crescer
+
+**Pronto quando:** dá para entregar a cápsula inteira a alguém que nunca
+ouviu falar deste aplicativo.
+
+### Fase 9 - Publicação na Play Store
+
+- Política de privacidade publicada e acessível
+- URL de exclusão de conta exigida pela loja
+- Alerta de orçamento no Firebase
+- App Check
+- Ficha da loja, capturas de tela, classificação
+
+**Pronto quando:** o aplicativo passa na revisão da Play Store.
 
 ---
 
