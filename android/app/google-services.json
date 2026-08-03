@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "14672319711",
+    "project_id": "meu-bebe-16a7d",
+    "storage_bucket": "meu-bebe-16a7d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14672319711:android:5e7a63df5208a70bae456a",
+        "android_client_info": {
+          "package_name": "br.com.brigido.meu_bebe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14672319711-e365gqkelebq59i69501c268jn9mb441.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.brigido.meu_bebe",
+            "certificate_hash": "04111a8a07c485fb2ee94120c19ec5ef450b207e"
+          }
+        },
+        {
+          "client_id": "14672319711-vev1b5hibhkfhh5828u243dhh2ijnt67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1mg3GBDThtcL2iWjqSPnMXzMkI1ad8_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14672319711-vev1b5hibhkfhh5828u243dhh2ijnt67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
