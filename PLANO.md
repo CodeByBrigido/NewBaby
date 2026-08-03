@@ -189,26 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 1 - Identidade e linguagem
-
-Base de tudo que vem depois. Sem isto, cada tela nova nasce com o problema.
-
-- Paleta adaptável ao sexo via `ThemeExtension`, com as três famílias de
-  cor (menina: lilás, rosa claro, pêssego; menino: azul, verde água,
-  cinza) e a neutra para antes do cadastro
-- Ícones e elementos decorativos acompanhando a paleta
-- Helper de copy reescrito para usar o **nome da criança** por padrão
-- Varredura de "sua bebê" / "seu bebê" e de toda frase que só funciona num
-  dos sexos
-- Revisão de estados vazios, títulos e rótulos
-- **Ícone do aplicativo**, no lugar do ícone do Flutter
-
-Arquivos: `core/theme/*`, `core/l10n/*`, `android/app/src/main/res/*`, e
-passagem mecânica pelos 61 arquivos que citam `AppColors`.
-
-**Pronto quando:** trocar o sexo no cadastro muda o app inteiro, não sobra
-nenhuma frase de gênero fixo, e o ícone na tela do celular é do produto.
-
 ### Fase 2 - Home viva e timeline agrupada
 
 O maior salto visual pelo menor custo.
@@ -344,4 +324,37 @@ ouviu falar deste aplicativo.
 
 ## Concluído
 
-Nada ainda.
+### Fase 1 - Identidade e linguagem ✅
+
+**Paleta adaptável ao sexo.** `AppColors` era `abstract final` com tudo
+`static const`, e constante não muda em tempo de execução. Virou
+`AppPalette extends ThemeExtension`, com três variantes: menina
+(rosa-malva, lilás, pêssego), menino (azul suave, verde água, cinza) e
+neutra (lavanda acinzentada) para antes do cadastro. O `MaterialApp` lê o
+perfil e anima a transição sozinho.
+
+158 usos em 61 arquivos migrados para `context.cores`, guiados pelo
+analisador. Os getters de cor por categoria viraram métodos que recebem o
+contexto, porque uma extensão sobre enum não tem de onde tirar a paleta.
+
+**Linguagem pelo nome.** O helper `G`, que escolhia entre "sua bebê" e
+"seu bebê", virou `Copy`, que recebe o perfil inteiro e usa o nome:
+"Adicionar fotos da Maria", "Informações do Pedro". Isso dissolve quase
+toda a concordância de uma vez, porque as duas formas passam a diferir só
+no artigo.
+
+Onde não há nome (login, início do cadastro), a frase foi reescrita para
+não precisar de referente, em vez de cair numa forma genérica desajeitada.
+Cadastro antigo sem sexo informado dispensa o artigo ("de Alex"), que é
+correto em português e melhor que arriscar a forma errada.
+
+**Ícone do aplicativo.** Coração dentro de um anel, sobre degradê do lilás
+ao azul: as duas cores de marca no mesmo ícone, já que ele é um só para
+todo mundo. Legado e adaptativo, cinco densidades. Desenhado por código em
+`tool/gerar_icone.py`, sem dependência externa, para ter fonte em vez de
+ser um binário sem origem.
+
+**Verificação:** 121 testes (8 novos), `flutter analyze
+--fatal-infos --fatal-warnings` limpo, `dart format` limpo. O novo
+`test/copy_test.dart` inclui uma varredura que falha o CI se "sua bebê"
+voltar a qualquer arquivo de interface.

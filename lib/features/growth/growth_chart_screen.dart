@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -48,7 +48,7 @@ class GrowthChartScreen extends ConsumerWidget {
                 _ChartCard(
                   title: S.weightField,
                   unit: 'kg',
-                  color: AppColors.growth,
+                  color: context.cores.growth,
                   profile: profile,
                   records: records,
                   valueOf: (Entry e) => e.growth!.weightGrams / 1000,
@@ -57,7 +57,7 @@ class GrowthChartScreen extends ConsumerWidget {
                 _ChartCard(
                   title: S.heightField,
                   unit: 'cm',
-                  color: AppColors.document,
+                  color: context.cores.document,
                   profile: profile,
                   records: records,
                   valueOf: (Entry e) => e.growth!.heightCm,
@@ -129,7 +129,7 @@ class _ChartCard extends StatelessWidget {
                 gridData: FlGridData(
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (double _) =>
-                      const FlLine(color: AppColors.divider, strokeWidth: 1),
+                      FlLine(color: context.cores.divider, strokeWidth: 1),
                 ),
                 borderData: FlBorderData(show: false),
                 titlesData: FlTitlesData(

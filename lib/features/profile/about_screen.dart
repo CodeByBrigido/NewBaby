@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 
@@ -15,7 +15,7 @@ class AboutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme text = Theme.of(context).textTheme;
-    final G g = G.of(ref.watch(profileProvider).value?.gender);
+    final Copy g = Copy.of(ref.watch(profileProvider).value);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +34,7 @@ class AboutScreen extends ConsumerWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: context.cores.primary,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: const Icon(

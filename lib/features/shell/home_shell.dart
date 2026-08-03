@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../home/home_screen.dart';
@@ -49,7 +49,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       body: IndexedStack(index: _index, children: _pages),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddSheet(context),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.cores.primary,
         foregroundColor: Colors.white,
         elevation: 3,
         shape: const CircleBorder(),
@@ -79,7 +79,7 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: AppColors.surface,
+      color: context.cores.surface,
       elevation: 0,
       height: 68,
       padding: EdgeInsets.zero,
@@ -139,7 +139,9 @@ class _BarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = selected ? AppColors.primary : AppColors.textSecondary;
+    final Color color = selected
+        ? context.cores.primary
+        : context.cores.textSecondary;
 
     return Expanded(
       child: InkWell(

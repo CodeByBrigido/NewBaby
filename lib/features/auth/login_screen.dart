@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../services/auth_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -67,11 +67,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     width: 84,
                     height: 84,
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.cores.primary,
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.4),
+                          color: context.cores.primary.withValues(alpha: 0.4),
                           blurRadius: 28,
                           offset: const Offset(0, 10),
                         ),
@@ -147,7 +147,7 @@ class _GoogleButton extends StatelessWidget {
         onPressed: busy ? null : onPressed,
         style: FilledButton.styleFrom(
           backgroundColor: Colors.white,
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: context.cores.textPrimary,
           disabledBackgroundColor: Colors.white70,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),

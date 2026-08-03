@@ -10,6 +10,7 @@ import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/models/entry.dart';
 import 'package:meu_bebe/services/thumbnail_service.dart';
 import 'package:meu_bebe/state/providers.dart';
+import 'package:meu_bebe/core/theme/app_palette.dart';
 
 /// Substitui o cache de miniaturas: em teste não há Drive nem disco.
 /// Devolver `null` também exercita o caminho real de um arquivo cuja
@@ -73,7 +74,7 @@ Widget harness(List<Entry> entries) {
   return ProviderScope(
     overrides: [thumbnailServiceProvider.overrideWithValue(_NoThumbnails())],
     child: MaterialApp(
-      theme: AppTheme.build(),
+      theme: AppTheme.build(AppPalette.of(profile.gender)),
       locale: const Locale('pt', 'BR'),
       home: Scaffold(
         body: TimelineList(

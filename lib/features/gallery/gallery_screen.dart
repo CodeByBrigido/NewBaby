@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -199,7 +199,7 @@ class _UnitTabs extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: AppColors.surfaceMuted,
+          color: context.cores.surfaceMuted,
           borderRadius: BorderRadius.circular(24),
         ),
         child: Row(
@@ -213,7 +213,7 @@ class _UnitTabs extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 9),
                     decoration: BoxDecoration(
                       color: unit == item.key
-                          ? AppColors.primarySoft
+                          ? context.cores.primarySoft
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -222,8 +222,8 @@ class _UnitTabs extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: unit == item.key
-                            ? AppColors.primaryDark
-                            : AppColors.textSecondary,
+                            ? context.cores.primaryDark
+                            : context.cores.textSecondary,
                         fontWeight: unit == item.key
                             ? FontWeight.w600
                             : FontWeight.w500,
@@ -273,10 +273,10 @@ class _BucketList extends StatelessWidget {
                 child: cover == null
                     ? DecoratedBox(
                         decoration: BoxDecoration(
-                          color: type.soft,
+                          color: type.soft(context),
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: Icon(type.icon, color: type.accent),
+                        child: Icon(type.icon, color: type.accent(context)),
                       )
                     : DriveThumbnail(
                         file: cover,
@@ -300,16 +300,16 @@ class _BucketList extends StatelessWidget {
                           ? Fmt.count(summary.fileCount, 'foto', 'fotos')
                           : Fmt.count(summary.fileCount, 'vídeo', 'vídeos'),
                       style: text.labelSmall?.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.cores.textSecondary,
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
                 size: 20,
-                color: AppColors.textSecondary,
+                color: context.cores.textSecondary,
               ),
             ],
           ),

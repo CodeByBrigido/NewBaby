@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../common/drive_image.dart';
@@ -32,7 +32,11 @@ class TimelineCard extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
             child: Row(
               children: <Widget>[
-                Icon(entry.type.icon, size: 16, color: entry.type.accent),
+                Icon(
+                  entry.type.icon,
+                  size: 16,
+                  color: entry.type.accent(context),
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -52,7 +56,7 @@ class TimelineCard extends ConsumerWidget {
                   const Icon(
                     Icons.error_outline,
                     size: 16,
-                    color: AppColors.danger,
+                    color: AppPalette.danger,
                   ),
               ],
             ),
@@ -299,7 +303,7 @@ class _Measure extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surfaceMuted,
+          color: context.cores.surfaceMuted,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -332,13 +336,13 @@ class _DocumentBody extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.documentSoft,
+              color: context.cores.documentSoft,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               file.extensionLabel,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppColors.document,
+                color: context.cores.document,
                 fontWeight: FontWeight.w700,
               ),
             ),

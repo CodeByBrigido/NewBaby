@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../services/memory_repository.dart';
@@ -35,7 +35,7 @@ class _AddSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final G g = G.of(ref.watch(profileProvider).value?.gender);
+    final Copy g = Copy.of(ref.watch(profileProvider).value);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
@@ -46,7 +46,7 @@ class _AddSheet extends ConsumerWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.divider,
+                color: context.cores.divider,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -288,7 +288,7 @@ class _Option extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(
-        color: type.soft,
+        color: type.soft(context),
         borderRadius: BorderRadius.circular(18),
         child: InkWell(
           onTap: onTap,
@@ -297,7 +297,7 @@ class _Option extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: <Widget>[
-                Icon(type.icon, color: type.accent, size: 24),
+                Icon(type.icon, color: type.accent(context), size: 24),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
@@ -308,7 +308,7 @@ class _Option extends StatelessWidget {
                       Text(
                         subtitle,
                         style: text.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
+                          color: context.cores.textSecondary,
                         ),
                       ),
                     ],
