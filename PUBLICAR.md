@@ -137,9 +137,13 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
 
    Faltam o ícone, as capturas de tela e a categoria.
 3. **Política de privacidade** - obrigatória, e com peso extra aqui: o app
-   guarda dados de crianças. Ela precisa dizer, com clareza, que
-   as fotos vão para o Drive do próprio usuário e que o aplicativo guarda
-   apenas metadados.
+   guarda dados de crianças. Ela precisa dizer, com clareza, que as fotos e
+   os vídeos vão para o Google Drive do próprio usuário, e que o Firestore
+   guarda os metadados **e uma miniatura de cada arquivo**. A miniatura tem
+   poucos quilobytes e existe para a linha do tempo abrir sem rede e para
+   quem foi convidado poder ver: o escopo `drive.file` não alcança arquivos
+   que o aplicativo dela não criou. Ela some junto com a conta, como o
+   resto.
 4. **Segurança dos dados** - declare o que é coletado. Neste app:
    identificadores da conta (para o login) e conteúdo do usuário (o índice
    no Firestore). Nada é vendido nem compartilhado.
