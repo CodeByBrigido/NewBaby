@@ -189,16 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 5 - Aba Inspirações
-
-- Nova aba na navegação inferior, no lugar da Busca
-- Busca migra para a lupa no AppBar, sem perder nada
-- Feed por faixa etária, conteúdo em asset local, atrás de uma interface
-  de repositório que aceite um backend depois sem tocar na tela
-
-**Pronto quando:** trocar o asset por uma chamada de rede é trocar uma
-classe.
-
 ### Fase 6 - Notificações inteligentes
 
 Reaproveita o motor de regras da Fase 3.
@@ -271,6 +261,37 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 5 - Aba Inspirações ✅
+
+Nova aba na barra de baixo, no lugar da Busca. A busca não sumiu: foi para
+a lupa no topo da Home, da linha do tempo e da própria aba nova, que é onde
+a mão procura por ela.
+
+**Não é um blog.** Cada cartão é uma coisa que dá para fazer hoje, com o
+que existe em casa, e quase sempre termina em algo que vale guardar. Texto
+bonito sem ação vira leitura passiva, e este aplicativo não quer tempo de
+tela: quer que a pessoa levante e vá brincar. Por isso os cartões com o
+botão "Registrar agora".
+
+**Nada aqui diz o que a criança deveria estar fazendo.** Foi a decisão mais
+importante do conteúdo. Uma tabela de desenvolvimento numa tela de memórias
+transforma um álbum em avaliação, e quem lê "aos seis meses já senta" com
+um filho que ainda não senta ganha uma angústia que não pediu. As faixas de
+idade escolhem a hora de sugerir, nunca dizem se está atrasado. Um teste
+varre o catálogo e reprova o CI se algum texto novo escorregar para esse
+tom.
+
+**Trocar por um backend é trocar uma classe.** `InspirationSource` é a
+interface; `AssetInspirationSource` lê o JSON que viaja dentro do
+aplicativo. E isso não é só um provisório: assim o feed funciona sem rede,
+sem custo de servidor, e não manda a idade da criança para lugar nenhum,
+que é o que uma consulta a um backend inevitavelmente entregaria.
+
+26 conteúdos, do recém-nascido aos cinco anos, com faixas sobrepostas para
+que nunca sobre uma tela vazia - um teste confere isso em nove idades.
+
+**Verificação:** 203 testes (12 novos), analisador e formatador limpos.
 
 ### Fase 4 - Voz e cápsula lacrada ✅
 

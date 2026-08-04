@@ -67,3 +67,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    # O conteúdo das inspirações viaja dentro do aplicativo: funciona sem
+    # rede, sem custo de servidor, e não manda a idade da criança para
+    # lugar nenhum.
+    - assets/inspiracoes.json

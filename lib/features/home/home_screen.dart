@@ -56,8 +56,16 @@ class HomeScreen extends ConsumerWidget {
               ref.read(shellScaffoldKeyProvider).currentState?.openDrawer(),
         ),
         actions: <Widget>[
+          // A busca saiu da barra de baixo para dar lugar às Inspirações.
+          // Fica na lupa, que é onde a mão procura por ela.
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: S.search,
+            onPressed: () => context.push(Routes.search),
+          ),
           IconButton(
             icon: const Icon(Icons.insert_chart_outlined),
+            tooltip: S.stats,
             onPressed: () => context.push(Routes.stats),
           ),
         ],

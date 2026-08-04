@@ -1,0 +1,231 @@
+[
+  {
+    "id": "primeiros-dias-cheiro",
+    "titulo": "Escreva o que ninguém vai lembrar",
+    "texto": "O cheiro da cabeça, o barulho que faz mamando, o jeito que segura o dedo. São as coisas que somem primeiro da memória, e as que mais fazem falta depois. Uma frase basta.",
+    "tipo": "carta",
+    "deDias": 0,
+    "ateDias": 120,
+    "registrar": "carta"
+  },
+  {
+    "id": "primeiros-dias-maos",
+    "titulo": "A foto das mãos",
+    "texto": "A mão de vocês ao lado da mão dela, na mesma foto. É a imagem que mais impressiona quando revista anos depois, porque a escala não volta nunca mais.",
+    "tipo": "foto",
+    "deDias": 0,
+    "ateDias": 200,
+    "registrar": "foto"
+  },
+  {
+    "id": "recem-rosto",
+    "titulo": "Rosto perto, luz da janela",
+    "texto": "Recém-nascido enxerga bem a uns trinta centímetros, mais ou menos a distância do colo. Fique nessa distância, sem flash, com a luz da janela de lado. É de onde saem as melhores fotos dessa fase.",
+    "tipo": "foto",
+    "deDias": 0,
+    "ateDias": 150,
+    "registrar": "foto"
+  },
+  {
+    "id": "recem-voz",
+    "titulo": "Grave a sua voz, não a dela",
+    "texto": "Cantar, ler em voz alta, conversar sobre o dia. Daqui a trinta anos, quem vai querer se ouvir é ela, mas quem ela mais vai querer ouvir é você.",
+    "tipo": "cuidado",
+    "deDias": 0,
+    "ateDias": 900,
+    "registrar": "audio"
+  },
+  {
+    "id": "bebe-preto-branco",
+    "titulo": "Contraste forte diverte",
+    "texto": "Nas primeiras semanas o contraste alto chama mais atenção que a cor. Um papel com listras pretas e brancas, movido devagar, costuma render minutos de fascínio e caretas ótimas.",
+    "tipo": "brincadeira",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  {
+    "id": "bebe-barriga",
+    "titulo": "Um tempinho de barriga para baixo",
+    "texto": "Acordado e acompanhado, de barriga para baixo, alguns minutos por dia. Fica forte, reclama um pouco e faz umas caras impagáveis. Deixe o celular por perto.",
+    "tipo": "brincadeira",
+    "deDias": 30,
+    "ateDias": 240,
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-espelho",
+    "titulo": "O espelho",
+    "texto": "Sente com ela de frente para um espelho e converse. A reação à própria imagem muda de mês para mês, e filmar a mesma cena a cada dois meses vira uma sequência linda.",
+    "tipo": "brincadeira",
+    "deDias": 90,
+    "ateDias": 500,
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-texturas",
+    "titulo": "Uma caixa de texturas",
+    "texto": "Retalho felpudo, papel que amassa, colher de madeira, esponja seca. Nada pequeno o bastante para caber inteiro na boca. Entretém mais que brinquedo caro.",
+    "tipo": "brincadeira",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  {
+    "id": "bebe-mesmo-lugar",
+    "titulo": "A mesma foto, todo mês",
+    "texto": "Escolha um lugar fixo, a poltrona da sala, o mesmo cobertor, e faça uma foto no mesmo lugar todo mês. Separadas não dizem muito. Juntas, no fim do ano, são a coisa mais bonita do acervo.",
+    "tipo": "foto",
+    "deDias": 30,
+    "ateDias": 400,
+    "registrar": "foto"
+  },
+  {
+    "id": "bebe-rotina",
+    "titulo": "Filme o comum",
+    "texto": "O banho, a mamada, o caminho até a creche. Ninguém filma o comum porque parece que vai durar para sempre, e é justamente o comum que some sem avisar.",
+    "tipo": "cuidado",
+    "deDias": 0,
+    "ateDias": 2000,
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-primeira-praia",
+    "titulo": "Água pela primeira vez",
+    "texto": "Mar, piscina, riacho ou uma bacia no quintal. A cara da primeira vez que o pé encosta na água fria é uma foto que se tira uma vez só.",
+    "tipo": "passeio",
+    "deDias": 150,
+    "ateDias": 900,
+    "registrar": "foto"
+  },
+  {
+    "id": "bebe-livro-pano",
+    "titulo": "Livro de pano, mordido mesmo",
+    "texto": "Nessa fase o livro é objeto antes de ser história: para amassar, morder e virar do avesso. Ler junto agora não é sobre entender, é sobre associar o livro ao colo.",
+    "tipo": "leitura",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  {
+    "id": "bebe-esconde",
+    "titulo": "Achou!",
+    "texto": "Esconder o rosto atrás das mãos e reaparecer. A gargalhada que vem daí é curta na vida e eterna em vídeo.",
+    "tipo": "brincadeira",
+    "deDias": 180,
+    "ateDias": 700,
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-comida",
+    "titulo": "A cara da comida nova",
+    "texto": "Limão não, mas abacate, manga, beterraba. A careta da primeira colherada de cada sabor rende uma sequência de fotos que envelhece muito bem.",
+    "tipo": "foto",
+    "deDias": 150,
+    "ateDias": 600,
+    "registrar": "foto"
+  },
+  {
+    "id": "engatinha-tunel",
+    "titulo": "Um túnel de almofadas",
+    "texto": "Almofadas do sofá, caixa de papelão aberta nas duas pontas, um lençol sobre duas cadeiras. Gasta energia, custa nada, e o vídeo de atravessar pela primeira vez é ótimo.",
+    "tipo": "brincadeira",
+    "deDias": 210,
+    "ateDias": 600,
+    "registrar": "video"
+  },
+  {
+    "id": "primeiro-ano-preparo",
+    "titulo": "Antes da festa, pense no depois",
+    "texto": "No meio da correria do primeiro aniversário, separe dez minutos para gravar um vídeo falando com ela aos dezoito anos. É o presente que ninguém lembra de dar e o único que ela não vai poder comprar.",
+    "tipo": "preparo",
+    "deDias": 300,
+    "ateDias": 400,
+    "registrar": "video"
+  },
+  {
+    "id": "primeiro-ano-convidados",
+    "titulo": "Peça um recado a cada convidado",
+    "texto": "Um papel e uma caneta numa mesinha, com um pedido: escreva algo para ela ler quando crescer. Guarde tudo. É o tipo de coisa que ninguém faz e todo mundo queria ter feito.",
+    "tipo": "preparo",
+    "deDias": 320,
+    "ateDias": 400,
+    "registrar": "documento"
+  },
+  {
+    "id": "anda-parque",
+    "titulo": "Chão diferente todo fim de semana",
+    "texto": "Grama, areia, pedrinha, folha seca. Andar em superfícies diferentes é diversão e treino ao mesmo tempo, e o parque perto de casa serve.",
+    "tipo": "passeio",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  {
+    "id": "anda-palavras",
+    "titulo": "Anote as palavras erradas",
+    "texto": "As primeiras palavras saem tortas, e a versão torta é a que a família adota para sempre. Escreva antes que a pronúncia certa apague a graça.",
+    "tipo": "carta",
+    "deDias": 300,
+    "ateDias": 1200,
+    "registrar": "carta"
+  },
+  {
+    "id": "dois-anos-rabisco",
+    "titulo": "Guarde o primeiro rabisco",
+    "texto": "Fotografe o desenho junto com a mão que desenhou. Papel amarela, some, vira embrulho. A foto fica.",
+    "tipo": "foto",
+    "deDias": 500,
+    "ateDias": 1500,
+    "registrar": "desenho"
+  },
+  {
+    "id": "dois-anos-agua",
+    "titulo": "Bacia de água no quintal",
+    "texto": "Uma bacia, dois copos e uma colher. Vinte minutos de concentração absoluta por praticamente nada. Filme de longe, sem interromper.",
+    "tipo": "brincadeira",
+    "deDias": 540,
+    "ateDias": 1400,
+    "registrar": "video"
+  },
+  {
+    "id": "dois-anos-entrevista",
+    "titulo": "A entrevista anual",
+    "texto": "Três perguntas, sempre as mesmas, todo aniversário: qual sua cor preferida, o que você quer ser, do que você mais gosta. Grave em áudio. Em dez anos você vai ter uma coleção impagável.",
+    "tipo": "cuidado",
+    "deDias": 700,
+    "ateDias": 6000,
+    "registrar": "audio"
+  },
+  {
+    "id": "tres-anos-cozinha",
+    "titulo": "Cozinhar junto, sujeira inclusa",
+    "texto": "Misturar, despejar, apertar massa. A bagunça é o ponto, não o efeito colateral. Um pano no chão resolve e a memória fica.",
+    "tipo": "brincadeira",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  {
+    "id": "tres-anos-historia",
+    "titulo": "Deixe ela contar a história",
+    "texto": "Pegue um livro conhecido e peça que ela conte para você, olhando as figuras. A versão dela costuma ser melhor que a original, e vale gravar.",
+    "tipo": "leitura",
+    "deDias": 900,
+    "ateDias": 2400,
+    "registrar": "audio"
+  },
+  {
+    "id": "escola-primeiro-dia",
+    "titulo": "O primeiro dia de escola",
+    "texto": "A foto na porta, a mochila maior que ela, e o texto que importa: como você se sentiu deixando ela lá. Daqui a vinte anos, essa parte vale mais que a foto.",
+    "tipo": "preparo",
+    "deDias": 600,
+    "ateDias": 2200,
+    "registrar": "carta"
+  },
+  {
+    "id": "qualquer-idade-avos",
+    "titulo": "Filme os avós com ela",
+    "texto": "Não a criança sozinha: os dois juntos, conversando. É o registro que a família mais vai querer ter, e a janela para fazê-lo não fica aberta para sempre.",
+    "tipo": "cuidado",
+    "deDias": 0,
+    "ateDias": 6000,
+    "registrar": "video"
+  }
+]
