@@ -203,23 +203,42 @@ regra, e nada dispara sem a pessoa ter permitido.
 
 ### Fase 7 - Compartilhamento com familiares
 
-A maior e a única que mexe em privacidade. Só começa com as duas perguntas
-acima respondidas e o comportamento do Picker confirmado.
+A maior e a única que mexe em privacidade.
 
-Construída em duas metades, porque a primeira já entrega valor sozinha:
+**7a, sem mídia. ✅ Feito.** Regras do Firestore com convite (`shareCodes`)
+e vínculo (`familyAccess`), 65 verificações no emulador; escolha de papel no
+primeiro acesso; tela de convite com nome, email, compartilhamento da pasta
+no Drive e código de sete dias; resgate por código; `capsuleOwnerProvider`
+como único ponto de troca entre "minha cápsula" e "a cápsula da minha
+neta"; modo leitura em toda a interface.
 
-**7a, sem Drive.** Escolha de papel no primeiro acesso; tela de convite
-(nome, email, compartilhamento da pasta, código de 48h); entrada por
-código com validação de código e email; timeline e crescimento em modo
-leitura, sem nenhum caminho de escrita; regras do Firestore para o novo
-modelo, testadas no emulador como as atuais.
+Duas coisas que só apareceram porque os testes rodaram de verdade estão
+registradas nos comentários das regras: os casos disparavam concorrentes num
+banco sujo (o teste do vínculo passava por sorteio), e a consulta de lista
+vazava a entrada lacrada porque o Firestore avalia a regra contra a
+**consulta**, não contra cada documento devolvido.
 
-**7b, com Drive.** Google Picker para o familiar apontar a pasta
-compartilhada, destravando as fotos e os vídeos, e a validação de que o
-compartilhamento realmente aconteceu.
+**7b, a mídia. Pendente, e é o que falta para a fase valer.** Hoje o
+familiar vê a linha do tempo inteira com espaços reservados no lugar das
+fotos. Não quebra e não dá erro, mas também não é o que foi prometido.
+
+A limitação, exata: o escopo `drive.file` só alcança arquivos que **este**
+aplicativo criou ou que a pessoa apontou pelo Picker. Compartilhar a pasta
+com a conta dela dá acesso no Drive, mas não põe os arquivos no conjunto
+autorizado do aplicativo dela: `files.get` responde 404. O Picker resolveria,
+e é uma API de web, sem equivalente nativo no Android.
+
+O caminho escolhido, então, é não fazer chamada nenhuma ao Drive do lado do
+familiar: miniatura pequena gravada pelo aplicativo de quem envia, em
+`users/{uid}/miniaturas/{entradaId}_{driveId}`, com a regra conferindo a
+entrada dona pelo `get()` - mesmo tipo visível, mesmo lacre, mesmo status.
+Coleção separada, e não campo dentro da entrada, porque a linha do tempo do
+dono carrega a coleção inteira em memória e miniaturas embutidas a
+inchariam. Resolução cheia e vídeo continuam abrindo pela sessão Google da
+própria pessoa, fora do aplicativo.
 
 **Pronto quando:** o familiar vê o que foi liberado e nada além, provado
-por teste no emulador e não por inspeção de tela.
+por teste no emulador e não por inspeção de tela, **e** as fotos aparecem.
 
 ### Fase 8 - Longevidade
 
@@ -261,6 +280,36 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 7a - Compartilhamento familiar, sem a mídia ✅
+
+O arranjo é o que foi pedido, sem simplificação: o Drive controla quem lê os
+arquivos, o Firestore controla quem pertence a qual cápsula, e o código de
+convite é só a segunda coisa. Ele não abre o Drive de ninguém sozinho.
+
+**O fluxo.** O pai escolhe um nome ("Vó Maria") e o email da conta Google da
+pessoa. O aplicativo abre a pasta da cápsula para leitura no Drive e grava
+um convite no Firestore, cujo **id do documento é o código**. A coleção não
+pode ser listada, então só alcança o documento quem já recebeu o código - e
+mesmo assim a regra ainda exige ser o email convidado. O código é entregue
+por quem convida, pelo caminho que ela escolher.
+
+O código é ditável por telefone: sem `0`/`O`, sem `1`/`I`/`L`, em três
+pedaços para repetir devagar. Sete dias, uma vez só.
+
+**O que a família vê:** nascimento, foto, vídeo, documento e crescimento.
+Cartas não, por serem o que há de mais íntimo na cápsula. Desenhos e áudios
+também não, por não constarem da lista combinada. Nada lacrado, nada na
+lixeira. A lista vive em dois lugares que precisam concordar
+(`EntryType.familyVisible` e `tipoVisivelParaFamilia`), e há teste
+justamente para o dia em que alguém mexer num e esquecer o outro.
+
+**Modo leitura.** O botão + some, e a barra de baixo se fecha; um botão
+desabilitado é uma porta fechada na cara. Editar e apagar somem. Cartas,
+desenhos, lixeira e o guardado saem do menu. No lugar de "apagar minha
+conta", "sair desta cápsula".
+
+Falta a mídia (7b), descrita na fase acima.
 
 ### Fase 5 - Aba Inspirações ✅
 
