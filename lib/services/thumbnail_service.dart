@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'drive_service.dart';
+import 'firestore_service.dart';
 
 /// Onde a interface busca miniaturas.
 ///
@@ -27,12 +28,37 @@ abstract interface class ThumbnailStore {
 /// Miniaturas em disco, indexadas pelo id do arquivo no Drive.
 ///
 /// No aparelho que enviou, a miniatura é gravada no momento do envio e a
-/// linha do tempo nunca espera a rede. Em outro aparelho, ela é buscada uma
-/// vez no Drive e fica em cache para sempre.
+/// linha do tempo nunca espera a rede. Em outro aparelho, ela vem do
+/// Firestore, e só em último caso do Drive.
+///
+/// A ordem das três fontes não é arbitrária:
+///
+/// 1. **Disco.** Instantâneo, e é o caso de quase toda abertura.
+/// 2. **Firestore.** Funciona para qualquer pessoa que possa ler a entrada,
+///    inclusive quem foi convidado - e é a única que funciona para ela. O
+///    escopo `drive.file` não alcança arquivos que este aplicativo não criou
+///    naquele aparelho, então para o familiar o passo 3 sempre responderia
+///    404.
+/// 3. **Drive.** Só para quem é dono. Cobre o acervo antigo, gravado antes
+///    de as miniaturas passarem pelo Firestore.
 class ThumbnailService implements ThumbnailStore {
-  ThumbnailService(this._drive);
+  ThumbnailService({
+    required this.drive,
+    required this.firestore,
+    required String? capsuleOwner,
+    required this.canUseDrive,
+  }) : _owner = capsuleOwner;
 
-  final DriveService _drive;
+  final DriveService drive;
+  final FirestoreService firestore;
+
+  /// De quem é a cápsula aberta: é sob ela que as miniaturas vivem.
+  final String? _owner;
+
+  /// Falso para quem foi convidado. Não é economia, é a única saída: a
+  /// chamada ao Drive responderia 404 e ainda gastaria uma ida à rede por
+  /// imagem, em toda rolagem.
+  final bool canUseDrive;
 
   /// Evita que duas células da mesma grade baixem a mesma miniatura.
   final Map<String, Future<File?>> _inFlight = <String, Future<File?>>{};
@@ -69,6 +95,22 @@ class ThumbnailService implements ThumbnailStore {
     return await file.exists() ? file : null;
   }
 
+  /// A miniatura guardada no Firestore, já copiada para o disco.
+  ///
+  /// Copiar para o disco importa: sem isso, cada rolagem da grade cobraria
+  /// uma leitura do Firestore por imagem. Assim a segunda abertura é local.
+  Future<File?> _doFirestore(String driveId) async {
+    final String? uid = _owner;
+    if (uid == null) return null;
+
+    final Uint8List? bytes = await firestore.loadThumbnail(uid, driveId);
+    if (bytes == null || bytes.isEmpty) return null;
+
+    final File target = await _fileFor(driveId);
+    await target.writeAsBytes(bytes, flush: true);
+    return target;
+  }
+
   @override
   Future<File?> resolve(String driveId) {
     return _inFlight.putIfAbsent(driveId, () async {
@@ -76,7 +118,12 @@ class ThumbnailService implements ThumbnailStore {
         final File? local = await cached(driveId);
         if (local != null) return local;
 
-        final String? link = await _drive.thumbnailLink(driveId);
+        final File? doFirestore = await _doFirestore(driveId);
+        if (doFirestore != null) return doFirestore;
+
+        if (!canUseDrive) return null;
+
+        final String? link = await drive.thumbnailLink(driveId);
         if (link == null) return null;
 
         // Os links do Drive vêm num tamanho pequeno; `=s600` pede uma versão
@@ -84,7 +131,7 @@ class ThumbnailService implements ThumbnailStore {
         final Uri url = Uri.parse(
           link.replaceFirst(RegExp(r'=s\d+$'), '=s600'),
         );
-        final List<int> bytes = await _drive.fetchBytes(url);
+        final List<int> bytes = await drive.fetchBytes(url);
 
         final File target = await _fileFor(driveId);
         await target.writeAsBytes(bytes, flush: true);

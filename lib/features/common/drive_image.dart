@@ -151,6 +151,26 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
 
   @override
   Widget build(BuildContext context) {
+    // Quem foi convidado não baixa: o escopo `drive.file` não alcança
+    // arquivo que este aplicativo não criou neste aparelho, e a tentativa
+    // terminaria em erro depois de uma espera. Em vez disso, a miniatura
+    // enche a tela e o tamanho real fica a um toque, no Drive dela.
+    if (ref.watch(isReadOnlyProvider)) {
+      return Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          DriveThumbnail(file: widget.file, fit: BoxFit.contain),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 16),
+              child: _AbrirNoDriveDica(),
+            ),
+          ),
+        ],
+      );
+    }
+
     return FutureBuilder<File>(
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
@@ -185,6 +205,31 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
           child: Center(child: Image.file(file, fit: BoxFit.contain)),
         );
       },
+    );
+  }
+}
+
+/// A dica que aparece por cima da miniatura, no modo leitura.
+///
+/// Curta e sem alarme: não é um erro, é como a coisa funciona. O arquivo
+/// está no Drive de quem convidou, e é lá que ele abre em tamanho real.
+class _AbrirNoDriveDica extends StatelessWidget {
+  const _AbrirNoDriveDica();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.55),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: const Text(
+        'Toque em abrir, no topo, para ver em tamanho real',
+        style: TextStyle(color: Colors.white70, fontSize: 12),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

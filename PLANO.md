@@ -206,27 +206,36 @@ banco sujo (o teste do vínculo passava por sorteio), e a consulta de lista
 vazava a entrada lacrada porque o Firestore avalia a regra contra a
 **consulta**, não contra cada documento devolvido.
 
-**7b, a mídia. Pendente, e é o que falta para a fase valer.** Hoje o
-familiar vê a linha do tempo inteira com espaços reservados no lugar das
-fotos. Não quebra e não dá erro, mas também não é o que foi prometido.
+**7b, a mídia. ✅ Feito.** O familiar vê as fotos sem o aplicativo dele
+fazer **nenhuma** chamada ao Google Drive.
 
 A limitação, exata: o escopo `drive.file` só alcança arquivos que **este**
 aplicativo criou ou que a pessoa apontou pelo Picker. Compartilhar a pasta
 com a conta dela dá acesso no Drive, mas não põe os arquivos no conjunto
-autorizado do aplicativo dela: `files.get` responde 404. O Picker resolveria,
-e é uma API de web, sem equivalente nativo no Android.
+autorizado do aplicativo dela: `files.get` responde 404. O Picker
+resolveria, e é uma API de web, sem equivalente nativo no Android.
 
-O caminho escolhido, então, é não fazer chamada nenhuma ao Drive do lado do
-familiar: miniatura pequena gravada pelo aplicativo de quem envia, em
-`users/{uid}/miniaturas/{entradaId}_{driveId}`, com a regra conferindo a
-entrada dona pelo `get()` - mesmo tipo visível, mesmo lacre, mesmo status.
-Coleção separada, e não campo dentro da entrada, porque a linha do tempo do
-dono carrega a coleção inteira em memória e miniaturas embutidas a
-inchariam. Resolução cheia e vídeo continuam abrindo pela sessão Google da
-própria pessoa, fora do aplicativo.
+A saída foi sair do caminho. O aplicativo de quem envia grava uma miniatura
+em `users/{uid}/miniaturas/{driveId}`, e é dela que a linha do tempo do
+familiar tira imagem. A regra confere a **entrada dona** por `get()`, e não
+campos copiados: campo copiado sai de sincronia, e o dia em que sair, o
+lacre vaza por uma imagem de 200 pixels.
+
+Tamanho real e vídeo abrem no Google Drive, pela sessão Google da própria
+pessoa. Sem token nosso e sem download nosso: quem autoriza é a permissão
+de leitura que o pai deu à pasta.
+
+O preço, dito com todas as letras: **o Firestore deixou de guardar apenas
+metadados.** Passa a guardar uma miniatura de poucos quilobytes por
+arquivo. A foto e o vídeo continuam só no Drive. A política de privacidade
+e o `PUBLICAR.md` foram corrigidos, porque uma promessa que envelheceu mal
+é pior que promessa nenhuma.
 
 **Pronto quando:** o familiar vê o que foi liberado e nada além, provado
 por teste no emulador e não por inspeção de tela, **e** as fotos aparecem.
+As duas coisas valem: 75 verificações no emulador, incluindo que a
+miniatura de uma carta, de uma entrada lacrada e do que está na lixeira é
+negada à família.
 
 ### Fase 8 - Longevidade
 

@@ -247,7 +247,10 @@ class MemoryRepository {
         );
 
         final File? thumb = media.thumbnail;
-        if (thumb != null) await thumbnails.store(file.driveId, thumb);
+        if (thumb != null) {
+          await thumbnails.store(file.driveId, thumb);
+          await _publicarMiniatura(uid, entry.id, file.driveId, thumb);
+        }
 
         uploaded.add(file);
         _emit(
@@ -576,6 +579,41 @@ class MemoryRepository {
       }
     }
   }
+
+  /// Publica a miniatura no Firestore, para quem não alcança o Drive.
+  ///
+  /// É o que dá imagem à linha do tempo de quem foi convidado. O escopo
+  /// `drive.file` não alcança arquivos que o aplicativo dela não criou, então
+  /// sem isto a avó veria a linha do tempo inteira com espaços vazios.
+  ///
+  /// Falhar aqui não derruba o envio. O arquivo já está no Drive, que é o que
+  /// não pode se perder; a miniatura é conforto, e a próxima edição da
+  /// entrada tenta de novo.
+  Future<void> _publicarMiniatura(
+    String uid,
+    String entryId,
+    String driveId,
+    File thumb,
+  ) async {
+    try {
+      final Uint8List bytes = await thumb.readAsBytes();
+      // Acima do limite das regras, o Firestore recusaria o documento
+      // inteiro. Melhor não tentar do que tentar e registrar um erro que não
+      // significa nada para quem está enviando uma foto.
+      if (bytes.lengthInBytes > _maxThumbnailBytes) return;
+      await firestore.saveThumbnail(
+        uid: uid,
+        entryId: entryId,
+        driveId: driveId,
+        bytes: bytes,
+      );
+    } on Exception catch (e) {
+      debugPrint('Miniatura não publicada para $driveId: $e');
+    }
+  }
+
+  /// O mesmo teto que as regras do Firestore aplicam.
+  static const int _maxThumbnailBytes = 200 * 1024;
 
   // ------------------------------------------------------------ downloads
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -19,7 +20,17 @@ class FamilyMember {
 
 /// Índice de tudo que existe no aplicativo.
 ///
-/// O Firestore guarda apenas metadados - nenhum byte de foto passa por aqui.
+/// O Firestore guarda os metadados e, desde o compartilhamento familiar, uma
+/// miniatura de poucos quilobytes por arquivo. **A foto e o vídeo em si
+/// continuam só no Drive** - o que passa por aqui é o suficiente para
+/// desenhar a linha do tempo, nunca o arquivo.
+///
+/// A miniatura está aqui por necessidade, não por conveniência: o escopo
+/// `drive.file` não alcança arquivos que este aplicativo não criou naquele
+/// aparelho, então o aplicativo de quem foi convidado não tem como buscar
+/// imagem nenhuma no Drive. De quebra, a linha do tempo de quem é dono abre
+/// com imagem num celular novo, antes de qualquer conversa com o Google.
+///
 /// Como o cache offline fica no aparelho, a linha do tempo abre instantânea e
 /// a busca acontece sem rede, sem nunca varrer as pastas do Drive.
 class FirestoreService {
@@ -33,6 +44,7 @@ class FirestoreService {
   static const String _entries = 'entradas';
   static const String _folders = 'pastas';
   static const String _suggestions = 'sugestoes';
+  static const String _thumbnails = 'miniaturas';
   static const String _shareCodes = 'shareCodes';
   static const String _familyAccess = 'familyAccess';
 
@@ -202,6 +214,7 @@ class FirestoreService {
     _entries,
     _folders,
     _suggestions,
+    _thumbnails,
   ];
 
   /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
@@ -236,6 +249,49 @@ class FirestoreService {
       .collection(_suggestions)
       .doc(id)
       .set(progress.toMap(), SetOptions(merge: true));
+
+  // ------------------------------------------------------------ miniaturas
+
+  /// Guarda a miniatura de um arquivo, indexada pelo id dele no Drive.
+  ///
+  /// É o que faz a linha do tempo de quem foi convidado ter imagem. O escopo
+  /// `drive.file` só alcança arquivos que **este** aplicativo criou ou que a
+  /// pessoa apontou pelo seletor; compartilhar a pasta dá acesso no Drive,
+  /// mas não põe os arquivos no conjunto autorizado do aplicativo dela, e
+  /// `files.get` responde 404. Com a miniatura aqui, o aplicativo dela não
+  /// faz chamada nenhuma ao Drive.
+  ///
+  /// Vale também para quem é dono: num celular novo, a linha do tempo abre
+  /// com imagem antes de qualquer conversa com o Google.
+  Future<void> saveThumbnail({
+    required String uid,
+    required String entryId,
+    required String driveId,
+    required Uint8List bytes,
+  }) => _user(uid).collection(_thumbnails).doc(driveId).set(<String, Object?>{
+    'entradaId': entryId,
+    'bytes': Blob(bytes),
+    'criadoEm': Timestamp.fromDate(DateTime.now()),
+  });
+
+  /// A miniatura de um arquivo, ou `null` se não houver.
+  ///
+  /// `null` também quando as regras negam - e negam sempre que a entrada dona
+  /// for uma carta, estiver lacrada ou tiver ido para a lixeira. Quem chama
+  /// não precisa distinguir: em todos esses casos a resposta na tela é a
+  /// mesma, que é não mostrar imagem nenhuma.
+  Future<Uint8List?> loadThumbnail(String uid, String driveId) async {
+    try {
+      final DocumentSnapshot<Map<String, Object?>> doc = await _user(
+        uid,
+      ).collection(_thumbnails).doc(driveId).get();
+      final Object? bytes = doc.data()?['bytes'];
+      return bytes is Blob ? bytes.bytes : null;
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') return null;
+      rethrow;
+    }
+  }
 
   // -------------------------------------------------- convites e vínculos
 

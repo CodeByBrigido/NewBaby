@@ -13,6 +13,7 @@ import {
   getDocs,
   query,
   where,
+  Bytes,
 } from 'firebase/firestore';
 
 const env = await initializeTestEnvironment({
@@ -51,6 +52,11 @@ const entradaValida = {
   // alcançado por filtro nenhum, e uma memória some sem ninguém perceber.
   lacradoAte: null,
 };
+
+/// Uns poucos bytes fazendo as vezes de uma miniatura JPEG.
+const bytesDeTeste = Bytes.fromUint8Array(
+  new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10]),
+);
 
 /// Os tipos que a família enxerga. Precisa bater com `firestore.rules`.
 const tiposVisiveis = ['nascimento', 'foto', 'video', 'documento', 'crescimento'];
@@ -201,6 +207,21 @@ await env.withSecurityRulesDisabled(async (ctx) => {
   await setDoc(doc(db, 'users/ana/entradas/lixo1'), {
     ...entradaValida, tipo: 'foto', status: 'excluido', excluidoEm: agora,
   });
+
+  // Uma miniatura para cada uma, para provar que o que manda é a entrada
+  // dona, e não a miniatura em si.
+  for (const [id, entrada] of Object.entries({
+    'drive-foto1': 'foto1',
+    'drive-carta1': 'carta1',
+    'drive-lacrada1': 'lacrada1',
+    'drive-lixo1': 'lixo1',
+  })) {
+    await setDoc(doc(db, `users/ana/miniaturas/${id}`), {
+      entradaId: entrada,
+      bytes: bytesDeTeste,
+      criadoEm: agora,
+    });
+  }
 });
 
 // O dono cria o convite.
@@ -260,6 +281,36 @@ checar('a familia nao mexe no perfil',
   () => assertFails(setDoc(doc(avo, 'users/ana/perfil/bebe'), { nome: 'Outro' })));
 checar('a familia NAO le o que foi para a lixeira',
   () => assertFails(getDoc(doc(avo, 'users/ana/entradas/lixo1'))));
+
+// As miniaturas.
+//
+// Sao o que faz a linha do tempo do familiar ter imagem sem uma unica
+// chamada ao Google Drive. Quem manda e a entrada dona: se ela e carta,
+// esta lacrada ou foi para a lixeira, a miniatura vai junto.
+checar('a familia ve a miniatura de uma foto',
+  () => assertSucceeds(getDoc(doc(avo, 'users/ana/miniaturas/drive-foto1'))));
+checar('a familia NAO ve a miniatura de uma carta',
+  () => assertFails(getDoc(doc(avo, 'users/ana/miniaturas/drive-carta1'))));
+checar('a familia NAO ve a miniatura de uma entrada lacrada',
+  () => assertFails(getDoc(doc(avo, 'users/ana/miniaturas/drive-lacrada1'))));
+checar('a familia NAO ve a miniatura do que esta na lixeira',
+  () => assertFails(getDoc(doc(avo, 'users/ana/miniaturas/drive-lixo1'))));
+checar('ninguem lista as miniaturas, nem a dona',
+  () => assertFails(getDocs(collection(ana, 'users/ana/miniaturas'))));
+checar('a familia nao grava miniatura nenhuma',
+  () => assertFails(setDoc(doc(avo, 'users/ana/miniaturas/drive-nova'),
+    { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora })));
+checar('a dona grava a propria miniatura',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/miniaturas/drive-nova'),
+    { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora })));
+checar('miniatura gigante e recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/miniaturas/drive-gorda'),
+    { entradaId: 'foto1', bytes: Bytes.fromUint8Array(new Uint8Array(200 * 1024 + 1)), criadoEm: agora })));
+checar('campo estranho na miniatura e recusado',
+  () => assertFails(setDoc(doc(ana, 'users/ana/miniaturas/drive-x'),
+    { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora, carga: 'x' })));
+checar('outra conta nao le miniatura alheia',
+  () => assertFails(getDoc(doc(bruno, 'users/ana/miniaturas/drive-foto1'))));
 checar('quem nao tem vinculo continua sem ler nada',
   () => assertFails(getDoc(doc(tia, 'users/ana/entradas/foto1'))));
 

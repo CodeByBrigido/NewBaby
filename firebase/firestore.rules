@@ -134,6 +134,35 @@ service cloud.firestore {
               || (data.marcados is list && data.marcados.size() <= 40));
     }
 
+    /// Se a entrada dona desta miniatura é das que a família enxerga.
+    ///
+    /// A conferência é feita na entrada, e não em campos copiados para a
+    /// miniatura, de propósito: campo copiado é campo que sai de sincronia,
+    /// e o dia em que sair, o lacre vaza por uma imagem de 200 pixels. Um
+    /// `get()` custa uma leitura e sempre diz a verdade.
+    function entradaVisivelParaFamilia(uid, entradaId) {
+      let entrada = get(
+        /databases/$(database)/documents/users/$(uid)/entradas/$(entradaId)
+      ).data;
+      return tipoVisivelParaFamilia(entrada.tipo)
+          && entrada.lacradoAte == null
+          && entrada.status == 'ativo';
+    }
+
+    /// Uma miniatura: poucos quilobytes, e nada além disso.
+    ///
+    /// O limite é a diferença entre uma miniatura e um lugar para esconder
+    /// arquivo. Um documento do Firestore aceita 1 MiB; 200 KB é folgado
+    /// para uma imagem de 320 pixels e ainda deixa claro o que isto é.
+    function isValidThumbnail() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['entradaId', 'bytes', 'criadoEm'])
+          && data.entradaId is string
+          && data.entradaId.size() <= 200
+          && data.bytes is bytes
+          && data.bytes.size() <= 200 * 1024;
+    }
+
     function isValidFolder() {
       return request.resource.data.keys().hasOnly([
                'caminho', 'driveId', 'criadoEm'
@@ -168,6 +197,28 @@ service cloud.firestore {
                         && naoExcluida());
         allow delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && isValidEntry();
+      }
+
+      // A miniatura de cada arquivo, indexada pelo id dele no Drive.
+      //
+      // Existe porque o escopo `drive.file` só alcança arquivos que **este**
+      // aplicativo criou ou que a pessoa apontou pelo seletor. Compartilhar
+      // a pasta dá acesso no Drive, mas não põe os arquivos no conjunto
+      // autorizado do aplicativo de quem foi convidado: `files.get` responde
+      // 404. Com a miniatura aqui, o aplicativo dela monta a linha do tempo
+      // inteira sem fazer **nenhuma** chamada ao Drive.
+      //
+      // `list` é negado: a família alcança uma miniatura de cada vez, pelo
+      // id que já veio na entrada. Assim a conferência abaixo, que depende
+      // do documento, nunca cai no caso em que a regra é avaliada contra a
+      // consulta em vez do documento.
+      match /miniaturas/{driveId} {
+        allow get: if isOwner(uid)
+                   || (isFamilyOf(uid)
+                       && entradaVisivelParaFamilia(uid, resource.data.entradaId));
+        allow list: if false;
+        allow create, update: if isOwner(uid) && isValidThumbnail();
+        allow delete: if isOwner(uid);
       }
 
       match /sugestoes/{sugestao} {

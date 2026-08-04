@@ -53,9 +53,17 @@ final Provider<FirestoreService> firestoreServiceProvider =
 final Provider<MediaOptimizer> mediaOptimizerProvider =
     Provider<MediaOptimizer>((Ref ref) => MediaOptimizer());
 
+/// As miniaturas dependem de quem está olhando, e é por isso que este
+/// provider observa a cápsula: para quem foi convidado, o Drive está fora de
+/// alcance e a única fonte possível é o Firestore.
 final Provider<ThumbnailStore> thumbnailServiceProvider =
     Provider<ThumbnailStore>(
-      (Ref ref) => ThumbnailService(ref.watch(driveServiceProvider)),
+      (Ref ref) => ThumbnailService(
+        drive: ref.watch(driveServiceProvider),
+        firestore: ref.watch(firestoreServiceProvider),
+        capsuleOwner: ref.watch(capsuleOwnerProvider),
+        canUseDrive: !ref.watch(isReadOnlyProvider),
+      ),
     );
 
 final Provider<MemoryRepository> memoryRepositoryProvider =
