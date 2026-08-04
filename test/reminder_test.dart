@@ -50,14 +50,20 @@ void main() {
         entradas: entradas,
       ).map((ScheduledReminder r) => r.kind).toSet();
 
-  group('nada dispara sem permissão', () {
+  group('ligado por padrão, e desligável', () {
+    test('o padrão é ligado, porque quem não volta não revisita', () {
+      // Decisão de produto: uma cápsula do tempo só cumpre a promessa se
+      // alguém voltar a ela, e quem tem bebê pequeno não volta por conta
+      // própria. Isto **não** é permissão: o Android continua perguntando,
+      // e a recusa dele desliga a chave.
+      expect(const ReminderSettings().enabled, isTrue);
+    });
+
     test('desligado, a agenda é vazia', () {
-      // O padrão é desligado, e "não ter respondido" não é permissão.
-      expect(const ReminderSettings().enabled, isFalse);
       expect(
         planoEm(
           DateTime(2027, 2, 20),
-          settings: const ReminderSettings(),
+          settings: const ReminderSettings(enabled: false),
           entradas: <Entry>[foto(DateTime(2027, 2, 1))],
         ),
         isEmpty,
@@ -452,8 +458,17 @@ void main() {
       expect(devolta.absenceDays, 21);
     });
 
-    test('sem nada guardado, o padrão é desligado', () {
-      expect(ReminderSettings.fromMap(null).enabled, isFalse);
+    test('sem nada guardado, vale o padrão ligado', () {
+      expect(ReminderSettings.fromMap(null).enabled, isTrue);
+    });
+
+    test('um "não" guardado continua valendo na próxima abertura', () {
+      // Se a pessoa desligou, o padrão não pode religar sozinho na abertura
+      // seguinte. Seria o pior comportamento possível deste arquivo.
+      final ReminderSettings guardado = ReminderSettings.fromMap(
+        const ReminderSettings(enabled: false).toMap(),
+      );
+      expect(guardado.enabled, isFalse);
     });
   });
 

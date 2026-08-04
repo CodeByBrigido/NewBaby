@@ -424,25 +424,38 @@ reminderSettingsProvider =
     );
 
 class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
-  ReminderPreferences? _store;
+  /// O disco, quando responder.
+  ///
+  /// Guardado como Future, e não como campo que pode estar nulo, porque o
+  /// mais importante deste arquivo acontece cedo: a tela inicial pede a
+  /// permissão no primeiro quadro depois de aparecer, e o `SharedPreferences`
+  /// costuma chegar depois disso. Com um campo nulo, aquele pedido virava um
+  /// retorno silencioso e a permissão nunca era pedida - o aplicativo ficaria
+  /// com os lembretes ligados e mudo.
+  late final Future<ReminderPreferences> _pronto;
+
+  /// Se alguém já escolheu algo nesta sessão, antes de o disco responder.
+  bool _mexido = false;
 
   @override
   ReminderSettings build() {
-    unawaited(_carregar());
+    _pronto = _carregar();
     return const ReminderSettings();
   }
 
-  Future<void> _carregar() async {
+  Future<ReminderPreferences> _carregar() async {
     final ReminderPreferences store = ReminderPreferences(
       await SharedPreferences.getInstance(),
     );
-    _store = store;
-    state = store.load();
+    // O que a pessoa acabou de escolher vale mais que o que estava gravado.
+    if (!_mexido) state = store.load();
+    return store;
   }
 
   Future<void> save(ReminderSettings novo) async {
+    _mexido = true;
     state = novo;
-    await _store?.save(novo);
+    await (await _pronto).save(novo);
   }
 
   /// Liga os lembretes, pedindo a permissão do sistema primeiro.
@@ -454,14 +467,38 @@ class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
     final bool permitido = await ref
         .read(reminderSchedulerProvider)
         .requestPermission();
-    if (!permitido) return false;
-    await save(state.copyWith(enabled: true));
-    return true;
+    // Desligar explicitamente na recusa, e não apenas deixar de ligar: como
+    // o padrão é ligado, "não fazer nada" deixaria a chave em pé enquanto o
+    // sistema diz não. A chave tem que contar a verdade.
+    await save(state.copyWith(enabled: permitido));
+    return permitido;
   }
 
   Future<void> disable() async {
     await save(state.copyWith(enabled: false));
     await ref.read(reminderSchedulerProvider).cancelAll();
+  }
+
+  /// Pede a permissão do sistema uma vez, na primeira vez que faz sentido.
+  ///
+  /// Chamado quando a cápsula já existe, e não na abertura do aplicativo:
+  /// a caixa de diálogo do Android é mais bem recebida logo depois de a
+  /// pessoa ter cadastrado a criança, quando ela acabou de dizer o que
+  /// está guardando, do que na primeira tela de um aplicativo que ela ainda
+  /// não sabe o que é.
+  ///
+  /// Uma vez só, para sempre. Se a resposta for não, a chave acompanha: um
+  /// interruptor ligado que nunca toca é pior que um desligado.
+  Future<void> ensureAsked() async {
+    final ReminderPreferences store = await _pronto;
+    if (store.alreadyAsked) return;
+    if (!state.enabled) return;
+
+    await store.markAsked();
+    final bool permitido = await ref
+        .read(reminderSchedulerProvider)
+        .requestPermission();
+    if (!permitido) await save(state.copyWith(enabled: false));
   }
 }
 
