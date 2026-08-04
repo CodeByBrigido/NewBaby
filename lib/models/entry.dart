@@ -10,6 +10,7 @@ enum EntryType {
   birth('nascimento', 'Meu Bebê'),
   photo('foto', 'Fotos'),
   video('video', 'Vídeos'),
+  audio('audio', 'Áudios'),
   letter('carta', 'Cartas'),
   drawing('desenho', 'Desenhos'),
   document('documento', 'Documentos'),
@@ -31,6 +32,7 @@ enum EntryType {
     EntryType.birth => 'nascimento',
     EntryType.photo => 'foto',
     EntryType.video => 'vídeo',
+    EntryType.audio => 'áudio',
     EntryType.letter => 'carta',
     EntryType.drawing => 'desenho',
     EntryType.document => 'documento',
@@ -41,6 +43,7 @@ enum EntryType {
     EntryType.birth => 'nascimentos',
     EntryType.photo => 'fotos',
     EntryType.video => 'vídeos',
+    EntryType.audio => 'áudios',
     EntryType.letter => 'cartas',
     EntryType.drawing => 'desenhos',
     EntryType.document => 'documentos',
@@ -49,7 +52,10 @@ enum EntryType {
 
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).
   /// Cartas, documentos e crescimento ficam direto na pasta da categoria.
-  bool get bucketsByAge => this == EntryType.photo || this == EntryType.video;
+  bool get bucketsByAge =>
+      this == EntryType.photo ||
+      this == EntryType.video ||
+      this == EntryType.audio;
 
   static EntryType fromId(String? id) => values.firstWhere(
     (EntryType t) => t.id == id,
@@ -133,6 +139,7 @@ class EntryFile {
 
   bool get isImage => mimeType.startsWith('image/');
   bool get isVideo => mimeType.startsWith('video/');
+  bool get isAudio => mimeType.startsWith('audio/');
   bool get isPdf => mimeType == 'application/pdf';
 
   Duration? get duration =>
@@ -223,6 +230,7 @@ class Entry {
     this.uploadStatus = UploadStatus.ready,
     this.deletedAt,
     this.errorMessage,
+    this.sealedUntil,
   });
 
   final String id;
@@ -249,6 +257,26 @@ class Entry {
   final DateTime? deletedAt;
   final String? errorMessage;
 
+  /// Guardado para ser aberto só a partir desta data.
+  ///
+  /// **Isto é um lacre, não um cofre.** O conteúdo continua no Firestore e no
+  /// Drive de quem gravou, legível por quem tiver a conta. É a mesma natureza
+  /// da cápsula do tempo enterrada no quintal: dá para desenterrar antes da
+  /// hora, e não desenterrar é a graça.
+  ///
+  /// Poderia ser criptografia de verdade. Não é, de propósito: uma chave
+  /// perdida em vinte anos apagaria a memória para sempre, e num acervo feito
+  /// para durar décadas esse risco é maior que o de alguém espiar o próprio
+  /// presente.
+  final DateTime? sealedUntil;
+
+  /// Se ainda não chegou a hora de abrir.
+  bool isSealedAt([DateTime? now]) {
+    final DateTime? until = sealedUntil;
+    if (until == null) return false;
+    return until.isAfter(now ?? DateTime.now());
+  }
+
   bool get isTrashed => status == EntryStatus.trashed;
   bool get hasFiles => files.isNotEmpty;
   EntryFile? get coverFile => files.isEmpty ? null : files.first;
@@ -266,6 +294,7 @@ class Entry {
       EntryType.birth => S.birth,
       EntryType.photo => files.length > 1 ? S.photosAdded : S.photoAdded,
       EntryType.video => S.videoAdded,
+      EntryType.audio => S.audioAdded,
       EntryType.letter => S.letters,
       EntryType.drawing => S.drawingAdded,
       EntryType.document => files.firstOrNull?.name ?? S.documentAdded,
@@ -299,7 +328,9 @@ class Entry {
     int? ageDays,
     String? bucketKey,
     String? bucketName,
+    DateTime? sealedUntil,
     bool clearError = false,
+    bool clearSeal = false,
   }) {
     return Entry(
       id: id,
@@ -317,6 +348,7 @@ class Entry {
       uploadStatus: uploadStatus ?? this.uploadStatus,
       deletedAt: deletedAt ?? this.deletedAt,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      sealedUntil: clearSeal ? null : (sealedUntil ?? this.sealedUntil),
     );
   }
 
@@ -335,6 +367,7 @@ class Entry {
     'uploadStatus': uploadStatus.id,
     'excluidoEm': deletedAt == null ? null : Timestamp.fromDate(deletedAt!),
     'erro': errorMessage,
+    'lacradoAte': sealedUntil == null ? null : Timestamp.fromDate(sealedUntil!),
   };
 
   static Entry fromMap(String id, Map<String, Object?> map) {
@@ -362,6 +395,7 @@ class Entry {
       uploadStatus: UploadStatus.fromId(map['uploadStatus'] as String?),
       deletedAt: _toDate(map['excluidoEm']),
       errorMessage: map['erro'] as String?,
+      sealedUntil: _toDate(map['lacradoAte']),
     );
   }
 

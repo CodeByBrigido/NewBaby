@@ -45,7 +45,7 @@ service cloud.firestore {
       return data.keys().hasOnly([
                'tipo', 'data', 'criadoEm', 'idadeDias', 'balde', 'baldeNome',
                'titulo', 'descricao', 'arquivos', 'crescimento', 'status',
-               'uploadStatus', 'excluidoEm', 'erro',
+               'uploadStatus', 'excluidoEm', 'erro', 'lacradoAte',
                // Legado: versões antigas gravavam aqui uma segunda cópia do
                // texto das cartas. O aplicativo não escreve mais este campo,
                // mas quem tem documentos antigos precisa poder editá-los.

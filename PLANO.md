@@ -189,24 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 4 - Voz e cápsula lacrada
-
-Não estava na lista numerada. É a fase de maior retorno emocional do plano
-inteiro, e a que mais responde à régua dos 20 anos.
-
-- Novo tipo de memória: **áudio**, com gravação dentro do aplicativo
-- Reprodução na timeline, sem sair para outro aplicativo
-- **Lacre com data de abertura** em cartas, vídeos e áudios: guardado
-  agora, abre no aniversário de 15, de 18, ou na data que a pessoa
-  escolher
-- Tela que mostra o que está lacrado sem revelar o conteúdo, porque a
-  espera faz parte do presente
-
-O encanamento de upload, otimização e organização por idade já existe;
-áudio entra como mais um `EntryType`.
-
-**Pronto quando:** dá para gravar a voz da mãe e lacrar para 2044.
-
 ### Fase 5 - Aba Inspirações
 
 - Nova aba na navegação inferior, no lugar da Busca
@@ -289,6 +271,46 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 4 - Voz e cápsula lacrada ✅
+
+**Voz.** Novo tipo de memória, gravado dentro do aplicativo, em AAC dentro
+de contêiner MP4: toca em qualquer aparelho e em qualquer computador, hoje
+e daqui a vinte anos. Formato exótico envelhece mal, e este acervo precisa
+continuar legível. Limite de cinco minutos, para a gravação não rodar
+esquecida no bolso.
+
+Reprodução na própria linha do tempo, com o arquivo baixado só ao tocar:
+um dia com dez áudios não baixa dez arquivos que ninguém pediu. Áudio não
+passa pelo compressor, porque já sai comprimido.
+
+**Uma mudança de política que precisa estar escrita.** O CI tinha uma
+barreira dura recusando permissões perigosas, e `RECORD_AUDIO` estava
+nela. Ela saiu de lá e entrou na lista fixa, com a razão registrada no
+próprio workflow: as outras dão acesso ao acervo que já existe no aparelho
+sem a pessoa escolher item por item; o microfone não lê nada que exista,
+só abre enquanto ela está gravando, depois de apertar gravar. E não há
+substituto: existe seletor de fotos do sistema, não existe seletor de voz.
+
+**Cápsula lacrada.** Qualquer entrada aceita uma data de abertura. A
+escolha fica junto do título, e não escondida num menu, porque decidir
+lacrar é do mesmo momento em que se decide o que escrever. Atalhos para os
+15, 18, 21, 25 e 30 anos, calculados a partir do nascimento.
+
+Enquanto o lacre vale, a linha do tempo não mostra o conteúdo **nem o
+título**. A tela "Guardado para o futuro" mostra só o tipo, a data e quanto
+falta: a espera é metade do presente.
+
+**Isto é um lacre, não um cofre**, e está dito na própria tela. O conteúdo
+segue no Drive de quem gravou. Poderia ser criptografia de verdade, mas uma
+chave perdida em vinte anos apagaria a memória para sempre, e num acervo
+feito para durar décadas esse risco é maior que o de alguém espiar o
+próprio presente.
+
+Um teste garante o erro que apagaria um presente: corrigir um título em
+2030 não pode abrir sozinha a carta dos 18 anos.
+
+**Verificação:** 191 testes Dart (14 novos) e 30 no emulador (3 novos).
 
 ### Fase 3 - Momentos, eventos e checklists ✅
 
