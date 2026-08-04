@@ -237,8 +237,9 @@ produção.
 - [ ] URL pública de exclusão de conta no ar e informada no Play Console
 - [ ] Testado o "Apagar minha conta e meus dados" de ponta a ponta, conferindo
       no console do Firebase que `users/{uid}` sumiu
-- [ ] Conferido no APK que só há `INTERNET`, `POST_NOTIFICATIONS` e
-      `RECEIVE_BOOT_COMPLETED` (`aapt dump permissions app-release.apk`).
+- [ ] Conferido no APK que as permissões novas dos lembretes são só
+      `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED` e `VIBRATE`
+      (`aapt dump permissions app-release.apk`).
       **Não pode aparecer `SCHEDULE_EXACT_ALARM` nem `USE_EXACT_ALARM`**: os
       lembretes são agendados em modo inexato justamente para dispensar a
       permissão de alarme exato, que o Google Play audita
