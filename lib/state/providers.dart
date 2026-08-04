@@ -7,8 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/baby_profile.dart';
+import '../models/capsule_pulse.dart';
 import '../models/entry.dart';
 import '../models/family_access.dart';
+import '../models/reminder.dart';
 import '../services/inspiration_source.dart';
 import '../models/inspiration.dart';
 import '../models/suggestion_progress.dart';
@@ -17,6 +19,7 @@ import '../services/auth_service.dart';
 import '../services/drive_service.dart';
 import '../services/firestore_service.dart';
 import '../services/media_optimizer.dart';
+import '../services/notification_service.dart';
 import '../services/memory_repository.dart';
 import '../services/session_service.dart';
 import '../services/thumbnail_service.dart';
@@ -78,6 +81,7 @@ final Provider<SessionService> sessionServiceProvider =
         memories: ref.watch(memoryRepositoryProvider),
         optimizer: ref.watch(mediaOptimizerProvider),
         thumbnails: ref.watch(thumbnailServiceProvider),
+        reminders: ref.watch(reminderSchedulerProvider),
       ),
     );
 
@@ -406,6 +410,87 @@ final Provider<MemoryStats> statsProvider = Provider<MemoryStats>((Ref ref) {
 
   return MemoryStats(byType: byType, totalBytes: bytes);
 });
+
+// ------------------------------------------------------------- lembretes
+
+final Provider<ReminderScheduler> reminderSchedulerProvider =
+    Provider<ReminderScheduler>((Ref ref) => NotificationService());
+
+/// O ajuste de lembretes, guardado neste aparelho.
+final NotifierProvider<ReminderSettingsNotifier, ReminderSettings>
+reminderSettingsProvider =
+    NotifierProvider<ReminderSettingsNotifier, ReminderSettings>(
+      ReminderSettingsNotifier.new,
+    );
+
+class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
+  ReminderPreferences? _store;
+
+  @override
+  ReminderSettings build() {
+    unawaited(_carregar());
+    return const ReminderSettings();
+  }
+
+  Future<void> _carregar() async {
+    final ReminderPreferences store = ReminderPreferences(
+      await SharedPreferences.getInstance(),
+    );
+    _store = store;
+    state = store.load();
+  }
+
+  Future<void> save(ReminderSettings novo) async {
+    state = novo;
+    await _store?.save(novo);
+  }
+
+  /// Liga os lembretes, pedindo a permissão do sistema primeiro.
+  ///
+  /// Se a pessoa recusar, nada é ligado: a chave não pode ficar em "sim"
+  /// enquanto o sistema diz não. Uma chave ligada que não toca é pior que
+  /// uma desligada, porque ninguém vai procurar o defeito.
+  Future<bool> enable() async {
+    final bool permitido = await ref
+        .read(reminderSchedulerProvider)
+        .requestPermission();
+    if (!permitido) return false;
+    await save(state.copyWith(enabled: true));
+    return true;
+  }
+
+  Future<void> disable() async {
+    await save(state.copyWith(enabled: false));
+    await ref.read(reminderSchedulerProvider).cancelAll();
+  }
+}
+
+/// A agenda que vale agora, recalculada a cada mudança relevante.
+///
+/// Depende do cadastro, das entradas e das inspirações porque todas as três
+/// mudam o que faz sentido lembrar. Só o dono da cápsula recebe lembretes:
+/// avisar a avó de que faz duas semanas sem foto seria cobrar dela uma
+/// coisa que ela não pode fazer.
+final Provider<List<ScheduledReminder>> plannedRemindersProvider =
+    Provider<List<ScheduledReminder>>((Ref ref) {
+      if (ref.watch(isReadOnlyProvider)) return const <ScheduledReminder>[];
+
+      final BabyProfile? profile = ref.watch(profileProvider).value;
+      if (profile == null) return const <ScheduledReminder>[];
+
+      final List<Entry> entradas =
+          ref.watch(entriesProvider).value ?? const <Entry>[];
+
+      return planReminders(
+        profile: profile,
+        pulse: CapsulePulse.from(profile: profile, entries: entradas),
+        settings: ref.watch(reminderSettingsProvider),
+        inspirations:
+            ref.watch(inspirationsProvider).value ??
+            const <ActiveInspiration>[],
+        readInspirations: ref.watch(readInspirationsProvider),
+      );
+    });
 
 // ------------------------------------------------------ família e convites
 

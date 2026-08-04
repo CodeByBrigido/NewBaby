@@ -20,6 +20,7 @@ import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/profile/about_screen.dart';
 import '../../features/profile/baby_info_screen.dart';
 import '../../features/profile/delete_account_screen.dart';
+import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/settings_screen.dart';
 import '../../features/search/search_screen.dart';
 import '../../features/shell/home_shell.dart';
@@ -52,6 +53,7 @@ abstract final class Routes {
   static const String stats = '/estatisticas';
   static const String trash = '/lixeira';
   static const String settings = '/configuracoes';
+  static const String reminders = '/configuracoes/lembretes';
   static const String about = '/sobre';
   static const String babyInfo = '/perfil/bebe';
   static const String deleteAccount = '/perfil/apagar';
@@ -219,6 +221,10 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       GoRoute(path: Routes.stats, builder: (_, _) => const StatsScreen()),
       GoRoute(path: Routes.trash, builder: (_, _) => const TrashScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(
+        path: Routes.reminders,
+        builder: (_, _) => const RemindersScreen(),
+      ),
       GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
       GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
       GoRoute(

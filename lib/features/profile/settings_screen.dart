@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
+import '../../core/theme/app_palette.dart';
+import '../../models/reminder.dart';
 import '../../state/lock_providers.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -81,6 +83,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 'que mantém o acervo leve por muitos anos.',
           ),
           const SizedBox(height: 28),
+          const SectionHeader(title: 'Lembretes'),
+          const _RemindersTile(),
+          const SizedBox(height: 28),
           const SectionHeader(title: S.lockSection),
           const _LockTile(),
           const SizedBox(height: 12),
@@ -120,6 +125,55 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A porta para a tela de lembretes, com o estado atual na própria linha.
+///
+/// O resumo aparece aqui para a resposta a "isso me manda notificação?" não
+/// exigir entrar em lugar nenhum.
+class _RemindersTile extends ConsumerWidget {
+  const _RemindersTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ReminderSettings ajuste = ref.watch(reminderSettingsProvider);
+
+    return SoftCard(
+      onTap: () => context.push(Routes.reminders),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            ajuste.enabled
+                ? Icons.notifications_active_outlined
+                : Icons.notifications_off_outlined,
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Lembretes',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  ajuste.enabled
+                      ? '${ajuste.kinds.length} de ${ReminderKind.values.length} '
+                            'tipos, às ${ajuste.safeHour}h'
+                      : 'Desligados',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.cores.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: context.cores.textSecondary),
         ],
       ),
     );
