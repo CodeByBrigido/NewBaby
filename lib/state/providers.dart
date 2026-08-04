@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import '../services/inspiration_source.dart';
+import '../models/inspiration.dart';
 import '../models/suggestion_progress.dart';
 import '../models/suggestion.dart';
 import '../services/auth_service.dart';
@@ -101,6 +103,24 @@ final StreamProvider<BabyProfile?> profileProvider =
 // -------------------------------------------------------------- entradas
 
 /// Todas as memórias ativas, já ordenadas da mais recente para a mais antiga.
+/// De onde vem o conteúdo das inspirações.
+///
+/// Sobrescreva este provider para trocar o arquivo local por uma chamada de
+/// rede: nem a tela nem o filtro por idade mudam.
+final Provider<InspirationSource> inspirationSourceProvider =
+    Provider<InspirationSource>((Ref ref) => const AssetInspirationSource());
+
+/// As inspirações que cabem na idade de hoje, da mais certeira para a menos.
+final FutureProvider<List<Inspiration>> inspirationsProvider =
+    FutureProvider<List<Inspiration>>((Ref ref) async {
+      final BabyProfile? profile = ref.watch(profileProvider).value;
+      if (profile == null) return const <Inspiration>[];
+      final List<Inspiration> todas = await ref
+          .watch(inspirationSourceProvider)
+          .load();
+      return pickForAge(todas, profile.ageNow().totalDays);
+    });
+
 /// O que a pessoa já resolveu no catálogo de sugestões.
 final StreamProvider<Map<String, SuggestionProgress>>
 suggestionProgressProvider = StreamProvider<Map<String, SuggestionProgress>>((

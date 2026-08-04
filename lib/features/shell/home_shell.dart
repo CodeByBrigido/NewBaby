@@ -6,7 +6,7 @@ import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../home/home_screen.dart';
-import '../search/search_screen.dart';
+import '../inspirations/inspirations_screen.dart';
 import '../profile/profile_screen.dart';
 import '../timeline/timeline_screen.dart';
 import 'add_sheet.dart';
@@ -27,7 +27,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     HomeScreen(),
     TimelineScreen(),
     SizedBox.shrink(), // lugar do botão +, nunca exibido
-    SearchScreen(embedded: true),
+    InspirationsScreen(embedded: true),
     ProfileScreen(embedded: true),
   ];
 
@@ -103,9 +103,9 @@ class _BottomBar extends StatelessWidget {
           ),
           const Expanded(child: SizedBox.shrink()),
           _BarItem(
-            icon: Icons.search_outlined,
-            selectedIcon: Icons.search_rounded,
-            label: S.search,
+            icon: Icons.lightbulb_outline,
+            selectedIcon: Icons.lightbulb,
+            label: 'Inspirações',
             selected: index == 3,
             onTap: () => onSelected(3),
           ),
