@@ -83,6 +83,27 @@ checar('descrição no limite ainda passa',
   assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/e7'),
     { ...entradaValida, descricao: 'x'.repeat(20000) })));
 
+// --- sugestões ---
+checar('a pessoa marca uma sugestão como feita',
+  assertSucceeds(setDoc(doc(ana, 'users/ana/sugestoes/primeiro-sorriso'),
+    { feita: true, dispensada: false, marcados: [] })));
+checar('a pessoa marca itens do checklist',
+  assertSucceeds(setDoc(doc(ana, 'users/ana/sugestoes/primeiro-aniversario'),
+    { feita: false, dispensada: false, marcados: ['Escolher o bolo'] })));
+checar('outra pessoa nao le as sugestoes de ninguem',
+  assertFails(getDoc(doc(bruno, 'users/ana/sugestoes/primeiro-sorriso'))));
+checar('outra pessoa nao escreve nas sugestoes de ninguem',
+  assertFails(setDoc(doc(bruno, 'users/ana/sugestoes/primeiro-sorriso'), { feita: true })));
+checar('anonimo sem login nao alcanca as sugestoes',
+  assertFails(getDoc(doc(anonimo, 'users/ana/sugestoes/primeiro-sorriso'))));
+checar('campo estranho na sugestao e recusado',
+  assertFails(setDoc(doc(ana, 'users/ana/sugestoes/x'), { feita: true, carga: 'x'.repeat(100) })));
+checar('tipo errado na sugestao e recusado',
+  assertFails(setDoc(doc(ana, 'users/ana/sugestoes/y'), { feita: 'sim' })));
+checar('lista de marcados absurda e recusada',
+  assertFails(setDoc(doc(ana, 'users/ana/sugestoes/z'),
+    { marcados: new Array(41).fill('item') })));
+
 let falhas = 0;
 for (const { nome, promessa } of casos) {
   try {

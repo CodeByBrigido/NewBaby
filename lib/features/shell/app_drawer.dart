@@ -66,6 +66,11 @@ class AppDrawer extends ConsumerWidget {
                     route: Routes.growth,
                   ),
                   _Item(
+                    icon: Icons.auto_awesome_outlined,
+                    label: 'Momentos importantes',
+                    route: Routes.moments,
+                  ),
+                  _Item(
                     icon: Icons.insert_chart_outlined,
                     label: S.stats,
                     route: Routes.stats,

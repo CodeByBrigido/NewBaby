@@ -64,6 +64,20 @@ service cloud.firestore {
               || (data.arquivos is list && data.arquivos.size() <= 60));
     }
 
+    // O progresso do catálogo de sugestões: se foi feita, se foi dispensada,
+    // e quais itens do checklist estão marcados. Nada aqui é texto livre da
+    // pessoa - os itens vêm do catálogo, que mora no aplicativo - então o
+    // limite existe só para impedir que alguém use o documento como depósito.
+    function isValidSuggestion() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['feita', 'dispensada', 'marcados'])
+          && (!('feita' in data) || data.feita is bool)
+          && (!('dispensada' in data) || data.dispensada is bool)
+          && (!('marcados' in data)
+              || data.marcados == null
+              || (data.marcados is list && data.marcados.size() <= 40));
+    }
+
     function isValidFolder() {
       return request.resource.data.keys().hasOnly([
                'caminho', 'driveId', 'criadoEm'
@@ -86,6 +100,11 @@ service cloud.firestore {
       match /entradas/{entrada} {
         allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && isValidEntry();
+      }
+
+      match /sugestoes/{sugestao} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidSuggestion();
       }
 
       match /pastas/{chave} {

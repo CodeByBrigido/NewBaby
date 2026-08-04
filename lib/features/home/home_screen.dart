@@ -13,6 +13,7 @@ import '../../state/providers.dart';
 import '../../models/capsule_pulse.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
+import '../moments/moments_screen.dart';
 import '../shell/add_sheet.dart';
 import '../timeline/upload_banner.dart';
 import 'pulse_cards.dart';
@@ -67,7 +68,8 @@ class HomeScreen extends ConsumerWidget {
           _Hero(profile: profile, pulse: pulse, copy: copy),
           const SizedBox(height: 14),
           PulseCards(pulse: pulse, copy: copy),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
+          NextSuggestion(copy: copy),
           FilledButton.icon(
             onPressed: () => showAddSheet(context),
             icon: const Icon(Icons.add),
