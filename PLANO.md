@@ -189,21 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 3 - Momentos, eventos e checklists
-
-Os itens 3, 4 e 7 são a mesma espinha: um catálogo de sugestões avaliado
-contra a idade e a data. Feitos juntos, é um motor. Feitos separados, são
-três motores parecidos.
-
-- Catálogo declarativo de sugestões, fácil de estender sem tocar em lógica
-- Momentos importantes (primeiro sorriso, primeira palavra, primeiros
-  passos), sempre como sugestão, nunca assumindo que aconteceram
-- Eventos por data (primeiro Natal, primeira Páscoa, primeiro aniversário)
-- Checklists automáticos, com o do primeiro aniversário como primeiro caso
-
-**Pronto quando:** acrescentar um momento novo é acrescentar uma linha ao
-catálogo.
-
 ### Fase 4 - Voz e cápsula lacrada
 
 Não estava na lista numerada. É a fase de maior retorno emocional do plano
@@ -304,6 +289,46 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 3 - Momentos, eventos e checklists ✅
+
+Os itens 3, 4 e 7 viraram uma coisa só, porque eram o mesmo problema:
+um catálogo de sugestões avaliado contra a idade e a data.
+
+**Acrescentar uma sugestão é acrescentar uma linha.** `Suggestions.all` é
+só dado; quem decide se ela vale hoje é um `Trigger` de três tipos:
+`AgeWindow` (por volta dos quatro meses), `FirstSpecialDate` (perto do
+primeiro Natal) e `BeforeBirthday` (faltando 45 dias). Era o pedido
+explícito para os checklists, e vale igual para o resto.
+
+**O calendário brasileiro, calculado.** Páscoa pelo algoritmo de
+Meeus/Jones/Butcher, Carnaval 47 dias antes, dias das mães e dos pais no
+segundo domingo de maio e agosto. Conferido ano a ano contra o calendário
+de verdade, e com as invariantes checadas em 35 anos: Páscoa sempre num
+domingo, Carnaval sempre numa terça, o segundo domingo sempre entre os
+dias 8 e 14.
+
+Chutar "sempre em abril" faria o aplicativo lembrar do primeiro Natal na
+data errada, e data errada é pior que data nenhuma: estraga a confiança em
+tudo o mais que ele diz.
+
+**Nada é assumido.** O aplicativo não sabe se a criança já sorriu, e dar
+isso como certo seria inventar a memória de outra pessoa. Um teste reprova
+o CI se algum título passar a afirmar em vez de sugerir.
+
+**"Primeiro" quer dizer primeiro.** A sugestão do primeiro Natal só
+aparece se o Natal que vem for de fato o primeiro depois do nascimento; no
+segundo ano ela não volta. E o que foi dispensado ou marcado como feito
+nunca reaparece.
+
+**Onde vive.** Tela "Momentos importantes" no menu, e na tela inicial só a
+sugestão mais urgente, uma por vez. Lista de pendências na Home vira
+cobrança.
+
+**Verificação:** 177 testes Dart (30 novos) e 27 no emulador do Firestore
+(8 novos, cobrindo a coleção `sugestoes`: dono lê e escreve, terceiro não
+lê nem escreve, anônimo não alcança, campo estranho e tipo errado
+recusados). A coleção nova também entrou na exclusão de conta.
 
 ### Fase 2 - Home viva e timeline agrupada ✅
 

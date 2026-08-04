@@ -20,6 +20,7 @@ import '../../features/profile/delete_account_screen.dart';
 import '../../features/profile/settings_screen.dart';
 import '../../features/search/search_screen.dart';
 import '../../features/shell/home_shell.dart';
+import '../../features/moments/moments_screen.dart';
 import '../../features/stats/stats_screen.dart';
 import '../../features/timeline/entry_detail_screen.dart';
 import '../../features/trash/trash_screen.dart';
@@ -39,6 +40,7 @@ abstract final class Routes {
   static const String documents = '/documentos';
   static const String growth = '/crescimento';
   static const String growthChart = '/crescimento/grafico';
+  static const String moments = '/momentos';
   static const String stats = '/estatisticas';
   static const String trash = '/lixeira';
   static const String settings = '/configuracoes';
@@ -167,6 +169,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
           ),
         ],
       ),
+      GoRoute(path: Routes.moments, builder: (_, _) => const MomentsScreen()),
       GoRoute(path: Routes.stats, builder: (_, _) => const StatsScreen()),
       GoRoute(path: Routes.trash, builder: (_, _) => const TrashScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),

@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import '../models/suggestion_progress.dart';
+import '../models/suggestion.dart';
 import '../services/auth_service.dart';
 import '../services/drive_service.dart';
 import '../services/firestore_service.dart';
@@ -99,6 +101,47 @@ final StreamProvider<BabyProfile?> profileProvider =
 // -------------------------------------------------------------- entradas
 
 /// Todas as memórias ativas, já ordenadas da mais recente para a mais antiga.
+/// O que a pessoa já resolveu no catálogo de sugestões.
+final StreamProvider<Map<String, SuggestionProgress>>
+suggestionProgressProvider = StreamProvider<Map<String, SuggestionProgress>>((
+  Ref ref,
+) {
+  final String? uid = ref.watch(uidProvider);
+  if (uid == null) {
+    return Stream<Map<String, SuggestionProgress>>.value(
+      const <String, SuggestionProgress>{},
+    );
+  }
+  return ref.watch(firestoreServiceProvider).watchSuggestions(uid);
+});
+
+/// As sugestões que valem hoje.
+///
+/// Recalculadas a cada abertura porque dependem da data: uma sugestão de
+/// Natal não pode continuar de pé em fevereiro só porque o aplicativo não
+/// foi reaberto.
+final Provider<List<ActiveSuggestion>>
+activeSuggestionsProvider = Provider<List<ActiveSuggestion>>((Ref ref) {
+  final BabyProfile? profile = ref.watch(profileProvider).value;
+  if (profile == null) return const <ActiveSuggestion>[];
+
+  final Map<String, SuggestionProgress> progresso =
+      ref.watch(suggestionProgressProvider).value ??
+      const <String, SuggestionProgress>{};
+
+  return Suggestions.activeFor(
+    profile: profile,
+    resolved: <String>{
+      for (final MapEntry<String, SuggestionProgress> e in progresso.entries)
+        if (e.value.isResolved) e.key,
+    },
+    checked: <String, Set<String>>{
+      for (final MapEntry<String, SuggestionProgress> e in progresso.entries)
+        e.key: e.value.checked,
+    },
+  );
+});
+
 /// A foto que representa a criança no aplicativo.
 ///
 /// Deriva das entradas em vez de guardar um id à parte, e isso é de

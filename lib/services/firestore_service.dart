@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import '../models/suggestion_progress.dart';
 
 /// Índice de tudo que existe no aplicativo.
 ///
@@ -20,6 +21,7 @@ class FirestoreService {
   static const String _profileDoc = 'bebe';
   static const String _entries = 'entradas';
   static const String _folders = 'pastas';
+  static const String _suggestions = 'sugestoes';
 
   DocumentReference<Map<String, Object?>> _user(String uid) =>
       _db.collection(_users).doc(uid);
@@ -162,10 +164,41 @@ class FirestoreService {
     _profile,
     _entries,
     _folders,
+    _suggestions,
   ];
 
   /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
   static const int _deleteBatchSize = 300;
+
+  // ------------------------------------------------------------ sugestões
+
+  /// O que a pessoa já resolveu ou marcou no catálogo de sugestões.
+  ///
+  /// Um documento por sugestão, com o id do catálogo como chave. Guardar só
+  /// o que foi tocado mantém a coleção pequena: quem nunca dispensou nada
+  /// não tem documento nenhum.
+  Stream<Map<String, SuggestionProgress>> watchSuggestions(String uid) {
+    return _user(uid)
+        .collection(_suggestions)
+        .snapshots()
+        .map(
+          (QuerySnapshot<Map<String, Object?>> snap) =>
+              <String, SuggestionProgress>{
+                for (final QueryDocumentSnapshot<Map<String, Object?>> doc
+                    in snap.docs)
+                  doc.id: SuggestionProgress.fromMap(doc.data()),
+              },
+        );
+  }
+
+  Future<void> saveSuggestion(
+    String uid,
+    String id,
+    SuggestionProgress progress,
+  ) => _user(uid)
+      .collection(_suggestions)
+      .doc(id)
+      .set(progress.toMap(), SetOptions(merge: true));
 
   /// Apaga tudo o que existe sob `users/{uid}`, sem deixar rastro.
   ///
