@@ -221,9 +221,23 @@ familiar tira imagem. A regra confere a **entrada dona** por `get()`, e não
 campos copiados: campo copiado sai de sincronia, e o dia em que sair, o
 lacre vaza por uma imagem de 200 pixels.
 
-Tamanho real e vídeo abrem no Google Drive, pela sessão Google da própria
-pessoa. Sem token nosso e sem download nosso: quem autoriza é a permissão
-de leitura que o pai deu à pasta.
+**A foto em tela cheia abre dentro do aplicativo.** A primeira entrega
+mandava a família para o Drive, e isso foi devolvido com razão: o
+aplicativo existe para juntar as coisas num lugar só, e o Drive é o
+armazenamento que ele esconde. Então são duas cópias reduzidas por arquivo:
+uma miniatura de até 55 KB para a grade e uma de visualização de até 750 KB
+para a tela cheia, em coleções separadas - carregar 750 KB por célula de
+grade seria desperdício em cima de desperdício.
+
+O acervo anterior a esta versão se conserta sozinho: toda foto ganha as
+cópias na primeira vez que quem é dono a abre em tela cheia, a partir do
+arquivo que já foi baixado para mostrar na tela. Não custa nem uma ida à
+rede a mais.
+
+**Vídeo é a exceção que sobra, e é uma limitação de física:** 720p tem
+megabytes e um documento do Firestore não passa de 1 MiB. Para a família,
+o vídeo abre no Drive, pela sessão Google dela. É o único lugar do
+aplicativo que manda alguém para fora.
 
 O preço, dito com todas as letras: **o Firestore deixou de guardar apenas
 metadados.** Passa a guardar uma miniatura de poucos quilobytes por

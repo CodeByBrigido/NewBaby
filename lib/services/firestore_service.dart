@@ -45,6 +45,7 @@ class FirestoreService {
   static const String _folders = 'pastas';
   static const String _suggestions = 'sugestoes';
   static const String _thumbnails = 'miniaturas';
+  static const String _images = 'imagens';
   static const String _shareCodes = 'shareCodes';
   static const String _familyAccess = 'familyAccess';
 
@@ -215,6 +216,7 @@ class FirestoreService {
     _folders,
     _suggestions,
     _thumbnails,
+    _images,
   ];
 
   /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
@@ -268,7 +270,27 @@ class FirestoreService {
     required String entryId,
     required String driveId,
     required Uint8List bytes,
-  }) => _user(uid).collection(_thumbnails).doc(driveId).set(<String, Object?>{
+  }) => _saveImage(_thumbnails, uid, entryId, driveId, bytes);
+
+  /// A cópia de visualização, que é a que abre em tela cheia.
+  ///
+  /// Coleção separada da miniatura de propósito: a grade carrega dezenas de
+  /// miniaturas de uma vez, e puxar centenas de quilobytes por célula para
+  /// desenhar um quadrado pequeno seria desperdício em cima de desperdício.
+  Future<void> saveDisplayImage({
+    required String uid,
+    required String entryId,
+    required String driveId,
+    required Uint8List bytes,
+  }) => _saveImage(_images, uid, entryId, driveId, bytes);
+
+  Future<void> _saveImage(
+    String collection,
+    String uid,
+    String entryId,
+    String driveId,
+    Uint8List bytes,
+  ) => _user(uid).collection(collection).doc(driveId).set(<String, Object?>{
     'entradaId': entryId,
     'bytes': Blob(bytes),
     'criadoEm': Timestamp.fromDate(DateTime.now()),
@@ -280,11 +302,22 @@ class FirestoreService {
   /// for uma carta, estiver lacrada ou tiver ido para a lixeira. Quem chama
   /// não precisa distinguir: em todos esses casos a resposta na tela é a
   /// mesma, que é não mostrar imagem nenhuma.
-  Future<Uint8List?> loadThumbnail(String uid, String driveId) async {
+  Future<Uint8List?> loadThumbnail(String uid, String driveId) =>
+      _loadImage(_thumbnails, uid, driveId);
+
+  /// A cópia de visualização, ou `null` se não houver.
+  Future<Uint8List?> loadDisplayImage(String uid, String driveId) =>
+      _loadImage(_images, uid, driveId);
+
+  Future<Uint8List?> _loadImage(
+    String collection,
+    String uid,
+    String driveId,
+  ) async {
     try {
       final DocumentSnapshot<Map<String, Object?>> doc = await _user(
         uid,
-      ).collection(_thumbnails).doc(driveId).get();
+      ).collection(collection).doc(driveId).get();
       final Object? bytes = doc.data()?['bytes'];
       return bytes is Blob ? bytes.bytes : null;
     } on FirebaseException catch (e) {

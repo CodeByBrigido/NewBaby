@@ -5,8 +5,15 @@ rules_version = '2';
 // Todo o conteúdo do aplicativo vive sob users/{uid}. Qualquer leitura ou
 // escrita fora do próprio uid é negada.
 //
-// Os arquivos em si não passam por aqui - eles ficam no Google Drive, sob a
-// permissão OAuth `drive.file`. O Firestore guarda apenas metadados.
+// As fotos e os vídeos ficam no Google Drive de quem guarda, sob a permissão
+// OAuth `drive.file`. O Firestore guarda os metadados e, para cada arquivo,
+// duas imagens reduzidas: uma miniatura para a grade e uma cópia de
+// visualização para a tela cheia.
+//
+// Elas existem por necessidade. O escopo `drive.file` não alcança arquivos
+// que o aplicativo não criou naquele aparelho, então o aplicativo de quem foi
+// convidado não teria como buscar imagem nenhuma no Drive - e o aplicativo
+// não pode empurrar a família para fora dele para ver uma foto.
 //
 // Além do isolamento entre contas, estas regras limitam o **formato** do que
 // pode ser gravado. Não é excesso de zelo: o aplicativo é público, então
@@ -149,18 +156,18 @@ service cloud.firestore {
           && entrada.status == 'ativo';
     }
 
-    /// Uma miniatura: poucos quilobytes, e nada além disso.
+    /// Uma imagem guardada aqui, com teto de tamanho.
     ///
-    /// O limite é a diferença entre uma miniatura e um lugar para esconder
-    /// arquivo. Um documento do Firestore aceita 1 MiB; 200 KB é folgado
-    /// para uma imagem de 320 pixels e ainda deixa claro o que isto é.
-    function isValidThumbnail() {
+    /// O teto é a diferença entre uma imagem e um lugar para esconder
+    /// arquivo. Um documento do Firestore aceita 1 MiB no total, contando
+    /// tudo; os limites abaixo deixam folga para o resto do documento.
+    function isValidImage(maxBytes) {
       let data = request.resource.data;
       return data.keys().hasOnly(['entradaId', 'bytes', 'criadoEm'])
           && data.entradaId is string
           && data.entradaId.size() <= 200
           && data.bytes is bytes
-          && data.bytes.size() <= 200 * 1024;
+          && data.bytes.size() <= maxBytes;
     }
 
     function isValidFolder() {
@@ -217,7 +224,23 @@ service cloud.firestore {
                    || (isFamilyOf(uid)
                        && entradaVisivelParaFamilia(uid, resource.data.entradaId));
         allow list: if false;
-        allow create, update: if isOwner(uid) && isValidThumbnail();
+        allow create, update: if isOwner(uid) && isValidImage(60 * 1024);
+        allow delete: if isOwner(uid);
+      }
+
+      // A mesma imagem em tamanho de visualização, para abrir em tela cheia
+      // **dentro do aplicativo**.
+      //
+      // Coleção separada da miniatura de propósito: a grade carrega dezenas
+      // de miniaturas de uma vez, e não faz sentido puxar centenas de
+      // quilobytes por célula para mostrar um quadrado de 100 pixels. Aqui
+      // só chega quem abriu uma foto.
+      match /imagens/{driveId} {
+        allow get: if isOwner(uid)
+                   || (isFamilyOf(uid)
+                       && entradaVisivelParaFamilia(uid, resource.data.entradaId));
+        allow list: if false;
+        allow create, update: if isOwner(uid) && isValidImage(800 * 1024);
         allow delete: if isOwner(uid);
       }
 
