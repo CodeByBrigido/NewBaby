@@ -21,6 +21,7 @@ class ProfileScreen extends ConsumerWidget {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final String? email = ref.watch(authServiceProvider).email;
     final TextTheme text = Theme.of(context).textTheme;
+    final bool leitura = ref.watch(isReadOnlyProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,11 +75,19 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                _Tile(
-                  icon: Icons.person_outline,
-                  title: Copy.of(profile).babyInfo,
-                  onTap: () => context.push(Routes.babyInfo),
-                ),
+                if (!leitura)
+                  _Tile(
+                    icon: Icons.person_outline,
+                    title: Copy.of(profile).babyInfo,
+                    onTap: () => context.push(Routes.babyInfo),
+                  ),
+                if (!leitura)
+                  _Tile(
+                    icon: Icons.favorite_outline,
+                    title: 'Quem mais pode ver',
+                    subtitle: _quemMaisVe(ref),
+                    onTap: () => context.push(Routes.share),
+                  ),
                 if (email != null)
                   _Tile(
                     icon: Icons.account_circle_outlined,
@@ -106,20 +115,48 @@ class ProfileScreen extends ConsumerWidget {
                   child: const Text(S.signOut),
                 ),
                 const SizedBox(height: 4),
+                // Quem foi convidado não tem conta para apagar aqui: a
+                // cápsula não é dela, e o botão de apagar tudo apontaria para
+                // dados que não são dela. O que ela pode fazer é sair.
                 TextButton(
-                  onPressed: () => context.push(Routes.deleteAccount),
+                  onPressed: leitura
+                      ? () => _sairDaCapsula(context, ref)
+                      : () => context.push(Routes.deleteAccount),
                   style: TextButton.styleFrom(
                     foregroundColor: context.cores.textSecondary,
                     minimumSize: const Size.fromHeight(44),
                   ),
-                  child: const Text(
-                    S.deleteAccount,
-                    style: TextStyle(fontSize: 13),
+                  child: Text(
+                    leitura ? 'Sair desta cápsula' : S.deleteAccount,
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
               ],
             ),
     );
+  }
+
+  /// Uma linha curta dizendo quantas pessoas já entraram.
+  String? _quemMaisVe(WidgetRef ref) {
+    final int quantos = ref.watch(familyMembersProvider).value?.length ?? 0;
+    if (quantos == 0) return 'Ninguém ainda';
+    return Fmt.count(quantos, 'pessoa', 'pessoas');
+  }
+
+  Future<void> _sairDaCapsula(BuildContext context, WidgetRef ref) async {
+    final bool ok = await confirm(
+      context,
+      title: 'Sair desta cápsula?',
+      message:
+          'Você deixa de acompanhar as memórias. Nada é apagado, e quem te '
+          'convidou pode te chamar de novo quando quiser.',
+      confirmLabel: 'Sair',
+    );
+    if (!ok) return;
+    final String? uid = ref.read(uidProvider);
+    if (uid == null) return;
+    await ref.read(firestoreServiceProvider).removeFamilyAccess(uid);
+    await ref.read(sessionServiceProvider).signOut();
   }
 
   Future<void> _signOut(BuildContext context, WidgetRef ref) async {

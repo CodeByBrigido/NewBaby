@@ -19,6 +19,10 @@ class AppDrawer extends ConsumerWidget {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final String? email = ref.watch(authServiceProvider).email;
     final TextTheme text = Theme.of(context).textTheme;
+    // O menu de quem foi convidado só mostra o que ela de fato alcança.
+    // Deixar "Cartas" ali para abrir uma tela vazia seria pior que não ter:
+    // parece defeito, e ainda conta que existem cartas que ela não vê.
+    final bool leitura = ref.watch(isReadOnlyProvider);
 
     return Drawer(
       backgroundColor: context.cores.background,
@@ -45,16 +49,18 @@ class AppDrawer extends ConsumerWidget {
                     label: S.videos,
                     route: Routes.videos,
                   ),
-                  _Item(
-                    icon: Icons.mail_outline,
-                    label: S.letters,
-                    route: Routes.letters,
-                  ),
-                  _Item(
-                    icon: Icons.brush_outlined,
-                    label: S.drawings,
-                    route: Routes.drawings,
-                  ),
+                  if (!leitura)
+                    _Item(
+                      icon: Icons.mail_outline,
+                      label: S.letters,
+                      route: Routes.letters,
+                    ),
+                  if (!leitura)
+                    _Item(
+                      icon: Icons.brush_outlined,
+                      label: S.drawings,
+                      route: Routes.drawings,
+                    ),
                   _Item(
                     icon: Icons.description_outlined,
                     label: S.documents,
@@ -70,22 +76,24 @@ class AppDrawer extends ConsumerWidget {
                     label: 'Momentos importantes',
                     route: Routes.moments,
                   ),
-                  _Item(
-                    icon: Icons.lock_clock,
-                    label: 'Guardado para o futuro',
-                    route: Routes.sealed,
-                  ),
+                  if (!leitura)
+                    _Item(
+                      icon: Icons.lock_clock,
+                      label: 'Guardado para o futuro',
+                      route: Routes.sealed,
+                    ),
                   _Item(
                     icon: Icons.insert_chart_outlined,
                     label: S.stats,
                     route: Routes.stats,
                   ),
                   const Divider(indent: 20, endIndent: 20, height: 24),
-                  _Item(
-                    icon: Icons.delete_outline,
-                    label: S.trash,
-                    route: Routes.trash,
-                  ),
+                  if (!leitura)
+                    _Item(
+                      icon: Icons.delete_outline,
+                      label: S.trash,
+                      route: Routes.trash,
+                    ),
                   _Item(
                     icon: Icons.settings_outlined,
                     label: S.settings,
