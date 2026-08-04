@@ -71,6 +71,11 @@ class AppDrawer extends ConsumerWidget {
                     route: Routes.moments,
                   ),
                   _Item(
+                    icon: Icons.lock_clock,
+                    label: 'Guardado para o futuro',
+                    route: Routes.sealed,
+                  ),
+                  _Item(
                     icon: Icons.insert_chart_outlined,
                     label: S.stats,
                     route: Routes.stats,

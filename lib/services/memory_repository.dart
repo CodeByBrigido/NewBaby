@@ -13,6 +13,8 @@ import '../models/baby_profile.dart';
 import '../models/entry.dart';
 import 'drive_service.dart';
 import 'firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'media_optimizer.dart';
 import 'thumbnail_service.dart';
 
@@ -516,6 +518,8 @@ class MemoryRepository {
     Entry entry, {
     required String title,
     required String description,
+    DateTime? sealedUntil,
+    bool changeSeal = false,
   }) {
     final String? newTitle = title.trim().isEmpty ? null : title.trim();
     final String? newDescription = description.trim().isEmpty
@@ -527,6 +531,12 @@ class MemoryRepository {
     return firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
+      // Só entra no patch quando a pessoa mexeu no lacre; sem isso, salvar
+      // um título tiraria sem querer uma data de abertura já escolhida.
+      if (changeSeal)
+        'lacradoAte': sealedUntil == null
+            ? null
+            : Timestamp.fromDate(sealedUntil),
     });
   }
 
@@ -645,12 +655,20 @@ class MemoryRepository {
       '.gif' => 'image/gif',
       '.mp4' => 'video/mp4',
       '.mov' => 'video/quicktime',
+      // O gravador do aplicativo produz AAC em contêiner MP4.
+      '.m4a' || '.aac' => 'audio/mp4',
+      '.mp3' => 'audio/mpeg',
+      '.ogg' || '.opus' => 'audio/ogg',
+      '.wav' => 'audio/wav',
       '.pdf' => 'application/pdf',
       '.doc' => 'application/msword',
       '.docx' =>
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      _ =>
-        type == EntryType.document ? 'application/octet-stream' : 'image/jpeg',
+      _ => switch (type) {
+        EntryType.document => 'application/octet-stream',
+        EntryType.audio => 'audio/mp4',
+        _ => 'image/jpeg',
+      },
     };
   }
 

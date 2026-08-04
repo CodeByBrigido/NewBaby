@@ -83,6 +83,16 @@ checar('descrição no limite ainda passa',
   assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/e7'),
     { ...entradaValida, descricao: 'x'.repeat(20000) })));
 
+// --- lacre ---
+checar('uma entrada pode ser guardada para o futuro',
+  assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/lacrada'),
+    { ...entradaValida, lacradoAte: new Date(2045, 0, 22) })));
+checar('e o lacre pode ser tirado',
+  assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/lacrada'),
+    { ...entradaValida, lacradoAte: null })));
+checar('outra pessoa nao le uma entrada lacrada',
+  assertFails(getDoc(doc(bruno, 'users/ana/entradas/lacrada'))));
+
 // --- sugestões ---
 checar('a pessoa marca uma sugestão como feita',
   assertSucceeds(setDoc(doc(ana, 'users/ana/sugestoes/primeiro-sorriso'),

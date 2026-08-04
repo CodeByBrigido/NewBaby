@@ -8,6 +8,8 @@ import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../common/drive_image.dart';
+import '../audio/audio_player_tile.dart';
+import '../sealed/sealed_screen.dart';
 import '../common/widgets.dart';
 
 /// Cartão de um item da linha do tempo. O desenho muda com o tipo: fotos
@@ -78,6 +80,7 @@ class TimelineCard extends ConsumerWidget {
       case EntryType.birth:
       case EntryType.photo:
       case EntryType.video:
+      case EntryType.audio:
       case EntryType.drawing:
         context.push(Routes.entry(entry.id));
     }
@@ -91,11 +94,18 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // O lacre vem antes de tudo: enquanto ele vale, o conteúdo não aparece
+    // nem de relance, e nem o título.
+    if (entry.isSealedAt()) {
+      return SealedNotice(entry: entry);
+    }
+
     return switch (entry.type) {
       EntryType.growth => _GrowthBody(entry: entry),
       EntryType.letter => _LetterBody(entry: entry),
       EntryType.document => _DocumentBody(entry: entry),
       EntryType.video => _VideoBody(entry: entry),
+      EntryType.audio => _AudioBody(entry: entry),
       EntryType.birth => _BirthBody(entry: entry),
       EntryType.photo || EntryType.drawing => _PhotoBody(entry: entry),
     };
@@ -170,6 +180,27 @@ class _PhotoBody extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// O cartão de áudio: o tocador em si, sem miniatura.
+///
+/// Áudio não tem imagem, e inventar uma capa genérica só encheria a linha do
+/// tempo de ícones iguais.
+class _AudioBody extends StatelessWidget {
+  const _AudioBody({required this.entry});
+
+  final Entry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    final EntryFile? file = entry.coverFile;
+    if (file == null) return _DescriptionOnly(entry: entry);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      child: AudioPlayerTile(file: file),
     );
   }
 }
