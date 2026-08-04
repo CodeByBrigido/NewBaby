@@ -1,35 +1,12 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
-import '../models/family_access.dart';
 import '../models/suggestion_progress.dart';
 
-/// Uma pessoa com acesso à cápsula, do ponto de vista de quem convidou.
-@immutable
-class FamilyMember {
-  const FamilyMember({required this.uid, required this.link});
-
-  final String uid;
-  final FamilyLink? link;
-}
-
 /// Índice de tudo que existe no aplicativo.
-///
-/// O Firestore guarda os metadados e, desde o compartilhamento familiar, uma
-/// miniatura de poucos quilobytes por arquivo. **A foto e o vídeo em si
-/// continuam só no Drive** - o que passa por aqui é o suficiente para
-/// desenhar a linha do tempo, nunca o arquivo.
-///
-/// A miniatura está aqui por necessidade, não por conveniência: o escopo
-/// `drive.file` não alcança arquivos que este aplicativo não criou naquele
-/// aparelho, então o aplicativo de quem foi convidado não tem como buscar
-/// imagem nenhuma no Drive. De quebra, a linha do tempo de quem é dono abre
-/// com imagem num celular novo, antes de qualquer conversa com o Google.
 ///
 /// Como o cache offline fica no aparelho, a linha do tempo abre instantânea e
 /// a busca acontece sem rede, sem nunca varrer as pastas do Drive.
@@ -46,8 +23,6 @@ class FirestoreService {
   static const String _suggestions = 'sugestoes';
   static const String _thumbnails = 'miniaturas';
   static const String _images = 'imagens';
-  static const String _shareCodes = 'shareCodes';
-  static const String _familyAccess = 'familyAccess';
 
   DocumentReference<Map<String, Object?>> _user(String uid) =>
       _db.collection(_users).doc(uid);
@@ -101,30 +76,6 @@ class FirestoreService {
     return _entriesRef(uid)
         .where('status', isEqualTo: EntryStatus.trashed.id)
         .orderBy('excluidoEm', descending: true)
-        .snapshots()
-        .map(_toEntries);
-  }
-
-  /// A mesma linha do tempo, vista por quem foi convidado.
-  ///
-  /// Os três filtros não são conveniência de tela: são o que as regras do
-  /// servidor exigem. No Firestore a regra é avaliada contra a **consulta**,
-  /// não contra cada documento devolvido, então uma consulta mais larga não
-  /// traz menos resultados: ela é recusada inteira. Se um filtro sair daqui,
-  /// a linha do tempo do familiar fica vazia, e `firebase/teste` reprova.
-  ///
-  /// O `whereIn` aceita até 30 valores; são cinco.
-  Stream<List<Entry>> watchFamilyEntries(String ownerUid) {
-    return _entriesRef(ownerUid)
-        .where('status', isEqualTo: EntryStatus.active.id)
-        .where('lacradoAte', isNull: true)
-        .where(
-          'tipo',
-          whereIn: EntryType.familyVisible
-              .map((EntryType t) => t.id)
-              .toList(growable: false),
-        )
-        .orderBy('data', descending: true)
         .snapshots()
         .map(_toEntries);
   }
@@ -210,6 +161,12 @@ class FirestoreService {
   // ------------------------------------------------------- apagar tudo
 
   /// Todas as coleções que o aplicativo cria sob `users/{uid}`.
+  ///
+  /// `miniaturas` e `imagens` continuam aqui mesmo depois de o
+  /// compartilhamento familiar ter saído: quem instalou a versão de teste tem
+  /// documentos gravados nelas, e sem esta varredura "apagar minha conta e
+  /// meus dados" deixaria rastro em silêncio. É uma promessa feita à Play
+  /// Store, e ela não pode depender de a função ainda existir.
   static const List<String> _allCollections = <String>[
     _profile,
     _entries,
@@ -251,188 +208,6 @@ class FirestoreService {
       .collection(_suggestions)
       .doc(id)
       .set(progress.toMap(), SetOptions(merge: true));
-
-  // ------------------------------------------------------------ miniaturas
-
-  /// Guarda a miniatura de um arquivo, indexada pelo id dele no Drive.
-  ///
-  /// É o que faz a linha do tempo de quem foi convidado ter imagem. O escopo
-  /// `drive.file` só alcança arquivos que **este** aplicativo criou ou que a
-  /// pessoa apontou pelo seletor; compartilhar a pasta dá acesso no Drive,
-  /// mas não põe os arquivos no conjunto autorizado do aplicativo dela, e
-  /// `files.get` responde 404. Com a miniatura aqui, o aplicativo dela não
-  /// faz chamada nenhuma ao Drive.
-  ///
-  /// Vale também para quem é dono: num celular novo, a linha do tempo abre
-  /// com imagem antes de qualquer conversa com o Google.
-  Future<void> saveThumbnail({
-    required String uid,
-    required String entryId,
-    required String driveId,
-    required Uint8List bytes,
-  }) => _saveImage(_thumbnails, uid, entryId, driveId, bytes);
-
-  /// A cópia de visualização, que é a que abre em tela cheia.
-  ///
-  /// Coleção separada da miniatura de propósito: a grade carrega dezenas de
-  /// miniaturas de uma vez, e puxar centenas de quilobytes por célula para
-  /// desenhar um quadrado pequeno seria desperdício em cima de desperdício.
-  Future<void> saveDisplayImage({
-    required String uid,
-    required String entryId,
-    required String driveId,
-    required Uint8List bytes,
-  }) => _saveImage(_images, uid, entryId, driveId, bytes);
-
-  Future<void> _saveImage(
-    String collection,
-    String uid,
-    String entryId,
-    String driveId,
-    Uint8List bytes,
-  ) => _user(uid).collection(collection).doc(driveId).set(<String, Object?>{
-    'entradaId': entryId,
-    'bytes': Blob(bytes),
-    'criadoEm': Timestamp.fromDate(DateTime.now()),
-  });
-
-  /// A miniatura de um arquivo, ou `null` se não houver.
-  ///
-  /// `null` também quando as regras negam - e negam sempre que a entrada dona
-  /// for uma carta, estiver lacrada ou tiver ido para a lixeira. Quem chama
-  /// não precisa distinguir: em todos esses casos a resposta na tela é a
-  /// mesma, que é não mostrar imagem nenhuma.
-  Future<Uint8List?> loadThumbnail(String uid, String driveId) =>
-      _loadImage(_thumbnails, uid, driveId);
-
-  /// A cópia de visualização, ou `null` se não houver.
-  Future<Uint8List?> loadDisplayImage(String uid, String driveId) =>
-      _loadImage(_images, uid, driveId);
-
-  Future<Uint8List?> _loadImage(
-    String collection,
-    String uid,
-    String driveId,
-  ) async {
-    try {
-      final DocumentSnapshot<Map<String, Object?>> doc = await _user(
-        uid,
-      ).collection(collection).doc(driveId).get();
-      final Object? bytes = doc.data()?['bytes'];
-      return bytes is Blob ? bytes.bytes : null;
-    } on FirebaseException catch (e) {
-      if (e.code == 'permission-denied') return null;
-      rethrow;
-    }
-  }
-
-  // -------------------------------------------------- convites e vínculos
-
-  /// Cria o convite. O código vira o id do documento.
-  ///
-  /// Guardar o código como id, e não como campo, é o que permite negar a
-  /// listagem da coleção inteira: sem `list`, só chega ao documento quem já
-  /// sabe o código, e mesmo assim as regras ainda exigem o email certo.
-  Future<void> createInvite(FamilyInvite invite) =>
-      _db.collection(_shareCodes).doc(invite.code).set(invite.toMap());
-
-  /// Lê um convite pelo código.
-  ///
-  /// Devolve `null` quando o código não existe **e também** quando existe mas
-  /// não é para esta pessoa: as regras negam a leitura, e o aplicativo não
-  /// tem por que distinguir os dois casos para quem está digitando. Dizer
-  /// "esse código existe, mas não é seu" já é contar demais.
-  Future<FamilyInvite?> loadInvite(String code) async {
-    try {
-      final DocumentSnapshot<Map<String, Object?>> doc = await _db
-          .collection(_shareCodes)
-          .doc(code)
-          .get();
-      final Map<String, Object?>? data = doc.data();
-      if (!doc.exists || data == null) return null;
-      return FamilyInvite.fromMap(doc.id, data);
-    } on FirebaseException catch (e) {
-      if (e.code == 'permission-denied') return null;
-      rethrow;
-    }
-  }
-
-  /// Os convites que esta pessoa criou, do mais novo para o mais antigo.
-  Stream<List<FamilyInvite>> watchInvitesOf(String ownerUid) {
-    return _db
-        .collection(_shareCodes)
-        .where('ownerUid', isEqualTo: ownerUid)
-        .snapshots()
-        .map((QuerySnapshot<Map<String, Object?>> snap) {
-          final List<FamilyInvite> lista = snap.docs
-              .map(
-                (QueryDocumentSnapshot<Map<String, Object?>> d) =>
-                    FamilyInvite.fromMap(d.id, d.data()),
-              )
-              .toList();
-          lista.sort(
-            (FamilyInvite a, FamilyInvite b) =>
-                b.createdAt.compareTo(a.createdAt),
-          );
-          return lista;
-        });
-  }
-
-  Future<void> setInviteStatus(String code, InviteStatus status) => _db
-      .collection(_shareCodes)
-      .doc(code)
-      .update(<String, Object?>{'status': status.id});
-
-  /// O vínculo desta conta, quando existe.
-  ///
-  /// É a primeira pergunta que o aplicativo faz depois do login, e a resposta
-  /// decide tudo o que vem depois: cápsula própria ou cápsula de outra
-  /// pessoa, modo de escrita ou modo de leitura.
-  Stream<FamilyLink?> watchFamilyLink(String uid) => _db
-      .collection(_familyAccess)
-      .doc(uid)
-      .snapshots()
-      .map(
-        (DocumentSnapshot<Map<String, Object?>> d) =>
-            FamilyLink.fromMap(d.data()),
-      );
-
-  /// Resgata o código: grava o vínculo e marca o convite como usado.
-  ///
-  /// Os dois passos são separados de propósito. O vínculo vem primeiro
-  /// porque é ele que dá acesso; se marcar o convite falhar, a pessoa já
-  /// entrou e o pior que acontece é um convite que continua constando como
-  /// pendente. Na ordem inversa, uma falha deixaria a pessoa de fora com o
-  /// código queimado.
-  Future<void> redeemInvite({
-    required String uid,
-    required FamilyLink link,
-  }) async {
-    await _db.collection(_familyAccess).doc(uid).set(link.toMap());
-    await setInviteStatus(link.code, InviteStatus.used);
-  }
-
-  /// Quem tem acesso à cápsula desta pessoa.
-  Stream<List<FamilyMember>> watchFamilyMembers(String ownerUid) => _db
-      .collection(_familyAccess)
-      .where('ownerUid', isEqualTo: ownerUid)
-      .snapshots()
-      .map(
-        (QuerySnapshot<Map<String, Object?>> snap) => snap.docs
-            .map(
-              (QueryDocumentSnapshot<Map<String, Object?>> d) =>
-                  FamilyMember(uid: d.id, link: FamilyLink.fromMap(d.data())),
-            )
-            .toList(),
-      );
-
-  /// Tira o acesso de alguém, ou sai da cápsula por conta própria.
-  ///
-  /// Isto derruba o lado do Firestore. O lado do Drive é tratado pelo
-  /// repositório, porque são duas permissões separadas e uma não sabe da
-  /// outra.
-  Future<void> removeFamilyAccess(String uid) =>
-      _db.collection(_familyAccess).doc(uid).delete();
 
   /// Apaga tudo o que existe sob `users/{uid}`, sem deixar rastro.
   ///

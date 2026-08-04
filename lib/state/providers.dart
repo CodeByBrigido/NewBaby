@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/baby_profile.dart';
 import '../models/capsule_pulse.dart';
 import '../models/entry.dart';
-import '../models/family_access.dart';
 import '../models/reminder.dart';
 import '../services/inspiration_source.dart';
 import '../models/inspiration.dart';
@@ -53,17 +52,9 @@ final Provider<FirestoreService> firestoreServiceProvider =
 final Provider<MediaOptimizer> mediaOptimizerProvider =
     Provider<MediaOptimizer>((Ref ref) => MediaOptimizer());
 
-/// As miniaturas dependem de quem está olhando, e é por isso que este
-/// provider observa a cápsula: para quem foi convidado, o Drive está fora de
-/// alcance e a única fonte possível é o Firestore.
 final Provider<ThumbnailStore> thumbnailServiceProvider =
     Provider<ThumbnailStore>(
-      (Ref ref) => ThumbnailService(
-        drive: ref.watch(driveServiceProvider),
-        firestore: ref.watch(firestoreServiceProvider),
-        capsuleOwner: ref.watch(capsuleOwnerProvider),
-        canUseDrive: !ref.watch(isReadOnlyProvider),
-      ),
+      (Ref ref) => ThumbnailService(ref.watch(driveServiceProvider)),
     );
 
 final Provider<MemoryRepository> memoryRepositoryProvider =
@@ -100,72 +91,16 @@ final StreamProvider<User?> authStateProvider = StreamProvider<User?>(
 );
 
 /// Uid da conta em uso, ou `null` quando ninguém entrou.
-///
-/// **Não é** o dono da cápsula que está na tela. Para isso existe
-/// [capsuleOwnerProvider], e a diferença entre os dois é o compartilhamento
-/// familiar inteiro: a avó entra com a conta dela e vê a cápsula da neta.
 final Provider<String?> uidProvider = Provider<String?>((Ref ref) {
   return ref.watch(authStateProvider).value?.uid;
 });
 
-/// O email da conta em uso. O convite é amarrado a ele.
-final Provider<String?> emailProvider = Provider<String?>((Ref ref) {
-  return ref.watch(authStateProvider).value?.email;
-});
-
-// ------------------------------------------------------ de quem é a cápsula
-
-/// O vínculo desta conta com a cápsula de outra pessoa, se houver.
-///
-/// Enquanto está carregando ninguém sabe ainda de quem é a cápsula, e é por
-/// isso que este provider é observado antes de qualquer tela de dados: abrir
-/// a cápsula errada por um instante seria pior que esperar meio segundo.
-final StreamProvider<FamilyLink?> familyLinkProvider =
-    StreamProvider<FamilyLink?>((Ref ref) {
-      final String? uid = ref.watch(uidProvider);
-      if (uid == null) return Stream<FamilyLink?>.value(null);
-      return ref.watch(firestoreServiceProvider).watchFamilyLink(uid);
-    });
-
-/// De quem é a cápsula aberta agora.
-///
-/// Este é o ponto único de troca entre "minha cápsula" e "a cápsula da minha
-/// neta". Todo provider de dados passa por aqui, e nenhum usa mais o
-/// [uidProvider] direto - se algum voltar a usar, a avó vai abrir uma cápsula
-/// vazia com o nome dela.
-final Provider<String?> capsuleOwnerProvider = Provider<String?>((Ref ref) {
-  final FamilyLink? link = ref.watch(familyLinkProvider).value;
-  return link?.ownerUid ?? ref.watch(uidProvider);
-});
-
-/// Se quem está olhando é dono ou família.
-final Provider<CapsuleRole> capsuleRoleProvider = Provider<CapsuleRole>((
-  Ref ref,
-) {
-  return ref.watch(familyLinkProvider).value == null
-      ? CapsuleRole.owner
-      : CapsuleRole.family;
-});
-
-/// Modo leitura: sem botão de adicionar, sem editar, sem apagar.
-///
-/// A interface inteira pergunta isto em vez de perguntar o papel, porque é
-/// isso que ela precisa saber. Se um dia houver um terceiro papel, muda aqui
-/// e mais nada.
-final Provider<bool> isReadOnlyProvider = Provider<bool>(
-  (Ref ref) => ref.watch(capsuleRoleProvider) == CapsuleRole.family,
-);
-
 // --------------------------------------------------------------- perfil
 
 /// Cadastro da criança. `null` significa "ainda não passou pelo onboarding".
-///
-/// Para o familiar, é o cadastro da criança dele: o nome e a data de
-/// nascimento são o que fazem a linha do tempo dizer alguma coisa. É o único
-/// documento do perfil que ele lê.
 final StreamProvider<BabyProfile?> profileProvider =
     StreamProvider<BabyProfile?>((Ref ref) {
-      final String? uid = ref.watch(capsuleOwnerProvider);
+      final String? uid = ref.watch(uidProvider);
       if (uid == null) return Stream<BabyProfile?>.value(null);
       return ref.watch(firestoreServiceProvider).watchProfile(uid);
     });
@@ -324,14 +259,9 @@ final Provider<EntryFile?> avatarPhotoProvider = Provider<EntryFile?>((
 
 final StreamProvider<List<Entry>> entriesProvider = StreamProvider<List<Entry>>(
   (Ref ref) {
-    final String? uid = ref.watch(capsuleOwnerProvider);
+    final String? uid = ref.watch(uidProvider);
     if (uid == null) return Stream<List<Entry>>.value(const <Entry>[]);
-    final FirestoreService firestore = ref.watch(firestoreServiceProvider);
-    // Duas consultas diferentes, e não um filtro depois de ler: o que a
-    // família não pode ver não chega nem a sair do servidor.
-    return ref.watch(isReadOnlyProvider)
-        ? firestore.watchFamilyEntries(uid)
-        : firestore.watchEntries(uid);
+    return ref.watch(firestoreServiceProvider).watchEntries(uid);
   },
 );
 
@@ -513,13 +443,9 @@ class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
 /// A agenda que vale agora, recalculada a cada mudança relevante.
 ///
 /// Depende do cadastro, das entradas e das inspirações porque todas as três
-/// mudam o que faz sentido lembrar. Só o dono da cápsula recebe lembretes:
-/// avisar a avó de que faz duas semanas sem foto seria cobrar dela uma
-/// coisa que ela não pode fazer.
+/// mudam o que faz sentido lembrar.
 final Provider<List<ScheduledReminder>> plannedRemindersProvider =
     Provider<List<ScheduledReminder>>((Ref ref) {
-      if (ref.watch(isReadOnlyProvider)) return const <ScheduledReminder>[];
-
       final BabyProfile? profile = ref.watch(profileProvider).value;
       if (profile == null) return const <ScheduledReminder>[];
 
@@ -535,28 +461,6 @@ final Provider<List<ScheduledReminder>> plannedRemindersProvider =
             const <ActiveInspiration>[],
         readInspirations: ref.watch(readInspirationsProvider),
       );
-    });
-
-// ------------------------------------------------------ família e convites
-
-/// Quem tem acesso à cápsula, para a tela de compartilhamento.
-final StreamProvider<List<FamilyMember>> familyMembersProvider =
-    StreamProvider<List<FamilyMember>>((Ref ref) {
-      final String? uid = ref.watch(uidProvider);
-      if (uid == null) {
-        return Stream<List<FamilyMember>>.value(<FamilyMember>[]);
-      }
-      return ref.watch(firestoreServiceProvider).watchFamilyMembers(uid);
-    });
-
-/// Os convites criados por esta pessoa, usados ou não.
-final StreamProvider<List<FamilyInvite>> myInvitesProvider =
-    StreamProvider<List<FamilyInvite>>((Ref ref) {
-      final String? uid = ref.watch(uidProvider);
-      if (uid == null) {
-        return Stream<List<FamilyInvite>>.value(<FamilyInvite>[]);
-      }
-      return ref.watch(firestoreServiceProvider).watchInvitesOf(uid);
     });
 
 final FutureProvider<DriveQuota> driveQuotaProvider =

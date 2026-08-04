@@ -73,53 +73,6 @@ class MediaOptimizer {
     return dir;
   }
 
-  /// Uma cópia reduzida da imagem, para caber num documento do Firestore.
-  ///
-  /// Existe porque quem foi convidado não alcança o Drive: o escopo
-  /// `drive.file` não enxerga arquivos que o aplicativo dela não criou. Então
-  /// a imagem que ela vê precisa vir do Firestore, e um documento do
-  /// Firestore não passa de 1 MiB.
-  ///
-  /// A qualidade cede até caber, e nunca o contrário. Uma foto que não coube
-  /// é uma foto que a avó não vê; uma foto um pouco mais comprimida é uma
-  /// foto que ela vê. Devolve `null` só se nem no pior aperto couber, o que
-  /// na prática não acontece com foto de celular.
-  Future<File?> derive(
-    File source, {
-    required int maxDimension,
-    required int maxBytes,
-    int quality = 80,
-  }) async {
-    final Directory dir = await _workDir();
-    // Três tentativas, cada uma cedendo qualidade. Mais que isso é gastar
-    // processamento para ganhar quilobytes que ninguém percebe.
-    for (final int q in <int>[quality, quality - 20, quality - 35]) {
-      if (q < 20) break;
-      final String target = p.join(
-        dir.path,
-        '${DateTime.now().microsecondsSinceEpoch}_d$q.jpg',
-      );
-      try {
-        final XFile? result = await FlutterImageCompress.compressAndGetFile(
-          source.path,
-          target,
-          quality: q,
-          minWidth: maxDimension,
-          minHeight: maxDimension,
-          keepExif: false,
-          format: CompressFormat.jpeg,
-        );
-        if (result == null) continue;
-        final File file = File(result.path);
-        if (await file.length() <= maxBytes) return file;
-        await file.delete();
-      } on Exception catch (e) {
-        debugPrint('Cópia reduzida falhou em q$q: $e');
-      }
-    }
-    return null;
-  }
-
   /// Reduz a foto para ~50% da resolução original.
   Future<OptimizedMedia> optimizeImage(File source) async {
     final int originalBytes = await source.length();

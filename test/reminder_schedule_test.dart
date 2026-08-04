@@ -197,16 +197,4 @@ void main() {
       expect(agendador.trocas, 2);
     });
   });
-
-  group('quem foi convidado não recebe lembrete', () {
-    test('a agenda do familiar é vazia', () {
-      // Avisar a avó de que faz duas semanas sem foto seria cobrar dela uma
-      // coisa que ela nem pode fazer: ela não registra nada.
-      final ProviderContainer c = ProviderContainer(
-        overrides: [isReadOnlyProvider.overrideWithValue(true)],
-      );
-      addTearDown(c.dispose);
-      expect(c.read(plannedRemindersProvider), isEmpty);
-    });
-  });
 }
