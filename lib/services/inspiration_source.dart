@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/inspiration.dart';
 
@@ -26,30 +27,34 @@ class AssetInspirationSource implements InspirationSource {
   @override
   Future<List<Inspiration>> load() async {
     final String cru = await rootBundle.loadString(path);
-    final List<Object?> lista = jsonDecode(cru) as List<Object?>;
-    return lista
-        .whereType<Map<String, Object?>>()
-        .map(Inspiration.fromMap)
-        .toList();
+    return parseInspirations(cru);
   }
 }
 
-/// Escolhe e ordena o que mostrar para uma idade.
-///
-/// Fica fora da tela e fora da fonte: é a única parte com regra de verdade,
-/// e é a que precisa de teste.
-List<Inspiration> pickForAge(List<Inspiration> todas, int ageDays) {
-  final List<Inspiration> cabem = todas
-      .where((Inspiration i) => i.appliesAt(ageDays))
+/// Separado da leitura do arquivo para que o teste consiga exercitar o
+/// mesmo caminho sem depender do carregador de assets do Flutter.
+List<Inspiration> parseInspirations(String json) {
+  return (jsonDecode(json) as List<Object?>)
+      .whereType<Map<String, Object?>>()
+      .map(Inspiration.fromMap)
       .toList();
+}
 
-  cabem.sort((Inspiration a, Inspiration b) {
-    // O que foi escrito para esta fase vem antes do que só por acaso ainda
-    // cabe. Empate desempata pelo id, para a ordem não dançar a cada abertura.
-    final int porRelevancia = b
-        .relevanceAt(ageDays)
-        .compareTo(a.relevanceAt(ageDays));
-    return porRelevancia != 0 ? porRelevancia : a.id.compareTo(b.id);
-  });
-  return cabem;
+/// O que já foi lido.
+///
+/// Fica no aparelho, e não no Firestore, porque é preferência de leitura e
+/// não memória: não vale um documento por pessoa nem uma sincronização.
+class ReadInspirations {
+  const ReadInspirations(this._prefs);
+
+  static const String _chave = 'inspiracoes_lidas';
+
+  final SharedPreferences _prefs;
+
+  Set<String> get ids => <String>{...?_prefs.getStringList(_chave)};
+
+  Future<void> markRead(String id) async {
+    final Set<String> atual = ids..add(id);
+    await _prefs.setStringList(_chave, atual.toList());
+  }
 }
