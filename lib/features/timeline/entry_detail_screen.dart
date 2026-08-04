@@ -54,15 +54,20 @@ class EntryDetailScreen extends ConsumerWidget {
               context.canPop() ? context.pop() : context.go(Routes.timeline),
         ),
         actions: <Widget>[
-          IconButton(
-            tooltip: S.milestoneOptional,
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () => showDetailsEditor(context, entry),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete_outline),
-            onPressed: () => _delete(context, ref, entry),
-          ),
+          // Sem editar e sem apagar para quem foi convidado. As regras do
+          // servidor já recusariam, mas um botão que existe e não funciona é
+          // uma promessa quebrada: melhor não oferecer.
+          if (!ref.watch(isReadOnlyProvider)) ...<Widget>[
+            IconButton(
+              tooltip: S.milestoneOptional,
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () => showDetailsEditor(context, entry),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              onPressed: () => _delete(context, ref, entry),
+            ),
+          ],
         ],
       ),
       body: ListView(

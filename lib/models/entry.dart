@@ -61,6 +61,29 @@ enum EntryType {
     (EntryType t) => t.id == id,
     orElse: () => EntryType.photo,
   );
+
+  /// O que a avó, a tia e o padrinho enxergam.
+  ///
+  /// Cartas ficam de fora. Quem escreve para a filha ler aos dezoito anos
+  /// não está escrevendo para a família inteira, e uma carta que a avó lê
+  /// antes deixa de ser uma carta para virar um recado. Desenhos e áudios
+  /// também ficam de fora, por não constarem da lista combinada: o padrão
+  /// seguro é não mostrar o que ninguém pediu para mostrar.
+  ///
+  /// Esta lista **precisa** bater com `tipoVisivelParaFamilia` em
+  /// `firebase/firestore.rules`. Ela aqui é o que a consulta pede; a de lá é
+  /// o que o servidor concede. Se as duas divergirem, a consulta é recusada
+  /// inteira e a linha do tempo do familiar fica vazia - falha barulhenta,
+  /// de propósito, em vez de silenciosa.
+  static const List<EntryType> familyVisible = <EntryType>[
+    EntryType.birth,
+    EntryType.photo,
+    EntryType.video,
+    EntryType.document,
+    EntryType.growth,
+  ];
+
+  bool get isFamilyVisible => familyVisible.contains(this);
 }
 
 /// Estágio do envio ao Drive. A entrada aparece na linha do tempo antes de o

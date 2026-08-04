@@ -42,25 +42,32 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   @override
   Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
+    // Para quem foi convidado, o botão + simplesmente não existe. Não fica
+    // cinza, não abre um aviso: some. Um botão desabilitado é uma porta
+    // fechada na cara; a ausência é só uma casa que não é a sua.
+    final bool leitura = ref.watch(isReadOnlyProvider);
 
     return Scaffold(
       key: ref.watch(shellScaffoldKeyProvider),
       drawer: const AppDrawer(),
       body: IndexedStack(index: _index, children: _pages),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showAddSheet(context),
-        backgroundColor: context.cores.primary,
-        foregroundColor: Colors.white,
-        elevation: 3,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, size: 30),
-      ),
+      floatingActionButton: leitura
+          ? null
+          : FloatingActionButton(
+              onPressed: () => showAddSheet(context),
+              backgroundColor: context.cores.primary,
+              foregroundColor: Colors.white,
+              elevation: 3,
+              shape: const CircleBorder(),
+              child: const Icon(Icons.add, size: 30),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _BottomBar(
         index: _index,
         onSelected: _onDestination,
         babyName: profile?.firstName,
         novidades: ref.watch(unreadInspirationsProvider),
+        somenteLeitura: leitura,
       ),
     );
   }
@@ -72,6 +79,7 @@ class _BottomBar extends StatelessWidget {
     required this.onSelected,
     this.babyName,
     this.novidades = 0,
+    this.somenteLeitura = false,
   });
 
   final int index;
@@ -80,6 +88,10 @@ class _BottomBar extends StatelessWidget {
 
   /// Quantas inspirações ativas ainda não foram abertas.
   final int novidades;
+
+  /// Sem o botão +, o vão no meio da barra não faz sentido: a barra se
+  /// fecha e as quatro abas ocupam a largura inteira.
+  final bool somenteLeitura;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +118,7 @@ class _BottomBar extends StatelessWidget {
             selected: index == 1,
             onTap: () => onSelected(1),
           ),
-          const Expanded(child: SizedBox.shrink()),
+          if (!somenteLeitura) const Expanded(child: SizedBox.shrink()),
           _BarItem(
             icon: Icons.lightbulb_outline,
             selectedIcon: Icons.lightbulb,
