@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
@@ -110,16 +111,60 @@ final StreamProvider<BabyProfile?> profileProvider =
 final Provider<InspirationSource> inspirationSourceProvider =
     Provider<InspirationSource>((Ref ref) => const AssetInspirationSource());
 
-/// As inspirações que cabem na idade de hoje, da mais certeira para a menos.
-final FutureProvider<List<Inspiration>> inspirationsProvider =
-    FutureProvider<List<Inspiration>>((Ref ref) async {
+/// As inspirações que valem hoje, resolvidas contra a idade e o calendário.
+final FutureProvider<List<ActiveInspiration>> inspirationsProvider =
+    FutureProvider<List<ActiveInspiration>>((Ref ref) async {
       final BabyProfile? profile = ref.watch(profileProvider).value;
-      if (profile == null) return const <Inspiration>[];
+      if (profile == null) return const <ActiveInspiration>[];
       final List<Inspiration> todas = await ref
           .watch(inspirationSourceProvider)
           .load();
-      return pickForAge(todas, profile.ageNow().totalDays);
+      return pickFor(all: todas, profile: profile);
     });
+
+/// O que já foi lido, guardado no aparelho.
+final NotifierProvider<ReadInspirationsNotifier, Set<String>>
+readInspirationsProvider =
+    NotifierProvider<ReadInspirationsNotifier, Set<String>>(
+      ReadInspirationsNotifier.new,
+    );
+
+class ReadInspirationsNotifier extends Notifier<Set<String>> {
+  ReadInspirations? _store;
+
+  @override
+  Set<String> build() {
+    unawaited(_carregar());
+    return const <String>{};
+  }
+
+  Future<void> _carregar() async {
+    final ReadInspirations store = ReadInspirations(
+      await SharedPreferences.getInstance(),
+    );
+    _store = store;
+    state = store.ids;
+  }
+
+  Future<void> markRead(String id) async {
+    if (state.contains(id)) return;
+    state = <String>{...state, id};
+    await _store?.markRead(id);
+  }
+}
+
+/// Quantas inspirações ativas ainda não foram abertas.
+///
+/// É o que põe o pontinho na aba. Zero quando não há nada novo: selo
+/// permanente vira decoração e some da percepção.
+final Provider<int> unreadInspirationsProvider = Provider<int>((Ref ref) {
+  final List<ActiveInspiration> ativas =
+      ref.watch(inspirationsProvider).value ?? const <ActiveInspiration>[];
+  final Set<String> lidas = ref.watch(readInspirationsProvider);
+  return ativas
+      .where((ActiveInspiration a) => !lidas.contains(a.inspiration.id))
+      .length;
+});
 
 /// O que a pessoa já resolveu no catálogo de sugestões.
 final StreamProvider<Map<String, SuggestionProgress>>

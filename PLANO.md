@@ -264,6 +264,9 @@ ouviu falar deste aplicativo.
 
 ### Fase 5 - Aba Inspirações ✅
 
+*(Revisada depois da primeira entrega: o conteúdo era raso e as âncoras só
+sabiam faixa de idade. Ver "O que mudou na revisão", abaixo.)*
+
 Nova aba na barra de baixo, no lugar da Busca. A busca não sumiu: foi para
 a lupa no topo da Home, da linha do tempo e da própria aba nova, que é onde
 a mão procura por ela.
@@ -288,10 +291,37 @@ aplicativo. E isso não é só um provisório: assim o feed funciona sem rede,
 sem custo de servidor, e não manda a idade da criança para lugar nenhum,
 que é o que uma consulta a um backend inevitavelmente entregaria.
 
-26 conteúdos, do recém-nascido aos cinco anos, com faixas sobrepostas para
-que nunca sobre uma tela vazia - um teste confere isso em nove idades.
+#### O que mudou na revisão
 
-**Verificação:** 203 testes (12 novos), analisador e formatador limpos.
+**Âncoras, não só faixas de idade.** "Três semanas antes do primeiro
+aniversário" não é uma idade, é uma contagem regressiva, e uma criança
+nascida em março chega nesse ponto num dia do ano diferente de uma nascida
+em outubro. Agora há três tipos de âncora: faixa de idade, contagem até um
+aniversário e contagem até uma data do calendário (com as datas móveis já
+resolvidas na Fase 3). O que tem prazo vem sempre no topo do feed.
+
+**Texto longo.** Os conteúdos que pedem profundidade abrem numa página
+própria, com seções e listas: onde fazer a festa, o que servir, o que
+registrar antes que o dia passe. O resumo continua curto no cartão, porque
+resumo longo transforma a lista num artigo.
+
+**Selo de novidade.** Quem ainda não abriu vê "novo" no cartão e um número
+na aba. Guardado no aparelho, não no Firestore: é preferência de leitura,
+não memória. Abrir já conta como lido, porque o selo existe para avisar que
+chegou algo, não para cobrar leitura até o fim.
+
+**42 conteúdos**, dez deles com texto longo. Os destaques são poucos de
+propósito: se tudo é destaque, nada é, e um teste reprova o CI se passarem
+de um terço do catálogo.
+
+O que encosta em saúde aponta para a pediatra e diz explicitamente que não
+é orientação médica. Um teste garante isso no conteúdo de introdução
+alimentar.
+
+**Verificação:** 212 testes (21 só de inspirações), analisador e formatador
+limpos. Os testes cobrem a contagem regressiva chegando na hora, sumindo
+depois da festa, funcionando para quem nasceu em 29 de fevereiro, e o feed
+nunca ficando vazio em doze idades diferentes.
 
 ### Fase 4 - Voz e cápsula lacrada ✅
 

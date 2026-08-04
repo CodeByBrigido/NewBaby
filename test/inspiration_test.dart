@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/models/inspiration.dart';
 import 'package:meu_bebe/services/inspiration_source.dart';
 
@@ -14,20 +14,26 @@ import 'package:meu_bebe/services/inspiration_source.dart';
 /// uma angústia que não pediu. A varredura abaixo reprova o CI se algum
 /// texto novo escorregar para esse tom.
 void main() {
-  final List<Inspiration> catalogo =
-      (jsonDecode(File('assets/inspiracoes.json').readAsStringSync())
-              as List<Object?>)
-          .whereType<Map<String, Object?>>()
-          .map(Inspiration.fromMap)
-          .toList();
+  final List<Inspiration> catalogo = parseInspirations(
+    File('assets/inspiracoes.json').readAsStringSync(),
+  );
+
+  BabyProfile nascidaEm(DateTime birth) =>
+      BabyProfile(name: 'Maria Eduarda', birth: birth);
+
+  List<String> idsEm(DateTime birth, DateTime hoje) => pickFor(
+    all: catalogo,
+    profile: nascidaEm(birth),
+    now: hoje,
+  ).map((ActiveInspiration a) => a.inspiration.id).toList();
 
   group('o conteúdo é bem formado', () {
     test('carrega inteiro', () {
-      expect(catalogo, isNotEmpty);
+      expect(catalogo.length, greaterThanOrEqualTo(30));
       for (final Inspiration i in catalogo) {
         expect(i.id.trim(), isNotEmpty);
         expect(i.title.trim(), isNotEmpty);
-        expect(i.body.trim(), isNotEmpty);
+        expect(i.summary.trim(), isNotEmpty, reason: i.id);
       }
     });
 
@@ -36,18 +42,45 @@ void main() {
       expect(ids.toSet().length, ids.length);
     });
 
-    test('as faixas de idade fazem sentido', () {
+    test('o resumo cabe num cartão', () {
+      // Resumo longo vira artigo no meio da lista, e a lista deixa de ser
+      // navegável. O texto longo tem lugar próprio: as seções.
       for (final Inspiration i in catalogo) {
-        expect(i.fromDays, lessThan(i.toDays), reason: i.id);
-        expect(i.fromDays, greaterThanOrEqualTo(0), reason: i.id);
+        expect(i.title.length, lessThanOrEqualTo(60), reason: i.id);
+        expect(i.summary.length, lessThanOrEqualTo(230), reason: i.id);
       }
     });
 
-    test('cada texto cabe num cartão', () {
-      // Texto longo demais vira artigo, e artigo vira rolagem sem fim.
+    test('toda seção tem título e alguma coisa dentro', () {
       for (final Inspiration i in catalogo) {
-        expect(i.title.length, lessThanOrEqualTo(60), reason: i.id);
-        expect(i.body.length, lessThanOrEqualTo(320), reason: i.id);
+        for (final InspirationSection s in i.sections) {
+          expect(s.title.trim(), isNotEmpty, reason: i.id);
+          expect(
+            s.body.trim().isNotEmpty || s.bullets.isNotEmpty,
+            isTrue,
+            reason: '${i.id} / ${s.title} está vazia.',
+          );
+        }
+      }
+    });
+
+    test('os destaques são poucos', () {
+      // Se tudo é destaque, nada é.
+      final int destaques = catalogo
+          .where((Inspiration i) => i.highlight)
+          .length;
+      expect(destaques, lessThan(catalogo.length ~/ 3));
+    });
+
+    test('todo destaque tem texto longo para justificar o convite', () {
+      for (final Inspiration i in catalogo.where(
+        (Inspiration i) => i.highlight,
+      )) {
+        expect(
+          i.hasArticle,
+          isTrue,
+          reason: '"${i.id}" é destaque mas abre um cartão sem conteúdo.',
+        );
       }
     });
   });
@@ -62,11 +95,19 @@ void main() {
         'normal para a idade',
         'esperado para',
         'se não estiver',
-        'consulte um médico',
         'diagnóstic',
       ];
       for (final Inspiration i in catalogo) {
-        final String texto = '${i.title} ${i.body}'.toLowerCase();
+        final String texto = <String>[
+          i.title,
+          i.summary,
+          for (final InspirationSection s in i.sections) ...<String>[
+            s.title,
+            s.body,
+            ...s.bullets,
+          ],
+        ].join(' ').toLowerCase();
+
         for (final String p in proibidos) {
           expect(
             texto,
@@ -78,47 +119,134 @@ void main() {
         }
       }
     });
+
+    test('o conteúdo que encosta em saúde manda procurar quem sabe', () {
+      final Inspiration alimentar = catalogo.firstWhere(
+        (Inspiration i) => i.id == 'introducao-alimentar-preparo',
+      );
+      final String texto = alimentar.sections
+          .map((InspirationSection s) => '${s.title} ${s.body}')
+          .join(' ')
+          .toLowerCase();
+      expect(
+        texto,
+        contains('pediatra'),
+        reason:
+            'Qualquer coisa perto de alimentação precisa apontar para a '
+            'pediatra, não para o aplicativo.',
+      );
+    });
   });
 
-  group('a idade escolhe o que aparece', () {
-    test('recém-nascido não recebe sugestão de bicicleta nem de escola', () {
-      final List<String> ids = pickForAge(
-        catalogo,
-        10,
-      ).map((Inspiration i) => i.id).toList();
-      expect(ids, isNot(contains('escola-primeiro-dia')));
+  group('a contagem regressiva do aniversário', () {
+    final DateTime birth = DateTime(2026, 3, 10);
+
+    test('as ideias da festa chegam três semanas antes', () {
+      expect(
+        idsEm(birth, DateTime(2027, 2, 20)),
+        contains('primeiro-aniversario-ideias'),
+      );
+    });
+
+    test('não chegam cedo demais', () {
+      expect(
+        idsEm(birth, DateTime(2027, 1, 10)),
+        isNot(contains('primeiro-aniversario-ideias')),
+      );
+    });
+
+    test('somem no dia seguinte à festa', () {
+      // Ideia de festa depois da festa é piada.
+      expect(
+        idsEm(birth, DateTime(2027, 3, 11)),
+        isNot(contains('primeiro-aniversario-ideias')),
+      );
+    });
+
+    test('a retrospectiva vem antes, porque dá trabalho', () {
+      expect(
+        idsEm(birth, DateTime(2027, 1, 25)),
+        contains('retrospectiva-primeiro-ano'),
+      );
+    });
+
+    test('o segundo aniversário tem conteúdo próprio', () {
+      expect(
+        idsEm(birth, DateTime(2028, 2, 25)),
+        contains('segundo-aniversario'),
+      );
+      expect(
+        idsEm(birth, DateTime(2028, 2, 25)),
+        isNot(contains('primeiro-aniversario-ideias')),
+      );
+    });
+
+    test('nascida em 29 de fevereiro também recebe a contagem', () {
+      final DateTime bissexto = DateTime(2028, 2, 29);
+      expect(
+        idsEm(bissexto, DateTime(2029, 2, 20)),
+        contains('primeiro-aniversario-ideias'),
+      );
+    });
+  });
+
+  group('as datas do calendário', () {
+    test('o Natal chega perto do Natal, e só na primeira vez', () {
+      final DateTime birth = DateTime(2026, 6, 1);
+      expect(
+        idsEm(birth, DateTime(2026, 12, 10)),
+        contains('primeiro-natal-ideias'),
+      );
+      expect(
+        idsEm(birth, DateTime(2027, 12, 10)),
+        isNot(contains('primeiro-natal-ideias')),
+      );
+    });
+
+    test('o Carnaval segue a data móvel', () {
+      // Carnaval de 2027: 9 de fevereiro.
+      final DateTime birth = DateTime(2026, 6, 1);
+      expect(
+        idsEm(birth, DateTime(2027, 2, 1)),
+        contains('primeiro-carnaval-ideias'),
+      );
+      expect(
+        idsEm(birth, DateTime(2027, 1, 5)),
+        isNot(contains('primeiro-carnaval-ideias')),
+      );
+    });
+  });
+
+  group('a idade escolhe o resto', () {
+    final DateTime birth = DateTime(2026, 3, 10);
+
+    test('recém-nascido não recebe cozinha nem escola', () {
+      final List<String> ids = idsEm(
+        birth,
+        birth.add(const Duration(days: 10)),
+      );
       expect(ids, isNot(contains('tres-anos-cozinha')));
-    });
-
-    test('quem faz um ano recebe o preparo da festa', () {
-      expect(
-        pickForAge(catalogo, 340).map((Inspiration i) => i.id),
-        contains('primeiro-ano-preparo'),
-      );
-    });
-
-    test('e deixa de receber depois que a festa passa', () {
-      expect(
-        pickForAge(catalogo, 500).map((Inspiration i) => i.id),
-        isNot(contains('primeiro-ano-preparo')),
-      );
+      expect(ids, isNot(contains('escola-primeiro-dia')));
     });
 
     test('sempre sobra alguma coisa, em qualquer idade', () {
       // Feed vazio faria a aba parecer quebrada.
       for (final int dias in <int>[
         0,
-        30,
+        15,
+        45,
         100,
         200,
-        365,
-        500,
-        800,
-        1500,
-        2000,
+        300,
+        400,
+        600,
+        900,
+        1200,
+        1800,
+        2400,
       ]) {
         expect(
-          pickForAge(catalogo, dias),
+          idsEm(birth, birth.add(Duration(days: dias))),
           isNotEmpty,
           reason: 'Nada para mostrar aos $dias dias.',
         );
@@ -127,36 +255,29 @@ void main() {
   });
 
   group('a ordem', () {
-    test('o que foi escrito para esta fase vem antes', () {
-      // Aos 340 dias, o preparo do primeiro aniversário (300-400) é mais
-      // certeiro que "filme os avós" (0-6000), que vale a vida inteira.
-      final List<Inspiration> lista = pickForAge(catalogo, 340);
-      final int preparo = lista.indexWhere(
-        (Inspiration i) => i.id == 'primeiro-ano-preparo',
+    test('o que tem data marcada vem antes do que vale a fase toda', () {
+      final List<ActiveInspiration> lista = pickFor(
+        all: catalogo,
+        profile: nascidaEm(DateTime(2026, 3, 10)),
+        now: DateTime(2027, 2, 20),
       );
-      final int avos = lista.indexWhere(
-        (Inspiration i) => i.id == 'qualquer-idade-avos',
-      );
-      expect(preparo, lessThan(avos));
+      expect(lista.first.hasDeadline, isTrue);
+      expect(lista.first.inspiration.id, 'primeiro-aniversario-ideias');
+      expect(lista.last.hasDeadline, isFalse);
     });
 
     test('não dança entre uma abertura e outra', () {
       // Ordem instável faria a pessoa achar que perdeu algo que já leu.
-      final List<String> a = pickForAge(
-        catalogo,
-        200,
-      ).map((Inspiration i) => i.id).toList();
-      final List<String> b = pickForAge(
-        catalogo,
-        200,
-      ).map((Inspiration i) => i.id).toList();
-      expect(a, b);
+      final DateTime birth = DateTime(2026, 3, 10);
+      expect(
+        idsEm(birth, DateTime(2026, 9, 1)),
+        idsEm(birth, DateTime(2026, 9, 1)),
+      );
     });
   });
 
   group('a fonte é trocável', () {
     test('a interface não conhece asset nenhum', () {
-      // Se um dia o conteúdo vier de um servidor, isto continua valendo.
       const InspirationSource fonte = AssetInspirationSource();
       expect(fonte, isA<InspirationSource>());
     });

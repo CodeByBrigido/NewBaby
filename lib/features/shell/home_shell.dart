@@ -60,6 +60,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         index: _index,
         onSelected: _onDestination,
         babyName: profile?.firstName,
+        novidades: ref.watch(unreadInspirationsProvider),
       ),
     );
   }
@@ -70,11 +71,15 @@ class _BottomBar extends StatelessWidget {
     required this.index,
     required this.onSelected,
     this.babyName,
+    this.novidades = 0,
   });
 
   final int index;
   final ValueChanged<int> onSelected;
   final String? babyName;
+
+  /// Quantas inspirações ativas ainda não foram abertas.
+  final int novidades;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +112,7 @@ class _BottomBar extends StatelessWidget {
             selectedIcon: Icons.lightbulb,
             label: 'Inspirações',
             selected: index == 3,
+            badge: novidades,
             onTap: () => onSelected(3),
           ),
           _BarItem(
@@ -129,6 +135,7 @@ class _BarItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    this.badge = 0,
   });
 
   final IconData icon;
@@ -136,6 +143,10 @@ class _BarItem extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
+
+  /// Quantidade a mostrar no pontinho. Zero não desenha nada: selo
+  /// permanente vira decoração e some da percepção.
+  final int badge;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +160,40 @@ class _BarItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(selected ? selectedIcon : icon, size: 24, color: color),
+            Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(selected ? selectedIcon : icon, size: 24, color: color),
+                if (badge > 0)
+                  Positioned(
+                    top: -3,
+                    right: -6,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.cores.primary,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: context.cores.surface,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Text(
+                        badge > 9 ? '9+' : '$badge',
+                        style: const TextStyle(
+                          fontSize: 9,
+                          height: 1.3,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             const SizedBox(height: 3),
             Text(
               label,

@@ -10,13 +10,14 @@ import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../shell/add_sheet.dart';
+import 'inspiration_article_screen.dart';
 
-/// Ideias do que fazer e do que guardar, escolhidas pela idade.
+/// Ideias do que fazer e do que guardar, escolhidas pela idade e pelo
+/// calendário.
 ///
-/// Não é um blog. Cada cartão é uma coisa que dá para fazer hoje, com o que
-/// existe em casa, e quase sempre termina em algo que vale guardar. Texto
-/// bonito sem ação vira leitura passiva, e este aplicativo não quer tempo de
-/// tela: quer que a pessoa levante e vá brincar.
+/// Não é um blog. Cada cartão é uma coisa que dá para fazer, e o que tem
+/// data aparece na hora certa: as ideias para o primeiro aniversário chegam
+/// três semanas antes, não no dia nem no ano passado.
 class InspirationsScreen extends ConsumerWidget {
   const InspirationsScreen({super.key, this.embedded = false});
 
@@ -25,7 +26,10 @@ class InspirationsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
-    final AsyncValue<List<Inspiration>> feed = ref.watch(inspirationsProvider);
+    final AsyncValue<List<ActiveInspiration>> feed = ref.watch(
+      inspirationsProvider,
+    );
+    final Set<String> lidas = ref.watch(readInspirationsProvider);
     final Copy copy = Copy.of(profile);
 
     return Scaffold(
@@ -42,12 +46,12 @@ class InspirationsScreen extends ConsumerWidget {
       ),
       body: feed.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (Object e, _) => EmptyState(
+        error: (Object e, _) => const EmptyState(
           icon: Icons.lightbulb_outline,
           title: 'Não deu para carregar as ideias',
           message: 'Tente abrir de novo daqui a pouco.',
         ),
-        data: (List<Inspiration> itens) {
+        data: (List<ActiveInspiration> itens) {
           if (itens.isEmpty) {
             return const EmptyState(
               icon: Icons.lightbulb_outline,
@@ -61,7 +65,8 @@ class InspirationsScreen extends ConsumerWidget {
             separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) return _Intro(copy: copy);
-              return _InspirationCard(item: itens[index - 1]);
+              final ActiveInspiration a = itens[index - 1];
+              return _Card(active: a, isNew: !lidas.contains(a.inspiration.id));
             },
           );
         },
@@ -77,110 +82,187 @@ class _Intro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Text(
         copy.hasName
             ? 'Ideias para a fase que ${copy.theName} está vivendo agora.'
             : 'Ideias para a fase de agora.',
-        style: text.bodyMedium?.copyWith(color: context.cores.textSecondary),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: context.cores.textSecondary),
       ),
     );
   }
 }
 
-class _InspirationCard extends StatelessWidget {
-  const _InspirationCard({required this.item});
+class _Card extends StatelessWidget {
+  const _Card({required this.active, required this.isNew});
 
-  final Inspiration item;
+  final ActiveInspiration active;
+  final bool isNew;
 
   @override
   Widget build(BuildContext context) {
+    final Inspiration i = active.inspiration;
     final TextTheme text = Theme.of(context).textTheme;
-    final (IconData icone, Color cor, Color fundo) = _visual(context);
+    final (IconData icone, Color cor, Color fundo) = _visual(context, i.kind);
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.cores.surface,
+    return Material(
+      color: context.cores.surface,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.cores.divider),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: fundo,
-                  borderRadius: BorderRadius.circular(10),
+        onTap: i.hasArticle
+            ? () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => InspirationArticleScreen(active: active),
                 ),
-                child: Icon(icone, size: 18, color: cor),
+              )
+            : null,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: context.cores.divider),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: fundo,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(icone, size: 18, color: cor),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      i.kind.label,
+                      style: text.labelSmall?.copyWith(color: cor),
+                    ),
+                  ),
+                  if (isNew) _NewBadge(),
+                ],
               ),
-              const SizedBox(width: 10),
-              Text(
-                item.kind.label,
-                style: text.labelSmall?.copyWith(color: cor),
-              ),
+
+              if (active.daysLeft case final int dias) ...<Widget>[
+                const SizedBox(height: 10),
+                Text(
+                  dias == 0
+                      ? 'É hoje'
+                      : dias == 1
+                      ? 'Amanhã'
+                      : 'Faltam $dias dias',
+                  style: text.labelMedium?.copyWith(
+                    color: context.cores.primaryDark,
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 8),
+              Text(i.title, style: text.titleSmall),
+              const SizedBox(height: 6),
+              Text(i.summary, style: text.bodyMedium),
+
+              if (i.hasArticle) ...<Widget>[
+                const SizedBox(height: 10),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      'Ler as ideias',
+                      style: text.labelLarge?.copyWith(
+                        color: context.cores.primaryDark,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 18,
+                      color: context.cores.primaryDark,
+                    ),
+                  ],
+                ),
+              ] else if (i.suggests != null) ...<Widget>[
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FilledButton.tonal(
+                    onPressed: () => showAddSheet(context),
+                    child: const Text('Registrar agora'),
+                  ),
+                ),
+              ],
             ],
           ),
-          const SizedBox(height: 12),
-          Text(item.title, style: text.titleSmall),
-          const SizedBox(height: 6),
-          Text(item.body, style: text.bodyMedium),
-          if (item.suggests != null) ...<Widget>[
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FilledButton.tonal(
-                onPressed: () => showAddSheet(context),
-                child: const Text('Registrar agora'),
-              ),
-            ),
-          ],
-        ],
+        ),
       ),
     );
   }
-
-  (IconData, Color, Color) _visual(BuildContext context) => switch (item.kind) {
-    InspirationKind.brincadeira => (
-      Icons.toys_outlined,
-      context.cores.photo,
-      context.cores.photoSoft,
-    ),
-    InspirationKind.passeio => (
-      Icons.park_outlined,
-      context.cores.accent,
-      context.cores.accentSoft,
-    ),
-    InspirationKind.foto => (
-      Icons.photo_camera_outlined,
-      context.cores.photo,
-      context.cores.photoSoft,
-    ),
-    InspirationKind.carta => (
-      Icons.mail_outline,
-      context.cores.letter,
-      context.cores.letterSoft,
-    ),
-    InspirationKind.leitura => (
-      Icons.menu_book_outlined,
-      context.cores.document,
-      context.cores.documentSoft,
-    ),
-    InspirationKind.preparo => (
-      Icons.cake_outlined,
-      context.cores.primary,
-      context.cores.primarySoft,
-    ),
-    InspirationKind.cuidado => (
-      Icons.favorite_outline,
-      context.cores.audio,
-      context.cores.audioSoft,
-    ),
-  };
 }
+
+class _NewBadge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: context.cores.primary,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        'novo',
+        style: Theme.of(
+          context,
+        ).textTheme.labelSmall?.copyWith(color: Colors.white),
+      ),
+    );
+  }
+}
+
+(IconData, Color, Color) _visual(BuildContext context, InspirationKind kind) =>
+    switch (kind) {
+      InspirationKind.brincadeira => (
+        Icons.toys_outlined,
+        context.cores.photo,
+        context.cores.photoSoft,
+      ),
+      InspirationKind.passeio => (
+        Icons.park_outlined,
+        context.cores.accent,
+        context.cores.accentSoft,
+      ),
+      InspirationKind.foto => (
+        Icons.photo_camera_outlined,
+        context.cores.photo,
+        context.cores.photoSoft,
+      ),
+      InspirationKind.carta => (
+        Icons.mail_outline,
+        context.cores.letter,
+        context.cores.letterSoft,
+      ),
+      InspirationKind.leitura => (
+        Icons.menu_book_outlined,
+        context.cores.document,
+        context.cores.documentSoft,
+      ),
+      InspirationKind.preparo => (
+        Icons.cake_outlined,
+        context.cores.primary,
+        context.cores.primarySoft,
+      ),
+      InspirationKind.rotina => (
+        Icons.schedule_outlined,
+        context.cores.video,
+        context.cores.videoSoft,
+      ),
+      InspirationKind.cuidado => (
+        Icons.favorite_outline,
+        context.cores.audio,
+        context.cores.audioSoft,
+      ),
+    };
