@@ -216,11 +216,13 @@ await env.withSecurityRulesDisabled(async (ctx) => {
     'drive-lacrada1': 'lacrada1',
     'drive-lixo1': 'lixo1',
   })) {
-    await setDoc(doc(db, `users/ana/miniaturas/${id}`), {
-      entradaId: entrada,
-      bytes: bytesDeTeste,
-      criadoEm: agora,
-    });
+    for (const colecao of ['miniaturas', 'imagens']) {
+      await setDoc(doc(db, `users/ana/${colecao}/${id}`), {
+        entradaId: entrada,
+        bytes: bytesDeTeste,
+        criadoEm: agora,
+      });
+    }
   }
 });
 
@@ -305,12 +307,34 @@ checar('a dona grava a propria miniatura',
     { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora })));
 checar('miniatura gigante e recusada',
   () => assertFails(setDoc(doc(ana, 'users/ana/miniaturas/drive-gorda'),
-    { entradaId: 'foto1', bytes: Bytes.fromUint8Array(new Uint8Array(200 * 1024 + 1)), criadoEm: agora })));
+    { entradaId: 'foto1', bytes: Bytes.fromUint8Array(new Uint8Array(300 * 1024)), criadoEm: agora })));
 checar('campo estranho na miniatura e recusado',
   () => assertFails(setDoc(doc(ana, 'users/ana/miniaturas/drive-x'),
     { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora, carga: 'x' })));
 checar('outra conta nao le miniatura alheia',
   () => assertFails(getDoc(doc(bruno, 'users/ana/miniaturas/drive-foto1'))));
+
+// A imagem de visualizacao, que e o que abre em tela cheia dentro do
+// aplicativo. Mesmas regras da miniatura, teto maior.
+checar('a familia ve a imagem cheia de uma foto, no proprio aplicativo',
+  () => assertSucceeds(getDoc(doc(avo, 'users/ana/imagens/drive-foto1'))));
+checar('a familia NAO ve a imagem cheia de uma carta',
+  () => assertFails(getDoc(doc(avo, 'users/ana/imagens/drive-carta1'))));
+checar('a familia NAO ve a imagem cheia de uma entrada lacrada',
+  () => assertFails(getDoc(doc(avo, 'users/ana/imagens/drive-lacrada1'))));
+checar('a familia NAO ve a imagem cheia do que esta na lixeira',
+  () => assertFails(getDoc(doc(avo, 'users/ana/imagens/drive-lixo1'))));
+checar('ninguem lista as imagens',
+  () => assertFails(getDocs(collection(ana, 'users/ana/imagens'))));
+checar('a dona grava a imagem de visualizacao',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/imagens/drive-nova'),
+    { entradaId: 'foto1', bytes: bytesDeTeste, criadoEm: agora })));
+checar('imagem de visualizacao acima do teto e recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/imagens/drive-gorda'),
+    { entradaId: 'foto1', bytes: Bytes.fromUint8Array(new Uint8Array(800 * 1024 + 1)), criadoEm: agora })));
+checar('miniatura acima do teto menor e recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/miniaturas/drive-media'),
+    { entradaId: 'foto1', bytes: Bytes.fromUint8Array(new Uint8Array(60 * 1024 + 1)), criadoEm: agora })));
 checar('quem nao tem vinculo continua sem ler nada',
   () => assertFails(getDoc(doc(tia, 'users/ana/entradas/foto1'))));
 

@@ -66,12 +66,15 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
     }
   }
 
-  /// Abre o arquivo no Google Drive, pela conta de quem está olhando.
+  /// Abre o vídeo no Google Drive, pela conta de quem está olhando.
   ///
-  /// Sem token nosso, sem download nosso: é um endereço do Drive, e quem
-  /// autoriza é a permissão de leitura que o pai deu à pasta. O aplicativo
-  /// sai do caminho, e é isso que faz a foto em tamanho cheio e o vídeo
-  /// funcionarem para a família.
+  /// **Só para vídeo, e só para quem foi convidado.** Um vídeo de 720p tem
+  /// megabytes e não cabe num documento do Firestore, então esta é a única
+  /// saída que existe. Para foto, nada disso é necessário: ela abre dentro
+  /// do aplicativo.
+  ///
+  /// Sem token nosso e sem download nosso: quem autoriza é a permissão de
+  /// leitura que o pai deu à pasta.
   Future<void> _abrirNoDrive(EntryFile file) async {
     if (file.driveId.isEmpty) return;
     final Uri url = Uri.parse(
@@ -104,20 +107,19 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
           style: const TextStyle(fontSize: 16),
         ),
         actions: <Widget>[
-          // Para quem foi convidado, o caminho é outro, e não por escolha
-          // de interface: baixar o arquivo aqui exigiria alcançá-lo pela API
-          // do Drive, e o escopo `drive.file` não alcança arquivo que este
-          // aplicativo não criou neste aparelho. O que ela tem é acesso de
-          // leitura à pasta, pela conta Google dela - então o arquivo abre
-          // no Drive, com a sessão dela, sem passar por nós.
-          if (ref.watch(isReadOnlyProvider))
+          // A foto abre dentro do aplicativo para todo mundo. O botão de sair
+          // para o Drive existe só para vídeo de quem foi convidado, porque
+          // um vídeo de 720p não cabe num documento do Firestore e não há
+          // outro caminho - e mesmo assim ele não é o caminho principal de
+          // nada.
+          if (!ref.watch(isReadOnlyProvider))
+            IconButton(icon: const Icon(Icons.ios_share), onPressed: _share)
+          else if (file.isVideo)
             IconButton(
-              icon: const Icon(Icons.open_in_new),
-              tooltip: 'Abrir no Google Drive',
+              icon: const Icon(Icons.play_circle_outline),
+              tooltip: 'Assistir',
               onPressed: () => _abrirNoDrive(file),
-            )
-          else
-            IconButton(icon: const Icon(Icons.ios_share), onPressed: _share),
+            ),
         ],
       ),
       body: Column(
@@ -131,7 +133,10 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                 final EntryFile current = widget.files[index];
                 return current.isVideo
                     ? DriveVideoPlayer(file: current)
-                    : DriveFullImage(file: current);
+                    : DriveFullImage(
+                        file: current,
+                        entryId: widget.entries[index].id,
+                      );
               },
             ),
           ),
@@ -246,6 +251,21 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
     super.dispose();
   }
 
+  /// O único lugar do aplicativo que manda alguém para fora, e só por vídeo.
+  Future<void> _abrirVideo(EntryFile file) async {
+    if (file.driveId.isEmpty) return;
+    final Uri url = Uri.parse(
+      'https://drive.google.com/file/d/${file.driveId}/view',
+    );
+    try {
+      await ExternalActivity.run(
+        () => launchUrl(url, mode: LaunchMode.externalApplication),
+      );
+    } on Exception catch (e) {
+      if (mounted) showMessage(context, userMessage(e, context: 'Assistir'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_error != null) {
@@ -269,11 +289,15 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
         children: <Widget>[
           DriveThumbnail(file: widget.file, fit: BoxFit.contain),
           if (leitura)
-            const Center(
-              child: Icon(
-                Icons.play_circle_outline,
-                size: 64,
-                color: Colors.white70,
+            Center(
+              child: IconButton(
+                icon: const Icon(
+                  Icons.play_circle_outline,
+                  size: 64,
+                  color: Colors.white70,
+                ),
+                tooltip: 'Assistir',
+                onPressed: () => _abrirVideo(widget.file),
               ),
             )
           else

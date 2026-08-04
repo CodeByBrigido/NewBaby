@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -121,11 +123,18 @@ class _Placeholder extends StatelessWidget {
   }
 }
 
-/// Imagem em tamanho cheio, buscada direto do Drive com autenticação.
+/// Imagem em tamanho cheio.
+///
+/// Para quem é dono, o arquivo vem do Drive. Para quem foi convidado, vem do
+/// Firestore - e vem **para dentro do aplicativo**, não para o navegador.
 class DriveFullImage extends ConsumerStatefulWidget {
-  const DriveFullImage({required this.file, super.key});
+  const DriveFullImage({required this.file, super.key, this.entryId});
 
   final EntryFile file;
+
+  /// A entrada dona, quando conhecida. Só serve para consertar o acervo
+  /// antigo: sem ela, a foto ainda abre normalmente.
+  final String? entryId;
 
   @override
   ConsumerState<DriveFullImage> createState() => _DriveFullImageState();
@@ -146,29 +155,38 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
       final File local = File(localPath);
       if (await local.exists()) return local;
     }
-    return ref.read(memoryRepositoryProvider).localCopy(widget.file);
+    final File baixado = await ref
+        .read(memoryRepositoryProvider)
+        .localCopy(widget.file);
+
+    // Conserta o acervo antigo de graça: o arquivo acabou de ser baixado
+    // para aparecer na tela, então gerar as cópias reduzidas a partir dele
+    // não custa nem uma ida à rede a mais. Toda foto anterior a esta versão
+    // ganha as cópias na primeira vez que quem é dono a abre.
+    final String? uid = ref.read(uidProvider);
+    if (uid != null && widget.entryId != null) {
+      unawaited(
+        ref
+            .read(memoryRepositoryProvider)
+            .backfillImages(
+              uid: uid,
+              entryId: widget.entryId!,
+              file: widget.file,
+              local: baixado,
+            ),
+      );
+    }
+    return baixado;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Quem foi convidado não baixa: o escopo `drive.file` não alcança
-    // arquivo que este aplicativo não criou neste aparelho, e a tentativa
-    // terminaria em erro depois de uma espera. Em vez disso, a miniatura
-    // enche a tela e o tamanho real fica a um toque, no Drive dela.
+    // Quem foi convidado não baixa do Drive: o escopo `drive.file` não
+    // alcança arquivo que este aplicativo não criou neste aparelho. A imagem
+    // vem do Firestore, **dentro do aplicativo** - mandar a família para
+    // fora para ver uma foto contradiz o que a cápsula é.
     if (ref.watch(isReadOnlyProvider)) {
-      return Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          DriveThumbnail(file: widget.file, fit: BoxFit.contain),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: _AbrirNoDriveDica(),
-            ),
-          ),
-        ],
-      );
+      return _ImagemDaFamilia(file: widget.file);
     }
 
     return FutureBuilder<File>(
@@ -209,27 +227,57 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
   }
 }
 
-/// A dica que aparece por cima da miniatura, no modo leitura.
+/// A foto em tela cheia para quem foi convidado, vinda do Firestore.
 ///
-/// Curta e sem alarme: não é um erro, é como a coisa funciona. O arquivo
-/// está no Drive de quem convidou, e é lá que ele abre em tamanho real.
-class _AbrirNoDriveDica extends StatelessWidget {
-  const _AbrirNoDriveDica();
+/// Enquanto a imagem maior chega, a miniatura já ocupa a tela: nunca um
+/// retângulo preto. É a mesma ideia da linha do tempo de quem é dono, e pelo
+/// mesmo motivo - esperar olhando para o vazio faz o aplicativo parecer
+/// quebrado.
+class _ImagemDaFamilia extends ConsumerStatefulWidget {
+  const _ImagemDaFamilia({required this.file});
+
+  final EntryFile file;
+
+  @override
+  ConsumerState<_ImagemDaFamilia> createState() => _ImagemDaFamiliaState();
+}
+
+class _ImagemDaFamiliaState extends ConsumerState<_ImagemDaFamilia> {
+  Future<Uint8List?>? _future;
+
+  @override
+  void initState() {
+    super.initState();
+    final String? uid = ref.read(capsuleOwnerProvider);
+    _future = uid == null || widget.file.driveId.isEmpty
+        ? Future<Uint8List?>.value(null)
+        : ref
+              .read(firestoreServiceProvider)
+              .loadDisplayImage(uid, widget.file.driveId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.55),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Text(
-        'Toque em abrir, no topo, para ver em tamanho real',
-        style: TextStyle(color: Colors.white70, fontSize: 12),
-        textAlign: TextAlign.center,
-      ),
+    return FutureBuilder<Uint8List?>(
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
+        final Uint8List? bytes = snapshot.data;
+        if (bytes == null) {
+          return Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              DriveThumbnail(file: widget.file, fit: BoxFit.contain),
+              if (snapshot.connectionState == ConnectionState.waiting)
+                const Center(child: CircularProgressIndicator()),
+            ],
+          );
+        }
+        return InteractiveViewer(
+          minScale: 1,
+          maxScale: 4,
+          child: Center(child: Image.memory(bytes, fit: BoxFit.contain)),
+        );
+      },
     );
   }
 }
