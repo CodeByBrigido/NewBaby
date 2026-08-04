@@ -41,6 +41,17 @@ class ReminderPreferences {
 
   static const String _chave = 'lembretes';
 
+  /// Se o sistema já foi consultado sobre notificações neste aparelho.
+  ///
+  /// Guardado aqui, e não deduzido do estado da permissão, porque as duas
+  /// coisas são diferentes: "ainda não perguntamos" e "perguntamos e a
+  /// pessoa disse não" levam a caminhos opostos. Sem esta marca, o
+  /// aplicativo insistiria na caixa de diálogo a cada abertura, que é o
+  /// jeito mais rápido de a pessoa desinstalar.
+  bool get alreadyAsked => _prefs.getBool('$_chave.perguntou') ?? false;
+
+  Future<void> markAsked() => _prefs.setBool('$_chave.perguntou', true);
+
   ReminderSettings load() {
     final String? ligado = _prefs.getString('$_chave.ligado');
     if (ligado == null) return const ReminderSettings();
@@ -68,6 +79,7 @@ class ReminderPreferences {
   }
 
   Future<void> clear() async {
+    await _prefs.remove('$_chave.perguntou');
     await _prefs.remove('$_chave.ligado');
     for (final ReminderKind k in ReminderKind.values) {
       await _prefs.remove('$_chave.tipo.${k.name}');

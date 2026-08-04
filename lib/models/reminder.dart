@@ -52,7 +52,7 @@ enum ReminderKind {
 @immutable
 class ReminderSettings {
   const ReminderSettings({
-    this.enabled = false,
+    this.enabled = true,
     this.kinds = const <ReminderKind>{
       ReminderKind.dataRedonda,
       ReminderKind.aniversario,
@@ -64,9 +64,20 @@ class ReminderSettings {
     this.absenceDays = 14,
   });
 
-  /// Desligado até a pessoa dizer o contrário.
+  /// Ligado desde o começo.
   ///
-  /// Nada dispara sem permissão, e "não ter respondido" não é permissão.
+  /// É decisão de produto, e é o que faz esta fase valer: uma cápsula do
+  /// tempo só cumpre a promessa se alguém voltar a ela, e quem tem um bebê
+  /// pequeno não volta por conta própria - as semanas somem. Deixar
+  /// desligado por padrão significa que quase ninguém liga, e aí os
+  /// lembretes existem no código e não na vida de ninguém.
+  ///
+  /// **Isto não é permissão.** No Android 13 em diante o sistema é quem
+  /// decide, e ele pergunta. Esta chave só diz que o aplicativo *quer*
+  /// lembrar; a permissão é pedida logo depois do cadastro, e se a pessoa
+  /// recusar, a chave volta sozinha para desligado. O teto de
+  /// [maxRemindersPerWeek] continua valendo acima de tudo: ligado por
+  /// padrão só se sustenta porque o volume é pequeno.
   final bool enabled;
 
   final Set<ReminderKind> kinds;

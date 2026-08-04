@@ -34,11 +34,13 @@ class RemindersScreen extends ConsumerWidget {
         children: <Widget>[
           Text(
             copy.hasName
-                ? 'O aplicativo pode te avisar de datas que passam sem '
-                      'ninguém perceber, como o dia em que ${copy.theName} '
-                      'completa mais um mês.'
-                : 'O aplicativo pode te avisar de datas que passam sem '
-                      'ninguém perceber.',
+                ? 'Os lembretes vêm ligados porque uma cápsula do tempo só '
+                      'cumpre a promessa se alguém voltar a ela. São poucos, '
+                      'e existem para você não perder o dia em que '
+                      '${copy.theName} completa mais um mês.'
+                : 'Os lembretes vêm ligados porque uma cápsula do tempo só '
+                      'cumpre a promessa se alguém voltar a ela. São poucos, '
+                      'e existem para datas que passam sem ninguém perceber.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: context.cores.textSecondary,
               height: 1.5,
@@ -53,7 +55,9 @@ class RemindersScreen extends ConsumerWidget {
               subtitle: Text(
                 ajuste.enabled
                     ? 'No máximo dois por semana, nunca dois no mesmo dia.'
-                    : 'Desligado. Nada é enviado.',
+                    : 'Desligado. Nada é enviado. Se o celular tiver negado '
+                          'as notificações, libere em Ajustes, Aplicativos, '
+                          'Meu Bebê.',
               ),
               value: ajuste.enabled,
               onChanged: (bool ligar) => _alternar(context, notifier, ligar),

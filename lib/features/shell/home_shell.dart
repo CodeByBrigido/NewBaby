@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,6 +24,19 @@ class HomeShell extends ConsumerStatefulWidget {
 
 class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // A permissão de notificar é pedida aqui, e não na abertura: esta tela
+    // só aparece depois de a cápsula existir, e é aí que a pergunta faz
+    // sentido para quem responde. Quem foi convidado não recebe lembrete
+    // nenhum, então também não é incomodado com a caixa de diálogo.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || ref.read(isReadOnlyProvider)) return;
+      unawaited(ref.read(reminderSettingsProvider.notifier).ensureAsked());
+    });
+  }
 
   static const List<Widget> _pages = <Widget>[
     HomeScreen(),

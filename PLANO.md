@@ -298,10 +298,18 @@ cuidadoso: não existe em cápsula ainda vazia, não diz há quantos dias, e
 perde o dia para qualquer outro aviso. Quem não registrou nada em duas
 semanas pode ter passado duas semanas num hospital.
 
-**Nada dispara sem permissão.** O padrão é desligado, e "não ter
-respondido" não é permissão. Se o sistema recusar, a chave volta sozinha
-para desligado: uma chave ligada que nunca toca é pior que uma desligada,
-porque ninguém vai procurar o defeito.
+**Ligados por padrão, e essa foi uma decisão de produto explícita.** Uma
+cápsula do tempo só cumpre a promessa se alguém voltar a ela, e quem tem um
+bebê pequeno não volta por conta própria: as semanas somem. Deixar
+desligado significaria que quase ninguém liga, e aí os lembretes existiriam
+no código e não na vida de ninguém. Só se sustenta porque o teto é pequeno.
+
+Isto não é permissão. No Android 13 em diante quem decide é o sistema, e
+ele pergunta: o aplicativo pede a permissão na primeira vez que a tela
+inicial aparece, que é depois de a cápsula existir, e nunca mais insiste.
+Se a resposta for não, a chave volta sozinha para desligado - uma chave
+ligada que nunca toca é pior que uma desligada, porque ninguém vai procurar
+o defeito.
 
 **Nenhum aviso cita o que foi escrito.** Notificação aparece na tela
 bloqueada e quem está do lado vê. Há teste varrendo os textos atrás de

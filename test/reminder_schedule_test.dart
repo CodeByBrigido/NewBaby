@@ -108,6 +108,73 @@ void main() {
     });
   });
 
+  group('a permissão é pedida uma vez, na hora certa', () {
+    ProviderContainer comAgendador(_Agendador a) {
+      final ProviderContainer c = ProviderContainer(
+        overrides: [reminderSchedulerProvider.overrideWithValue(a)],
+      );
+      addTearDown(c.dispose);
+      return c;
+    }
+
+    test('a primeira vez pergunta', () async {
+      final _Agendador agendador = _Agendador();
+      final ProviderContainer c = comAgendador(agendador);
+
+      await c.read(reminderSettingsProvider.notifier).ensureAsked();
+      expect(agendador.pedidosDePermissao, 1);
+      expect(c.read(reminderSettingsProvider).enabled, isTrue);
+    });
+
+    test('a segunda vez não pergunta de novo', () async {
+      // Insistir na caixa de diálogo a cada abertura é o jeito mais rápido
+      // de a pessoa desinstalar.
+      final _Agendador agendador = _Agendador();
+      final ProviderContainer c = comAgendador(agendador);
+
+      await c.read(reminderSettingsProvider.notifier).ensureAsked();
+      await c.read(reminderSettingsProvider.notifier).ensureAsked();
+      expect(agendador.pedidosDePermissao, 1);
+    });
+
+    test('um "não" do sistema desliga a chave', () async {
+      final _Agendador agendador = _Agendador()..permitir = false;
+      final ProviderContainer c = comAgendador(agendador);
+
+      await c.read(reminderSettingsProvider.notifier).ensureAsked();
+      expect(c.read(reminderSettingsProvider).enabled, isFalse);
+    });
+
+    test('depois de a pessoa desligar, ninguém pergunta nada', () async {
+      final _Agendador agendador = _Agendador();
+      final ProviderContainer c = comAgendador(agendador);
+
+      await c.read(reminderSettingsProvider.notifier).disable();
+      await c.read(reminderSettingsProvider.notifier).ensureAsked();
+      expect(agendador.pedidosDePermissao, 0);
+      expect(c.read(reminderSettingsProvider).enabled, isFalse);
+    });
+
+    test(
+      'quem já respondeu antes não é perguntado na abertura seguinte',
+      () async {
+        // Simula a reabertura: a marca de "já perguntamos" sobrevive ao
+        // fechamento do aplicativo, e é ela que segura a caixa de diálogo.
+        SharedPreferences.setMockInitialValues(<String, Object>{
+          'flutter.lembretes.perguntou': true,
+          'flutter.lembretes.ligado': 'sim',
+        });
+        final _Agendador agendador = _Agendador();
+        final ProviderContainer c = comAgendador(agendador);
+
+        c.listen(reminderSettingsProvider, (_, _) {});
+        await Future<void>.delayed(Duration.zero);
+        await c.read(reminderSettingsProvider.notifier).ensureAsked();
+        expect(agendador.pedidosDePermissao, 0);
+      },
+    );
+  });
+
   group('a agenda é trocada inteira, nunca remendada', () {
     test('reagendar duas vezes deixa a mesma agenda', () async {
       final _Agendador agendador = _Agendador();
