@@ -189,18 +189,6 @@ com o aplicativo compilando, testado e instalável.
 A ordem é por retorno emocional dividido por risco. O compartilhamento vai
 tarde de propósito: é o único item que mexe em privacidade.
 
-### Fase 6 - Notificações inteligentes
-
-Reaproveita o motor de regras da Fase 3.
-
-- Agendamento local, sem servidor
-- Regras contextuais a partir dos dados existentes
-- Linguagem afetiva com o nome da criança
-- Tela de ajuste em Configurações, para ligar, desligar e escolher o tom
-
-**Pronto quando:** acrescentar uma notificação nova é acrescentar uma
-regra, e nada dispara sem a pessoa ter permitido.
-
 ### Fase 7 - Compartilhamento com familiares
 
 A maior e a única que mexe em privacidade.
@@ -280,6 +268,57 @@ ouviu falar deste aplicativo.
 ---
 
 ## Concluído
+
+### Fase 6 - Notificações inteligentes ✅
+
+Locais, sem servidor. Tudo o que o aplicativo precisa para lembrar de algo
+já está no aparelho: a data de nascimento, o que foi registrado e quando.
+Push exigiria Cloud Functions, plano pago e mandar para fora um dado que o
+celular tem na mão.
+
+**O motor é uma função pura.** `planReminders` recebe a cápsula e o dia e
+devolve a agenda; não toca em rede, plataforma nem relógio. É o que permite
+testar em segundos o que levaria dois anos para observar num aparelho, e é
+o que cumpre o critério combinado: acrescentar um lembrete novo é
+acrescentar uma regra, e nada mais.
+
+**Cinco motivos, cada um com botão próprio:** datas redondas, aniversário,
+primeiras vezes do ano, ideias com prazo e o lembrete gentil. Separados
+porque um interruptor único transforma "isso me irrita" em "desliguei
+tudo", e aí a pessoa perde também o que gostaria de saber.
+
+**O número mais importante da fase é o teto:** no máximo um por dia, no
+máximo dois em qualquer sete dias, e o teto vale acima de qualquer regra.
+Se houver cinco motivos válidos numa semana, três não são enviados. Um
+aplicativo de memórias que avisa demais vira um aplicativo desligado, e um
+aplicativo desligado não lembra de nada.
+
+**O lembrete gentil é o mais fácil de errar**, e por isso é o mais
+cuidadoso: não existe em cápsula ainda vazia, não diz há quantos dias, e
+perde o dia para qualquer outro aviso. Quem não registrou nada em duas
+semanas pode ter passado duas semanas num hospital.
+
+**Nada dispara sem permissão.** O padrão é desligado, e "não ter
+respondido" não é permissão. Se o sistema recusar, a chave volta sozinha
+para desligado: uma chave ligada que nunca toca é pior que uma desligada,
+porque ninguém vai procurar o defeito.
+
+**Nenhum aviso cita o que foi escrito.** Notificação aparece na tela
+bloqueada e quem está do lado vê. Há teste varrendo os textos atrás de
+"carta", "lacrado" e afins.
+
+O aplicativo **não pede alarme exato**. Os lembretes são agendados em modo
+inexato, o que dispensa a permissão que o sistema apresenta com cara de
+coisa séria e que o Google Play audita. Um lembrete de tirar uma foto pode
+chegar meia hora depois e continua valendo. Há teste no manifesto para o
+dia em que alguém trocar o modo de agendamento sem perceber a conta que
+vem junto.
+
+Quem foi convidado não recebe lembrete nenhum: cobrar da avó duas semanas
+sem foto seria cobrar uma coisa que ela nem pode fazer.
+
+33 testes novos.
+
 
 ### Fase 7a - Compartilhamento familiar, sem a mídia ✅
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,13 +10,49 @@ import 'core/theme/app_palette.dart';
 import 'core/theme/app_theme.dart';
 import 'features/shell/app_lock_gate.dart';
 import 'models/baby_profile.dart';
+import 'models/reminder.dart';
 import 'state/providers.dart';
 
-class MeuBebeApp extends ConsumerWidget {
+class MeuBebeApp extends ConsumerStatefulWidget {
   const MeuBebeApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MeuBebeApp> createState() => _MeuBebeAppState();
+}
+
+class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    // A agenda de lembretes é refeita inteira sempre que algo que ela usa
+    // muda: o cadastro, o que foi registrado, o ajuste. Reagendar tudo, em
+    // vez de remendar, é o que mantém a agenda igual ao que o motor de
+    // regras diz - e os ids são estáveis, então repetir não duplica.
+    //
+    // Fica aqui, e não numa tela, porque não pertence a tela nenhuma: vale
+    // enquanto o aplicativo estiver aberto, em qualquer rota.
+    ref.listenManual(plannedRemindersProvider, (
+      List<ScheduledReminder>? antes,
+      List<ScheduledReminder> agora,
+    ) {
+      unawaited(_reagendar(agora));
+    }, fireImmediately: true);
+  }
+
+  Future<void> _reagendar(List<ScheduledReminder> agenda) async {
+    try {
+      await ref.read(reminderSchedulerProvider).replaceAll(agenda);
+    } on Object catch (e) {
+      // Lembrete é conforto, não função essencial. Se o sistema recusar,
+      // o aplicativo continua inteiro: ninguém perde uma memória por isso.
+      debugPrint('Não deu para agendar os lembretes: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final WidgetRef ref = this.ref;
     // O aplicativo inteiro se pinta conforme a criança. Enquanto o cadastro
     // não existe (login, início do onboarding) vale a paleta neutra, que não
     // parece escolhida nem para menina nem para menino.
