@@ -11,9 +11,10 @@ import '../core/utils/error_text.dart';
 import '../core/utils/formatters.dart';
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'drive_service.dart';
 import 'firestore_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'media_optimizer.dart';
 import 'thumbnail_service.dart';
@@ -247,16 +248,7 @@ class MemoryRepository {
         );
 
         final File? thumb = media.thumbnail;
-        if (thumb != null) {
-          await thumbnails.store(file.driveId, thumb);
-          await publicarImagens(
-            uid: uid,
-            entryId: entry.id,
-            driveId: file.driveId,
-            source: thumb,
-            isVideo: entry.type == EntryType.video,
-          );
-        }
+        if (thumb != null) await thumbnails.store(file.driveId, thumb);
 
         uploaded.add(file);
         _emit(
@@ -586,74 +578,6 @@ class MemoryRepository {
     }
   }
 
-  /// Publica no Firestore as duas imagens reduzidas de um arquivo.
-  ///
-  /// É o que faz a foto abrir **dentro do aplicativo** para quem foi
-  /// convidado. O escopo `drive.file` não alcança arquivos que o aplicativo
-  /// dela não criou, então sem isto ou ela via a linha do tempo em branco, ou
-  /// era mandada para fora do aplicativo para ver uma foto. As duas coisas
-  /// contradizem o que a cápsula promete.
-  ///
-  /// Falhar aqui não derruba nada. O arquivo já está no Drive, que é o que
-  /// não pode se perder; estas cópias são para a família, e a próxima vez que
-  /// alguém abrir a foto tenta de novo.
-  ///
-  /// Para vídeo, só a miniatura: um vídeo de 720p não cabe num documento do
-  /// Firestore, e nenhum aperto de qualidade resolve isso.
-  Future<void> publicarImagens({
-    required String uid,
-    required String entryId,
-    required String driveId,
-    required File source,
-    required bool isVideo,
-  }) async {
-    try {
-      final File? mini = await optimizer.derive(
-        source,
-        maxDimension: _thumbnailDimension,
-        maxBytes: _maxThumbnailBytes,
-      );
-      if (mini != null) {
-        await firestore.saveThumbnail(
-          uid: uid,
-          entryId: entryId,
-          driveId: driveId,
-          bytes: await mini.readAsBytes(),
-        );
-        await mini.delete();
-      }
-
-      if (isVideo) return;
-
-      final File? cheia = await optimizer.derive(
-        source,
-        maxDimension: _displayDimension,
-        maxBytes: _maxDisplayBytes,
-      );
-      if (cheia != null) {
-        await firestore.saveDisplayImage(
-          uid: uid,
-          entryId: entryId,
-          driveId: driveId,
-          bytes: await cheia.readAsBytes(),
-        );
-        await cheia.delete();
-      }
-    } on Exception catch (e) {
-      debugPrint('Imagens não publicadas para $driveId: $e');
-    }
-  }
-
-  /// Os mesmos tetos que as regras do Firestore aplicam, com folga.
-  ///
-  /// A miniatura enche um quadrado de grade; a de visualização enche a tela
-  /// de um celular. Nenhuma das duas substitui o arquivo no Drive, que
-  /// continua sendo o original.
-  static const int _thumbnailDimension = 400;
-  static const int _maxThumbnailBytes = 55 * 1024;
-  static const int _displayDimension = 1440;
-  static const int _maxDisplayBytes = 750 * 1024;
-
   // ------------------------------------------------------------ downloads
 
   /// Pasta dos arquivos baixados para visualizar ou compartilhar.
@@ -688,40 +612,6 @@ class MemoryRepository {
     );
     if (await target.exists()) return target;
     return drive.downloadTo(file.driveId, target);
-  }
-
-  /// Gera as cópias reduzidas de uma foto que ainda não as tem.
-  ///
-  /// É o conserto do acervo antigo, e ele acontece sozinho: toda foto que
-  /// existia antes desta versão ganha as cópias na primeira vez que quem é
-  /// dono a abre em tela cheia. O arquivo já foi baixado para mostrar na
-  /// tela, então não custa nem uma ida à rede a mais.
-  ///
-  /// Não devolve nada e não interrompe nada: se falhar, tenta na próxima.
-  Future<void> backfillImages({
-    required String uid,
-    required String entryId,
-    required EntryFile file,
-    required File local,
-  }) async {
-    if (file.driveId.isEmpty || file.isVideo) return;
-    try {
-      final Uint8List? jaTem = await firestore.loadDisplayImage(
-        uid,
-        file.driveId,
-      );
-      if (jaTem != null) return;
-    } on Exception catch (e) {
-      debugPrint('Não deu para conferir a imagem de ${file.driveId}: $e');
-      return;
-    }
-    await publicarImagens(
-      uid: uid,
-      entryId: entryId,
-      driveId: file.driveId,
-      source: local,
-      isVideo: false,
-    );
   }
 
   /// Apaga os arquivos baixados para leitura e compartilhamento.

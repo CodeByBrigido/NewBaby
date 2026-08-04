@@ -6,9 +6,6 @@ import '../../features/auth/login_screen.dart';
 import '../../features/documents/document_screen.dart';
 import '../../features/documents/documents_screen.dart';
 import '../../features/drawings/drawings_screen.dart';
-import '../../features/family/redeem_invite_screen.dart';
-import '../../features/family/share_capsule_screen.dart';
-import '../../features/family/welcome_choice_screen.dart';
 import '../../features/gallery/bucket_screen.dart';
 import '../../features/gallery/gallery_screen.dart';
 import '../../features/growth/growth_chart_screen.dart';
@@ -34,10 +31,7 @@ import '../../state/providers.dart';
 
 abstract final class Routes {
   static const String login = '/entrar';
-  static const String welcome = '/comecar';
   static const String onboarding = '/cadastro';
-  static const String redeem = '/convite';
-  static const String share = '/perfil/familia';
   static const String timeline = '/';
   static const String search = '/busca';
   static const String profile = '/perfil';
@@ -73,9 +67,6 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   // o cadastro mudarem - é o que leva o usuário de login → cadastro → app.
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
-  // O vínculo familiar muda de qual cápsula é o perfil que se está lendo.
-  // Sem ouvir isto, o resgate do código não levaria a lugar nenhum.
-  ref.listen(familyLinkProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
@@ -95,36 +86,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         return location == Routes.login ? null : Routes.login;
       }
 
-      // De quem é a cápsula decide qual perfil está sendo lido, então
-      // esperar aqui evita abrir a cápsula errada por um instante.
-      final AsyncValue<Object?> vinculo = ref.read(familyLinkProvider);
-      if (vinculo.isLoading) return null;
-      final bool convidado = ref.read(isReadOnlyProvider);
-
       if (profile.isLoading) return null;
       final bool hasProfile = profile.value != null;
 
-      /// As três telas de quem ainda não tem cápsula nenhuma.
-      const Set<String> comeco = <String>{
-        Routes.welcome,
-        Routes.onboarding,
-        Routes.redeem,
-      };
-
       if (!hasProfile) {
-        // Sem perfil e sem vínculo, o aplicativo não tem como saber se quem
-        // entrou é quem vai guardar ou quem foi convidado. Pergunta.
-        if (!convidado) {
-          return comeco.contains(location) ? null : Routes.welcome;
-        }
-        // Convidado e sem perfil é o caso raro de o pai ainda não ter
-        // preenchido o cadastro. A cápsula existe, só está vazia: deixa
-        // passar, e a linha do tempo mostra o vazio com todas as letras.
-        return location == Routes.timeline ? null : Routes.timeline;
+        return location == Routes.onboarding ? null : Routes.onboarding;
       }
 
-      // Quem foi convidado não tem cadastro para preencher.
-      if (location == Routes.login || comeco.contains(location)) {
+      if (location == Routes.login || location == Routes.onboarding) {
         return Routes.timeline;
       }
       return null;
@@ -132,20 +101,8 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
     routes: <RouteBase>[
       GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
       GoRoute(
-        path: Routes.welcome,
-        builder: (_, _) => const WelcomeChoiceScreen(),
-      ),
-      GoRoute(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: Routes.redeem,
-        builder: (_, _) => const RedeemInviteScreen(),
-      ),
-      GoRoute(
-        path: Routes.share,
-        builder: (_, _) => const ShareCapsuleScreen(),
       ),
       GoRoute(path: Routes.timeline, builder: (_, _) => const HomeShell()),
       GoRoute(path: Routes.search, builder: (_, _) => const SearchScreen()),

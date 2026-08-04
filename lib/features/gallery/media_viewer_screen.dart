@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../core/l10n/strings.dart';
@@ -66,29 +65,6 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
     }
   }
 
-  /// Abre o vídeo no Google Drive, pela conta de quem está olhando.
-  ///
-  /// **Só para vídeo, e só para quem foi convidado.** Um vídeo de 720p tem
-  /// megabytes e não cabe num documento do Firestore, então esta é a única
-  /// saída que existe. Para foto, nada disso é necessário: ela abre dentro
-  /// do aplicativo.
-  ///
-  /// Sem token nosso e sem download nosso: quem autoriza é a permissão de
-  /// leitura que o pai deu à pasta.
-  Future<void> _abrirNoDrive(EntryFile file) async {
-    if (file.driveId.isEmpty) return;
-    final Uri url = Uri.parse(
-      'https://drive.google.com/file/d/${file.driveId}/view',
-    );
-    try {
-      await ExternalActivity.run(
-        () => launchUrl(url, mode: LaunchMode.externalApplication),
-      );
-    } on Exception catch (e) {
-      if (mounted) showMessage(context, userMessage(e, context: 'Abrir'));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
@@ -107,19 +83,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
           style: const TextStyle(fontSize: 16),
         ),
         actions: <Widget>[
-          // A foto abre dentro do aplicativo para todo mundo. O botão de sair
-          // para o Drive existe só para vídeo de quem foi convidado, porque
-          // um vídeo de 720p não cabe num documento do Firestore e não há
-          // outro caminho - e mesmo assim ele não é o caminho principal de
-          // nada.
-          if (!ref.watch(isReadOnlyProvider))
-            IconButton(icon: const Icon(Icons.ios_share), onPressed: _share)
-          else if (file.isVideo)
-            IconButton(
-              icon: const Icon(Icons.play_circle_outline),
-              tooltip: 'Assistir',
-              onPressed: () => _abrirNoDrive(file),
-            ),
+          IconButton(icon: const Icon(Icons.ios_share), onPressed: _share),
         ],
       ),
       body: Column(
@@ -133,10 +97,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                 final EntryFile current = widget.files[index];
                 return current.isVideo
                     ? DriveVideoPlayer(file: current)
-                    : DriveFullImage(
-                        file: current,
-                        entryId: widget.entries[index].id,
-                      );
+                    : DriveFullImage(file: current);
               },
             ),
           ),
@@ -214,11 +175,6 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
   }
 
   Future<void> _load() async {
-    // Para quem foi convidado, baixar o vídeo é impossível pelo escopo
-    // `drive.file`: a tentativa terminaria num erro depois de uma espera
-    // longa. A miniatura fica no lugar, e o vídeo abre no Drive dela.
-    if (ref.read(isReadOnlyProvider)) return;
-
     try {
       final String? localPath = widget.file.localPath;
       File source;
@@ -251,21 +207,6 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
     super.dispose();
   }
 
-  /// O único lugar do aplicativo que manda alguém para fora, e só por vídeo.
-  Future<void> _abrirVideo(EntryFile file) async {
-    if (file.driveId.isEmpty) return;
-    final Uri url = Uri.parse(
-      'https://drive.google.com/file/d/${file.driveId}/view',
-    );
-    try {
-      await ExternalActivity.run(
-        () => launchUrl(url, mode: LaunchMode.externalApplication),
-      );
-    } on Exception catch (e) {
-      if (mounted) showMessage(context, userMessage(e, context: 'Assistir'));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_error != null) {
@@ -283,25 +224,11 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
 
     final VideoPlayerController? controller = _controller;
     if (controller == null) {
-      final bool leitura = ref.watch(isReadOnlyProvider);
       return Stack(
         fit: StackFit.expand,
         children: <Widget>[
           DriveThumbnail(file: widget.file, fit: BoxFit.contain),
-          if (leitura)
-            Center(
-              child: IconButton(
-                icon: const Icon(
-                  Icons.play_circle_outline,
-                  size: 64,
-                  color: Colors.white70,
-                ),
-                tooltip: 'Assistir',
-                onPressed: () => _abrirVideo(widget.file),
-              ),
-            )
-          else
-            const Center(child: CircularProgressIndicator()),
+          const Center(child: CircularProgressIndicator()),
         ],
       );
     }

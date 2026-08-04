@@ -138,13 +138,8 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
    Faltam o ícone, as capturas de tela e a categoria.
 3. **Política de privacidade** - obrigatória, e com peso extra aqui: o app
    guarda dados de crianças. Ela precisa dizer, com clareza, que as fotos e
-   os vídeos vão para o Google Drive do próprio usuário, e que o Firestore
-   guarda os metadados **e duas cópias reduzidas de cada foto**: uma
-   miniatura de até 55 KB e uma de visualização de até 750 KB. Elas existem
-   porque o escopo `drive.file` não alcança arquivos que o aplicativo de
-   quem foi convidado não criou, e sem elas a família não veria foto
-   nenhuma dentro do aplicativo. O arquivo original continua só no Drive, e
-   as cópias somem junto com a conta, como o resto.
+   os vídeos vão para o Google Drive do próprio usuário e que o aplicativo
+   guarda apenas metadados.
 4. **Segurança dos dados** - declare o que é coletado. Neste app:
    identificadores da conta (para o login) e conteúdo do usuário (o índice
    no Firestore). Nada é vendido nem compartilhado.
@@ -242,7 +237,7 @@ produção.
 - [ ] URL pública de exclusão de conta no ar e informada no Play Console
 - [ ] Testado o "Apagar minha conta e meus dados" de ponta a ponta, conferindo
       no console do Firebase que `users/{uid}` sumiu
-- [ ] Conferido no APK que as permissões novas dos lembretes são só
+- [ ] Conferido no APK que as permissões dos lembretes são só
       `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED` e `VIBRATE`
       (`aapt dump permissions app-release.apk`).
       **Não pode aparecer `SCHEDULE_EXACT_ALARM` nem `USE_EXACT_ALARM`**: os

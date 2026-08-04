@@ -5,15 +5,8 @@ rules_version = '2';
 // Todo o conteúdo do aplicativo vive sob users/{uid}. Qualquer leitura ou
 // escrita fora do próprio uid é negada.
 //
-// As fotos e os vídeos ficam no Google Drive de quem guarda, sob a permissão
-// OAuth `drive.file`. O Firestore guarda os metadados e, para cada arquivo,
-// duas imagens reduzidas: uma miniatura para a grade e uma cópia de
-// visualização para a tela cheia.
-//
-// Elas existem por necessidade. O escopo `drive.file` não alcança arquivos
-// que o aplicativo não criou naquele aparelho, então o aplicativo de quem foi
-// convidado não teria como buscar imagem nenhuma no Drive - e o aplicativo
-// não pode empurrar a família para fora dele para ver uma foto.
+// Os arquivos em si não passam por aqui - eles ficam no Google Drive, sob a
+// permissão OAuth `drive.file`. O Firestore guarda apenas metadados.
 //
 // Além do isolamento entre contas, estas regras limitam o **formato** do que
 // pode ser gravado. Não é excesso de zelo: o aplicativo é público, então
@@ -25,62 +18,6 @@ service cloud.firestore {
 
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
-    }
-
-    // ------------------------------------------------- acesso de familiar
-    //
-    // O Drive controla quem pode ler os arquivos; o Firestore controla quem
-    // pertence a qual cápsula. São permissões separadas de propósito, e o
-    // código de convite é só a segunda: ele não abre o Drive de ninguém.
-
-    function familyLink() {
-      return get(/databases/$(database)/documents/familyAccess/$(request.auth.uid)).data;
-    }
-
-    /// Se quem está pedindo tem vínculo de leitura com a cápsula de [uid].
-    function isFamilyOf(uid) {
-      return request.auth != null
-          && exists(/databases/$(database)/documents/familyAccess/$(request.auth.uid))
-          && familyLink().ownerUid == uid
-          && familyLink().role == 'viewer';
-    }
-
-    /// Os tipos que o familiar enxerga.
-    ///
-    /// Cartas ficam de fora: são o que há de mais íntimo na cápsula, e quem
-    /// escreve para a filha ler aos dezoito anos não escreve para a família
-    /// inteira. Desenhos e áudios também, por não constarem da lista de
-    /// permissões combinada - o padrão seguro é não mostrar o que ninguém
-    /// pediu para mostrar.
-    function tipoVisivelParaFamilia(tipo) {
-      return tipo in ['nascimento', 'foto', 'video', 'documento', 'crescimento'];
-    }
-
-    /// Uma entrada lacrada não é visível para a família antes da data. O
-    /// lacre é uma promessa, e promessa vale no servidor.
-    ///
-    /// A exigência é dura de propósito: o campo tem que estar lá e tem que
-    /// ser nulo. A versão tolerante, que também aceitava o campo ausente,
-    /// **vazava numa consulta de lista** - e isso foi medido, não suposto.
-    /// Numa consulta, o Firestore avalia a regra contra a própria consulta,
-    /// não contra cada documento devolvido: `!('lacradoAte' in resource.data)`
-    /// dá verdadeiro quando o dado ainda nem foi lido, e a entrada lacrada
-    /// saía junto com as outras. Escrita assim, a única forma de a consulta
-    /// passar é o aplicativo pedir explicitamente as não lacradas.
-    ///
-    /// O preço: uma entrada gravada sem o campo fica invisível para a
-    /// família. É o erro certo para se cometer, e por isso o aplicativo
-    /// sempre grava `lacradoAte`, nulo inclusive.
-    function naoLacrada() {
-      return resource.data.lacradoAte == null;
-    }
-
-    /// O que está na lixeira não é da conta de mais ninguém.
-    ///
-    /// Pela mesma razão da função acima, a comparação é direta: assim a
-    /// consulta do familiar é obrigada a pedir só o que está ativo.
-    function naoExcluida() {
-      return resource.data.status == 'ativo';
     }
 
     // Campo de texto ausente, nulo, ou dentro do limite de caracteres.
@@ -141,35 +78,6 @@ service cloud.firestore {
               || (data.marcados is list && data.marcados.size() <= 40));
     }
 
-    /// Se a entrada dona desta miniatura é das que a família enxerga.
-    ///
-    /// A conferência é feita na entrada, e não em campos copiados para a
-    /// miniatura, de propósito: campo copiado é campo que sai de sincronia,
-    /// e o dia em que sair, o lacre vaza por uma imagem de 200 pixels. Um
-    /// `get()` custa uma leitura e sempre diz a verdade.
-    function entradaVisivelParaFamilia(uid, entradaId) {
-      let entrada = get(
-        /databases/$(database)/documents/users/$(uid)/entradas/$(entradaId)
-      ).data;
-      return tipoVisivelParaFamilia(entrada.tipo)
-          && entrada.lacradoAte == null
-          && entrada.status == 'ativo';
-    }
-
-    /// Uma imagem guardada aqui, com teto de tamanho.
-    ///
-    /// O teto é a diferença entre uma imagem e um lugar para esconder
-    /// arquivo. Um documento do Firestore aceita 1 MiB no total, contando
-    /// tudo; os limites abaixo deixam folga para o resto do documento.
-    function isValidImage(maxBytes) {
-      let data = request.resource.data;
-      return data.keys().hasOnly(['entradaId', 'bytes', 'criadoEm'])
-          && data.entradaId is string
-          && data.entradaId.size() <= 200
-          && data.bytes is bytes
-          && data.bytes.size() <= maxBytes;
-    }
-
     function isValidFolder() {
       return request.resource.data.keys().hasOnly([
                'caminho', 'driveId', 'criadoEm'
@@ -185,63 +93,30 @@ service cloud.firestore {
       allow create, update: if false;
 
       match /perfil/{documento} {
-        // O familiar precisa do nome e da data de nascimento para a linha do
-        // tempo fazer sentido. É o único documento do perfil que ele lê.
-        allow read: if isOwner(uid) || isFamilyOf(uid);
-        allow delete: if isOwner(uid);
+        allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && isValidProfile();
       }
 
       match /entradas/{entrada} {
-        // A regra vale por documento, inclusive em consulta de lista: uma
-        // busca que traga uma carta falha inteira. Isso é proposital - o
-        // filtro por tipo no aplicativo é conveniência, esta linha é a
-        // garantia.
-        allow read: if isOwner(uid)
-                    || (isFamilyOf(uid)
-                        && tipoVisivelParaFamilia(resource.data.tipo)
-                        && naoLacrada()
-                        && naoExcluida());
-        allow delete: if isOwner(uid);
+        allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && isValidEntry();
       }
 
-      // A miniatura de cada arquivo, indexada pelo id dele no Drive.
+      // Restos do compartilhamento familiar, que saiu antes da publicação.
       //
-      // Existe porque o escopo `drive.file` só alcança arquivos que **este**
-      // aplicativo criou ou que a pessoa apontou pelo seletor. Compartilhar
-      // a pasta dá acesso no Drive, mas não põe os arquivos no conjunto
-      // autorizado do aplicativo de quem foi convidado: `files.get` responde
-      // 404. Com a miniatura aqui, o aplicativo dela monta a linha do tempo
-      // inteira sem fazer **nenhuma** chamada ao Drive.
-      //
-      // `list` é negado: a família alcança uma miniatura de cada vez, pelo
-      // id que já veio na entrada. Assim a conferência abaixo, que depende
-      // do documento, nunca cai no caso em que a regra é avaliada contra a
-      // consulta em vez do documento.
+      // Nada escreve mais aqui, mas quem instalou a versão de teste tem
+      // documentos gravados. Sem estas duas linhas, "apagar minha conta e
+      // meus dados" passaria a deixar rastro em silêncio, e essa é uma
+      // promessa feita à Play Store. O dia em que a última conta antiga for
+      // apagada, estes blocos podem sair.
       match /miniaturas/{driveId} {
-        allow get: if isOwner(uid)
-                   || (isFamilyOf(uid)
-                       && entradaVisivelParaFamilia(uid, resource.data.entradaId));
-        allow list: if false;
-        allow create, update: if isOwner(uid) && isValidImage(60 * 1024);
-        allow delete: if isOwner(uid);
+        allow read, delete: if isOwner(uid);
+        allow create, update: if false;
       }
 
-      // A mesma imagem em tamanho de visualização, para abrir em tela cheia
-      // **dentro do aplicativo**.
-      //
-      // Coleção separada da miniatura de propósito: a grade carrega dezenas
-      // de miniaturas de uma vez, e não faz sentido puxar centenas de
-      // quilobytes por célula para mostrar um quadrado de 100 pixels. Aqui
-      // só chega quem abriu uma foto.
       match /imagens/{driveId} {
-        allow get: if isOwner(uid)
-                   || (isFamilyOf(uid)
-                       && entradaVisivelParaFamilia(uid, resource.data.entradaId));
-        allow list: if false;
-        allow create, update: if isOwner(uid) && isValidImage(800 * 1024);
-        allow delete: if isOwner(uid);
+        allow read, delete: if isOwner(uid);
+        allow create, update: if false;
       }
 
       match /sugestoes/{sugestao} {
@@ -263,94 +138,6 @@ service cloud.firestore {
       match /{outra}/{documento=**} {
         allow read, write: if false;
       }
-    }
-
-    // ---------------------------------------------------- convites (códigos)
-    //
-    // O id do documento **é** o código. Ninguém lista esta coleção: só
-    // alcança um documento quem já sabe o código. E saber o código não basta,
-    // porque a leitura ainda exige ser o dono ou ser o email convidado.
-    match /shareCodes/{codigo} {
-      function convite() { return resource.data; }
-
-      allow get: if request.auth != null
-                 && (convite().ownerUid == request.auth.uid
-                     || convite().email == request.auth.token.email);
-
-      // Listar revelaria convites alheios, com email e id de pasta dentro.
-      allow list: if false;
-
-      allow create: if request.auth != null
-                    && request.resource.data.ownerUid == request.auth.uid
-                    && request.resource.data.keys().hasOnly([
-                         'ownerUid', 'folderId', 'email', 'nome',
-                         'criadoEm', 'expiraEm', 'status'
-                       ])
-                    && request.resource.data.status == 'pending'
-                    && request.resource.data.email is string
-                    && request.resource.data.email.size() <= 320
-                    && request.resource.data.folderId is string
-                    && request.resource.data.folderId.size() <= 200
-                    && textUpTo('nome', 120)
-                    && request.resource.data.expiraEm is timestamp;
-
-      // Quem foi convidado marca como usado; o dono revoga. Nada além disso.
-      allow update: if request.auth != null
-                    && request.resource.data.diff(resource.data)
-                         .affectedKeys().hasOnly(['status'])
-                    && (
-                      (convite().email == request.auth.token.email
-                       && convite().status == 'pending'
-                       && request.resource.data.status == 'used')
-                      ||
-                      (convite().ownerUid == request.auth.uid
-                       && request.resource.data.status == 'revoked')
-                    );
-
-      allow delete: if request.auth != null
-                    && convite().ownerUid == request.auth.uid;
-    }
-
-    // ------------------------------------------------------------- vínculos
-    //
-    // Um documento por familiar, com o uid dele como id. É o que faz o
-    // aplicativo saber, na abertura seguinte, qual cápsula abrir.
-    match /familyAccess/{uid} {
-      allow read: if isOwner(uid)
-                  || (request.auth != null
-                      && resource.data.ownerUid == request.auth.uid);
-
-      // Criar o próprio vínculo, e só com um convite que de fato exista,
-      // esteja pendente, não tenha expirado e seja para este email. Esta é a
-      // linha que transforma o código num acesso: sem ela, qualquer pessoa
-      // logada escreveria o próprio vínculo para a cápsula que quisesse.
-      allow create: if isOwner(uid)
-                    && request.resource.data.keys().hasOnly([
-                         'ownerUid', 'folderId', 'role', 'email',
-                         'codigo', 'criadoEm'
-                       ])
-                    && request.resource.data.role == 'viewer'
-                    && request.resource.data.email == request.auth.token.email
-                    && exists(/databases/$(database)/documents/shareCodes/$(request.resource.data.codigo))
-                    && convitePara(request.resource.data);
-
-      // Imutável: para mudar de cápsula, apaga e resgata outro código.
-      allow update: if false;
-
-      // A pessoa sai quando quiser; o dono revoga quando quiser.
-      allow delete: if isOwner(uid)
-                    || (request.auth != null
-                        && resource.data.ownerUid == request.auth.uid);
-    }
-
-    /// O convite citado no vínculo confere com o que está sendo gravado.
-    function convitePara(vinculo) {
-      let c = get(/databases/$(database)/documents/shareCodes/$(vinculo.codigo)).data;
-      return c.status == 'pending'
-          && c.expiraEm > request.time
-          && c.email == request.auth.token.email
-          && c.ownerUid == vinculo.ownerUid
-          && c.folderId == vinculo.folderId;
     }
 
     // Nada mais é acessível.

@@ -272,59 +272,6 @@ class DriveService {
     });
   }
 
-  // ------------------------------------------------- acesso para a família
-
-  /// Dá acesso de leitura à pasta da cápsula, para um email.
-  ///
-  /// É o Drive que passa a controlar os arquivos, e é isso que faz este
-  /// aplicativo funcionar sem servidor no meio: quem recebe a permissão vê as
-  /// fotos com a conta Google dela, direto, sem nenhum byte passar por nós.
-  ///
-  /// A permissão é dada **só na pasta da cápsula**, que foi criada por este
-  /// aplicativo e é a única coisa do Drive que ele conhece. O resto do Drive
-  /// de quem convida continua fora de alcance, para nós e para quem entra.
-  ///
-  /// `sendNotificationEmail: false` de propósito: o convite é entregue por
-  /// quem convidou, com o código, pelo caminho que ela escolher. Um email
-  /// automático do Google chegando antes disso não seria reconhecido, e um
-  /// convite que a pessoa não reconhece é um convite que ela ignora.
-  Future<void> shareFolderWith({
-    required String folderId,
-    required String email,
-  }) {
-    return _withApi(
-      (drive.DriveApi api) => api.permissions.create(
-        drive.Permission(type: 'user', role: 'reader', emailAddress: email),
-        folderId,
-        sendNotificationEmail: false,
-      ),
-    );
-  }
-
-  /// Tira o acesso de um email à pasta da cápsula.
-  ///
-  /// Precisa listar as permissões antes porque a API do Drive apaga por id de
-  /// permissão, não por email. É a única listagem que este aplicativo faz no
-  /// Drive, e é dentro da pasta dele.
-  Future<void> unshareFolderWith({
-    required String folderId,
-    required String email,
-  }) {
-    return _withApi((drive.DriveApi api) async {
-      final drive.PermissionList lista = await api.permissions.list(
-        folderId,
-        $fields: 'permissions(id,emailAddress)',
-      );
-      for (final drive.Permission p
-          in lista.permissions ?? <drive.Permission>[]) {
-        if (p.emailAddress?.toLowerCase() == email.toLowerCase() &&
-            p.id != null) {
-          await api.permissions.delete(folderId, p.id!);
-        }
-      }
-    });
-  }
-
   /// Manda para a lixeira do Drive (reversível por 30 dias).
   Future<void> setTrashed(String driveId, {required bool trashed}) {
     return _withApi(

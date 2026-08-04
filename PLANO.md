@@ -77,73 +77,6 @@ Compartilhamento exige um modelo novo por cima, sem afrouxar o que existe.
 
 ---
 
-## O desenho do compartilhamento (item 6)
-
-O modelo mental é o do próprio Drive, e está certo: o pai compartilha a
-pasta `Meu Bebê - Cápsula do Tempo` como leitor com um email específico, o
-código de 48 horas amarra o convite àquele email, e o familiar precisa das
-duas coisas para entrar.
-
-Só um passo não fecha sozinho.
-
-**O aplicativo do familiar não consegue ler a pasta só porque ela foi
-compartilhada.** O escopo `drive.file` dá acesso ao que *aquele
-aplicativo, naquela conta*, criou. A pasta foi criada pelo aplicativo na
-conta do pai. Para o aplicativo do familiar, aquilo é arquivo de estranho,
-mesmo aparecendo no Drive dele.
-
-Para o aplicativo achar a pasta sozinho, ele precisaria poder listar o
-Drive do familiar. Aí passaria a poder ler tudo que a pessoa tem, que é
-exatamente o risco que este projeto foi construído para evitar.
-
-**A saída é o familiar apontar a pasta uma vez**, pelo Google Picker: uma
-tela, um toque, "escolha a pasta que foi compartilhada com você". Dali em
-diante o aplicativo alcança aquela pasta e nada mais, garantido pelo
-Google e não por promessa nossa.
-
-Esse toque não é fricção, é a prova. Ele é o consentimento explícito e é
-também a validação "o Drive foi mesmo compartilhado" que o fluxo já pedia.
-As duas coisas viram uma.
-
-### O que isso destrava, e o que não trava
-
-Timeline, datas, tipos e gráfico de crescimento moram no **Firestore**,
-não no Drive. Só as fotos e os vídeos em si estão no Drive.
-
-Então o aplicativo do familiar mostra a linha do tempo e o crescimento
-**antes** de ele apontar a pasta. O Picker destrava só as imagens. Quem
-nunca fizer esse passo não fica com um aplicativo quebrado, fica com um
-aplicativo sem foto.
-
-Isso também define a ordem de construção: o modo leitura funciona primeiro,
-o Picker entra depois.
-
-### Descartados, e por quê
-
-| Caminho | Motivo |
-|---|---|
-| Ampliar o escopo do familiar para `drive.readonly` | Devolveria ao aplicativo o Drive inteiro da pessoa |
-| Link público (`anyoneWithLink`) | Foto de criança acessível por quem tiver o link |
-| Espelhar as mídias no Firebase Storage | Novo armazenamento, novo custo, e contraria o Drive como fonte única |
-
-**A confirmar antes de codificar:** se escolher uma pasta no Picker
-cascateia o acesso para o conteúdo dela ou se é item a item. Muda o
-desenho da tela e não vou afirmar sem verificar.
-
-### Duas perguntas do item 6 que ainda não têm resposta
-
-1. **"Pai: controle total. Mãe: controle total."** Hoje é uma conta, um
-   Drive, uma cápsula. Dois responsáveis com controle total é
-   co-propriedade, problema diferente (e maior) do que familiar somente
-   leitura. Os dois escrevem na mesma pasta do Drive de quem? O que
-   acontece se um deles apagar a conta?
-2. **Compartilhamento granular.** Você marcou fotos, vídeos e crescimento;
-   cartas e documentos ficam de fora. Isso é regra fixa do produto ou o
-   pai escolhe caso a caso? A regra do Firestore fica diferente em cada
-   caso.
-
----
-
 ## O que não está na lista dos 12 e entra assim mesmo
 
 A lista numerada não é o escopo inteiro. Duas outras coisas pertencem a
@@ -182,74 +115,9 @@ este plano, e ficaram de fora da primeira versão dele por engano meu.
 
 ## Fases
 
-São nove. A lista é grande, algumas partes dependem de outras, e espremer
-em três criaria fases que não compilam no meio. Cada uma abaixo termina
-com o aplicativo compilando, testado e instalável.
-
-A ordem é por retorno emocional dividido por risco. O compartilhamento vai
-tarde de propósito: é o único item que mexe em privacidade.
-
-### Fase 7 - Compartilhamento com familiares
-
-A maior e a única que mexe em privacidade.
-
-**7a, sem mídia. ✅ Feito.** Regras do Firestore com convite (`shareCodes`)
-e vínculo (`familyAccess`), 65 verificações no emulador; escolha de papel no
-primeiro acesso; tela de convite com nome, email, compartilhamento da pasta
-no Drive e código de sete dias; resgate por código; `capsuleOwnerProvider`
-como único ponto de troca entre "minha cápsula" e "a cápsula da minha
-neta"; modo leitura em toda a interface.
-
-Duas coisas que só apareceram porque os testes rodaram de verdade estão
-registradas nos comentários das regras: os casos disparavam concorrentes num
-banco sujo (o teste do vínculo passava por sorteio), e a consulta de lista
-vazava a entrada lacrada porque o Firestore avalia a regra contra a
-**consulta**, não contra cada documento devolvido.
-
-**7b, a mídia. ✅ Feito.** O familiar vê as fotos sem o aplicativo dele
-fazer **nenhuma** chamada ao Google Drive.
-
-A limitação, exata: o escopo `drive.file` só alcança arquivos que **este**
-aplicativo criou ou que a pessoa apontou pelo Picker. Compartilhar a pasta
-com a conta dela dá acesso no Drive, mas não põe os arquivos no conjunto
-autorizado do aplicativo dela: `files.get` responde 404. O Picker
-resolveria, e é uma API de web, sem equivalente nativo no Android.
-
-A saída foi sair do caminho. O aplicativo de quem envia grava uma miniatura
-em `users/{uid}/miniaturas/{driveId}`, e é dela que a linha do tempo do
-familiar tira imagem. A regra confere a **entrada dona** por `get()`, e não
-campos copiados: campo copiado sai de sincronia, e o dia em que sair, o
-lacre vaza por uma imagem de 200 pixels.
-
-**A foto em tela cheia abre dentro do aplicativo.** A primeira entrega
-mandava a família para o Drive, e isso foi devolvido com razão: o
-aplicativo existe para juntar as coisas num lugar só, e o Drive é o
-armazenamento que ele esconde. Então são duas cópias reduzidas por arquivo:
-uma miniatura de até 55 KB para a grade e uma de visualização de até 750 KB
-para a tela cheia, em coleções separadas - carregar 750 KB por célula de
-grade seria desperdício em cima de desperdício.
-
-O acervo anterior a esta versão se conserta sozinho: toda foto ganha as
-cópias na primeira vez que quem é dono a abre em tela cheia, a partir do
-arquivo que já foi baixado para mostrar na tela. Não custa nem uma ida à
-rede a mais.
-
-**Vídeo é a exceção que sobra, e é uma limitação de física:** 720p tem
-megabytes e um documento do Firestore não passa de 1 MiB. Para a família,
-o vídeo abre no Drive, pela sessão Google dela. É o único lugar do
-aplicativo que manda alguém para fora.
-
-O preço, dito com todas as letras: **o Firestore deixou de guardar apenas
-metadados.** Passa a guardar uma miniatura de poucos quilobytes por
-arquivo. A foto e o vídeo continuam só no Drive. A política de privacidade
-e o `PUBLICAR.md` foram corrigidos, porque uma promessa que envelheceu mal
-é pior que promessa nenhuma.
-
-**Pronto quando:** o familiar vê o que foi liberado e nada além, provado
-por teste no emulador e não por inspeção de tela, **e** as fotos aparecem.
-As duas coisas valem: 75 verificações no emulador, incluindo que a
-miniatura de uma carta, de uma entrada lacrada e do que está na lixeira é
-negada à família.
+Eram nove. Sete saíram, uma ficou para depois (o compartilhamento com
+familiares, na seção "Adiado" abaixo) e sobram duas até a publicação. Cada
+uma termina com o aplicativo compilando, testado e instalável.
 
 ### Fase 8 - Longevidade
 
@@ -289,6 +157,65 @@ ouviu falar deste aplicativo.
 - Comentário só onde o código não se explica
 
 ---
+
+## Adiado: compartilhamento com familiares
+
+Construído inteiro, testado, e **retirado antes da publicação**. Não por
+falhar: por custar dinheiro numa hora em que ninguém sabe ainda se alguém
+vai pedir.
+
+### O nó, exato
+
+O aplicativo pede ao Google só a permissão `drive.file`: "ver, editar, criar
+e apagar apenas os arquivos específicos que você usa com este app". Essa
+lista é por pessoa **e** por aplicativo, e um arquivo só entra nela se
+aquele app o criou naquela conta.
+
+Daí o que trava, e é contraintuitivo: o pai pode compartilhar a pasta pelo
+Google Drive, e a avó vê tudo perfeitamente **no aplicativo do Drive**. Mas
+o nosso aplicativo, na conta dela, nunca criou nada, então para ele o Drive
+inteiro é invisível. Não é a pasta que está escondida: é o aplicativo que
+está de vendas, e as vendas foram postas de propósito.
+
+### Os dois caminhos, com o preço de cada um
+
+**Ler o Drive direto**, que é o desenho mais honesto para um aplicativo que
+promete ser uma ponte. Exige pedir `drive.readonly` ao familiar: "ver e
+baixar **todos** os seus arquivos do Google Drive". Google não oferece um
+escopo "só o que compartilharam comigo". Funciona nativo, inclusive vídeo,
+sem cópia nenhuma. Preço: escopo restrito, e publicar aberto na Play Store
+com ele exige auditoria de segurança anual paga por terceiro.
+
+**Cópias reduzidas no Firestore**, que é o que chegou a ser construído.
+Nenhuma auditoria, publicação livre. Preço: o armazenamento sai do Drive de
+cada família e passa para a conta de quem publica, inclusive por quem nunca
+vai convidar ninguém.
+
+### Por que ficou para depois
+
+A publicação é em semanas, a auditoria não cabe nesse prazo nem nesse
+orçamento, e pagar armazenamento por uma função que talvez ninguém use é
+pagar para descobrir. Com base instalada, dá para responder as duas coisas
+que hoje são chute: quantos pedem, e quanto custaria.
+
+### Onde está, para retomar sem refazer
+
+Quatro commits, nesta ordem:
+
+- `0dad56b` regras do vínculo, medidas no emulador. Duas descobertas ficaram
+  registradas nos comentários e valem mais que o código: a consulta de lista
+  no Firestore é avaliada **contra a consulta**, não contra cada documento
+  devolvido, e por isso a formulação tolerante do lacre vazava; e os testes
+  disparavam concorrentes num banco sujo, o que fazia o teste do vínculo
+  passar por sorteio
+- `ea43431` convite com código ditável por telefone, vínculo,
+  `capsuleOwnerProvider` como ponto único de troca, e modo leitura
+- `74e5cb9` miniaturas no Firestore
+- `e8c3a42` foto em tela cheia dentro do aplicativo
+
+O que ficou de pé no código de hoje: as coleções `miniaturas` e `imagens`
+continuam na varredura de exclusão de conta, porque quem instalou a versão
+de teste tem documentos gravados nelas.
 
 ## Concluído
 
@@ -350,36 +277,6 @@ sem foto seria cobrar uma coisa que ela nem pode fazer.
 
 33 testes novos.
 
-
-### Fase 7a - Compartilhamento familiar, sem a mídia ✅
-
-O arranjo é o que foi pedido, sem simplificação: o Drive controla quem lê os
-arquivos, o Firestore controla quem pertence a qual cápsula, e o código de
-convite é só a segunda coisa. Ele não abre o Drive de ninguém sozinho.
-
-**O fluxo.** O pai escolhe um nome ("Vó Maria") e o email da conta Google da
-pessoa. O aplicativo abre a pasta da cápsula para leitura no Drive e grava
-um convite no Firestore, cujo **id do documento é o código**. A coleção não
-pode ser listada, então só alcança o documento quem já recebeu o código - e
-mesmo assim a regra ainda exige ser o email convidado. O código é entregue
-por quem convida, pelo caminho que ela escolher.
-
-O código é ditável por telefone: sem `0`/`O`, sem `1`/`I`/`L`, em três
-pedaços para repetir devagar. Sete dias, uma vez só.
-
-**O que a família vê:** nascimento, foto, vídeo, documento e crescimento.
-Cartas não, por serem o que há de mais íntimo na cápsula. Desenhos e áudios
-também não, por não constarem da lista combinada. Nada lacrado, nada na
-lixeira. A lista vive em dois lugares que precisam concordar
-(`EntryType.familyVisible` e `tipoVisivelParaFamilia`), e há teste
-justamente para o dia em que alguém mexer num e esquecer o outro.
-
-**Modo leitura.** O botão + some, e a barra de baixo se fecha; um botão
-desabilitado é uma porta fechada na cara. Editar e apagar somem. Cartas,
-desenhos, lixeira e o guardado saem do menu. No lugar de "apagar minha
-conta", "sair desta cápsula".
-
-Falta a mídia (7b), descrita na fase acima.
 
 ### Fase 5 - Aba Inspirações ✅
 
