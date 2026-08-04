@@ -282,4 +282,79 @@ void main() {
       expect(fonte, isA<InspirationSource>());
     });
   });
+
+  group('as leituras relacionadas', () {
+    List<ActiveInspiration> ativasEm(DateTime birth, DateTime hoje) =>
+        pickFor(all: catalogo, profile: nascidaEm(birth), now: hoje);
+
+    test('nunca sugere a própria', () {
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      for (final ActiveInspiration a in ativas) {
+        expect(
+          relatedTo(a, ativas).map((ActiveInspiration r) => r.inspiration.id),
+          isNot(contains(a.inspiration.id)),
+        );
+      }
+    });
+
+    test('só sugere o que vale hoje', () {
+      // Mandar alguém ler sobre algo que só faz sentido daqui a dois anos é
+      // pior que não sugerir nada.
+      final DateTime birth = DateTime(2026, 3, 10);
+      final DateTime hoje = DateTime(2026, 5, 1);
+      final List<ActiveInspiration> ativas = ativasEm(birth, hoje);
+      final Set<String> idsAtivos = ativas
+          .map((ActiveInspiration a) => a.inspiration.id)
+          .toSet();
+
+      for (final ActiveInspiration r in relatedTo(ativas.first, ativas)) {
+        expect(idsAtivos, contains(r.inspiration.id));
+      }
+    });
+
+    test('prefere o mesmo assunto', () {
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      final ActiveInspiration festa = ativas.firstWhere(
+        (ActiveInspiration a) =>
+            a.inspiration.id == 'primeiro-aniversario-ideias',
+      );
+      expect(
+        relatedTo(festa, ativas).first.inspiration.kind,
+        festa.inspiration.kind,
+      );
+    });
+
+    test('no máximo três, e sempre as mesmas', () {
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      final List<ActiveInspiration> a = relatedTo(ativas.first, ativas);
+      expect(a.length, lessThanOrEqualTo(3));
+      expect(
+        a.map((ActiveInspiration r) => r.inspiration.id),
+        relatedTo(
+          ativas.first,
+          ativas,
+        ).map((ActiveInspiration r) => r.inspiration.id),
+      );
+    });
+
+    test('uma lista com um item só não sugere nada', () {
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      expect(
+        relatedTo(ativas.first, <ActiveInspiration>[ativas.first]),
+        isEmpty,
+      );
+    });
+  });
 }
