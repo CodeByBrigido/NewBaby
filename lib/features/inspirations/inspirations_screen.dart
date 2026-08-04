@@ -10,6 +10,7 @@ import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../shell/add_sheet.dart';
+import 'inspiration_art.dart';
 import 'inspiration_article_screen.dart';
 
 /// Ideias do que fazer e do que guardar, escolhidas pela idade e pelo
@@ -162,6 +163,11 @@ class _Card extends StatelessWidget {
                     color: context.cores.primaryDark,
                   ),
                 ),
+              ],
+
+              if (i.hasArticle) ...<Widget>[
+                const SizedBox(height: 12),
+                InspirationArt(kind: i.kind, seed: i.id, height: 108),
               ],
 
               const SizedBox(height: 8),

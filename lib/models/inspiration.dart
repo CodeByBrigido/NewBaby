@@ -305,3 +305,37 @@ DateTime _anniversary(DateTime birth, int year) {
     birth.day < ultimoDia ? birth.day : ultimoDia,
   );
 }
+
+/// Até [limit] leituras que combinam com [atual].
+///
+/// A escolha é por proximidade real, não por sorteio: primeiro o mesmo
+/// assunto, depois o que tem texto longo (que é o que aguenta ser aberto), e
+/// só entre as que valem hoje - mandar alguém ler sobre algo que só faz
+/// sentido daqui a dois anos é pior que não sugerir nada.
+///
+/// Nunca inclui a própria, e a ordem é estável entre uma abertura e outra.
+List<ActiveInspiration> relatedTo(
+  ActiveInspiration atual,
+  List<ActiveInspiration> ativas, {
+  int limit = 3,
+}) {
+  final List<ActiveInspiration> outras = ativas
+      .where((ActiveInspiration a) => a.inspiration.id != atual.inspiration.id)
+      .toList();
+
+  int nota(ActiveInspiration a) {
+    int n = 0;
+    if (a.inspiration.kind == atual.inspiration.kind) n += 4;
+    if (a.inspiration.hasArticle) n += 2;
+    if (a.hasDeadline) n += 1;
+    return n;
+  }
+
+  outras.sort((ActiveInspiration a, ActiveInspiration b) {
+    final int porNota = nota(b).compareTo(nota(a));
+    return porNota != 0
+        ? porNota
+        : a.inspiration.id.compareTo(b.inspiration.id);
+  });
+  return outras.take(limit).toList();
+}

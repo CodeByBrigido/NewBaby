@@ -318,7 +318,21 @@ O que encosta em saúde aponta para a pediatra e diz explicitamente que não
 é orientação médica. Um teste garante isso no conteúdo de introdução
 alimentar.
 
-**Verificação:** 212 testes (21 só de inspirações), analisador e formatador
+**Capas desenhadas em código.** Cada tipo de conteúdo tem uma ilustração
+própria (bolas, colinas, bandeirinhas, envelope, páginas) pintada pelo
+próprio aplicativo, nas cores da paleta: a mesma capa sai em rosa para uma
+menina e em azul para um menino. Foto de banco de imagens exigiria licença,
+engordaria o APK e colocaria o bebê de outra pessoa num aplicativo que é
+sobre uma criança específica; buscar na internet faria o aplicativo avisar
+um servidor a cada abertura da aba.
+
+**Leituras relacionadas** no fim do artigo, até três, escolhidas por
+assunto e só entre as que valem hoje. Fica registrado que eu recomendei uma
+só, para não virar rolagem sem fim; a escolha pela lista foi do dono do
+produto. O botão flutuante continua sendo o de registrar, não o de ler
+mais.
+
+**Verificação:** 217 testes (26 só de inspirações), analisador e formatador
 limpos. Os testes cobrem a contagem regressiva chegando na hora, sumindo
 depois da festa, funcionando para quem nasceu em 29 de fevereiro, e o feed
 nunca ficando vazio em doze idades diferentes.
