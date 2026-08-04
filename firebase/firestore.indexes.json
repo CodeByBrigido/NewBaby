@@ -15,6 +15,16 @@
         { "fieldPath": "status", "order": "ASCENDING" },
         { "fieldPath": "excluidoEm", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "entradas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "lacradoAte", "order": "ASCENDING" },
+        { "fieldPath": "tipo", "order": "ASCENDING" },
+        { "fieldPath": "data", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
