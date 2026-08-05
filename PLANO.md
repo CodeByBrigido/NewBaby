@@ -118,15 +118,16 @@ este plano, e ficaram de fora da primeira versão dele por engano meu.
 Sete já saíram. O compartilhamento familiar ficou para depois (seção
 "Adiado", abaixo). O que resta se divide em duas listas:
 
-**Antes de submeter à loja:** a 9 inteira, que é o que bloqueia, e a 10
-inteira, que é a primeira impressão de quem instala. A 8a já está feita e a
-8b foi descartada.
+**Agora, com o aplicativo ainda em teste:** a 10 inteira (a primeira
+impressão de quem instala) e a 11 (mais de um filho). A 8a já está feita, a
+8b foi descartada e a 10a está pronta.
 
-**Depois do lançamento:** a 8c (exportação), a 11 (mais de um filho) e a 12
-(assinatura). As três são grandes, e nenhuma família perde nada por esperar
-algumas semanas por elas.
+**Quando você der o comando de publicar:** a 9 inteira. Ela é o que bloqueia
+a submissão, e ficou para depois por escolha sua: assinar o pacote definitivo
+só faz sentido quando o aplicativo estiver do jeito que você quer.
 
-A 9 vem antes da 8 de propósito: é ela que bloqueia a submissão.
+**Depois do lançamento:** a 12 (exportação) e a 13 (assinatura). As duas são
+grandes, e nenhuma família perde nada por esperar por elas.
 
 Cada passo abaixo termina com o aplicativo compilando, testado e
 instalável.
@@ -207,8 +208,8 @@ Metade texto, metade formulário, e a parte que mais reprova gente na revisão.
 ### Fase 8 - Longevidade
 
 A fase que quase nenhum aplicativo faz e que este precisa fazer, porque o
-horizonte dele é de décadas. Subdividida porque duas partes são baratas e
-cabem antes do lançamento, e uma é grande e não cabe.
+horizonte dele é de décadas. A parte grande dela, a exportação, virou a
+Fase 12: ela é maior que tudo que sobrou aqui e não cabia como subitem.
 
 #### 8a. O aviso que ninguém dá ✅
 
@@ -243,19 +244,6 @@ onde não existe.
 O que sobrou da preocupação legítima continua no aplicativo, na seção "Para
 a cápsula durar" (8a): a conta não pode ficar dois anos sem uso. Esse é o
 único risco real de longo prazo, e ele já está dito.
-
-#### 8c. Exportação legível sem o aplicativo (depois do lançamento)
-
-A parte grande, e a que de fato cumpre a régua: uma pasta navegável com as
-mídias e um índice em HTML que abra em qualquer computador, hoje ou em 2051.
-Precisa baixar tudo do Drive, montar a estrutura, gerar o índice e empacotar,
-com o aplicativo aguentando ser fechado no meio.
-
-Fica para a primeira atualização depois do lançamento. É trabalho de dias, e
-nenhuma família perde nada por esperar algumas semanas por ela.
-
-**Pronto quando:** dá para entregar a cápsula inteira a alguém que nunca
-ouviu falar deste aplicativo.
 
 ### Fase 10 - Antes de abrir a porta
 
@@ -370,7 +358,19 @@ ponto único por onde toda leitura passa. O desenho já foi provado uma vez.
 Fica depois do lançamento por ser grande e por mexer em dado de gente que já
 está usando. Migração malfeita aqui não é tela quebrada, é memória perdida.
 
-### Fase 12 - Plano Premium
+### Fase 12 - Exportação legível sem o aplicativo
+
+Era a 8c. Virou fase própria porque é a maior peça que sobrou e a que de
+fato cumpre a régua: uma pasta navegável com as mídias e um índice em HTML
+que abra em qualquer computador, hoje ou em 2051.
+
+Precisa baixar tudo do Drive, montar a estrutura, gerar o índice e empacotar,
+com o aplicativo aguentando ser fechado no meio.
+
+**Pronto quando:** dá para entregar a cápsula inteira a alguém que nunca
+ouviu falar deste aplicativo.
+
+### Fase 13 - Plano Premium
 
 Assinatura mensal, com o básico livre e o resto pago.
 
