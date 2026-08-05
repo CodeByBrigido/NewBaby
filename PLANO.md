@@ -116,32 +116,122 @@ este plano, e ficaram de fora da primeira versão dele por engano meu.
 ## Fases
 
 Eram nove. Sete saíram, uma ficou para depois (o compartilhamento com
-familiares, na seção "Adiado" abaixo) e sobram duas até a publicação. Cada
-uma termina com o aplicativo compilando, testado e instalável.
+familiares, na seção "Adiado" abaixo) e sobram duas. A 9 vem antes da 8, e
+não por engano: é ela que bloqueia a submissão. Da 8, duas partes são
+baratas e viajam junto; a terceira fica para depois do lançamento.
+
+Cada passo abaixo termina com o aplicativo compilando, testado e
+instalável.
+
+### Fase 9 - Publicar na Play Store
+
+Subdividida porque é a única fase com prazo externo, e porque metade dela
+não é código: é formulário, texto e espera de revisão. Cada passo abaixo
+termina com algo conferível, e a ordem é por bloqueio, não por gosto.
+
+#### 9a. O pacote que a loja aceita
+
+**Bloqueia tudo o mais, e é o passo que faltava.** O CI de hoje gera `.apk`,
+e a Play Store não aceita APK para aplicativo novo: exige App Bundle
+(`.aab`). Hoje não existe artefato que dê para enviar.
+
+- Novo trabalho no `android.yml` rodando `flutter build appbundle --release`
+- Assinatura com a chave de upload de verdade, vinda dos segredos do
+  repositório, e não com a de depuração
+- Conferir no artefato que o `.aab` saiu assinado com a chave certa
+  (`jarsigner -verify` ou `bundletool`), porque um pacote assinado com a
+  chave errada é recusado depois de enviado, não antes
+
+**Pronto quando:** existe um `.aab` baixável do CI, assinado com a chave que
+vai ficar sendo a do aplicativo para sempre.
+
+#### 9b. Os dois endereços públicos
+
+A loja exige dois URLs que hoje não existem: a política de privacidade e a
+página de exclusão de conta. Sem eles o formulário não fecha.
+
+- Escrever os dois textos. A política precisa dizer com todas as letras que
+  as fotos e os vídeos ficam no Google Drive **da própria pessoa**, que o
+  aplicativo guarda apenas metadados, e que apagar a conta apaga tudo
+- Publicar de graça no GitHub Pages do próprio repositório
+- Ligar os dois no aplicativo, na tela Sobre
+
+**Pronto quando:** os dois endereços abrem no navegador de qualquer pessoa,
+sem login.
+
+#### 9c. Proteger o bolso antes de abrir a porta
+
+Não bloqueia a submissão, e mesmo assim não se publica sem. A partir do
+momento em que o aplicativo é público, qualquer pessoa instala e passa a
+escrever no Firestore por sua conta.
+
+- Alerta de orçamento no Google Cloud, com aviso por email
+- App Check com Play Integrity, **em modo monitoramento**, não obrigatório
+
+O modo monitoramento é deliberado: ligar a obrigatoriedade junto com o
+lançamento é a receita para descobrir uma configuração errada com usuários
+reais trancados do lado de fora. Primeiro se olha o painel, depois se aperta.
+
+**Pronto quando:** o painel do App Check mostra requisições verificadas
+chegando, e o alerta de orçamento dispara num teste.
+
+#### 9d. A ficha da loja
+
+Metade texto, metade formulário, e a parte que mais reprova gente na revisão.
+
+- Nome, descrição curta e longa, ícone, capturas de tela
+- Questionário de **Segurança dos Dados**: identificadores da conta, para o
+  login, e conteúdo do usuário, no índice do Firestore. Nada é vendido nem
+  compartilhado
+- Classificação de conteúdo
+- **Público-alvo: adultos.** Declarar público infantil por engano, num
+  aplicativo *sobre* crianças mas usado por pais, ativa a política Famílias,
+  que é bem mais rígida
+
+**Pronto quando:** o envio é aceito e entra em revisão.
+
+#### 9e. Depois de estar no ar
+
+- Ligar a obrigatoriedade do App Check, depois de alguns dias olhando o
+  painel
+- Acompanhar os primeiros relatos de falha e travamento
 
 ### Fase 8 - Longevidade
 
 A fase que quase nenhum aplicativo faz e que este precisa fazer, porque o
-horizonte dele é de décadas.
+horizonte dele é de décadas. Subdividida porque duas partes são baratas e
+cabem antes do lançamento, e uma é grande e não cabe.
 
-- **Exportação legível sem o aplicativo:** pasta navegável com as mídias e
-  um índice que abra em qualquer computador, hoje ou em 2051
-- **Aviso de conta inativa:** o Google apaga contas sem uso por 2 anos.
-  Quem guarda uma cápsula de 20 anos precisa saber disso e ser lembrado
-- Instruções de herança: como a criança recebe a cápsula quando crescer
+#### 8a. O aviso que ninguém dá (cabe antes do lançamento)
+
+O Google apaga contas sem uso por dois anos. Quem confia vinte anos de
+memórias a uma conta Google precisa saber disso, e precisa saber pelo
+aplicativo que fez a promessa, não por um email genérico do Google.
+
+Uma nota na tela Sobre, e um lembrete anual junto do motor de lembretes que
+já existe (é uma regra nova, e foi para isso que ele foi escrito assim).
+
+**Pronto quando:** quem abre o aplicativo uma vez por ano é lembrado, e quem
+lê o Sobre entende o risco em duas frases.
+
+#### 8b. Instruções de herança (cabe antes do lançamento)
+
+Só texto, na tela Sobre: como a criança recebe a cápsula quando crescer, e o
+que fazer para que ela não dependa deste aplicativo existir. Barato de
+escrever e é o coração da promessa.
+
+#### 8c. Exportação legível sem o aplicativo (depois do lançamento)
+
+A parte grande, e a que de fato cumpre a régua: uma pasta navegável com as
+mídias e um índice em HTML que abra em qualquer computador, hoje ou em 2051.
+Precisa baixar tudo do Drive, montar a estrutura, gerar o índice e empacotar,
+com o aplicativo aguentando ser fechado no meio.
+
+Fica para a primeira atualização depois do lançamento. É trabalho de dias, e
+nenhuma família perde nada por esperar algumas semanas por ela.
 
 **Pronto quando:** dá para entregar a cápsula inteira a alguém que nunca
 ouviu falar deste aplicativo.
-
-### Fase 9 - Publicação na Play Store
-
-- Política de privacidade publicada e acessível
-- URL de exclusão de conta exigida pela loja
-- Alerta de orçamento no Firebase
-- App Check
-- Ficha da loja, capturas de tela, classificação
-
-**Pronto quando:** o aplicativo passa na revisão da Play Store.
 
 ---
 
