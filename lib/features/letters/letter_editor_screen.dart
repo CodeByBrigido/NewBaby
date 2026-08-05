@@ -15,10 +15,14 @@ import '../../core/utils/error_text.dart';
 
 /// Escrever ou editar uma carta. Só dois campos - título e mensagem.
 class LetterEditorScreen extends ConsumerStatefulWidget {
-  const LetterEditorScreen({super.key, this.entryId});
+  const LetterEditorScreen({super.key, this.entryId, this.date});
 
   /// `null` cria uma carta nova.
   final String? entryId;
+
+  /// Quando a memória aconteceu, se veio escolhida da folha de adicionar.
+  /// Sem isto, a carta é do dia em que foi escrita.
+  final DateTime? date;
 
   @override
   ConsumerState<LetterEditorScreen> createState() => _LetterEditorScreenState();
@@ -69,6 +73,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               profile: profile,
               title: title.isEmpty ? 'Carta' : title,
               message: message,
+              date: widget.date,
             );
       } else {
         await ref

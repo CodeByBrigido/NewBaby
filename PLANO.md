@@ -262,19 +262,29 @@ ouviu falar deste aplicativo.
 Três coisas que não bloqueiam a submissão e que mesmo assim entram antes
 dela, porque primeira impressão só acontece uma vez.
 
-#### 10a. A data da memória
+#### 10a. A data da memória ✅
 
-Hoje o envio grava sempre a data de hoje: a folha de adicionar não tem
-campo de data nenhum. Isso quebra dois casos que não são exceção:
+Feito. Uma faixa no topo da folha de adicionar, acima das opções: "Aconteceu
+hoje", e um toque abre o calendário. Sem data futura e sem data anterior ao
+nascimento.
 
-- quem esqueceu de registrar na hora e lembra três dias depois
-- quem começa a cápsula com a criança já com quatro anos, e tem uma década
-  de fotos para colocar no lugar certo
+Fica antes de escolher os arquivos, e não depois, por dois motivos. A data
+vale para o lote inteiro, que é exatamente o caso de quem está trazendo anos
+de fotos de uma vez. E a pasta do Drive sai da idade naquela data: decidir
+antes do envio evita ter de mover arquivo de pasta depois.
 
-Um seletor de data na folha de adicionar, com hoje pré-selecionado, sem
-permitir data futura nem anterior ao nascimento. O repositório já aceita a
-data (`addFiles(date:)`) e a pasta de idade no Drive já é calculada a partir
-dela: falta só a interface pedir.
+O caminho normal não mudou de tamanho. A faixa começa em "hoje", que é quase
+todo envio, e quem não precisa dela só passa por cima. Quando há data
+escolhida, a faixa muda de cor e ganha um botão para voltar para hoje: data
+antiga esquecida ligada seria pior que não ter a função, porque as próximas
+fotos entrariam caladas na idade errada.
+
+A data escolhida também vale para carta, áudio, desenho, documento e para o
+editor de crescimento, que já a recebe preenchida.
+
+Um detalhe que só aparece no Drive: o seletor devolve meia-noite, e o nome do
+arquivo começa pela data e hora. Um lote inteiro marcado 00:00:00 geraria
+nomes iguais dentro da pasta. A hora do relógio vai junto do dia escolhido.
 
 **O menor item desta lista e o de maior ganho por linha escrita.**
 
