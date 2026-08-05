@@ -73,4 +73,7 @@ flutter:
     # O conteúdo das inspirações viaja dentro do aplicativo: funciona sem
     # rede, sem custo de servidor, e não manda a idade da criança para
     # lugar nenhum.
-    - assets/inspiracoes.json
+    # A pasta inteira, e não arquivo por arquivo: assim acrescentar o ícone
+    # e a imagem de fundo do login é só soltar os arquivos aqui, sem mexer
+    # em configuração, e a falta deles não quebra a compilação.
+    - assets/
