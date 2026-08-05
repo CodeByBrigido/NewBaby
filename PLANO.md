@@ -118,8 +118,9 @@ este plano, e ficaram de fora da primeira versão dele por engano meu.
 Sete já saíram. O compartilhamento familiar ficou para depois (seção
 "Adiado", abaixo). O que resta se divide em duas listas:
 
-**Antes de submeter à loja:** a 9 inteira, que é o que bloqueia; a 8a e a 8b,
-que são texto; e a 10 inteira, que é a primeira impressão de quem instala.
+**Antes de submeter à loja:** a 9 inteira, que é o que bloqueia, e a 10
+inteira, que é a primeira impressão de quem instala. A 8a e a 8b já estão
+feitas.
 
 **Depois do lançamento:** a 8c (exportação), a 11 (mais de um filho) e a 12
 (assinatura). As três são grandes, e nenhuma família perde nada por esperar
@@ -224,11 +225,26 @@ empurra para mais longe. Quem continua aparecendo nunca o recebe.
 Onze meses, e não os dois anos que o Google leva: um aviso que chega no
 último dia é um aviso que chega tarde.
 
-#### 8b. Instruções de herança (cabe antes do lançamento)
+#### 8b. Instruções de herança ✅
 
-Só texto, na tela Sobre: como a criança recebe a cápsula quando crescer, e o
-que fazer para que ela não dependa deste aplicativo existir. Barato de
-escrever e é o coração da promessa.
+Feito. Uma seção "Entregar a cápsula um dia" na tela Sobre, com quatro
+partes: como a entrega acontece (passar a conta adiante ou mover a pasta),
+como o acervo está organizado no Drive, o Gerenciador de Contas Inativas do
+Google (que é o que garante a entrega quando ninguém sabe a senha) e a
+ressalva do que ainda depende do aplicativo.
+
+Duas decisões que valem registro:
+
+O texto é montado a partir das mesmas constantes que o código usa no Drive,
+e não copiado à mão. É o único texto do aplicativo que ninguém relê: quem
+instala hoje só vai segui-lo daqui a vinte anos, quando não houver mais a
+quem perguntar. Se o nome da pasta mudar e o texto não, ele vira um mapa
+para um lugar que não existe.
+
+Só as pastas que de fato existem são citadas. Cartas e medidas não geram
+arquivo, então não há pasta "Cartas" no Drive de ninguém, e mandar procurá-la
+seria mandar procurar o nada. Isso está dito na ressalva, junto com o fato de
+que a exportação da 8c é o que fecha esse buraco.
 
 #### 8c. Exportação legível sem o aplicativo (depois do lançamento)
 
