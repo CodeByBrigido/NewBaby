@@ -98,13 +98,30 @@ Para compilar **pelo GitHub**, a chave vai como segredo e o workflow monta o
 > a Play Store trata como se fosse outro app. É o erro mais caro e mais
 > comum de quem publica pela primeira vez.
 
-Não esqueça de cadastrar o **SHA-1 da chave de release** (e o da chave do
-Play App Signing, se usar) como cliente OAuth Android, senão o login falha
-só na versão da loja:
+Não esqueça de cadastrar o **SHA-1 da chave de release** como cliente OAuth
+Android, senão o login falha só na versão da loja:
 
 ```bash
 keytool -list -v -keystore ~/meu-bebe-release.jks -alias meu-bebe | grep SHA1
 ```
+
+> ### A armadilha que quebra o login de todo mundo, menos o seu
+>
+> Com o **Play App Signing**, o aplicativo que chega ao celular das pessoas
+> **não é assinado pela sua chave**. Você assina com a chave de upload, o
+> Google reassina com a chave dele antes de distribuir.
+>
+> Ou seja: o SHA-1 que você tira do seu `.jks` **não** é o SHA-1 do
+> aplicativo que a loja entrega. Se só ele estiver cadastrado, o login
+> funciona no APK que você instala na mão e falha para cada pessoa que
+> baixar da Play Store, com a mesma mensagem de "Login cancelado".
+>
+> **Cadastre os dois**: o SHA-1 da sua chave de upload e o SHA-1 do
+> certificado do Play App Signing, que aparece no Play Console em
+> *Versões → Configuração → Assinatura de apps*.
+>
+> É o tipo de erro que só aparece depois de publicado, com gente real sem
+> conseguir entrar.
 
 ---
 
