@@ -11,6 +11,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -160,6 +161,127 @@ DateTime comHoraDoRelogio(DateTime dia, DateTime agora) => DateTime(
   agora.minute,
   agora.second,
 );
+
+/// `1 foto`, `5 fotos`, `3 vídeos`.
+String quantosItens(EntryType type, int quantidade) =>
+    quantidade == 1 ? '1 ${type.one}' : '$quantidade ${type.one}s';
+
+/// O que a confirmação diz antes de o envio começar.
+///
+/// A data sozinha não evita engano: `10 de abril de 2027` não diz nada a
+/// quem está trazendo o acervo antigo. A idade naquele dia diz, e é ela que
+/// decide onde a memória vai ficar guardada. Por isso as duas aparecem
+/// juntas, e a idade vem calculada, não digitada.
+List<String> resumoDoEnvio({
+  required Copy g,
+  required BabyProfile profile,
+  required EntryType type,
+  required int quantidade,
+  required DateTime quando,
+}) {
+  final Age idade = profile.ageAt(quando);
+  final AgeBucket balde = AgeCalculator.bucketAt(profile.birth, quando);
+
+  final String oQue = quantosItens(type, quantidade);
+  final String comData = '$oQue com a data de ${Fmt.longDate(quando)}.';
+
+  // No dia zero `detailedLabel` devolve "No nascimento", que não encaixa em
+  // "tinha ...". A frase muda inteira, em vez de virar remendo.
+  final String comIdade = idade.totalDays == 0
+      ? (g.hasName
+            ? 'Foi o dia em que ${g.theName} nasceu.'
+            : 'Foi o dia do nascimento.')
+      : (g.hasName
+            ? 'Nessa data ${g.theName} tinha ${idade.detailedLabel()}.'
+            : 'Idade nessa data: ${idade.detailedLabel()}.');
+
+  return <String>[
+    comData,
+    comIdade,
+    // Só os tipos agrupados por idade têm um lugar por idade para citar.
+    // Documento e carta não entram em semana nenhuma.
+    if (type.bucketsByAge)
+      'Vai ficar guardado ${_artigoDoBalde(balde)} ${balde.folderName}.',
+  ];
+}
+
+String _artigoDoBalde(AgeBucket balde) =>
+    balde.unit == AgeBucketUnit.week ? 'na' : 'no';
+
+/// Confirmação depois de escolher os arquivos, antes de qualquer envio.
+///
+/// Devolve a data confirmada, ou `null` se a pessoa desistiu. A data pode ser
+/// corrigida aqui mesmo: é o último ponto em que corrigir é barato, porque
+/// depois disso o arquivo já subiu para o lugar daquela idade.
+Future<DateTime?> confirmarEnvio(
+  BuildContext context, {
+  required Copy g,
+  required BabyProfile profile,
+  required EntryType type,
+  required int quantidade,
+  required DateTime quando,
+}) {
+  return showDialog<DateTime>(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      DateTime escolhida = quando;
+
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          Future<void> mudar() async {
+            final DateTime agora = DateTime.now();
+            final DateTime? nova = await showDatePicker(
+              context: context,
+              initialDate: escolhida,
+              firstDate: profile.birthDay,
+              lastDate: agora,
+              helpText: 'Quando isso aconteceu?',
+            );
+            if (nova == null) return;
+            setState(() => escolhida = comHoraDoRelogio(nova, agora));
+          }
+
+          return AlertDialog(
+            title: const Text('Confere a data?'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                for (final String linha in resumoDoEnvio(
+                  g: g,
+                  profile: profile,
+                  type: type,
+                  quantidade: quantidade,
+                  quando: escolhida,
+                ))
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(linha),
+                  ),
+                const SizedBox(height: 8),
+                DataDaMemoria(
+                  quando: escolhida,
+                  onTap: mudar,
+                  onReset: () => setState(() => escolhida = DateTime.now()),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                child: const Text(S.cancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(dialogContext).pop(escolhida),
+                child: const Text('Guardar'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
 
 /// A data que vale para o que for adicionado a seguir.
 ///
@@ -371,13 +493,33 @@ Future<void> _addDocuments(
   if (files.isEmpty) return;
   if (!context.mounted) return;
 
+  final ({String uid, BabyProfile profile})? ctx = _context(ref);
+  if (ctx == null) {
+    showMessage(context, S.genericError);
+    return;
+  }
+
+  // Cada documento vira uma entrada com o nome do próprio arquivo, então o
+  // envio é um por vez. A pergunta, não: confirmar cinco vezes seguidas é o
+  // jeito mais rápido de a pessoa parar de ler o que está confirmando.
+  final DateTime? confirmada = await confirmarEnvio(
+    context,
+    g: Copy.of(ctx.profile),
+    profile: ctx.profile,
+    type: EntryType.document,
+    quantidade: files.length,
+    quando: quando,
+  );
+  if (confirmada == null || !context.mounted) return;
+
   for (final PlatformFile file in files) {
     if (file.path == null) continue;
     if (!context.mounted) return;
     await _send(
       context,
       ref,
-      quando: quando,
+      quando: confirmada,
+      confirmar: false,
       type: EntryType.document,
       files: <PendingFile>[
         PendingFile(
@@ -409,6 +551,7 @@ Future<void> _send(
   required String message,
   String? title,
   bool keepSheetOpen = false,
+  bool confirmar = true,
 }) async {
   final ({String uid, BabyProfile profile})? ctx = _context(ref);
   if (ctx == null) {
@@ -416,6 +559,20 @@ Future<void> _send(
     return;
   }
   if (files.isEmpty) return;
+
+  DateTime data = quando;
+  if (confirmar) {
+    final DateTime? confirmada = await confirmarEnvio(
+      context,
+      g: Copy.of(ctx.profile),
+      profile: ctx.profile,
+      type: type,
+      quantidade: files.length,
+      quando: quando,
+    );
+    if (confirmada == null || !context.mounted) return;
+    data = confirmada;
+  }
 
   if (!keepSheetOpen) Navigator.of(context).pop();
 
@@ -427,7 +584,7 @@ Future<void> _send(
           profile: ctx.profile,
           type: type,
           files: files,
-          date: quando,
+          date: data,
           title: title,
         );
     if (!context.mounted) return;
