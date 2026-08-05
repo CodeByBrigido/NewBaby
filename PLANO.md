@@ -209,17 +209,20 @@ A fase que quase nenhum aplicativo faz e que este precisa fazer, porque o
 horizonte dele é de décadas. Subdividida porque duas partes são baratas e
 cabem antes do lançamento, e uma é grande e não cabe.
 
-#### 8a. O aviso que ninguém dá (cabe antes do lançamento)
+#### 8a. O aviso que ninguém dá ✅
 
-O Google apaga contas sem uso por dois anos. Quem confia vinte anos de
-memórias a uma conta Google precisa saber disso, e precisa saber pelo
-aplicativo que fez a promessa, não por um email genérico do Google.
+Feito. Sexto tipo de lembrete, com botão próprio nas Configurações e
+desligável como os outros, mais uma seção na tela Sobre.
 
-Uma nota na tela Sobre, e um lembrete anual junto do motor de lembretes que
-já existe (é uma regra nova, e foi para isso que ele foi escrito assim).
+Um problema de desenho apareceu na hora de escrever, e ele valia a parada: o
+motor só marca 45 dias à frente, porque reagenda tudo a cada abertura. Só
+que este aviso existe justamente para quem **parou** de abrir o aplicativo.
+Dependendo de reagendamento, ele nunca dispararia. Por isso é o único tipo
+que vive fora dessa janela, marcado onze meses à frente, e cada abertura o
+empurra para mais longe. Quem continua aparecendo nunca o recebe.
 
-**Pronto quando:** quem abre o aplicativo uma vez por ano é lembrado, e quem
-lê o Sobre entende o risco em duas frases.
+Onze meses, e não os dois anos que o Google leva: um aviso que chega no
+último dia é um aviso que chega tarde.
 
 #### 8b. Instruções de herança (cabe antes do lançamento)
 

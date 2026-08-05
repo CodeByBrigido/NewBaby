@@ -138,6 +138,10 @@ void main() {
         entradas: <Entry>[foto(DateTime(2027, 2, 1))],
       )) {
         expect(r.when.isAfter(hoje), isTrue, reason: r.title);
+        // O aviso da conta é o único que passa da janela, e passa de
+        // propósito: ele existe para quem parou de abrir o aplicativo, então
+        // não pode depender de uma abertura futura para ser reagendado.
+        if (r.kind.livesBeyondHorizon) continue;
         expect(
           r.day.difference(hoje).inDays,
           lessThanOrEqualTo(reminderHorizonDays),
@@ -346,6 +350,95 @@ void main() {
         (ScheduledReminder r) => r.day == DateTime(2027, 3, 10),
       );
       expect(noDia.single.kind, ReminderKind.aniversario);
+    });
+  });
+
+  group('o aviso da conta esquecida', () {
+    const ReminderSettings soConta = ReminderSettings(
+      enabled: true,
+      kinds: <ReminderKind>{ReminderKind.contaInativa},
+    );
+
+    test('vem ligado por padrão, como os outros', () {
+      expect(
+        const ReminderSettings().kinds,
+        contains(ReminderKind.contaInativa),
+      );
+    });
+
+    test('é marcado para daqui a onze meses', () {
+      final DateTime hoje = DateTime(2026, 8, 4);
+      final ScheduledReminder aviso = planoEm(hoje, settings: soConta).single;
+      expect(aviso.day, hoje.add(const Duration(days: inactivityWarningDays)));
+    });
+
+    test('vive fora da janela dos outros, e é o único que vive', () {
+      // O motor só marca 45 dias à frente porque reagenda a cada abertura.
+      // Este aviso não pode contar com abertura nenhuma: a ausência de
+      // abertura é exatamente o que ele avisa. Sem esta exceção, ele seria
+      // descartado pela peneira e nunca dispararia.
+      expect(inactivityWarningDays, greaterThan(reminderHorizonDays));
+      expect(planoEm(DateTime(2026, 8, 4), settings: soConta), hasLength(1));
+
+      for (final ReminderKind k in ReminderKind.values) {
+        expect(
+          k.livesBeyondHorizon,
+          k == ReminderKind.contaInativa,
+          reason: k.name,
+        );
+      }
+    });
+
+    test('foge para a frente a cada abertura', () {
+      // É o comportamento inteiro do aviso: quem continua aparecendo nunca o
+      // recebe, porque cada abertura reagenda tudo e empurra a data.
+      final DateTime hoje = DateTime(2026, 8, 4);
+      final DateTime umMesDepois = DateTime(2026, 9, 4);
+
+      final DateTime primeira = planoEm(hoje, settings: soConta).single.day;
+      final DateTime segunda = planoEm(
+        umMesDepois,
+        settings: soConta,
+      ).single.day;
+
+      expect(segunda.isAfter(primeira), isTrue);
+      expect(segunda.difference(primeira).inDays, 31);
+    });
+
+    test('chega com folga antes dos dois anos do Google', () {
+      // Um aviso que chega no último dia é um aviso que chega tarde.
+      expect(inactivityWarningDays, lessThan(365));
+    });
+
+    test('pode ser desligado sozinho, sem levar os outros junto', () {
+      final ReminderSettings semConta = const ReminderSettings(enabled: true)
+          .copyWith(
+            kinds: <ReminderKind>{
+              for (final ReminderKind k in ReminderKind.values)
+                if (k != ReminderKind.contaInativa) k,
+            },
+          );
+      final Set<ReminderKind> tipos = planoEm(
+        DateTime(2026, 8, 4),
+        settings: semConta,
+        entradas: <Entry>[foto(DateTime(2026, 7, 20))],
+      ).map((ScheduledReminder r) => r.kind).toSet();
+
+      expect(tipos, isNot(contains(ReminderKind.contaInativa)));
+      expect(tipos, isNotEmpty);
+    });
+
+    test('não fala em apagar conta com palavra de susto', () {
+      // O texto precisa informar sem assustar: quem lê está com um bebê no
+      // colo, não numa reunião de segurança.
+      final String corpo = planoEm(
+        DateTime(2026, 8, 4),
+        settings: soConta,
+      ).single.body.toLowerCase();
+      for (final String p in <String>['urgente', 'atenção', 'perigo', '!']) {
+        expect(corpo, isNot(contains(p)));
+      }
+      expect(corpo, contains('abrir de vez em quando'));
     });
   });
 
