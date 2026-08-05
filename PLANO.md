@@ -115,10 +115,17 @@ este plano, e ficaram de fora da primeira versão dele por engano meu.
 
 ## Fases
 
-Eram nove. Sete saíram, uma ficou para depois (o compartilhamento com
-familiares, na seção "Adiado" abaixo) e sobram duas. A 9 vem antes da 8, e
-não por engano: é ela que bloqueia a submissão. Da 8, duas partes são
-baratas e viajam junto; a terceira fica para depois do lançamento.
+Sete já saíram. O compartilhamento familiar ficou para depois (seção
+"Adiado", abaixo). O que resta se divide em duas listas:
+
+**Antes de submeter à loja:** a 9 inteira, que é o que bloqueia; a 8a e a 8b,
+que são texto; e a 10 inteira, que é a primeira impressão de quem instala.
+
+**Depois do lançamento:** a 8c (exportação), a 11 (mais de um filho) e a 12
+(assinatura). As três são grandes, e nenhuma família perde nada por esperar
+algumas semanas por elas.
+
+A 9 vem antes da 8 de propósito: é ela que bloqueia a submissão.
 
 Cada passo abaixo termina com o aplicativo compilando, testado e
 instalável.
@@ -232,6 +239,138 @@ nenhuma família perde nada por esperar algumas semanas por ela.
 
 **Pronto quando:** dá para entregar a cápsula inteira a alguém que nunca
 ouviu falar deste aplicativo.
+
+### Fase 10 - Antes de abrir a porta
+
+Três coisas que não bloqueiam a submissão e que mesmo assim entram antes
+dela, porque primeira impressão só acontece uma vez.
+
+#### 10a. A data da memória
+
+Hoje o envio grava sempre a data de hoje: a folha de adicionar não tem
+campo de data nenhum. Isso quebra dois casos que não são exceção:
+
+- quem esqueceu de registrar na hora e lembra três dias depois
+- quem começa a cápsula com a criança já com quatro anos, e tem uma década
+  de fotos para colocar no lugar certo
+
+Um seletor de data na folha de adicionar, com hoje pré-selecionado, sem
+permitir data futura nem anterior ao nascimento. O repositório já aceita a
+data (`addFiles(date:)`) e a pasta de idade no Drive já é calculada a partir
+dela: falta só a interface pedir.
+
+**O menor item desta lista e o de maior ganho por linha escrita.**
+
+#### 10b. As três telas de apresentação
+
+Antes do login, no formato de slides que todo mundo reconhece:
+
+1. **O que é isto** - não é um álbum de fotos, é uma cápsula que a sua filha
+   vai abrir daqui a vinte anos
+2. **Onde ficam as fotos** - no Google Drive **da própria pessoa**, não num
+   servidor nosso. É o que faz a cápsula sobreviver a este aplicativo
+3. **A conta** - a sugestão de criar uma conta Google só para a cápsula
+
+O argumento da terceira tela não é espaço, é a entrega: no dia em que ela
+fizer dezoito anos, você passa a conta inteira. Login e senha, e a cápsula é
+dela. Com a conta pessoal isso é impossível, porque junto iriam suas
+conversas e seus documentos.
+
+**Sugestão, nunca exigência.** Dois botões do mesmo tamanho: "criar uma conta
+nova" e "usar a minha conta". Obrigar a criar conta antes de ver o aplicativo
+é o pedido mais caro possível no momento de maior desistência.
+
+Vistas uma vez, guardadas no aparelho, com um jeito de rever no Sobre.
+
+#### 10c. O sistema de movimento
+
+Movimento como sistema, não efeitos espalhados. O que entra:
+
+- transição entre telas, com identidade própria
+- **miniatura crescendo até virar a foto em tela cheia**, saindo do lugar
+  exato onde estava. Num aplicativo de fotos é o ganho mais óbvio de todos
+- cartões da linha do tempo entrando conforme a rolagem
+- o botão + e a folha de adicionar subindo
+- esqueleto do conteúdo no lugar da bolinha girando
+- um instante de destaque quando aparece uma data redonda
+
+O que **não** entra, por decisão tomada: texto aparecendo letra por letra.
+Atrasa a leitura de quem está com o bebê no colo tentando ver uma foto com
+uma mão só.
+
+O ajuste de acessibilidade do Android que remove animações é respeitado.
+Ignorá-lo é problema real para quem tem enxaqueca vestibular, e é uma linha
+de código.
+
+### Fase 11 - Mais de um filho
+
+Um botão no canto superior direito do perfil para acrescentar outra criança,
+e um jeito de trocar entre elas.
+
+**É a maior mudança estrutural que sobrou**, e não parece. Hoje a cápsula é
+uma só por conta: tudo vive em `users/{uid}`, com o cadastro num documento
+fixo em `perfil/bebe`. Passar a ter várias significa:
+
+- mover tudo para `users/{uid}/criancas/{id}/...`, com regras novas
+- uma pasta raiz no Drive por criança
+- **migrar quem já usa**, sem perder nada e sem pedir nada
+- um seletor de criança ativa, e todo provedor de dados passando por ele
+- os lembretes e as inspirações passam a ser por criança
+
+O seletor de criança ativa é exatamente a mesma forma do
+`capsuleOwnerProvider` que existiu para o compartilhamento familiar: um
+ponto único por onde toda leitura passa. O desenho já foi provado uma vez.
+
+Fica depois do lançamento por ser grande e por mexer em dado de gente que já
+está usando. Migração malfeita aqui não é tela quebrada, é memória perdida.
+
+### Fase 12 - Plano Premium
+
+Assinatura mensal, com o básico livre e o resto pago.
+
+**Livre:** linha do tempo inteira, enviar fotos e vídeos, aba Inspirações,
+perfil. Dá para viver no aplicativo sem pagar nada.
+
+**Pago:** crescimento (peso e altura), desenhos, voz, documentos. A pessoa
+entra na seção, vê o conteúdo desfocado e recebe o convite para assinar.
+
+#### O que muda em relação ao que você descreveu
+
+**Você não precisa calcular moeda nenhuma.** A Play Store faz isso: define-se
+o preço em euro e o Google converte para cada país, já arredondando pelo
+padrão local de preço. Um euro vira o valor local que parece preço, não
+resultado de conversão. Não há código de câmbio a escrever.
+
+**A cobrança tem que ser do Google.** Vender funcionalidade dentro de um
+aplicativo Android por fora do faturamento da Play Store é violação de
+política e tira o aplicativo do ar. Então é o Google Play Billing, com o
+produto de assinatura criado no Play Console.
+
+**A verificação não é por email.** O direito de uso fica preso à conta Google
+que comprou, e quem responde é a biblioteca de faturamento no próprio
+aparelho, não uma consulta nossa por endereço.
+
+#### A limitação, dita antes de ser descoberta
+
+Conferir a assinatura só no aparelho é burlável por quem sabe mexer. Fechar
+isso de verdade exige servidor conversando com a API do Google, o que
+significa Cloud Functions, plano Blaze e custo recorrente. Para uma
+assinatura de um euro, o aperto não paga o preço. Fica registrado como
+escolha consciente, não como descuido.
+
+#### A linha que eu não cruzaria
+
+**Pagar libera criar, nunca libera ver o que já é seu.** Se alguém registrar
+o peso do filho durante três meses pagos e parar de pagar, esses registros
+têm que continuar visíveis. Este aplicativo promete que a criança abre a
+cápsula daqui a vinte anos; um aplicativo que esconde memória já guardada
+por falta de pagamento quebrou a própria promessa e vira problema de suporte
+e de reputação.
+
+Também recomendo **lançar de graça e trazer a assinatura na primeira
+atualização**. Faturamento é a parte mais fácil de errar de um aplicativo, e
+errar nela com a loja em revisão é atrasar o lançamento inteiro. Com zero
+usuários, não existe o desgaste de "era grátis e agora cobram".
 
 ---
 
