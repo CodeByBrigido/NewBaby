@@ -9,6 +9,7 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_palette.dart';
 import 'core/theme/app_theme.dart';
 import 'features/shell/app_lock_gate.dart';
+import 'features/shell/splash_gate.dart';
 import 'models/baby_profile.dart';
 import 'models/reminder.dart';
 import 'state/providers.dart';
@@ -67,9 +68,13 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
       theme: AppTheme.build(AppPalette.of(profile?.gender)),
       routerConfig: ref.watch(routerProvider),
       // A trava fica acima do roteador, envolvendo qualquer rota: uma tela
-      // trancada não pode ser contornada navegando.
-      builder: (BuildContext context, Widget? child) =>
-          AppLockGate(child: child ?? const SizedBox.shrink()),
+      // trancada não pode ser contornada navegando. A abertura fica por cima
+      // de tudo, inclusive da trava: enquanto ela está na frente, o
+      // roteador já decidiu por baixo entre login, cadastro e linha do
+      // tempo, e ninguém vê esse pulo acontecer.
+      builder: (BuildContext context, Widget? child) => SplashGate(
+        child: AppLockGate(child: child ?? const SizedBox.shrink()),
+      ),
       // Aplicativo de idioma único: tudo, inclusive os seletores de data
       // do Material, aparece em português do Brasil.
       locale: const Locale('pt', 'BR'),

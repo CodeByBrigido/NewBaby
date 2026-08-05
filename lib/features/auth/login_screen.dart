@@ -7,6 +7,12 @@ import '../../services/auth_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 
+/// A foto de capa da tela de login.
+///
+/// Como o ícone da abertura, ela pode não existir ainda: a tela desenha o
+/// degradê sozinho nesse caso, em vez de mostrar um quadrado de erro.
+const String fundoDoLogin = 'assets/login_fundo.jpg';
+
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key, this.comContaNova = false});
@@ -49,8 +55,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Sem foto de capa embutida, um degradê quente segura o clima do
-          // mockup sem pesar o aplicativo com uma imagem de exemplo.
+          // A foto de capa, e o degradê quente por baixo dela. O degradê não
+          // é enfeite: é o que aparece enquanto a imagem ainda não existe no
+          // projeto, e o que segura a tela se ela for removida um dia.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -60,6 +67,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Color(0xFF6B5A52),
                   Color(0xFF3A2F2C),
                   Color(0xFF241D1B),
+                ],
+              ),
+            ),
+          ),
+          Image.asset(
+            fundoDoLogin,
+            fit: BoxFit.cover,
+            errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
+                const SizedBox.shrink(),
+          ),
+          // Sem este véu, o texto branco some nas partes claras da foto, e
+          // some de um jeito que só aparece no aparelho de outra pessoa.
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: <double>[0, 0.45, 1],
+                colors: <Color>[
+                  Color(0xCC241D1B),
+                  Color(0x66241D1B),
+                  Color(0xF2241D1B),
                 ],
               ),
             ),
