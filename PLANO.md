@@ -119,8 +119,8 @@ Sete já saíram. O compartilhamento familiar ficou para depois (seção
 "Adiado", abaixo). O que resta se divide em duas listas:
 
 **Antes de submeter à loja:** a 9 inteira, que é o que bloqueia, e a 10
-inteira, que é a primeira impressão de quem instala. A 8a e a 8b já estão
-feitas.
+inteira, que é a primeira impressão de quem instala. A 8a já está feita e a
+8b foi descartada.
 
 **Depois do lançamento:** a 8c (exportação), a 11 (mais de um filho) e a 12
 (assinatura). As três são grandes, e nenhuma família perde nada por esperar
@@ -225,26 +225,24 @@ empurra para mais longe. Quem continua aparecendo nunca o recebe.
 Onze meses, e não os dois anos que o Google leva: um aviso que chega no
 último dia é um aviso que chega tarde.
 
-#### 8b. Instruções de herança ✅
+#### 8b. Instruções de herança ❌ descartada
 
-Feito. Uma seção "Entregar a cápsula um dia" na tela Sobre, com quatro
-partes: como a entrega acontece (passar a conta adiante ou mover a pasta),
-como o acervo está organizado no Drive, o Gerenciador de Contas Inativas do
-Google (que é o que garante a entrega quando ninguém sabe a senha) e a
-ressalva do que ainda depende do aplicativo.
+Construída e removida no mesmo dia, e a razão vale mais que o código.
 
-Duas decisões que valem registro:
+Eu escrevi uma seção "Entregar a cápsula um dia" explicando como passar a
+conta adiante quando a criança crescesse. O desenho do produto não tem essa
+etapa: **a conta já é da criança desde o primeiro dia.** É por isso que a
+sugestão é criar uma conta nova do Google para a cápsula. Os pais usam essa
+conta enquanto ela é pequena, e um dia ela simplesmente continua usando a
+própria conta, sem entrega, sem transferência e sem herança nenhuma.
 
-O texto é montado a partir das mesmas constantes que o código usa no Drive,
-e não copiado à mão. É o único texto do aplicativo que ninguém relê: quem
-instala hoje só vai segui-lo daqui a vinte anos, quando não houver mais a
-quem perguntar. Se o nome da pasta mudar e o texto não, ele vira um mapa
-para um lugar que não existe.
+Um texto explicando como entregar algo que nunca precisa ser entregue não é
+só supérfluo: ele planta a ideia de que existe um momento perigoso à frente,
+onde não existe.
 
-Só as pastas que de fato existem são citadas. Cartas e medidas não geram
-arquivo, então não há pasta "Cartas" no Drive de ninguém, e mandar procurá-la
-seria mandar procurar o nada. Isso está dito na ressalva, junto com o fato de
-que a exportação da 8c é o que fecha esse buraco.
+O que sobrou da preocupação legítima continua no aplicativo, na seção "Para
+a cápsula durar" (8a): a conta não pode ficar dois anos sem uso. Esse é o
+único risco real de longo prazo, e ele já está dito.
 
 #### 8c. Exportação legível sem o aplicativo (depois do lançamento)
 
