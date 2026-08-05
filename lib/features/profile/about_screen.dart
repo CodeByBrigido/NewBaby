@@ -87,6 +87,25 @@ class AboutScreen extends ConsumerWidget {
                 'apagar tudo isso a qualquer momento, no seu perfil.',
             icon: Icons.storage_outlined,
           ),
+
+          const SizedBox(height: 32),
+          const SectionHeader(title: 'Para a cápsula durar'),
+          // O aviso que quase nenhum aplicativo dá, e que este precisa dar:
+          // guardar vinte anos de memórias numa conta que pode ser apagada
+          // por desuso é um risco real, e quem corre esse risco tem o direito
+          // de saber por quem fez a promessa - não por um email genérico do
+          // Google, dois anos depois.
+          const SoftCard(
+            child: Text(
+              'O Google apaga contas que ficam dois anos sem uso, e junto vai '
+              'o que estiver no Drive delas. Isso vale principalmente para '
+              'quem criou uma conta só para a cápsula.\n\n'
+              'Abrir este aplicativo de vez em quando já conta como uso, '
+              'então não é preciso fazer nada além disso. Mesmo assim, se '
+              'você passar quase um ano sem aparecer, o aplicativo avisa uma '
+              'vez, e esse aviso pode ser desligado em Configurações.',
+            ),
+          ),
         ],
       ),
     );

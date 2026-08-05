@@ -28,7 +28,13 @@ enum ReminderKind {
   inspiracao('Ideias na hora certa', 'Quando uma ideia só serve agora'),
 
   /// "Faz um tempo desde a última foto."
-  ausencia('Lembrete gentil', 'Quando faz muito tempo sem registrar nada');
+  ausencia('Lembrete gentil', 'Quando faz muito tempo sem registrar nada'),
+
+  /// O único que protege a cápsula, e não a memória de alimentá-la.
+  contaInativa(
+    'A conta do Google',
+    'Um aviso por ano, para a cápsula não se perder',
+  );
 
   const ReminderKind(this.label, this.description);
 
@@ -39,13 +45,26 @@ enum ReminderKind {
   ///
   /// Menor vence. O aniversário ganha de tudo; o lembrete gentil perde para
   /// todos, porque é o único que não tem hora marcada e pode esperar.
+  ///
+  /// O aviso da conta vem logo depois do aniversário: se ele perder o dia,
+  /// espera um ano inteiro, e o que estava em jogo era a cápsula inteira.
   int get priority => switch (this) {
     ReminderKind.aniversario => 0,
-    ReminderKind.dataEspecial => 1,
-    ReminderKind.dataRedonda => 2,
-    ReminderKind.inspiracao => 3,
-    ReminderKind.ausencia => 4,
+    ReminderKind.contaInativa => 1,
+    ReminderKind.dataEspecial => 2,
+    ReminderKind.dataRedonda => 3,
+    ReminderKind.inspiracao => 4,
+    ReminderKind.ausencia => 5,
   };
+
+  /// Se este lembrete pode ser marcado além da janela de [reminderHorizonDays].
+  ///
+  /// Só um pode, e a razão é o próprio assunto dele: o aviso da conta existe
+  /// para quem **parou** de abrir o aplicativo. Todos os outros são
+  /// recalculados na próxima abertura, então marcar longe seria marcar com
+  /// dado velho. Este não pode contar com abertura nenhuma, porque a
+  /// ausência de abertura é exatamente o que ele avisa.
+  bool get livesBeyondHorizon => this == ReminderKind.contaInativa;
 }
 
 /// O que a pessoa escolheu nas Configurações.
@@ -59,6 +78,7 @@ class ReminderSettings {
       ReminderKind.dataEspecial,
       ReminderKind.inspiracao,
       ReminderKind.ausencia,
+      ReminderKind.contaInativa,
     },
     this.hour = 10,
     this.absenceDays = 14,
@@ -160,6 +180,18 @@ class ScheduledReminder {
 /// cápsula que ainda nem existe.
 const int reminderHorizonDays = 45;
 
+/// Quando o aviso da conta é marcado, contado da última abertura.
+///
+/// Onze meses, e não os dois anos que o Google leva para apagar uma conta
+/// sem uso: um aviso que chega no último dia é um aviso que chega tarde. Em
+/// onze meses ainda sobra mais de um ano para reagir, e o aplicativo tem
+/// muitas chances de ser aberto antes disso e empurrar o aviso adiante.
+///
+/// Cada abertura reagenda tudo, então este aviso vive fugindo para a frente
+/// enquanto a pessoa continua aparecendo. Ele só chega mesmo para quem
+/// sumiu, que é para quem ele foi escrito.
+const int inactivityWarningDays = 334;
+
 /// No máximo um lembrete por dia, e no máximo dois em qualquer sete dias.
 ///
 /// Este é o número mais importante deste arquivo. Um aplicativo de memórias
@@ -196,6 +228,7 @@ List<ScheduledReminder> planReminders({
     ..._datasEspeciais(profile, copy, settings, hoje, limite),
     ..._inspiracoes(inspirations, readInspirations, copy, settings, hoje),
     ..._ausencia(pulse, copy, settings, hoje),
+    ..._contaInativa(copy, settings, hoje),
   ];
 
   return _peneirar(candidatos, hoje: hoje, limite: limite, settings: settings);
@@ -383,6 +416,38 @@ Iterable<ScheduledReminder> _ausencia(
   );
 }
 
+/// O aviso que protege a cápsula, e não a memória de alimentá-la.
+///
+/// O Google apaga contas sem uso por dois anos. Quem cria uma conta só para
+/// a cápsula, guarda vinte anos de fotos nela e depois passa a usar pouco o
+/// aplicativo está no caminho exato desse apagamento, e provavelmente não
+/// sabe. É o único aviso daqui que não é sobre registrar mais: é sobre não
+/// perder o que já foi registrado.
+///
+/// Usar o aplicativo conta como uso da conta, então abrir de vez em quando
+/// já resolve. Por isso o texto pede o mínimo possível.
+Iterable<ScheduledReminder> _contaInativa(
+  Copy copy,
+  ReminderSettings settings,
+  DateTime hoje,
+) sync* {
+  if (!settings.wants(ReminderKind.contaInativa)) return;
+
+  yield _lembrete(
+    ReminderKind.contaInativa,
+    hoje.add(const Duration(days: inactivityWarningDays)),
+    settings,
+    titulo: 'A cápsula precisa de você por um minuto',
+    corpo: copy.hasName
+        ? 'Faz quase um ano que você não abre. O Google apaga contas sem uso '
+              'por dois anos, e é numa delas que as memórias ${copy.ofName} '
+              'moram. Abrir de vez em quando já basta.'
+        : 'Faz quase um ano que você não abre. O Google apaga contas sem uso '
+              'por dois anos, e é numa delas que as memórias moram. Abrir de '
+              'vez em quando já basta.',
+  );
+}
+
 // ------------------------------------------------------------ a peneira
 
 ScheduledReminder _lembrete(
@@ -425,7 +490,9 @@ List<ScheduledReminder> _peneirar(
 }) {
   final List<ScheduledReminder> dentroDaJanela = candidatos
       .where(
-        (ScheduledReminder r) => r.when.isAfter(hoje) && !r.day.isAfter(limite),
+        (ScheduledReminder r) =>
+            r.when.isAfter(hoje) &&
+            (r.kind.livesBeyondHorizon || !r.day.isAfter(limite)),
       )
       .toList();
 
