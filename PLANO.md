@@ -282,6 +282,25 @@ fotos entrariam caladas na idade errada.
 A data escolhida também vale para carta, áudio, desenho, documento e para o
 editor de crescimento, que já a recebe preenchida.
 
+Depois de escolher os arquivos, e antes de qualquer envio, vem a
+confirmação: quantos itens, com que data, que idade a criança tinha naquele
+dia e em que semana aquilo vai ficar guardado. A data pode ser corrigida ali
+mesmo. É o último ponto em que corrigir é barato, porque depois o arquivo já
+subiu para o lugar daquela idade.
+
+A idade é o que de fato evita o engano. "10 de abril de 2027" não diz nada a
+quem está trazendo o acervo antigo; "tinha 2 meses e 19 dias" diz na hora se
+a data está certa ou não.
+
+Um lote de documentos pergunta uma vez só, e não uma vez por arquivo:
+confirmar cinco vezes seguidas é o jeito mais rápido de a pessoa parar de ler
+o que está confirmando.
+
+**Descartado de propósito:** ler a data de dentro da foto (EXIF). Foto
+baixada ou recebida por outro aplicativo chega sem metadado nenhum, e um
+preenchimento que acerta às vezes é pior que nenhum, porque a pessoa para de
+conferir.
+
 Um detalhe que só aparece no Drive: o seletor devolve meia-noite, e o nome do
 arquivo começa pela data e hora. Um lote inteiro marcado 00:00:00 geraria
 nomes iguais dentro da pasta. A hora do relógio vai junto do dia escolhido.
