@@ -88,6 +88,22 @@ class AboutScreen extends ConsumerWidget {
             icon: Icons.storage_outlined,
           ),
 
+          const SizedBox(height: 20),
+          SoftCard(
+            onTap: () => context.push(Routes.intro),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.slideshow_outlined,
+                  color: context.cores.textSecondary,
+                ),
+                const SizedBox(width: 14),
+                const Expanded(child: Text('Rever a apresentação')),
+                Icon(Icons.chevron_right, color: context.cores.textSecondary),
+              ],
+            ),
+          ),
+
           const SizedBox(height: 32),
           const SectionHeader(title: 'Para a cápsula durar'),
           // O aviso que quase nenhum aplicativo dá, e que este precisa dar:

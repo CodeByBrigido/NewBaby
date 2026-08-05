@@ -295,7 +295,7 @@ nomes iguais dentro da pasta. A hora do relógio vai junto do dia escolhido.
 
 **O menor item desta lista e o de maior ganho por linha escrita.**
 
-#### 10b. As três telas de apresentação
+#### 10b. As três telas de apresentação ✅
 
 Antes do login, no formato de slides que todo mundo reconhece:
 
@@ -315,6 +315,18 @@ nova" e "usar a minha conta". Obrigar a criar conta antes de ver o aplicativo
 é o pedido mais caro possível no momento de maior desistência.
 
 Vistas uma vez, guardadas no aparelho, com um jeito de rever no Sobre.
+
+**Feito.** Duas decisões que só apareceram construindo:
+
+A marca de "já vi" começa ligada, e não desligada, enquanto o disco não
+responde. Mostrar a apresentação meio segundo depois a quem nunca viu é
+barato; mostrá-la de novo a quem já passou por ela é irritante.
+
+"Criar uma conta" não cria conta nenhuma: quem cria é o Google, dentro da
+própria caixa de login. O que faltava a quem escolhe esse caminho é saber
+onde tocar lá dentro, então a escolha viaja até a tela de login e vira uma
+instrução de uma frase. Sem isso a pessoa escolhe criar uma conta e cai numa
+tela que não diz uma palavra sobre como criar.
 
 #### 10c. O sistema de movimento
 
