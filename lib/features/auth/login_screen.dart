@@ -9,7 +9,14 @@ import '../common/widgets.dart';
 
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.comContaNova = false});
+
+  /// Veio da apresentação com "criar uma conta" escolhido.
+  ///
+  /// A conta não é criada aqui: quem cria é o Google, dentro da própria
+  /// caixa de login. O que falta a quem escolheu esse caminho é saber onde
+  /// tocar lá dentro, e é só isso que esta marca acrescenta.
+  final bool comContaNova;
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -112,6 +119,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const Spacer(flex: 2),
+                  if (widget.comContaNova) ...<Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        'Para criar a conta da cápsula: toque abaixo, e na '
+                        'caixa do Google escolha "Adicionar outra conta" e '
+                        'depois "Criar conta".',
+                        textAlign: TextAlign.center,
+                        style: text.bodySmall?.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   _GoogleButton(busy: _busy, onPressed: _signIn),
                   const SizedBox(height: 24),
                   Text(

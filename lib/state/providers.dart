@@ -157,6 +157,45 @@ class ReadInspirationsNotifier extends Notifier<Set<String>> {
   }
 }
 
+/// Se a apresentação de três telas já foi vista neste aparelho.
+///
+/// Guardado no aparelho, e não na conta, porque ela acontece antes de haver
+/// conta nenhuma: é a primeira coisa que aparece quando o aplicativo abre.
+final NotifierProvider<IntroSeenNotifier, bool> introSeenProvider =
+    NotifierProvider<IntroSeenNotifier, bool>(IntroSeenNotifier.new);
+
+class IntroSeenNotifier extends Notifier<bool> {
+  static const String _chave = 'apresentacao.vista';
+
+  /// Começa em `true` para que a apresentação **não** pisque na frente de
+  /// quem já a viu. O disco responde em milissegundos, e nesse intervalo o
+  /// roteador prefere não mandar ninguém para lá: mostrar de novo a quem já
+  /// passou é pior que mostrar meio segundo depois a quem nunca viu.
+  @override
+  bool build() {
+    unawaited(_carregar());
+    return true;
+  }
+
+  Future<void> _carregar() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    state = prefs.getBool(_chave) ?? false;
+  }
+
+  Future<void> markSeen() async {
+    state = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_chave, true);
+  }
+
+  /// Só para conferir na tela Sobre que rever não apaga a marca.
+  Future<void> reset() async {
+    state = false;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_chave);
+  }
+}
+
 /// Quantas inspirações ativas ainda não foram abertas.
 ///
 /// É o que põe o pontinho na aba. Zero quando não há nada novo: selo

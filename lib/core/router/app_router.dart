@@ -10,6 +10,7 @@ import '../../features/gallery/bucket_screen.dart';
 import '../../features/gallery/gallery_screen.dart';
 import '../../features/growth/growth_chart_screen.dart';
 import '../../features/growth/growth_screen.dart';
+import '../../features/intro/intro_screen.dart';
 import '../../features/letters/letter_editor_screen.dart';
 import '../../features/letters/letter_screen.dart';
 import '../../features/letters/letters_screen.dart';
@@ -52,6 +53,7 @@ abstract final class Routes {
   static const String babyInfo = '/perfil/bebe';
   static const String deleteAccount = '/perfil/apagar';
   static const String newLetter = '/cartas/nova';
+  static const String intro = '/apresentacao';
 
   static String bucket(String type, String bucketKey) =>
       '/$type/balde/$bucketKey';
@@ -61,12 +63,16 @@ abstract final class Routes {
   static String document(String id) => '/documentos/$id';
 }
 
+/// Marca passada à tela de login pela apresentação.
+const String loginComContaNova = 'conta-nova';
+
 final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   final ValueNotifier<int> refresh = ValueNotifier<int>(0);
   // O roteador precisa reavaliar o redirecionamento sempre que a sessão ou
   // o cadastro mudarem - é o que leva o usuário de login → cadastro → app.
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
+  ref.listen(introSeenProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
@@ -83,6 +89,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       final String location = state.matchedLocation;
 
       if (!signedIn) {
+        // A apresentação vem antes do login, e só na primeira vez. Ela
+        // explica por que as fotos ficam fora do aplicativo e por que vale
+        // criar uma conta só para a cápsula: depois do login essa decisão
+        // já foi tomada e ninguém volta para ler.
+        if (!ref.read(introSeenProvider)) {
+          return location == Routes.intro ? null : Routes.intro;
+        }
+        if (location == Routes.intro) return null;
         return location == Routes.login ? null : Routes.login;
       }
 
@@ -99,7 +113,15 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       return null;
     },
     routes: <RouteBase>[
-      GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
+      GoRoute(path: Routes.intro, builder: (_, _) => const IntroScreen()),
+      GoRoute(
+        path: Routes.login,
+        // `loginComContaNova` chega quando a pessoa escolheu criar uma conta
+        // na apresentação: a tela mostra como fazer isso dentro da caixa do
+        // Google, que é onde ela vai precisar da informação.
+        builder: (_, GoRouterState state) =>
+            LoginScreen(comContaNova: state.extra == loginComContaNova),
+      ),
       GoRoute(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
