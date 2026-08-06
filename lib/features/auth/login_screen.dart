@@ -2,14 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../services/auth_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 
+/// A foto de capa da tela de login.
+///
+/// Como o ícone da abertura, ela pode não existir ainda: a tela desenha o
+/// degradê sozinho nesse caso, em vez de mostrar um quadrado de erro.
+const String fundoDoLogin = 'assets/login_fundo.jpg';
+
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.comContaNova = false});
+
+  /// Veio da apresentação com "criar uma conta" escolhido.
+  ///
+  /// A conta não é criada aqui: quem cria é o Google, dentro da própria
+  /// caixa de login. O que falta a quem escolheu esse caminho é saber onde
+  /// tocar lá dentro, e é só isso que esta marca acrescenta.
+  final bool comContaNova;
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -42,8 +55,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Sem foto de capa embutida, um degradê quente segura o clima do
-          // mockup sem pesar o aplicativo com uma imagem de exemplo.
+          // A foto de capa, e o degradê quente por baixo dela. O degradê não
+          // é enfeite: é o que aparece enquanto a imagem ainda não existe no
+          // projeto, e o que segura a tela se ela for removida um dia.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -53,6 +67,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Color(0xFF6B5A52),
                   Color(0xFF3A2F2C),
                   Color(0xFF241D1B),
+                ],
+              ),
+            ),
+          ),
+          Image.asset(
+            fundoDoLogin,
+            fit: BoxFit.cover,
+            errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
+                const SizedBox.shrink(),
+          ),
+          // Sem este véu, o texto branco some nas partes claras da foto, e
+          // some de um jeito que só aparece no aparelho de outra pessoa.
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: <double>[0, 0.45, 1],
+                colors: <Color>[
+                  Color(0xCC241D1B),
+                  Color(0x66241D1B),
+                  Color(0xF2241D1B),
                 ],
               ),
             ),
@@ -67,11 +103,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     width: 84,
                     height: 84,
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.cores.primary,
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.4),
+                          color: context.cores.primary.withValues(alpha: 0.4),
                           blurRadius: 28,
                           offset: const Offset(0, 10),
                         ),
@@ -112,6 +148,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const Spacer(flex: 2),
+                  if (widget.comContaNova) ...<Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        'Para criar a conta da cápsula: toque abaixo, e na '
+                        'caixa do Google escolha "Adicionar outra conta" e '
+                        'depois "Criar conta".',
+                        textAlign: TextAlign.center,
+                        style: text.bodySmall?.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   _GoogleButton(busy: _busy, onPressed: _signIn),
                   const SizedBox(height: 24),
                   Text(
@@ -147,7 +200,7 @@ class _GoogleButton extends StatelessWidget {
         onPressed: busy ? null : onPressed,
         style: FilledButton.styleFrom(
           backgroundColor: Colors.white,
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: context.cores.textPrimary,
           disabledBackgroundColor: Colors.white70,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
 import '../../core/router/app_router.dart';
@@ -15,10 +15,14 @@ import '../../core/utils/error_text.dart';
 
 /// Escrever ou editar uma carta. Só dois campos - título e mensagem.
 class LetterEditorScreen extends ConsumerStatefulWidget {
-  const LetterEditorScreen({super.key, this.entryId});
+  const LetterEditorScreen({super.key, this.entryId, this.date});
 
   /// `null` cria uma carta nova.
   final String? entryId;
+
+  /// Quando a memória aconteceu, se veio escolhida da folha de adicionar.
+  /// Sem isto, a carta é do dia em que foi escrita.
+  final DateTime? date;
 
   @override
   ConsumerState<LetterEditorScreen> createState() => _LetterEditorScreenState();
@@ -69,6 +73,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               profile: profile,
               title: title.isEmpty ? 'Carta' : title,
               message: message,
+              date: widget.date,
             );
       } else {
         await ref
@@ -128,9 +133,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               decoration: InputDecoration(
                 counterText: '',
                 labelText: S.titleField,
-                hintText: G
-                    .of(ref.watch(profileProvider).value?.gender)
-                    .letterHint,
+                hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
               ),
             ),
             const SizedBox(height: 16),

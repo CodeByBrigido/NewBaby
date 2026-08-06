@@ -7,9 +7,12 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/features/timeline/timeline_screen.dart';
 import 'package:meu_bebe/models/baby_profile.dart';
+import 'package:meu_bebe/features/timeline/timeline_card.dart';
+import 'package:meu_bebe/models/day_summary.dart';
 import 'package:meu_bebe/models/entry.dart';
 import 'package:meu_bebe/services/thumbnail_service.dart';
 import 'package:meu_bebe/state/providers.dart';
+import 'package:meu_bebe/core/theme/app_palette.dart';
 
 /// Substitui o cache de miniaturas: em teste não há Drive nem disco.
 /// Devolver `null` também exercita o caminho real de um arquivo cuja
@@ -73,7 +76,7 @@ Widget harness(List<Entry> entries) {
   return ProviderScope(
     overrides: [thumbnailServiceProvider.overrideWithValue(_NoThumbnails())],
     child: MaterialApp(
-      theme: AppTheme.build(),
+      theme: AppTheme.build(AppPalette.of(profile.gender)),
       locale: const Locale('pt', 'BR'),
       home: Scaffold(
         body: TimelineList(
@@ -88,6 +91,7 @@ Widget harness(List<Entry> entries) {
 }
 
 void main() {
+  agrupamentoPorDia();
   setUpAll(() => initializeDateFormatting('pt_BR'));
 
   testWidgets('mostra a idade calculada ao lado de cada dia', (
@@ -204,5 +208,107 @@ void main() {
     expect(find.text('18/04/2027'), findsOneWidget);
     expect(find.text('3 meses'), findsOneWidget);
     expect(find.text('2 meses e 27 dias'), findsOneWidget);
+  });
+}
+
+/// Um dia cheio recolhe; um dia curto, não.
+///
+/// A regra existe porque um aniversário com trinta fotos, todo aberto,
+/// empurra o resto do mês para fora da tela. Mas esconder duas fotos atrás
+/// de um toque seria trocar a memória por um menu.
+void agrupamentoPorDia() {
+  group('o resumo de um dia', () {
+    test('conta cada tipo e junta como se escreve em português', () {
+      final DateTime dia = DateTime(2027, 4, 10);
+      expect(
+        summarizeDay(<Entry>[
+          entry(type: EntryType.photo, date: dia),
+          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 1))),
+          entry(type: EntryType.video, date: dia.add(const Duration(hours: 2))),
+          entry(
+            type: EntryType.letter,
+            date: dia.add(const Duration(hours: 3)),
+          ),
+        ]),
+        '2 fotos, 1 vídeo e 1 carta',
+      );
+    });
+
+    test('um tipo só dispensa a conjunção', () {
+      expect(
+        summarizeDay(<Entry>[
+          entry(type: EntryType.photo, date: DateTime(2027, 4, 10)),
+        ]),
+        '1 foto',
+      );
+    });
+
+    test('a ordem é sempre a mesma, não a da contagem', () {
+      // Dois dias parecidos precisam se parecer na tela.
+      final DateTime dia = DateTime(2027, 4, 10);
+      expect(
+        summarizeDay(<Entry>[
+          entry(type: EntryType.letter, date: dia),
+          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 1))),
+          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 2))),
+          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 3))),
+        ]),
+        '3 fotos e 1 carta',
+      );
+    });
+  });
+
+  group('a linha do tempo agrupa o que é grande', () {
+    List<Entry> noMesmoDia(int quantidade) {
+      final DateTime dia = DateTime(2027, 4, 10, 9);
+      return <Entry>[
+        for (int i = 0; i < quantidade; i++)
+          entry(
+            type: EntryType.photo,
+            date: dia.add(Duration(minutes: i)),
+          ),
+      ];
+    }
+
+    testWidgets('poucos itens aparecem direto, sem resumo', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(harness(noMesmoDia(3)));
+      await tester.pump();
+
+      expect(
+        find.textContaining('3 fotos'),
+        findsNothing,
+        reason: 'Esconder três fotos atrás de um toque não ajuda ninguém.',
+      );
+      expect(find.byType(TimelineCard), findsNWidgets(3));
+    });
+
+    testWidgets('muitos itens começam recolhidos, mostrando o resumo', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(harness(noMesmoDia(12)));
+      await tester.pump();
+
+      expect(find.text('12 fotos'), findsOneWidget);
+      expect(
+        find.byType(TimelineCard),
+        findsNothing,
+        reason: 'Recolhido é recolhido.',
+      );
+    });
+
+    testWidgets('tocar no resumo abre e fecha', (WidgetTester tester) async {
+      await tester.pumpWidget(harness(noMesmoDia(12)));
+      await tester.pump();
+
+      await tester.tap(find.text('12 fotos'));
+      await tester.pumpAndSettle();
+      expect(find.byType(TimelineCard), findsWidgets);
+
+      await tester.tap(find.text('12 fotos'));
+      await tester.pumpAndSettle();
+      expect(find.byType(TimelineCard), findsNothing);
+    });
   });
 }

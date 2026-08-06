@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -12,8 +11,11 @@ import '../core/utils/error_text.dart';
 import '../core/utils/formatters.dart';
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'drive_service.dart';
 import 'firestore_service.dart';
+
 import 'media_optimizer.dart';
 import 'thumbnail_service.dart';
 
@@ -99,7 +101,7 @@ class MemoryRepository {
 
     if (birthPhoto != null) {
       try {
-        final Entry entry = await addFiles(
+        await addFiles(
           uid: uid,
           profile: saved,
           type: EntryType.photo,
@@ -109,11 +111,11 @@ class MemoryRepository {
           date: saved.birth,
           title: 'Primeira foto',
         );
-        final String? photoId = entry.files.firstOrNull?.driveId;
-        if (photoId != null && photoId.isNotEmpty) {
-          saved = saved.copyWith(photoDriveId: photoId);
-          await firestore.saveProfile(uid, saved);
-        }
+        // Aqui não adianta gravar `photoDriveId`: `addFiles` volta antes de
+        // o envio terminar, então o id ainda é vazio. O avatar é derivado
+        // das entradas (veja `avatarPhotoProvider`) e aparece sozinho quando
+        // o envio conclui. O campo continua no cadastro para quando houver
+        // escolha manual de foto de perfil.
       } on Exception catch (e) {
         // O cadastro não pode falhar por causa da foto; ela pode ser
         // adicionada depois pela linha do tempo.
@@ -517,6 +519,8 @@ class MemoryRepository {
     Entry entry, {
     required String title,
     required String description,
+    DateTime? sealedUntil,
+    bool changeSeal = false,
   }) {
     final String? newTitle = title.trim().isEmpty ? null : title.trim();
     final String? newDescription = description.trim().isEmpty
@@ -528,6 +532,12 @@ class MemoryRepository {
     return firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
+      // Só entra no patch quando a pessoa mexeu no lacre; sem isso, salvar
+      // um título tiraria sem querer uma data de abertura já escolhida.
+      if (changeSeal)
+        'lacradoAte': sealedUntil == null
+            ? null
+            : Timestamp.fromDate(sealedUntil),
     });
   }
 
@@ -646,12 +656,20 @@ class MemoryRepository {
       '.gif' => 'image/gif',
       '.mp4' => 'video/mp4',
       '.mov' => 'video/quicktime',
+      // O gravador do aplicativo produz AAC em contêiner MP4.
+      '.m4a' || '.aac' => 'audio/mp4',
+      '.mp3' => 'audio/mpeg',
+      '.ogg' || '.opus' => 'audio/ogg',
+      '.wav' => 'audio/wav',
       '.pdf' => 'application/pdf',
       '.doc' => 'application/msword',
       '.docx' =>
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      _ =>
-        type == EntryType.document ? 'application/octet-stream' : 'image/jpeg',
+      _ => switch (type) {
+        EntryType.document => 'application/octet-stream',
+        EntryType.audio => 'audio/mp4',
+        _ => 'image/jpeg',
+      },
     };
   }
 

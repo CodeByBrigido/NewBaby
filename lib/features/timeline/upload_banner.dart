@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -41,7 +41,7 @@ class _ActiveBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.surfaceMuted,
+        color: context.cores.surfaceMuted,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -79,7 +79,7 @@ class _FailedBanner extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.danger.withValues(alpha: 0.08),
+        color: AppPalette.danger.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -87,13 +87,13 @@ class _FailedBanner extends ConsumerWidget {
           const Icon(
             Icons.cloud_off_outlined,
             size: 18,
-            color: AppColors.danger,
+            color: AppPalette.danger,
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               '${S.uploadFailed}: ${_itemCount(entries.length)}',
-              style: text.bodySmall?.copyWith(color: AppColors.danger),
+              style: text.bodySmall?.copyWith(color: AppPalette.danger),
             ),
           ),
           TextButton(

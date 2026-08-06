@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/entry.dart';
+import '../../core/utils/formatters.dart';
 import '../../state/providers.dart';
+import '../sealed/seal_sheet.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
@@ -44,6 +46,8 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
     text: widget.entry.description ?? '',
   );
   bool _saving = false;
+  late DateTime? _sealedUntil = widget.entry.sealedUntil;
+  bool _sealChanged = false;
 
   @override
   void dispose() {
@@ -65,6 +69,8 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
             widget.entry,
             title: _title.text,
             description: _description.text,
+            sealedUntil: _sealedUntil,
+            changeSeal: _sealChanged,
           );
       if (mounted) Navigator.of(context).pop();
     } on Exception catch (e) {
@@ -89,7 +95,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.divider,
+                  color: context.cores.divider,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -120,9 +126,9 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                   final String suggestion = S.milestoneSuggestions[index];
                   return ActionChip(
                     label: Text(suggestion),
-                    backgroundColor: AppColors.primarySoft,
+                    backgroundColor: context.cores.primarySoft,
                     labelStyle: Theme.of(context).textTheme.labelSmall
-                        ?.copyWith(color: AppColors.primaryDark),
+                        ?.copyWith(color: context.cores.primaryDark),
                     onPressed: () => setState(() {
                       _title.text = suggestion;
                     }),
@@ -141,6 +147,22 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 labelText: S.descriptionOptional,
                 alignLabelWithHint: true,
               ),
+            ),
+            const SizedBox(height: 8),
+            _SealRow(
+              until: _sealedUntil,
+              onTap: () async {
+                final SealChoice? escolha = await showSealSheet(
+                  context,
+                  profile: ref.read(profileProvider).value,
+                  current: _sealedUntil,
+                );
+                if (escolha == null) return;
+                setState(() {
+                  _sealedUntil = escolha.until;
+                  _sealChanged = true;
+                });
+              },
             ),
             const SizedBox(height: 20),
             Row(
@@ -170,6 +192,55 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                   ),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A linha que abre a escolha da data de abertura.
+///
+/// Fica junto do título e da descrição, e não escondida num menu, porque
+/// decidir lacrar é uma decisão do mesmo momento em que se decide o que
+/// escrever - depois, ninguém volta para procurar.
+class _SealRow extends StatelessWidget {
+  const _SealRow({required this.until, required this.onTap});
+
+  final DateTime? until;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool lacrado = until != null;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              lacrado ? Icons.lock_clock : Icons.lock_open_outlined,
+              size: 20,
+              color: lacrado
+                  ? context.cores.primary
+                  : context.cores.textSecondary,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                lacrado
+                    ? 'Abre em ${Fmt.longDate(until!)}'
+                    : 'Guardar para o futuro',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              size: 20,
+              color: context.cores.textSecondary,
             ),
           ],
         ),

@@ -83,6 +83,49 @@ abstract final class Fmt {
   }
 
   /// `1 foto` / `15 fotos`.
+  /// Saudação pela hora do dia.
+  static String greeting(DateTime now) {
+    if (now.hour < 12) return 'Bom dia';
+    if (now.hour < 18) return 'Boa tarde';
+    return 'Boa noite';
+  }
+
+  /// Há quanto tempo, em palavras.
+  ///
+  /// A unidade cresce com a distância: "há 40 dias" obriga a pessoa a fazer
+  /// a conta de cabeça, "há 1 mês" já diz o que ela queria saber.
+  static String ago(int days) {
+    if (days <= 0) return 'hoje';
+    if (days == 1) return 'ontem';
+    if (days < 14) return 'há $days dias';
+    if (days < 60) {
+      final int semanas = days ~/ 7;
+      return semanas == 1 ? 'há 1 semana' : 'há $semanas semanas';
+    }
+    if (days < 365) {
+      final int meses = days ~/ 30;
+      return meses == 1 ? 'há 1 mês' : 'há $meses meses';
+    }
+    final int anos = days ~/ 365;
+    return anos == 1 ? 'há 1 ano' : 'há $anos anos';
+  }
+
+  /// `primeiro`, `segundo`, ... e a partir de onde a palavra fica pior que
+  /// o número, o número.
+  static String ordinal(int n) => switch (n) {
+    1 => 'primeiro',
+    2 => 'segundo',
+    3 => 'terceiro',
+    4 => 'quarto',
+    5 => 'quinto',
+    6 => 'sexto',
+    7 => 'sétimo',
+    8 => 'oitavo',
+    9 => 'nono',
+    10 => 'décimo',
+    _ => '$nº',
+  };
+
   static String count(int value, String singular, String plural) =>
       '$value ${value == 1 ? singular : plural}';
 

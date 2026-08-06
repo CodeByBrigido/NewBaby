@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../home/home_screen.dart';
-import '../search/search_screen.dart';
+import '../inspirations/inspirations_screen.dart';
 import '../profile/profile_screen.dart';
 import '../timeline/timeline_screen.dart';
 import 'add_sheet.dart';
@@ -23,11 +25,23 @@ class HomeShell extends ConsumerStatefulWidget {
 class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // A permissão de notificar é pedida aqui, e não na abertura: esta tela
+    // só aparece depois de a cápsula existir, e é aí que a pergunta faz
+    // sentido para quem responde.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      unawaited(ref.read(reminderSettingsProvider.notifier).ensureAsked());
+    });
+  }
+
   static const List<Widget> _pages = <Widget>[
     HomeScreen(),
     TimelineScreen(),
     SizedBox.shrink(), // lugar do botão +, nunca exibido
-    SearchScreen(embedded: true),
+    InspirationsScreen(embedded: true),
     ProfileScreen(embedded: true),
   ];
 
@@ -49,7 +63,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       body: IndexedStack(index: _index, children: _pages),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddSheet(context),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.cores.primary,
         foregroundColor: Colors.white,
         elevation: 3,
         shape: const CircleBorder(),
@@ -60,6 +74,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         index: _index,
         onSelected: _onDestination,
         babyName: profile?.firstName,
+        novidades: ref.watch(unreadInspirationsProvider),
       ),
     );
   }
@@ -70,16 +85,20 @@ class _BottomBar extends StatelessWidget {
     required this.index,
     required this.onSelected,
     this.babyName,
+    this.novidades = 0,
   });
 
   final int index;
   final ValueChanged<int> onSelected;
   final String? babyName;
 
+  /// Quantas inspirações ativas ainda não foram abertas.
+  final int novidades;
+
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: AppColors.surface,
+      color: context.cores.surface,
       elevation: 0,
       height: 68,
       padding: EdgeInsets.zero,
@@ -103,10 +122,11 @@ class _BottomBar extends StatelessWidget {
           ),
           const Expanded(child: SizedBox.shrink()),
           _BarItem(
-            icon: Icons.search_outlined,
-            selectedIcon: Icons.search_rounded,
-            label: S.search,
+            icon: Icons.lightbulb_outline,
+            selectedIcon: Icons.lightbulb,
+            label: 'Inspirações',
             selected: index == 3,
+            badge: novidades,
             onTap: () => onSelected(3),
           ),
           _BarItem(
@@ -129,6 +149,7 @@ class _BarItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    this.badge = 0,
   });
 
   final IconData icon;
@@ -137,9 +158,15 @@ class _BarItem extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
+  /// Quantidade a mostrar no pontinho. Zero não desenha nada: selo
+  /// permanente vira decoração e some da percepção.
+  final int badge;
+
   @override
   Widget build(BuildContext context) {
-    final Color color = selected ? AppColors.primary : AppColors.textSecondary;
+    final Color color = selected
+        ? context.cores.primary
+        : context.cores.textSecondary;
 
     return Expanded(
       child: InkWell(
@@ -147,7 +174,40 @@ class _BarItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(selected ? selectedIcon : icon, size: 24, color: color),
+            Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(selected ? selectedIcon : icon, size: 24, color: color),
+                if (badge > 0)
+                  Positioned(
+                    top: -3,
+                    right: -6,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.cores.primary,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: context.cores.surface,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Text(
+                        badge > 9 ? '9+' : '$badge',
+                        style: const TextStyle(
+                          fontSize: 9,
+                          height: 1.3,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             const SizedBox(height: 3),
             Text(
               label,

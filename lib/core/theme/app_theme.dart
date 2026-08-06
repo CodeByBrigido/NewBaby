@@ -1,54 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'app_colors.dart';
+import 'app_palette.dart';
 
 /// Raio padrão dos cartões - cantos generosos, como no mockup.
 const double kCardRadius = 20;
 const double kPagePadding = 20;
 
 abstract final class AppTheme {
-  static ThemeData build() {
+  /// Monta o tema com a paleta da criança.
+  ///
+  /// A paleta entra por parâmetro, e não por leitura de um global, para
+  /// que trocar de criança seja só reconstruir o tema.
+  static ThemeData build(AppPalette cores) {
     final ColorScheme scheme =
         ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
+          seedColor: cores.primary,
           brightness: Brightness.light,
         ).copyWith(
-          primary: AppColors.primary,
+          primary: cores.primary,
           onPrimary: Colors.white,
-          surface: AppColors.surface,
-          onSurface: AppColors.textPrimary,
-          error: AppColors.danger,
+          surface: cores.surface,
+          onSurface: cores.textPrimary,
+          error: AppPalette.danger,
         );
 
-    final TextTheme text = _textTheme(Typography.material2021().black);
+    final TextTheme text = _textTheme(Typography.material2021().black, cores);
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: AppColors.background,
-      canvasColor: AppColors.background,
+      extensions: <ThemeExtension<Object?>>[cores],
+      scaffoldBackgroundColor: cores.background,
+      canvasColor: cores.background,
       textTheme: text,
-      dividerColor: AppColors.divider,
-      dividerTheme: const DividerThemeData(
-        color: AppColors.divider,
+      dividerColor: cores.divider,
+      dividerTheme: DividerThemeData(
+        color: cores.divider,
         thickness: 1,
         space: 1,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.background,
+        backgroundColor: cores.background,
         surfaceTintColor: Colors.transparent,
-        foregroundColor: AppColors.textPrimary,
+        foregroundColor: cores.textPrimary,
         elevation: 0,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         titleTextStyle: text.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
+          color: cores.textPrimary,
         ),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.surface,
+        color: cores.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -58,7 +63,7 @@ abstract final class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: cores.primary,
           foregroundColor: Colors.white,
           minimumSize: const Size.fromHeight(52),
           textStyle: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -68,13 +73,13 @@ abstract final class AppTheme {
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
+        style: TextButton.styleFrom(foregroundColor: cores.primaryDark),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: cores.textPrimary,
           minimumSize: const Size.fromHeight(52),
-          side: const BorderSide(color: AppColors.divider),
+          side: BorderSide(color: cores.divider),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -82,35 +87,35 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: cores.surface,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelStyle: text.labelMedium?.copyWith(color: AppColors.textSecondary),
-        border: _inputBorder(AppColors.divider),
-        enabledBorder: _inputBorder(AppColors.divider),
-        focusedBorder: _inputBorder(AppColors.primary, width: 1.6),
-        errorBorder: _inputBorder(AppColors.danger),
-        focusedErrorBorder: _inputBorder(AppColors.danger, width: 1.6),
+        labelStyle: text.labelMedium?.copyWith(color: cores.textSecondary),
+        border: _inputBorder(cores.divider),
+        enabledBorder: _inputBorder(cores.divider),
+        focusedBorder: _inputBorder(cores.primary, width: 1.6),
+        errorBorder: _inputBorder(AppPalette.danger),
+        focusedErrorBorder: _inputBorder(AppPalette.danger, width: 1.6),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.surfaceMuted,
-        selectedColor: AppColors.primarySoft,
+        backgroundColor: cores.surfaceMuted,
+        selectedColor: cores.primarySoft,
         side: BorderSide.none,
         labelStyle: text.labelMedium,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: AppColors.background,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: cores.background,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: cores.surface,
         surfaceTintColor: Colors.transparent,
         indicatorColor: Colors.transparent,
         elevation: 0,
@@ -120,37 +125,37 @@ abstract final class AppTheme {
           (Set<WidgetState> states) => text.labelSmall!.copyWith(
             fontSize: 11,
             color: states.contains(WidgetState.selected)
-                ? AppColors.primary
-                : AppColors.textSecondary,
+                ? cores.primary
+                : cores.textSecondary,
           ),
         ),
         iconTheme: WidgetStateProperty.resolveWith(
           (Set<WidgetState> states) => IconThemeData(
             size: 24,
             color: states.contains(WidgetState.selected)
-                ? AppColors.primary
-                : AppColors.textSecondary,
+                ? cores.primary
+                : cores.textSecondary,
           ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: AppColors.textPrimary,
+        backgroundColor: cores.textPrimary,
         contentTextStyle: text.bodyMedium?.copyWith(color: Colors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: cores.surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
-      listTileTheme: const ListTileThemeData(
-        iconColor: AppColors.textSecondary,
-        textColor: AppColors.textPrimary,
+      listTileTheme: ListTileThemeData(
+        iconColor: cores.textSecondary,
+        textColor: cores.textPrimary,
       ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.primary,
-        linearTrackColor: AppColors.primarySoft,
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: cores.primary,
+        linearTrackColor: cores.primarySoft,
       ),
     );
   }
@@ -162,7 +167,7 @@ abstract final class AppTheme {
     );
   }
 
-  static TextTheme _textTheme(TextTheme base) {
+  static TextTheme _textTheme(TextTheme base, AppPalette cores) {
     return base
         .copyWith(
           displaySmall: base.displaySmall?.copyWith(
@@ -182,15 +187,10 @@ abstract final class AppTheme {
           bodyMedium: base.bodyMedium?.copyWith(height: 1.45),
           bodySmall: base.bodySmall?.copyWith(
             height: 1.4,
-            color: AppColors.textSecondary,
+            color: cores.textSecondary,
           ),
-          labelMedium: base.labelMedium?.copyWith(
-            color: AppColors.textSecondary,
-          ),
+          labelMedium: base.labelMedium?.copyWith(color: cores.textSecondary),
         )
-        .apply(
-          bodyColor: AppColors.textPrimary,
-          displayColor: AppColors.textPrimary,
-        );
+        .apply(bodyColor: cores.textPrimary, displayColor: cores.textPrimary);
   }
 }

@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../common/drive_image.dart';
+import '../audio/audio_player_tile.dart';
+import '../sealed/sealed_screen.dart';
 import '../common/widgets.dart';
 
 /// Cartão de um item da linha do tempo. O desenho muda com o tipo: fotos
@@ -32,7 +34,11 @@ class TimelineCard extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
             child: Row(
               children: <Widget>[
-                Icon(entry.type.icon, size: 16, color: entry.type.accent),
+                Icon(
+                  entry.type.icon,
+                  size: 16,
+                  color: entry.type.accent(context),
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -52,7 +58,7 @@ class TimelineCard extends ConsumerWidget {
                   const Icon(
                     Icons.error_outline,
                     size: 16,
-                    color: AppColors.danger,
+                    color: AppPalette.danger,
                   ),
               ],
             ),
@@ -74,6 +80,7 @@ class TimelineCard extends ConsumerWidget {
       case EntryType.birth:
       case EntryType.photo:
       case EntryType.video:
+      case EntryType.audio:
       case EntryType.drawing:
         context.push(Routes.entry(entry.id));
     }
@@ -87,11 +94,18 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // O lacre vem antes de tudo: enquanto ele vale, o conteúdo não aparece
+    // nem de relance, e nem o título.
+    if (entry.isSealedAt()) {
+      return SealedNotice(entry: entry);
+    }
+
     return switch (entry.type) {
       EntryType.growth => _GrowthBody(entry: entry),
       EntryType.letter => _LetterBody(entry: entry),
       EntryType.document => _DocumentBody(entry: entry),
       EntryType.video => _VideoBody(entry: entry),
+      EntryType.audio => _AudioBody(entry: entry),
       EntryType.birth => _BirthBody(entry: entry),
       EntryType.photo || EntryType.drawing => _PhotoBody(entry: entry),
     };
@@ -166,6 +180,27 @@ class _PhotoBody extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// O cartão de áudio: o tocador em si, sem miniatura.
+///
+/// Áudio não tem imagem, e inventar uma capa genérica só encheria a linha do
+/// tempo de ícones iguais.
+class _AudioBody extends StatelessWidget {
+  const _AudioBody({required this.entry});
+
+  final Entry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    final EntryFile? file = entry.coverFile;
+    if (file == null) return _DescriptionOnly(entry: entry);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      child: AudioPlayerTile(file: file),
     );
   }
 }
@@ -299,7 +334,7 @@ class _Measure extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surfaceMuted,
+          color: context.cores.surfaceMuted,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -332,13 +367,13 @@ class _DocumentBody extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.documentSoft,
+              color: context.cores.documentSoft,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               file.extensionLabel,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppColors.document,
+                color: context.cores.document,
                 fontWeight: FontWeight.w700,
               ),
             ),

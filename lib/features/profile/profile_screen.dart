@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
@@ -57,7 +57,11 @@ class ProfileScreen extends ConsumerWidget {
                           value: Fmt.date(profile.birth),
                         ),
                       ),
-                      Container(width: 1, height: 34, color: AppColors.divider),
+                      Container(
+                        width: 1,
+                        height: 34,
+                        color: context.cores.divider,
+                      ),
                       Expanded(
                         child: _Fact(
                           label: S.currentAge,
@@ -72,7 +76,7 @@ class ProfileScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 _Tile(
                   icon: Icons.person_outline,
-                  title: G.of(profile.gender).babyInfo,
+                  title: Copy.of(profile).babyInfo,
                   onTap: () => context.push(Routes.babyInfo),
                 ),
                 if (email != null)
@@ -96,7 +100,7 @@ class ProfileScreen extends ConsumerWidget {
                 TextButton(
                   onPressed: () => _signOut(context, ref),
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.danger,
+                    foregroundColor: AppPalette.danger,
                     minimumSize: const Size.fromHeight(48),
                   ),
                   child: const Text(S.signOut),
@@ -105,7 +109,7 @@ class ProfileScreen extends ConsumerWidget {
                 TextButton(
                   onPressed: () => context.push(Routes.deleteAccount),
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
+                    foregroundColor: context.cores.textSecondary,
                     minimumSize: const Size.fromHeight(44),
                   ),
                   child: const Text(
