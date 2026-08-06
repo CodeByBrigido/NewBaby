@@ -30,6 +30,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        // Exigido pelo flutter_local_notifications: ele usa classes de data e
+        // hora do Java 8 que o Android antigo não tem, e o desugaring as
+        // traduz na compilacao. Sem isto o build quebra mesmo em quem nunca
+        // liga uma notificacao.
+        isCoreLibraryDesugaringEnabled = true
     }
 
     defaultConfig {
@@ -70,6 +75,12 @@ android {
             )
         }
     }
+}
+
+dependencies {
+    // A biblioteca do desugaring. A versao segue a pedida pelo
+    // flutter_local_notifications 22.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 kotlin {

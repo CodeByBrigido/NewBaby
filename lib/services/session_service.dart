@@ -10,6 +10,7 @@ import 'drive_service.dart';
 import 'firestore_service.dart';
 import 'media_optimizer.dart';
 import 'memory_repository.dart';
+import 'notification_service.dart';
 import 'thumbnail_service.dart';
 
 /// O que fazer com a pasta da cápsula no Drive ao apagar a conta.
@@ -34,6 +35,7 @@ class SessionService {
     required this.memories,
     required this.optimizer,
     required this.thumbnails,
+    required this.reminders,
   });
 
   final AuthService auth;
@@ -42,6 +44,7 @@ class SessionService {
   final MemoryRepository memories;
   final MediaOptimizer optimizer;
   final ThumbnailStore thumbnails;
+  final ReminderScheduler reminders;
 
   /// Marca que o cache do Firestore deve ser descartado na próxima abertura.
   ///
@@ -97,7 +100,17 @@ class SessionService {
     await optimizer.clearCaches();
     await memories.clearDownloads();
 
+    // Os lembretes vão junto. Um aviso do aniversário de uma criança
+    // chegando depois de a conta ter saído do aparelho seria, no melhor
+    // caso, estranho - e no pior, doloroso para quem emprestou o celular.
+    try {
+      await reminders.cancelAll();
+    } on Object catch (e) {
+      debugPrint('Não deu para cancelar os lembretes: $e');
+    }
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await ReminderPreferences(prefs).clear();
     await prefs.remove(_recentSearchesKey);
     await prefs.setBool(_pendingCacheKey, true);
   }

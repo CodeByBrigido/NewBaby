@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../services/session_service.dart';
 import '../../state/providers.dart';
@@ -112,7 +112,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
           FilledButton(
             onPressed: _working ? null : _delete,
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.danger,
+              backgroundColor: AppPalette.danger,
               minimumSize: const Size.fromHeight(50),
             ),
             child: Text(_working ? S.deleteAccountWorking : S.deleteAccount),
@@ -155,7 +155,9 @@ class _Choice extends StatelessWidget {
         children: <Widget>[
           Icon(
             selected ? Icons.radio_button_checked : Icons.radio_button_off,
-            color: selected ? AppColors.primary : AppColors.textSecondary,
+            color: selected
+                ? context.cores.primary
+                : context.cores.textSecondary,
             size: 22,
           ),
           const SizedBox(width: 14),

@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import '../models/suggestion_progress.dart';
 
 /// Índice de tudo que existe no aplicativo.
 ///
-/// O Firestore guarda apenas metadados - nenhum byte de foto passa por aqui.
 /// Como o cache offline fica no aparelho, a linha do tempo abre instantânea e
 /// a busca acontece sem rede, sem nunca varrer as pastas do Drive.
 class FirestoreService {
@@ -20,6 +20,9 @@ class FirestoreService {
   static const String _profileDoc = 'bebe';
   static const String _entries = 'entradas';
   static const String _folders = 'pastas';
+  static const String _suggestions = 'sugestoes';
+  static const String _thumbnails = 'miniaturas';
+  static const String _images = 'imagens';
 
   DocumentReference<Map<String, Object?>> _user(String uid) =>
       _db.collection(_users).doc(uid);
@@ -158,14 +161,53 @@ class FirestoreService {
   // ------------------------------------------------------- apagar tudo
 
   /// Todas as coleções que o aplicativo cria sob `users/{uid}`.
+  ///
+  /// `miniaturas` e `imagens` continuam aqui mesmo depois de o
+  /// compartilhamento familiar ter saído: quem instalou a versão de teste tem
+  /// documentos gravados nelas, e sem esta varredura "apagar minha conta e
+  /// meus dados" deixaria rastro em silêncio. É uma promessa feita à Play
+  /// Store, e ela não pode depender de a função ainda existir.
   static const List<String> _allCollections = <String>[
     _profile,
     _entries,
     _folders,
+    _suggestions,
+    _thumbnails,
+    _images,
   ];
 
   /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
   static const int _deleteBatchSize = 300;
+
+  // ------------------------------------------------------------ sugestões
+
+  /// O que a pessoa já resolveu ou marcou no catálogo de sugestões.
+  ///
+  /// Um documento por sugestão, com o id do catálogo como chave. Guardar só
+  /// o que foi tocado mantém a coleção pequena: quem nunca dispensou nada
+  /// não tem documento nenhum.
+  Stream<Map<String, SuggestionProgress>> watchSuggestions(String uid) {
+    return _user(uid)
+        .collection(_suggestions)
+        .snapshots()
+        .map(
+          (QuerySnapshot<Map<String, Object?>> snap) =>
+              <String, SuggestionProgress>{
+                for (final QueryDocumentSnapshot<Map<String, Object?>> doc
+                    in snap.docs)
+                  doc.id: SuggestionProgress.fromMap(doc.data()),
+              },
+        );
+  }
+
+  Future<void> saveSuggestion(
+    String uid,
+    String id,
+    SuggestionProgress progress,
+  ) => _user(uid)
+      .collection(_suggestions)
+      .doc(id)
+      .set(progress.toMap(), SetOptions(merge: true));
 
   /// Apaga tudo o que existe sob `users/{uid}`, sem deixar rastro.
   ///

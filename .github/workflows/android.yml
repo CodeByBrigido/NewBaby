@@ -96,7 +96,7 @@ jobs:
           proibidas='READ_MEDIA_IMAGES|READ_MEDIA_VIDEO|READ_MEDIA_AUDIO'
           proibidas="$proibidas|READ_EXTERNAL_STORAGE|WRITE_EXTERNAL_STORAGE"
           proibidas="$proibidas|MANAGE_EXTERNAL_STORAGE|READ_MEDIA_VISUAL_USER_SELECTED"
-          proibidas="$proibidas|CAMERA|RECORD_AUDIO|ACCESS_FINE_LOCATION"
+          proibidas="$proibidas|CAMERA|ACCESS_FINE_LOCATION"
           proibidas="$proibidas|ACCESS_COARSE_LOCATION|READ_CONTACTS|GET_ACCOUNTS"
           proibidas="$proibidas|READ_PHONE_STATE|QUERY_ALL_PACKAGES"
 
@@ -114,15 +114,43 @@ jobs:
           #    qualquer permissão nova - mesmo inofensiva - apareça na revisão
           #    em vez de entrar de carona numa atualização de dependência.
           #
+          #    RECORD_AUDIO é a única "dangerous" aceita, e a exceção tem
+          #    razão. As proibidas acima dão acesso ao acervo que já existe
+          #    no aparelho, sem a pessoa escolher item por item; o microfone
+          #    não lê nada que exista: ele só abre enquanto a pessoa está
+          #    gravando, depois de ela apertar gravar. E não há substituto -
+          #    existe seletor de fotos do sistema, não existe seletor de voz.
+          #
           #    Além da INTERNET, que é nossa, todas vêm da pilha do Firebase,
           #    do Google Play Services e do Credential Manager (que o
           #    google_sign_in 7 usa para o login). São de nível normal ou de
           #    assinatura: não abrem caixa de diálogo nenhuma.
+          #
+          #    As três dos lembretes (Fase 6), e o que cada uma é:
+          #
+          #    POST_NOTIFICATIONS  - "dangerous" desde o Android 13, mas é a
+          #      permissão de mostrar notificação, e só. O aplicativo só a
+          #      pede depois de a pessoa ligar os lembretes; se ela recusar,
+          #      a chave volta sozinha para desligado.
+          #    RECEIVE_BOOT_COMPLETED - nível normal. É o que faz os
+          #      lembretes sobreviverem a reiniciar o celular.
+          #    VIBRATE - nível normal, vem do próprio plugin.
+          #
+          #    O que **não** está aqui, e é o ponto: SCHEDULE_EXACT_ALARM e
+          #    USE_EXACT_ALARM. Os lembretes são agendados em modo inexato
+          #    justamente para dispensar o alarme exato, que o sistema
+          #    apresenta com cara de coisa séria e que o Google Play audita.
+          #    Se alguma delas aparecer nesta lista um dia, é porque o modo
+          #    de agendamento mudou - e aí a conta precisa ser refeita.
           cat > esperado.txt <<'PERMISSOES'
           android.permission.ACCESS_NETWORK_STATE
           android.permission.INTERNET
+          android.permission.POST_NOTIFICATIONS
+          android.permission.RECEIVE_BOOT_COMPLETED
+          android.permission.RECORD_AUDIO
           android.permission.USE_BIOMETRIC
           android.permission.USE_FINGERPRINT
+          android.permission.VIBRATE
           android.permission.WAKE_LOCK
           br.com.brigido.meu_bebe.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
           com.google.android.providers.gsf.permission.READ_GSERVICES

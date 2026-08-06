@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../services/drive_service.dart';
@@ -66,9 +66,9 @@ class StatsScreen extends ConsumerWidget {
               error: (Object error, _) => SoftCard(
                 child: Row(
                   children: <Widget>[
-                    const Icon(
+                    Icon(
                       Icons.cloud_off_outlined,
-                      color: AppColors.textSecondary,
+                      color: context.cores.textSecondary,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -118,7 +118,7 @@ class _CountTile extends StatelessWidget {
                 child: Text(
                   type.label,
                   style: text.labelMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.cores.textSecondary,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -158,7 +158,7 @@ class _StorageCard extends StatelessWidget {
             fraction: limit == null || limit <= 0
                 ? null
                 : (capsuleBytes / limit).clamp(0.0, 1.0),
-            color: AppColors.primary,
+            color: context.cores.primary,
           ),
           const Divider(height: 28),
           _Bar(
@@ -168,7 +168,7 @@ class _StorageCard extends StatelessWidget {
                 : '${Fmt.bytes(quota.usedBytes)} ${S.storageOf} '
                       '${Fmt.bytes(limit)}',
             fraction: quota.fraction,
-            color: AppColors.textSecondary,
+            color: context.cores.textSecondary,
           ),
           const SizedBox(height: 12),
           // Este número é da conta Google inteira. Dizer isso na tela evita
@@ -225,7 +225,7 @@ class _Bar extends StatelessWidget {
           child: LinearProgressIndicator(
             value: f ?? 0,
             minHeight: 8,
-            backgroundColor: AppColors.surfaceMuted,
+            backgroundColor: context.cores.surfaceMuted,
             valueColor: AlwaysStoppedAnimation<Color>(color),
           ),
         ),

@@ -74,6 +74,49 @@ void main() {
     });
   });
 
+  group('o que o aplicativo pede ao Android', () {
+    final String manifest = File(
+      'android/app/src/main/AndroidManifest.xml',
+    ).readAsStringSync();
+
+    test('não pede alarme exato', () {
+      // O alarme exato é apresentado pelo sistema com cara de coisa séria e
+      // auditado pelo Google Play. Um lembrete de tirar uma foto pode chegar
+      // meia hora depois e continua valendo, então os lembretes são
+      // agendados em modo inexato. Se alguém trocar o modo de agendamento,
+      // este teste é o que avisa que a conta de permissão mudou junto.
+      // A busca é pela declaração, não pela palavra: o comentário do próprio
+      // manifesto explica por que ela não está lá, e citar o nome não é pedir.
+      for (final String nome in <String>[
+        'SCHEDULE_EXACT_ALARM',
+        'USE_EXACT_ALARM',
+      ]) {
+        expect(
+          manifest,
+          isNot(
+            contains(
+              '<uses-permission android:name="android.permission.$nome"',
+            ),
+          ),
+          reason: nome,
+        );
+      }
+    });
+
+    test('os lembretes sobrevivem a reiniciar o celular', () {
+      expect(manifest, contains('RECEIVE_BOOT_COMPLETED'));
+      expect(manifest, contains('ScheduledNotificationBootReceiver'));
+    });
+
+    test('o desugaring está ligado, senão o build Android nem compila', () {
+      final String gradle = File(
+        'android/app/build.gradle.kts',
+      ).readAsStringSync();
+      expect(gradle, contains('isCoreLibraryDesugaringEnabled = true'));
+      expect(gradle, contains('coreLibraryDesugaring('));
+    });
+  });
+
   test('o corpo da carta cabe num documento do Firestore', () {
     // Um documento inteiro não passa de 1 MiB. O corpo é o campo que pode
     // crescer; em UTF-8 o pior caso é 4 bytes por caractere.

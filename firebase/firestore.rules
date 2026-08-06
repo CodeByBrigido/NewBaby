@@ -45,7 +45,7 @@ service cloud.firestore {
       return data.keys().hasOnly([
                'tipo', 'data', 'criadoEm', 'idadeDias', 'balde', 'baldeNome',
                'titulo', 'descricao', 'arquivos', 'crescimento', 'status',
-               'uploadStatus', 'excluidoEm', 'erro',
+               'uploadStatus', 'excluidoEm', 'erro', 'lacradoAte',
                // Legado: versões antigas gravavam aqui uma segunda cópia do
                // texto das cartas. O aplicativo não escreve mais este campo,
                // mas quem tem documentos antigos precisa poder editá-los.
@@ -62,6 +62,20 @@ service cloud.firestore {
           && (!('arquivos' in data)
               || data.arquivos == null
               || (data.arquivos is list && data.arquivos.size() <= 60));
+    }
+
+    // O progresso do catálogo de sugestões: se foi feita, se foi dispensada,
+    // e quais itens do checklist estão marcados. Nada aqui é texto livre da
+    // pessoa - os itens vêm do catálogo, que mora no aplicativo - então o
+    // limite existe só para impedir que alguém use o documento como depósito.
+    function isValidSuggestion() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['feita', 'dispensada', 'marcados'])
+          && (!('feita' in data) || data.feita is bool)
+          && (!('dispensada' in data) || data.dispensada is bool)
+          && (!('marcados' in data)
+              || data.marcados == null
+              || (data.marcados is list && data.marcados.size() <= 40));
     }
 
     function isValidFolder() {
@@ -86,6 +100,28 @@ service cloud.firestore {
       match /entradas/{entrada} {
         allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && isValidEntry();
+      }
+
+      // Restos do compartilhamento familiar, que saiu antes da publicação.
+      //
+      // Nada escreve mais aqui, mas quem instalou a versão de teste tem
+      // documentos gravados. Sem estas duas linhas, "apagar minha conta e
+      // meus dados" passaria a deixar rastro em silêncio, e essa é uma
+      // promessa feita à Play Store. O dia em que a última conta antiga for
+      // apagada, estes blocos podem sair.
+      match /miniaturas/{driveId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if false;
+      }
+
+      match /imagens/{driveId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if false;
+      }
+
+      match /sugestoes/{sugestao} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidSuggestion();
       }
 
       match /pastas/{chave} {

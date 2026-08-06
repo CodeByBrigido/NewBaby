@@ -1,0 +1,618 @@
+[
+  {
+    "id": "primeiro-aniversario-ideias",
+    "titulo": "Ideias para o primeiro aniversário",
+    "resumo": "Falta pouco. Onde fazer, o que servir, quem chamar e, principalmente, o que registrar antes que o dia passe voando.",
+    "tipo": "preparo",
+    "destaque": true,
+    "quando": { "tipo": "antesDoAniversario", "anos": 1, "diasAntes": 21 },
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "Antes de tudo: para quem é a festa",
+        "texto": "Com um ano, a criança não entende festa, estranha barulho e costuma dormir no meio. A festa é para vocês e para quem ama vocês, e assumir isso desde o começo tira metade da pressão. Festa pequena não é festa menor."
+      },
+      {
+        "titulo": "Onde fazer",
+        "texto": "O lugar define quase tudo o que vem depois: quantidade de gente, custo e cansaço.",
+        "itens": [
+          "Em casa: mais barato, mais confortável para a criança dormir, e você limpa depois. Funciona muito bem até uns quinze convidados.",
+          "Casa de festa ou buffet infantil: resolve comida, decoração e limpeza de uma vez. Reserve com dois a três meses de antecedência, porque sábado à tarde some cedo.",
+          "Salão do prédio: meio-termo comum e barato. Confira antes se tem tomada, geladeira e banheiro perto.",
+          "Parque ou praça: sombra, grama e crianças correndo. Leve toalha, tenda e um plano B para chuva.",
+          "Chácara ou sítio: bom quando a família é grande e vem de longe. Some o custo do deslocamento de todo mundo antes de decidir."
+        ]
+      },
+      {
+        "titulo": "Tema, sem complicar",
+        "texto": "Tema serve para você não ter que decidir cada detalhe do zero. Escolha um que já exista na vida de vocês.",
+        "itens": [
+          "O bicho preferido, o livro que ela pede toda noite, a fruta que ela adora.",
+          "Duas cores e pronto: com duas cores, qualquer coisa que você comprar combina.",
+          "Chá de fraldas ao contrário: cada convidado traz um livro infantil com uma dedicatória. Vira uma biblioteca com autógrafo da família."
+        ]
+      },
+      {
+        "titulo": "Comida",
+        "texto": "Lembre que boa parte dos convidados são adultos com pressa e crianças com fome.",
+        "itens": [
+          "Bolo de aniversário para as fotos, e um bolinho separado sem açúcar para ela, se a pediatra já tiver liberado.",
+          "Frutas cortadas somem mais rápido que doce e sujam menos.",
+          "Comida de dedo para os adultos evita prato, talher e louça para lavar."
+        ]
+      },
+      {
+        "titulo": "O que registrar, e o que quase todo mundo esquece",
+        "texto": "No dia, ninguém lembra de nada. Deixe combinado antes.",
+        "itens": [
+          "Peça a alguém para ser o fotógrafo do dia. Sem isso, você termina a festa sem uma foto sua com ela.",
+          "Uma foto com cada grupo: avós, padrinhos, primos. É a foto que a família vai querer daqui a vinte anos.",
+          "Um vídeo curto de dez segundos de cada convidado mandando um recado para ela aos dezoito anos.",
+          "O barulho da festa gravado em áudio, mesmo bagunçado: é a coisa que mais devolve o dia depois.",
+          "A carta. Antes de dormir, escreva como foi o primeiro ano. Você vai achar que lembra para sempre. Não vai."
+        ]
+      },
+      {
+        "titulo": "Duas semanas antes",
+        "itens": [
+          "Confirmar lugar e horário",
+          "Fechar a lista de convidados e mandar o convite",
+          "Encomendar ou combinar o bolo",
+          "Separar a roupa dela e a sua",
+          "Combinar quem fotografa",
+          "Escrever a carta com calma, sem a correria do dia"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "primeiro-natal-ideias",
+    "titulo": "O primeiro Natal",
+    "resumo": "Presente, foto, e o que fazer com um bebê que não vai lembrar de nada disso.",
+    "tipo": "preparo",
+    "destaque": true,
+    "quando": { "tipo": "dataEspecial", "data": "natal", "diasAntes": 25, "apenasPrimeira": true },
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "O presente que fica",
+        "texto": "Brinquedo de primeiro Natal dura seis meses. O que dura é o que foi guardado.",
+        "itens": [
+          "Uma carta de Natal escrita por cada um dos pais, guardada para os dezoito anos.",
+          "Um enfeite de árvore com o ano escrito. Todo ano vem um novo, e em vinte anos a árvore conta a história inteira.",
+          "Um livro com dedicatória e data."
+        ]
+      },
+      {
+        "titulo": "A foto",
+        "itens": [
+          "Luz da árvore no fundo, luz da janela no rosto. Sem flash: o flash apaga as luzinhas.",
+          "Foto no mesmo canto da casa, todo ano. Em cinco anos vira a sequência que todo mundo para para olhar.",
+          "A foto da família inteira, com tripé ou timer. Todo ano falta alguém nas fotos, e quase sempre é quem estava segurando o celular."
+        ]
+      },
+      {
+        "titulo": "Expectativa realista",
+        "texto": "Bebê no Natal costuma dormir, estranhar barulho ou chorar na hora da ceia. Nada disso é problema, e tudo isso rende foto boa. Não force sorriso para a câmera: a cara de sono do primeiro Natal é mais engraçada daqui a vinte anos que um sorriso arrancado."
+      }
+    ]
+  },
+  {
+    "id": "introducao-alimentar-preparo",
+    "titulo": "Preparando a introdução alimentar",
+    "resumo": "O que separar em casa e como registrar. Quando e o que oferecer, quem diz é a pediatra.",
+    "tipo": "rotina",
+    "destaque": true,
+    "quando": { "tipo": "idade", "deDias": 140, "ateDias": 220 },
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "Isto não é orientação de saúde",
+        "texto": "Quando começar, o que oferecer e em que ordem é conversa com a pediatra, e só com ela. O que está aqui é a parte prática: o que deixar pronto em casa e como guardar a memória dessa fase, que é curta e muito engraçada."
+      },
+      {
+        "titulo": "O que facilita a vida",
+        "itens": [
+          "Cadeirão que dá para lavar inteiro, ou um plástico grande embaixo.",
+          "Babador de manga comprida. Os pequenos não servem para nada nessa fase.",
+          "Pratinho com ventosa, que ganha uns dias antes de virar brinquedo.",
+          "Duas colheres: uma para ela segurar e outra para você usar."
+        ]
+      },
+      {
+        "titulo": "A memória que vale",
+        "itens": [
+          "A careta de cada sabor novo. Faça a foto do rosto, não do prato.",
+          "Um vídeo curto do primeiro dia sentada no cadeirão.",
+          "A lista dos alimentos que ela amou e dos que ela cuspiu. Daqui a quinze anos, comparar com o gosto dela é hilário."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "primeira-viagem-com-bebe",
+    "titulo": "A primeira viagem",
+    "resumo": "O que levar, quanto tempo de trajeto aguenta, e como não voltar sem nenhuma foto dos três juntos.",
+    "tipo": "passeio",
+    "destaque": true,
+    "quando": { "tipo": "idade", "deDias": 90, "ateDias": 1000 },
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "Escolhendo o destino",
+        "itens": [
+          "Perto é melhor que bonito. Três horas de carro com paradas é um limite confortável nos primeiros meses.",
+          "Lugar com cozinha vale mais que lugar com piscina.",
+          "Se for de avião, voo no horário do sono costuma render mais que voo cedo."
+        ]
+      },
+      {
+        "titulo": "A mala",
+        "itens": [
+          "Roupa para o dobro dos dias. Sempre acontece algo.",
+          "Remédio de rotina, receita e carteira de vacinação.",
+          "Um brinquedo conhecido e um cobertor de casa: o cheiro familiar ajuda a dormir em cama estranha.",
+          "Sacola de lixo e lenço umedecido em todo canto: mochila, carro, bolsa."
+        ]
+      },
+      {
+        "titulo": "As fotos que faltam depois",
+        "itens": [
+          "A foto dos três juntos. Peça a um estranho, mesmo que dê preguiça. Você volta de toda viagem só com fotos que você tirou.",
+          "A foto da paisagem com ela pequenininha no canto, para dar escala.",
+          "Um vídeo de dez segundos por dia, sem edição. Juntos, viram o melhor resumo da viagem."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "adaptacao-creche",
+    "titulo": "A adaptação à creche",
+    "resumo": "Como costuma ser a primeira semana, o que combinar com a escola, e o registro que ninguém faz.",
+    "tipo": "rotina",
+    "destaque": true,
+    "quando": { "tipo": "idade", "deDias": 300, "ateDias": 1400 },
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "Como costuma ser",
+        "texto": "Quase sempre a primeira semana é curta e cresce aos poucos: uma hora, depois duas, depois o turno. Chorar na porta é comum e costuma passar rápido depois que você sai, mesmo quando não parece. Cada escola tem seu método, e vale perguntar o deles antes de começar."
+      },
+      {
+        "titulo": "O que combinar antes",
+        "itens": [
+          "Quem leva e quem busca em cada dia da semana.",
+          "Como a escola avisa se algo acontecer, e em quanto tempo.",
+          "Se pode levar o objeto de apego de casa.",
+          "Nome em tudo. Absolutamente tudo."
+        ]
+      },
+      {
+        "titulo": "O registro que ninguém faz",
+        "texto": "Todo mundo fotografa a criança na porta da escola. Quase ninguém escreve como foi para quem ficou do lado de fora. Escreva no mesmo dia: o que você sentiu voltando para o carro sozinho. Daqui a vinte anos, essa parte vale mais que a foto."
+      }
+    ]
+  },
+  {
+    "id": "retrospectiva-primeiro-ano",
+    "titulo": "Montando a retrospectiva do primeiro ano",
+    "resumo": "Um roteiro para transformar o acervo do ano num vídeo ou num álbum que a família inteira vai querer ver.",
+    "tipo": "preparo",
+    "destaque": true,
+    "quando": { "tipo": "antesDoAniversario", "anos": 1, "diasAntes": 60 },
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "O roteiro mais simples que funciona",
+        "itens": [
+          "Uma foto de cada mês, do mesmo lugar se você tiver.",
+          "Três vídeos curtos: um do começo, um do meio, um recente.",
+          "A voz de vocês por cima, contando o que aconteceu naquele mês.",
+          "Termina com a foto do dia do nascimento e a de hoje, lado a lado."
+        ]
+      },
+      {
+        "titulo": "Onde as pessoas travam",
+        "texto": "Todo mundo trava tentando escolher entre trezentas fotos. Não escolha as melhores: escolha uma por mês, na ordem, e siga. Retrospectiva feita vale infinitamente mais que retrospectiva perfeita não feita."
+      }
+    ]
+  },
+  {
+    "id": "passeios-ao-ar-livre",
+    "titulo": "Onde ir com criança pequena",
+    "resumo": "Lugares que funcionam de verdade, por faixa de idade, e o que levar para não voltar cedo.",
+    "tipo": "passeio",
+    "quando": { "tipo": "idade", "deDias": 120, "ateDias": 2200 },
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "Bebê que ainda não anda",
+        "itens": [
+          "Parque com sombra e uma canga no chão. Olhar folha mexendo entretém mais do que parece.",
+          "Feira livre de manhã: barulho, cor e cheiro, e você ainda resolve a compra da semana.",
+          "Praia ou lago no fim da tarde, quando o sol está fraco."
+        ]
+      },
+      {
+        "titulo": "Quem já anda",
+        "itens": [
+          "Praça com chão irregular: grama, areia, pedrinha. Cansa e diverte ao mesmo tempo.",
+          "Horto, jardim botânico ou viveiro de plantas. Costuma ser barato ou de graça e tem sombra.",
+          "Aquário ou borboletário, quando tiver na cidade.",
+          "Trilha curta e plana, com um objetivo no fim: uma ponte, um riacho, uma pedra grande."
+        ]
+      },
+      {
+        "titulo": "O que sempre falta",
+        "itens": [
+          "Água e uma fruta.",
+          "Uma muda de roupa inteira.",
+          "Protetor solar e chapéu.",
+          "Sair de casa antes das dez ou depois das quatro. No meio do dia ninguém aguenta."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "carta-para-o-futuro-como-escrever",
+    "titulo": "Quando você não sabe o que escrever",
+    "resumo": "Cinco começos de frase que resolvem a página em branco.",
+    "tipo": "carta",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 6000 },
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "Comece por uma destas",
+        "itens": [
+          "Hoje você fez uma coisa que eu quero que você saiba...",
+          "Uma coisa que eu tenho medo de esquecer é...",
+          "Se eu pudesse te contar como é ser sua mãe (ou seu pai) hoje, eu diria...",
+          "Quando você ler isto, você vai ter X anos, e eu queria que você soubesse...",
+          "Hoje foi um dia difícil, e mesmo assim..."
+        ]
+      },
+      {
+        "titulo": "Não precisa ser bonito",
+        "texto": "As cartas que mais emocionam não são as bem escritas: são as que contam uma coisa específica. \"Você chorou a noite inteira e eu chorei junto às quatro da manhã\" vale mais que qualquer parágrafo sobre amor incondicional. Escreva feio, escreva curto, mas escreva concreto."
+      },
+      {
+        "titulo": "Lacre",
+        "texto": "Ao guardar, escolha uma data de abertura: os quinze anos, os dezoito. A carta que ela sabe que existe e não pode ler ainda é um presente que dura anos antes de ser aberto."
+      }
+    ]
+  },
+  {
+    "id": "segundo-aniversario",
+    "titulo": "Ideias para o segundo aniversário",
+    "resumo": "Aos dois ela já participa. Muda tudo em relação ao primeiro.",
+    "tipo": "preparo",
+    "destaque": true,
+    "quando": { "tipo": "antesDoAniversario", "anos": 2, "diasAntes": 21 },
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "A diferença para o primeiro",
+        "texto": "Aos dois anos ela escolhe, opina e lembra por semanas. Deixe que escolha o tema, mesmo que a escolha seja estranha. A festa dela com a escolha dela vale mais que a festa perfeita com a sua."
+      },
+      {
+        "titulo": "O que funciona nessa idade",
+        "itens": [
+          "Poucas crianças e muito espaço para correr.",
+          "Uma atividade só: bolha de sabão, tinta lavável, caixa de areia. Mais que uma vira confusão.",
+          "Horário curto: duas horas é o suficiente para todo mundo.",
+          "Bolo simples. Ela quer o brigadeiro, não a arquitetura."
+        ]
+      },
+      {
+        "titulo": "A entrevista",
+        "texto": "Aos dois ela já responde. Grave em áudio três perguntas: qual sua cor preferida, o que você mais gosta de fazer, o que você quer ser quando crescer. Faça as mesmas três todo ano. Em dez anos você vai ter a coleção mais impagável do acervo."
+      }
+    ]
+  },
+  {
+    "id": "chegada-de-irmao",
+    "titulo": "Quando vem um irmão",
+    "resumo": "Como preparar e o que registrar antes que a casa mude de configuração para sempre.",
+    "tipo": "rotina",
+    "quando": { "tipo": "idade", "deDias": 300, "ateDias": 2500 },
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "O registro que só dá para fazer antes",
+        "texto": "Existe uma última foto de vocês como família de três, e ninguém sabe que ela é a última na hora de tirá-la. Se um irmão está a caminho, marque uma tarde e faça essa foto de propósito."
+      },
+      {
+        "titulo": "Ajuda na adaptação",
+        "itens": [
+          "Deixe ela ajudar em algo pequeno e real: escolher uma roupinha, guardar as fraldas.",
+          "Um tempo só dela, todo dia, mesmo que sejam dez minutos.",
+          "Uma carta escrita para ela, sobre ela, no meio da chegada do outro. É o que ela vai querer ler depois, quando pensar que a atenção mudou de lugar."
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "primeiros-dias-cheiro",
+    "titulo": "Escreva o que ninguém vai lembrar",
+    "resumo": "O cheiro da cabeça, o barulho que faz mamando, o jeito que segura o dedo. São as coisas que somem primeiro da memória. Uma frase basta.",
+    "tipo": "carta",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 120 },
+    "registrar": "carta"
+  },
+  {
+    "id": "primeiros-dias-maos",
+    "titulo": "A foto das mãos",
+    "resumo": "A mão de vocês ao lado da mão dela, na mesma foto. É a imagem que mais impressiona anos depois, porque a escala não volta nunca mais.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 200 },
+    "registrar": "foto"
+  },
+  {
+    "id": "recem-rosto",
+    "titulo": "Rosto perto, luz da janela",
+    "resumo": "Recém-nascido enxerga bem a uns trinta centímetros, quase a distância do colo. Fique nessa distância, sem flash, com a luz da janela de lado.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 150 },
+    "registrar": "foto"
+  },
+  {
+    "id": "recem-voz",
+    "titulo": "Grave a sua voz, não a dela",
+    "resumo": "Cantar, ler em voz alta, conversar sobre o dia. Daqui a trinta anos, quem vai querer se ouvir é ela, mas quem ela mais vai querer ouvir é você.",
+    "tipo": "cuidado",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 900 },
+    "registrar": "audio"
+  },
+  {
+    "id": "recem-noites",
+    "titulo": "Anote uma linha por noite difícil",
+    "resumo": "Parece a última coisa que você quer fazer às três da manhã. Mas essa é a fase que some da memória mais rápido, e a que mais vale ter registrado depois.",
+    "tipo": "carta",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 180 },
+    "registrar": "carta"
+  },
+  {
+    "id": "bebe-preto-branco",
+    "titulo": "Contraste forte diverte",
+    "resumo": "Nas primeiras semanas o contraste alto chama mais atenção que a cor. Um papel com listras pretas e brancas, movido devagar, rende minutos de fascínio e caretas ótimas.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 20, "ateDias": 150 }
+  },
+  {
+    "id": "bebe-barriga",
+    "titulo": "Um tempinho de barriga para baixo",
+    "resumo": "Acordado e acompanhado, alguns minutos por dia. Fica forte, reclama um pouco e faz umas caras impagáveis. Deixe o celular por perto.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 30, "ateDias": 240 },
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-espelho",
+    "titulo": "O espelho",
+    "resumo": "Sente com ela de frente para um espelho e converse. A reação muda de mês para mês, e filmar a mesma cena a cada dois meses vira uma sequência linda.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 90, "ateDias": 500 },
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-texturas",
+    "titulo": "Uma caixa de texturas",
+    "resumo": "Retalho felpudo, papel que amassa, colher de madeira, esponja seca. Nada pequeno o bastante para caber inteiro na boca. Entretém mais que brinquedo caro.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 120, "ateDias": 500 }
+  },
+  {
+    "id": "bebe-mesmo-lugar",
+    "titulo": "A mesma foto, todo mês",
+    "resumo": "Escolha um lugar fixo e repita todo mês. Separadas não dizem muito. Juntas, no fim do ano, são a coisa mais bonita do acervo.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 30, "ateDias": 400 },
+    "registrar": "foto"
+  },
+  {
+    "id": "bebe-rotina",
+    "titulo": "Filme o comum",
+    "resumo": "O banho, a mamada, o caminho de casa. Ninguém filma o comum porque parece que vai durar para sempre, e é o comum que some sem avisar.",
+    "tipo": "cuidado",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 2000 },
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-primeira-agua",
+    "titulo": "Água pela primeira vez",
+    "resumo": "Mar, piscina, riacho ou uma bacia no quintal. A cara de quando o pé encosta na água fria é uma foto que se tira uma vez só.",
+    "tipo": "passeio",
+    "quando": { "tipo": "idade", "deDias": 150, "ateDias": 900 },
+    "registrar": "foto"
+  },
+  {
+    "id": "bebe-livro-pano",
+    "titulo": "Livro de pano, mordido mesmo",
+    "resumo": "Nessa fase o livro é objeto antes de ser história: para amassar, morder e virar do avesso. Ler junto agora é sobre associar o livro ao colo.",
+    "tipo": "leitura",
+    "quando": { "tipo": "idade", "deDias": 150, "ateDias": 700 }
+  },
+  {
+    "id": "bebe-esconde",
+    "titulo": "Achou!",
+    "resumo": "Esconder o rosto atrás das mãos e reaparecer. A gargalhada que vem daí é curta na vida e eterna em vídeo.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 180, "ateDias": 700 },
+    "registrar": "video"
+  },
+  {
+    "id": "bebe-comida-careta",
+    "titulo": "A cara da comida nova",
+    "resumo": "Abacate, manga, beterraba. A careta da primeira colherada de cada sabor rende uma sequência de fotos que envelhece muito bem.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 150, "ateDias": 600 },
+    "registrar": "foto"
+  },
+  {
+    "id": "bebe-musica-rotina",
+    "titulo": "Uma música para cada hora",
+    "resumo": "A mesma canção no banho, outra na hora de dormir. Vira aviso do que vem a seguir, acalma, e daqui a vinte anos aquela música devolve a casa inteira.",
+    "tipo": "rotina",
+    "quando": { "tipo": "idade", "deDias": 30, "ateDias": 1200 },
+    "registrar": "audio"
+  },
+  {
+    "id": "engatinha-tunel",
+    "titulo": "Um túnel de almofadas",
+    "resumo": "Almofadas do sofá, caixa de papelão aberta nas duas pontas, um lençol sobre duas cadeiras. Gasta energia, custa nada.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 210, "ateDias": 600 },
+    "registrar": "video"
+  },
+  {
+    "id": "engatinha-caixa",
+    "titulo": "A caixa de papelão vence o brinquedo",
+    "resumo": "Uma caixa grande vira carro, casa e esconderijo, e entretém mais que o brinquedo que veio dentro dela. Vale registrar essa injustiça.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 240, "ateDias": 1200 },
+    "registrar": "foto"
+  },
+  {
+    "id": "anda-chao-diferente",
+    "titulo": "Chão diferente todo fim de semana",
+    "resumo": "Grama, areia, pedrinha, folha seca. Andar em superfícies diferentes é diversão e treino ao mesmo tempo, e o parque perto de casa serve.",
+    "tipo": "passeio",
+    "quando": { "tipo": "idade", "deDias": 330, "ateDias": 900 }
+  },
+  {
+    "id": "anda-palavras-erradas",
+    "titulo": "Anote as palavras erradas",
+    "resumo": "As primeiras palavras saem tortas, e a versão torta é a que a família adota para sempre. Escreva antes que a pronúncia certa apague a graça.",
+    "tipo": "carta",
+    "quando": { "tipo": "idade", "deDias": 300, "ateDias": 1200 },
+    "registrar": "carta"
+  },
+  {
+    "id": "anda-imita",
+    "titulo": "Ela imita tudo o que você faz",
+    "resumo": "Varrer, falar ao telefone, mexer na panela. Dê uma versão pequena de um objeto real e filme: é onde aparece o jeito de vocês nela.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 360, "ateDias": 1200 },
+    "registrar": "video"
+  },
+  {
+    "id": "dois-anos-rabisco",
+    "titulo": "Guarde o primeiro rabisco",
+    "resumo": "Fotografe o desenho junto com a mão que desenhou. Papel amarela, some, vira embrulho. A foto fica.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 500, "ateDias": 1500 },
+    "registrar": "desenho"
+  },
+  {
+    "id": "dois-anos-agua-bacia",
+    "titulo": "Bacia de água no quintal",
+    "resumo": "Uma bacia, dois copos e uma colher. Vinte minutos de concentração absoluta por praticamente nada. Filme de longe, sem interromper.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 540, "ateDias": 1400 },
+    "registrar": "video"
+  },
+  {
+    "id": "dois-anos-entrevista",
+    "titulo": "A entrevista anual",
+    "resumo": "Três perguntas, sempre as mesmas, todo aniversário. Grave em áudio. Em dez anos você vai ter uma coleção impagável.",
+    "tipo": "cuidado",
+    "quando": { "tipo": "idade", "deDias": 700, "ateDias": 6000 },
+    "registrar": "audio"
+  },
+  {
+    "id": "dois-anos-tinta",
+    "titulo": "Tinta lavável e papel grande",
+    "resumo": "Papel pardo no chão, tinta guache e a mão inteira. A sujeira é o ponto. Guarde a impressão da mão com a data.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 540, "ateDias": 1800 },
+    "registrar": "desenho"
+  },
+  {
+    "id": "tres-anos-cozinha",
+    "titulo": "Cozinhar junto, sujeira inclusa",
+    "resumo": "Misturar, despejar, apertar massa. A bagunça é o ponto, não o efeito colateral. Um pano no chão resolve e a memória fica.",
+    "tipo": "brincadeira",
+    "quando": { "tipo": "idade", "deDias": 900, "ateDias": 2200 }
+  },
+  {
+    "id": "tres-anos-historia",
+    "titulo": "Deixe ela contar a história",
+    "resumo": "Pegue um livro conhecido e peça que ela conte para você, olhando as figuras. A versão dela costuma ser melhor que a original.",
+    "tipo": "leitura",
+    "quando": { "tipo": "idade", "deDias": 900, "ateDias": 2400 },
+    "registrar": "audio"
+  },
+  {
+    "id": "tres-anos-porques",
+    "titulo": "A fase dos porquês",
+    "resumo": "Anote as perguntas que você não soube responder. É o retrato mais fiel de como ela pensava nessa idade, e some em poucos meses.",
+    "tipo": "carta",
+    "quando": { "tipo": "idade", "deDias": 900, "ateDias": 2200 },
+    "registrar": "carta"
+  },
+  {
+    "id": "escola-primeiro-dia",
+    "titulo": "O primeiro dia de escola",
+    "resumo": "A foto na porta, a mochila maior que ela, e o texto que importa: como você se sentiu deixando ela lá.",
+    "tipo": "preparo",
+    "quando": { "tipo": "idade", "deDias": 600, "ateDias": 2200 },
+    "registrar": "carta"
+  },
+  {
+    "id": "qualquer-idade-avos",
+    "titulo": "Filme os avós com ela",
+    "resumo": "Não a criança sozinha: os dois juntos, conversando. É o registro que a família mais vai querer ter, e a janela não fica aberta para sempre.",
+    "tipo": "cuidado",
+    "quando": { "tipo": "idade", "deDias": 0, "ateDias": 6000 },
+    "registrar": "video"
+  },
+  {
+    "id": "qualquer-idade-altura-parede",
+    "titulo": "A marca na parede",
+    "resumo": "Um canto de porta, um lápis e a data. É o registro mais analógico que existe e o que mais emociona quando a família muda de casa. Fotografe antes de mudar.",
+    "tipo": "cuidado",
+    "quando": { "tipo": "idade", "deDias": 330, "ateDias": 6000 },
+    "registrar": "foto"
+  },
+  {
+    "id": "qualquer-idade-dia-comum",
+    "titulo": "Documente um dia comum inteiro",
+    "resumo": "Escolha um sábado qualquer e fotografe de hora em hora, sem produzir nada. Um dia sem nada de especial é o que você mais vai querer rever.",
+    "tipo": "foto",
+    "quando": { "tipo": "idade", "deDias": 60, "ateDias": 6000 },
+    "registrar": "foto"
+  },
+  {
+    "id": "primeira-pascoa-ideias",
+    "titulo": "A primeira Páscoa",
+    "resumo": "Chocolate ainda não, provavelmente. Mas a foto com as orelhinhas e a carta de Páscoa duram muito mais que o ovo.",
+    "tipo": "preparo",
+    "quando": { "tipo": "dataEspecial", "data": "pascoa", "diasAntes": 18, "apenasPrimeira": true },
+    "registrar": "foto"
+  },
+  {
+    "id": "primeiro-dia-das-maes-ideias",
+    "titulo": "O primeiro Dia das Mães",
+    "resumo": "A foto que quase nunca existe é a da mãe com o bebê, porque é ela quem fotografa. Peça a alguém. Hoje é o dia.",
+    "tipo": "preparo",
+    "quando": { "tipo": "dataEspecial", "data": "diaDasMaes", "diasAntes": 14, "apenasPrimeira": true },
+    "registrar": "foto"
+  },
+  {
+    "id": "primeiro-dia-dos-pais-ideias",
+    "titulo": "O primeiro Dia dos Pais",
+    "resumo": "Um áudio do pai falando com ela aos dezoito anos vale mais que qualquer presente que ele possa ganhar hoje.",
+    "tipo": "preparo",
+    "quando": { "tipo": "dataEspecial", "data": "diaDosPais", "diasAntes": 14, "apenasPrimeira": true },
+    "registrar": "audio"
+  },
+  {
+    "id": "primeiro-carnaval-ideias",
+    "titulo": "O primeiro Carnaval",
+    "resumo": "Uma fantasia improvisada em casa rende tanta foto quanto bloco lotado, e ninguém volta esgotado.",
+    "tipo": "preparo",
+    "quando": { "tipo": "dataEspecial", "data": "carnaval", "diasAntes": 14, "apenasPrimeira": true },
+    "registrar": "foto"
+  }
+]

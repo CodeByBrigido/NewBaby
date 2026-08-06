@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
@@ -142,10 +142,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 const SizedBox(height: 8),
                 Text(
                   // Antes de escolher menino ou menina o texto é neutro.
-                  G.of(_gender).onboardingSubtitle,
+                  Copy.generic.onboardingSubtitle,
                   textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.cores.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -295,16 +295,16 @@ class _PhotoPicker extends StatelessWidget {
           Container(
             width: 116,
             height: 116,
-            decoration: const BoxDecoration(
-              color: AppColors.primarySoft,
+            decoration: BoxDecoration(
+              color: context.cores.primarySoft,
               shape: BoxShape.circle,
             ),
             clipBehavior: Clip.antiAlias,
             child: photo == null
-                ? const Icon(
+                ? Icon(
                     Icons.add_a_photo_outlined,
                     size: 32,
-                    color: AppColors.primaryDark,
+                    color: context.cores.primaryDark,
                   )
                 : Image.file(photo!, fit: BoxFit.cover),
           ),
@@ -341,13 +341,13 @@ class _GenderPicker extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       color: value == gender
-                          ? AppColors.primarySoft
-                          : AppColors.surface,
+                          ? context.cores.primarySoft
+                          : context.cores.surface,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: value == gender
-                            ? AppColors.primary
-                            : AppColors.divider,
+                            ? context.cores.primary
+                            : context.cores.divider,
                         width: value == gender ? 1.6 : 1,
                       ),
                     ),
@@ -356,8 +356,8 @@ class _GenderPicker extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: value == gender
-                            ? AppColors.primaryDark
-                            : AppColors.textSecondary,
+                            ? context.cores.primaryDark
+                            : context.cores.textSecondary,
                       ),
                     ),
                   ),

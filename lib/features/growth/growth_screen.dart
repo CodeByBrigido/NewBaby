@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -64,8 +64,8 @@ class GrowthScreen extends ConsumerWidget {
                     child: FilledButton.tonalIcon(
                       onPressed: () => context.push(Routes.growthChart),
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.primarySoft,
-                        foregroundColor: AppColors.primaryDark,
+                        backgroundColor: context.cores.primarySoft,
+                        foregroundColor: context.cores.primaryDark,
                         minimumSize: const Size.fromHeight(48),
                       ),
                       icon: const Icon(Icons.show_chart, size: 20),
@@ -104,12 +104,12 @@ class _GrowthTile extends StatelessWidget {
                   )
                 : DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.growthSoft,
+                      color: context.cores.growthSoft,
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.monitor_heart_outlined,
-                      color: AppColors.growth,
+                      color: context.cores.growth,
                       size: 22,
                     ),
                   ),
@@ -127,7 +127,7 @@ class _GrowthTile extends StatelessWidget {
                       ? S.birth
                       : profile?.ageAt(entry.date).detailedLabel() ?? '',
                   style: text.labelSmall?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.cores.textSecondary,
                   ),
                 ),
               ],
@@ -164,12 +164,12 @@ class _Measure extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Icon(icon, size: 14, color: AppColors.textSecondary),
+        Icon(icon, size: 14, color: context.cores.textSecondary),
         const SizedBox(width: 5),
         Text(
           value,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: AppColors.textPrimary,
+            color: context.cores.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),

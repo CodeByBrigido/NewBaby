@@ -75,6 +75,7 @@ abstract final class S {
   static const String birth = 'Nascimento';
   static const String photosAdded = 'Fotos adicionadas';
   static const String photoAdded = 'Foto adicionada';
+  static const String audioAdded = 'Áudio guardado';
   static const String videoAdded = 'Vídeo adicionado';
   static const String drawingAdded = 'Desenho adicionado';
   static const String documentAdded = 'Documento adicionado';

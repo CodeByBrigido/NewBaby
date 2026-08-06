@@ -98,13 +98,30 @@ Para compilar **pelo GitHub**, a chave vai como segredo e o workflow monta o
 > a Play Store trata como se fosse outro app. É o erro mais caro e mais
 > comum de quem publica pela primeira vez.
 
-Não esqueça de cadastrar o **SHA-1 da chave de release** (e o da chave do
-Play App Signing, se usar) como cliente OAuth Android, senão o login falha
-só na versão da loja:
+Não esqueça de cadastrar o **SHA-1 da chave de release** como cliente OAuth
+Android, senão o login falha só na versão da loja:
 
 ```bash
 keytool -list -v -keystore ~/meu-bebe-release.jks -alias meu-bebe | grep SHA1
 ```
+
+> ### A armadilha que quebra o login de todo mundo, menos o seu
+>
+> Com o **Play App Signing**, o aplicativo que chega ao celular das pessoas
+> **não é assinado pela sua chave**. Você assina com a chave de upload, o
+> Google reassina com a chave dele antes de distribuir.
+>
+> Ou seja: o SHA-1 que você tira do seu `.jks` **não** é o SHA-1 do
+> aplicativo que a loja entrega. Se só ele estiver cadastrado, o login
+> funciona no APK que você instala na mão e falha para cada pessoa que
+> baixar da Play Store, com a mesma mensagem de "Login cancelado".
+>
+> **Cadastre os dois**: o SHA-1 da sua chave de upload e o SHA-1 do
+> certificado do Play App Signing, que aparece no Play Console em
+> *Versões → Configuração → Assinatura de apps*.
+>
+> É o tipo de erro que só aparece depois de publicado, com gente real sem
+> conseguir entrar.
 
 ---
 
@@ -137,9 +154,9 @@ O arquivo sai em `build/app/outputs/bundle/release/app-release.aab`.
 
    Faltam o ícone, as capturas de tela e a categoria.
 3. **Política de privacidade** - obrigatória, e com peso extra aqui: o app
-   guarda dados de crianças. Ela precisa dizer, com clareza, que
-   as fotos vão para o Drive do próprio usuário e que o aplicativo guarda
-   apenas metadados.
+   guarda dados de crianças. Ela precisa dizer, com clareza, que as fotos e
+   os vídeos vão para o Google Drive do próprio usuário e que o aplicativo
+   guarda apenas metadados.
 4. **Segurança dos dados** - declare o que é coletado. Neste app:
    identificadores da conta (para o login) e conteúdo do usuário (o índice
    no Firestore). Nada é vendido nem compartilhado.
@@ -237,8 +254,14 @@ produção.
 - [ ] URL pública de exclusão de conta no ar e informada no Play Console
 - [ ] Testado o "Apagar minha conta e meus dados" de ponta a ponta, conferindo
       no console do Firebase que `users/{uid}` sumiu
-- [ ] Conferido no APK que só há a permissão `INTERNET`
-      (`aapt dump permissions app-release.apk`)
+- [ ] Conferido no APK que as permissões dos lembretes são só
+      `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED` e `VIBRATE`
+      (`aapt dump permissions app-release.apk`).
+      **Não pode aparecer `SCHEDULE_EXACT_ALARM` nem `USE_EXACT_ALARM`**: os
+      lembretes são agendados em modo inexato justamente para dispensar a
+      permissão de alarme exato, que o Google Play audita
+- [ ] Testado ligar e desligar os lembretes, e recusar a permissão do sistema
+      (a chave tem que voltar sozinha para desligado)
 - [ ] Testado em menino **e** menina - os textos concordam com o gênero
 - [ ] Testado com internet ruim: o envio continua em segundo plano
 

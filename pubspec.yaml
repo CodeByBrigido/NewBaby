@@ -51,6 +51,10 @@ dependencies:
   collection: ^1.19.1
   meta: ^1.16.0
   local_auth: ^3.0.2
+  record: ^7.1.1
+  just_audio: ^0.10.6
+  flutter_local_notifications: ^22.2.0
+  timezone: ^0.11.1
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +69,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    # O conteúdo das inspirações viaja dentro do aplicativo: funciona sem
+    # rede, sem custo de servidor, e não manda a idade da criança para
+    # lugar nenhum.
+    # A pasta inteira, e não arquivo por arquivo: assim acrescentar o ícone
+    # e a imagem de fundo do login é só soltar os arquivos aqui, sem mexer
+    # em configuração, e a falta deles não quebra a compilação.
+    - assets/

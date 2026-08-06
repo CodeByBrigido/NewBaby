@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -21,7 +21,7 @@ class AppDrawer extends ConsumerWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Drawer(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.cores.background,
       child: SafeArea(
         child: Column(
           children: <Widget>[
@@ -66,6 +66,16 @@ class AppDrawer extends ConsumerWidget {
                     route: Routes.growth,
                   ),
                   _Item(
+                    icon: Icons.auto_awesome_outlined,
+                    label: 'Momentos importantes',
+                    route: Routes.moments,
+                  ),
+                  _Item(
+                    icon: Icons.lock_clock,
+                    label: 'Guardado para o futuro',
+                    route: Routes.sealed,
+                  ),
+                  _Item(
                     icon: Icons.insert_chart_outlined,
                     label: S.stats,
                     route: Routes.stats,
@@ -94,14 +104,14 @@ class AppDrawer extends ConsumerWidget {
                     vertical: 14,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primarySoft,
+                    color: context.cores.primarySoft,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    '${S.storedWithLove} ${profile?.firstName ?? G.neutral.yourBaby} 💜',
+                    '${S.storedWithLove} ${Copy.of(profile).driveOwner} 💜',
                     textAlign: TextAlign.center,
                     style: text.bodySmall?.copyWith(
-                      color: AppColors.primaryDark,
+                      color: context.cores.primaryDark,
                     ),
                   ),
                 ),
@@ -125,7 +135,7 @@ class _Header extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
-      color: AppColors.primarySoft,
+      color: context.cores.primarySoft,
       child: Row(
         children: <Widget>[
           BabyAvatar(profile: profile, radius: 26),
@@ -146,7 +156,7 @@ class _Header extends StatelessWidget {
                   Text(
                     profile!.ageNow().detailedLabel(alwaysShowDays: true),
                     style: text.bodySmall?.copyWith(
-                      color: AppColors.primaryDark,
+                      color: context.cores.primaryDark,
                     ),
                   ),
                 ],
