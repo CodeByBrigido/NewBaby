@@ -27,7 +27,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     required this.surfaceMuted,
     required this.textPrimary,
     required this.textSecondary,
-    required this.divider,
+    required this.muted,
+    required this.border,
     required this.photo,
     required this.photoSoft,
     required this.video,
@@ -60,7 +61,18 @@ class AppPalette extends ThemeExtension<AppPalette> {
 
   final Color textPrimary;
   final Color textSecondary;
-  final Color divider;
+
+  /// O terceiro nível de texto: placeholder, legenda de apoio, o que está
+  /// presente sem pedir atenção. Abaixo dele não existe outro: texto mais
+  /// claro que isto deixa de ser legível ao sol.
+  final Color muted;
+
+  /// Contorno de 1 px de cartões e campos.
+  final Color border;
+
+  /// Nome antigo de [border], mantido porque ele aparece em dezenas de
+  /// telas e trocar tudo de uma vez não acrescentaria nada.
+  Color get divider => border;
 
   /// Acento de cada categoria, e o pastel correspondente para os cartões.
   ///
@@ -82,100 +94,130 @@ class AppPalette extends ThemeExtension<AppPalette> {
   final Color growth;
   final Color growthSoft;
 
-  /// Vermelho de erro e verde de sucesso não mudam por paleta: significam a
-  /// mesma coisa em qualquer aplicativo, e reaprender isso custa caro.
-  static const Color danger = Color(0xFFD1585B);
-  static const Color success = Color(0xFF5E9E7E);
+  /// As cores que significam alguma coisa.
+  ///
+  /// Não mudam entre os temas, por decisão do Design System: verde é sucesso
+  /// em qualquer aplicativo, e reaprender isso custa caro. Todas são de
+  /// saturação baixa, para que um aviso não grite no meio de uma tela calma.
+  static const Color success = Color(0xFF69B67F);
+  static const Color info = Color(0xFF7A95C5);
+  static const Color warning = Color(0xFFD8A05A);
+  static const Color error = Color(0xFFD57A73);
 
-  /// Menina: rosa-malva, lilás e pêssego sobre creme.
+  /// Nome antigo de [error].
+  static const Color danger = error;
+
+  // Cor de cada categoria de memória. Também constantes: foto, vídeo e
+  // carta são identificadores, e trocá-las por tema faria a pessoa
+  // reaprender o aplicativo a cada filho.
+  static const Color _foto = Color(0xFF7BAE86);
+  static const Color _fotoSoft = Color(0xFFE6F0E4);
+  static const Color _video = Color(0xFFD8A05A);
+  static const Color _videoSoft = Color(0xFFFAF0DA);
+  static const Color _audio = Color(0xFF8E7BB5);
+  static const Color _audioSoft = Color(0xFFEBE4F4);
+  static const Color _carta = Color(0xFFC87AA8);
+  static const Color _cartaSoft = Color(0xFFF1DFEC);
+  static const Color _desenho = Color(0xFFDE8B5C);
+  static const Color _desenhoSoft = Color(0xFFFBE7DA);
+  static const Color _documento = Color(0xFF7A95C5);
+  static const Color _documentoSoft = Color(0xFFE3EBF7);
+  static const Color _crescimento = Color(0xFFD57A73);
+  static const Color _crescimentoSoft = Color(0xFFFAE2E2);
+
+  /// Tema Girl (Lavender): lavanda, flores, aquarela, delicadeza.
   static const AppPalette girl = AppPalette(
-    primary: Color(0xFFC77DA8),
-    primaryDark: Color(0xFFA85C88),
-    primarySoft: Color(0xFFF3DCE8),
-    accent: Color(0xFF9B7BC4),
+    primary: Color(0xFFC87AA8),
+    primaryDark: Color(0xFFB56696),
+    primarySoft: Color(0xFFF1DFEC),
+    accent: Color(0xFF9B87C4),
     accentSoft: Color(0xFFEDE4F5),
-    background: Color(0xFFFDF8F5),
+    background: Color(0xFFFFFDFE),
     surface: Colors.white,
-    surfaceMuted: Color(0xFFF6EFEA),
-    textPrimary: Color(0xFF3D3436),
-    textSecondary: Color(0xFF8A7C81),
-    divider: Color(0xFFEDE2DC),
-    photo: Color(0xFF7FB08A),
-    photoSoft: Color(0xFFE6F0E4),
-    video: Color(0xFFD9A441),
-    videoSoft: Color(0xFFFAF0DA),
-    audio: Color(0xFF8E6BAF),
-    audioSoft: Color(0xFFEBE2F4),
-    letter: Color(0xFFC77DA8),
-    letterSoft: Color(0xFFF7E3EE),
-    drawing: Color(0xFFDE8B5C),
-    drawingSoft: Color(0xFFFBE7DA),
-    document: Color(0xFF6E93C4),
-    documentSoft: Color(0xFFE3EBF7),
-    growth: Color(0xFFD97A7A),
-    growthSoft: Color(0xFFFAE2E2),
+    surfaceMuted: Color(0xFFF7EDF5),
+    textPrimary: Color(0xFF32292E),
+    textSecondary: Color(0xFF6D6468),
+    muted: Color(0xFF9F9399),
+    border: Color(0xFFEADBE5),
+    photo: _foto,
+    photoSoft: _fotoSoft,
+    video: _video,
+    videoSoft: _videoSoft,
+    audio: _audio,
+    audioSoft: _audioSoft,
+    letter: _carta,
+    letterSoft: _cartaSoft,
+    drawing: _desenho,
+    drawingSoft: _desenhoSoft,
+    document: _documento,
+    documentSoft: _documentoSoft,
+    growth: _crescimento,
+    growthSoft: _crescimentoSoft,
   );
 
-  /// Menino: azul suave, verde água e cinza sobre um branco levemente frio.
+  /// Tema Boy (Sky): céu, manhã, algodão, tranquilidade.
   static const AppPalette boy = AppPalette(
-    primary: Color(0xFF5589B5),
-    primaryDark: Color(0xFF3B6890),
-    primarySoft: Color(0xFFDCE8F2),
+    primary: Color(0xFF6F9FD8),
+    primaryDark: Color(0xFF5687C5),
+    primarySoft: Color(0xFFDDEAF8),
     accent: Color(0xFF6FB0A6),
     accentSoft: Color(0xFFDFEFEC),
-    background: Color(0xFFF8FAFC),
+    background: Color(0xFFF8FBFE),
     surface: Colors.white,
-    surfaceMuted: Color(0xFFEEF3F7),
-    textPrimary: Color(0xFF333A40),
-    textSecondary: Color(0xFF7C8891),
-    divider: Color(0xFFDFE7ED),
-    photo: Color(0xFF7FB08A),
-    photoSoft: Color(0xFFE6F0E4),
-    video: Color(0xFFD9A441),
-    videoSoft: Color(0xFFFAF0DA),
-    audio: Color(0xFF7A6BAF),
-    audioSoft: Color(0xFFE6E2F4),
-    letter: Color(0xFF5589B5),
-    letterSoft: Color(0xFFDCE8F2),
-    drawing: Color(0xFFDE8B5C),
-    drawingSoft: Color(0xFFFBE7DA),
-    // Azul-lavanda: o documento era azul, e azul agora é a cor de marca.
-    document: Color(0xFF8085B8),
-    documentSoft: Color(0xFFE6E7F4),
-    growth: Color(0xFFCF7B6B),
-    growthSoft: Color(0xFFF7E3DE),
+    surfaceMuted: Color(0xFFEDF5FC),
+    textPrimary: Color(0xFF2A3138),
+    textSecondary: Color(0xFF66727D),
+    muted: Color(0xFF98A4AE),
+    border: Color(0xFFDCE6F1),
+    photo: _foto,
+    photoSoft: _fotoSoft,
+    video: _video,
+    videoSoft: _videoSoft,
+    audio: _audio,
+    audioSoft: _audioSoft,
+    letter: _carta,
+    letterSoft: _cartaSoft,
+    drawing: _desenho,
+    drawingSoft: _desenhoSoft,
+    document: _documento,
+    documentSoft: _documentoSoft,
+    growth: _crescimento,
+    growthSoft: _crescimentoSoft,
   );
 
-  /// Antes de saber quem é a criança: login e início do cadastro.
+  /// Tema Welcome: abertura, apresentação, login e cadastro.
   ///
-  /// Lavanda acinzentada, de propósito. É a primeira tela que alguém vê, e
-  /// ela não deve parecer escolhida para menina nem para menino.
+  /// É a cor do ícone, e vale enquanto ainda não se sabe quem é a criança.
+  /// Assim que o cadastro informa o sexo, o aplicativo troca para Sky ou
+  /// Lavender, e só os elementos de destaque mudam: fundo, tipografia,
+  /// cartões e espaçamento continuam os mesmos.
   static const AppPalette neutral = AppPalette(
-    primary: Color(0xFF8F84A8),
-    primaryDark: Color(0xFF6E6486),
-    primarySoft: Color(0xFFE9E5F0),
-    accent: Color(0xFF9B9BAF),
-    accentSoft: Color(0xFFEDEDF2),
-    background: Color(0xFFFAF9FB),
+    primary: Color(0xFFD2654E),
+    primaryDark: Color(0xFFB8513E),
+    primarySoft: Color(0xFFF8E2DC),
+    accent: Color(0xFFC98C6B),
+    accentSoft: Color(0xFFF6E7DC),
+    background: Color(0xFFFBF8F5),
     surface: Colors.white,
-    surfaceMuted: Color(0xFFF1EFF4),
-    textPrimary: Color(0xFF383540),
-    textSecondary: Color(0xFF837E8D),
-    divider: Color(0xFFE6E3EB),
-    photo: Color(0xFF7FB08A),
-    photoSoft: Color(0xFFE6F0E4),
-    video: Color(0xFFD9A441),
-    videoSoft: Color(0xFFFAF0DA),
-    audio: Color(0xFF6F9E9A),
-    audioSoft: Color(0xFFE0EEEC),
-    letter: Color(0xFF8F84A8),
-    letterSoft: Color(0xFFE9E5F0),
-    drawing: Color(0xFFDE8B5C),
-    drawingSoft: Color(0xFFFBE7DA),
-    document: Color(0xFF6E93C4),
-    documentSoft: Color(0xFFE3EBF7),
-    growth: Color(0xFFD97A7A),
-    growthSoft: Color(0xFFFAE2E2),
+    surfaceMuted: Color(0xFFF8F0EB),
+    textPrimary: Color(0xFF2F251F),
+    textSecondary: Color(0xFF71665E),
+    muted: Color(0xFFA39890),
+    border: Color(0xFFE9DDD6),
+    photo: _foto,
+    photoSoft: _fotoSoft,
+    video: _video,
+    videoSoft: _videoSoft,
+    audio: _audio,
+    audioSoft: _audioSoft,
+    letter: _carta,
+    letterSoft: _cartaSoft,
+    drawing: _desenho,
+    drawingSoft: _desenhoSoft,
+    document: _documento,
+    documentSoft: _documentoSoft,
+    growth: _crescimento,
+    growthSoft: _crescimentoSoft,
   );
 
   /// A paleta de uma criança. `null` cai no neutro, e é assim que cadastros
@@ -198,7 +240,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     Color? surfaceMuted,
     Color? textPrimary,
     Color? textSecondary,
-    Color? divider,
+    Color? muted,
+    Color? border,
     Color? photo,
     Color? photoSoft,
     Color? video,
@@ -225,7 +268,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
       surfaceMuted: surfaceMuted ?? this.surfaceMuted,
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
-      divider: divider ?? this.divider,
+      muted: muted ?? this.muted,
+      border: border ?? this.border,
       photo: photo ?? this.photo,
       photoSoft: photoSoft ?? this.photoSoft,
       video: video ?? this.video,
@@ -258,7 +302,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
       surfaceMuted: mix(surfaceMuted, other.surfaceMuted),
       textPrimary: mix(textPrimary, other.textPrimary),
       textSecondary: mix(textSecondary, other.textSecondary),
-      divider: mix(divider, other.divider),
+      muted: mix(muted, other.muted),
+      border: mix(border, other.border),
       photo: mix(photo, other.photo),
       photoSoft: mix(photoSoft, other.photoSoft),
       video: mix(video, other.video),
