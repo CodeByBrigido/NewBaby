@@ -96,6 +96,14 @@ class ProfileScreen extends ConsumerWidget {
                   title: S.about,
                   onTap: () => context.push(Routes.about),
                 ),
+                // Um item próprio, e não uma linha escondida dentro do
+                // Sobre: quem procura política de privacidade procura por
+                // esse nome, e obrigar a caçar é o oposto de transparência.
+                _Tile(
+                  icon: Icons.shield_outlined,
+                  title: 'Política de privacidade',
+                  onTap: () => context.push(Routes.privacy),
+                ),
                 const SizedBox(height: 24),
                 TextButton(
                   onPressed: () => _signOut(context, ref),

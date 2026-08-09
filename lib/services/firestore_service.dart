@@ -176,6 +176,13 @@ class FirestoreService {
     _images,
   ];
 
+  /// A mesma lista, para o teste da política de privacidade.
+  ///
+  /// A política enumera o que fica no servidor. Coleção nova é dado novo, e
+  /// dado novo tem que aparecer no texto antes de existir: expor a lista faz
+  /// o teste falhar em vez de o documento envelhecer em silêncio.
+  static List<String> get debugCollections => _allCollections;
+
   /// Um lote do Firestore aceita 500 operações; 300 deixa margem.
   static const int _deleteBatchSize = 300;
 

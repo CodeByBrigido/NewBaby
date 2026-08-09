@@ -90,6 +90,18 @@ class AboutScreen extends ConsumerWidget {
 
           const SizedBox(height: 20),
           SoftCard(
+            onTap: () => context.push(Routes.privacy),
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.shield_outlined, color: context.cores.textSecondary),
+                const SizedBox(width: 14),
+                const Expanded(child: Text('Política de privacidade')),
+                Icon(Icons.chevron_right, color: context.cores.textSecondary),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          SoftCard(
             onTap: () => context.push(Routes.intro),
             child: Row(
               children: <Widget>[
