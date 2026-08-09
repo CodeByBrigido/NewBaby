@@ -103,7 +103,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     width: 84,
                     height: 84,
                     decoration: BoxDecoration(
-                      color: context.cores.primary,
+                      color: context.cores.primaryStrong,
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: <BoxShadow>[
                         BoxShadow(

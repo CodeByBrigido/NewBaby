@@ -18,6 +18,7 @@ import '../../models/baby_gender.dart';
 class AppPalette extends ThemeExtension<AppPalette> {
   const AppPalette({
     required this.primary,
+    required this.primaryStrong,
     required this.primaryDark,
     required this.primarySoft,
     required this.accent,
@@ -45,8 +46,24 @@ class AppPalette extends ThemeExtension<AppPalette> {
     required this.growthSoft,
   });
 
-  /// Cor de marca: botões, destaques, trilho da linha do tempo.
+  /// Cor de marca: ícone sobre fundo claro, trilho da linha do tempo, ponto
+  /// ativo, borda de campo em foco, gráfico, ilustração.
+  ///
+  /// Vale para tudo em que a cor **é** a cor. Nunca para o fundo de um texto
+  /// branco: nos três temas ela fica entre 2,75:1 e 3,68:1 contra o branco,
+  /// abaixo dos 4,5:1 que a WCAG pede.
   final Color primary;
+
+  /// A mesma cor, escurecida até passar em AA contra o branco.
+  ///
+  /// Para toda superfície preenchida que leva texto ou ícone branco em cima:
+  /// botão principal, FAB, cabeçalho do seletor de data. Mantém matiz e
+  /// saturação da [primary], então continua sendo a mesma cor de marca, só
+  /// legível.
+  final Color primaryStrong;
+
+  /// A cor de marca como **texto**, sobre fundo claro: botão secundário,
+  /// link, rótulo de chip ativo.
   final Color primaryDark;
   final Color primarySoft;
 
@@ -128,6 +145,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
   /// Tema Girl (Lavender): lavanda, flores, aquarela, delicadeza.
   static const AppPalette girl = AppPalette(
     primary: Color(0xFFC87AA8),
+    primaryStrong: Color(0xFFB8528E),
     primaryDark: Color(0xFFB56696),
     primarySoft: Color(0xFFF1DFEC),
     accent: Color(0xFF9B87C4),
@@ -158,6 +176,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
   /// Tema Boy (Sky): céu, manhã, algodão, tranquilidade.
   static const AppPalette boy = AppPalette(
     primary: Color(0xFF6F9FD8),
+    primaryStrong: Color(0xFF3577C5),
     primaryDark: Color(0xFF5687C5),
     primarySoft: Color(0xFFDDEAF8),
     accent: Color(0xFF6FB0A6),
@@ -193,6 +212,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
   /// cartões e espaçamento continuam os mesmos.
   static const AppPalette neutral = AppPalette(
     primary: Color(0xFFD2654E),
+    primaryStrong: Color(0xFFC94D33),
     primaryDark: Color(0xFFB8513E),
     primarySoft: Color(0xFFF8E2DC),
     accent: Color(0xFFC98C6B),
@@ -231,6 +251,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
   @override
   AppPalette copyWith({
     Color? primary,
+    Color? primaryStrong,
     Color? primaryDark,
     Color? primarySoft,
     Color? accent,
@@ -259,6 +280,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
   }) {
     return AppPalette(
       primary: primary ?? this.primary,
+      primaryStrong: primaryStrong ?? this.primaryStrong,
       primaryDark: primaryDark ?? this.primaryDark,
       primarySoft: primarySoft ?? this.primarySoft,
       accent: accent ?? this.accent,
@@ -293,6 +315,7 @@ class AppPalette extends ThemeExtension<AppPalette> {
     Color mix(Color a, Color b) => Color.lerp(a, b, t)!;
     return AppPalette(
       primary: mix(primary, other.primary),
+      primaryStrong: mix(primaryStrong, other.primaryStrong),
       primaryDark: mix(primaryDark, other.primaryDark),
       primarySoft: mix(primarySoft, other.primarySoft),
       accent: mix(accent, other.accent),

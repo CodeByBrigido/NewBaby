@@ -34,7 +34,7 @@ class LettersScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(Routes.newLetter),
-        backgroundColor: context.cores.primary,
+        backgroundColor: context.cores.primaryStrong,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.edit_outlined),
         label: const Text('Escrever'),

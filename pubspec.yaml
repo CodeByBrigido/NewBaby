@@ -77,3 +77,21 @@ flutter:
     # e a imagem de fundo do login é só soltar os arquivos aqui, sem mexer
     # em configuração, e a falta deles não quebra a compilação.
     - assets/
+
+  # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
+  # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:
+  # declarar todos colocaria 1,4 MB no aplicativo para nunca serem desenhados.
+  #
+  # A linha `- assets/` acima não alcança subpastas, então nada de
+  # `assets/fonts` entra no pacote sem estar listado aqui.
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+          weight: 700

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -101,27 +102,53 @@ void main() {
       }
     });
 
-    test('o branco sobre a cor de marca não pode piorar', () {
-      // Medido, não suposto: hoje o botão principal fica em 3,68 (Welcome),
-      // 3,09 (Girl) e 2,75 (Boy). A WCAG pede 4,5 para texto de 16 px em
-      // negrito, então **nenhum dos três passa em AA**.
-      //
-      // As cores são escolha de marca e ficam como estão. O que este teste
-      // garante é que ninguém as clareie ainda mais sem que apareça aqui.
-      // Para passar em AA mantendo matiz e saturação: Welcome #C94D33,
-      // Boy #3577C5, Girl #B8528E.
-      expect(
-        contraste(Colors.white, AppPalette.neutral.primary),
-        closeTo(3.68, 0.05),
-      );
-      expect(
-        contraste(Colors.white, AppPalette.girl.primary),
-        closeTo(3.09, 0.05),
-      );
-      expect(
-        contraste(Colors.white, AppPalette.boy.primary),
-        closeTo(2.75, 0.05),
-      );
+    test('a cor forte passa em AA nos três temas', () {
+      // A regra: toda superfície preenchida que leva texto ou ícone branco
+      // usa `primaryStrong`. 4,5:1 porque o texto de botão é 16 px em
+      // negrito, e a WCAG só dispensa esse limite a partir de 18,66 px.
+      for (final MapEntry<String, AppPalette> t in temas.entries) {
+        expect(
+          contraste(Colors.white, t.value.primaryStrong),
+          greaterThanOrEqualTo(4.5),
+          reason: '${t.key}: branco sobre a cor forte',
+        );
+      }
+    });
+
+    test('a cor forte é a mesma cor, só mais escura', () {
+      // Se alguém trocar `primaryStrong` por um cinza qualquer o teste de
+      // cima continua passando e a identidade visual vai embora. Matiz é o
+      // que faz "a mesma cor de marca, legível" ser verdade.
+      for (final MapEntry<String, AppPalette> t in temas.entries) {
+        final HSLColor marca = HSLColor.fromColor(t.value.primary);
+        final HSLColor forte = HSLColor.fromColor(t.value.primaryStrong);
+        expect(
+          (forte.hue - marca.hue).abs(),
+          lessThan(6),
+          reason: '${t.key}: a matiz mudou',
+        );
+        expect(
+          forte.lightness,
+          lessThan(marca.lightness),
+          reason: '${t.key}: a cor forte precisa ser mais escura',
+        );
+      }
+    });
+
+    test('a cor de marca continua reprovando, e por isso não vai atrás de '
+        'texto branco', () {
+      // Medido: 3,68 (Welcome), 3,09 (Girl) e 2,75 (Boy). Ela fica assim de
+      // propósito, porque é a identidade visual. Este teste existe para que
+      // a diferença entre as duas cores nunca seja lida como redundância.
+      for (final MapEntry<String, AppPalette> t in temas.entries) {
+        expect(
+          contraste(Colors.white, t.value.primary),
+          lessThan(4.5),
+          reason:
+              '${t.key}: se a marca passar a ser legível em branco, '
+              'primaryStrong perde a razão de existir',
+        );
+      }
     });
   });
 
@@ -206,6 +233,57 @@ void main() {
       expect(alturaDe(tema.outlinedButtonTheme.style), Sizes.button);
       expect(raioDe(tema.filledButtonTheme.style), Radii.button);
       expect(raioDe(tema.outlinedButtonTheme.style), Radii.button);
+    });
+
+    test('o botão primário e o FAB usam a cor forte, não a de marca', () {
+      // É aqui que a regra vira código. Sem este teste, a próxima tela
+      // aponta o botão para `primary` de novo e ninguém percebe até alguém
+      // reclamar que não consegue ler.
+      final Color? fundoBotao = tema.filledButtonTheme.style?.backgroundColor
+          ?.resolve(<WidgetState>{});
+      expect(fundoBotao, AppPalette.girl.primaryStrong);
+      expect(
+        tema.floatingActionButtonTheme.backgroundColor,
+        AppPalette.girl.primaryStrong,
+      );
+      expect(tema.colorScheme.primary, AppPalette.girl.primaryStrong);
+    });
+
+    test('nenhuma tela põe branco sobre a cor de marca', () {
+      // Varre as telas atrás do par proibido. Cinco faziam isso antes de
+      // `primaryStrong` existir, e todas eram invisíveis em revisão de
+      // código: o fundo está numa linha e o branco, dez linhas abaixo.
+      //
+      // Só `lib/features`, e não `lib/core/theme`: no tema os dois valores
+      // ficam perto sem terem relação (um `progressIndicator` seguido de um
+      // `tooltip`), e lá o acerto já é conferido campo a campo no teste
+      // acima, que é uma checagem melhor que varrer texto.
+      final List<String> ofensores = <String>[];
+      for (final FileSystemEntity f in Directory(
+        'lib/features',
+      ).listSync(recursive: true)) {
+        if (f is! File || !f.path.endsWith('.dart')) continue;
+        final List<String> linhas = f.readAsLinesSync();
+        for (int i = 0; i < linhas.length; i++) {
+          final bool fundoDeMarca = RegExp(
+            r'(color|backgroundColor):\s*(context\.)?cores\.primary,',
+          ).hasMatch(linhas[i]);
+          if (!fundoDeMarca) continue;
+          final String adiante = linhas
+              .sublist(i, math.min(i + 12, linhas.length))
+              .join(' ');
+          if (adiante.contains('Colors.white')) {
+            ofensores.add('${f.path}:${i + 1}');
+          }
+        }
+      }
+      expect(
+        ofensores,
+        isEmpty,
+        reason:
+            'Use cores.primaryStrong quando houver branco em cima: '
+            '${ofensores.join(", ")}',
+      );
     });
 
     test('botão de texto tem área de toque suficiente', () {

@@ -63,7 +63,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       body: IndexedStack(index: _index, children: _pages),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddSheet(context),
-        backgroundColor: context.cores.primary,
+        backgroundColor: context.cores.primaryStrong,
         foregroundColor: Colors.white,
         elevation: 3,
         shape: const CircleBorder(),

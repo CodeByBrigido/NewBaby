@@ -10,16 +10,15 @@ const double kPagePadding = Space.x20;
 
 /// A família tipográfica do Design System.
 ///
-/// `null` significa "a fonte do sistema". A Plus Jakarta Sans não viaja
-/// dentro do aplicativo ainda: para ligá-la, basta soltar os arquivos
-/// `.ttf` em `assets/fonts/`, declará-los no `pubspec.yaml` e trocar este
-/// valor por `'PlusJakartaSans'`. A escala inteira (tamanho, peso e altura
-/// de linha) já está montada e não muda junto.
+/// Os arquivos viajam dentro do aplicativo, e não são baixados em tempo de
+/// execução: este aplicativo abre offline e não manda pedido nenhum para
+/// servidor de terceiro, nem para buscar uma fonte.
 ///
-/// Fica assim, e não com uma fonte baixada da internet em tempo de
-/// execução, porque este aplicativo abre offline e não manda pedido nenhum
-/// para servidor de terceiro.
-const String? appFontFamily = null;
+/// Só quatro pesos entram no pacote (400, 500, 600 e 700), que são os que a
+/// escala usa. Itálico não existe aqui de propósito: o Design System não
+/// prevê nenhum, e pedir um faria o Flutter inclinar a fonte por conta, com
+/// resultado pior que uma itálica de verdade.
+const String appFontFamily = 'PlusJakartaSans';
 
 abstract final class AppTheme {
   /// Monta o tema com a paleta da criança.
@@ -34,7 +33,10 @@ abstract final class AppTheme {
           seedColor: cores.primary,
           brightness: Brightness.light,
         ).copyWith(
-          primary: cores.primary,
+          // `primaryStrong`, e não `primary`: o `ColorScheme.primary` é o que
+          // o Material usa como fundo de qualquer coisa com `onPrimary` em
+          // cima, e `onPrimary` aqui é branco.
+          primary: cores.primaryStrong,
           onPrimary: Colors.white,
           primaryContainer: cores.primarySoft,
           onPrimaryContainer: cores.primaryDark,
@@ -92,7 +94,7 @@ abstract final class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: cores.primary,
+          backgroundColor: cores.primaryStrong,
           foregroundColor: Colors.white,
           disabledBackgroundColor: cores.border,
           disabledForegroundColor: cores.muted,
@@ -125,7 +127,7 @@ abstract final class AppTheme {
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: cores.primary,
+        backgroundColor: cores.primaryStrong,
         foregroundColor: Colors.white,
         elevation: 3,
         focusElevation: 3,
@@ -226,24 +228,30 @@ abstract final class AppTheme {
         subtitleTextStyle: text.bodySmall,
         shape: RoundedRectangleBorder(borderRadius: Radii.cardR),
       ),
+      // O polegar é branco sobre o trilho, então o trilho ligado usa a cor
+      // forte: é o mesmo problema do botão, e a WCAG pede 3:1 até para
+      // elemento que não é texto.
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
           (Set<WidgetState> s) =>
               s.contains(WidgetState.selected) ? Colors.white : cores.surface,
         ),
         trackColor: WidgetStateProperty.resolveWith(
-          (Set<WidgetState> s) =>
-              s.contains(WidgetState.selected) ? cores.primary : cores.border,
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? cores.primaryStrong
+              : cores.border,
         ),
         trackOutlineColor: WidgetStateProperty.resolveWith(
-          (Set<WidgetState> s) =>
-              s.contains(WidgetState.selected) ? cores.primary : cores.border,
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? cores.primaryStrong
+              : cores.border,
         ),
       ),
+      // Marcado é um "v" branco dentro do quadrado preenchido: cor forte.
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith(
           (Set<WidgetState> s) => s.contains(WidgetState.selected)
-              ? cores.primary
+              ? cores.primaryStrong
               : Colors.transparent,
         ),
         checkColor: const WidgetStatePropertyAll<Color>(Colors.white),
@@ -261,6 +269,8 @@ abstract final class AppTheme {
         inactiveTrackColor: cores.primarySoft,
         thumbColor: cores.primary,
       ),
+      // Fica em `primary`: a barra é a cor sobre fundo claro, e não fundo de
+      // texto branco.
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: cores.primary,
         linearTrackColor: cores.primarySoft,
@@ -276,7 +286,7 @@ abstract final class AppTheme {
       datePickerTheme: DatePickerThemeData(
         backgroundColor: cores.surface,
         surfaceTintColor: Colors.transparent,
-        headerBackgroundColor: cores.primary,
+        headerBackgroundColor: cores.primaryStrong,
         headerForegroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Radii.sheet),

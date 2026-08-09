@@ -216,7 +216,7 @@ class _NewBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: context.cores.primary,
+        color: context.cores.primaryStrong,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

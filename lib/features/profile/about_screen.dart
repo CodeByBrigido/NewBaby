@@ -34,7 +34,7 @@ class AboutScreen extends ConsumerWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: context.cores.primary,
+                color: context.cores.primaryStrong,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: const Icon(
