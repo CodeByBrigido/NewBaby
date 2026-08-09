@@ -268,7 +268,7 @@ class _NewBadge extends StatelessWidget {
       ),
       InspirationKind.cuidado => (
         Icons.favorite_outline,
-        context.cores.audio,
-        context.cores.audioSoft,
+        context.cores.accent,
+        context.cores.accentSoft,
       ),
     };

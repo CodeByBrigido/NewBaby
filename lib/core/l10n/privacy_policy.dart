@@ -35,7 +35,7 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
   PrivacySection(
     title: 'Em resumo',
     body: <String>[
-      'As fotos, os vídeos, os áudios e os documentos nunca passam por '
+      'As fotos, os vídeos e os documentos nunca passam por '
           'servidor nosso: vão direto do seu aparelho para o Google Drive da '
           'sua própria conta.',
       'O aplicativo guarda em servidor apenas um índice de texto, que é o '
@@ -66,7 +66,7 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
           'listar ou modificar nenhum outro arquivo do seu Drive, e essa '
           'limitação é imposta pelo Google, não por nós.',
       'Ficam no seu Drive, dentro da pasta "Meu Bebê - Cápsula do Tempo": '
-          'as fotos, os vídeos, os áudios, os desenhos e os documentos que '
+          'as fotos, os vídeos, os desenhos e os documentos que '
           'você enviar.',
       'Esses arquivos são seus. Não temos cópia deles, não conseguimos '
           'vê-los e não temos meio técnico de acessá-los fora do aplicativo '

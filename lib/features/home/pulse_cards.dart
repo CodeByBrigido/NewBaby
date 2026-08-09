@@ -90,7 +90,7 @@ class _LastOfType extends StatelessWidget {
   }
 
   static String _routeFor(EntryType type) => switch (type) {
-    EntryType.video || EntryType.audio => Routes.videos,
+    EntryType.video => Routes.videos,
     EntryType.letter => Routes.letters,
     EntryType.drawing => Routes.drawings,
     EntryType.document => Routes.documents,

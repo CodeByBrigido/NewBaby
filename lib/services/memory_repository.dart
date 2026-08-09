@@ -657,17 +657,12 @@ class MemoryRepository {
       '.mp4' => 'video/mp4',
       '.mov' => 'video/quicktime',
       // O gravador do aplicativo produz AAC em contêiner MP4.
-      '.m4a' || '.aac' => 'audio/mp4',
-      '.mp3' => 'audio/mpeg',
-      '.ogg' || '.opus' => 'audio/ogg',
-      '.wav' => 'audio/wav',
       '.pdf' => 'application/pdf',
       '.doc' => 'application/msword',
       '.docx' =>
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       _ => switch (type) {
         EntryType.document => 'application/octet-stream',
-        EntryType.audio => 'audio/mp4',
         _ => 'image/jpeg',
       },
     };

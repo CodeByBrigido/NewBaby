@@ -33,6 +33,14 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
     //
     // Fica aqui, e não numa tela, porque não pertence a tela nenhuma: vale
     // enquanto o aplicativo estiver aberto, em qualquer rota.
+    // A gravação de voz saiu do produto, e quem usou a versão de teste tem
+    // entradas gravadas. Elas precisam sair do índice, e não só deixar de
+    // ser criadas. Roda uma vez por aparelho, assim que há sessão.
+    ref.listenManual<String?>(uidProvider, (String? _, String? uid) {
+      if (uid == null) return;
+      unawaited(ref.read(sessionServiceProvider).limparRestosDeAudio(uid));
+    }, fireImmediately: true);
+
     ref.listenManual(plannedRemindersProvider, (
       List<ScheduledReminder>? antes,
       List<ScheduledReminder> agora,

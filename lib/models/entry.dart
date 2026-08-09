@@ -10,7 +10,6 @@ enum EntryType {
   birth('nascimento', 'Meu Bebê'),
   photo('foto', 'Fotos'),
   video('video', 'Vídeos'),
-  audio('audio', 'Áudios'),
   letter('carta', 'Cartas'),
   drawing('desenho', 'Desenhos'),
   document('documento', 'Documentos'),
@@ -32,7 +31,6 @@ enum EntryType {
     EntryType.birth => 'nascimento',
     EntryType.photo => 'foto',
     EntryType.video => 'vídeo',
-    EntryType.audio => 'áudio',
     EntryType.letter => 'carta',
     EntryType.drawing => 'desenho',
     EntryType.document => 'documento',
@@ -43,7 +41,6 @@ enum EntryType {
     EntryType.birth => 'nascimentos',
     EntryType.photo => 'fotos',
     EntryType.video => 'vídeos',
-    EntryType.audio => 'áudios',
     EntryType.letter => 'cartas',
     EntryType.drawing => 'desenhos',
     EntryType.document => 'documentos',
@@ -52,10 +49,7 @@ enum EntryType {
 
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).
   /// Cartas, documentos e crescimento ficam direto na pasta da categoria.
-  bool get bucketsByAge =>
-      this == EntryType.photo ||
-      this == EntryType.video ||
-      this == EntryType.audio;
+  bool get bucketsByAge => this == EntryType.photo || this == EntryType.video;
 
   static EntryType fromId(String? id) => values.firstWhere(
     (EntryType t) => t.id == id,
@@ -139,7 +133,6 @@ class EntryFile {
 
   bool get isImage => mimeType.startsWith('image/');
   bool get isVideo => mimeType.startsWith('video/');
-  bool get isAudio => mimeType.startsWith('audio/');
   bool get isPdf => mimeType == 'application/pdf';
 
   Duration? get duration =>
@@ -294,7 +287,6 @@ class Entry {
       EntryType.birth => S.birth,
       EntryType.photo => files.length > 1 ? S.photosAdded : S.photoAdded,
       EntryType.video => S.videoAdded,
-      EntryType.audio => S.audioAdded,
       EntryType.letter => S.letters,
       EntryType.drawing => S.drawingAdded,
       EntryType.document => files.firstOrNull?.name ?? S.documentAdded,

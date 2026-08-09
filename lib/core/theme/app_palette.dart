@@ -34,8 +34,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
     required this.photoSoft,
     required this.video,
     required this.videoSoft,
-    required this.audio,
-    required this.audioSoft,
     required this.letter,
     required this.letterSoft,
     required this.drawing,
@@ -100,8 +98,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
   final Color photoSoft;
   final Color video;
   final Color videoSoft;
-  final Color audio;
-  final Color audioSoft;
   final Color letter;
   final Color letterSoft;
   final Color drawing;
@@ -131,8 +127,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
   static const Color _fotoSoft = Color(0xFFE6F0E4);
   static const Color _video = Color(0xFFD8A05A);
   static const Color _videoSoft = Color(0xFFFAF0DA);
-  static const Color _audio = Color(0xFF8E7BB5);
-  static const Color _audioSoft = Color(0xFFEBE4F4);
   static const Color _carta = Color(0xFFC87AA8);
   static const Color _cartaSoft = Color(0xFFF1DFEC);
   static const Color _desenho = Color(0xFFDE8B5C);
@@ -161,8 +155,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
     photoSoft: _fotoSoft,
     video: _video,
     videoSoft: _videoSoft,
-    audio: _audio,
-    audioSoft: _audioSoft,
     letter: _carta,
     letterSoft: _cartaSoft,
     drawing: _desenho,
@@ -192,8 +184,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
     photoSoft: _fotoSoft,
     video: _video,
     videoSoft: _videoSoft,
-    audio: _audio,
-    audioSoft: _audioSoft,
     letter: _carta,
     letterSoft: _cartaSoft,
     drawing: _desenho,
@@ -228,8 +218,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
     photoSoft: _fotoSoft,
     video: _video,
     videoSoft: _videoSoft,
-    audio: _audio,
-    audioSoft: _audioSoft,
     letter: _carta,
     letterSoft: _cartaSoft,
     drawing: _desenho,
@@ -267,8 +255,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
     Color? photoSoft,
     Color? video,
     Color? videoSoft,
-    Color? audio,
-    Color? audioSoft,
     Color? letter,
     Color? letterSoft,
     Color? drawing,
@@ -296,8 +282,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
       photoSoft: photoSoft ?? this.photoSoft,
       video: video ?? this.video,
       videoSoft: videoSoft ?? this.videoSoft,
-      audio: audio ?? this.audio,
-      audioSoft: audioSoft ?? this.audioSoft,
       letter: letter ?? this.letter,
       letterSoft: letterSoft ?? this.letterSoft,
       drawing: drawing ?? this.drawing,
@@ -331,8 +315,6 @@ class AppPalette extends ThemeExtension<AppPalette> {
       photoSoft: mix(photoSoft, other.photoSoft),
       video: mix(video, other.video),
       videoSoft: mix(videoSoft, other.videoSoft),
-      audio: mix(audio, other.audio),
-      audioSoft: mix(audioSoft, other.audioSoft),
       letter: mix(letter, other.letter),
       letterSoft: mix(letterSoft, other.letterSoft),
       drawing: mix(drawing, other.drawing),

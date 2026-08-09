@@ -72,7 +72,7 @@ class InspirationArt extends StatelessWidget {
       context.cores.primary,
     ),
     InspirationKind.rotina => (context.cores.videoSoft, context.cores.video),
-    InspirationKind.cuidado => (context.cores.audioSoft, context.cores.audio),
+    InspirationKind.cuidado => (context.cores.accentSoft, context.cores.accent),
   };
 }
 

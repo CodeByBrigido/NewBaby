@@ -107,7 +107,7 @@ void main() {
     test('um item só não vira "1 fotos"', () {
       expect(quantosItens(EntryType.photo, 1), '1 foto');
       expect(quantosItens(EntryType.video, 3), '3 vídeos');
-      expect(quantosItens(EntryType.audio, 2), '2 áudios');
+      expect(quantosItens(EntryType.document, 2), '2 documentos');
     });
 
     test('mês e ano concordam com o artigo certo', () {

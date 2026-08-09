@@ -58,6 +58,50 @@ class SessionService {
   /// Chave das buscas recentes, que também some ao sair.
   static const String _recentSearchesKey = 'buscas_recentes';
 
+  /// Chave da limpeza única do áudio, no aparelho.
+  static const String _audioLimpoKey = 'limpeza.audio';
+
+  /// Apaga o que sobrou da gravação de voz, uma vez por aparelho.
+  ///
+  /// O áudio saiu do produto, mas quem usou a versão de teste tem entradas
+  /// gravadas. Elas precisam sair do índice, e não só deixar de ser criadas:
+  /// `EntryType.fromId` cai em `photo` no que não reconhece, então uma
+  /// gravação antiga viraria um cartão de foto com um `.m4a` dentro.
+  ///
+  /// A marca fica no aparelho e não na conta porque o custo de repetir é uma
+  /// consulta que não acha nada, e o custo de não rodar é um cartão quebrado.
+  /// Errar para o lado de rodar de novo é o barato aqui.
+  Future<void> limparRestosDeAudio(String uid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_audioLimpoKey) ?? false) return;
+
+    try {
+      final int quantas = await firestore.deleteEntriesOfType(uid, 'audio');
+      if (quantas > 0) {
+        debugPrint('Entradas de áudio removidas: $quantas');
+      }
+
+      // A pasta vai para a lixeira, e não para o nada: os arquivos são da
+      // família e a lixeira do Drive dá trinta dias para alguém mudar de
+      // ideia. Se ela falhar, o índice já está limpo e é isso que importa.
+      final String? pasta = await firestore.folderId(uid, 'Áudios');
+      if (pasta != null && pasta.isNotEmpty) {
+        try {
+          await drive.setTrashed(pasta, trashed: true);
+        } on Object catch (e) {
+          debugPrint('Pasta de áudio não foi para a lixeira: $e');
+        }
+      }
+      await firestore.forgetFolderTree(uid, 'Áudios');
+
+      await prefs.setBool(_audioLimpoKey, true);
+    } on Object catch (e) {
+      // Sem marca: a próxima abertura tenta de novo. Uma falha de rede aqui
+      // não pode deixar a marca posta e o índice sujo para sempre.
+      debugPrint('Limpeza do áudio adiada: $e');
+    }
+  }
+
   /// Encerra a sessão e apaga o que ficou no aparelho.
   Future<void> signOut() async {
     await _wipeLocalData();

@@ -36,7 +36,7 @@ class SealedScreen extends ConsumerWidget {
               icon: Icons.lock_clock,
               title: 'Nada lacrado ainda',
               message:
-                  'Ao guardar uma carta, um vídeo ou um áudio, você pode '
+                  'Ao guardar uma carta ou um vídeo, você pode '
                   'escolher uma data de abertura: os 15 anos, os 18, ou '
                   'qualquer outra. Fica esperando aqui até lá.',
             )

@@ -114,12 +114,10 @@ jobs:
           #    qualquer permissão nova - mesmo inofensiva - apareça na revisão
           #    em vez de entrar de carona numa atualização de dependência.
           #
-          #    RECORD_AUDIO é a única "dangerous" aceita, e a exceção tem
-          #    razão. As proibidas acima dão acesso ao acervo que já existe
-          #    no aparelho, sem a pessoa escolher item por item; o microfone
-          #    não lê nada que exista: ele só abre enquanto a pessoa está
-          #    gravando, depois de ela apertar gravar. E não há substituto -
-          #    existe seletor de fotos do sistema, não existe seletor de voz.
+          #    O aplicativo não pede mais nenhuma permissão de acesso a
+          #    mídia ou hardware. RECORD_AUDIO saiu junto com a gravação de
+          #    voz, e sair desta lista é o que faz a remoção ser real: se
+          #    uma dependência a trouxer de volta, o build reprova.
           #
           #    Além da INTERNET, que é nossa, todas vêm da pilha do Firebase,
           #    do Google Play Services e do Credential Manager (que o
@@ -147,7 +145,6 @@ jobs:
           android.permission.INTERNET
           android.permission.POST_NOTIFICATIONS
           android.permission.RECEIVE_BOOT_COMPLETED
-          android.permission.RECORD_AUDIO
           android.permission.USE_BIOMETRIC
           android.permission.USE_FINGERPRINT
           android.permission.VIBRATE

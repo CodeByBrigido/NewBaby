@@ -8,7 +8,7 @@ _Última atualização: 9 de agosto de 2026_
 
 ## Em resumo
 
-As fotos, os vídeos, os áudios e os documentos nunca passam por servidor nosso: vão direto do seu aparelho para o Google Drive da sua própria conta.
+As fotos, os vídeos e os documentos nunca passam por servidor nosso: vão direto do seu aparelho para o Google Drive da sua própria conta.
 
 O aplicativo guarda em servidor apenas um índice de texto, que é o que faz a linha do tempo e a busca funcionarem.
 
@@ -30,7 +30,7 @@ Todo pedido relativo a dados pessoais deve ser enviado a esse endereço. Respond
 
 Ao entrar, você autoriza o aplicativo a usar o Google Drive da sua conta com o escopo drive.file. Esse escopo dá acesso apenas aos arquivos que o próprio aplicativo cria. Ele não permite ler, listar ou modificar nenhum outro arquivo do seu Drive, e essa limitação é imposta pelo Google, não por nós.
 
-Ficam no seu Drive, dentro da pasta "Meu Bebê - Cápsula do Tempo": as fotos, os vídeos, os áudios, os desenhos e os documentos que você enviar.
+Ficam no seu Drive, dentro da pasta "Meu Bebê - Cápsula do Tempo": as fotos, os vídeos, os desenhos e os documentos que você enviar.
 
 Esses arquivos são seus. Não temos cópia deles, não conseguimos vê-los e não temos meio técnico de acessá-los fora do aplicativo em uso na sua sessão.
 

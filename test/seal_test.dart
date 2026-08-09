@@ -87,18 +87,31 @@ void main() {
     });
   });
 
-  group('o tipo áudio entrou inteiro', () {
-    test('vai e volta pelo Firestore', () {
-      expect(EntryType.fromId('audio'), EntryType.audio);
-      expect(EntryType.audio.id, 'audio');
+  group('o áudio saiu do produto', () {
+    test('o tipo não existe mais, e nem volta por engano', () {
+      // Este teste existe porque remover um valor de enum é fácil e
+      // reintroduzi-lo por conveniência também. A gravação de voz saiu por
+      // decisão de produto, e com ela a única permissão perigosa que o
+      // aplicativo pedia.
+      expect(
+        EntryType.values.map((EntryType t) => t.id),
+        isNot(contains('audio')),
+      );
+      expect(
+        EntryType.values.map((EntryType t) => t.folder),
+        isNot(contains('Áudios')),
+      );
     });
 
-    test('é organizado por idade, como foto e vídeo', () {
-      expect(EntryType.audio.bucketsByAge, isTrue);
+    test('uma entrada antiga de áudio não é lida como foto', () {
+      // `fromId` tem `orElse: photo`. Sem a limpeza das entradas antigas,
+      // toda gravação já feita apareceria na linha do tempo como foto, com
+      // um .m4a que a galeria tentaria desenhar. A limpeza roda uma vez na
+      // abertura; este teste registra por que ela precisa existir.
+      expect(EntryType.fromId('audio'), EntryType.photo);
     });
 
-    test('tem pasta própria no Drive', () {
-      expect(EntryType.audio.folder, 'Áudios');
+    test('cada tipo continua com uma pasta só para ele', () {
       final Set<String> pastas = EntryType.values
           .map((EntryType t) => t.folder)
           .toSet();
@@ -107,23 +120,6 @@ void main() {
         EntryType.values.length,
         reason: 'Dois tipos na mesma pasta embaralhariam o acervo.',
       );
-    });
-
-    test('as palavras de contagem existem', () {
-      expect(EntryType.audio.one, 'áudio');
-      expect(EntryType.audio.many, 'áudios');
-    });
-
-    test('um arquivo de áudio é reconhecido como tal', () {
-      const EntryFile f = EntryFile(
-        driveId: 'a1',
-        name: 'voz.m4a',
-        mimeType: 'audio/mp4',
-        sizeBytes: 1024,
-      );
-      expect(f.isAudio, isTrue);
-      expect(f.isImage, isFalse);
-      expect(f.isVideo, isFalse);
     });
   });
 }

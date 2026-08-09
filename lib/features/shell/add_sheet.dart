@@ -1,7 +1,5 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:path/path.dart' as p;
 
-import '../audio/audio_recorder_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -102,12 +100,6 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               title: S.addVideo,
               subtitle: g.addVideoHint,
               onTap: () => _addVideos(context, ref, _quando),
-            ),
-            _Option(
-              type: EntryType.audio,
-              title: 'Gravar áudio',
-              subtitle: 'A voz é o que mais se perde com o tempo',
-              onTap: () => _addAudio(context, ref, _quando),
             ),
             _Option(
               type: EntryType.letter,
@@ -451,33 +443,6 @@ Future<void> _addVideos(
         )
         .toList(),
     message: 'Convertendo para 720p e enviando...',
-  );
-}
-
-Future<void> _addAudio(
-  BuildContext context,
-  WidgetRef ref,
-  DateTime quando,
-) async {
-  // O gravador é do próprio aplicativo, mas a caixa de permissão do
-  // microfone é do sistema e tira o app do primeiro plano; a guarda de
-  // atividade externa fica dentro do gravador, junto de onde ela é pedida.
-  final String? caminho = await showAudioRecorder(context);
-  if (caminho == null || !context.mounted) return;
-
-  await _send(
-    context,
-    ref,
-    quando: quando,
-    type: EntryType.audio,
-    files: <PendingFile>[
-      PendingFile(
-        path: caminho,
-        kind: EntryType.audio,
-        name: p.basename(caminho),
-      ),
-    ],
-    message: 'Guardando a gravação...',
   );
 }
 

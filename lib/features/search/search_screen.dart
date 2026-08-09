@@ -269,7 +269,6 @@ class _Results extends ConsumerWidget {
       case EntryType.birth:
       case EntryType.photo:
       case EntryType.video:
-      case EntryType.audio:
       case EntryType.drawing:
         context.push(Routes.entry(entry.id));
     }

@@ -154,6 +154,28 @@ class FirestoreService {
         'criadoEm': Timestamp.fromDate(DateTime.now()),
       });
 
+  /// Esquece uma pasta do cache, com as subpastas dela.
+  ///
+  /// O cache é indexado pelo caminho, então tudo que começa pelo mesmo
+  /// prefixo pertence à mesma árvore: apagar `Áudios` precisa levar junto
+  /// `Áudios/Semana 09`, senão sobra um id apontando para pasta na lixeira.
+  Future<void> forgetFolderTree(String uid, String key) async {
+    final String prefixo = _slug(key);
+    final QuerySnapshot<Map<String, Object?>> tudo = await _user(
+      uid,
+    ).collection(_folders).get();
+
+    final WriteBatch batch = _db.batch();
+    bool algum = false;
+    for (final QueryDocumentSnapshot<Map<String, Object?>> d in tudo.docs) {
+      if (d.id == prefixo || d.id.startsWith('${prefixo}__')) {
+        batch.delete(d.reference);
+        algum = true;
+      }
+    }
+    if (algum) await batch.commit();
+  }
+
   /// Ids do Firestore não aceitam `/`, então o caminho vira um identificador.
   static String _slug(String key) =>
       key.replaceAll('/', '__').replaceAll(RegExp(r'\s+'), '_');
@@ -175,6 +197,28 @@ class FirestoreService {
     _thumbnails,
     _images,
   ];
+
+  /// Apaga as entradas de um tipo que saiu do produto.
+  ///
+  /// `EntryType.fromId` cai em `photo` quando não reconhece o valor. Sem esta
+  /// limpeza, toda gravação de voz feita antes de o áudio sair apareceria na
+  /// linha do tempo como foto, com um `.m4a` que a galeria tentaria desenhar.
+  ///
+  /// Devolve quantas apagou, e zero é a resposta normal: quem nunca gravou
+  /// nada, ou quem já passou por aqui, não paga nada além de uma consulta.
+  Future<int> deleteEntriesOfType(String uid, String tipo) async {
+    final QuerySnapshot<Map<String, Object?>> achadas = await _entriesRef(
+      uid,
+    ).where('tipo', isEqualTo: tipo).get();
+    if (achadas.docs.isEmpty) return 0;
+
+    final WriteBatch batch = _db.batch();
+    for (final QueryDocumentSnapshot<Map<String, Object?>> d in achadas.docs) {
+      batch.delete(d.reference);
+    }
+    await batch.commit();
+    return achadas.docs.length;
+  }
 
   /// A mesma lista, para o teste da política de privacidade.
   ///
