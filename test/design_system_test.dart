@@ -477,6 +477,21 @@ void main() {
       );
     });
 
+    test('o respiro de uma grade também vem de Space', () {
+      // `crossAxisSpacing` e `mainAxisSpacing` são espaçamento como qualquer
+      // outro, e escaparam da primeira varredura porque não são `EdgeInsets`
+      // nem `SizedBox`. Seis usos fora da grade tinham sobrevivido a ela.
+      final List<String> achados = varre(
+        RegExp(r'(?:cross|main)AxisSpacing: \d+(?:\.\d+)?'),
+        (String _) => true,
+      );
+      expect(
+        achados,
+        isEmpty,
+        reason: 'Use um degrau de Space:\n${achados.join("\n")}',
+      );
+    });
+
     test('raio de canto vem de Radii', () {
       // Aqui não há degrau para arredondar: o raio diz que tipo de superfície
       // é aquilo. Botão, campo, cartão, mídia e pílula têm raios diferentes

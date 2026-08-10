@@ -100,34 +100,39 @@ void main() {
   });
 
   group('a página, isolada', () {
-    Widget sozinha({required bool ultima}) => MaterialApp(
+    Widget sozinha() => MaterialApp(
       theme: AppTheme.build(AppPalette.of(BabyGender.girl)),
       home: Scaffold(
         body: OnboardingPage(
           imagePath: introSlides.first.image,
           title: 'Um título',
           description: 'Um texto',
-          isLastPage: ultima,
         ),
       ),
     );
 
     testWidgets('mostra título, texto e a arte', (WidgetTester tester) async {
-      await tester.pumpWidget(sozinha(ultima: false));
+      await tester.pumpWidget(sozinha());
       expect(find.text('Um título'), findsOneWidget);
       expect(find.text('Um texto'), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
     });
 
-    testWidgets('só a última traz o selo de recomendação', (
+    testWidgets('a arte cede espaço ao texto, e não o contrário', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(sozinha(ultima: false));
-      expect(find.byType(SeloRecomendado), findsNothing);
+      // A última tela tem dois botões embaixo, então sobra bem menos altura
+      // para a página. Com altura fixa a arte não cabia e o texto era
+      // empurrado para fora, aparecendo cortado sob o botão.
+      await tester.binding.setSurfaceSize(const Size(390, 500));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
 
-      await tester.pumpWidget(sozinha(ultima: true));
-      expect(find.byType(SeloRecomendado), findsOneWidget);
-      expect(find.text('Recomendado'), findsOneWidget);
+      await tester.pumpWidget(sozinha());
+      await tester.pump();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Um título'), findsOneWidget);
+      expect(find.text('Um texto'), findsOneWidget);
     });
   });
 

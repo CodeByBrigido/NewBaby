@@ -88,9 +88,9 @@ flutter_launcher_icons:
   # é também a da tela de abertura: o ícone e a primeira tela são
   # visivelmente a mesma coisa.
   #
-  # A camada da frente é derivada da arte por `tool/gerar_frente_do_icone.py`,
-  # que apaga os cantos brancos. Sem isso eles apareceriam como respingos ao
-  # redor do ladrilho, porque o adaptativo encolhe a frente sobre o fundo.
+  # A arte já vem com os cantos transparentes, então ela serve de camada da
+  # frente sem tratamento nenhum. Enquanto tinha canto branco opaco, era
+  # preciso derivar uma segunda cópia; hoje não é mais.
   adaptive_icon_background: '#D2664F'
   adaptive_icon_foreground: assets/images/icon/icon.png
 
@@ -108,9 +108,6 @@ flutter:
     # linhas próprias. Declarar a pasta, e não cada arquivo, é o que permite
     # trocar a arte sem mexer aqui.
     - assets/images/onboarding/
-    # O ícone entra pelo nome, e não pela pasta, porque ao lado dele mora o
-    # `icon.png`, que é só para o gerador de ícones do Android.
-    # Declarar a pasta colocaria essa cópia dentro do aplicativo à toa.
     - assets/images/icon/icon.png
 
   # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
