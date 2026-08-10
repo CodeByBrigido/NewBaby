@@ -35,30 +35,44 @@ class OnboardingPage extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: Space.x32),
       child: Column(
         children: <Widget>[
-          const SizedBox(height: Space.x24),
-          _Ilustracao(caminho: imagePath),
-          const SizedBox(height: Space.x32),
-          if (isLastPage) ...<Widget>[
-            _LadrilhoDoIcone(),
-            const SizedBox(height: Space.x20),
-          ],
-          Text(title, style: text.headlineSmall, textAlign: TextAlign.center),
           const SizedBox(height: Space.x16),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: text.bodyLarge?.copyWith(
-              height: 1.6,
-              color: context.cores.textSecondary,
+          // A arte vai de borda a borda, e só o texto tem margem. Uma das
+          // ilustrações é alta e estreita, com legendas desenhadas dentro
+          // dela: qualquer margem lateral encolhe a imagem inteira e são
+          // essas legendas que somem primeiro.
+          _Ilustracao(caminho: imagePath),
+          const SizedBox(height: Space.x24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Space.x32),
+            child: Column(
+              children: <Widget>[
+                if (isLastPage) ...<Widget>[
+                  _LadrilhoDoIcone(),
+                  const SizedBox(height: Space.x20),
+                ],
+                Text(
+                  title,
+                  style: text.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: Space.x16),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: text.bodyLarge?.copyWith(
+                    height: 1.6,
+                    color: context.cores.textSecondary,
+                  ),
+                ),
+                if (isLastPage) ...<Widget>[
+                  const SizedBox(height: Space.x20),
+                  const _SeloRecomendado(),
+                ],
+              ],
             ),
           ),
-          if (isLastPage) ...<Widget>[
-            const SizedBox(height: Space.x20),
-            const _SeloRecomendado(),
-          ],
           const SizedBox(height: Space.x24),
         ],
       ),
@@ -79,7 +93,7 @@ class _Ilustracao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData tela = MediaQuery.of(context);
-    final double altura = tela.size.height * 0.36;
+    final double altura = tela.size.height * 0.42;
 
     return SizedBox(
       height: altura,
