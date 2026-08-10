@@ -14,6 +14,7 @@ import '../../models/entry.dart';
 import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
+import '../common/hero_da_midia.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
@@ -23,12 +24,19 @@ class MediaViewerScreen extends ConsumerStatefulWidget {
     required this.files,
     required this.entries,
     required this.initialIndex,
+    required this.origemDoVoo,
     super.key,
   });
 
   final List<EntryFile> files;
   final List<Entry> entries;
   final int initialIndex;
+
+  /// Qual tela abriu esta, para o voo da miniatura achar o par.
+  ///
+  /// Vem de quem abre, e não de uma constante daqui, porque as abas ficam
+  /// montadas ao mesmo tempo e a mesma foto pode existir em duas telas.
+  final String origemDoVoo;
 
   @override
   ConsumerState<MediaViewerScreen> createState() => _MediaViewerScreenState();
@@ -96,9 +104,18 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
               onPageChanged: (int i) => setState(() => _index = i),
               itemBuilder: (BuildContext context, int index) {
                 final EntryFile current = widget.files[index];
-                return current.isVideo
-                    ? DriveVideoPlayer(file: current)
-                    : DriveFullImage(file: current);
+                if (current.isVideo) return DriveVideoPlayer(file: current);
+                // Só a página aberta entra no voo. As vizinhas o `PageView`
+                // já construiu, e duas etiquetas iguais na mesma árvore
+                // derrubam a tela.
+                final Widget imagem = DriveFullImage(file: current);
+                return index == _index
+                    ? HeroDaMidia(
+                        origem: widget.origemDoVoo,
+                        file: current,
+                        child: imagem,
+                      )
+                    : imagem;
               },
             ),
           ),

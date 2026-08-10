@@ -8,6 +8,7 @@ import '../../core/theme/tokens.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
+import '../common/hero_da_midia.dart';
 import '../common/widgets.dart';
 import '../gallery/media_viewer_screen.dart';
 
@@ -45,30 +46,35 @@ class DrawingsScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(Space.x12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisSpacing: Space.x12,
+                mainAxisSpacing: Space.x12,
               ),
               itemCount: tiles.length,
               itemBuilder: (BuildContext context, int index) {
                 final (Entry entry, EntryFile file) = tiles[index];
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => MediaViewerScreen(
-                        files: tiles
-                            .map(((Entry, EntryFile) t) => t.$2)
-                            .toList(),
-                        entries: tiles
-                            .map(((Entry, EntryFile) t) => t.$1)
-                            .toList(),
-                        initialIndex: index,
-                      ),
+                  onTap: () => abrirEmTelaCheia(
+                    context,
+                    MediaViewerScreen(
+                      files: tiles.map(((Entry, EntryFile) t) => t.$2).toList(),
+                      entries: tiles
+                          .map(((Entry, EntryFile) t) => t.$1)
+                          .toList(),
+                      initialIndex: index,
+                      origemDoVoo: origemDesenhos,
                     ),
                   ),
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DriveThumbnail(file: file, borderRadius: Radii.mediaR),
+                      HeroDaMidia(
+                        origem: origemDesenhos,
+                        file: file,
+                        child: DriveThumbnail(
+                          file: file,
+                          borderRadius: Radii.mediaR,
+                        ),
+                      ),
                       if (entry.title != null)
                         Positioned(
                           left: 0,

@@ -53,8 +53,8 @@ class StatsScreen extends ConsumerWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
+              crossAxisSpacing: Space.x12,
+              mainAxisSpacing: Space.x12,
               childAspectRatio: 1.5,
               children: <Widget>[
                 for (final EntryType type in tiles)

@@ -196,8 +196,8 @@ class _Shortcuts extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 3,
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
+      crossAxisSpacing: Space.x12,
+      mainAxisSpacing: Space.x12,
       childAspectRatio: 1.05,
       children: <Widget>[
         for (final (EntryType type, String route) in items)
@@ -244,8 +244,8 @@ class _RecentGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 3,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
+      crossAxisSpacing: Space.x8,
+      mainAxisSpacing: Space.x8,
       children: <Widget>[
         for (final (Entry entry, EntryFile file) in tiles)
           GestureDetector(

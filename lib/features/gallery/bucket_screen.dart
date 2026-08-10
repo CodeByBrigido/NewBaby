@@ -10,6 +10,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
+import '../common/hero_da_midia.dart';
 import '../common/widgets.dart';
 import 'gallery_screen.dart';
 import 'media_viewer_screen.dart';
@@ -61,26 +62,33 @@ class BucketScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(Space.x12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+                crossAxisSpacing: Space.x8,
+                mainAxisSpacing: Space.x8,
               ),
               itemCount: files.length,
               itemBuilder: (BuildContext context, int index) {
                 final (Entry entry, EntryFile file) = files[index];
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => MediaViewerScreen(
-                        files: files.map((r) => r.$2).toList(),
-                        entries: files.map((r) => r.$1).toList(),
-                        initialIndex: index,
-                      ),
+                  onTap: () => abrirEmTelaCheia(
+                    context,
+                    MediaViewerScreen(
+                      files: files.map((r) => r.$2).toList(),
+                      entries: files.map((r) => r.$1).toList(),
+                      initialIndex: index,
+                      origemDoVoo: origemGaleria,
                     ),
                   ),
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DriveThumbnail(file: file, borderRadius: Radii.mediaR),
+                      HeroDaMidia(
+                        origem: origemGaleria,
+                        file: file,
+                        child: DriveThumbnail(
+                          file: file,
+                          borderRadius: Radii.mediaR,
+                        ),
+                      ),
                       if (file.isVideo)
                         const Center(
                           child: Icon(
