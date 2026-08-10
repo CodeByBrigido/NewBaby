@@ -40,6 +40,14 @@ abstract final class Space {
 
   /// Entre um título e o subtítulo dele.
   static const double title = x8;
+
+  /// Folga no fim de uma lista rolável.
+  ///
+  /// Sem ela o último cartão para debaixo da barra de baixo ou do botão
+  /// flutuante, e a pessoa acha que a lista acabou antes. A soma está
+  /// escrita à vista de propósito: se a barra mudar de altura, dá para ver
+  /// daqui de onde este número veio.
+  static const double scrollEnd = x64 + x32;
 }
 
 /// Raio de canto por tipo de superfície.
@@ -52,6 +60,14 @@ abstract final class Radii {
 
   /// Pílula: chips, badges e qualquer coisa que deva parecer redonda.
   static const double pill = 999;
+
+  /// Ladrilho de ícone: a marca na abertura, o símbolo das telas de
+  /// apresentação, o coração da tela Sobre.
+  ///
+  /// O raio acompanha o lado em vez de ser fixo, e é isso que mantém o mesmo
+  /// desenho em 72 e em 132: um raio fixo faz o ladrilho pequeno parecer
+  /// redondo e o grande parecer quadrado.
+  static BorderRadius tileR(double lado) => BorderRadius.circular(lado / 3);
 
   static BorderRadius get buttonR => BorderRadius.circular(button);
   static BorderRadius get cardR => BorderRadius.circular(card);

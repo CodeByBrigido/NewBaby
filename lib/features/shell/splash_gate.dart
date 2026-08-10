@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
 
 /// A cor da abertura, tirada do próprio ícone.
@@ -138,7 +139,7 @@ class _IconeDeReserva extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(36),
+        borderRadius: Radii.tileR(132),
       ),
       child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 64),
     );

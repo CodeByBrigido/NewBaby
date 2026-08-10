@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -41,9 +42,14 @@ class SealedScreen extends ConsumerWidget {
                   'qualquer outra. Fica esperando aqui até lá.',
             )
           : ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x12,
+                Space.x16,
+                Space.scrollEnd,
+              ),
               itemCount: lacradas.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
               itemBuilder: (BuildContext context, int index) => _SealedTile(
                 entry: lacradas[index],
                 profile: profile,
@@ -72,24 +78,24 @@ class _SealedTile extends StatelessWidget {
     final int dias = abre.difference(now).inDays;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Space.x16),
       decoration: BoxDecoration(
         color: context.cores.surfaceMuted,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: Radii.buttonR,
       ),
       child: Row(
         children: <Widget>[
           Icon(Icons.lock_clock, color: context.cores.primary),
-          const SizedBox(width: 14),
+          const SizedBox(width: Space.x16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // Só o tipo. O título já contaria demais.
                 Text('Um ${entry.type.one}', style: text.titleSmall),
-                const SizedBox(height: 3),
+                const SizedBox(height: Space.x4),
                 Text('Abre em ${Fmt.longDate(abre)}', style: text.bodySmall),
-                const SizedBox(height: 2),
+                const SizedBox(height: Space.x4),
                 Text(
                   _espera(dias),
                   style: text.labelSmall?.copyWith(
@@ -139,17 +145,17 @@ class SealedNotice extends StatelessWidget {
     final DateTime abre = entry.sealedUntil!;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-      padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.fromLTRB(Space.x12, 0, Space.x12, Space.x12),
+      padding: const EdgeInsets.all(Space.x16),
       decoration: BoxDecoration(
         color: context.cores.surfaceMuted,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
         border: Border.all(color: context.cores.divider),
       ),
       child: Row(
         children: <Widget>[
           Icon(Icons.lock_clock, size: 20, color: context.cores.primary),
-          const SizedBox(width: 12),
+          const SizedBox(width: Space.x12),
           Expanded(
             child: Text(
               'Guardado para abrir em ${Fmt.longDate(abre)}.',

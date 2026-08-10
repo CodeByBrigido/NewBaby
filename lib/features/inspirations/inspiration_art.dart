@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/inspiration.dart';
 
 /// A capa de uma inspiração, desenhada pelo próprio aplicativo.
@@ -36,7 +37,7 @@ class InspirationArt extends StatelessWidget {
   Widget build(BuildContext context) {
     final (Color fundo, Color forma) = _cores(context, kind);
     return ClipRRect(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: Radii.fieldR,
       child: SizedBox(
         height: height,
         width: double.infinity,

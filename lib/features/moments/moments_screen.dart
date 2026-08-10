@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/suggestion.dart';
 import '../../models/suggestion_progress.dart';
@@ -36,9 +37,14 @@ class MomentsScreen extends ConsumerWidget {
                         'datas do ano se aproximam.',
             )
           : ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x12,
+                Space.x16,
+                Space.scrollEnd,
+              ),
               itemCount: ativas.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
               itemBuilder: (BuildContext context, int index) =>
                   SuggestionCard(active: ativas[index], copy: copy),
             ),
@@ -68,10 +74,10 @@ class SuggestionCard extends ConsumerWidget {
     final String nota = s.noteFor(copy.ofName);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Space.x16),
       decoration: BoxDecoration(
         color: context.cores.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.cardR,
         border: Border.all(color: context.cores.divider),
       ),
       child: Column(
@@ -81,7 +87,7 @@ class SuggestionCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.all(9),
+                padding: const EdgeInsets.all(Space.x8),
                 decoration: BoxDecoration(
                   color: context.cores.primarySoft,
                   shape: BoxShape.circle,
@@ -94,14 +100,14 @@ class SuggestionCard extends ConsumerWidget {
                   color: context.cores.primary,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: Space.x12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(s.title, style: text.titleSmall),
                     if (active.daysLeft case final int dias) ...<Widget>[
-                      const SizedBox(height: 3),
+                      const SizedBox(height: Space.x4),
                       Text(
                         dias == 0
                             ? 'É hoje'
@@ -114,7 +120,7 @@ class SuggestionCard extends ConsumerWidget {
                       ),
                     ],
                     if (nota.isNotEmpty) ...<Widget>[
-                      const SizedBox(height: 6),
+                      const SizedBox(height: Space.x8),
                       Text(nota, style: text.bodySmall),
                     ],
                   ],
@@ -124,7 +130,7 @@ class SuggestionCard extends ConsumerWidget {
           ),
 
           if (s.hasChecklist && !compact) ...<Widget>[
-            const SizedBox(height: 8),
+            const SizedBox(height: Space.x8),
             for (final String item in s.checklist)
               _ChecklistLine(
                 item: item,
@@ -133,7 +139,7 @@ class SuggestionCard extends ConsumerWidget {
               ),
           ],
 
-          const SizedBox(height: 6),
+          const SizedBox(height: Space.x8),
           Row(
             children: <Widget>[
               TextButton(
@@ -198,9 +204,9 @@ class _ChecklistLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onChanged(!checked),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: Radii.fieldR,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: Space.x4),
         child: Row(
           children: <Widget>[
             Icon(
@@ -210,7 +216,7 @@ class _ChecklistLine extends StatelessWidget {
                   ? context.cores.primary
                   : context.cores.textSecondary,
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: Space.x12),
             Expanded(
               child: Text(
                 item,
@@ -244,7 +250,7 @@ class NextSuggestion extends ConsumerWidget {
     if (ativas.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: Space.x8),
       child: SuggestionCard(active: ativas.first, copy: copy, compact: true),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/limits.dart';
 import '../../core/theme/app_palette.dart';
 import '../../models/baby_profile.dart';
@@ -90,7 +91,12 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x12,
+          Space.x20,
+          Space.x20,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,16 +107,16 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 height: 4,
                 decoration: BoxDecoration(
                   color: context.cores.divider,
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: Radii.pillR,
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(
               S.milestoneOptional,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: Space.x16),
             TextField(
               controller: _title,
               textCapitalization: TextCapitalization.sentences,
@@ -119,14 +125,14 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 hintText: 'Primeiro sorriso',
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.x12),
             // Atalhos para os marcos que quase toda família registra.
             SizedBox(
               height: 36,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: S.milestoneSuggestions.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                separatorBuilder: (_, _) => const SizedBox(width: Space.x8),
                 itemBuilder: (BuildContext context, int index) {
                   final String suggestion = S.milestoneSuggestions[index];
                   return ActionChip(
@@ -141,7 +147,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             TextField(
               controller: _description,
               textCapitalization: TextCapitalization.sentences,
@@ -153,7 +159,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 alignLabelWithHint: true,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Space.x8),
             _SealRow(
               until: _sealedUntil,
               onTap: () async {
@@ -169,7 +175,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 });
               },
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Row(
               children: <Widget>[
                 Expanded(
@@ -180,7 +186,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                     child: const Text(S.cancel),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: FilledButton(
                     onPressed: _saving ? null : _save,
@@ -221,9 +227,9 @@ class _SealRow extends StatelessWidget {
     final bool lacrado = until != null;
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: Radii.fieldR,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: Space.x12),
         child: Row(
           children: <Widget>[
             Icon(
@@ -233,7 +239,7 @@ class _SealRow extends StatelessWidget {
                   ? context.cores.primary
                   : context.cores.textSecondary,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: Space.x12),
             Expanded(
               child: Text(
                 lacrado

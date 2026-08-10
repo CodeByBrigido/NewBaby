@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../common/drive_image.dart';
@@ -30,15 +31,20 @@ class TimelineCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+            padding: const EdgeInsets.fromLTRB(
+              Space.x16,
+              Space.x12,
+              Space.x16,
+              Space.x8,
+            ),
             child: Row(
               children: <Widget>[
                 Icon(
                   entry.type.icon,
-                  size: 16,
+                  size: Sizes.iconSmall,
                   color: entry.type.accent(context),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: Space.x8),
                 Expanded(
                   child: Text(
                     entry.headline,
@@ -49,14 +55,14 @@ class TimelineCard extends ConsumerWidget {
                 ),
                 if (entry.uploadStatus.isBusy)
                   const SizedBox(
-                    width: 14,
-                    height: 14,
+                    width: Sizes.iconSmall,
+                    height: Sizes.iconSmall,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 else if (entry.uploadStatus == UploadStatus.failed)
                   const Icon(
                     Icons.error_outline,
-                    size: 16,
+                    size: Sizes.iconSmall,
                     color: AppPalette.danger,
                   ),
               ],
@@ -126,7 +132,9 @@ class _PhotoBody extends StatelessWidget {
     final int extra = files.length > shown ? files.length - (shown - 1) : 0;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      // As fotos entram mais para a borda que o texto: é o que faz a imagem
+      // parecer o conteúdo do cartão, e não uma ilustração dentro dele.
+      padding: const EdgeInsets.fromLTRB(Space.x12, 0, Space.x12, Space.x12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -141,13 +149,13 @@ class _PhotoBody extends StatelessWidget {
                       children: <Widget>[
                         DriveThumbnail(
                           file: files[i],
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: Radii.mediaR,
                         ),
                         if (i == shown - 1 && extra > 0)
                           DecoratedBox(
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.45),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: Radii.mediaR,
                             ),
                             child: Center(
                               child: Text(
@@ -160,14 +168,19 @@ class _PhotoBody extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (i < shown - 1) const SizedBox(width: 6),
+                  if (i < shown - 1) const SizedBox(width: Space.x8),
                 ],
               ],
             ),
           ),
           if (entry.description != null && entry.description!.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.fromLTRB(4, 10, 4, 0),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x4,
+                Space.x12,
+                Space.x4,
+                0,
+              ),
               child: Text(
                 entry.description!,
                 style: Theme.of(context).textTheme.bodySmall,
@@ -192,13 +205,13 @@ class _VideoBody extends StatelessWidget {
     if (file == null) return _DescriptionOnly(entry: entry);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      padding: const EdgeInsets.fromLTRB(Space.x12, 0, Space.x12, Space.x12),
       child: SizedBox(
         height: 168,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            DriveThumbnail(file: file, borderRadius: BorderRadius.circular(12)),
+            DriveThumbnail(file: file, borderRadius: Radii.mediaR),
             Center(
               child: Container(
                 width: 46,
@@ -210,26 +223,28 @@ class _VideoBody extends StatelessWidget {
                 child: const Icon(
                   Icons.play_arrow_rounded,
                   color: Colors.white,
-                  size: 28,
+                  size: Sizes.iconLarge,
                 ),
               ),
             ),
             if (file.duration != null)
               Positioned(
-                right: 8,
-                bottom: 8,
+                right: Space.x8,
+                bottom: Space.x8,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 2,
+                    horizontal: Space.x8,
+                    vertical: Space.x4,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: Radii.pillR,
                   ),
                   child: Text(
                     Fmt.duration(file.duration!),
-                    style: const TextStyle(color: Colors.white, fontSize: 11),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall?.copyWith(color: Colors.white),
                   ),
                 ),
               ),
@@ -248,10 +263,12 @@ class _LetterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? message = entry.description;
-    if (message == null || message.isEmpty) return const SizedBox(height: 4);
+    if (message == null || message.isEmpty) {
+      return const SizedBox(height: Space.x4);
+    }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: Text(
         message,
         style: Theme.of(context).textTheme.bodySmall,
@@ -270,23 +287,23 @@ class _GrowthBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GrowthData? growth = entry.growth;
-    if (growth == null) return const SizedBox(height: 4);
+    if (growth == null) return const SizedBox(height: Space.x4);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: Row(
         children: <Widget>[
           _Measure(value: Fmt.weight(growth.weightGrams), label: S.weightField),
-          const SizedBox(width: 10),
+          const SizedBox(width: Space.x12),
           _Measure(value: Fmt.height(growth.heightCm), label: S.heightField),
           if (entry.coverFile != null) ...<Widget>[
-            const SizedBox(width: 10),
+            const SizedBox(width: Space.x12),
             SizedBox(
               width: 52,
               height: 52,
               child: DriveThumbnail(
                 file: entry.coverFile!,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: Radii.mediaR,
               ),
             ),
           ],
@@ -308,16 +325,19 @@ class _Measure extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Space.x12,
+          vertical: Space.x8,
+        ),
         decoration: BoxDecoration(
           color: context.cores.surfaceMuted,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: Radii.fieldR,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(value, style: text.titleSmall),
-            const SizedBox(height: 2),
+            const SizedBox(height: Space.x4),
             Text(label, style: text.labelSmall),
           ],
         ),
@@ -334,17 +354,20 @@ class _DocumentBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EntryFile? file = entry.coverFile;
-    if (file == null) return const SizedBox(height: 4);
+    if (file == null) return const SizedBox(height: Space.x4);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: Row(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Space.x12,
+              vertical: Space.x4,
+            ),
             decoration: BoxDecoration(
               color: context.cores.documentSoft,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: Radii.pillR,
             ),
             child: Text(
               file.extensionLabel,
@@ -354,7 +377,7 @@ class _DocumentBody extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: Space.x12),
           if (file.sizeBytes > 0)
             Text(
               Fmt.bytes(file.sizeBytes),
@@ -377,13 +400,13 @@ class _BirthBody extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           if (entry.description != null && entry.description!.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: Space.x12),
               child: Text(entry.description!, style: text.bodySmall),
             ),
           if (growth != null)
@@ -393,7 +416,7 @@ class _BirthBody extends StatelessWidget {
                   value: Fmt.weight(growth.weightGrams),
                   label: S.weightField,
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: Space.x12),
                 _Measure(
                   value: Fmt.height(growth.heightCm),
                   label: S.heightField,
@@ -415,10 +438,10 @@ class _DescriptionOnly extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? description = entry.description;
     if (description == null || description.isEmpty) {
-      return const SizedBox(height: 4);
+      return const SizedBox(height: Space.x4);
     }
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: Text(description, style: Theme.of(context).textTheme.bodySmall),
     );
   }

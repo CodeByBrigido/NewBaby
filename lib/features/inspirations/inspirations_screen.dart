@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
@@ -61,9 +62,14 @@ class InspirationsScreen extends ConsumerWidget {
             );
           }
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+            padding: const EdgeInsets.fromLTRB(
+              Space.x16,
+              Space.x12,
+              Space.x16,
+              Space.scrollEnd,
+            ),
             itemCount: itens.length + 1,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) return _Intro(copy: copy);
               final ActiveInspiration a = itens[index - 1];
@@ -84,7 +90,7 @@ class _Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: Space.x4),
       child: Text(
         copy.hasName
             ? 'Ideias para a fase que ${copy.theName} está vivendo agora.'
@@ -111,9 +117,9 @@ class _Card extends StatelessWidget {
 
     return Material(
       color: context.cores.surface,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: Radii.cardR,
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.cardR,
         onTap: i.hasArticle
             ? () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
@@ -122,9 +128,9 @@ class _Card extends StatelessWidget {
               )
             : null,
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(Space.x16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: Radii.cardR,
             border: Border.all(color: context.cores.divider),
           ),
           child: Column(
@@ -133,14 +139,14 @@ class _Card extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(Space.x8),
                     decoration: BoxDecoration(
                       color: fundo,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: Radii.fieldR,
                     ),
                     child: Icon(icone, size: 18, color: cor),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: Space.x12),
                   Expanded(
                     child: Text(
                       i.kind.label,
@@ -152,7 +158,7 @@ class _Card extends StatelessWidget {
               ),
 
               if (active.daysLeft case final int dias) ...<Widget>[
-                const SizedBox(height: 10),
+                const SizedBox(height: Space.x12),
                 Text(
                   dias == 0
                       ? 'É hoje'
@@ -166,17 +172,17 @@ class _Card extends StatelessWidget {
               ],
 
               if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: 12),
+                const SizedBox(height: Space.x12),
                 InspirationArt(kind: i.kind, seed: i.id, height: 108),
               ],
 
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.x8),
               Text(i.title, style: text.titleSmall),
-              const SizedBox(height: 6),
+              const SizedBox(height: Space.x8),
               Text(i.summary, style: text.bodyMedium),
 
               if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: 10),
+                const SizedBox(height: Space.x12),
                 Row(
                   children: <Widget>[
                     Text(
@@ -193,7 +199,7 @@ class _Card extends StatelessWidget {
                   ],
                 ),
               ] else if (i.suggests != null) ...<Widget>[
-                const SizedBox(height: 10),
+                const SizedBox(height: Space.x12),
                 Align(
                   alignment: Alignment.centerRight,
                   child: FilledButton.tonal(
@@ -214,10 +220,13 @@ class _NewBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x8,
+        vertical: Space.x4,
+      ),
       decoration: BoxDecoration(
         color: context.cores.primaryStrong,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.cardR,
       ),
       child: Text(
         'novo',

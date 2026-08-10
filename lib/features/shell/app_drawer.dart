@@ -6,6 +6,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -28,7 +29,7 @@ class AppDrawer extends ConsumerWidget {
             _Header(profile: profile),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: Space.x8),
                 children: <Widget>[
                   _Item(
                     icon: Icons.timeline_outlined,
@@ -96,16 +97,21 @@ class AppDrawer extends ConsumerWidget {
             ),
             if (email != null)
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+                padding: const EdgeInsets.fromLTRB(
+                  Space.x20,
+                  Space.x8,
+                  Space.x20,
+                  Space.x20,
+                ),
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
+                    horizontal: Space.x16,
+                    vertical: Space.x16,
                   ),
                   decoration: BoxDecoration(
                     color: context.cores.primarySoft,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: Radii.mediaR,
                   ),
                   child: Text(
                     '${S.storedWithLove} ${Copy.of(profile).driveOwner} 💜',
@@ -134,12 +140,17 @@ class _Header extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+      padding: const EdgeInsets.fromLTRB(
+        Space.x20,
+        Space.x24,
+        Space.x20,
+        Space.x24,
+      ),
       color: context.cores.primarySoft,
       child: Row(
         children: <Widget>[
           BabyAvatar(profile: profile, radius: 26),
-          const SizedBox(width: 14),
+          const SizedBox(width: Space.x16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +163,7 @@ class _Header extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (profile != null) ...<Widget>[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: Space.x4),
                   Text(
                     profile!.ageNow().detailedLabel(alwaysShowDays: true),
                     style: text.bodySmall?.copyWith(

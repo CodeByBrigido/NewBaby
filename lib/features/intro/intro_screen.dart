@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
 
 /// Um slide da apresentação.
@@ -117,9 +118,14 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
               ),
             ),
             _Pontos(total: introSlides.length, atual: _atual),
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x24,
+                0,
+                Space.x24,
+                Space.x24,
+              ),
               child: ultimo
                   // Os dois do mesmo tamanho, de propósito: a conta nova é
                   // sugestão, não exigência. Exigir uma conta antes de a
@@ -136,7 +142,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                             child: const Text('Usar a minha conta'),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: Space.x12),
                         Expanded(
                           child: FilledButton(
                             onPressed: () => _sair(contaNova: true),
@@ -176,23 +182,23 @@ class _Slide extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
+      padding: const EdgeInsets.symmetric(horizontal: Space.x32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           Container(
             width: 88,
             height: 88,
             decoration: BoxDecoration(
               color: context.cores.primarySoft,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: Radii.tileR(88),
             ),
             child: Icon(slide.icon, size: 42, color: context.cores.primaryDark),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: Space.x32),
           Text(slide.title, style: text.headlineSmall),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.x16),
           Text(
             slide.body,
             style: text.bodyLarge?.copyWith(
@@ -200,7 +206,7 @@ class _Slide extends StatelessWidget {
               color: context.cores.textSecondary,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
         ],
       ),
     );
@@ -222,12 +228,12 @@ class _Pontos extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 240),
             curve: Curves.easeOut,
-            margin: const EdgeInsets.symmetric(horizontal: 4),
+            margin: const EdgeInsets.symmetric(horizontal: Space.x4),
             width: i == atual ? 22 : 8,
             height: 8,
             decoration: BoxDecoration(
               color: i == atual ? context.cores.primary : context.cores.divider,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: Radii.pillR,
             ),
           ),
       ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/entry.dart';
 import '../../services/thumbnail_service.dart';
 import '../../state/providers.dart';
@@ -157,7 +158,7 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
         if (snapshot.hasError) {
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(Space.x24),
               child: Text(
                 'Não foi possível abrir esta imagem.',
                 style: Theme.of(

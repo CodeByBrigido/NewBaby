@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -167,7 +168,12 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen> {
                 ),
                 if (widget.type == EntryType.photo)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                    padding: const EdgeInsets.fromLTRB(
+                      Space.x20,
+                      0,
+                      Space.x20,
+                      Space.x16,
+                    ),
                     child: Text(
                       S.photosOptimizedNote,
                       textAlign: TextAlign.center,
@@ -195,12 +201,17 @@ class _UnitTabs extends StatelessWidget {
     };
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      padding: const EdgeInsets.fromLTRB(
+        Space.x16,
+        Space.x4,
+        Space.x16,
+        Space.x12,
+      ),
       child: Container(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(Space.x4),
         decoration: BoxDecoration(
           color: context.cores.surfaceMuted,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: Radii.pillR,
         ),
         child: Row(
           children: <Widget>[
@@ -210,12 +221,12 @@ class _UnitTabs extends StatelessWidget {
                   onTap: () => onChanged(item.key),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 160),
-                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    padding: const EdgeInsets.symmetric(vertical: Space.x8),
                     decoration: BoxDecoration(
                       color: unit == item.key
                           ? context.cores.primarySoft
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: Radii.cardR,
                     ),
                     child: Text(
                       item.value,
@@ -250,15 +261,15 @@ class _BucketList extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x24),
       itemCount: buckets.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 10),
+      separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
       itemBuilder: (BuildContext context, int index) {
         final BucketSummary summary = buckets[index];
         final EntryFile? cover = summary.cover;
 
         return SoftCard(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(Space.x12),
           onTap: () => context.push(
             Routes.bucket(
               type == EntryType.photo ? 'fotos' : 'videos',
@@ -274,27 +285,24 @@ class _BucketList extends StatelessWidget {
                     ? DecoratedBox(
                         decoration: BoxDecoration(
                           color: type.soft(context),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: Radii.fieldR,
                         ),
                         child: Icon(type.icon, color: type.accent(context)),
                       )
-                    : DriveThumbnail(
-                        file: cover,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
+                    : DriveThumbnail(file: cover, borderRadius: Radii.fieldR),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: Space.x16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(summary.bucket.folderName, style: text.titleSmall),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: Space.x4),
                     Text(
                       Fmt.dateRange(summary.bucket.start, summary.bucket.end),
                       style: text.bodySmall,
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: Space.x4),
                     Text(
                       type == EntryType.photo
                           ? Fmt.count(summary.fileCount, 'foto', 'fotos')

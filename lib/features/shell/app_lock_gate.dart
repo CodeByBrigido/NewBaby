@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../services/lock_service.dart';
 import '../../state/lock_providers.dart';
 
@@ -111,7 +112,7 @@ class _LockScreen extends StatelessWidget {
       child: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: Space.x32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -120,7 +121,7 @@ class _LockScreen extends StatelessWidget {
                   height: 72,
                   decoration: BoxDecoration(
                     color: context.cores.primarySoft,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: Radii.tileR(72),
                   ),
                   child: Icon(
                     Icons.lock_outline,
@@ -128,19 +129,19 @@ class _LockScreen extends StatelessWidget {
                     size: 32,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Space.x24),
                 Text(
                   S.lockedTitle,
                   style: text.titleLarge,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.x8),
                 Text(
                   S.lockedBody,
                   style: text.bodySmall,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: Space.x32),
                 FilledButton.icon(
                   onPressed: onUnlock,
                   icon: const Icon(Icons.fingerprint),

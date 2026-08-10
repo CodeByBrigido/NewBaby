@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 
@@ -55,13 +56,18 @@ class _SealSheet extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x20,
+          Space.x20,
+          Space.x24,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('Guardar para o futuro', style: text.titleMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: Space.x8),
             Text(
               'Isto fica fechado até a data que você escolher. O conteúdo '
               'continua no seu Drive, e você pode abrir antes se quiser: é '
@@ -69,7 +75,7 @@ class _SealSheet extends StatelessWidget {
               'cofre.',
               style: text.bodySmall,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
 
             for (final (String rotulo, DateTime data) in opcoes())
               ListTile(

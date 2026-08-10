@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../services/session_service.dart';
 import '../../state/providers.dart';
@@ -75,10 +76,15 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x16,
+          Space.x8,
+          Space.x16,
+          Space.x32,
+        ),
         children: <Widget>[
           SoftCard(child: Text(S.deleteAccountBody, style: text.bodyMedium)),
-          const SizedBox(height: 28),
+          const SizedBox(height: Space.block),
           const SectionHeader(title: S.deleteAccountDriveQuestion),
           SoftCard(
             child: Column(
@@ -101,14 +107,14 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.x16),
           const InfoNote(
             message:
                 'Mesmo mandando para a lixeira, os arquivos são seus e estão '
                 'no seu Drive: o aplicativo nunca teve uma cópia deles.',
             icon: Icons.lock_outline,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: Space.x32),
           FilledButton(
             onPressed: _working ? null : _delete,
             style: FilledButton.styleFrom(
@@ -160,13 +166,13 @@ class _Choice extends StatelessWidget {
                 : context.cores.textSecondary,
             size: 22,
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: Space.x16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(title, style: text.titleSmall),
-                const SizedBox(height: 3),
+                const SizedBox(height: Space.x4),
                 Text(subtitle, style: text.bodySmall),
               ],
             ),

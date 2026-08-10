@@ -6,6 +6,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -71,23 +72,28 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x16,
+          Space.x8,
+          Space.x16,
+          Space.scrollEnd,
+        ),
         children: <Widget>[
           _Hero(profile: profile, pulse: pulse, copy: copy),
-          const SizedBox(height: 14),
+          const SizedBox(height: Space.x16),
           PulseCards(pulse: pulse, copy: copy),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.x16),
           NextSuggestion(copy: copy),
           FilledButton.icon(
             onPressed: () => showAddSheet(context),
             icon: const Icon(Icons.add),
             label: const Text('Registrar momento'),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: Space.x8),
           const UploadBanner(),
           const SectionHeader(title: 'Atalhos'),
           _Shortcuts(),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
             SectionHeader(
               title: 'Fotos recentes',
@@ -97,7 +103,7 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             _RecentGrid(entries: recentPhotos),
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
           ],
           if (entries.isEmpty)
             EmptyState(
@@ -127,14 +133,14 @@ class _Hero extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.x20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: <Color>[context.cores.primarySoft, context.cores.accentSoft],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: Radii.cardR,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,16 +155,16 @@ class _Hero extends StatelessWidget {
                     color: context.cores.primaryDark,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: Space.x12),
                 Text('Hoje ${copy.theName} está com', style: text.bodyMedium),
-                const SizedBox(height: 2),
+                const SizedBox(height: Space.x4),
                 Text(
                   pulse.age.detailedLabel(alwaysShowDays: true),
                   style: text.headlineSmall?.copyWith(
                     color: context.cores.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.x8),
                 Text(
                   'Nasceu em ${Fmt.longDate(profile.birth)}',
                   style: text.bodySmall,
@@ -166,7 +172,7 @@ class _Hero extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: Space.x16),
           BabyAvatar(profile: profile, radius: 34),
         ],
       ),
@@ -197,15 +203,15 @@ class _Shortcuts extends StatelessWidget {
         for (final (EntryType type, String route) in items)
           Material(
             color: type.soft(context),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: Radii.buttonR,
             child: InkWell(
               onTap: () => context.push(route),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: Radii.buttonR,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(type.icon, color: type.accent(context), size: 26),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: Space.x8),
                   Text(
                     type.label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -244,10 +250,7 @@ class _RecentGrid extends StatelessWidget {
         for (final (Entry entry, EntryFile file) in tiles)
           GestureDetector(
             onTap: () => context.push(Routes.entry(entry.id)),
-            child: DriveThumbnail(
-              file: file,
-              borderRadius: BorderRadius.circular(14),
-            ),
+            child: DriveThumbnail(file: file, borderRadius: Radii.fieldR),
           ),
       ],
     );

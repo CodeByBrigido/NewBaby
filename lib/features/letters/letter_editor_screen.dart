@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/limits.dart';
 import '../../core/router/app_router.dart';
 import '../../models/baby_profile.dart';
@@ -124,7 +125,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(Space.x20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -139,7 +140,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
                 hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             Expanded(
               child: TextField(
                 controller: _message,

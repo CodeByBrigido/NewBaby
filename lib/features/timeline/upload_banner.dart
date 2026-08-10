@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -23,7 +24,7 @@ class UploadBanner extends ConsumerWidget {
     if (active.isEmpty && failed.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x16),
       child: failed.isNotEmpty
           ? _FailedBanner(entries: failed)
           : _ActiveBanner(count: active.length),
@@ -39,10 +40,13 @@ class _ActiveBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x16,
+        vertical: Space.x12,
+      ),
       decoration: BoxDecoration(
         color: context.cores.surfaceMuted,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
       ),
       child: Row(
         children: <Widget>[
@@ -51,7 +55,7 @@ class _ActiveBanner extends StatelessWidget {
             height: 16,
             child: CircularProgressIndicator(strokeWidth: 2),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: Space.x12),
           Expanded(
             child: Text(
               '${S.uploadingCount} ${_itemCount(count)}...',
@@ -77,10 +81,13 @@ class _FailedBanner extends ConsumerWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x16,
+        vertical: Space.x12,
+      ),
       decoration: BoxDecoration(
         color: AppPalette.danger.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
       ),
       child: Row(
         children: <Widget>[
@@ -89,7 +96,7 @@ class _FailedBanner extends ConsumerWidget {
             size: 18,
             color: AppPalette.danger,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: Space.x12),
           Expanded(
             child: Text(
               '${S.uploadFailed}: ${_itemCount(entries.length)}',

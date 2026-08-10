@@ -184,14 +184,17 @@ class _Action extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: Radii.fieldR,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Space.x16,
+          vertical: Space.x12,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(icon, color: color, size: 22),
-            const SizedBox(height: 6),
+            const SizedBox(height: Space.x8),
             Text(
               label,
               style: Theme.of(

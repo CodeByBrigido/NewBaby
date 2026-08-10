@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
@@ -41,7 +42,7 @@ class DrawingsScreen extends ConsumerWidget {
               message: 'Fotografe um desenho e ele fica guardado para sempre.',
             )
           : GridView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(Space.x12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
@@ -67,17 +68,14 @@ class DrawingsScreen extends ConsumerWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DriveThumbnail(
-                        file: file,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                      DriveThumbnail(file: file, borderRadius: Radii.mediaR),
                       if (entry.title != null)
                         Positioned(
                           left: 0,
                           right: 0,
                           bottom: 0,
                           child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(Space.x12),
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.vertical(
                                 bottom: Radius.circular(16),

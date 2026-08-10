@@ -9,6 +9,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -68,7 +69,12 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
     final Copy g = Copy.of(ref.watch(profileProvider).value);
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x12,
+          Space.x20,
+          Space.x20,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -77,18 +83,18 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               height: 4,
               decoration: BoxDecoration(
                 color: context.cores.divider,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: Radii.pillR,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(S.addQuestion, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             DataDaMemoria(
               quando: _quando,
               onTap: _escolherData,
               onReset: () => setState(() => _quando = DateTime.now()),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             _Option(
               type: EntryType.photo,
               title: S.addPhoto,
@@ -247,10 +253,10 @@ Future<DateTime?> confirmarEnvio(
                   quando: escolhida,
                 ))
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: Space.x8),
                     child: Text(linha),
                   ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.x8),
                 DataDaMemoria(
                   quando: escolhida,
                   onTap: mudar,
@@ -303,12 +309,15 @@ class DataDaMemoria extends StatelessWidget {
 
     return Material(
       color: hoje ? context.cores.surfaceMuted : context.cores.primarySoft,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: Radii.fieldR,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Space.x16,
+            vertical: Space.x12,
+          ),
           child: Row(
             children: <Widget>[
               Icon(
@@ -318,7 +327,7 @@ class DataDaMemoria extends StatelessWidget {
                     ? context.cores.textSecondary
                     : context.cores.primaryDark,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: Space.x12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +339,7 @@ class DataDaMemoria extends StatelessWidget {
                         color: hoje ? null : context.cores.primaryDark,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: Space.x4),
                     Text(
                       hoje
                           ? 'Toque para guardar algo de outro dia'
@@ -598,25 +607,28 @@ class _Option extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: Space.x12),
       child: Material(
         color: type.soft(context),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: Radii.buttonR,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: Radii.buttonR,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Space.x16,
+              vertical: Space.x16,
+            ),
             child: Row(
               children: <Widget>[
                 Icon(type.icon, color: type.accent(context), size: 24),
-                const SizedBox(width: 14),
+                const SizedBox(width: Space.x16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(title, style: text.titleSmall),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: Space.x4),
                       Text(
                         subtitle,
                         style: text.bodySmall?.copyWith(

@@ -6,6 +6,7 @@ import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 
@@ -27,7 +28,12 @@ class AboutScreen extends ConsumerWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x24,
+          Space.x24,
+          Space.x24,
+          Space.x32,
+        ),
         children: <Widget>[
           Center(
             child: Container(
@@ -35,7 +41,7 @@ class AboutScreen extends ConsumerWidget {
               height: 72,
               decoration: BoxDecoration(
                 color: context.cores.primaryStrong,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: Radii.tileR(72),
               ),
               child: const Icon(
                 Icons.favorite_rounded,
@@ -44,28 +50,28 @@ class AboutScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           Text(
             S.appFullName,
             textAlign: TextAlign.center,
             style: text.titleLarge,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: Space.x8),
           Text(
             S.appTagline,
             textAlign: TextAlign.center,
             style: text.bodySmall,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: Space.x32),
           SoftCard(child: Text(g.aboutStorage)),
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           const InfoNote(
             message:
                 'Nenhuma foto passa por servidor nosso: elas vão direto do '
                 'celular para o Google Drive.',
             icon: Icons.lock_outline,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Space.x12),
           const InfoNote(
             message:
                 'O aplicativo não enxerga o resto do seu Drive. A permissão '
@@ -74,7 +80,7 @@ class AboutScreen extends ConsumerWidget {
                 'Tempo". Suas outras pastas são invisíveis para ele.',
             icon: Icons.folder_off_outlined,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Space.x12),
           // A frase acima é verdadeira e é fácil de ler como se valesse para
           // tudo. Vale para os arquivos - e só. O índice fica num servidor
           // nosso, e quem confia o registro de um filho a um aplicativo tem o
@@ -88,19 +94,19 @@ class AboutScreen extends ConsumerWidget {
             icon: Icons.storage_outlined,
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           SoftCard(
             onTap: () => context.push(Routes.privacy),
             child: Row(
               children: <Widget>[
                 Icon(Icons.shield_outlined, color: context.cores.textSecondary),
-                const SizedBox(width: 14),
+                const SizedBox(width: Space.x16),
                 const Expanded(child: Text('Política de privacidade')),
                 Icon(Icons.chevron_right, color: context.cores.textSecondary),
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Space.x12),
           SoftCard(
             onTap: () => context.push(Routes.intro),
             child: Row(
@@ -109,14 +115,14 @@ class AboutScreen extends ConsumerWidget {
                   Icons.slideshow_outlined,
                   color: context.cores.textSecondary,
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: Space.x16),
                 const Expanded(child: Text('Rever a apresentação')),
                 Icon(Icons.chevron_right, color: context.cores.textSecondary),
               ],
             ),
           ),
 
-          const SizedBox(height: 32),
+          const SizedBox(height: Space.x32),
           const SectionHeader(title: 'Para a cápsula durar'),
           // O aviso que quase nenhum aplicativo dá, e que este precisa dar:
           // guardar vinte anos de memórias numa conta que pode ser apagada

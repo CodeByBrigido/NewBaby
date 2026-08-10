@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -167,12 +168,12 @@ class AgeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: compact ? 8 : 10,
-        vertical: compact ? 3 : 5,
+        horizontal: compact ? Space.x8 : Space.x12,
+        vertical: compact ? Space.x4 : Space.x4,
       ),
       decoration: BoxDecoration(
         color: context.cores.primarySoft,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: Radii.cardR,
       ),
       child: Text(
         compact ? age.shortLabel : age.detailedLabel(),
@@ -191,7 +192,7 @@ class SoftCard extends StatelessWidget {
     required this.child,
     super.key,
     this.onTap,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets.all(Space.x16),
     this.color,
   });
 
@@ -234,7 +235,7 @@ class EmptyState extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(Space.x32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -247,10 +248,10 @@ class EmptyState extends StatelessWidget {
               ),
               child: Icon(icon, size: 32, color: context.cores.primary),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(title, style: text.titleMedium, textAlign: TextAlign.center),
             if (message != null) ...<Widget>[
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.x8),
               Text(
                 message!,
                 style: text.bodySmall,
@@ -258,7 +259,7 @@ class EmptyState extends StatelessWidget {
               ),
             ],
             if (action != null) ...<Widget>[
-              const SizedBox(height: 24),
+              const SizedBox(height: Space.x24),
               action!,
             ],
           ],
@@ -282,16 +283,19 @@ class InfoNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x16,
+        vertical: Space.x12,
+      ),
       decoration: BoxDecoration(
         color: context.cores.surfaceMuted,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Icon(icon, size: 18, color: context.cores.textSecondary),
-          const SizedBox(width: 10),
+          const SizedBox(width: Space.x12),
           Expanded(
             child: Text(message, style: Theme.of(context).textTheme.bodySmall),
           ),
@@ -311,7 +315,7 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: Space.x12),
       child: Row(
         children: <Widget>[
           Expanded(

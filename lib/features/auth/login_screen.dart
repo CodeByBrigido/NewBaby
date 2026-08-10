@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../services/auth_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -84,7 +85,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
+              padding: const EdgeInsets.symmetric(horizontal: Space.block),
               child: Column(
                 children: <Widget>[
                   const Spacer(flex: 3),
@@ -93,7 +94,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     height: 84,
                     decoration: BoxDecoration(
                       color: context.cores.primaryStrong,
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: Radii.tileR(84),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: context.cores.primary.withValues(alpha: 0.4),
@@ -108,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       size: 40,
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: Space.block),
                   Text(
                     S.appName,
                     style: text.displaySmall?.copyWith(
@@ -116,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Space.x4),
                   // O nome completo em duas linhas: assim ele cabe sem
                   // encolher a marca, e diz o que o aplicativo é para quem
                   // está vendo pela primeira vez.
@@ -128,7 +129,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: Space.x12),
                   Text(
                     S.appTagline,
                     textAlign: TextAlign.center,
@@ -139,10 +140,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const Spacer(flex: 2),
                   if (widget.comContaNova) ...<Widget>[
                     Container(
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.all(Space.x16),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: Radii.fieldR,
                       ),
                       child: Text(
                         'Para criar a conta da cápsula: toque abaixo, e na '
@@ -152,10 +153,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         style: text.bodySmall?.copyWith(color: Colors.white),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: Space.x16),
                   ],
                   _GoogleButton(busy: _busy, onPressed: _signIn),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: Space.x24),
                   Text(
                     S.signInNote,
                     textAlign: TextAlign.center,
@@ -163,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white.withValues(alpha: 0.6),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: Space.x32),
                 ],
               ),
             ),
@@ -191,9 +192,7 @@ class _GoogleButton extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: context.cores.textPrimary,
           disabledBackgroundColor: Colors.white70,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: Radii.pillR),
         ),
         child: busy
             ? const SizedBox(
@@ -205,7 +204,7 @@ class _GoogleButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const _GoogleMark(),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: Space.x12),
                   Text(
                     S.signInWithGoogle,
                     style: Theme.of(context).textTheme.titleSmall,

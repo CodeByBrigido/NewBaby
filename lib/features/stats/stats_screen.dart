@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../services/drive_service.dart';
@@ -41,7 +42,12 @@ class StatsScreen extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(driveQuotaProvider),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+          padding: const EdgeInsets.fromLTRB(
+            Space.x16,
+            Space.x8,
+            Space.x16,
+            Space.x32,
+          ),
           children: <Widget>[
             GridView.count(
               shrinkWrap: true,
@@ -55,7 +61,7 @@ class StatsScreen extends ConsumerWidget {
                   _CountTile(type: type, count: stats.count(type)),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             quota.when(
               loading: () => const SoftCard(
                 child: SizedBox(
@@ -70,7 +76,7 @@ class StatsScreen extends ConsumerWidget {
                       Icons.cloud_off_outlined,
                       color: context.cores.textSecondary,
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: Space.x12),
                     Expanded(
                       child: Text(
                         'Não foi possível ler o espaço do Google Drive.',
@@ -83,7 +89,7 @@ class StatsScreen extends ConsumerWidget {
               data: (DriveQuota data) =>
                   _StorageCard(quota: data, capsuleBytes: stats.totalBytes),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             const InfoNote(
               message: S.allFilesOptimizedNote,
               icon: Icons.cloud_done_outlined,
@@ -113,7 +119,7 @@ class _CountTile extends StatelessWidget {
           Row(
             children: <Widget>[
               CategoryBadge(type: type, size: 32, iconSize: 17),
-              const SizedBox(width: 10),
+              const SizedBox(width: Space.x12),
               Expanded(
                 child: Text(
                   type.label,
@@ -126,7 +132,7 @@ class _CountTile extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: Space.x12),
           Text('$count', style: text.headlineSmall),
         ],
       ),
@@ -170,7 +176,7 @@ class _StorageCard extends StatelessWidget {
             fraction: quota.fraction,
             color: context.cores.textSecondary,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Space.x12),
           // Este número é da conta Google inteira. Dizer isso na tela evita
           // que alguém leia "8 GB usados" como se fosse a cápsula ocupando
           // tudo aquilo - e deixa claro que o aplicativo só conhece o total,
@@ -217,11 +223,11 @@ class _Bar extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: Space.x8),
         Text(value, style: text.bodyMedium),
-        const SizedBox(height: 12),
+        const SizedBox(height: Space.x12),
         ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: Radii.pillR,
           child: LinearProgressIndicator(
             value: f ?? 0,
             minHeight: 8,

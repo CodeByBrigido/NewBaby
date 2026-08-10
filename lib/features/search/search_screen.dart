@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -61,7 +62,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            padding: const EdgeInsets.fromLTRB(
+              Space.x16,
+              0,
+              Space.x16,
+              Space.x12,
+            ),
             child: TextField(
               controller: _controller,
               textInputAction: TextInputAction.search,
@@ -110,7 +116,7 @@ class _Suggestions extends ConsumerWidget {
         ref.watch(recentSearchesProvider).value ?? const <String>[];
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x24),
       children: <Widget>[
         const SectionHeader(title: S.searchByCategory),
         Row(
@@ -126,7 +132,7 @@ class _Suggestions extends ConsumerWidget {
               _CategoryButton(type: type),
           ],
         ),
-        const SizedBox(height: 28),
+        const SizedBox(height: Space.block),
         if (recent.isNotEmpty) ...<Widget>[
           SectionHeader(
             title: S.recentSearches,
@@ -167,14 +173,14 @@ class _CategoryButton extends ConsumerWidget {
             height: 52,
             decoration: BoxDecoration(
               color: type.soft(context),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: Radii.mediaR,
               border: selected
                   ? Border.all(color: type.accent(context), width: 2)
                   : null,
             ),
             child: Icon(type.icon, color: type.accent(context), size: 24),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: Space.x8),
           Text(
             type.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
@@ -208,13 +214,18 @@ class _Results extends ConsumerWidget {
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+      padding: const EdgeInsets.fromLTRB(
+        Space.x16,
+        0,
+        Space.x16,
+        Space.scrollEnd,
+      ),
       itemCount: results.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: Space.x8),
       itemBuilder: (BuildContext context, int index) {
         final Entry entry = results[index];
         return SoftCard(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(Space.x12),
           onTap: () => _open(context, entry),
           child: Row(
             children: <Widget>[
@@ -224,11 +235,11 @@ class _Results extends ConsumerWidget {
                 child: entry.coverFile != null
                     ? DriveThumbnail(
                         file: entry.coverFile!,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: Radii.mediaR,
                       )
                     : CategoryBadge(type: entry.type, size: 48),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: Space.x12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +250,7 @@ class _Results extends ConsumerWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: Space.x4),
                     Text(
                       <String>[
                         Fmt.date(entry.date),

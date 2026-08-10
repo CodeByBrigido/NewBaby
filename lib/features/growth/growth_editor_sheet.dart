@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../services/lock_service.dart';
@@ -115,7 +116,12 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x12,
+          Space.x20,
+          Space.x20,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,13 +132,13 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                 height: 4,
                 decoration: BoxDecoration(
                   color: context.cores.divider,
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: Radii.pillR,
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(S.addGrowth, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Row(
               children: <Widget>[
                 Expanded(
@@ -151,7 +157,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: TextField(
                     controller: _height,
@@ -169,7 +175,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: Space.x16),
             Row(
               children: <Widget>[
                 Expanded(
@@ -182,7 +188,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                     label: Text(Fmt.date(_date)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: _pickPhoto,
@@ -203,7 +209,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             FilledButton(
               onPressed: _saving ? null : _save,
               child: _saving

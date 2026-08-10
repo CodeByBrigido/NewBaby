@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/capsule_pulse.dart';
 import '../../models/entry.dart';
@@ -122,17 +123,20 @@ class _PulseCard extends StatelessWidget {
 
     return Material(
       color: background,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: Radii.buttonR,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: Radii.buttonR,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Space.x16,
+            vertical: Space.x12,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(icon, size: 20, color: accent),
-              const SizedBox(width: 10),
+              const SizedBox(width: Space.x12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -143,7 +147,7 @@ class _PulseCard extends StatelessWidget {
                       color: context.cores.textSecondary,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: Space.x4),
                   Text(
                     value,
                     style: text.titleSmall?.copyWith(

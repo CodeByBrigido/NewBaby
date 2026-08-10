@@ -10,6 +10,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../services/lock_service.dart';
@@ -126,7 +127,12 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x16,
+          Space.x20,
+          Space.x32,
+        ),
         children: <Widget>[
           Center(
             child: Container(
@@ -135,7 +141,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: context.cores.documentSoft,
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: Radii.buttonR,
               ),
               child: Text(
                 file?.extensionLabel ?? 'DOC',
@@ -146,13 +152,13 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           Text(
             entry.title ?? file?.name ?? S.documents,
             textAlign: TextAlign.center,
             style: text.titleMedium,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           SoftCard(
             child: Column(
               children: <Widget>[
@@ -164,7 +170,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: Space.block),
           if (file != null)
             Row(
               children: <Widget>[
@@ -176,7 +182,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     onTap: () => _open(file),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: _Button(
                     icon: Icons.download_outlined,
@@ -185,7 +191,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     onTap: () => _download(file),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: _Button(
                     icon: Icons.ios_share,
@@ -238,16 +244,16 @@ class _Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: context.cores.primarySoft,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: Radii.mediaR,
       child: InkWell(
         onTap: busy ? null : onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.mediaR,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: Space.x16),
           child: Column(
             children: <Widget>[
               Icon(icon, size: 22, color: context.cores.primaryDark),
-              const SizedBox(height: 6),
+              const SizedBox(height: Space.x8),
               Text(
                 label,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(

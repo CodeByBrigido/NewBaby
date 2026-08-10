@@ -6,6 +6,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/error_text.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -72,16 +73,21 @@ class ProfileScreen extends ConsumerWidget {
       body: profile == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x8,
+                Space.x16,
+                Space.scrollEnd,
+              ),
               children: <Widget>[
                 Center(child: BabyAvatar(profile: profile, radius: 44)),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 Text(
                   profile.name,
                   textAlign: TextAlign.center,
                   style: text.titleLarge,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Space.x24),
                 SoftCard(
                   child: Row(
                     children: <Widget>[
@@ -107,7 +113,7 @@ class ProfileScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: Space.x20),
                 _Tile(
                   icon: Icons.person_outline,
                   title: Copy.of(profile).babyInfo,
@@ -138,7 +144,7 @@ class ProfileScreen extends ConsumerWidget {
                   title: 'Política de privacidade',
                   onTap: () => context.push(Routes.privacy),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Space.x24),
                 TextButton(
                   onPressed: () => _signOut(context, ref),
                   style: TextButton.styleFrom(
@@ -147,7 +153,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   child: const Text(S.signOut),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Space.x4),
                 TextButton(
                   onPressed: () => context.push(Routes.deleteAccount),
                   style: TextButton.styleFrom(
@@ -191,7 +197,7 @@ class _Fact extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(label, style: text.labelSmall, textAlign: TextAlign.center),
-        const SizedBox(height: 5),
+        const SizedBox(height: Space.x4),
         Text(value, style: text.titleSmall, textAlign: TextAlign.center),
       ],
     );
@@ -214,7 +220,7 @@ class _Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: Space.x4),
       leading: Icon(icon),
       title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
       subtitle: subtitle == null ? null : Text(subtitle!),

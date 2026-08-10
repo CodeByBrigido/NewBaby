@@ -7,6 +7,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
@@ -93,9 +94,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             Text(S.filterTitle, style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(height: 8),
+            const SizedBox(height: Space.x8),
             ListTile(
               leading: const Icon(Icons.all_inclusive),
               title: const Text(S.filterAll),
@@ -110,7 +111,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                   selected: _filter == type,
                   onTap: () => Navigator.of(context).pop(type),
                 ),
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.x12),
           ],
         ),
       ),
@@ -146,7 +147,7 @@ class TimelineList extends StatelessWidget {
       ..sort((DateTime a, DateTime b) => b.compareTo(a));
 
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(0, 8, 0, 96),
+      padding: const EdgeInsets.fromLTRB(0, Space.x8, 0, Space.scrollEnd),
       itemCount: days.length + (showHeader ? 2 : 0),
       itemBuilder: (BuildContext context, int index) {
         if (showHeader) {
@@ -176,23 +177,28 @@ class _BabyHeader extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      padding: const EdgeInsets.fromLTRB(
+        Space.x16,
+        Space.x8,
+        Space.x16,
+        Space.x16,
+      ),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Space.x16),
         decoration: BoxDecoration(
           color: context.cores.primarySoft,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: Radii.cardR,
         ),
         child: Row(
           children: <Widget>[
             BabyAvatar(profile: profile, radius: 24),
-            const SizedBox(width: 14),
+            const SizedBox(width: Space.x16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(profile.name, style: text.titleMedium),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: Space.x4),
                   Text(
                     Fmt.longDate(profile.birth),
                     style: text.bodySmall?.copyWith(
@@ -256,7 +262,7 @@ class _DayGroupState extends State<_DayGroup> {
           SizedBox(
             width: 92,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16, top: 2),
+              padding: const EdgeInsets.only(left: Space.x16, top: Space.x4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -267,7 +273,7 @@ class _DayGroupState extends State<_DayGroup> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: Space.x4),
                   Text(
                     age.detailedLabel(),
                     style: text.labelSmall?.copyWith(
@@ -282,7 +288,10 @@ class _DayGroupState extends State<_DayGroup> {
           _Rail(isLast: widget.isLast),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 16, bottom: 20),
+              padding: const EdgeInsets.only(
+                right: Space.x16,
+                bottom: Space.x20,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -295,7 +304,7 @@ class _DayGroupState extends State<_DayGroup> {
                   if (_aberto)
                     for (final Entry entry in widget.entries) ...<Widget>[
                       if (entry != widget.entries.first || podeRecolher)
-                        const SizedBox(height: 10),
+                        const SizedBox(height: Space.x12),
                       TimelineCard(entry: entry),
                     ],
                 ],
@@ -324,12 +333,15 @@ class _DaySummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: context.cores.surfaceMuted,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: Radii.fieldR,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Space.x16,
+            vertical: Space.x12,
+          ),
           child: Row(
             children: <Widget>[
               Expanded(
@@ -369,7 +381,7 @@ class _Rail extends StatelessWidget {
       width: 24,
       child: Column(
         children: <Widget>[
-          const SizedBox(height: 4),
+          const SizedBox(height: Space.x4),
           Container(
             width: 10,
             height: 10,

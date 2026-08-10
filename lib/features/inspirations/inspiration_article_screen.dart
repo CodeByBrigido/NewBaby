@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
@@ -50,17 +51,22 @@ class _InspirationArticleScreenState
     return Scaffold(
       appBar: AppBar(title: Text(i.kind.label)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 100),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x8,
+          Space.x20,
+          Space.scrollEnd,
+        ),
         children: <Widget>[
           InspirationArt(kind: i.kind, seed: i.id, height: 132),
-          const SizedBox(height: 18),
+          const SizedBox(height: Space.x20),
           if (widget.active.daysLeft case final int dias)
             Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.only(bottom: Space.x12),
               child: _Countdown(dias: dias, data: widget.active.deadline!),
             ),
           Text(i.title, style: text.headlineSmall),
-          const SizedBox(height: 10),
+          const SizedBox(height: Space.x12),
           Text(
             i.summary,
             style: text.bodyLarge?.copyWith(
@@ -68,24 +74,27 @@ class _InspirationArticleScreenState
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: Space.x8),
 
           for (final InspirationSection s in i.sections) ...<Widget>[
-            const SizedBox(height: 22),
+            const SizedBox(height: Space.x24),
             Text(s.title, style: text.titleSmall),
             if (s.body.isNotEmpty) ...<Widget>[
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.x8),
               Text(s.body, style: text.bodyMedium?.copyWith(height: 1.55)),
             ],
-            if (s.bullets.isNotEmpty) const SizedBox(height: 10),
+            if (s.bullets.isNotEmpty) const SizedBox(height: Space.x12),
             for (final String item in s.bullets)
               Padding(
-                padding: const EdgeInsets.only(bottom: 9),
+                padding: const EdgeInsets.only(bottom: Space.x8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.only(top: 8, right: 12),
+                      margin: const EdgeInsets.only(
+                        top: Space.x8,
+                        right: Space.x12,
+                      ),
                       width: 5,
                       height: 5,
                       decoration: BoxDecoration(
@@ -127,16 +136,19 @@ class _Countdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x12,
+        vertical: Space.x8,
+      ),
       decoration: BoxDecoration(
         color: context.cores.primarySoft,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: Radii.pillR,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(Icons.event, size: 16, color: context.cores.primaryDark),
-          const SizedBox(width: 8),
+          const SizedBox(width: Space.x8),
           Flexible(
             child: Text(
               dias == 0
@@ -175,11 +187,11 @@ class _Related extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const SizedBox(height: 32),
+        const SizedBox(height: Space.x32),
         Divider(color: context.cores.divider),
-        const SizedBox(height: 14),
+        const SizedBox(height: Space.x16),
         Text('Para ler depois', style: Theme.of(context).textTheme.titleSmall),
-        const SizedBox(height: 10),
+        const SizedBox(height: Space.x12),
         for (final ActiveInspiration a in outras) _RelatedTile(active: a),
       ],
     );
@@ -195,12 +207,12 @@ class _RelatedTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final Inspiration i = active.inspiration;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: Space.x8),
       child: Material(
         color: context.cores.surfaceMuted,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: Radii.fieldR,
         child: InkWell(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: Radii.fieldR,
           // `pushReplacement`: ler cinco artigos seguidos não deve deixar
           // cinco telas empilhadas atrás. Voltar sai da leitura, em vez de
           // desfazer a trilha inteira.
@@ -210,14 +222,14 @@ class _RelatedTile extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(Space.x12),
             child: Row(
               children: <Widget>[
                 SizedBox(
                   width: 56,
                   child: InspirationArt(kind: i.kind, seed: i.id, height: 48),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +240,7 @@ class _RelatedTile extends StatelessWidget {
                           color: context.cores.textSecondary,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: Space.x4),
                       Text(
                         i.title,
                         style: Theme.of(context).textTheme.bodyMedium,

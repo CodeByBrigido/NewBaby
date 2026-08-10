@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/reminder.dart';
 import '../../state/providers.dart';
@@ -30,7 +31,12 @@ class RemindersScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Lembretes')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x16,
+          Space.x8,
+          Space.x16,
+          Space.x32,
+        ),
         children: <Widget>[
           Text(
             copy.hasName
@@ -46,7 +52,7 @@ class RemindersScreen extends ConsumerWidget {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.x16),
 
           SoftCard(
             child: SwitchListTile(
@@ -65,7 +71,7 @@ class RemindersScreen extends ConsumerWidget {
           ),
 
           if (ajuste.enabled) ...<Widget>[
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
             const SectionHeader(title: 'Sobre o quê'),
             SoftCard(
               child: Column(
@@ -95,14 +101,14 @@ class RemindersScreen extends ConsumerWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
             const SectionHeader(title: 'A que horas'),
             SoftCard(
               onTap: () => _escolherHora(context, notifier, ajuste),
               child: Row(
                 children: <Widget>[
                   const Icon(Icons.schedule_outlined),
-                  const SizedBox(width: 14),
+                  const SizedBox(width: Space.x16),
                   Expanded(
                     child: Text(
                       '${ajuste.safeHour.toString().padLeft(2, '0')}:00',
@@ -113,7 +119,7 @@ class RemindersScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: Space.x12),
             InfoNote(
               message:
                   'Entre ${ReminderSettings.earliestHour}h e '
@@ -122,7 +128,7 @@ class RemindersScreen extends ConsumerWidget {
               icon: Icons.bedtime_outlined,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
             const SectionHeader(title: 'O que está marcado'),
             if (agenda.isEmpty)
               const InfoNote(
@@ -137,7 +143,7 @@ class RemindersScreen extends ConsumerWidget {
                   children: <Widget>[
                     for (final ScheduledReminder r in agenda.take(5))
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(vertical: Space.x8),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -165,7 +171,7 @@ class RemindersScreen extends ConsumerWidget {
               ),
           ],
 
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           const InfoNote(
             message:
                 'Os lembretes são calculados dentro do seu celular, a partir '

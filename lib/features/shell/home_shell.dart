@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
 import '../home/home_screen.dart';
@@ -184,12 +185,12 @@ class _BarItem extends StatelessWidget {
                     right: -6,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 1,
+                        horizontal: Space.x4,
+                        vertical: Space.x4,
                       ),
                       decoration: BoxDecoration(
                         color: context.cores.primary,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: Radii.cardR,
                         border: Border.all(
                           color: context.cores.surface,
                           width: 1.5,
@@ -208,7 +209,7 @@ class _BarItem extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: Space.x4),
             Text(
               label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(

@@ -352,4 +352,83 @@ void main() {
       expect(tema.textTheme.displaySmall?.height, closeTo(40 / 34, 0.001));
     });
   });
+
+  group('as telas não têm número solto de layout', () {
+    // A regra está escrita em `tokens.dart`: "nenhum número solto de layout
+    // em tela nenhuma". Sem uma varredura ela dura até a primeira pressa, e
+    // o desvio nunca é gritante: é um 14 onde deveria haver 16, e depois
+    // outro, até a grade não existir mais.
+    //
+    // O que fica de fora, de propósito, é **tamanho de conteúdo**: a altura
+    // de uma foto, o lado de um ladrilho, o diâmetro do botão de play. Esses
+    // números descrevem a coisa desenhada, não o espaço em volta dela, e
+    // engessá-los não deixaria o aplicativo mais coerente.
+    List<String> varre(RegExp alvo, bool Function(String) proibido) {
+      final List<String> achados = <String>[];
+      for (final FileSystemEntity f in Directory(
+        'lib/features',
+      ).listSync(recursive: true)) {
+        if (f is! File || !f.path.endsWith('.dart')) continue;
+        final List<String> linhas = f.readAsLinesSync();
+        for (int i = 0; i < linhas.length; i++) {
+          for (final RegExpMatch m in alvo.allMatches(linhas[i])) {
+            if (proibido(m.group(0)!)) {
+              achados.add('${f.path}:${i + 1}  ${m.group(0)}');
+            }
+          }
+        }
+      }
+      return achados;
+    }
+
+    /// Um número que não seja `0`. O zero fica: escrever `Space.zero` para
+    /// dizer "sem espaço" é pior de ler que o próprio zero.
+    final RegExp numero = RegExp(r'(?<![\w.])(?!0(?![\d.]))\d+(?![\w.\d])');
+
+    test('espaçamento vem de Space, e não de um número escolhido na hora', () {
+      final List<String> achados = varre(
+        RegExp(r'EdgeInsets\.(all|symmetric|only|fromLTRB)\([^()]*\)'),
+        (String trecho) => numero.hasMatch(trecho),
+      );
+      expect(
+        achados,
+        isEmpty,
+        reason:
+            'Troque pelo degrau da grade em Space (4, 8, 12, 16, 20, 24, 32, '
+            '40, 48, 64):\n${achados.join("\n")}',
+      );
+    });
+
+    test('respiro entre widgets também', () {
+      // Só o `SizedBox` que existe para separar duas coisas, quer dizer, o
+      // que não tem `child`. Um `SizedBox` com filho está dimensionando
+      // conteúdo, e aí o número é a medida da coisa.
+      final List<String> achados = varre(
+        RegExp(r'SizedBox\((?:height|width): \d+(?:\.\d+)?\)'),
+        (String trecho) => numero.hasMatch(trecho),
+      );
+      expect(
+        achados,
+        isEmpty,
+        reason: 'Use um degrau de Space:\n${achados.join("\n")}',
+      );
+    });
+
+    test('raio de canto vem de Radii', () {
+      // Aqui não há degrau para arredondar: o raio diz que tipo de superfície
+      // é aquilo. Botão, campo, cartão, mídia e pílula têm raios diferentes
+      // de propósito, e escolher o número solto é escolher errado por acaso.
+      final List<String> achados = varre(
+        RegExp(r'BorderRadius\.circular\(\d+(?:\.\d+)?\)'),
+        (String _) => true,
+      );
+      expect(
+        achados,
+        isEmpty,
+        reason:
+            'Use Radii.buttonR, fieldR, cardR, mediaR, pillR ou tileR:\n'
+            '${achados.join("\n")}',
+      );
+    });
+  });
 }

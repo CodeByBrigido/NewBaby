@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -38,9 +39,14 @@ class DocumentsScreen extends ConsumerWidget {
                   'lugar só.',
             )
           : ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x8,
+                Space.x16,
+                Space.x24,
+              ),
               itemCount: documents.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
               itemBuilder: (BuildContext context, int index) {
                 final Entry entry = documents[index];
                 final EntryFile? file = entry.coverFile;
@@ -55,7 +61,7 @@ class DocumentsScreen extends ConsumerWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: context.cores.documentSoft,
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: Radii.fieldR,
                         ),
                         child: Text(
                           file?.extensionLabel ?? 'DOC',
@@ -65,7 +71,7 @@ class DocumentsScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: Space.x16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +82,7 @@ class DocumentsScreen extends ConsumerWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: Space.x4),
                             Text(
                               <String>[
                                 Fmt.date(entry.date),
