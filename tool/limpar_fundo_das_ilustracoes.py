@@ -17,7 +17,12 @@ traço e não se alcança de fora.
 
 Roda de novo sem estragar nada: onde já é transparente não há o que apagar.
 
+Trabalha sobre PNG, e vem **antes** da conversão para WebP. A ordem importa:
+o recorte precisa acontecer no arquivo sem perda, senão o contorno do
+desenho entra na conta do compressor com o fundo ainda ali.
+
     python3 tool/limpar_fundo_das_ilustracoes.py
+    node tool/converter_para_webp.mjs
 """
 
 from __future__ import annotations

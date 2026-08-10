@@ -31,35 +31,35 @@ class IntroSlide {
 /// terá sido tomada.
 const List<IntroSlide> introSlides = <IntroSlide>[
   IntroSlide(
-    image: 'assets/images/onboarding/onboarding_1.png',
+    image: 'assets/images/onboarding/onboarding_1.webp',
     title: 'A infância passa depressa.',
     body:
         'Guarde os pequenos momentos antes que eles se tornem apenas '
         'lembranças.',
   ),
   IntroSlide(
-    image: 'assets/images/onboarding/onboarding_2.png',
+    image: 'assets/images/onboarding/onboarding_2.webp',
     title: 'Toda lembrança tem seu lugar.',
     body:
         'Fotos, vídeos, cartas, desenhos, documentos e registros de '
         'crescimento. Tudo reunido em um único lugar.',
   ),
   IntroSlide(
-    image: 'assets/images/onboarding/onboarding_3.png',
+    image: 'assets/images/onboarding/onboarding_3.webp',
     title: 'Cada memória no seu tempo.',
     body:
         'Organizamos tudo pela idade em que aconteceu, formando uma '
         'verdadeira linha do tempo da infância.',
   ),
   IntroSlide(
-    image: 'assets/images/onboarding/onboarding_4.png',
+    image: 'assets/images/onboarding/onboarding_4.webp',
     title: 'Um presente para o futuro.',
     body:
         'Um dia, essa cápsula poderá ser aberta por quem mais importa: seu '
         'filho.',
   ),
   IntroSlide(
-    image: 'assets/images/onboarding/onboarding_5.png',
+    image: 'assets/images/onboarding/onboarding_5.webp',
     title: 'Vamos criar essa cápsula?',
     body:
         'Recomendamos usar uma conta Google exclusiva para guardar todas '

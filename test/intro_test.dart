@@ -69,7 +69,7 @@ void main() {
       for (int i = 0; i < introSlides.length; i++) {
         expect(
           introSlides[i].image,
-          'assets/images/onboarding/onboarding_${i + 1}.png',
+          'assets/images/onboarding/onboarding_${i + 1}.webp',
         );
       }
     });

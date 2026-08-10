@@ -208,7 +208,7 @@ class _GoogleButton extends StatelessWidget {
 class _Fotografia extends StatelessWidget {
   const _Fotografia();
 
-  static const String caminho = 'assets/images/onboarding/Login-Baby.png';
+  static const String caminho = 'assets/images/onboarding/Login-Baby.webp';
 
   @override
   Widget build(BuildContext context) {
