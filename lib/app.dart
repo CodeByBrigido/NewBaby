@@ -11,6 +11,7 @@ import 'core/theme/app_theme.dart';
 import 'features/shell/app_lock_gate.dart';
 import 'features/shell/splash_gate.dart';
 import 'models/baby_profile.dart';
+import 'models/entry.dart';
 import 'models/reminder.dart';
 import 'state/providers.dart';
 
@@ -39,6 +40,18 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
     ref.listenManual<String?>(uidProvider, (String? _, String? uid) {
       if (uid == null) return;
       unawaited(ref.read(sessionServiceProvider).limparRestosDeAudio(uid));
+    }, fireImmediately: true);
+
+    // As cartas escritas antes de a carta virar arquivo só existem no
+    // índice. Elas ganham o `.txt` aos poucos, a partir da lista que a linha
+    // do tempo já tem em memória: nenhuma leitura nova sai daqui.
+    ref.listenManual(entriesProvider, (
+      AsyncValue<List<Entry>>? _,
+      AsyncValue<List<Entry>> agora,
+    ) {
+      final List<Entry>? entradas = agora.value;
+      if (entradas == null) return;
+      unawaited(ref.read(cartasAtrasadasProvider).gravar(entradas));
     }, fireImmediately: true);
 
     ref.listenManual(plannedRemindersProvider, (

@@ -15,6 +15,7 @@ import '../models/inspiration.dart';
 import '../models/suggestion_progress.dart';
 import '../models/suggestion.dart';
 import '../services/auth_service.dart';
+import '../services/cartas_atrasadas.dart';
 import '../services/drive_service.dart';
 import '../services/firestore_service.dart';
 import '../services/media_optimizer.dart';
@@ -67,6 +68,23 @@ final Provider<MemoryRepository> memoryRepositoryProvider =
       );
       ref.onDispose(repository.dispose);
       return repository;
+    });
+
+/// A gravação das cartas que existiam antes de a carta virar arquivo.
+///
+/// A dependência é uma função, e não o repositório inteiro, porque assim a
+/// regra (quais cartas, em que ordem, quantas por vez, e nunca duas rodadas
+/// ao mesmo tempo) fica testável sem Firebase nem Drive.
+final Provider<CartasAtrasadas> cartasAtrasadasProvider =
+    Provider<CartasAtrasadas>((Ref ref) {
+      return CartasAtrasadas((Entry carta) async {
+        final String? uid = ref.read(uidProvider);
+        final BabyProfile? profile = ref.read(profileProvider).value;
+        if (uid == null || profile == null) return carta;
+        return ref
+            .read(memoryRepositoryProvider)
+            .escreverCarta(uid, profile, carta);
+      });
     });
 
 /// Sair e apagar a conta - os dois caminhos que precisam falar com todos os
