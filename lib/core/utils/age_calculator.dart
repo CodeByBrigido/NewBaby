@@ -32,6 +32,22 @@ class AgeBucket {
     AgeBucketUnit.year => 'Ano $index',
   };
 
+  /// Nome da pasta no Google Drive.
+  ///
+  /// Grosso de propósito, e diferente do [folderName] que a interface usa.
+  /// São dois públicos: quem registra hoje quer saber a semana, e quem abrir
+  /// a pasta daqui a vinte anos quer o ano. `Semana 07` não diz nada a essa
+  /// segunda pessoa, e cinquenta e duas pastas no primeiro ano de vida só
+  /// atrapalham quem está folheando o acervo inteiro.
+  ///
+  /// O primeiro ano é uma pasta só, porque é o período com mais conteúdo e
+  /// menos sentido de subdivisão para quem olha de longe: tudo ali é bebê.
+  String get driveFolderName => switch (unit) {
+    AgeBucketUnit.week => 'Primeiro Ano',
+    AgeBucketUnit.month => '1 Ano',
+    AgeBucketUnit.year => index == 1 ? '1 Ano' : '$index Anos',
+  };
+
   /// Chave estável usada no Firestore e para ordenar os baldes.
   /// Ordena corretamente porque semana < mês < ano na comparação de texto.
   String get key => switch (unit) {
