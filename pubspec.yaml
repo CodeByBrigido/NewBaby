@@ -64,6 +64,30 @@ dev_dependencies:
   # (construtor privado), mas a camada de plataforma abaixo dele, sim. É o que
   # permite simular um aparelho onde o login trava.
   google_sign_in_platform_interface: ^3.1.0
+  # Gera os ícones do lançador a partir de um arquivo só. Fica em
+  # dev_dependencies porque roda na máquina de quem desenvolve e não entra
+  # no aplicativo.
+  flutter_launcher_icons: ^0.14.4
+
+# O ícone do aplicativo vem de um arquivo único, e de nenhum outro lugar.
+#
+# Depois de trocar `assets/images/icon/icon.png` pela arte definitiva, rode:
+#
+#     dart run flutter_launcher_icons
+#
+# Ele reescreve todos os `mipmap-*` do Android e o `AppIcon.appiconset` do
+# iOS. É por isso que os PNGs em `android/.../res` não devem ser editados à
+# mão: eles são saída, e não fonte.
+flutter_launcher_icons:
+  image_path: assets/images/icon/icon.png
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  # O ícone adaptativo do Android recorta as bordas na forma que cada
+  # fabricante escolhe. A cor de fundo é a mesma da tela de abertura, para
+  # que o ícone e a primeira tela sejam visivelmente a mesma coisa.
+  adaptive_icon_background: '#D2664F'
+  adaptive_icon_foreground: assets/images/icon/icon.png
 
 flutter:
   uses-material-design: true
@@ -75,6 +99,11 @@ flutter:
     # e a imagem de fundo do login é só soltar os arquivos aqui, sem mexer
     # em configuração, e a falta deles não quebra a compilação.
     - assets/
+    # `- assets/` não alcança subpastas, então as imagens precisam das
+    # linhas próprias. Declarar a pasta, e não cada arquivo, é o que permite
+    # trocar a arte sem mexer aqui.
+    - assets/images/onboarding/
+    - assets/images/icon/
 
   # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
   # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:

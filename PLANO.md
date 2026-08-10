@@ -295,7 +295,7 @@ nomes iguais dentro da pasta. A hora do relógio vai junto do dia escolhido.
 
 **O menor item desta lista e o de maior ganho por linha escrita.**
 
-#### 10b. As três telas de apresentação ✅
+#### 10b. As telas de apresentação ✅
 
 Antes do login, no formato de slides que todo mundo reconhece:
 
@@ -327,6 +327,21 @@ própria caixa de login. O que faltava a quem escolhe esse caminho é saber
 onde tocar lá dentro, então a escolha viaja até a tela de login e vira uma
 instrução de uma frase. Sem isso a pessoa escolhe criar uma conta e cai numa
 tela que não diz uma palavra sobre como criar.
+
+**Refeito com arte, em cinco telas.** As três de texto e ícone deram lugar a
+cinco com ilustração: a infância passa depressa, toda lembrança tem seu
+lugar, cada memória no seu tempo, um presente para o futuro, e o convite a
+criar a cápsula.
+
+A estrutura ficou: `OnboardingPage` desenha uma tela, `IntroScreen` folheia
+as cinco, e a lista `introSlides` é o único lugar onde há texto. A rota, a
+marca de "já vi", o recado que viaja até o login e o caminho de rever pelo
+Sobre continuam iguais, porque o que mudou foi a apresentação e não o fluxo.
+
+O ícone passou a sair de um arquivo só, `assets/images/icon/icon.png`, lido
+pelo `flutter_launcher_icons`, pela abertura e pela última tela. O desenho
+por código de `tool/gerar_icone.py` saiu: ele era a fonte quando não havia
+arte, e manter os dois deixaria duas verdades sobre qual é a marca.
 
 #### 10c. O sistema de movimento
 

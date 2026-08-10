@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
+import '../intro/onboarding_page.dart';
 
 /// A cor da abertura, tirada do próprio ícone.
 ///
@@ -16,10 +17,13 @@ const Color corDaAbertura = Color(0xFFD2664F);
 
 /// Caminho do ícone usado na abertura.
 ///
-/// Se o arquivo ainda não estiver no projeto, a tela desenha o coração
-/// simples no lugar dele. Uma imagem faltando não pode impedir o aplicativo
-/// de abrir.
-const String iconeDaAbertura = 'assets/icone.png';
+/// É o mesmo arquivo que o `flutter_launcher_icons` transforma no ícone do
+/// lançador e que a última tela da apresentação mostra. Um arquivo só, para
+/// que trocar a marca seja trocar uma imagem, e não caçar cópias.
+///
+/// Se ele sumir, a tela desenha o coração simples no lugar: uma imagem
+/// faltando não pode impedir o aplicativo de abrir.
+const String iconeDaAbertura = OnboardingPage.iconPath;
 
 /// Quanto tempo a abertura fica no mínimo.
 ///

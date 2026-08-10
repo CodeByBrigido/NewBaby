@@ -6,58 +6,63 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
+import 'onboarding_page.dart';
 
 /// Um slide da apresentação.
 @immutable
 class IntroSlide {
   const IntroSlide({
-    required this.icon,
+    required this.image,
     required this.title,
     required this.body,
   });
 
-  final IconData icon;
+  final String image;
   final String title;
   final String body;
 }
 
-/// As três telas antes do login.
+/// As cinco telas antes do login.
 ///
-/// Não são um tutorial de botões: são o único momento em que dá para
-/// explicar por que este aplicativo guarda as fotos fora dele, e por que
-/// vale a pena criar uma conta só para a cápsula. Depois do login ninguém
-/// mais lê isso, e a decisão da conta já terá sido tomada.
+/// Não são um tutorial de botões: são o único momento em que dá para dizer o
+/// que este aplicativo é, e por que vale a pena criar uma conta só para a
+/// cápsula. Depois do login ninguém mais lê isso, e a decisão da conta já
+/// terá sido tomada.
 const List<IntroSlide> introSlides = <IntroSlide>[
   IntroSlide(
-    icon: Icons.hourglass_bottom_rounded,
-    title: 'Isto não é um álbum de fotos',
+    image: 'assets/images/onboarding/onboarding_1.png',
+    title: 'A infância passa depressa.',
     body:
-        'É uma cápsula do tempo. Tudo que você guardar aqui está sendo '
-        'guardado para alguém que ainda não sabe ler: a própria criança, '
-        'daqui a vinte ou trinta anos.\n\n'
-        'Por isso cada memória entra com a data e a idade dela, e não com a '
-        'data em que você teve tempo de guardar.',
+        'Guarde os pequenos momentos antes que eles se tornem apenas '
+        'lembranças.',
   ),
   IntroSlide(
-    icon: Icons.cloud_done_outlined,
-    title: 'As fotos continuam sendo suas',
+    image: 'assets/images/onboarding/onboarding_2.png',
+    title: 'Toda lembrança tem seu lugar.',
     body:
-        'Elas vão direto do celular para o Google Drive da sua conta, em '
-        'pastas organizadas por idade. Não passam por servidor nosso, e o '
-        'aplicativo não enxerga o resto do seu Drive.\n\n'
-        'Se este aplicativo sumir amanhã, o acervo continua lá, do mesmo '
-        'jeito, legível em qualquer computador.',
+        'Fotos, vídeos, cartas, desenhos, documentos e registros de '
+        'crescimento. Tudo reunido em um único lugar.',
   ),
   IntroSlide(
-    icon: Icons.vpn_key_outlined,
-    title: 'Uma conta só para a cápsula',
+    image: 'assets/images/onboarding/onboarding_3.png',
+    title: 'Cada memória no seu tempo.',
     body:
-        'A sugestão é criar uma conta do Google nova, só para isto. O motivo '
-        'não é espaço.\n\n'
-        'É que essa conta pode ser dela um dia. Login e senha, e a cápsula '
-        'inteira passa de mão, sem transferir nada. Com a sua conta pessoal '
-        'isso não daria: junto iriam seus emails, seus documentos e o resto '
-        'da sua vida.',
+        'Cada lembrança é organizada pela idade em que aconteceu, formando '
+        'uma verdadeira linha do tempo da infância.',
+  ),
+  IntroSlide(
+    image: 'assets/images/onboarding/onboarding_4.png',
+    title: 'Um presente para o futuro.',
+    body:
+        'Um dia, essa cápsula poderá ser aberta por quem mais importa: seu '
+        'filho.',
+  ),
+  IntroSlide(
+    image: 'assets/images/onboarding/onboarding_5.png',
+    title: 'Vamos criar essa cápsula?',
+    body:
+        'Recomendamos usar uma conta Google exclusiva para guardar todas '
+        'essas lembranças por muitos anos.',
   ),
 ];
 
@@ -92,9 +97,11 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     context.go(Routes.login, extra: contaNova ? loginComContaNova : null);
   }
 
+  void _avancar() =>
+      _pages.nextPage(duration: Motion.screen, curve: Motion.entrada);
+
   @override
   Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
     final bool ultimo = _atual == introSlides.length - 1;
 
     return Scaffold(
@@ -113,8 +120,12 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                 controller: _pages,
                 itemCount: introSlides.length,
                 onPageChanged: (int i) => setState(() => _atual = i),
-                itemBuilder: (BuildContext context, int i) =>
-                    _Slide(slide: introSlides[i]),
+                itemBuilder: (BuildContext context, int i) => OnboardingPage(
+                  imagePath: introSlides[i].image,
+                  title: introSlides[i].title,
+                  description: introSlides[i].body,
+                  isLastPage: i == introSlides.length - 1,
+                ),
               ),
             ),
             _Pontos(total: introSlides.length, atual: _atual),
@@ -127,43 +138,8 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                 Space.x24,
               ),
               child: ultimo
-                  // Os dois do mesmo tamanho, de propósito: a conta nova é
-                  // sugestão, não exigência. Exigir uma conta antes de a
-                  // pessoa ver o aplicativo é o pedido mais caro possível no
-                  // momento de maior desistência.
-                  ? Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () => _sair(),
-                            style: OutlinedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(52),
-                            ),
-                            child: const Text('Usar a minha conta'),
-                          ),
-                        ),
-                        const SizedBox(width: Space.x12),
-                        Expanded(
-                          child: FilledButton(
-                            onPressed: () => _sair(contaNova: true),
-                            style: FilledButton.styleFrom(
-                              minimumSize: const Size.fromHeight(52),
-                            ),
-                            child: const Text('Criar uma conta'),
-                          ),
-                        ),
-                      ],
-                    )
-                  : FilledButton(
-                      onPressed: () => _pages.nextPage(
-                        duration: const Duration(milliseconds: 320),
-                        curve: Curves.easeOutCubic,
-                      ),
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(52),
-                      ),
-                      child: Text('Continuar', style: text.titleSmall),
-                    ),
+                  ? _EscolhaDaConta(aoEscolher: _sair)
+                  : _Continuar(aoTocar: _avancar),
             ),
           ],
         ),
@@ -172,43 +148,54 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 }
 
-class _Slide extends StatelessWidget {
-  const _Slide({required this.slide});
+class _Continuar extends StatelessWidget {
+  const _Continuar({required this.aoTocar});
 
-  final IntroSlide slide;
+  final VoidCallback aoTocar;
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: Space.x32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(height: Space.x24),
-          Container(
-            width: 88,
-            height: 88,
-            decoration: BoxDecoration(
-              color: context.cores.primarySoft,
-              borderRadius: Radii.tileR(88),
-            ),
-            child: Icon(slide.icon, size: 42, color: context.cores.primaryDark),
-          ),
-          const SizedBox(height: Space.x32),
-          Text(slide.title, style: text.headlineSmall),
-          const SizedBox(height: Space.x16),
-          Text(
-            slide.body,
-            style: text.bodyLarge?.copyWith(
-              height: 1.6,
-              color: context.cores.textSecondary,
-            ),
-          ),
-          const SizedBox(height: Space.x24),
-        ],
+    return FilledButton(
+      onPressed: aoTocar,
+      style: FilledButton.styleFrom(
+        minimumSize: const Size.fromHeight(Sizes.button),
       ),
+      child: const Text('Continuar'),
+    );
+  }
+}
+
+/// As duas saídas da última tela.
+///
+/// Uma embaixo da outra, e não lado a lado, porque os rótulos são longos e
+/// numa linha só eles quebrariam em duas. A conta nova vem primeiro e
+/// preenchida, que é o que a palavra "recomendada" já promete; usar a conta
+/// atual continua a um toque de distância, e não escondido.
+class _EscolhaDaConta extends StatelessWidget {
+  const _EscolhaDaConta({required this.aoEscolher});
+
+  final Future<void> Function({bool contaNova}) aoEscolher;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        FilledButton(
+          onPressed: () => aoEscolher(contaNova: true),
+          style: FilledButton.styleFrom(
+            minimumSize: const Size.fromHeight(Sizes.button),
+          ),
+          child: const Text('Criar conta recomendada'),
+        ),
+        const SizedBox(height: Space.x12),
+        OutlinedButton(
+          onPressed: () => aoEscolher(),
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(Sizes.button),
+          ),
+          child: const Text('Usar minha conta atual'),
+        ),
+      ],
     );
   }
 }
@@ -226,8 +213,8 @@ class _Pontos extends StatelessWidget {
       children: <Widget>[
         for (int i = 0; i < total; i++)
           AnimatedContainer(
-            duration: const Duration(milliseconds: 240),
-            curve: Curves.easeOut,
+            duration: Motion.micro,
+            curve: Motion.padrao,
             margin: const EdgeInsets.symmetric(horizontal: Space.x4),
             width: i == atual ? 22 : 8,
             height: 8,

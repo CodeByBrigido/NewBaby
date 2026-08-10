@@ -4,4 +4,5 @@
          desenha em seguida. Sem isto há um piscar branco entre a tela do
          sistema e a do aplicativo. -->
     <color name="abertura">#D2664F</color>
+	<color name="ic_launcher_background">#D2664F</color>
 </resources>
