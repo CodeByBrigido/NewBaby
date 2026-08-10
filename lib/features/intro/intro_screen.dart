@@ -128,7 +128,6 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                   imagePath: introSlides[i].image,
                   title: introSlides[i].title,
                   description: introSlides[i].body,
-                  isLastPage: i == introSlides.length - 1,
                 ),
               ),
             ),
@@ -139,25 +138,19 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                 Space.block,
                 Space.block,
               ),
-              // A ordem se inverte na última tela: nas quatro primeiras o
-              // indicador fica acima do botão, e na quinta ele desce para
-              // baixo dos dois. Ali quem manda são as escolhas de conta, e o
-              // indicador vira o que é: um lembrete de onde a pessoa está.
-              child: ultimo
-                  ? Column(
-                      children: <Widget>[
-                        _EscolhaDaConta(aoEscolher: _sair),
-                        const SizedBox(height: Space.x20),
-                        _Pontos(total: introSlides.length, atual: _atual),
-                      ],
-                    )
-                  : Column(
-                      children: <Widget>[
-                        _Pontos(total: introSlides.length, atual: _atual),
-                        const SizedBox(height: Space.block),
-                        _BotaoPilula(rotulo: 'Continuar', aoTocar: _avancar),
-                      ],
-                    ),
+              // O indicador fica sempre acima do botão, nas cinco telas. Ele
+              // diz onde a pessoa está, e essa informação vem antes da ação:
+              // embaixo, ele ficava depois do que já tinha sido decidido.
+              child: Column(
+                children: <Widget>[
+                  _Pontos(total: introSlides.length, atual: _atual),
+                  const SizedBox(height: Space.block),
+                  if (ultimo)
+                    _EscolhaDaConta(aoEscolher: _sair)
+                  else
+                    _BotaoPilula(rotulo: 'Continuar', aoTocar: _avancar),
+                ],
+              ),
             ),
           ],
         ),

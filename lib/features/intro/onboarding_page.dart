@@ -9,83 +9,77 @@ import '../../core/theme/tokens.dart';
 /// mesma estrutura: ilustração, título, texto. Repetir isso cinco vezes é
 /// como o espaçamento entre elas começa a divergir.
 ///
-/// [isLastPage] muda o conteúdo, e não só a decoração: a última tela é a que
-/// pede a conta, e por isso ela mostra o ícone do aplicativo e o selo de
-/// recomendação. Os dois botões ficam de fora, com a tela que os navega,
-/// porque eles pertencem ao fluxo e não à página.
+/// As cinco são iguais por dentro: o que muda de uma para a outra vive na
+/// tela que as folheia, e não aqui. A última chegou a ter selo e ícone
+/// próprios, e os dois saíram; sobrou uma página só, sem exceção.
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({
     required this.imagePath,
     required this.title,
     required this.description,
-    this.isLastPage = false,
     super.key,
   });
 
   final String imagePath;
   final String title;
   final String description;
-  final bool isLastPage;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
 
-    // Centralizado quando cabe, rolável quando não cabe. Sem o `minHeight` a
-    // coluna encosta no topo e sobra um vão embaixo; sem a rolagem, um
-    // aparelho pequeno com fonte grande cortaria o fim do texto.
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints limites) =>
-          SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: limites.maxHeight),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // A arte vai de borda a borda, e só o texto tem margem. Uma das
-                  // ilustrações é alta e estreita, com legendas desenhadas dentro
-                  // dela: qualquer margem lateral encolhe a imagem inteira e são
-                  // essas legendas que somem primeiro.
-                  _Ilustracao(caminho: imagePath),
-                  const SizedBox(height: Space.x32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Space.x32),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          title,
-                          style: text.headlineMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: Space.x16),
-                        Text(
-                          description,
-                          textAlign: TextAlign.center,
-                          style: text.bodyLarge?.copyWith(
-                            height: 1.6,
-                            color: context.cores.textSecondary,
-                          ),
-                        ),
-                        if (isLastPage) ...<Widget>[
-                          const SizedBox(height: Space.x16),
-                          const SeloRecomendado(),
-                        ],
-                      ],
-                    ),
+    // A arte cede espaço ao texto, e não o contrário.
+    //
+    // Antes ela era uma fração da tela, medida sempre igual. Só que a última
+    // página tem um rodapé bem mais alto que as outras (dois botões em vez
+    // de um), e ali a mesma fração não cabia: o texto era empurrado para
+    // fora e aparecia cortado embaixo do botão.
+    //
+    // Com `Expanded` de um lado e `Flexible` do outro, a divisão é sempre do
+    // que sobrou naquela página. A arte fica com três quintos, o texto com o
+    // resto, e a conta fecha em qualquer tela e com qualquer rodapé.
+    return Column(
+      children: <Widget>[
+        // A arte vai de borda a borda, e só o texto tem margem. Uma das
+        // ilustrações é alta e estreita, com legendas desenhadas dentro
+        // dela: qualquer margem lateral encolhe a imagem inteira e são
+        // essas legendas que somem primeiro.
+        Expanded(flex: 3, child: _Ilustracao(caminho: imagePath)),
+        const SizedBox(height: Space.x24),
+        Flexible(
+          flex: 2,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: Space.x32),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  title,
+                  style: text.headlineMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: Space.x16),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: text.bodyLarge?.copyWith(
+                    height: 1.6,
+                    color: context.cores.textSecondary,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+        ),
+      ],
     );
   }
 }
 
-/// A arte da tela.
+/// A arte da tela, no espaço que a página lhe deu.
 ///
-/// A altura é uma fração da tela, e não um número fixo, porque a mesma
-/// apresentação roda num aparelho pequeno e num tablet: fixar a altura faria
-/// a ilustração comer o texto num e boiar no outro.
+/// Não escolhe altura: recebe. Quem divide é a coluna acima, e é isso que
+/// faz a mesma página servir a um telefone pequeno, a um tablet e à última
+/// tela, que tem dois botões embaixo em vez de um.
 class _Ilustracao extends StatelessWidget {
   const _Ilustracao({required this.caminho});
 
@@ -93,11 +87,14 @@ class _Ilustracao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints limites) =>
+          _pintar(context, limites.maxHeight),
+    );
+  }
+
+  Widget _pintar(BuildContext context, double altura) {
     final MediaQueryData tela = MediaQuery.of(context);
-    // Quase metade da tela. Uma das artes é bem mais alta que larga, e com
-    // `contain` é a altura que manda: cada ponto a menos aqui estreita
-    // aquela ilustração inteira, e é nela que estão as legendas desenhadas.
-    final double altura = tela.size.height * 0.48;
 
     return SizedBox(
       height: altura,
@@ -113,46 +110,6 @@ class _Ilustracao extends StatelessWidget {
         // que a pessoa vê do aplicativo. O texto sozinho ainda diz tudo.
         errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
             const SizedBox.shrink(),
-      ),
-    );
-  }
-}
-
-/// O selo da recomendação, na última tela.
-///
-/// A estrela é ícone, e não o emoji do texto: emoji depende da fonte do
-/// aparelho, muda de desenho entre Android e iOS e não acompanha a cor do
-/// tema. O sentido é o mesmo e o resultado é igual em todo lugar.
-class SeloRecomendado extends StatelessWidget {
-  const SeloRecomendado({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Space.x12,
-        vertical: Space.x4,
-      ),
-      decoration: BoxDecoration(
-        color: context.cores.primarySoft,
-        borderRadius: Radii.pillR,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const Icon(
-            Icons.star_rounded,
-            size: Sizes.iconSmall,
-            color: AppPalette.warning,
-          ),
-          const SizedBox(width: Space.x4),
-          Text(
-            'Recomendado',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: context.cores.primaryStrong,
-            ),
-          ),
-        ],
       ),
     );
   }
