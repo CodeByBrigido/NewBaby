@@ -315,6 +315,45 @@ void main() {
       expect(tamanho?.maxHeight, Sizes.fab);
     });
 
+    test('todo texto do tema traz a fonte do projeto', () {
+      // `ThemeData(fontFamily:)` alcança o `textTheme`, e só ele. Um estilo
+      // entregue direto ao tema de um componente não passa por lá e cai na
+      // fonte do sistema, sem erro nenhum. Foi o que aconteceu com o rótulo
+      // dos botões, e só apareceu quando as telas foram desenhadas de fato.
+      final List<String> semFonte = <String>[];
+      void confere(String onde, TextStyle? estilo) {
+        if (estilo == null) return;
+        if (estilo.fontFamily != appFontFamily) {
+          semFonte.add('$onde: ${estilo.fontFamily ?? "nenhuma"}');
+        }
+      }
+
+      const Set<WidgetState> parado = <WidgetState>{};
+      confere(
+        'FilledButton',
+        tema.filledButtonTheme.style?.textStyle?.resolve(parado),
+      );
+      confere(
+        'OutlinedButton',
+        tema.outlinedButtonTheme.style?.textStyle?.resolve(parado),
+      );
+      confere(
+        'TextButton',
+        tema.textButtonTheme.style?.textStyle?.resolve(parado),
+      );
+      confere('bodyLarge', tema.textTheme.bodyLarge);
+      confere('headlineMedium', tema.textTheme.headlineMedium);
+      confere('labelLarge', tema.textTheme.labelLarge);
+
+      expect(
+        semFonte,
+        isEmpty,
+        reason:
+            'Escreva `fontFamily: appFontFamily` no estilo: '
+            '${semFonte.join(", ")}',
+      );
+    });
+
     test('a escala tipográfica é a do Design System', () {
       final TextTheme t = tema.textTheme;
       expect(t.displaySmall?.fontSize, 34);

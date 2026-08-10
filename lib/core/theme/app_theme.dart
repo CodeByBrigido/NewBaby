@@ -297,7 +297,16 @@ abstract final class AppTheme {
 
   /// Texto de botão: 16 / 700, o único lugar onde o peso 700 encosta em
   /// corpo de texto.
+  /// A fonte precisa estar escrita aqui.
+  ///
+  /// `ThemeData(fontFamily:)` alcança o `textTheme`, e só ele. Este estilo é
+  /// entregue direto ao tema dos botões, então nunca passa por lá: sem esta
+  /// linha, o rótulo de todo botão cheio e contornado do aplicativo cai na
+  /// fonte padrão do sistema. Não dá tela vermelha nem erro; a identidade
+  /// some em silêncio, e num aparelho a diferença passa por descuido de
+  /// desenho.
   static const TextStyle _botao = TextStyle(
+    fontFamily: appFontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w700,
     height: 1.25,
@@ -317,8 +326,13 @@ abstract final class AppTheme {
   /// do Google e a outra metade com os nossos, que é o jeito mais rápido de
   /// um aplicativo perder a identidade sem ninguém saber apontar onde.
   static TextTheme _textTheme(AppPalette cores) {
+    // A fonte é escrita aqui, e não deixada para o `ThemeData` aplicar. Ele
+    // aplica na cópia dele do `textTheme`, e estes mesmos estilos são
+    // entregues antes disso ao tema dos botões e da dica: lá chegariam sem
+    // fonte, e o rótulo cairia na do sistema sem ninguém ver erro nenhum.
     TextStyle t(double tamanho, FontWeight peso, double linha, Color cor) =>
         TextStyle(
+          fontFamily: appFontFamily,
           fontSize: tamanho,
           fontWeight: peso,
           height: linha / tamanho,

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
+import 'package:meu_bebe/features/intro/google_g.dart';
 import 'package:meu_bebe/features/intro/intro_screen.dart';
 import 'package:meu_bebe/features/intro/onboarding_page.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
@@ -118,16 +119,15 @@ void main() {
       expect(find.byType(Image), findsOneWidget);
     });
 
-    testWidgets('só a última traz o ícone e o selo', (
+    testWidgets('só a última traz o selo de recomendação', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(sozinha(ultima: false));
-      expect(find.text('Recomendado'), findsNothing);
+      expect(find.byType(SeloRecomendado), findsNothing);
 
       await tester.pumpWidget(sozinha(ultima: true));
+      expect(find.byType(SeloRecomendado), findsOneWidget);
       expect(find.text('Recomendado'), findsOneWidget);
-      // Duas imagens: a ilustração e o ícone do aplicativo.
-      expect(find.byType(Image), findsNWidgets(2));
     });
   });
 
@@ -149,6 +149,7 @@ void main() {
       await tester.pumpWidget(harness());
       await tester.pump();
       expect(find.byType(AnimatedContainer), findsNWidgets(5));
+      expect(find.byType(GoogleG), findsNothing);
 
       await tester.tap(find.text('Continuar'));
       await tester.pumpAndSettle();
@@ -180,6 +181,9 @@ void main() {
       expect(find.text('Criar conta recomendada'), findsOneWidget);
       expect(find.text('Usar minha conta atual'), findsOneWidget);
       expect(find.text('Continuar'), findsNothing);
+      // O símbolo do Google só faz sentido no botão que leva à conta que a
+      // pessoa já tem; nas outras telas ele seria enfeite.
+      expect(find.byType(GoogleG), findsOneWidget);
     });
 
     testWidgets('as duas escolhas de conta têm a mesma largura', (

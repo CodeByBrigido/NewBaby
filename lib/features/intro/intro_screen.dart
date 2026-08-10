@@ -6,6 +6,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
+import 'google_g.dart';
 import 'onboarding_page.dart';
 
 /// Um slide da apresentação.
@@ -47,8 +48,8 @@ const List<IntroSlide> introSlides = <IntroSlide>[
     image: 'assets/images/onboarding/onboarding_3.png',
     title: 'Cada memória no seu tempo.',
     body:
-        'Cada lembrança é organizada pela idade em que aconteceu, formando '
-        'uma verdadeira linha do tempo da infância.',
+        'Organizamos tudo pela idade em que aconteceu, formando uma '
+        'verdadeira linha do tempo da infância.',
   ),
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_4.png',
@@ -105,20 +106,17 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     final bool ultimo = _atual == introSlides.length - 1;
 
     return Scaffold(
-      // Branco puro, e não o fundo do tema. As ilustrações são PNG sem
-      // transparência: o branco delas é opaco. Sobre o creme da paleta da
-      // menina ou o azulado da do menino, cada uma apareceria como um bloco
-      // mais claro recortado no meio da tela. Aqui isso não é escolha de
-      // estilo, é o que faz a arte encostar no fundo.
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: <Widget>[
             Align(
               alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: _sair,
-                child: Text(ultimo ? 'Fechar' : 'Pular'),
+              child: Padding(
+                padding: const EdgeInsets.only(right: Space.x8),
+                child: TextButton(
+                  onPressed: _sair,
+                  child: Text(ultimo ? 'Fechar' : 'Pular'),
+                ),
               ),
             ),
             Expanded(
@@ -134,18 +132,32 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                 ),
               ),
             ),
-            _Pontos(total: introSlides.length, atual: _atual),
-            const SizedBox(height: Space.x24),
             Padding(
               padding: const EdgeInsets.fromLTRB(
-                Space.x24,
+                Space.block,
                 0,
-                Space.x24,
-                Space.x24,
+                Space.block,
+                Space.block,
               ),
+              // A ordem se inverte na última tela: nas quatro primeiras o
+              // indicador fica acima do botão, e na quinta ele desce para
+              // baixo dos dois. Ali quem manda são as escolhas de conta, e o
+              // indicador vira o que é: um lembrete de onde a pessoa está.
               child: ultimo
-                  ? _EscolhaDaConta(aoEscolher: _sair)
-                  : _Continuar(aoTocar: _avancar),
+                  ? Column(
+                      children: <Widget>[
+                        _EscolhaDaConta(aoEscolher: _sair),
+                        const SizedBox(height: Space.x20),
+                        _Pontos(total: introSlides.length, atual: _atual),
+                      ],
+                    )
+                  : Column(
+                      children: <Widget>[
+                        _Pontos(total: introSlides.length, atual: _atual),
+                        const SizedBox(height: Space.block),
+                        _BotaoPilula(rotulo: 'Continuar', aoTocar: _avancar),
+                      ],
+                    ),
             ),
           ],
         ),
@@ -154,9 +166,16 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   }
 }
 
-class _Continuar extends StatelessWidget {
-  const _Continuar({required this.aoTocar});
+/// O botão cheio da apresentação.
+///
+/// Usa `Radii.pill` em vez de `Radii.button`, e os dois são do Design
+/// System: a pílula é o que ele reserva para o que deve parecer redondo.
+/// Aqui cabe porque a tela não tem nada em volta para dar escala, e a forma
+/// arredondada é o que separa o botão do fundo. É a única tela assim.
+class _BotaoPilula extends StatelessWidget {
+  const _BotaoPilula({required this.rotulo, required this.aoTocar});
 
+  final String rotulo;
   final VoidCallback aoTocar;
 
   @override
@@ -165,8 +184,9 @@ class _Continuar extends StatelessWidget {
       onPressed: aoTocar,
       style: FilledButton.styleFrom(
         minimumSize: const Size.fromHeight(Sizes.button),
+        shape: RoundedRectangleBorder(borderRadius: Radii.pillR),
       ),
-      child: const Text('Continuar'),
+      child: Text(rotulo),
     );
   }
 }
@@ -186,26 +206,33 @@ class _EscolhaDaConta extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FilledButton(
-          onPressed: () => aoEscolher(contaNova: true),
-          style: FilledButton.styleFrom(
-            minimumSize: const Size.fromHeight(Sizes.button),
-          ),
-          child: const Text('Criar conta recomendada'),
+        _BotaoPilula(
+          rotulo: 'Criar conta recomendada',
+          aoTocar: () => aoEscolher(contaNova: true),
         ),
         const SizedBox(height: Space.x12),
-        OutlinedButton(
+        OutlinedButton.icon(
           onPressed: () => aoEscolher(),
+          icon: const GoogleG(),
+          label: const Text('Usar minha conta atual'),
           style: OutlinedButton.styleFrom(
             minimumSize: const Size.fromHeight(Sizes.button),
+            shape: RoundedRectangleBorder(borderRadius: Radii.pillR),
+            backgroundColor: context.cores.surface,
+            foregroundColor: context.cores.textPrimary,
+            side: BorderSide(color: context.cores.border),
           ),
-          child: const Text('Usar minha conta atual'),
         ),
       ],
     );
   }
 }
 
+/// O indicador de página.
+///
+/// Bolinhas iguais, e só a cor muda. A da página atual não cresce nem vira
+/// barra: com cinco telas e um botão logo abaixo, movimento aqui compete com
+/// o que a pessoa precisa tocar.
 class _Pontos extends StatelessWidget {
   const _Pontos({required this.total, required this.atual});
 
@@ -214,6 +241,8 @@ class _Pontos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double lado = 8;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -222,11 +251,11 @@ class _Pontos extends StatelessWidget {
             duration: Motion.micro,
             curve: Motion.padrao,
             margin: const EdgeInsets.symmetric(horizontal: Space.x4),
-            width: i == atual ? 22 : 8,
-            height: 8,
+            width: lado,
+            height: lado,
             decoration: BoxDecoration(
-              color: i == atual ? context.cores.primary : context.cores.divider,
-              borderRadius: Radii.pillR,
+              shape: BoxShape.circle,
+              color: i == atual ? context.cores.primary : context.cores.border,
             ),
           ),
       ],

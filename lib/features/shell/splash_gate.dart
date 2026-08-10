@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
-import '../intro/onboarding_page.dart';
 
 /// A cor da abertura, tirada do próprio ícone.
 ///
@@ -23,7 +22,7 @@ const Color corDaAbertura = Color(0xFFD2664F);
 ///
 /// Se ele sumir, a tela desenha o coração simples no lugar: uma imagem
 /// faltando não pode impedir o aplicativo de abrir.
-const String iconeDaAbertura = OnboardingPage.iconPath;
+const String iconeDaAbertura = 'assets/images/icon/icon.png';
 
 /// Quanto tempo a abertura fica no mínimo.
 ///

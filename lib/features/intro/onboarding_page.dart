@@ -27,55 +27,56 @@ class OnboardingPage extends StatelessWidget {
   final String description;
   final bool isLastPage;
 
-  /// O ícone do aplicativo, o mesmo arquivo que vira o ícone do lançador.
-  static const String iconPath = 'assets/images/icon/icon.png';
-
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
 
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: Space.x16),
-          // A arte vai de borda a borda, e só o texto tem margem. Uma das
-          // ilustrações é alta e estreita, com legendas desenhadas dentro
-          // dela: qualquer margem lateral encolhe a imagem inteira e são
-          // essas legendas que somem primeiro.
-          _Ilustracao(caminho: imagePath),
-          const SizedBox(height: Space.x24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Space.x32),
-            child: Column(
-              children: <Widget>[
-                if (isLastPage) ...<Widget>[
-                  _LadrilhoDoIcone(),
-                  const SizedBox(height: Space.x20),
-                ],
-                Text(
-                  title,
-                  style: text.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: Space.x16),
-                Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  style: text.bodyLarge?.copyWith(
-                    height: 1.6,
-                    color: context.cores.textSecondary,
+    // Centralizado quando cabe, rolável quando não cabe. Sem o `minHeight` a
+    // coluna encosta no topo e sobra um vão embaixo; sem a rolagem, um
+    // aparelho pequeno com fonte grande cortaria o fim do texto.
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints limites) =>
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: limites.maxHeight),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // A arte vai de borda a borda, e só o texto tem margem. Uma das
+                  // ilustrações é alta e estreita, com legendas desenhadas dentro
+                  // dela: qualquer margem lateral encolhe a imagem inteira e são
+                  // essas legendas que somem primeiro.
+                  _Ilustracao(caminho: imagePath),
+                  const SizedBox(height: Space.x32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Space.x32),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          title,
+                          style: text.headlineMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: Space.x16),
+                        Text(
+                          description,
+                          textAlign: TextAlign.center,
+                          style: text.bodyLarge?.copyWith(
+                            height: 1.6,
+                            color: context.cores.textSecondary,
+                          ),
+                        ),
+                        if (isLastPage) ...<Widget>[
+                          const SizedBox(height: Space.x16),
+                          const SeloRecomendado(),
+                        ],
+                      ],
+                    ),
                   ),
-                ),
-                if (isLastPage) ...<Widget>[
-                  const SizedBox(height: Space.x20),
-                  const _SeloRecomendado(),
                 ],
-              ],
+              ),
             ),
           ),
-          const SizedBox(height: Space.x24),
-        ],
-      ),
     );
   }
 }
@@ -93,7 +94,10 @@ class _Ilustracao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData tela = MediaQuery.of(context);
-    final double altura = tela.size.height * 0.42;
+    // Quase metade da tela. Uma das artes é bem mais alta que larga, e com
+    // `contain` é a altura que manda: cada ponto a menos aqui estreita
+    // aquela ilustração inteira, e é nela que estão as legendas desenhadas.
+    final double altura = tela.size.height * 0.48;
 
     return SizedBox(
       height: altura,
@@ -114,39 +118,20 @@ class _Ilustracao extends StatelessWidget {
   }
 }
 
-class _LadrilhoDoIcone extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const double lado = 72;
-
-    return ClipRRect(
-      borderRadius: Radii.tileR(lado),
-      child: Image.asset(
-        OnboardingPage.iconPath,
-        width: lado,
-        height: lado,
-        fit: BoxFit.cover,
-        errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
-            const SizedBox.shrink(),
-      ),
-    );
-  }
-}
-
-/// O selo da recomendação.
+/// O selo da recomendação, na última tela.
 ///
 /// A estrela é ícone, e não o emoji do texto: emoji depende da fonte do
 /// aparelho, muda de desenho entre Android e iOS e não acompanha a cor do
 /// tema. O sentido é o mesmo e o resultado é igual em todo lugar.
-class _SeloRecomendado extends StatelessWidget {
-  const _SeloRecomendado();
+class SeloRecomendado extends StatelessWidget {
+  const SeloRecomendado({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: Space.x12,
-        vertical: Space.x8,
+        vertical: Space.x4,
       ),
       decoration: BoxDecoration(
         color: context.cores.primarySoft,
@@ -155,17 +140,17 @@ class _SeloRecomendado extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Icon(
+          const Icon(
             Icons.star_rounded,
             size: Sizes.iconSmall,
-            color: context.cores.primaryDark,
+            color: AppPalette.warning,
           ),
           const SizedBox(width: Space.x4),
           Text(
             'Recomendado',
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge?.copyWith(color: context.cores.primaryDark),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: context.cores.primaryStrong,
+            ),
           ),
         ],
       ),
