@@ -6,6 +6,7 @@ import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/features/common/entrada_na_rolagem.dart';
 import 'package:meu_bebe/features/common/esqueleto.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
+import 'package:meu_bebe/models/capsule_pulse.dart';
 
 /// O sistema de movimento.
 ///
@@ -83,6 +84,47 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
 
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('a data redonda', () {
+    test('sai da mesma conta que o cartão de hoje usa', () {
+      // Duas contas separadas para a mesma pergunta divergiriam, e o
+      // histórico passaria a contradizer a tela inicial.
+      final DateTime nascimento = DateTime(2026, 4, 15);
+
+      expect(
+        CapsulePulse.dataRedondaEm(nascimento, DateTime(2027, 4, 15)),
+        '1 ano',
+      );
+      expect(
+        CapsulePulse.dataRedondaEm(nascimento, DateTime(2026, 12, 15)),
+        '8 meses',
+      );
+      expect(
+        CapsulePulse.dataRedondaEm(nascimento, DateTime(2026, 5, 6)),
+        '3 semanas',
+      );
+    });
+
+    test('um dia comum não recebe selo', () {
+      final DateTime nascimento = DateTime(2026, 4, 15);
+      expect(
+        CapsulePulse.dataRedondaEm(nascimento, DateTime(2026, 12, 17)),
+        isNull,
+      );
+      // O próprio dia do nascimento não é "data redonda": ele é o começo.
+      expect(CapsulePulse.dataRedondaEm(nascimento, nascimento), isNull);
+    });
+
+    test('semana só conta nos primeiros três meses', () {
+      // Aos quatro anos, "208 semanas" não diz nada a ninguém.
+      final DateTime nascimento = DateTime(2026, 4, 15);
+      expect(
+        CapsulePulse.dataRedondaEm(nascimento, DateTime(2027, 4, 8)),
+        isNull,
+        reason: '51 semanas não é data redonda',
+      );
     });
   });
 

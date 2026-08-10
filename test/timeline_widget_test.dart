@@ -97,6 +97,31 @@ void main() {
   testWidgets('mostra a idade calculada ao lado de cada dia', (
     WidgetTester tester,
   ) async {
+    // 03/04 e não 02/04: aquele dia caía exatamente em dez semanas de vida,
+    // e num dia redondo a coluna mostra o selo no lugar da idade miúda.
+    await tester.pumpWidget(
+      harness(<Entry>[
+        entry(
+          type: EntryType.letter,
+          date: DateTime(2027, 4, 3),
+          title: 'Para minha filha',
+          description: 'Minha pequena,',
+        ),
+      ]),
+    );
+    await tester.pump();
+
+    // 22/01 + 2 meses = 22/03; até 03/04 são mais 12 dias.
+    expect(find.text('2 meses e 12 dias'), findsOneWidget);
+    expect(find.text('03/04/2027'), findsOneWidget);
+  });
+
+  testWidgets('o dia de uma data redonda troca a idade pelo selo', (
+    WidgetTester tester,
+  ) async {
+    // 22/01 + 70 dias = 02/04, que são dez semanas exatas. Sem o selo, o dia
+    // em que a criança completou dez semanas tem a mesma cara que uma
+    // terça-feira qualquer.
     await tester.pumpWidget(
       harness(<Entry>[
         entry(
@@ -109,9 +134,8 @@ void main() {
     );
     await tester.pump();
 
-    // 22/01 + 2 meses = 22/03; até 02/04 são mais 11 dias.
-    expect(find.text('2 meses e 11 dias'), findsOneWidget);
-    expect(find.text('02/04/2027'), findsOneWidget);
+    expect(find.text('10 semanas'), findsOneWidget);
+    expect(find.text('2 meses e 11 dias'), findsNothing);
   });
 
   testWidgets('cartas aparecem com o prefixo "Carta:"', (
