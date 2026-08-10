@@ -5,10 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/limits.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
@@ -132,27 +133,32 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Form(
             key: _formKey,
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x24,
+                Space.x32,
+                Space.x24,
+                Space.x32,
+              ),
               children: <Widget>[
                 Text(
                   S.onboardingGreeting,
                   textAlign: TextAlign.center,
                   style: text.headlineMedium,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.x8),
                 Text(
                   // Antes de escolher menino ou menina o texto é neutro.
-                  G.of(_gender).onboardingSubtitle,
+                  Copy.generic.onboardingSubtitle,
                   textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.cores.textSecondary,
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: Space.block),
                 Center(
                   child: _PhotoPicker(photo: _photo, onTap: _pickPhoto),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: Space.block),
                 TextFormField(
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
@@ -166,19 +172,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   validator: (String? v) =>
                       (v == null || v.trim().isEmpty) ? S.requiredField : null,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 _GenderPicker(
                   value: _gender,
                   onChanged: (BabyGender g) => setState(() => _gender = g),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 _PickerField(
                   label: S.birthDate,
                   value: _birthDate == null ? null : Fmt.date(_birthDate!),
                   icon: Icons.calendar_today_outlined,
                   onTap: _pickDate,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 _PickerField(
                   label: S.birthTime,
                   value: _birthTime == null
@@ -188,7 +194,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   icon: Icons.schedule_outlined,
                   onTap: _pickTime,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 TextFormField(
                   controller: _weight,
                   keyboardType: const TextInputType.numberWithOptions(
@@ -204,7 +210,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ? S.invalidNumber
                       : null,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 TextFormField(
                   controller: _height,
                   keyboardType: const TextInputType.numberWithOptions(
@@ -220,7 +226,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ? S.invalidNumber
                       : null,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 TextFormField(
                   controller: _hospital,
                   textCapitalization: TextCapitalization.words,
@@ -230,7 +236,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     counterText: '',
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: Space.x32),
                 FilledButton(
                   onPressed: _saving ? null : _submit,
                   child: _saving
@@ -245,7 +251,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       : const Text(S.continueLabel),
                 ),
                 if (_saving) ...<Widget>[
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Space.x16),
                   Text(
                     S.preparingDrive,
                     textAlign: TextAlign.center,
@@ -295,20 +301,20 @@ class _PhotoPicker extends StatelessWidget {
           Container(
             width: 116,
             height: 116,
-            decoration: const BoxDecoration(
-              color: AppColors.primarySoft,
+            decoration: BoxDecoration(
+              color: context.cores.primarySoft,
               shape: BoxShape.circle,
             ),
             clipBehavior: Clip.antiAlias,
             child: photo == null
-                ? const Icon(
+                ? Icon(
                     Icons.add_a_photo_outlined,
                     size: 32,
-                    color: AppColors.primaryDark,
+                    color: context.cores.primaryDark,
                   )
                 : Image.file(photo!, fit: BoxFit.cover),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: Space.x12),
           Text(S.birthPhoto, style: Theme.of(context).textTheme.bodySmall),
         ],
       ),
@@ -329,7 +335,7 @@ class _GenderPicker extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(S.gender, style: Theme.of(context).textTheme.labelMedium),
-        const SizedBox(height: 8),
+        const SizedBox(height: Space.x8),
         Row(
           children: <Widget>[
             for (final BabyGender gender in BabyGender.values) ...<Widget>[
@@ -338,16 +344,16 @@ class _GenderPicker extends StatelessWidget {
                   onTap: () => onChanged(gender),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 150),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: const EdgeInsets.symmetric(vertical: Space.x16),
                     decoration: BoxDecoration(
                       color: value == gender
-                          ? AppColors.primarySoft
-                          : AppColors.surface,
-                      borderRadius: BorderRadius.circular(14),
+                          ? context.cores.primarySoft
+                          : context.cores.surface,
+                      borderRadius: Radii.fieldR,
                       border: Border.all(
                         color: value == gender
-                            ? AppColors.primary
-                            : AppColors.divider,
+                            ? context.cores.primary
+                            : context.cores.divider,
                         width: value == gender ? 1.6 : 1,
                       ),
                     ),
@@ -356,14 +362,15 @@ class _GenderPicker extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: value == gender
-                            ? AppColors.primaryDark
-                            : AppColors.textSecondary,
+                            ? context.cores.primaryDark
+                            : context.cores.textSecondary,
                       ),
                     ),
                   ),
                 ),
               ),
-              if (gender != BabyGender.values.last) const SizedBox(width: 12),
+              if (gender != BabyGender.values.last)
+                const SizedBox(width: Space.x12),
             ],
           ],
         ),
@@ -390,7 +397,7 @@ class _PickerField extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: Radii.fieldR,
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,

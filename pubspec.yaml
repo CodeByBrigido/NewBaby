@@ -51,6 +51,8 @@ dependencies:
   collection: ^1.19.1
   meta: ^1.16.0
   local_auth: ^3.0.2
+  flutter_local_notifications: ^22.2.0
+  timezone: ^0.11.1
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,69 @@ dev_dependencies:
   # (construtor privado), mas a camada de plataforma abaixo dele, sim. É o que
   # permite simular um aparelho onde o login trava.
   google_sign_in_platform_interface: ^3.1.0
+  # Gera os ícones do lançador a partir de um arquivo só. Fica em
+  # dev_dependencies porque roda na máquina de quem desenvolve e não entra
+  # no aplicativo.
+  flutter_launcher_icons: ^0.14.4
+
+# O ícone do aplicativo vem de um arquivo único, e de nenhum outro lugar.
+#
+# Depois de trocar `assets/images/icon/icon.png` pela arte definitiva, rode:
+#
+#     dart run flutter_launcher_icons
+#
+# Ele reescreve todos os `mipmap-*` do Android e o `AppIcon.appiconset` do
+# iOS. É por isso que os PNGs em `android/.../res` não devem ser editados à
+# mão: eles são saída, e não fonte.
+flutter_launcher_icons:
+  image_path: assets/images/icon/icon.png
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  # O ícone adaptativo do Android recorta as bordas na forma que cada
+  # fabricante escolhe. A cor de fundo é a do próprio ladrilho da arte, que
+  # é também a da tela de abertura: o ícone e a primeira tela são
+  # visivelmente a mesma coisa.
+  #
+  # A camada da frente é derivada da arte por `tool/gerar_frente_do_icone.py`,
+  # que apaga os cantos brancos. Sem isso eles apareceriam como respingos ao
+  # redor do ladrilho, porque o adaptativo encolhe a frente sobre o fundo.
+  adaptive_icon_background: '#D2664F'
+  adaptive_icon_foreground: assets/images/icon/icon_foreground.png
 
 flutter:
   uses-material-design: true
+  assets:
+    # O conteúdo das inspirações viaja dentro do aplicativo: funciona sem
+    # rede, sem custo de servidor, e não manda a idade da criança para
+    # lugar nenhum.
+    # A pasta inteira, e não arquivo por arquivo: assim acrescentar o ícone
+    # e a imagem de fundo do login é só soltar os arquivos aqui, sem mexer
+    # em configuração, e a falta deles não quebra a compilação.
+    - assets/
+    # `- assets/` não alcança subpastas, então as imagens precisam das
+    # linhas próprias. Declarar a pasta, e não cada arquivo, é o que permite
+    # trocar a arte sem mexer aqui.
+    - assets/images/onboarding/
+    # O ícone entra pelo nome, e não pela pasta, porque ao lado dele mora o
+    # `icon_foreground.png`, que é só para o gerador de ícones do Android.
+    # Declarar a pasta colocaria essa cópia dentro do aplicativo à toa.
+    - assets/images/icon/icon.png
+
+  # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
+  # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:
+  # declarar todos colocaria 1,4 MB no aplicativo para nunca serem desenhados.
+  #
+  # A linha `- assets/` acima não alcança subpastas, então nada de
+  # `assets/fonts` entra no pacote sem estar listado aqui.
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+          weight: 700

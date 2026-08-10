@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../services/auth_service.dart';
 import '../../state/providers.dart';
+import '../common/google_g.dart';
 import '../common/widgets.dart';
+import '../shell/splash_gate.dart';
 
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.comContaNova = false});
+
+  /// Veio da apresentação com "criar uma conta" escolhido.
+  ///
+  /// A conta não é criada aqui: quem cria é o Google, dentro da própria
+  /// caixa de login. O que falta a quem escolheu esse caminho é saber onde
+  /// tocar lá dentro, e é só isso que esta marca acrescenta.
+  final bool comContaNova;
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -42,56 +52,54 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Sem foto de capa embutida, um degradê quente segura o clima do
-          // mockup sem pesar o aplicativo com uma imagem de exemplo.
+          const _Fotografia(),
+          // O véu existe para o texto poder ser lido, e não por estilo. A
+          // foto é clara (manta de tricô creme), e branco sobre creme não
+          // chega perto do mínimo de contraste. Ele é fraco em cima, onde só
+          // há imagem, e forte embaixo, onde ficam a marca, o botão e o
+          // aviso.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
+                stops: <double>[0, 0.34, 0.58, 1],
                 colors: <Color>[
-                  Color(0xFF6B5A52),
-                  Color(0xFF3A2F2C),
-                  Color(0xFF241D1B),
+                  Color(0x592A2320),
+                  Color(0x662A2320),
+                  Color(0xC22A2320),
+                  Color(0xF52A2320),
                 ],
               ),
             ),
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
+              padding: const EdgeInsets.symmetric(horizontal: Space.block),
               child: Column(
                 children: <Widget>[
-                  const Spacer(flex: 3),
-                  Container(
-                    width: 84,
-                    height: 84,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.4),
-                          blurRadius: 28,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.favorite_rounded,
-                      color: Colors.white,
-                      size: 40,
+                  const Spacer(flex: 4),
+                  ClipRRect(
+                    borderRadius: Radii.tileR(84),
+                    child: Image.asset(
+                      iconeDaAbertura,
+                      width: 84,
+                      height: 84,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (BuildContext context, Object _, StackTrace? _) =>
+                              const SizedBox(width: 84, height: 84),
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: Space.block),
                   Text(
                     S.appName,
-                    style: text.displaySmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    // O peso vem da escala, e não daqui. Quem escreve uma
+                    // tela não escolhe peso de fonte: escolhe o degrau da
+                    // escala que serve, e o Design System já decidiu o resto.
+                    style: text.displaySmall?.copyWith(color: Colors.white),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: Space.x4),
                   // O nome completo em duas linhas: assim ele cabe sem
                   // encolher a marca, e diz o que o aplicativo é para quem
                   // está vendo pela primeira vez.
@@ -100,10 +108,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     style: text.titleMedium?.copyWith(
                       color: Colors.white.withValues(alpha: 0.9),
                       letterSpacing: 1.5,
-                      fontWeight: FontWeight.w300,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: Space.x12),
                   Text(
                     S.appTagline,
                     textAlign: TextAlign.center,
@@ -112,8 +119,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const Spacer(flex: 2),
+                  if (widget.comContaNova) ...<Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(Space.x16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.12),
+                        borderRadius: Radii.fieldR,
+                      ),
+                      child: Text(
+                        'Para criar a conta da cápsula: toque abaixo, e na '
+                        'caixa do Google escolha "Adicionar outra conta" e '
+                        'depois "Criar conta".',
+                        textAlign: TextAlign.center,
+                        style: text.bodySmall?.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: Space.x16),
+                  ],
                   _GoogleButton(busy: _busy, onPressed: _signIn),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: Space.x24),
                   Text(
                     S.signInNote,
                     textAlign: TextAlign.center,
@@ -121,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white.withValues(alpha: 0.6),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: Space.x48),
                 ],
               ),
             ),
@@ -147,11 +171,9 @@ class _GoogleButton extends StatelessWidget {
         onPressed: busy ? null : onPressed,
         style: FilledButton.styleFrom(
           backgroundColor: Colors.white,
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: context.cores.textPrimary,
           disabledBackgroundColor: Colors.white70,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: Radii.pillR),
         ),
         child: busy
             ? const SizedBox(
@@ -162,8 +184,8 @@ class _GoogleButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const _GoogleMark(),
-                  const SizedBox(width: 12),
+                  const GoogleG(size: 22),
+                  const SizedBox(width: Space.x12),
                   Text(
                     S.signInWithGoogle,
                     style: Theme.of(context).textTheme.titleSmall,
@@ -175,65 +197,32 @@ class _GoogleButton extends StatelessWidget {
   }
 }
 
-/// O "G" do Google desenhado em quatro quadrantes - evita depender de um
-/// arquivo de imagem só para o botão de login.
-class _GoogleMark extends StatelessWidget {
-  const _GoogleMark();
+/// A fotografia de fundo da tela de entrada.
+///
+/// Ela ocupa a tela inteira e é cortada, e não deformada: `cover` mantém a
+/// proporção da foto em qualquer aparelho, do telefone estreito ao tablet.
+///
+/// A decodificação é limitada ao tamanho da tela. O arquivo tem quase dois
+/// mil pixels de altura; sem limite, o aplicativo guardaria na memória o
+/// quadro inteiro descomprimido para desenhar um terço dele.
+class _Fotografia extends StatelessWidget {
+  const _Fotografia();
+
+  static const String caminho = 'assets/images/onboarding/Login-Baby.webp';
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 22,
-      height: 22,
-      child: CustomPaint(painter: _GooglePainter()),
+    final MediaQueryData tela = MediaQuery.of(context);
+
+    return Image.asset(
+      caminho,
+      fit: BoxFit.cover,
+      cacheHeight: (tela.size.height * tela.devicePixelRatio).round(),
+      // Sem a foto a tela continua de pé: o véu escuro sozinho já dá o
+      // contraste de que o texto precisa. Uma imagem que falta não pode
+      // impedir alguém de entrar na própria conta.
+      errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
+          const ColoredBox(color: Color(0xFF2A2320)),
     );
   }
-}
-
-class _GooglePainter extends CustomPainter {
-  static const Color _blue = Color(0xFF4285F4);
-  static const Color _red = Color(0xFFEA4335);
-  static const Color _yellow = Color(0xFFFBBC05);
-  static const Color _green = Color(0xFF34A853);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-    final double stroke = size.width * 0.22;
-    final Rect inner = rect.deflate(stroke / 2);
-    final Paint paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..strokeCap = StrokeCap.butt;
-
-    void arc(double startDeg, double sweepDeg, Color color) {
-      paint.color = color;
-      canvas.drawArc(
-        inner,
-        startDeg * 3.1415926535 / 180,
-        sweepDeg * 3.1415926535 / 180,
-        false,
-        paint,
-      );
-    }
-
-    arc(-20, -70, _red);
-    arc(-90, -100, _yellow);
-    arc(170, -80, _green);
-    arc(-20, 70, _blue);
-
-    // A barra horizontal que fecha o "G".
-    canvas.drawRect(
-      Rect.fromLTRB(
-        size.width * 0.52,
-        size.height * 0.40,
-        size.width,
-        size.height * 0.60,
-      ),
-      Paint()..color = _blue,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

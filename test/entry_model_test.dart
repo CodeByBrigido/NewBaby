@@ -33,10 +33,15 @@ EntryFile fileOf({
 
 void main() {
   group('pasta de cada tipo no Drive', () {
-    test('só fotos e vídeos são separados por idade', () {
+    test('o que tem idade é separado por idade', () {
+      // Carta entrou aqui quando ela passou a virar `.txt` no Drive: uma
+      // carta pertence à idade em que foi escrita, igual a uma foto.
       expect(EntryType.photo.bucketsByAge, isTrue);
       expect(EntryType.video.bucketsByAge, isTrue);
-      expect(EntryType.letter.bucketsByAge, isFalse);
+      expect(EntryType.letter.bucketsByAge, isTrue);
+
+      // Documento não tem idade (uma certidão vale a vida toda) e o
+      // crescimento virou texto no Informacoes.txt.
       expect(EntryType.document.bucketsByAge, isFalse);
       expect(EntryType.growth.bucketsByAge, isFalse);
       expect(EntryType.drawing.bucketsByAge, isFalse);

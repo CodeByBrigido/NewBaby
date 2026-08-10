@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A cor da abertura, igual à do ícone e à da tela que o Flutter
+         desenha em seguida. Sem isto há um piscar branco entre a tela do
+         sistema e a do aplicativo. -->
+    <color name="abertura">#D2664F</color>
+	<color name="ic_launcher_background">#D2664F</color>
+</resources>

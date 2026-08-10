@@ -21,6 +21,18 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
 
+    <!-- Lembretes locais.
+
+         Só isto, e de propósito. O aplicativo NÃO pede SCHEDULE_EXACT_ALARM
+         nem USE_EXACT_ALARM: os lembretes são agendados em modo inexato, o
+         que dispensa a permissão de alarme exato (que o sistema apresenta
+         com cara de coisa séria e que o Google Play audita). Um lembrete de
+         tirar uma foto pode chegar meia hora depois e continua valendo.
+
+         O POST_NOTIFICATIONS vem do próprio plugin. O RECEIVE_BOOT_COMPLETED
+         é o que faz os lembretes sobreviverem a reiniciar o celular. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <!-- Backup desligado. Nada do que fica no aparelho precisa sair dele: o
          cache do Firestore (que guarda o texto das cartas), as miniaturas e
          os downloads são todos recuperáveis do Drive na próxima entrada.
@@ -58,6 +70,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Quem entrega o lembrete na hora marcada, e quem os reagenda
+             depois de o celular reiniciar ou o aplicativo ser atualizado. -->
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

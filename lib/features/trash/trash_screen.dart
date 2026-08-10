@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
@@ -48,18 +49,28 @@ class TrashScreen extends ConsumerWidget {
           return Column(
             children: <Widget>[
               const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+                padding: EdgeInsets.fromLTRB(
+                  Space.x16,
+                  0,
+                  Space.x16,
+                  Space.x12,
+                ),
                 child: InfoNote(message: S.trashNote),
               ),
               Expanded(
                 child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                  padding: const EdgeInsets.fromLTRB(
+                    Space.x16,
+                    0,
+                    Space.x16,
+                    Space.x24,
+                  ),
                   itemCount: entries.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 10),
+                  separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
                   itemBuilder: (BuildContext context, int index) {
                     final Entry entry = entries[index];
                     return SoftCard(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(Space.x12),
                       child: Row(
                         children: <Widget>[
                           SizedBox(
@@ -68,11 +79,11 @@ class TrashScreen extends ConsumerWidget {
                             child: entry.coverFile != null
                                 ? DriveThumbnail(
                                     file: entry.coverFile!,
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: Radii.mediaR,
                                   )
                                 : CategoryBadge(type: entry.type, size: 48),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: Space.x12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +94,7 @@ class TrashScreen extends ConsumerWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 3),
+                                const SizedBox(height: Space.x4),
                                 Text(
                                   'Excluído em '
                                   '${Fmt.date(entry.deletedAt ?? entry.date)}',
@@ -102,7 +113,7 @@ class TrashScreen extends ConsumerWidget {
                             icon: const Icon(
                               Icons.delete_forever_outlined,
                               size: 20,
-                              color: AppColors.danger,
+                              color: AppPalette.danger,
                             ),
                             onPressed: () => _purge(context, ref, entry),
                           ),

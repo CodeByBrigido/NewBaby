@@ -9,7 +9,8 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/entry.dart';
 import '../../services/lock_service.dart';
@@ -126,7 +127,12 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x16,
+          Space.x20,
+          Space.x32,
+        ),
         children: <Widget>[
           Center(
             child: Container(
@@ -134,25 +140,25 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               height: 140,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.documentSoft,
-                borderRadius: BorderRadius.circular(18),
+                color: context.cores.documentSoft,
+                borderRadius: Radii.buttonR,
               ),
               child: Text(
                 file?.extensionLabel ?? 'DOC',
                 style: text.headlineSmall?.copyWith(
-                  color: AppColors.document,
+                  color: context.cores.document,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           Text(
             entry.title ?? file?.name ?? S.documents,
             textAlign: TextAlign.center,
             style: text.titleMedium,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           SoftCard(
             child: Column(
               children: <Widget>[
@@ -164,7 +170,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: Space.block),
           if (file != null)
             Row(
               children: <Widget>[
@@ -176,7 +182,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     onTap: () => _open(file),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: _Button(
                     icon: Icons.download_outlined,
@@ -185,7 +191,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     onTap: () => _download(file),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: _Button(
                     icon: Icons.ios_share,
@@ -237,22 +243,22 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.primarySoft,
-      borderRadius: BorderRadius.circular(16),
+      color: context.cores.primarySoft,
+      borderRadius: Radii.mediaR,
       child: InkWell(
         onTap: busy ? null : onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: Radii.mediaR,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: Space.x16),
           child: Column(
             children: <Widget>[
-              Icon(icon, size: 22, color: AppColors.primaryDark),
-              const SizedBox(height: 6),
+              Icon(icon, size: 22, color: context.cores.primaryDark),
+              const SizedBox(height: Space.x8),
               Text(
                 label,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(color: AppColors.primaryDark),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: context.cores.primaryDark,
+                ),
               ),
             ],
           ),

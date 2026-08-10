@@ -6,7 +6,8 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -53,7 +54,12 @@ class LetterScreen extends ConsumerWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x8,
+          Space.x20,
+          Space.x32,
+        ),
         children: <Widget>[
           const Center(
             child: CategoryBadge(
@@ -62,28 +68,49 @@ class LetterScreen extends ConsumerWidget {
               iconSize: 30,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           Text(
             letter.title ?? S.letters,
             textAlign: TextAlign.center,
             style: text.headlineSmall,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: Space.x8),
           Text(
             Fmt.longDate(letter.date),
             textAlign: TextAlign.center,
             style: text.bodySmall,
           ),
           if (profile != null) ...<Widget>[
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.x12),
             Center(child: AgeChip(age: profile.ageAt(letter.date))),
           ],
-          const SizedBox(height: 28),
-          Text(
-            letter.description ?? '',
-            style: text.bodyLarge?.copyWith(height: 1.7),
+          const SizedBox(height: Space.x24),
+
+          // O texto ganha uma folha, e não fica solto no fundo da tela. Uma
+          // carta é o único conteúdo do aplicativo que se lê de ponta a
+          // ponta, e a folha faz duas coisas: dá a margem interna que a
+          // leitura longa precisa e separa o que a criança escreveu do que é
+          // interface. Fundo branco sobre o fundo quente do aplicativo, com o
+          // contorno de 1 px do Design System.
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Space.x20,
+              vertical: Space.x24,
+            ),
+            decoration: BoxDecoration(
+              color: context.cores.surface,
+              borderRadius: Radii.cardR,
+              border: Border.all(color: context.cores.border),
+              boxShadow: Shadows.level1,
+            ),
+            child: SelectableText(
+              letter.description ?? '',
+              // 1,7 de entrelinha, acima do 1,5 do corpo comum: é texto para
+              // ler devagar, não para varrer.
+              style: text.bodyLarge?.copyWith(height: 1.7),
+            ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: Space.x40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -152,19 +179,22 @@ class _Action extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = destructive
-        ? AppColors.danger
-        : AppColors.textSecondary;
+        ? AppPalette.danger
+        : context.cores.textSecondary;
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: Radii.fieldR,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Space.x16,
+          vertical: Space.x12,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(icon, color: color, size: 22),
-            const SizedBox(height: 6),
+            const SizedBox(height: Space.x8),
             Text(
               label,
               style: Theme.of(

@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/limits.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
+import '../../core/utils/formatters.dart';
 import '../../state/providers.dart';
+import '../sealed/seal_sheet.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
@@ -44,6 +48,8 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
     text: widget.entry.description ?? '',
   );
   bool _saving = false;
+  late DateTime? _sealedUntil = widget.entry.sealedUntil;
+  bool _sealChanged = false;
 
   @override
   void dispose() {
@@ -55,6 +61,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
   Future<void> _save() async {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
+    final BabyProfile? profile = ref.read(profileProvider).value;
 
     setState(() => _saving = true);
     try {
@@ -65,6 +72,11 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
             widget.entry,
             title: _title.text,
             description: _description.text,
+            sealedUntil: _sealedUntil,
+            changeSeal: _sealChanged,
+            // Marcar uma carta pela linha do tempo também precisa regravar o
+            // arquivo: é a mesma carta.
+            profile: profile,
           );
       if (mounted) Navigator.of(context).pop();
     } on Exception catch (e) {
@@ -79,7 +91,12 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x20,
+          Space.x12,
+          Space.x20,
+          Space.x20,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,17 +106,17 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.divider,
-                  borderRadius: BorderRadius.circular(2),
+                  color: context.cores.divider,
+                  borderRadius: Radii.pillR,
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(
               S.milestoneOptional,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: Space.x16),
             TextField(
               controller: _title,
               textCapitalization: TextCapitalization.sentences,
@@ -108,21 +125,21 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 hintText: 'Primeiro sorriso',
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.x12),
             // Atalhos para os marcos que quase toda família registra.
             SizedBox(
               height: 36,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: S.milestoneSuggestions.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                separatorBuilder: (_, _) => const SizedBox(width: Space.x8),
                 itemBuilder: (BuildContext context, int index) {
                   final String suggestion = S.milestoneSuggestions[index];
                   return ActionChip(
                     label: Text(suggestion),
-                    backgroundColor: AppColors.primarySoft,
+                    backgroundColor: context.cores.primarySoft,
                     labelStyle: Theme.of(context).textTheme.labelSmall
-                        ?.copyWith(color: AppColors.primaryDark),
+                        ?.copyWith(color: context.cores.primaryDark),
                     onPressed: () => setState(() {
                       _title.text = suggestion;
                     }),
@@ -130,7 +147,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.x16),
             TextField(
               controller: _description,
               textCapitalization: TextCapitalization.sentences,
@@ -142,7 +159,23 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                 alignLabelWithHint: true,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x8),
+            _SealRow(
+              until: _sealedUntil,
+              onTap: () async {
+                final SealChoice? escolha = await showSealSheet(
+                  context,
+                  profile: ref.read(profileProvider).value,
+                  current: _sealedUntil,
+                );
+                if (escolha == null) return;
+                setState(() {
+                  _sealedUntil = escolha.until;
+                  _sealChanged = true;
+                });
+              },
+            ),
+            const SizedBox(height: Space.x20),
             Row(
               children: <Widget>[
                 Expanded(
@@ -153,7 +186,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                     child: const Text(S.cancel),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: Space.x12),
                 Expanded(
                   child: FilledButton(
                     onPressed: _saving ? null : _save,
@@ -170,6 +203,55 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                   ),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A linha que abre a escolha da data de abertura.
+///
+/// Fica junto do título e da descrição, e não escondida num menu, porque
+/// decidir lacrar é uma decisão do mesmo momento em que se decide o que
+/// escrever - depois, ninguém volta para procurar.
+class _SealRow extends StatelessWidget {
+  const _SealRow({required this.until, required this.onTap});
+
+  final DateTime? until;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool lacrado = until != null;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: Radii.fieldR,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Space.x12),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              lacrado ? Icons.lock_clock : Icons.lock_open_outlined,
+              size: 20,
+              color: lacrado
+                  ? context.cores.primary
+                  : context.cores.textSecondary,
+            ),
+            const SizedBox(width: Space.x12),
+            Expanded(
+              child: Text(
+                lacrado
+                    ? 'Abre em ${Fmt.longDate(until!)}'
+                    : 'Guardar para o futuro',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              size: 20,
+              color: context.cores.textSecondary,
             ),
           ],
         ),

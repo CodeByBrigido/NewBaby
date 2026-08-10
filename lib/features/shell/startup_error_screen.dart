@@ -1,3 +1,4 @@
+import '../../core/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 /// A tela que aparece quando o aplicativo não conseguiu nem começar.
@@ -22,7 +23,7 @@ class StartupErrorApp extends StatelessWidget {
         backgroundColor: const Color(0xFFFDF8F5),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(28),
+            padding: const EdgeInsets.all(Space.block),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +33,7 @@ class StartupErrorApp extends StatelessWidget {
                   size: 44,
                   color: Color(0xFFD1585B),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: Space.x20),
                 const Text(
                   'O aplicativo não conseguiu iniciar',
                   style: TextStyle(
@@ -41,7 +42,7 @@ class StartupErrorApp extends StatelessWidget {
                     color: Color(0xFF3D3436),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: Space.x12),
                 const Text(
                   'Isso quase sempre é configuração do Firebase: o '
                   'google-services.json e o firebase_options.dart precisam ser '
@@ -49,7 +50,7 @@ class StartupErrorApp extends StatelessWidget {
                   'precisam estar ativados no console.',
                   style: TextStyle(fontSize: 14, color: Color(0xFF8A7C81)),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Space.x24),
                 const Text(
                   'Detalhe técnico',
                   style: TextStyle(
@@ -58,14 +59,14 @@ class StartupErrorApp extends StatelessWidget {
                     color: Color(0xFF8A7C81),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.x8),
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(Space.x16),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF6EFEA),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: Radii.fieldR,
                     ),
                     child: SingleChildScrollView(
                       // Selecionável de propósito: é o texto que a pessoa
@@ -81,7 +82,7 @@ class StartupErrorApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: Space.x12),
                 const Text(
                   'Toque e segure no texto acima para copiar.',
                   style: TextStyle(fontSize: 12, color: Color(0xFF8A7C81)),

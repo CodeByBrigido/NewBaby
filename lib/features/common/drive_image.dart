@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../models/entry.dart';
 import '../../services/thumbnail_service.dart';
 import '../../state/providers.dart';
@@ -104,7 +105,7 @@ class _Placeholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppColors.surfaceMuted,
+      color: context.cores.surfaceMuted,
       child: Center(
         child: loading
             ? const SizedBox(
@@ -114,7 +115,7 @@ class _Placeholder extends StatelessWidget {
               )
             : Icon(
                 isVideo ? Icons.movie_outlined : Icons.image_outlined,
-                color: AppColors.textSecondary.withValues(alpha: 0.5),
+                color: context.cores.textSecondary.withValues(alpha: 0.5),
               ),
       ),
     );
@@ -157,7 +158,7 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
         if (snapshot.hasError) {
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(Space.x24),
               child: Text(
                 'Não foi possível abrir esta imagem.',
                 style: Theme.of(

@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -43,21 +44,26 @@ class GrowthChartScreen extends ConsumerWidget {
                   'história.',
             )
           : ListView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x16,
+                Space.x16,
+                Space.x32,
+              ),
               children: <Widget>[
                 _ChartCard(
                   title: S.weightField,
                   unit: 'kg',
-                  color: AppColors.growth,
+                  color: context.cores.growth,
                   profile: profile,
                   records: records,
                   valueOf: (Entry e) => e.growth!.weightGrams / 1000,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 _ChartCard(
                   title: S.heightField,
                   unit: 'cm',
-                  color: AppColors.document,
+                  color: context.cores.document,
                   profile: profile,
                   records: records,
                   valueOf: (Entry e) => e.growth!.heightCm,
@@ -115,11 +121,11 @@ class _ChartCard extends StatelessWidget {
                 height: 10,
                 decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: Space.x8),
               Text('$title ($unit)', style: text.titleSmall),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           SizedBox(
             height: 200,
             child: LineChart(
@@ -129,7 +135,7 @@ class _ChartCard extends StatelessWidget {
                 gridData: FlGridData(
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (double _) =>
-                      const FlLine(color: AppColors.divider, strokeWidth: 1),
+                      FlLine(color: context.cores.divider, strokeWidth: 1),
                 ),
                 borderData: FlBorderData(show: false),
                 titlesData: FlTitlesData(
@@ -152,7 +158,7 @@ class _ChartCard extends StatelessWidget {
                       interval: _bottomInterval(spots),
                       getTitlesWidget: (double value, TitleMeta meta) =>
                           Padding(
-                            padding: const EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(top: Space.x8),
                             child: Text(
                               _ageLabel(value.round()),
                               style: text.labelSmall,
@@ -197,7 +203,7 @@ class _ChartCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: Space.x12),
           Text(
             'Do nascimento até ${Fmt.date(records.last.date)}',
             style: text.labelSmall,

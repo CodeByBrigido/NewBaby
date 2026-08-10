@@ -1,19 +1,22 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../core/l10n/informacoes.dart';
 import '../core/utils/age_calculator.dart';
 import '../core/utils/error_text.dart';
 import '../core/utils/formatters.dart';
 import '../models/baby_profile.dart';
 import '../models/entry.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'drive_service.dart';
 import 'firestore_service.dart';
+
 import 'media_optimizer.dart';
 import 'thumbnail_service.dart';
 
@@ -80,6 +83,63 @@ class MemoryRepository {
   /// Acompanha os envios em andamento.
   Stream<UploadProgress> get progress => _progress.stream;
 
+  // -------------------------------------------------- informacoes.txt
+
+  /// Nome do arquivo legível na pasta da cápsula.
+  ///
+  /// Sem acento no nome de propósito: ele é digitado em endereço, aparece em
+  /// terminal e viaja entre sistemas de arquivos que ainda tratam acento de
+  /// formas diferentes. O conteúdo tem acento; o nome não precisa.
+  static const String infoFileName = 'Informacoes.txt';
+
+  /// Reescreve o `Informacoes.txt` na pasta da cápsula.
+  ///
+  /// Chamado no cadastro e a cada medição de crescimento. Reescreve o arquivo
+  /// inteiro, e não acrescenta linha: o arquivo é uma fotografia do estado
+  /// atual, e assim uma medição corrigida ou apagada aparece corrigida em vez
+  /// de deixar rastro contraditório.
+  ///
+  /// **Falhar aqui não pode derrubar nada.** O Firestore é a fonte da
+  /// verdade, e este arquivo é uma cópia legível: perder uma gravação dele
+  /// custa um arquivo desatualizado até a próxima medição, e não um dado.
+  /// Por isso o `catch` é largo e o retorno é o perfil que entrou.
+  Future<BabyProfile> escreverInformacoes(
+    String uid,
+    BabyProfile profile,
+  ) async {
+    final String? rootId = profile.rootFolderId;
+    if (rootId == null || rootId.isEmpty) return profile;
+
+    try {
+      final List<Entry> medicoes = await firestore.loadEntriesOfType(
+        uid,
+        EntryType.growth,
+      );
+      final String texto = informacoesDaCrianca(
+        profile: profile,
+        growth: medicoes,
+        now: DateTime.now(),
+      );
+      final String id = await drive.upsertTextFile(
+        folderId: rootId,
+        name: infoFileName,
+        content: texto,
+        knownFileId: profile.infoFileId,
+      );
+
+      // Só grava no Firestore quando o id mudou, que é a primeira vez e o
+      // caso raro de o arquivo ter sido apagado à mão no Drive. Nas outras
+      // vezes é uma escrita que não muda nada.
+      if (id == profile.infoFileId) return profile;
+      final BabyProfile atualizado = profile.copyWith(infoFileId: id);
+      await firestore.saveProfile(uid, atualizado);
+      return atualizado;
+    } on Object catch (e) {
+      debugPrint('Informacoes.txt não foi atualizado: $e');
+      return profile;
+    }
+  }
+
   // ------------------------------------------------------------ cadastro
 
   /// Cria a estrutura de pastas e grava o cadastro inicial.
@@ -97,9 +157,14 @@ class MemoryRepository {
     // O nascimento é o primeiro item da linha do tempo, sempre.
     await _createBirthEntry(uid, saved);
 
+    // O arquivo legível nasce junto da pasta, ainda sem medição nenhuma.
+    // Quem abrir o Drive no dia seguinte ao cadastro já encontra o nome, a
+    // data de nascimento e o peso, e não só uma pasta com fotos.
+    saved = await escreverInformacoes(uid, saved);
+
     if (birthPhoto != null) {
       try {
-        final Entry entry = await addFiles(
+        await addFiles(
           uid: uid,
           profile: saved,
           type: EntryType.photo,
@@ -109,11 +174,11 @@ class MemoryRepository {
           date: saved.birth,
           title: 'Primeira foto',
         );
-        final String? photoId = entry.files.firstOrNull?.driveId;
-        if (photoId != null && photoId.isNotEmpty) {
-          saved = saved.copyWith(photoDriveId: photoId);
-          await firestore.saveProfile(uid, saved);
-        }
+        // Aqui não adianta gravar `photoDriveId`: `addFiles` volta antes de
+        // o envio terminar, então o id ainda é vazio. O avatar é derivado
+        // das entradas (veja `avatarPhotoProvider`) e aparece sozinho quando
+        // o envio conclui. O campo continua no cadastro para quando houver
+        // escolha manual de foto de perfil.
       } on Exception catch (e) {
         // O cadastro não pode falhar por causa da foto; ela pode ser
         // adicionada depois pela linha do tempo.
@@ -423,21 +488,87 @@ class MemoryRepository {
 
   // -------------------------------------------------- entradas sem arquivo
 
-  /// Carta: só texto, sem upload.
+  /// Carta: o texto vai para o índice e também para um `.txt` no Drive.
+  ///
+  /// O arquivo existe por um motivo só, e é o mais importante do produto: sem
+  /// ele, a carta é a única memória que morre junto com o aplicativo. Foto e
+  /// vídeo já sobrevivem sozinhos, porque são arquivos numa pasta.
   Future<Entry> addLetter({
     required String uid,
     required BabyProfile profile,
     required String title,
     required String message,
     DateTime? date,
-  }) => _addTextEntry(
-    uid: uid,
-    profile: profile,
-    type: EntryType.letter,
-    title: title,
-    description: message,
-    date: date,
-  );
+  }) async {
+    final Entry carta = await _addTextEntry(
+      uid: uid,
+      profile: profile,
+      type: EntryType.letter,
+      title: title,
+      description: message,
+      date: date,
+    );
+    return escreverCarta(uid, profile, carta);
+  }
+
+  /// Grava (ou regrava) o `.txt` de uma carta na pasta da idade dela.
+  ///
+  /// Como o `Informacoes.txt`, falhar aqui não derruba nada: o texto já está
+  /// no índice e é de lá que o aplicativo lê. O arquivo é a cópia que
+  /// sobrevive ao aplicativo, e ele se conserta na próxima edição.
+  Future<Entry> escreverCarta(
+    String uid,
+    BabyProfile profile,
+    Entry carta,
+  ) async {
+    if (carta.type != EntryType.letter) return carta;
+
+    try {
+      final AgeBucket bucket = AgeCalculator.bucketAt(
+        profile.birth,
+        carta.date,
+      );
+      final String pasta = await _resolveFolder(
+        uid: uid,
+        profile: profile,
+        type: EntryType.letter,
+        bucket: bucket,
+      );
+
+      final String id = await drive.upsertTextFile(
+        folderId: pasta,
+        name: _nomeDaCarta(carta),
+        content: textoDaCarta(carta: carta, profile: profile),
+        knownFileId: carta.textFileId,
+      );
+
+      if (id == carta.textFileId) return carta;
+      await firestore.patchEntry(uid, carta.id, <String, Object?>{
+        'arquivoTextoId': id,
+      });
+      return carta.copyWith(textFileId: id);
+    } on Object catch (e) {
+      debugPrint('A carta não foi gravada no Drive: $e');
+      return carta;
+    }
+  }
+
+  /// `2027-04-22_Para quando voce crescer.txt`
+  ///
+  /// A data na frente para ordenar dentro da pasta, e o título depois para
+  /// dar para saber o que é sem abrir. O saneamento é o mesmo do download:
+  /// nome de arquivo vindo de texto que a pessoa digitou não pode carregar
+  /// barra nem `..`.
+  String _nomeDaCarta(Entry carta) {
+    final String titulo = (carta.title ?? 'Carta').trim();
+    final String limpo = titulo
+        .replaceAll(RegExp(r'[\\/:*?"<>|]'), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    final String base = limpo.isEmpty ? 'Carta' : limpo;
+    final String curto = base.length <= 60 ? base : base.substring(0, 60);
+    return '${Fmt.fileStamp(carta.date).split('_').first}_$curto.txt';
+  }
 
   /// Registro de crescimento, com foto opcional.
   Future<Entry> addGrowth({
@@ -450,13 +581,17 @@ class MemoryRepository {
   }) async {
     final DateTime when = date ?? DateTime.now();
     if (photo == null) {
-      return _addTextEntry(
+      final Entry medicao = await _addTextEntry(
         uid: uid,
         profile: profile,
         type: EntryType.growth,
         date: when,
         growth: GrowthData(weightGrams: weightGrams, heightCm: heightCm),
       );
+      // Depois de gravar, e não antes: o arquivo lista as medições que
+      // existem, e escrever antes deixaria a última de fora.
+      await escreverInformacoes(uid, profile);
+      return medicao;
     }
 
     final Entry entry = await addFiles(
@@ -475,6 +610,7 @@ class MemoryRepository {
     await firestore.patchEntry(uid, entry.id, <String, Object?>{
       'crescimento': growth.toMap(),
     });
+    await escreverInformacoes(uid, profile);
     return entry.copyWith(growth: growth);
   }
 
@@ -517,7 +653,10 @@ class MemoryRepository {
     Entry entry, {
     required String title,
     required String description,
-  }) {
+    DateTime? sealedUntil,
+    bool changeSeal = false,
+    BabyProfile? profile,
+  }) async {
     final String? newTitle = title.trim().isEmpty ? null : title.trim();
     final String? newDescription = description.trim().isEmpty
         ? null
@@ -525,10 +664,27 @@ class MemoryRepository {
 
     // `null` apaga o campo no Firestore, e a busca é recalculada em memória a
     // partir do que sobrou - não há índice gravado para sair de sincronia.
-    return firestore.patchEntry(uid, entry.id, <String, Object?>{
+    await firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
+      // Só entra no patch quando a pessoa mexeu no lacre; sem isso, salvar
+      // um título tiraria sem querer uma data de abertura já escolhida.
+      if (changeSeal)
+        'lacradoAte': sealedUntil == null
+            ? null
+            : Timestamp.fromDate(sealedUntil),
     });
+
+    // Editar a carta precisa alcançar o Drive, senão o arquivo lá fora fica
+    // com a versão antiga e as duas cópias passam a discordar. O perfil vem
+    // por parâmetro porque só quem edita carta precisa dele.
+    if (entry.type == EntryType.letter && profile != null) {
+      await escreverCarta(
+        uid,
+        profile,
+        entry.copyWith(title: newTitle, description: newDescription),
+      );
+    }
   }
 
   // ------------------------------------------------------------- lixeira
@@ -646,12 +802,15 @@ class MemoryRepository {
       '.gif' => 'image/gif',
       '.mp4' => 'video/mp4',
       '.mov' => 'video/quicktime',
+      // O gravador do aplicativo produz AAC em contêiner MP4.
       '.pdf' => 'application/pdf',
       '.doc' => 'application/msword',
       '.docx' =>
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      _ =>
-        type == EntryType.document ? 'application/octet-stream' : 'image/jpeg',
+      _ => switch (type) {
+        EntryType.document => 'application/octet-stream',
+        _ => 'image/jpeg',
+      },
     };
   }
 

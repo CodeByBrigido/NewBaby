@@ -21,8 +21,15 @@ abstract final class S {
 
   // Login
   static const String signInWithGoogle = 'Entrar com Google';
+
+  /// O aviso sob o botão de entrar.
+  ///
+  /// Diz de quem é a conta, e não de quem é o Drive: é a frase que prepara a
+  /// escolha inteira do produto, que é a conta ser da criança desde o
+  /// primeiro dia. "filho(a)" porque aqui ainda não existe cadastro, e
+  /// portanto não existe nome nem sexo para concordar.
   static const String signInNote =
-      'Suas memórias ficam guardadas no seu próprio Google Drive.';
+      'Todas as memórias serão salvas na conta Google Drive do seu filho(a).';
   static const String signInError =
       'Não foi possível entrar. Verifique a conexão e tente de novo.';
 
@@ -44,6 +51,17 @@ abstract final class S {
   static const String home = 'Início';
   static const String timeline = 'Linha do Tempo';
   static const String search = 'Busca';
+
+  /// Trocar de conta do Google, que é como se troca de filho: cada criança
+  /// tem a própria conta, e é ela que a criança recebe quando crescer.
+  static const String switchAccount = 'Trocar de conta';
+  static const String switchAccountAction = 'Trocar';
+  static const String switchAccountHint =
+      'Cada criança tem a própria conta do Google. Você vai escolher a conta '
+      'na tela do Google, e a cápsula dela aparece no lugar desta.\n\n'
+      'O que está guardado neste aparelho é apagado, então a linha do tempo '
+      'leva um instante para carregar de novo.';
+
   static const String profile = 'Perfil';
   static const String photos = 'Fotos';
   static const String videos = 'Vídeos';

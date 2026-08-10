@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
+import '../../core/utils/error_text.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
@@ -15,6 +17,32 @@ class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key, this.embedded = false});
 
   final bool embedded;
+
+  /// Troca de conta do Google, e com ela de criança.
+  ///
+  /// A confirmação existe por causa da limpeza: trocar apaga o que estava
+  /// guardado no aparelho, então a linha do tempo recarrega. Sem o aviso, a
+  /// primeira troca parece que o aplicativo travou.
+  Future<void> _switchAccount(BuildContext context, WidgetRef ref) async {
+    final bool ok = await confirm(
+      context,
+      title: S.switchAccount,
+      message: S.switchAccountHint,
+      confirmLabel: S.switchAccountAction,
+    );
+    if (!ok || !context.mounted) return;
+
+    try {
+      await ref.read(sessionServiceProvider).switchAccount();
+      if (context.mounted) context.go(Routes.timeline);
+    } on Exception catch (e) {
+      // Desistir no seletor do Google cai aqui, e não é erro: a pessoa
+      // continua na conta em que estava, sem ter perdido nada.
+      if (context.mounted) {
+        showMessage(context, userMessage(e, context: S.switchAccount));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,20 +62,32 @@ class ProfileScreen extends ConsumerWidget {
                     ? context.pop()
                     : context.go(Routes.timeline),
               ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.switch_account_outlined),
+            tooltip: S.switchAccount,
+            onPressed: () => _switchAccount(context, ref),
+          ),
+        ],
       ),
       body: profile == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x8,
+                Space.x16,
+                Space.scrollEnd,
+              ),
               children: <Widget>[
                 Center(child: BabyAvatar(profile: profile, radius: 44)),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.x16),
                 Text(
                   profile.name,
                   textAlign: TextAlign.center,
                   style: text.titleLarge,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: Space.x24),
                 SoftCard(
                   child: Row(
                     children: <Widget>[
@@ -57,7 +97,11 @@ class ProfileScreen extends ConsumerWidget {
                           value: Fmt.date(profile.birth),
                         ),
                       ),
-                      Container(width: 1, height: 34, color: AppColors.divider),
+                      Container(
+                        width: 1,
+                        height: 34,
+                        color: context.cores.divider,
+                      ),
                       Expanded(
                         child: _Fact(
                           label: S.currentAge,
@@ -69,10 +113,10 @@ class ProfileScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: Space.x20),
                 _Tile(
                   icon: Icons.person_outline,
-                  title: G.of(profile.gender).babyInfo,
+                  title: Copy.of(profile).babyInfo,
                   onTap: () => context.push(Routes.babyInfo),
                 ),
                 if (email != null)
@@ -92,20 +136,28 @@ class ProfileScreen extends ConsumerWidget {
                   title: S.about,
                   onTap: () => context.push(Routes.about),
                 ),
-                const SizedBox(height: 24),
+                // Um item próprio, e não uma linha escondida dentro do
+                // Sobre: quem procura política de privacidade procura por
+                // esse nome, e obrigar a caçar é o oposto de transparência.
+                _Tile(
+                  icon: Icons.shield_outlined,
+                  title: 'Política de privacidade',
+                  onTap: () => context.push(Routes.privacy),
+                ),
+                const SizedBox(height: Space.x24),
                 TextButton(
                   onPressed: () => _signOut(context, ref),
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.danger,
+                    foregroundColor: AppPalette.danger,
                     minimumSize: const Size.fromHeight(48),
                   ),
                   child: const Text(S.signOut),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: Space.x4),
                 TextButton(
                   onPressed: () => context.push(Routes.deleteAccount),
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
+                    foregroundColor: context.cores.textSecondary,
                     minimumSize: const Size.fromHeight(44),
                   ),
                   child: const Text(
@@ -145,7 +197,7 @@ class _Fact extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(label, style: text.labelSmall, textAlign: TextAlign.center),
-        const SizedBox(height: 5),
+        const SizedBox(height: Space.x4),
         Text(value, style: text.titleSmall, textAlign: TextAlign.center),
       ],
     );
@@ -168,7 +220,7 @@ class _Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: Space.x4),
       leading: Icon(icon),
       title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
       subtitle: subtitle == null ? null : Text(subtitle!),

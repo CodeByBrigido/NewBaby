@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
@@ -20,7 +21,7 @@ class BabyInfoScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(G.of(profile?.gender).babyInfo),
+        title: Text(Copy.of(profile).babyInfo),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -30,7 +31,12 @@ class BabyInfoScreen extends ConsumerWidget {
       body: profile == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x8,
+                Space.x16,
+                Space.x32,
+              ),
               children: <Widget>[
                 SoftCard(
                   child: Column(
@@ -90,7 +96,7 @@ class _Row extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(child: Text(label, style: text.bodySmall)),
-        const SizedBox(width: 16),
+        const SizedBox(width: Space.x16),
         Flexible(
           child: Text(value, style: text.titleSmall, textAlign: TextAlign.end),
         ),

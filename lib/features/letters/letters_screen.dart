@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -34,7 +35,7 @@ class LettersScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(Routes.newLetter),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.cores.primaryStrong,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.edit_outlined),
         label: const Text('Escrever'),
@@ -43,12 +44,17 @@ class LettersScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.mail_outline,
               title: 'Nenhuma carta ainda',
-              message: G.of(profile?.gender).lettersEmptyBody,
+              message: Copy.of(profile).lettersEmptyBody,
             )
           : ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Space.x16,
+                Space.x8,
+                Space.x16,
+                Space.scrollEnd,
+              ),
               itemCount: letters.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: Space.x12),
               itemBuilder: (BuildContext context, int index) {
                 final Entry letter = letters[index];
                 return SoftCard(
@@ -57,7 +63,7 @@ class LettersScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const CategoryBadge(type: EntryType.letter),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: Space.x16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,13 +74,13 @@ class LettersScreen extends ConsumerWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: Space.x4),
                             Text(
                               Fmt.longDate(letter.date),
                               style: text.labelSmall,
                             ),
                             if (letter.description != null) ...<Widget>[
-                              const SizedBox(height: 8),
+                              const SizedBox(height: Space.x8),
                               Text(
                                 letter.description!,
                                 style: text.bodySmall,
@@ -83,7 +89,7 @@ class LettersScreen extends ConsumerWidget {
                               ),
                             ],
                             if (profile != null) ...<Widget>[
-                              const SizedBox(height: 10),
+                              const SizedBox(height: Space.x12),
                               AgeChip(
                                 age: profile.ageAt(letter.date),
                                 compact: true,

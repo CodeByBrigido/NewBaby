@@ -10,6 +10,7 @@ import '../../features/gallery/bucket_screen.dart';
 import '../../features/gallery/gallery_screen.dart';
 import '../../features/growth/growth_chart_screen.dart';
 import '../../features/growth/growth_screen.dart';
+import '../../features/intro/intro_screen.dart';
 import '../../features/letters/letter_editor_screen.dart';
 import '../../features/letters/letter_screen.dart';
 import '../../features/letters/letters_screen.dart';
@@ -17,9 +18,13 @@ import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/profile/about_screen.dart';
 import '../../features/profile/baby_info_screen.dart';
 import '../../features/profile/delete_account_screen.dart';
+import '../../features/profile/privacy_screen.dart';
+import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/settings_screen.dart';
 import '../../features/search/search_screen.dart';
 import '../../features/shell/home_shell.dart';
+import '../../features/moments/moments_screen.dart';
+import '../../features/sealed/sealed_screen.dart';
 import '../../features/stats/stats_screen.dart';
 import '../../features/timeline/entry_detail_screen.dart';
 import '../../features/trash/trash_screen.dart';
@@ -39,13 +44,18 @@ abstract final class Routes {
   static const String documents = '/documentos';
   static const String growth = '/crescimento';
   static const String growthChart = '/crescimento/grafico';
+  static const String moments = '/momentos';
+  static const String sealed = '/guardado';
   static const String stats = '/estatisticas';
   static const String trash = '/lixeira';
   static const String settings = '/configuracoes';
+  static const String reminders = '/configuracoes/lembretes';
   static const String about = '/sobre';
+  static const String privacy = '/privacidade';
   static const String babyInfo = '/perfil/bebe';
   static const String deleteAccount = '/perfil/apagar';
   static const String newLetter = '/cartas/nova';
+  static const String intro = '/apresentacao';
 
   static String bucket(String type, String bucketKey) =>
       '/$type/balde/$bucketKey';
@@ -55,12 +65,16 @@ abstract final class Routes {
   static String document(String id) => '/documentos/$id';
 }
 
+/// Marca passada à tela de login pela apresentação.
+const String loginComContaNova = 'conta-nova';
+
 final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   final ValueNotifier<int> refresh = ValueNotifier<int>(0);
   // O roteador precisa reavaliar o redirecionamento sempre que a sessão ou
   // o cadastro mudarem - é o que leva o usuário de login → cadastro → app.
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
+  ref.listen(introSeenProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
@@ -77,6 +91,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       final String location = state.matchedLocation;
 
       if (!signedIn) {
+        // A apresentação vem antes do login, e só na primeira vez. Ela
+        // explica por que as fotos ficam fora do aplicativo e por que vale
+        // criar uma conta só para a cápsula: depois do login essa decisão
+        // já foi tomada e ninguém volta para ler.
+        if (!ref.read(introSeenProvider)) {
+          return location == Routes.intro ? null : Routes.intro;
+        }
+        if (location == Routes.intro) return null;
         return location == Routes.login ? null : Routes.login;
       }
 
@@ -93,7 +115,15 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       return null;
     },
     routes: <RouteBase>[
-      GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
+      GoRoute(path: Routes.intro, builder: (_, _) => const IntroScreen()),
+      GoRoute(
+        path: Routes.login,
+        // `loginComContaNova` chega quando a pessoa escolheu criar uma conta
+        // na apresentação: a tela mostra como fazer isso dentro da caixa do
+        // Google, que é onde ela vai precisar da informação.
+        builder: (_, GoRouterState state) =>
+            LoginScreen(comContaNova: state.extra == loginComContaNova),
+      ),
       GoRoute(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
@@ -130,7 +160,13 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         path: Routes.letters,
         builder: (_, _) => const LettersScreen(),
         routes: <RouteBase>[
-          GoRoute(path: 'nova', builder: (_, _) => const LetterEditorScreen()),
+          GoRoute(
+            path: 'nova',
+            // A data vem da folha de adicionar quando a carta foi começada
+            // por lá; pela tela de cartas não vem nada, e a carta é de hoje.
+            builder: (_, GoRouterState state) =>
+                LetterEditorScreen(date: state.extra as DateTime?),
+          ),
           GoRoute(
             path: ':id',
             builder: (_, GoRouterState state) =>
@@ -167,10 +203,17 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
           ),
         ],
       ),
+      GoRoute(path: Routes.moments, builder: (_, _) => const MomentsScreen()),
+      GoRoute(path: Routes.sealed, builder: (_, _) => const SealedScreen()),
       GoRoute(path: Routes.stats, builder: (_, _) => const StatsScreen()),
       GoRoute(path: Routes.trash, builder: (_, _) => const TrashScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(
+        path: Routes.reminders,
+        builder: (_, _) => const RemindersScreen(),
+      ),
       GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
+      GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
       GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
       GoRoute(
         path: Routes.deleteAccount,

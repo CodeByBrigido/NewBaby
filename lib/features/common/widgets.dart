@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
+import '../../state/providers.dart';
 import 'drive_image.dart';
 
 /// Ícone, cor e rótulo de cada categoria - um só lugar para todos eles.
@@ -19,24 +22,49 @@ extension EntryTypeVisuals on EntryType {
     EntryType.growth => Icons.monitor_heart_outlined,
   };
 
-  Color get accent => switch (this) {
-    EntryType.birth => AppColors.primary,
-    EntryType.photo => AppColors.photo,
-    EntryType.video => AppColors.video,
-    EntryType.letter => AppColors.letter,
-    EntryType.drawing => AppColors.drawing,
-    EntryType.document => AppColors.document,
-    EntryType.growth => AppColors.growth,
+  /// Recebe o contexto porque a cor de marca muda conforme a criança, e
+  /// uma extensão sobre um enum não tem de onde tirar isso sozinha.
+  Color accent(BuildContext context) => switch (this) {
+    EntryType.birth => context.cores.primary,
+    EntryType.photo => context.cores.photo,
+    EntryType.video => context.cores.video,
+    EntryType.letter => context.cores.letter,
+    EntryType.drawing => context.cores.drawing,
+    EntryType.document => context.cores.document,
+    EntryType.growth => context.cores.growth,
   };
 
-  Color get soft => switch (this) {
-    EntryType.birth => AppColors.primarySoft,
-    EntryType.photo => AppColors.photoSoft,
-    EntryType.video => AppColors.videoSoft,
-    EntryType.letter => AppColors.letterSoft,
-    EntryType.drawing => AppColors.drawingSoft,
-    EntryType.document => AppColors.documentSoft,
-    EntryType.growth => AppColors.growthSoft,
+  Color soft(BuildContext context) => switch (this) {
+    EntryType.birth => context.cores.primarySoft,
+    EntryType.photo => context.cores.photoSoft,
+    EntryType.video => context.cores.videoSoft,
+    EntryType.letter => context.cores.letterSoft,
+    EntryType.drawing => context.cores.drawingSoft,
+    EntryType.document => context.cores.documentSoft,
+    EntryType.growth => context.cores.growthSoft,
+  };
+
+  /// No singular, já com o artigo de "último", porque em português a
+  /// concordância muda com a palavra: última foto, último vídeo.
+  String get lastLabel => switch (this) {
+    EntryType.birth => 'Último nascimento',
+    EntryType.photo => 'Última foto',
+    EntryType.video => 'Último vídeo',
+    EntryType.letter => 'Última carta',
+    EntryType.drawing => 'Último desenho',
+    EntryType.document => 'Último documento',
+    EntryType.growth => 'Última medição',
+  };
+
+  /// No singular, para frases como "nenhuma foto ainda".
+  String get singular => switch (this) {
+    EntryType.birth => 'nascimento',
+    EntryType.photo => 'foto',
+    EntryType.video => 'vídeo',
+    EntryType.letter => 'carta',
+    EntryType.drawing => 'desenho',
+    EntryType.document => 'documento',
+    EntryType.growth => 'medição',
   };
 
   String get label => switch (this) {
@@ -69,16 +97,16 @@ class CategoryBadge extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: type.soft,
+        color: type.soft(context),
         borderRadius: BorderRadius.circular(size * 0.3),
       ),
-      child: Icon(type.icon, size: iconSize, color: type.accent),
+      child: Icon(type.icon, size: iconSize, color: type.accent(context)),
     );
   }
 }
 
-/// Foto de perfil da bebê, com as iniciais como reserva.
-class BabyAvatar extends StatelessWidget {
+/// Foto de perfil da criança, com as iniciais como reserva.
+class BabyAvatar extends ConsumerWidget {
   const BabyAvatar({
     required this.profile,
     super.key,
@@ -91,20 +119,22 @@ class BabyAvatar extends StatelessWidget {
   final EntryFile? photo;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final String initials = _initials(profile?.name ?? '');
-    final EntryFile? file = photo;
+    // Sem foto explícita, o avatar acha a dele sozinho: assim nenhuma das
+    // telas que o usam precisa saber de onde a foto vem.
+    final EntryFile? file = photo ?? ref.watch(avatarPhotoProvider);
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: AppColors.primarySoft,
+      backgroundColor: context.cores.primarySoft,
       child: file == null
           ? Text(
               initials,
               style: TextStyle(
                 fontSize: radius * 0.7,
                 fontWeight: FontWeight.w600,
-                color: AppColors.primaryDark,
+                color: context.cores.primaryDark,
               ),
             )
           : ClipOval(
@@ -138,17 +168,17 @@ class AgeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: compact ? 8 : 10,
-        vertical: compact ? 3 : 5,
+        horizontal: compact ? Space.x8 : Space.x12,
+        vertical: compact ? Space.x4 : Space.x4,
       ),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        borderRadius: BorderRadius.circular(20),
+        color: context.cores.primarySoft,
+        borderRadius: Radii.cardR,
       ),
       child: Text(
         compact ? age.shortLabel : age.detailedLabel(),
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: AppColors.primaryDark,
+          color: context.cores.primaryDark,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -162,7 +192,7 @@ class SoftCard extends StatelessWidget {
     required this.child,
     super.key,
     this.onTap,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets.all(Space.x16),
     this.color,
   });
 
@@ -174,7 +204,7 @@ class SoftCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: color ?? AppColors.surface,
+      color: color ?? context.cores.surface,
       borderRadius: BorderRadius.circular(kCardRadius),
       child: InkWell(
         onTap: onTap,
@@ -205,23 +235,23 @@ class EmptyState extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(Space.x32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
               width: 72,
               height: 72,
-              decoration: const BoxDecoration(
-                color: AppColors.primarySoft,
+              decoration: BoxDecoration(
+                color: context.cores.primarySoft,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 32, color: AppColors.primary),
+              child: Icon(icon, size: 32, color: context.cores.primary),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(title, style: text.titleMedium, textAlign: TextAlign.center),
             if (message != null) ...<Widget>[
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.x8),
               Text(
                 message!,
                 style: text.bodySmall,
@@ -229,7 +259,7 @@ class EmptyState extends StatelessWidget {
               ),
             ],
             if (action != null) ...<Widget>[
-              const SizedBox(height: 24),
+              const SizedBox(height: Space.x24),
               action!,
             ],
           ],
@@ -253,16 +283,19 @@ class InfoNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.x16,
+        vertical: Space.x12,
+      ),
       decoration: BoxDecoration(
-        color: AppColors.surfaceMuted,
-        borderRadius: BorderRadius.circular(14),
+        color: context.cores.surfaceMuted,
+        borderRadius: Radii.fieldR,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Icon(icon, size: 18, color: AppColors.textSecondary),
-          const SizedBox(width: 10),
+          Icon(icon, size: 18, color: context.cores.textSecondary),
+          const SizedBox(width: Space.x12),
           Expanded(
             child: Text(message, style: Theme.of(context).textTheme.bodySmall),
           ),
@@ -282,7 +315,7 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: Space.x12),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -324,8 +357,8 @@ Future<bool> confirm(
           onPressed: () => Navigator.of(context).pop(true),
           style: TextButton.styleFrom(
             foregroundColor: destructive
-                ? AppColors.danger
-                : AppColors.primaryDark,
+                ? AppPalette.danger
+                : context.cores.primaryDark,
           ),
           child: Text(confirmLabel),
         ),

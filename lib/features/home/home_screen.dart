@@ -3,16 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/l10n/gendered.dart';
+import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
+import '../../models/capsule_pulse.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
+import '../moments/moments_screen.dart';
+import '../shell/add_sheet.dart';
 import '../timeline/upload_banner.dart';
+import 'pulse_cards.dart';
 
 /// Início: um resumo caloroso, com as últimas memórias e os atalhos.
 class HomeScreen extends ConsumerWidget {
@@ -27,6 +32,12 @@ class HomeScreen extends ConsumerWidget {
     if (profile == null) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    final Copy copy = Copy.of(profile);
+    final CapsulePulse pulse = CapsulePulse.from(
+      profile: profile,
+      entries: entries,
+    );
 
     final List<Entry> recentPhotos = entries
         .where(
@@ -46,21 +57,43 @@ class HomeScreen extends ConsumerWidget {
               ref.read(shellScaffoldKeyProvider).currentState?.openDrawer(),
         ),
         actions: <Widget>[
+          // A busca saiu da barra de baixo para dar lugar às Inspirações.
+          // Fica na lupa, que é onde a mão procura por ela.
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: S.search,
+            onPressed: () => context.push(Routes.search),
+          ),
           IconButton(
             icon: const Icon(Icons.insert_chart_outlined),
+            tooltip: S.stats,
             onPressed: () => context.push(Routes.stats),
           ),
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x16,
+          Space.x8,
+          Space.x16,
+          Space.scrollEnd,
+        ),
         children: <Widget>[
-          _Hero(profile: profile),
-          const SizedBox(height: 16),
+          _Hero(profile: profile, pulse: pulse, copy: copy),
+          const SizedBox(height: Space.x16),
+          PulseCards(pulse: pulse, copy: copy),
+          const SizedBox(height: Space.x16),
+          NextSuggestion(copy: copy),
+          FilledButton.icon(
+            onPressed: () => showAddSheet(context),
+            icon: const Icon(Icons.add),
+            label: const Text('Registrar momento'),
+          ),
+          const SizedBox(height: Space.x8),
           const UploadBanner(),
           const SectionHeader(title: 'Atalhos'),
           _Shortcuts(),
-          const SizedBox(height: 24),
+          const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
             SectionHeader(
               title: 'Fotos recentes',
@@ -70,13 +103,13 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             _RecentGrid(entries: recentPhotos),
-            const SizedBox(height: 24),
+            const SizedBox(height: Space.x24),
           ],
           if (entries.isEmpty)
             EmptyState(
               icon: Icons.auto_awesome_outlined,
               title: S.timelineEmptyTitle,
-              message: G.of(profile.gender).timelineEmptyBody,
+              message: copy.timelineEmptyBody,
             ),
         ],
       ),
@@ -84,42 +117,54 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// O cabeçalho: quem, quantos anos, e desde quando.
+///
+/// A frase é a mesma que alguém diria em voz alta ao ser perguntado, e é
+/// por isso que a idade vem grande e o resto vem pequeno.
 class _Hero extends StatelessWidget {
-  const _Hero({required this.profile});
+  const _Hero({required this.profile, required this.pulse, required this.copy});
 
   final BabyProfile profile;
+  final CapsulePulse pulse;
+  final Copy copy;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.x20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[AppColors.primarySoft, Color(0xFFF9EAF1)],
+          colors: <Color>[context.cores.primarySoft, context.cores.accentSoft],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: Radii.cardR,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          BabyAvatar(profile: profile, radius: 32),
-          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(profile.firstName, style: text.headlineSmall),
-                const SizedBox(height: 4),
                 Text(
-                  profile.ageNow().detailedLabel(alwaysShowDays: true),
+                  '${Fmt.greeting(DateTime.now())}!',
                   style: text.bodyMedium?.copyWith(
-                    color: AppColors.primaryDark,
+                    color: context.cores.primaryDark,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: Space.x12),
+                Text('Hoje ${copy.theName} está com', style: text.bodyMedium),
+                const SizedBox(height: Space.x4),
+                Text(
+                  pulse.age.detailedLabel(alwaysShowDays: true),
+                  style: text.headlineSmall?.copyWith(
+                    color: context.cores.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: Space.x8),
                 Text(
                   'Nasceu em ${Fmt.longDate(profile.birth)}',
                   style: text.bodySmall,
@@ -127,6 +172,8 @@ class _Hero extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: Space.x16),
+          BabyAvatar(profile: profile, radius: 34),
         ],
       ),
     );
@@ -155,20 +202,20 @@ class _Shortcuts extends StatelessWidget {
       children: <Widget>[
         for (final (EntryType type, String route) in items)
           Material(
-            color: type.soft,
-            borderRadius: BorderRadius.circular(18),
+            color: type.soft(context),
+            borderRadius: Radii.buttonR,
             child: InkWell(
               onTap: () => context.push(route),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: Radii.buttonR,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(type.icon, color: type.accent, size: 26),
-                  const SizedBox(height: 8),
+                  Icon(type.icon, color: type.accent(context), size: 26),
+                  const SizedBox(height: Space.x8),
                   Text(
                     type.label,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.textPrimary,
+                      color: context.cores.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -203,10 +250,7 @@ class _RecentGrid extends StatelessWidget {
         for (final (Entry entry, EntryFile file) in tiles)
           GestureDetector(
             onTap: () => context.push(Routes.entry(entry.id)),
-            child: DriveThumbnail(
-              file: file,
-              borderRadius: BorderRadius.circular(14),
-            ),
+            child: DriveThumbnail(file: file, borderRadius: Radii.fieldR),
           ),
       ],
     );

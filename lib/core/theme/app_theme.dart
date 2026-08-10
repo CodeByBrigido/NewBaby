@@ -1,196 +1,406 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'app_colors.dart';
+import 'app_palette.dart';
+import 'tokens.dart';
 
-/// Raio padrão dos cartões - cantos generosos, como no mockup.
-const double kCardRadius = 20;
-const double kPagePadding = 20;
+/// Nomes antigos, mantidos porque aparecem em dezenas de telas.
+const double kCardRadius = Radii.card;
+const double kPagePadding = Space.x20;
+
+/// A família tipográfica do Design System.
+///
+/// Os arquivos viajam dentro do aplicativo, e não são baixados em tempo de
+/// execução: este aplicativo abre offline e não manda pedido nenhum para
+/// servidor de terceiro, nem para buscar uma fonte.
+///
+/// Só quatro pesos entram no pacote (400, 500, 600 e 700), que são os que a
+/// escala usa. Itálico não existe aqui de propósito: o Design System não
+/// prevê nenhum, e pedir um faria o Flutter inclinar a fonte por conta, com
+/// resultado pior que uma itálica de verdade.
+const String appFontFamily = 'PlusJakartaSans';
 
 abstract final class AppTheme {
-  static ThemeData build() {
+  /// Monta o tema com a paleta da criança.
+  ///
+  /// A paleta entra por parâmetro, e não por leitura de um global, para
+  /// que trocar de criança seja só reconstruir o tema. O que ela muda é só
+  /// o destaque: fundo, tipografia, cartões, espaçamento e sombra são os
+  /// mesmos nos três temas, por decisão do Design System.
+  static ThemeData build(AppPalette cores) {
     final ColorScheme scheme =
         ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
+          seedColor: cores.primary,
           brightness: Brightness.light,
         ).copyWith(
-          primary: AppColors.primary,
+          // `primaryStrong`, e não `primary`: o `ColorScheme.primary` é o que
+          // o Material usa como fundo de qualquer coisa com `onPrimary` em
+          // cima, e `onPrimary` aqui é branco.
+          primary: cores.primaryStrong,
           onPrimary: Colors.white,
-          surface: AppColors.surface,
-          onSurface: AppColors.textPrimary,
-          error: AppColors.danger,
+          primaryContainer: cores.primarySoft,
+          onPrimaryContainer: cores.primaryDark,
+          surface: cores.surface,
+          onSurface: cores.textPrimary,
+          outline: cores.border,
+          outlineVariant: cores.border,
+          error: AppPalette.error,
         );
 
-    final TextTheme text = _textTheme(Typography.material2021().black);
+    final TextTheme text = _textTheme(cores);
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: AppColors.background,
-      canvasColor: AppColors.background,
+      extensions: <ThemeExtension<Object?>>[cores],
+      fontFamily: appFontFamily,
+      scaffoldBackgroundColor: cores.background,
+      canvasColor: cores.background,
       textTheme: text,
-      dividerColor: AppColors.divider,
-      dividerTheme: const DividerThemeData(
-        color: AppColors.divider,
+      splashFactory: InkSparkle.splashFactory,
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: _FadeSlide(),
+          TargetPlatform.iOS: _FadeSlide(),
+        },
+      ),
+      dividerColor: cores.border,
+      dividerTheme: DividerThemeData(
+        color: cores.border,
         thickness: 1,
         space: 1,
       ),
+      iconTheme: IconThemeData(size: Sizes.icon, color: cores.textSecondary),
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.background,
+        backgroundColor: cores.background,
         surfaceTintColor: Colors.transparent,
-        foregroundColor: AppColors.textPrimary,
+        foregroundColor: cores.textPrimary,
         elevation: 0,
+        scrolledUnderElevation: 0,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        titleTextStyle: text.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
-        ),
+        iconTheme: IconThemeData(size: Sizes.icon, color: cores.textPrimary),
+        titleTextStyle: text.titleMedium?.copyWith(color: cores.textPrimary),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.surface,
+        color: cores.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kCardRadius),
+          borderRadius: Radii.cardR,
+          side: BorderSide(color: cores.border),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: cores.primaryStrong,
           foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(52),
-          textStyle: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          disabledBackgroundColor: cores.border,
+          disabledForegroundColor: cores.muted,
+          minimumSize: const Size.fromHeight(Sizes.button),
+          textStyle: _botao,
+          shape: RoundedRectangleBorder(borderRadius: Radii.buttonR),
+        ),
+      ),
+      // Secundário: fundo branco, contorno fino, texto na cor de marca. Ele
+      // divide a linha com o primário em várias telas, então tem a mesma
+      // altura: o que separa os dois é o peso da cor, não o tamanho.
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: cores.surface,
+          foregroundColor: cores.primaryDark,
+          disabledForegroundColor: cores.muted,
+          minimumSize: const Size.fromHeight(Sizes.button),
+          textStyle: _botao,
+          side: BorderSide(color: cores.border),
+          shape: RoundedRectangleBorder(borderRadius: Radii.buttonR),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: AppColors.primaryDark),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textPrimary,
-          minimumSize: const Size.fromHeight(52),
-          side: const BorderSide(color: AppColors.divider),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+        style: TextButton.styleFrom(
+          foregroundColor: cores.primaryDark,
+          disabledForegroundColor: cores.muted,
+          textStyle: text.labelLarge,
+          minimumSize: const Size(Sizes.touch, Sizes.touch),
+          shape: RoundedRectangleBorder(borderRadius: Radii.buttonR),
         ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: cores.primaryStrong,
+        foregroundColor: Colors.white,
+        elevation: 3,
+        focusElevation: 3,
+        hoverElevation: 4,
+        highlightElevation: 6,
+        sizeConstraints: const BoxConstraints.tightFor(
+          width: Sizes.fab,
+          height: Sizes.fab,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: Radii.buttonR),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: cores.surface,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
+          horizontal: Space.x16,
+          vertical: Space.x16,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelStyle: text.labelMedium?.copyWith(color: AppColors.textSecondary),
-        border: _inputBorder(AppColors.divider),
-        enabledBorder: _inputBorder(AppColors.divider),
-        focusedBorder: _inputBorder(AppColors.primary, width: 1.6),
-        errorBorder: _inputBorder(AppColors.danger),
-        focusedErrorBorder: _inputBorder(AppColors.danger, width: 1.6),
+        labelStyle: text.labelLarge?.copyWith(color: cores.textSecondary),
+        hintStyle: text.bodyMedium?.copyWith(color: cores.muted),
+        prefixIconColor: cores.textSecondary,
+        suffixIconColor: cores.textSecondary,
+        border: _campo(cores.border),
+        enabledBorder: _campo(cores.border),
+        focusedBorder: _campo(cores.primary, width: 1.6),
+        disabledBorder: _campo(cores.border),
+        errorBorder: _campo(AppPalette.error),
+        focusedErrorBorder: _campo(AppPalette.error, width: 1.6),
+        errorStyle: text.bodySmall?.copyWith(color: AppPalette.error),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.surfaceMuted,
-        selectedColor: AppColors.primarySoft,
-        side: BorderSide.none,
-        labelStyle: text.labelMedium,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      ),
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: AppColors.background,
-        surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        backgroundColor: cores.surface,
+        selectedColor: cores.primarySoft,
+        disabledColor: cores.surfaceMuted,
+        side: BorderSide(color: cores.border),
+        labelStyle: text.labelLarge,
+        secondaryLabelStyle: text.labelLarge?.copyWith(
+          color: cores.primaryDark,
         ),
+        padding: const EdgeInsets.symmetric(horizontal: Space.x12),
+        shape: RoundedRectangleBorder(borderRadius: Radii.pillR),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: cores.background,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        showDragHandle: false,
+        shape: const RoundedRectangleBorder(borderRadius: Radii.sheetR),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: cores.surface,
         surfaceTintColor: Colors.transparent,
-        indicatorColor: Colors.transparent,
+        indicatorColor: cores.primarySoft,
+        indicatorShape: RoundedRectangleBorder(borderRadius: Radii.pillR),
         elevation: 0,
-        height: 66,
+        height: Sizes.bottomNav,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         labelTextStyle: WidgetStateProperty.resolveWith(
           (Set<WidgetState> states) => text.labelSmall!.copyWith(
-            fontSize: 11,
             color: states.contains(WidgetState.selected)
-                ? AppColors.primary
-                : AppColors.textSecondary,
+                ? cores.primaryDark
+                : cores.textSecondary,
           ),
         ),
         iconTheme: WidgetStateProperty.resolveWith(
           (Set<WidgetState> states) => IconThemeData(
-            size: 24,
+            size: Sizes.icon,
             color: states.contains(WidgetState.selected)
-                ? AppColors.primary
-                : AppColors.textSecondary,
+                ? cores.primaryDark
+                : cores.textSecondary,
           ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: AppColors.textPrimary,
+        backgroundColor: cores.textPrimary,
         contentTextStyle: text.bodyMedium?.copyWith(color: Colors.white),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        actionTextColor: cores.primarySoft,
+        insetPadding: const EdgeInsets.all(Space.x16),
+        shape: RoundedRectangleBorder(borderRadius: Radii.fieldR),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: cores.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        elevation: 0,
+        titleTextStyle: text.titleLarge,
+        contentTextStyle: text.bodyMedium,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Radii.sheet),
+        ),
       ),
-      listTileTheme: const ListTileThemeData(
-        iconColor: AppColors.textSecondary,
-        textColor: AppColors.textPrimary,
+      listTileTheme: ListTileThemeData(
+        iconColor: cores.textSecondary,
+        textColor: cores.textPrimary,
+        minVerticalPadding: Space.x12,
+        titleTextStyle: text.bodyLarge,
+        subtitleTextStyle: text.bodySmall,
+        shape: RoundedRectangleBorder(borderRadius: Radii.cardR),
       ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.primary,
-        linearTrackColor: AppColors.primarySoft,
+      // O polegar é branco sobre o trilho, então o trilho ligado usa a cor
+      // forte: é o mesmo problema do botão, e a WCAG pede 3:1 até para
+      // elemento que não é texto.
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> s) =>
+              s.contains(WidgetState.selected) ? Colors.white : cores.surface,
+        ),
+        trackColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? cores.primaryStrong
+              : cores.border,
+        ),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? cores.primaryStrong
+              : cores.border,
+        ),
+      ),
+      // Marcado é um "v" branco dentro do quadrado preenchido: cor forte.
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? cores.primaryStrong
+              : Colors.transparent,
+        ),
+        checkColor: const WidgetStatePropertyAll<Color>(Colors.white),
+        side: BorderSide(color: cores.border, width: 1.5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> s) =>
+              s.contains(WidgetState.selected) ? cores.primary : cores.border,
+        ),
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: cores.primary,
+        inactiveTrackColor: cores.primarySoft,
+        thumbColor: cores.primary,
+      ),
+      // Fica em `primary`: a barra é a cor sobre fundo claro, e não fundo de
+      // texto branco.
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: cores.primary,
+        linearTrackColor: cores.primarySoft,
+        circularTrackColor: cores.primarySoft,
+      ),
+      tooltipTheme: TooltipThemeData(
+        decoration: BoxDecoration(
+          color: cores.textPrimary,
+          borderRadius: Radii.fieldR,
+        ),
+        textStyle: text.bodySmall?.copyWith(color: Colors.white),
+      ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: cores.surface,
+        surfaceTintColor: Colors.transparent,
+        headerBackgroundColor: cores.primaryStrong,
+        headerForegroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Radii.sheet),
+        ),
       ),
     );
   }
 
-  static OutlineInputBorder _inputBorder(Color color, {double width = 1}) {
+  /// Texto de botão: 16 / 700, o único lugar onde o peso 700 encosta em
+  /// corpo de texto.
+  /// A fonte precisa estar escrita aqui.
+  ///
+  /// `ThemeData(fontFamily:)` alcança o `textTheme`, e só ele. Este estilo é
+  /// entregue direto ao tema dos botões, então nunca passa por lá: sem esta
+  /// linha, o rótulo de todo botão cheio e contornado do aplicativo cai na
+  /// fonte padrão do sistema. Não dá tela vermelha nem erro; a identidade
+  /// some em silêncio, e num aparelho a diferença passa por descuido de
+  /// desenho.
+  static const TextStyle _botao = TextStyle(
+    fontFamily: appFontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+  );
+
+  static OutlineInputBorder _campo(Color cor, {double width = 1}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: color, width: width),
+      borderRadius: Radii.fieldR,
+      borderSide: BorderSide(color: cor, width: width),
     );
   }
 
-  static TextTheme _textTheme(TextTheme base) {
-    return base
-        .copyWith(
-          displaySmall: base.displaySmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.5,
-          ),
-          headlineMedium: base.headlineMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.4,
-          ),
-          headlineSmall: base.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-          titleLarge: base.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-          titleMedium: base.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-          titleSmall: base.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-          bodyMedium: base.bodyMedium?.copyWith(height: 1.45),
-          bodySmall: base.bodySmall?.copyWith(
-            height: 1.4,
-            color: AppColors.textSecondary,
-          ),
-          labelMedium: base.labelMedium?.copyWith(
-            color: AppColors.textSecondary,
-          ),
-        )
-        .apply(
-          bodyColor: AppColors.textPrimary,
-          displayColor: AppColors.textPrimary,
+  /// A escala tipográfica, escrita por inteiro.
+  ///
+  /// Nada aqui é herdado do Material: cada tamanho, peso e altura de linha
+  /// vem do Design System. Herdar deixaria metade da escala com os valores
+  /// do Google e a outra metade com os nossos, que é o jeito mais rápido de
+  /// um aplicativo perder a identidade sem ninguém saber apontar onde.
+  static TextTheme _textTheme(AppPalette cores) {
+    // A fonte é escrita aqui, e não deixada para o `ThemeData` aplicar. Ele
+    // aplica na cópia dele do `textTheme`, e estes mesmos estilos são
+    // entregues antes disso ao tema dos botões e da dica: lá chegariam sem
+    // fonte, e o rótulo cairia na do sistema sem ninguém ver erro nenhum.
+    TextStyle t(double tamanho, FontWeight peso, double linha, Color cor) =>
+        TextStyle(
+          fontFamily: appFontFamily,
+          fontSize: tamanho,
+          fontWeight: peso,
+          height: linha / tamanho,
+          color: cor,
+          letterSpacing: tamanho >= 24 ? -0.4 : 0,
         );
+
+    final Color forte = cores.textPrimary;
+    final Color fraco = cores.textSecondary;
+
+    return TextTheme(
+      // Display e títulos: peso 700, linha curta, para o texto virar bloco.
+      displayLarge: t(34, FontWeight.w700, 40, forte),
+      displayMedium: t(34, FontWeight.w700, 40, forte),
+      displaySmall: t(34, FontWeight.w700, 40, forte),
+      headlineLarge: t(28, FontWeight.w700, 34, forte),
+      headlineMedium: t(28, FontWeight.w700, 34, forte),
+      headlineSmall: t(24, FontWeight.w700, 30, forte),
+      titleLarge: t(20, FontWeight.w700, 26, forte),
+      titleMedium: t(16, FontWeight.w600, 22, forte),
+      titleSmall: t(14, FontWeight.w600, 20, forte),
+      // Corpo: peso 400 no texto longo, 500 no curto. É a linha confortável
+      // que o Design System pede, e o que separa leitura de rótulo.
+      bodyLarge: t(16, FontWeight.w400, 24, forte),
+      bodyMedium: t(14, FontWeight.w500, 20, forte),
+      bodySmall: t(12, FontWeight.w500, 16, fraco),
+      labelLarge: t(13, FontWeight.w600, 16, forte),
+      labelMedium: t(13, FontWeight.w600, 16, fraco),
+      labelSmall: t(12, FontWeight.w500, 16, fraco),
+    );
+  }
+}
+
+/// Transição de tela: aparecer com um deslize curto, sumir sem deslize.
+///
+/// O deslize é de 4% da largura, e não de uma tela inteira: a sensação é de
+/// camada nova por cima, não de carrossel. Sair é só o inverso, mais rápido,
+/// porque voltar já é uma ação conhecida e não precisa ser anunciada.
+class _FadeSlide extends PageTransitionsBuilder {
+  const _FadeSlide();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    // Quem desligou animações no Android desligou por um motivo: enxaqueca
+    // vestibular é real, e respeitar isso é uma linha de código.
+    if (MediaQuery.disableAnimationsOf(context)) return child;
+
+    final Animation<double> suave = CurvedAnimation(
+      parent: animation,
+      curve: Motion.entrada,
+      reverseCurve: Motion.saida,
+    );
+
+    return FadeTransition(
+      opacity: suave,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0.04, 0),
+          end: Offset.zero,
+        ).animate(suave),
+        child: child,
+      ),
+    );
   }
 }

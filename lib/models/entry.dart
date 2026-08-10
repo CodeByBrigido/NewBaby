@@ -23,9 +23,39 @@ enum EntryType {
   /// Pasta de primeiro nível dentro da pasta da cápsula.
   final String folder;
 
+  /// Como o tipo é contado numa frase: "5 fotos e 1 vídeo".
+  ///
+  /// Fica no modelo, e não junto dos ícones, porque é palavra e não desenho:
+  /// o resumo de um dia precisa disto sem depender de nada de tela.
+  String get one => switch (this) {
+    EntryType.birth => 'nascimento',
+    EntryType.photo => 'foto',
+    EntryType.video => 'vídeo',
+    EntryType.letter => 'carta',
+    EntryType.drawing => 'desenho',
+    EntryType.document => 'documento',
+    EntryType.growth => 'medição',
+  };
+
+  String get many => switch (this) {
+    EntryType.birth => 'nascimentos',
+    EntryType.photo => 'fotos',
+    EntryType.video => 'vídeos',
+    EntryType.letter => 'cartas',
+    EntryType.drawing => 'desenhos',
+    EntryType.document => 'documentos',
+    EntryType.growth => 'medições',
+  };
+
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).
-  /// Cartas, documentos e crescimento ficam direto na pasta da categoria.
-  bool get bucketsByAge => this == EntryType.photo || this == EntryType.video;
+  ///
+  /// Documento e crescimento ficam direto na pasta da categoria: um não tem
+  /// idade (uma certidão vale a vida toda) e o outro virou texto no
+  /// `Informacoes.txt`.
+  bool get bucketsByAge =>
+      this == EntryType.photo ||
+      this == EntryType.video ||
+      this == EntryType.letter;
 
   static EntryType fromId(String? id) => values.firstWhere(
     (EntryType t) => t.id == id,
@@ -194,11 +224,13 @@ class Entry {
     this.title,
     this.description,
     this.files = const <EntryFile>[],
+    this.textFileId,
     this.growth,
     this.status = EntryStatus.active,
     this.uploadStatus = UploadStatus.ready,
     this.deletedAt,
     this.errorMessage,
+    this.sealedUntil,
   });
 
   final String id;
@@ -219,11 +251,41 @@ class Entry {
   final String? title;
   final String? description;
   final List<EntryFile> files;
+
+  /// Id do `.txt` desta carta no Drive.
+  ///
+  /// Fica fora de [files] de propósito. `files` são os anexos que a interface
+  /// desenha; este arquivo é a mesma carta em outro formato, e mostrá-lo como
+  /// anexo faria a pessoa ver a própria carta duas vezes na tela.
+  ///
+  /// Guardado para que editar a carta **atualize** o arquivo em vez de
+  /// deixar uma versão nova ao lado da antiga.
+  final String? textFileId;
   final GrowthData? growth;
   final EntryStatus status;
   final UploadStatus uploadStatus;
   final DateTime? deletedAt;
   final String? errorMessage;
+
+  /// Guardado para ser aberto só a partir desta data.
+  ///
+  /// **Isto é um lacre, não um cofre.** O conteúdo continua no Firestore e no
+  /// Drive de quem gravou, legível por quem tiver a conta. É a mesma natureza
+  /// da cápsula do tempo enterrada no quintal: dá para desenterrar antes da
+  /// hora, e não desenterrar é a graça.
+  ///
+  /// Poderia ser criptografia de verdade. Não é, de propósito: uma chave
+  /// perdida em vinte anos apagaria a memória para sempre, e num acervo feito
+  /// para durar décadas esse risco é maior que o de alguém espiar o próprio
+  /// presente.
+  final DateTime? sealedUntil;
+
+  /// Se ainda não chegou a hora de abrir.
+  bool isSealedAt([DateTime? now]) {
+    final DateTime? until = sealedUntil;
+    if (until == null) return false;
+    return until.isAfter(now ?? DateTime.now());
+  }
 
   bool get isTrashed => status == EntryStatus.trashed;
   bool get hasFiles => files.isNotEmpty;
@@ -267,6 +329,7 @@ class Entry {
     String? description,
     DateTime? date,
     List<EntryFile>? files,
+    String? textFileId,
     GrowthData? growth,
     EntryStatus? status,
     UploadStatus? uploadStatus,
@@ -275,7 +338,9 @@ class Entry {
     int? ageDays,
     String? bucketKey,
     String? bucketName,
+    DateTime? sealedUntil,
     bool clearError = false,
+    bool clearSeal = false,
   }) {
     return Entry(
       id: id,
@@ -288,11 +353,13 @@ class Entry {
       title: title ?? this.title,
       description: description ?? this.description,
       files: files ?? this.files,
+      textFileId: textFileId ?? this.textFileId,
       growth: growth ?? this.growth,
       status: status ?? this.status,
       uploadStatus: uploadStatus ?? this.uploadStatus,
       deletedAt: deletedAt ?? this.deletedAt,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      sealedUntil: clearSeal ? null : (sealedUntil ?? this.sealedUntil),
     );
   }
 
@@ -306,11 +373,13 @@ class Entry {
     'titulo': title,
     'descricao': description,
     'arquivos': files.map((EntryFile f) => f.toMap()).toList(),
+    'arquivoTextoId': textFileId,
     'crescimento': growth?.toMap(),
     'status': status.id,
     'uploadStatus': uploadStatus.id,
     'excluidoEm': deletedAt == null ? null : Timestamp.fromDate(deletedAt!),
     'erro': errorMessage,
+    'lacradoAte': sealedUntil == null ? null : Timestamp.fromDate(sealedUntil!),
   };
 
   static Entry fromMap(String id, Map<String, Object?> map) {
@@ -331,6 +400,7 @@ class Entry {
                 EntryFile.fromMap(m.cast<String, Object?>()),
           )
           .toList(),
+      textFileId: map['arquivoTextoId'] as String?,
       growth: GrowthData.fromMap(
         (map['crescimento'] as Map<Object?, Object?>?)?.cast<String, Object?>(),
       ),
@@ -338,6 +408,7 @@ class Entry {
       uploadStatus: UploadStatus.fromId(map['uploadStatus'] as String?),
       deletedAt: _toDate(map['excluidoEm']),
       errorMessage: map['erro'] as String?,
+      sealedUntil: _toDate(map['lacradoAte']),
     );
   }
 

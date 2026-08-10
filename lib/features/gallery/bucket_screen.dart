@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -57,7 +58,7 @@ class BucketScreen extends ConsumerWidget {
       body: files.isEmpty
           ? EmptyState(icon: type.icon, title: S.noItemsYet)
           : GridView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(Space.x12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 8,
@@ -79,10 +80,7 @@ class BucketScreen extends ConsumerWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DriveThumbnail(
-                        file: file,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      DriveThumbnail(file: file, borderRadius: Radii.mediaR),
                       if (file.isVideo)
                         const Center(
                           child: Icon(
@@ -96,7 +94,7 @@ class BucketScreen extends ConsumerWidget {
                           right: 6,
                           top: 6,
                           child: Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: const EdgeInsets.all(Space.x4),
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.5),
                               shape: BoxShape.circle,

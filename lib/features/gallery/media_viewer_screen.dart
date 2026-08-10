@@ -6,7 +6,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -104,7 +105,12 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
           Container(
             width: double.infinity,
             color: Colors.black,
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            padding: const EdgeInsets.fromLTRB(
+              Space.x20,
+              Space.x12,
+              Space.x20,
+              Space.x24,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -114,14 +120,14 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                 ),
                 if (entry.description != null &&
                     entry.description!.isNotEmpty) ...<Widget>[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: Space.x8),
                   Text(
                     entry.description!,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
                 if (file.isVideo) ...<Widget>[
-                  const SizedBox(height: 12),
+                  const SizedBox(height: Space.x12),
                   Row(
                     children: <Widget>[
                       const Icon(
@@ -129,7 +135,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                         size: 15,
                         color: Colors.white38,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: Space.x8),
                       Expanded(
                         child: Text(
                           S.videoOptimizedNote,
@@ -212,7 +218,7 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
     if (_error != null) {
       return const Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(Space.x24),
           child: Text(
             'Não foi possível abrir este vídeo.',
             style: TextStyle(color: Colors.white70),
@@ -263,8 +269,8 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
             VideoProgressIndicator(
               controller,
               allowScrubbing: true,
-              colors: const VideoProgressColors(
-                playedColor: AppColors.primary,
+              colors: VideoProgressColors(
+                playedColor: context.cores.primary,
                 bufferedColor: Colors.white24,
                 backgroundColor: Colors.white12,
               ),

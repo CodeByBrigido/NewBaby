@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -51,21 +52,32 @@ class GrowthScreen extends ConsumerWidget {
               children: <Widget>[
                 Expanded(
                   child: ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(
+                      Space.x16,
+                      Space.x8,
+                      Space.x16,
+                      Space.x16,
+                    ),
                     itemCount: records.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 10),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: Space.x12),
                     itemBuilder: (BuildContext context, int index) =>
                         _GrowthTile(entry: records[index], profile: profile),
                   ),
                 ),
                 if (records.length > 1)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                    padding: const EdgeInsets.fromLTRB(
+                      Space.x16,
+                      0,
+                      Space.x16,
+                      Space.x20,
+                    ),
                     child: FilledButton.tonalIcon(
                       onPressed: () => context.push(Routes.growthChart),
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.primarySoft,
-                        foregroundColor: AppColors.primaryDark,
+                        backgroundColor: context.cores.primarySoft,
+                        foregroundColor: context.cores.primaryDark,
                         minimumSize: const Size.fromHeight(48),
                       ),
                       icon: const Icon(Icons.show_chart, size: 20),
@@ -91,7 +103,7 @@ class _GrowthTile extends StatelessWidget {
     final bool isBirth = entry.type == EntryType.birth;
 
     return SoftCard(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(Space.x12),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -100,34 +112,34 @@ class _GrowthTile extends StatelessWidget {
             child: entry.coverFile != null
                 ? DriveThumbnail(
                     file: entry.coverFile!,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: Radii.fieldR,
                   )
                 : DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.growthSoft,
-                      borderRadius: BorderRadius.circular(14),
+                      color: context.cores.growthSoft,
+                      borderRadius: Radii.fieldR,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.monitor_heart_outlined,
-                      color: AppColors.growth,
+                      color: context.cores.growth,
                       size: 22,
                     ),
                   ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: Space.x16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(Fmt.date(entry.date), style: text.titleSmall),
-                const SizedBox(height: 3),
+                const SizedBox(height: Space.x4),
                 Text(
                   // No nascimento, "Nascimento" diz mais que "Recém-nascida".
                   isBirth
                       ? S.birth
                       : profile?.ageAt(entry.date).detailedLabel() ?? '',
                   style: text.labelSmall?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.cores.textSecondary,
                   ),
                 ),
               ],
@@ -140,7 +152,7 @@ class _GrowthTile extends StatelessWidget {
                 icon: Icons.monitor_weight_outlined,
                 value: Fmt.weight(growth.weightGrams),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: Space.x4),
               _Measure(
                 icon: Icons.straighten,
                 value: Fmt.height(growth.heightCm),
@@ -164,12 +176,12 @@ class _Measure extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Icon(icon, size: 14, color: AppColors.textSecondary),
-        const SizedBox(width: 5),
+        Icon(icon, size: 14, color: context.cores.textSecondary),
+        const SizedBox(width: Space.x4),
         Text(
           value,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: AppColors.textPrimary,
+            color: context.cores.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),

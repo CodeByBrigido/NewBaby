@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
+import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -66,18 +67,23 @@ class EntryDetailScreen extends ConsumerWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: const EdgeInsets.fromLTRB(
+          Space.x16,
+          Space.x8,
+          Space.x16,
+          Space.x32,
+        ),
         children: <Widget>[
           Row(
             children: <Widget>[
               CategoryBadge(type: entry.type, size: 40, iconSize: 20),
-              const SizedBox(width: 12),
+              const SizedBox(width: Space.x12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(Fmt.longDate(entry.date), style: text.titleSmall),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: Space.x4),
                     Text(entry.bucketName, style: text.labelSmall),
                   ],
                 ),
@@ -88,10 +94,10 @@ class EntryDetailScreen extends ConsumerWidget {
           ),
           if (entry.description != null &&
               entry.description!.isNotEmpty) ...<Widget>[
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             Text(entry.description!, style: text.bodyMedium),
           ],
-          const SizedBox(height: 20),
+          const SizedBox(height: Space.x20),
           if (entry.hasFiles)
             GridView.builder(
               shrinkWrap: true,
@@ -117,10 +123,7 @@ class EntryDetailScreen extends ConsumerWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DriveThumbnail(
-                        file: file,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                      DriveThumbnail(file: file, borderRadius: Radii.mediaR),
                       if (file.isVideo)
                         const Center(
                           child: Icon(
@@ -135,25 +138,25 @@ class EntryDetailScreen extends ConsumerWidget {
               },
             ),
           if (entry.uploadStatus == UploadStatus.failed) ...<Widget>[
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             InfoNote(
               message: entry.errorMessage ?? S.uploadFailed,
               icon: Icons.error_outline,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.x12),
             FilledButton.tonal(
               onPressed: () => _retry(context, ref, entry),
               child: const Text(S.retry),
             ),
           ] else if (entry.uploadStatus.isBusy) ...<Widget>[
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             InfoNote(
               message: entry.uploadStatus.label,
               icon: Icons.cloud_upload_outlined,
             ),
           ],
           if (entry.type == EntryType.video) ...<Widget>[
-            const SizedBox(height: 20),
+            const SizedBox(height: Space.x20),
             const InfoNote(message: S.videoOptimizedNote),
           ],
         ],

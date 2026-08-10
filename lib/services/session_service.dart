@@ -10,6 +10,7 @@ import 'drive_service.dart';
 import 'firestore_service.dart';
 import 'media_optimizer.dart';
 import 'memory_repository.dart';
+import 'notification_service.dart';
 import 'thumbnail_service.dart';
 
 /// O que fazer com a pasta da cápsula no Drive ao apagar a conta.
@@ -34,6 +35,7 @@ class SessionService {
     required this.memories,
     required this.optimizer,
     required this.thumbnails,
+    required this.reminders,
   });
 
   final AuthService auth;
@@ -42,6 +44,7 @@ class SessionService {
   final MemoryRepository memories;
   final MediaOptimizer optimizer;
   final ThumbnailStore thumbnails;
+  final ReminderScheduler reminders;
 
   /// Marca que o cache do Firestore deve ser descartado na próxima abertura.
   ///
@@ -54,6 +57,71 @@ class SessionService {
 
   /// Chave das buscas recentes, que também some ao sair.
   static const String _recentSearchesKey = 'buscas_recentes';
+
+  /// Chave da limpeza única do áudio, no aparelho.
+  static const String _audioLimpoKey = 'limpeza.audio';
+
+  /// Apaga o que sobrou da gravação de voz, uma vez por aparelho.
+  ///
+  /// O áudio saiu do produto, mas quem usou a versão de teste tem entradas
+  /// gravadas. Elas precisam sair do índice, e não só deixar de ser criadas:
+  /// `EntryType.fromId` cai em `photo` no que não reconhece, então uma
+  /// gravação antiga viraria um cartão de foto com um `.m4a` dentro.
+  ///
+  /// A marca fica no aparelho e não na conta porque o custo de repetir é uma
+  /// consulta que não acha nada, e o custo de não rodar é um cartão quebrado.
+  /// Errar para o lado de rodar de novo é o barato aqui.
+  Future<void> limparRestosDeAudio(String uid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_audioLimpoKey) ?? false) return;
+
+    try {
+      final int quantas = await firestore.deleteEntriesOfType(uid, 'audio');
+      if (quantas > 0) {
+        debugPrint('Entradas de áudio removidas: $quantas');
+      }
+
+      // A pasta vai para a lixeira, e não para o nada: os arquivos são da
+      // família e a lixeira do Drive dá trinta dias para alguém mudar de
+      // ideia. Se ela falhar, o índice já está limpo e é isso que importa.
+      final String? pasta = await firestore.folderId(uid, 'Áudios');
+      if (pasta != null && pasta.isNotEmpty) {
+        try {
+          await drive.setTrashed(pasta, trashed: true);
+        } on Object catch (e) {
+          debugPrint('Pasta de áudio não foi para a lixeira: $e');
+        }
+      }
+      await firestore.forgetFolderTree(uid, 'Áudios');
+
+      await prefs.setBool(_audioLimpoKey, true);
+    } on Object catch (e) {
+      // Sem marca: a próxima abertura tenta de novo. Uma falha de rede aqui
+      // não pode deixar a marca posta e o índice sujo para sempre.
+      debugPrint('Limpeza do áudio adiada: $e');
+    }
+  }
+
+  /// Troca a conta do Google, e com ela a cápsula inteira.
+  ///
+  /// Cada filho tem a própria conta, então trocar de filho é trocar de
+  /// autenticação: o `uid` muda, e todo provedor do aplicativo se refaz
+  /// sozinho porque todos penduram nele. Linha do tempo, galeria,
+  /// estatísticas, cartas, lembretes e até o tema, que vem do sexo da
+  /// criança.
+  ///
+  /// A ordem aqui é o que importa. O seletor do Google vem **antes** da
+  /// limpeza: se a pessoa desistir no meio, `signIn` lança, a limpeza não
+  /// acontece e ela continua exatamente onde estava. Limpar primeiro faria
+  /// um toque em "cancelar" custar a sessão.
+  ///
+  /// A limpeza depois não é capricho: o que estava guardado no aparelho é da
+  /// outra criança, e o cache do Firestore tem em texto puro o nome dela e o
+  /// texto integral das cartas.
+  Future<void> switchAccount() async {
+    await auth.signIn();
+    await _wipeLocalData();
+  }
 
   /// Encerra a sessão e apaga o que ficou no aparelho.
   Future<void> signOut() async {
@@ -97,7 +165,17 @@ class SessionService {
     await optimizer.clearCaches();
     await memories.clearDownloads();
 
+    // Os lembretes vão junto. Um aviso do aniversário de uma criança
+    // chegando depois de a conta ter saído do aparelho seria, no melhor
+    // caso, estranho - e no pior, doloroso para quem emprestou o celular.
+    try {
+      await reminders.cancelAll();
+    } on Object catch (e) {
+      debugPrint('Não deu para cancelar os lembretes: $e');
+    }
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await ReminderPreferences(prefs).clear();
     await prefs.remove(_recentSearchesKey);
     await prefs.setBool(_pendingCacheKey, true);
   }
