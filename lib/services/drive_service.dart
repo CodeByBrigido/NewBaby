@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:googleapis/drive/v3.dart' as drive;
@@ -173,6 +174,66 @@ class DriveService {
       throw StateError('O Google Drive não devolveu o id da pasta "$name".');
     }
     return id;
+  }
+
+  /// Cria ou atualiza um arquivo de texto, sempre pelo id quando ele existe.
+  ///
+  /// Devolve o id, que o chamador guarda no Firestore. É por isso que o
+  /// arquivo é atualizado e não recriado: sem o id, cada gravação deixaria
+  /// uma cópia nova na pasta e em um ano a pessoa teria trezentos
+  /// `Informacoes.txt` empilhados.
+  ///
+  /// Um id que não existe mais (arquivo apagado à mão no Drive) responde 404,
+  /// e aí um arquivo novo é criado. Qualquer outro erro sobe: criar um
+  /// segundo arquivo por causa de uma falha de rede seria duplicar em
+  /// silêncio.
+  Future<String> upsertTextFile({
+    required String folderId,
+    required String name,
+    required String content,
+    String? knownFileId,
+  }) async {
+    final List<int> bytes = utf8.encode(content);
+    // `text/plain; charset=utf-8` de propósito: sem o charset, o Drive
+    // mostra acento quebrado na visualização dele, e o arquivo existe
+    // justamente para ser lido lá dentro.
+    const String mime = 'text/plain; charset=utf-8';
+
+    return _withApi((drive.DriveApi api) async {
+      if (knownFileId != null && knownFileId.isNotEmpty) {
+        try {
+          final drive.File atualizado = await api.files.update(
+            drive.File(),
+            knownFileId,
+            uploadMedia: drive.Media(
+              Stream<List<int>>.value(bytes),
+              bytes.length,
+              contentType: mime,
+            ),
+            $fields: 'id',
+          );
+          final String? id = atualizado.id;
+          if (id != null) return id;
+        } on drive.DetailedApiRequestError catch (e) {
+          if (e.status != 404) rethrow;
+        }
+      }
+
+      final drive.File criado = await api.files.create(
+        drive.File(name: name, parents: <String>[folderId]),
+        uploadMedia: drive.Media(
+          Stream<List<int>>.value(bytes),
+          bytes.length,
+          contentType: mime,
+        ),
+        $fields: 'id',
+      );
+      final String? id = criado.id;
+      if (id == null) {
+        throw StateError('O Google Drive não devolveu o id de "$name".');
+      }
+      return id;
+    });
   }
 
   /// Envia um arquivo já otimizado para dentro de [folderId].

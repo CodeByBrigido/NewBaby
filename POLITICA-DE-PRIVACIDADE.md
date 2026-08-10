@@ -19,7 +19,7 @@ Você apaga tudo isso a qualquer momento, dentro do aplicativo, sem precisar ped
 
 ## Quem é o responsável
 
-Responsável pelo tratamento dos dados pessoais (controlador, nos termos do Art. 4(7) do GDPR): [NOME COMPLETO], pessoa física, desenvolvedor individual.
+Responsável pelo tratamento dos dados pessoais (controlador, nos termos do Art. 4(7) do GDPR): Rodrigo Andrade Brigido, pessoa física, desenvolvedor individual.
 
 Contato: mybabytimecapsule@gmail.com
 

@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../core/l10n/informacoes.dart';
 import '../core/utils/age_calculator.dart';
 import '../core/utils/error_text.dart';
 import '../core/utils/formatters.dart';
@@ -82,6 +83,63 @@ class MemoryRepository {
   /// Acompanha os envios em andamento.
   Stream<UploadProgress> get progress => _progress.stream;
 
+  // -------------------------------------------------- informacoes.txt
+
+  /// Nome do arquivo legível na pasta da cápsula.
+  ///
+  /// Sem acento no nome de propósito: ele é digitado em endereço, aparece em
+  /// terminal e viaja entre sistemas de arquivos que ainda tratam acento de
+  /// formas diferentes. O conteúdo tem acento; o nome não precisa.
+  static const String infoFileName = 'Informacoes.txt';
+
+  /// Reescreve o `Informacoes.txt` na pasta da cápsula.
+  ///
+  /// Chamado no cadastro e a cada medição de crescimento. Reescreve o arquivo
+  /// inteiro, e não acrescenta linha: o arquivo é uma fotografia do estado
+  /// atual, e assim uma medição corrigida ou apagada aparece corrigida em vez
+  /// de deixar rastro contraditório.
+  ///
+  /// **Falhar aqui não pode derrubar nada.** O Firestore é a fonte da
+  /// verdade, e este arquivo é uma cópia legível: perder uma gravação dele
+  /// custa um arquivo desatualizado até a próxima medição, e não um dado.
+  /// Por isso o `catch` é largo e o retorno é o perfil que entrou.
+  Future<BabyProfile> escreverInformacoes(
+    String uid,
+    BabyProfile profile,
+  ) async {
+    final String? rootId = profile.rootFolderId;
+    if (rootId == null || rootId.isEmpty) return profile;
+
+    try {
+      final List<Entry> medicoes = await firestore.loadEntriesOfType(
+        uid,
+        EntryType.growth,
+      );
+      final String texto = informacoesDaCrianca(
+        profile: profile,
+        growth: medicoes,
+        now: DateTime.now(),
+      );
+      final String id = await drive.upsertTextFile(
+        folderId: rootId,
+        name: infoFileName,
+        content: texto,
+        knownFileId: profile.infoFileId,
+      );
+
+      // Só grava no Firestore quando o id mudou, que é a primeira vez e o
+      // caso raro de o arquivo ter sido apagado à mão no Drive. Nas outras
+      // vezes é uma escrita que não muda nada.
+      if (id == profile.infoFileId) return profile;
+      final BabyProfile atualizado = profile.copyWith(infoFileId: id);
+      await firestore.saveProfile(uid, atualizado);
+      return atualizado;
+    } on Object catch (e) {
+      debugPrint('Informacoes.txt não foi atualizado: $e');
+      return profile;
+    }
+  }
+
   // ------------------------------------------------------------ cadastro
 
   /// Cria a estrutura de pastas e grava o cadastro inicial.
@@ -98,6 +156,11 @@ class MemoryRepository {
 
     // O nascimento é o primeiro item da linha do tempo, sempre.
     await _createBirthEntry(uid, saved);
+
+    // O arquivo legível nasce junto da pasta, ainda sem medição nenhuma.
+    // Quem abrir o Drive no dia seguinte ao cadastro já encontra o nome, a
+    // data de nascimento e o peso, e não só uma pasta com fotos.
+    saved = await escreverInformacoes(uid, saved);
 
     if (birthPhoto != null) {
       try {
@@ -452,13 +515,17 @@ class MemoryRepository {
   }) async {
     final DateTime when = date ?? DateTime.now();
     if (photo == null) {
-      return _addTextEntry(
+      final Entry medicao = await _addTextEntry(
         uid: uid,
         profile: profile,
         type: EntryType.growth,
         date: when,
         growth: GrowthData(weightGrams: weightGrams, heightCm: heightCm),
       );
+      // Depois de gravar, e não antes: o arquivo lista as medições que
+      // existem, e escrever antes deixaria a última de fora.
+      await escreverInformacoes(uid, profile);
+      return medicao;
     }
 
     final Entry entry = await addFiles(
@@ -477,6 +544,7 @@ class MemoryRepository {
     await firestore.patchEntry(uid, entry.id, <String, Object?>{
       'crescimento': growth.toMap(),
     });
+    await escreverInformacoes(uid, profile);
     return entry.copyWith(growth: growth);
   }
 

@@ -7,12 +7,6 @@ import '../../services/auth_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
 
-/// A foto de capa da tela de login.
-///
-/// Como o ícone da abertura, ela pode não existir ainda: a tela desenha o
-/// degradê sozinho nesse caso, em vez de mostrar um quadrado de erro.
-const String fundoDoLogin = 'assets/login_fundo.jpg';
-
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key, this.comContaNova = false});
@@ -55,9 +49,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // A foto de capa, e o degradê quente por baixo dela. O degradê não
-          // é enfeite: é o que aparece enquanto a imagem ainda não existe no
-          // projeto, e o que segura a tela se ela for removida um dia.
+          // Um degradê quente, e não uma fotografia. Uma foto de criança
+          // aqui seria a foto do filho de outra pessoa, e um aplicativo que
+          // promete guardar o seu não deveria abrir mostrando um
+          // desconhecido.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -71,14 +66,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
           ),
-          Image.asset(
-            fundoDoLogin,
-            fit: BoxFit.cover,
-            errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
-                const SizedBox.shrink(),
-          ),
-          // Sem este véu, o texto branco some nas partes claras da foto, e
-          // some de um jeito que só aparece no aparelho de outra pessoa.
+          // O véu escurece a base, onde ficam o botão e o aviso: sem ele o
+          // texto branco encosta na parte mais clara do degradê.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(

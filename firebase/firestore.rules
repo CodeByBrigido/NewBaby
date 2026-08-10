@@ -31,13 +31,15 @@ service cloud.firestore {
     function isValidProfile() {
       return request.resource.data.keys().hasOnly([
                'nome', 'nascimento', 'genero', 'pesoGramas',
-               'alturaCm', 'hospital', 'fotoDriveId', 'pastaRaizId'
+               'alturaCm', 'hospital', 'fotoDriveId', 'pastaRaizId',
+               'arquivoInfoId'
              ])
           && textUpTo('nome', 120)
           && textUpTo('hospital', 200)
           && textUpTo('genero', 20)
           && textUpTo('fotoDriveId', 200)
-          && textUpTo('pastaRaizId', 200);
+          && textUpTo('pastaRaizId', 200)
+          && textUpTo('arquivoInfoId', 200);
     }
 
     function isValidEntry() {

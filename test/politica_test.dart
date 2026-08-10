@@ -133,22 +133,13 @@ void main() {
       }
     });
 
-    test(
-      'o nome do responsável precisa ser preenchido antes de publicar',
-      () {
-        // Falha de propósito enquanto o marcador estiver lá. O GDPR exige
-        // identificar o controlador nominalmente, e publicar com um marcador
-        // no lugar do nome é pior que não ter política.
-        expect(
-          privacyController,
-          isNot(contains('[')),
-          reason:
-              'Preencha privacyController em lib/core/l10n/privacy_policy.dart '
-              'com o nome completo antes de publicar na loja.',
-        );
-      },
-      skip: 'aguardando o nome completo do responsável',
-    );
+    test('o responsável está identificado nominalmente', () {
+      // O GDPR exige identificar o controlador pelo nome, e não só por um
+      // endereço de email: sem isso ninguém consegue exercer um direito
+      // judicialmente. Este teste era pendente e passou a valer.
+      expect(privacyController, isNot(contains('[')));
+      expect(privacyController.trim().split(' ').length, greaterThan(1));
+    });
   });
 
   group('a versão pública é a mesma que o aplicativo mostra', () {

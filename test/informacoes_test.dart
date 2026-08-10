@@ -162,6 +162,25 @@ void main() {
     });
   });
 
+  group('o id do arquivo sobrevive ao Firestore', () {
+    test('vai e volta pelo mapa do perfil', () {
+      // Sem este id, cada gravação criaria um arquivo novo em vez de
+      // atualizar o que existe, e em um ano a pasta teria trezentos
+      // Informacoes.txt empilhados.
+      final BabyProfile comId = maria.copyWith(infoFileId: 'drive-info-1');
+      final BabyProfile devolta = BabyProfile.fromMap(comId.toMap());
+
+      expect(devolta.infoFileId, 'drive-info-1');
+      expect(comId.toMap()['arquivoInfoId'], 'drive-info-1');
+    });
+
+    test('um cadastro antigo, sem o campo, continua abrindo', () {
+      final Map<String, Object?> antigo = maria.toMap()
+        ..remove('arquivoInfoId');
+      expect(BabyProfile.fromMap(antigo).infoFileId, isNull);
+    });
+  });
+
   group('o nome da pasta no Drive', () {
     AgeBucket balde(DateTime nascimento, DateTime quando) =>
         AgeCalculator.bucketAt(nascimento, quando);

@@ -89,6 +89,19 @@ class FirestoreService {
         .toList();
   }
 
+  /// Todas as entradas ativas de um tipo, numa leitura só.
+  ///
+  /// Serve ao `Informacoes.txt`, que precisa da lista de medições no momento
+  /// de escrever. Uma consulta pontual, e não o stream da linha do tempo:
+  /// escrever o arquivo não pode depender de a tela estar aberta.
+  Future<List<Entry>> loadEntriesOfType(String uid, EntryType type) async {
+    final QuerySnapshot<Map<String, Object?>> snap = await _entriesRef(uid)
+        .where('tipo', isEqualTo: type.id)
+        .where('status', isEqualTo: EntryStatus.active.id)
+        .get();
+    return _toEntries(snap);
+  }
+
   /// Cria a entrada já visível na linha do tempo, antes do upload terminar.
   Future<String> createEntry(String uid, Entry entry) async {
     final DocumentReference<Map<String, Object?>> ref = entry.id.isEmpty

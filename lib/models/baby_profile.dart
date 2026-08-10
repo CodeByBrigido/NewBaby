@@ -17,6 +17,7 @@ class BabyProfile {
     this.hospital,
     this.photoDriveId,
     this.rootFolderId,
+    this.infoFileId,
   });
 
   /// Nome completo, usado em toda a interface.
@@ -43,6 +44,13 @@ class BabyProfile {
   /// nada na raiz do Drive de quem instalou.
   final String? rootFolderId;
 
+  /// Id do `Informacoes.txt` na pasta da cápsula.
+  ///
+  /// Guardado para que o arquivo seja **atualizado** a cada mudança, e não
+  /// recriado: sem o id, um ano de uso deixaria trezentas cópias empilhadas
+  /// na pasta.
+  final String? infoFileId;
+
   /// Primeiro nome - o que aparece nos cabeçalhos.
   String get firstName => name.trim().split(RegExp(r'\s+')).first;
 
@@ -65,6 +73,7 @@ class BabyProfile {
     String? hospital,
     String? photoDriveId,
     String? rootFolderId,
+    String? infoFileId,
   }) {
     return BabyProfile(
       name: name ?? this.name,
@@ -75,6 +84,7 @@ class BabyProfile {
       hospital: hospital ?? this.hospital,
       photoDriveId: photoDriveId ?? this.photoDriveId,
       rootFolderId: rootFolderId ?? this.rootFolderId,
+      infoFileId: infoFileId ?? this.infoFileId,
     );
   }
 
@@ -87,6 +97,7 @@ class BabyProfile {
     'hospital': hospital,
     'fotoDriveId': photoDriveId,
     'pastaRaizId': rootFolderId,
+    'arquivoInfoId': infoFileId,
   };
 
   static BabyProfile fromMap(Map<String, Object?> map) {
@@ -99,6 +110,7 @@ class BabyProfile {
       hospital: map['hospital'] as String?,
       photoDriveId: map['fotoDriveId'] as String?,
       rootFolderId: map['pastaRaizId'] as String?,
+      infoFileId: map['arquivoInfoId'] as String?,
     );
   }
 

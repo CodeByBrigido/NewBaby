@@ -90,6 +90,9 @@ checar('lista de arquivos absurda é recusada',
     { ...entradaValida, arquivos: new Array(61).fill({ driveId: 'a' }) })));
 checar('perfil com campo estranho é recusado',
   () => assertFails(setDoc(doc(ana, 'users/ana/perfil/bebe'), { nome: 'Alice', extra: 1 })));
+checar('o id do Informacoes.txt cabe no perfil',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/bebe'),
+    { nome: 'Alice', nascimento: new Date(), genero: 'menina', pastaRaizId: 'abc', arquivoInfoId: 'info-1' })));
 checar('subcoleção desconhecida é recusada',
   () => assertFails(setDoc(doc(ana, 'users/ana/qualquer/coisa'), { a: 1 })));
 checar('não dá para criar o documento raiz do usuário',

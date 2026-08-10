@@ -16,9 +16,9 @@ const String privacyPolicyDate = '9 de agosto de 2026';
 
 /// Responsável pelo tratamento, no sentido do Art. 4(7) do GDPR.
 ///
-/// O nome completo é exigência legal e precisa ser preenchido antes da
-/// publicação: só o endereço de email não identifica o controlador.
-const String privacyController = '[NOME COMPLETO]';
+/// O nome completo é exigência legal: só o endereço de email não identifica
+/// o controlador para quem quiser exercer um direito judicialmente.
+const String privacyController = 'Rodrigo Andrade Brigido';
 const String privacyEmail = 'mybabytimecapsule@gmail.com';
 
 /// Uma seção do documento.
