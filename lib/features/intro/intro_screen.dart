@@ -105,6 +105,12 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     final bool ultimo = _atual == introSlides.length - 1;
 
     return Scaffold(
+      // Branco puro, e não o fundo do tema. As ilustrações são PNG sem
+      // transparência: o branco delas é opaco. Sobre o creme da paleta da
+      // menina ou o azulado da do menino, cada uma apareceria como um bloco
+      // mais claro recortado no meio da tela. Aqui isso não é escolha de
+      // estilo, é o que faz a arte encostar no fundo.
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: <Widget>[

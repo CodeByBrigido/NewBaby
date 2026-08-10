@@ -78,13 +78,19 @@ class _Ilustracao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double altura = MediaQuery.sizeOf(context).height * 0.32;
+    final MediaQueryData tela = MediaQuery.of(context);
+    final double altura = tela.size.height * 0.36;
 
     return SizedBox(
       height: altura,
       child: Image.asset(
         caminho,
         fit: BoxFit.contain,
+        // As artes vêm com mais de mil pixels de altura e são desenhadas com
+        // um terço disso. Sem este limite, cada uma ocuparia na memória o
+        // tamanho cheio descomprimido, e o `PageView` mantém as vizinhas
+        // vivas: seriam dezenas de megabytes parados para nada.
+        cacheHeight: (altura * tela.devicePixelRatio).round(),
         // Uma arte que falta não pode virar tela vermelha na primeira coisa
         // que a pessoa vê do aplicativo. O texto sozinho ainda diz tudo.
         errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
