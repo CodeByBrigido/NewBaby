@@ -66,8 +66,12 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
           'listar ou modificar nenhum outro arquivo do seu Drive, e essa '
           'limitação é imposta pelo Google, não por nós.',
       'Ficam no seu Drive, dentro da pasta "Meu Bebê - Cápsula do Tempo": '
-          'as fotos, os vídeos, os desenhos e os documentos que '
-          'você enviar.',
+          'as fotos, os vídeos, os desenhos e os documentos que você enviar.',
+      'Ficam também dois arquivos de texto, escritos pelo aplicativo: um '
+          'com o cadastro e os registros de crescimento, e um por carta que '
+          'você escrever. Eles existem para que este acervo continue fazendo '
+          'sentido sem o aplicativo: uma foto se explica sozinha numa pasta, '
+          'uma carta e um registro de peso não.',
       'Esses arquivos são seus. Não temos cópia deles, não conseguimos '
           'vê-los e não temos meio técnico de acessá-los fora do aplicativo '
           'em uso na sua sessão.',

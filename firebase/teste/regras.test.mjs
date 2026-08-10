@@ -102,6 +102,10 @@ checar('descrição no limite ainda passa',
     { ...entradaValida, descricao: 'x'.repeat(20000) })));
 
 // --- lacre ---
+checar('o id do .txt da carta cabe na entrada',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/carta-txt'),
+    { ...entradaValida, arquivoTextoId: 'drive-txt-1' })));
+
 checar('uma entrada pode ser guardada para o futuro',
   () => assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/lacrada'),
     { ...entradaValida, lacradoAte: new Date(2045, 0, 22) })));

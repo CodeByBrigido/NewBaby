@@ -488,21 +488,87 @@ class MemoryRepository {
 
   // -------------------------------------------------- entradas sem arquivo
 
-  /// Carta: só texto, sem upload.
+  /// Carta: o texto vai para o índice e também para um `.txt` no Drive.
+  ///
+  /// O arquivo existe por um motivo só, e é o mais importante do produto: sem
+  /// ele, a carta é a única memória que morre junto com o aplicativo. Foto e
+  /// vídeo já sobrevivem sozinhos, porque são arquivos numa pasta.
   Future<Entry> addLetter({
     required String uid,
     required BabyProfile profile,
     required String title,
     required String message,
     DateTime? date,
-  }) => _addTextEntry(
-    uid: uid,
-    profile: profile,
-    type: EntryType.letter,
-    title: title,
-    description: message,
-    date: date,
-  );
+  }) async {
+    final Entry carta = await _addTextEntry(
+      uid: uid,
+      profile: profile,
+      type: EntryType.letter,
+      title: title,
+      description: message,
+      date: date,
+    );
+    return escreverCarta(uid, profile, carta);
+  }
+
+  /// Grava (ou regrava) o `.txt` de uma carta na pasta da idade dela.
+  ///
+  /// Como o `Informacoes.txt`, falhar aqui não derruba nada: o texto já está
+  /// no índice e é de lá que o aplicativo lê. O arquivo é a cópia que
+  /// sobrevive ao aplicativo, e ele se conserta na próxima edição.
+  Future<Entry> escreverCarta(
+    String uid,
+    BabyProfile profile,
+    Entry carta,
+  ) async {
+    if (carta.type != EntryType.letter) return carta;
+
+    try {
+      final AgeBucket bucket = AgeCalculator.bucketAt(
+        profile.birth,
+        carta.date,
+      );
+      final String pasta = await _resolveFolder(
+        uid: uid,
+        profile: profile,
+        type: EntryType.letter,
+        bucket: bucket,
+      );
+
+      final String id = await drive.upsertTextFile(
+        folderId: pasta,
+        name: _nomeDaCarta(carta),
+        content: textoDaCarta(carta: carta, profile: profile),
+        knownFileId: carta.textFileId,
+      );
+
+      if (id == carta.textFileId) return carta;
+      await firestore.patchEntry(uid, carta.id, <String, Object?>{
+        'arquivoTextoId': id,
+      });
+      return carta.copyWith(textFileId: id);
+    } on Object catch (e) {
+      debugPrint('A carta não foi gravada no Drive: $e');
+      return carta;
+    }
+  }
+
+  /// `2027-04-22_Para quando voce crescer.txt`
+  ///
+  /// A data na frente para ordenar dentro da pasta, e o título depois para
+  /// dar para saber o que é sem abrir. O saneamento é o mesmo do download:
+  /// nome de arquivo vindo de texto que a pessoa digitou não pode carregar
+  /// barra nem `..`.
+  String _nomeDaCarta(Entry carta) {
+    final String titulo = (carta.title ?? 'Carta').trim();
+    final String limpo = titulo
+        .replaceAll(RegExp(r'[\\/:*?"<>|]'), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    final String base = limpo.isEmpty ? 'Carta' : limpo;
+    final String curto = base.length <= 60 ? base : base.substring(0, 60);
+    return '${Fmt.fileStamp(carta.date).split('_').first}_$curto.txt';
+  }
 
   /// Registro de crescimento, com foto opcional.
   Future<Entry> addGrowth({
@@ -589,7 +655,8 @@ class MemoryRepository {
     required String description,
     DateTime? sealedUntil,
     bool changeSeal = false,
-  }) {
+    BabyProfile? profile,
+  }) async {
     final String? newTitle = title.trim().isEmpty ? null : title.trim();
     final String? newDescription = description.trim().isEmpty
         ? null
@@ -597,7 +664,7 @@ class MemoryRepository {
 
     // `null` apaga o campo no Firestore, e a busca é recalculada em memória a
     // partir do que sobrou - não há índice gravado para sair de sincronia.
-    return firestore.patchEntry(uid, entry.id, <String, Object?>{
+    await firestore.patchEntry(uid, entry.id, <String, Object?>{
       'titulo': newTitle,
       'descricao': newDescription,
       // Só entra no patch quando a pessoa mexeu no lacre; sem isso, salvar
@@ -607,6 +674,17 @@ class MemoryRepository {
             ? null
             : Timestamp.fromDate(sealedUntil),
     });
+
+    // Editar a carta precisa alcançar o Drive, senão o arquivo lá fora fica
+    // com a versão antiga e as duas cópias passam a discordar. O perfil vem
+    // por parâmetro porque só quem edita carta precisa dele.
+    if (entry.type == EntryType.letter && profile != null) {
+      await escreverCarta(
+        uid,
+        profile,
+        entry.copyWith(title: newTitle, description: newDescription),
+      );
+    }
   }
 
   // ------------------------------------------------------------- lixeira

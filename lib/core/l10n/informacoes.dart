@@ -90,6 +90,48 @@ String informacoesDaCrianca({
   return saida.toString();
 }
 
+/// O `.txt` de uma carta, na pasta da idade em que ela foi escrita.
+///
+/// Sem este arquivo, a carta é a única memória que morre junto com o
+/// aplicativo: foto e vídeo já sobrevivem sozinhos, porque são arquivos numa
+/// pasta. Aqui o texto ganha a mesma independência.
+///
+/// O cabeçalho existe porque um `.txt` solto daqui a vinte anos não diz para
+/// quem foi escrito nem quando. Duas linhas resolvem, e elas ficam separadas
+/// do corpo para que a carta em si continue sendo só a carta.
+String textoDaCarta({required Entry carta, required BabyProfile profile}) {
+  final StringBuffer saida = StringBuffer();
+
+  final String? titulo = carta.title?.trim();
+  if (titulo != null && titulo.isNotEmpty) saida.writeln(titulo);
+
+  saida
+    ..writeln('Escrita em ${Fmt.longDate(carta.date)}')
+    ..writeln(
+      'Quando ${profile.firstName} tinha '
+      '${profile.ageAt(carta.date).detailedLabel()}',
+    );
+
+  final DateTime? lacre = carta.sealedUntil;
+  if (lacre != null) {
+    // Quem abrir a pasta vai poder ler a carta de qualquer jeito: o lacre é
+    // do aplicativo, não do arquivo. Dizer isso é mais honesto que fingir
+    // que o texto está protegido lá fora.
+    saida.writeln(
+      'Guardada no aplicativo para ser aberta em ${Fmt.date(lacre)}',
+    );
+  }
+
+  final String corpo = carta.description?.trim() ?? '';
+  saida
+    ..writeln()
+    ..writeln('-' * 40)
+    ..writeln()
+    ..writeln(corpo.isEmpty ? '(sem texto)' : corpo);
+
+  return saida.toString();
+}
+
 String? _sexo(BabyGender? gender) => switch (gender) {
   BabyGender.girl => 'Menina',
   BabyGender.boy => 'Menino',

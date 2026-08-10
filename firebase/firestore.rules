@@ -48,6 +48,9 @@ service cloud.firestore {
                'tipo', 'data', 'criadoEm', 'idadeDias', 'balde', 'baldeNome',
                'titulo', 'descricao', 'arquivos', 'crescimento', 'status',
                'uploadStatus', 'excluidoEm', 'erro', 'lacradoAte',
+               // Id do `.txt` da carta no Drive. Fica fora de `arquivos`
+               // porque não é anexo: é a mesma carta em outro formato.
+               'arquivoTextoId',
                // Legado: versões antigas gravavam aqui uma segunda cópia do
                // texto das cartas. O aplicativo não escreve mais este campo,
                // mas quem tem documentos antigos precisa poder editá-los.
@@ -58,6 +61,7 @@ service cloud.firestore {
           // muito abaixo do limite de 1 MiB por documento do Firestore.
           && textUpTo('descricao', 20000)
           && textUpTo('erro', 500)
+          && textUpTo('arquivoTextoId', 200)
           && textUpTo('tipo', 30)
           && textUpTo('status', 20)
           && textUpTo('uploadStatus', 20)

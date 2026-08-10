@@ -162,6 +162,66 @@ void main() {
     });
   });
 
+  group('o .txt da carta', () {
+    Entry carta({
+      String? titulo = 'Para quando você crescer',
+      String? corpo = 'Hoje você riu pela primeira vez.',
+      DateTime? lacre,
+    }) => Entry(
+      id: 'c1',
+      type: EntryType.letter,
+      date: DateTime(2026, 6, 15),
+      createdAt: DateTime(2026, 6, 15),
+      ageDays: 61,
+      bucketKey: 'S09',
+      bucketName: 'Semana 09',
+      title: titulo,
+      description: corpo,
+      sealedUntil: lacre,
+    );
+
+    test('traz o cabeçalho que um arquivo solto não teria', () {
+      // Um .txt no meio de uma pasta, daqui a vinte anos, não diz para quem
+      // foi escrito nem quando. Duas linhas resolvem.
+      final String texto = textoDaCarta(carta: carta(), profile: maria);
+      expect(texto, contains('Para quando você crescer'));
+      expect(texto, contains('Escrita em 15 de junho de 2026'));
+      expect(texto, contains('Quando Maria tinha 2 meses'));
+      expect(texto, contains('Hoje você riu pela primeira vez.'));
+    });
+
+    test('o corpo fica separado do cabeçalho', () {
+      // A carta em si precisa continuar sendo só a carta: o cabeçalho é
+      // nosso, o texto é de quem escreveu.
+      final String texto = textoDaCarta(carta: carta(), profile: maria);
+      final int regua = texto.indexOf('----');
+      expect(regua, greaterThan(0));
+      expect(
+        texto.indexOf('Hoje você riu pela primeira vez.'),
+        greaterThan(regua),
+      );
+    });
+
+    test('carta lacrada avisa que o lacre é do aplicativo', () {
+      // O arquivo no Drive é legível por quem abrir a pasta, lacre ou não.
+      // Fingir o contrário seria prometer uma proteção que não existe.
+      final String texto = textoDaCarta(
+        carta: carta(lacre: DateTime(2044, 6, 15)),
+        profile: maria,
+      );
+      expect(texto, contains('aberta em 15/06/2044'));
+    });
+
+    test('carta sem título e sem texto ainda gera arquivo legível', () {
+      final String texto = textoDaCarta(
+        carta: carta(titulo: null, corpo: null),
+        profile: maria,
+      );
+      expect(texto, contains('Escrita em'));
+      expect(texto, contains('(sem texto)'));
+    });
+  });
+
   group('o id do arquivo sobrevive ao Firestore', () {
     test('vai e volta pelo mapa do perfil', () {
       // Sem este id, cada gravação criaria um arquivo novo em vez de

@@ -83,6 +83,9 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               existing,
               title: title.isEmpty ? 'Carta' : title,
               description: message,
+              // Sem o perfil a edição não alcança o Drive, e o `.txt` lá
+              // fora fica com a versão antiga da carta.
+              profile: profile,
             );
       }
       if (mounted) {

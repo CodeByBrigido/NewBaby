@@ -32,6 +32,8 @@ Ao entrar, você autoriza o aplicativo a usar o Google Drive da sua conta com o 
 
 Ficam no seu Drive, dentro da pasta "Meu Bebê - Cápsula do Tempo": as fotos, os vídeos, os desenhos e os documentos que você enviar.
 
+Ficam também dois arquivos de texto, escritos pelo aplicativo: um com o cadastro e os registros de crescimento, e um por carta que você escrever. Eles existem para que este acervo continue fazendo sentido sem o aplicativo: uma foto se explica sozinha numa pasta, uma carta e um registro de peso não.
+
 Esses arquivos são seus. Não temos cópia deles, não conseguimos vê-los e não temos meio técnico de acessá-los fora do aplicativo em uso na sua sessão.
 
 As coordenadas de GPS são removidas de toda foto antes do envio.

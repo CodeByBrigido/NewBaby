@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/utils/limits.dart';
 import '../../core/theme/app_palette.dart';
+import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../core/utils/formatters.dart';
 import '../../state/providers.dart';
@@ -59,6 +60,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
   Future<void> _save() async {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
+    final BabyProfile? profile = ref.read(profileProvider).value;
 
     setState(() => _saving = true);
     try {
@@ -71,6 +73,9 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
             description: _description.text,
             sealedUntil: _sealedUntil,
             changeSeal: _sealChanged,
+            // Marcar uma carta pela linha do tempo também precisa regravar o
+            // arquivo: é a mesma carta.
+            profile: profile,
           );
       if (mounted) Navigator.of(context).pop();
     } on Exception catch (e) {
