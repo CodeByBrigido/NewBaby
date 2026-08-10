@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
-import 'package:meu_bebe/features/intro/google_g.dart';
+import 'package:meu_bebe/features/common/google_g.dart';
 import 'package:meu_bebe/features/intro/intro_screen.dart';
 import 'package:meu_bebe/features/intro/onboarding_page.dart';
 import 'package:meu_bebe/models/baby_gender.dart';

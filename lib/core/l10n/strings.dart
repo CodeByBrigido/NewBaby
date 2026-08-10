@@ -21,8 +21,15 @@ abstract final class S {
 
   // Login
   static const String signInWithGoogle = 'Entrar com Google';
+
+  /// O aviso sob o botão de entrar.
+  ///
+  /// Diz de quem é a conta, e não de quem é o Drive: é a frase que prepara a
+  /// escolha inteira do produto, que é a conta ser da criança desde o
+  /// primeiro dia. "filho(a)" porque aqui ainda não existe cadastro, e
+  /// portanto não existe nome nem sexo para concordar.
   static const String signInNote =
-      'Suas memórias ficam guardadas no seu próprio Google Drive.';
+      'Todas as memórias serão salvas na conta Google Drive do seu filho(a).';
   static const String signInError =
       'Não foi possível entrar. Verifique a conexão e tente de novo.';
 

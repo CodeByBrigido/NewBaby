@@ -453,6 +453,30 @@ void main() {
       );
     });
 
+    test('nenhuma tela escolhe peso de fonte fora da escala', () {
+      // O Design System usa quatro pesos, e o `pubspec` empacota só esses
+      // quatro. Um `w300` numa tela não dá erro nem aviso: o arquivo não
+      // existe, o Flutter cai no peso mais próximo, e o resultado é um texto
+      // que nunca teve a aparência que alguém escreveu. Foi o que estava na
+      // tela de entrada.
+      final List<String> achados = varre(
+        RegExp(r'FontWeight\.(w\d00|bold|normal|light|black)'),
+        (String trecho) => !<String>[
+          'FontWeight.w400',
+          'FontWeight.w500',
+          'FontWeight.w600',
+          'FontWeight.w700',
+        ].contains(trecho),
+      );
+      expect(
+        achados,
+        isEmpty,
+        reason:
+            'A escala tem quatro pesos, e são os únicos empacotados: '
+            'w400, w500, w600, w700.\n${achados.join("\n")}',
+      );
+    });
+
     test('raio de canto vem de Radii', () {
       // Aqui não há degrau para arredondar: o raio diz que tipo de superfície
       // é aquilo. Botão, campo, cartão, mídia e pílula têm raios diferentes

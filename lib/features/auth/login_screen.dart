@@ -6,7 +6,9 @@ import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../services/auth_service.dart';
 import '../../state/providers.dart';
+import '../common/google_g.dart';
 import '../common/widgets.dart';
+import '../shell/splash_gate.dart';
 
 /// Primeira tela: só uma decisão a tomar.
 class LoginScreen extends ConsumerStatefulWidget {
@@ -50,35 +52,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Um degradê quente, e não uma fotografia. Uma foto de criança
-          // aqui seria a foto do filho de outra pessoa, e um aplicativo que
-          // promete guardar o seu não deveria abrir mostrando um
-          // desconhecido.
+          const _Fotografia(),
+          // O véu existe para o texto poder ser lido, e não por estilo. A
+          // foto é clara (manta de tricô creme), e branco sobre creme não
+          // chega perto do mínimo de contraste. Ele é fraco em cima, onde só
+          // há imagem, e forte embaixo, onde ficam a marca, o botão e o
+          // aviso.
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
+                stops: <double>[0, 0.34, 0.58, 1],
                 colors: <Color>[
-                  Color(0xFF6B5A52),
-                  Color(0xFF3A2F2C),
-                  Color(0xFF241D1B),
-                ],
-              ),
-            ),
-          ),
-          // O véu escurece a base, onde ficam o botão e o aviso: sem ele o
-          // texto branco encosta na parte mais clara do degradê.
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: <double>[0, 0.45, 1],
-                colors: <Color>[
-                  Color(0xCC241D1B),
-                  Color(0x66241D1B),
-                  Color(0xF2241D1B),
+                  Color(0x592A2320),
+                  Color(0x662A2320),
+                  Color(0xC22A2320),
+                  Color(0xF52A2320),
                 ],
               ),
             ),
@@ -88,34 +78,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               padding: const EdgeInsets.symmetric(horizontal: Space.block),
               child: Column(
                 children: <Widget>[
-                  const Spacer(flex: 3),
-                  Container(
-                    width: 84,
-                    height: 84,
-                    decoration: BoxDecoration(
-                      color: context.cores.primaryStrong,
-                      borderRadius: Radii.tileR(84),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: context.cores.primary.withValues(alpha: 0.4),
-                          blurRadius: 28,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.favorite_rounded,
-                      color: Colors.white,
-                      size: 40,
+                  const Spacer(flex: 4),
+                  ClipRRect(
+                    borderRadius: Radii.tileR(84),
+                    child: Image.asset(
+                      iconeDaAbertura,
+                      width: 84,
+                      height: 84,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (BuildContext context, Object _, StackTrace? _) =>
+                              const SizedBox(width: 84, height: 84),
                     ),
                   ),
                   const SizedBox(height: Space.block),
                   Text(
                     S.appName,
-                    style: text.displaySmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    // O peso vem da escala, e não daqui. Quem escreve uma
+                    // tela não escolhe peso de fonte: escolhe o degrau da
+                    // escala que serve, e o Design System já decidiu o resto.
+                    style: text.displaySmall?.copyWith(color: Colors.white),
                   ),
                   const SizedBox(height: Space.x4),
                   // O nome completo em duas linhas: assim ele cabe sem
@@ -126,7 +108,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     style: text.titleMedium?.copyWith(
                       color: Colors.white.withValues(alpha: 0.9),
                       letterSpacing: 1.5,
-                      fontWeight: FontWeight.w300,
                     ),
                   ),
                   const SizedBox(height: Space.x12),
@@ -164,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white.withValues(alpha: 0.6),
                     ),
                   ),
-                  const SizedBox(height: Space.x32),
+                  const SizedBox(height: Space.x48),
                 ],
               ),
             ),
@@ -203,7 +184,7 @@ class _GoogleButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const _GoogleMark(),
+                  const GoogleG(size: 22),
                   const SizedBox(width: Space.x12),
                   Text(
                     S.signInWithGoogle,
@@ -216,65 +197,32 @@ class _GoogleButton extends StatelessWidget {
   }
 }
 
-/// O "G" do Google desenhado em quatro quadrantes - evita depender de um
-/// arquivo de imagem só para o botão de login.
-class _GoogleMark extends StatelessWidget {
-  const _GoogleMark();
+/// A fotografia de fundo da tela de entrada.
+///
+/// Ela ocupa a tela inteira e é cortada, e não deformada: `cover` mantém a
+/// proporção da foto em qualquer aparelho, do telefone estreito ao tablet.
+///
+/// A decodificação é limitada ao tamanho da tela. O arquivo tem quase dois
+/// mil pixels de altura; sem limite, o aplicativo guardaria na memória o
+/// quadro inteiro descomprimido para desenhar um terço dele.
+class _Fotografia extends StatelessWidget {
+  const _Fotografia();
+
+  static const String caminho = 'assets/images/onboarding/Login-Baby.png';
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 22,
-      height: 22,
-      child: CustomPaint(painter: _GooglePainter()),
+    final MediaQueryData tela = MediaQuery.of(context);
+
+    return Image.asset(
+      caminho,
+      fit: BoxFit.cover,
+      cacheHeight: (tela.size.height * tela.devicePixelRatio).round(),
+      // Sem a foto a tela continua de pé: o véu escuro sozinho já dá o
+      // contraste de que o texto precisa. Uma imagem que falta não pode
+      // impedir alguém de entrar na própria conta.
+      errorBuilder: (BuildContext context, Object _, StackTrace? _) =>
+          const ColoredBox(color: Color(0xFF2A2320)),
     );
   }
-}
-
-class _GooglePainter extends CustomPainter {
-  static const Color _blue = Color(0xFF4285F4);
-  static const Color _red = Color(0xFFEA4335);
-  static const Color _yellow = Color(0xFFFBBC05);
-  static const Color _green = Color(0xFF34A853);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-    final double stroke = size.width * 0.22;
-    final Rect inner = rect.deflate(stroke / 2);
-    final Paint paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..strokeCap = StrokeCap.butt;
-
-    void arc(double startDeg, double sweepDeg, Color color) {
-      paint.color = color;
-      canvas.drawArc(
-        inner,
-        startDeg * 3.1415926535 / 180,
-        sweepDeg * 3.1415926535 / 180,
-        false,
-        paint,
-      );
-    }
-
-    arc(-20, -70, _red);
-    arc(-90, -100, _yellow);
-    arc(170, -80, _green);
-    arc(-20, 70, _blue);
-
-    // A barra horizontal que fecha o "G".
-    canvas.drawRect(
-      Rect.fromLTRB(
-        size.width * 0.52,
-        size.height * 0.40,
-        size.width,
-        size.height * 0.60,
-      ),
-      Paint()..color = _blue,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

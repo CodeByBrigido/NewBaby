@@ -6,7 +6,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../state/providers.dart';
-import 'google_g.dart';
+import '../common/google_g.dart';
 import 'onboarding_page.dart';
 
 /// Um slide da apresentação.
