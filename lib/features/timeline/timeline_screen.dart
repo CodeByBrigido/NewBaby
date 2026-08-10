@@ -14,6 +14,8 @@ import '../../models/baby_profile.dart';
 import '../../models/day_summary.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
+import '../common/entrada_na_rolagem.dart';
+import '../common/esqueleto.dart';
 import '../common/widgets.dart';
 import 'timeline_card.dart';
 import 'upload_banner.dart';
@@ -57,16 +59,18 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         ],
       ),
       body: entries.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const EsqueletoDaLinhaDoTempo(),
         error: (Object error, _) => EmptyState(
           icon: Icons.cloud_off_outlined,
           title: S.genericError,
           message: '$error',
         ),
         data: (List<Entry> all) {
-          if (profile == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          // O cadastro chega por outro caminho que as entradas, e pode
+          // demorar um instante a mais. Mostrar o mesmo esqueleto evita a
+          // troca de bolinha por esqueleto por conteúdo, que são três
+          // desenhos diferentes para uma espera só.
+          if (profile == null) return const EsqueletoDaLinhaDoTempo();
           final List<Entry> visible = _filter == null
               ? all
               : all.where((Entry e) => e.type == _filter).toList();
@@ -156,11 +160,14 @@ class TimelineList extends StatelessWidget {
           index -= 2;
         }
         final DateTime day = days[index];
-        return _DayGroup(
-          day: day,
-          entries: byDay[day]!,
-          profile: profile,
-          isLast: index == days.length - 1,
+        return EntradaNaRolagem(
+          indice: index,
+          child: _DayGroup(
+            day: day,
+            entries: byDay[day]!,
+            profile: profile,
+            isLast: index == days.length - 1,
+          ),
         );
       },
     );

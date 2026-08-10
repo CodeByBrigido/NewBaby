@@ -126,6 +126,13 @@ abstract final class Motion {
   /// Toque, seleção, troca de estado: quase instantâneo.
   static const Duration micro = Duration(milliseconds: 140);
 
+  /// O brilho que atravessa o esqueleto enquanto o conteúdo não chega.
+  ///
+  /// Muito mais lento que o resto do sistema, e de propósito: este é o
+  /// único movimento que se repete sem parar. Na velocidade dos outros ele
+  /// viraria pisca-pisca e chamaria mais atenção que o conteúdo.
+  static const Duration esqueleto = Duration(milliseconds: 1400);
+
   /// Entrar na tela desacelera; sair acelera. É o que dá a impressão de
   /// peso sem precisar de mais tempo.
   static const Curve entrada = Curves.easeOutCubic;
