@@ -6,6 +6,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
+import '../../core/utils/error_text.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../state/providers.dart';
@@ -15,6 +16,32 @@ class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key, this.embedded = false});
 
   final bool embedded;
+
+  /// Troca de conta do Google, e com ela de criança.
+  ///
+  /// A confirmação existe por causa da limpeza: trocar apaga o que estava
+  /// guardado no aparelho, então a linha do tempo recarrega. Sem o aviso, a
+  /// primeira troca parece que o aplicativo travou.
+  Future<void> _switchAccount(BuildContext context, WidgetRef ref) async {
+    final bool ok = await confirm(
+      context,
+      title: S.switchAccount,
+      message: S.switchAccountHint,
+      confirmLabel: S.switchAccountAction,
+    );
+    if (!ok || !context.mounted) return;
+
+    try {
+      await ref.read(sessionServiceProvider).switchAccount();
+      if (context.mounted) context.go(Routes.timeline);
+    } on Exception catch (e) {
+      // Desistir no seletor do Google cai aqui, e não é erro: a pessoa
+      // continua na conta em que estava, sem ter perdido nada.
+      if (context.mounted) {
+        showMessage(context, userMessage(e, context: S.switchAccount));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,6 +61,13 @@ class ProfileScreen extends ConsumerWidget {
                     ? context.pop()
                     : context.go(Routes.timeline),
               ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.switch_account_outlined),
+            tooltip: S.switchAccount,
+            onPressed: () => _switchAccount(context, ref),
+          ),
+        ],
       ),
       body: profile == null
           ? const Center(child: CircularProgressIndicator())

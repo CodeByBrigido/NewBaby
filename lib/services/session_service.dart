@@ -102,6 +102,27 @@ class SessionService {
     }
   }
 
+  /// Troca a conta do Google, e com ela a cápsula inteira.
+  ///
+  /// Cada filho tem a própria conta, então trocar de filho é trocar de
+  /// autenticação: o `uid` muda, e todo provedor do aplicativo se refaz
+  /// sozinho porque todos penduram nele. Linha do tempo, galeria,
+  /// estatísticas, cartas, lembretes e até o tema, que vem do sexo da
+  /// criança.
+  ///
+  /// A ordem aqui é o que importa. O seletor do Google vem **antes** da
+  /// limpeza: se a pessoa desistir no meio, `signIn` lança, a limpeza não
+  /// acontece e ela continua exatamente onde estava. Limpar primeiro faria
+  /// um toque em "cancelar" custar a sessão.
+  ///
+  /// A limpeza depois não é capricho: o que estava guardado no aparelho é da
+  /// outra criança, e o cache do Firestore tem em texto puro o nome dela e o
+  /// texto integral das cartas.
+  Future<void> switchAccount() async {
+    await auth.signIn();
+    await _wipeLocalData();
+  }
+
   /// Encerra a sessão e apaga o que ficou no aparelho.
   Future<void> signOut() async {
     await _wipeLocalData();
