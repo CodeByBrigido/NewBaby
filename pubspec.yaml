@@ -92,7 +92,7 @@ flutter_launcher_icons:
   # que apaga os cantos brancos. Sem isso eles apareceriam como respingos ao
   # redor do ladrilho, porque o adaptativo encolhe a frente sobre o fundo.
   adaptive_icon_background: '#D2664F'
-  adaptive_icon_foreground: assets/images/icon/icon_foreground.png
+  adaptive_icon_foreground: assets/images/icon/icon.png
 
 flutter:
   uses-material-design: true
@@ -109,7 +109,7 @@ flutter:
     # trocar a arte sem mexer aqui.
     - assets/images/onboarding/
     # O ícone entra pelo nome, e não pela pasta, porque ao lado dele mora o
-    # `icon_foreground.png`, que é só para o gerador de ícones do Android.
+    # `icon.png`, que é só para o gerador de ícones do Android.
     # Declarar a pasta colocaria essa cópia dentro do aplicativo à toa.
     - assets/images/icon/icon.png
 
