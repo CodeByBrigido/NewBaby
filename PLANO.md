@@ -195,7 +195,81 @@ reais trancados do lado de fora. Primeiro se olha o painel, depois se aperta.
 **Pronto quando:** o painel do App Check mostra requisições verificadas
 chegando, e o alerta de orçamento dispara num teste.
 
-#### 9d. A ficha da loja
+#### 9d. O repositório recriado, com os segredos fora do histórico
+
+**O último passo antes do envio, e o único que não dá para refazer depois.**
+
+O repositório é público hoje, e continua público de propósito: é o que
+mantém o GitHub Pages de graça servindo as duas URLs que a loja exige, e é
+o que permite trabalhar aqui de forma autônoma, sem um vaivém de arquivo a
+cada mudança.
+
+O preço disso é que três coisas estão à vista de qualquer pessoa desde o
+primeiro commit:
+
+- `android/app/google-services.json`, com o `project_id` e a API key do
+  Android
+- a mesma API key repetida em `lib/firebase_options.dart`
+- todo o histórico, incluindo qualquer coisa que já tenha sido corrigida
+  depois
+
+No modelo do Firebase essas chaves **não são segredo**: elas identificam o
+projeto, e quem protege os dados são as regras do Firestore, que já estão
+fechadas e cobertas por 39 verificações. O que elas permitem é **abuso de
+cota**, ou seja, conta no fim do mês. Enquanto o aplicativo não está na
+loja, isso é aceitável. No dia em que ele estiver, deixa de ser.
+
+E `.gitignore` não resolve: ele não desrastreia o que já está rastreado, e
+`git rm --cached` não apaga o passado. O GitHub ainda guarda os commits
+órfãos, alcançáveis por SHA, mesmo depois de um force-push. Por isso o
+passo é **recriar**, e não limpar.
+
+##### A ordem, que importa
+
+Rotacionar **antes** de recriar. Recriar primeiro só troca o endereço de
+onde a chave velha está publicada.
+
+1. **Rotacionar a API key** no Google Cloud (*APIs e Serviços → Credenciais*).
+   Gerar uma nova, aplicar restrição por **pacote `br.com.brigido.meu_bebe`
+   + SHA-1 da chave de release**, e só então apagar a antiga
+2. Baixar o `google-services.json` novo e regerar o `firebase_options.dart`
+3. **Conferir o que mais está no histórico** antes de decidir o que salvar:
+
+   ```bash
+   git log --all --full-history --name-only --pretty=format: \
+     | sort -u | grep -iE "google-services|key\.properties|\.jks|\.env"
+   ```
+
+4. **Repositório novo**, criado já público, com o `.gitignore` valendo desde
+   o primeiro commit. Um commit inicial só, a partir da árvore de trabalho:
+   o histórico antigo não vem junto, porque é justamente ele o problema
+5. Conferir que nada sensível entrou:
+
+   ```bash
+   git ls-files | grep -iE "google-services|key\.properties|\.jks|\.keystore|\.env"
+   ```
+
+   Tem que voltar vazio. O `.example` de cada um fica, porque documenta o
+   formato sem entregar o conteúdo
+6. Recriar os segredos do Actions, que não viajam com o código:
+   `GOOGLE_SERVICES_JSON`, `FIREBASE_OPTIONS_DART`, `RELEASE_KEYSTORE`,
+   `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`
+7. Religar o GitHub Pages em `main` / `/docs` e conferir as duas URLs numa
+   aba anônima
+8. Apagar o repositório antigo. É o que tira os commits órfãos do ar
+9. Atualizar as duas URLs no Play Console se o nome do repositório mudar
+
+##### O que continua fora do repositório, para sempre
+
+O `key.properties` e o `.jks` da assinatura. Esses **são** segredo de
+verdade: quem tem a chave de assinatura publica atualização no lugar do
+dono, e o Google não troca chave de aplicativo já publicado.
+
+**Pronto quando:** o `git ls-files` do repositório novo volta vazio para a
+busca acima, a API key antiga não existe mais no Google Cloud, o CI passa
+verde com os segredos recriados, e as duas URLs abrem em aba anônima.
+
+#### 9e. A ficha da loja
 
 Metade texto, metade formulário, e a parte que mais reprova gente na revisão.
 
@@ -210,7 +284,7 @@ Metade texto, metade formulário, e a parte que mais reprova gente na revisão.
 
 **Pronto quando:** o envio é aceito e entra em revisão.
 
-#### 9e. Depois de estar no ar
+#### 9f. Depois de estar no ar
 
 - Ligar a obrigatoriedade do App Check, depois de alguns dias olhando o
   painel
