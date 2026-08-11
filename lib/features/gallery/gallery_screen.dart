@@ -13,6 +13,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
+import '../common/esqueleto.dart';
 import '../common/widgets.dart';
 
 /// Um balde de idade já resolvido para exibição: quantos arquivos tem, a
@@ -140,7 +141,7 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen> {
         ),
       ),
       body: profile == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const EsqueletoDeGrade()
           : Column(
               children: <Widget>[
                 _UnitTabs(

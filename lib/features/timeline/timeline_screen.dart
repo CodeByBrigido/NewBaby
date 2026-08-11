@@ -11,9 +11,12 @@ import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
+import '../../models/capsule_pulse.dart';
 import '../../models/day_summary.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
+import '../common/entrada_na_rolagem.dart';
+import '../common/esqueleto.dart';
 import '../common/widgets.dart';
 import 'timeline_card.dart';
 import 'upload_banner.dart';
@@ -57,16 +60,18 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         ],
       ),
       body: entries.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const EsqueletoDaLinhaDoTempo(),
         error: (Object error, _) => EmptyState(
           icon: Icons.cloud_off_outlined,
           title: S.genericError,
           message: '$error',
         ),
         data: (List<Entry> all) {
-          if (profile == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          // O cadastro chega por outro caminho que as entradas, e pode
+          // demorar um instante a mais. Mostrar o mesmo esqueleto evita a
+          // troca de bolinha por esqueleto por conteúdo, que são três
+          // desenhos diferentes para uma espera só.
+          if (profile == null) return const EsqueletoDaLinhaDoTempo();
           final List<Entry> visible = _filter == null
               ? all
               : all.where((Entry e) => e.type == _filter).toList();
@@ -156,11 +161,14 @@ class TimelineList extends StatelessWidget {
           index -= 2;
         }
         final DateTime day = days[index];
-        return _DayGroup(
-          day: day,
-          entries: byDay[day]!,
-          profile: profile,
-          isLast: index == days.length - 1,
+        return EntradaNaRolagem(
+          indice: index,
+          child: _DayGroup(
+            day: day,
+            entries: byDay[day]!,
+            profile: profile,
+            isLast: index == days.length - 1,
+          ),
         );
       },
     );
@@ -252,6 +260,14 @@ class _DayGroupState extends State<_DayGroup> {
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
     final Age age = widget.profile.ageAt(widget.day);
+    // O dia em que a criança fez um ano, oito meses ou três semanas. Sai da
+    // mesma conta que o cartão de hoje usa: duas contas separadas para a
+    // mesma pergunta acabariam divergindo, e o histórico contradiria a
+    // tela inicial.
+    final String? redonda = CapsulePulse.dataRedondaEm(
+      widget.profile.birth,
+      widget.day,
+    );
     final bool podeRecolher =
         widget.entries.length > _DayGroup.limiteParaRecolher;
 
@@ -274,13 +290,19 @@ class _DayGroupState extends State<_DayGroup> {
                     ),
                   ),
                   const SizedBox(height: Space.x4),
-                  Text(
-                    age.detailedLabel(),
-                    style: text.labelSmall?.copyWith(
-                      color: context.cores.textSecondary,
-                      height: 1.3,
+                  // O selo substitui a idade, e não se soma a ela: num dia
+                  // redondo os dois diriam a mesma coisa, e "3 meses" logo
+                  // abaixo de "3 meses" é ruído.
+                  if (redonda != null)
+                    _SeloDaDataRedonda(rotulo: redonda)
+                  else
+                    Text(
+                      age.detailedLabel(),
+                      style: text.labelSmall?.copyWith(
+                        color: context.cores.textSecondary,
+                        height: 1.3,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -399,6 +421,67 @@ class _Rail extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// O selo do dia em que caiu uma data redonda.
+///
+/// A linha do tempo é uma sequência de dias iguais, e é justamente por isso
+/// que "1 ano" precisa saltar quando alguém rola até lá. Sem marca, o dia
+/// mais importante do acervo tem exatamente a mesma cara que uma terça-feira
+/// qualquer.
+///
+/// O selo fica: quem rolar de novo daqui a dez anos precisa ver a mesma
+/// marca. O que é passageiro é só a entrada dele, que cresce até o tamanho
+/// final para o olho ir até ali na primeira vez.
+class _SeloDaDataRedonda extends StatefulWidget {
+  const _SeloDaDataRedonda({required this.rotulo});
+
+  final String rotulo;
+
+  @override
+  State<_SeloDaDataRedonda> createState() => _SeloDaDataRedondaState();
+}
+
+class _SeloDaDataRedondaState extends State<_SeloDaDataRedonda> {
+  late bool _cresceu = WidgetsBinding.instance.disableAnimations;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_cresceu) return;
+    // Um quadro depois, para o `AnimatedScale` ter de onde sair. Marcado no
+    // mesmo instante da construção, ele nasceria já no tamanho final.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() => _cresceu = true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: _cresceu ? 1 : 0.8,
+      duration: Motion.micro,
+      curve: Motion.entrada,
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Space.x8,
+          vertical: Space.x4,
+        ),
+        decoration: BoxDecoration(
+          color: context.cores.primarySoft,
+          borderRadius: Radii.pillR,
+        ),
+        child: Text(
+          widget.rotulo,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: context.cores.primaryStrong,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

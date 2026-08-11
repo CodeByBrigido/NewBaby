@@ -49,7 +49,7 @@ class CapsulePulse {
     return CapsulePulse(
       today: today,
       age: age,
-      exactMilestone: _milestoneOn(birth, today, age),
+      exactMilestone: dataRedondaEm(birth, today),
       nextBirthday: next,
       birthdayYears: next.year - birth.year,
       daysToBirthday: next.difference(today).inDays,
@@ -90,12 +90,20 @@ class CapsulePulse {
     return dias < 0 ? 0 : dias;
   }
 
-  /// A data redonda de hoje, se hoje for uma.
+  /// O nome da data redonda que cai em [dia], ou `null` se ele for um dia
+  /// comum.
   ///
   /// Anos e meses cobrem a vida inteira. Semanas só valem nos primeiros três
   /// meses, que é quando uma semana ainda é muita coisa: aos quatro anos,
   /// "208 semanas" não diz nada a ninguém.
-  static String? _milestoneOn(DateTime birth, DateTime today, Age age) {
+  ///
+  /// Público e recebendo o dia por parâmetro porque a linha do tempo também
+  /// precisa dele, para marcar o dia em que a criança fez um ano quando
+  /// alguém rola até lá. Dois cálculos separados para a mesma pergunta
+  /// divergiriam, e o cartão de hoje diria uma coisa e o histórico, outra.
+  static String? dataRedondaEm(DateTime birth, DateTime dia) {
+    final DateTime today = AgeCalculator.dayOf(dia);
+    final Age age = AgeCalculator.ageAt(birth, today);
     if (age.totalDays <= 0) return null;
 
     if (AgeCalculator.dayOf(AgeCalculator.addMonths(birth, age.months)) ==
