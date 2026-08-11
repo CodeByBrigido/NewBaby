@@ -189,11 +189,7 @@ class _LinksDosDocumentos extends StatelessWidget {
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        _Link(
-          rotulo: S.privacyPolicy,
-          estilo: estilo,
-          destino: Routes.privacy,
-        ),
+        _Link(rotulo: S.privacyPolicy, estilo: estilo, destino: Routes.privacy),
         Text('·', style: estilo?.copyWith(decoration: TextDecoration.none)),
         _Link(
           rotulo: S.accountDeletionShort,
