@@ -81,19 +81,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _submit() async {
+    // Nome, sexo e data validam juntos, e o formulário marca cada campo que
+    // faltou. Antes o sexo e a data eram conferidos aqui, um de cada vez,
+    // com aviso no rodapé: quem deixasse os dois em branco corrigia um,
+    // tocava de novo, e só então descobria o outro.
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
     final BabyGender? gender = _gender;
-    if (gender == null) {
-      showMessage(context, 'Escolha se é menino ou menina.');
-      return;
-    }
-
     final DateTime? date = _birthDate;
-    if (date == null) {
-      showMessage(context, 'Escolha a data de nascimento.');
-      return;
-    }
+    if (gender == null || date == null) return;
 
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
@@ -173,20 +169,53 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       (v == null || v.trim().isEmpty) ? S.requiredField : null,
                 ),
                 const SizedBox(height: Space.x16),
-                _GenderPicker(
-                  value: _gender,
-                  onChanged: (BabyGender g) => setState(() => _gender = g),
+                FormField<BabyGender>(
+                  initialValue: _gender,
+                  // Some assim que a pessoa escolhe. Sem isto, a mensagem
+                  // fica ali depois de o campo já estar certo, e ela passa a
+                  // acusar quem acabou de acertar.
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (BabyGender? v) =>
+                      v == null ? S.requiredField : null,
+                  builder: (FormFieldState<BabyGender> campo) => _ComErro(
+                    erro: campo.errorText,
+                    child: _GenderPicker(
+                      value: _gender,
+                      temErro: campo.hasError,
+                      onChanged: (BabyGender g) {
+                        setState(() => _gender = g);
+                        campo.didChange(g);
+                        // A paleta do aplicativo inteiro segue esta escolha
+                        // na hora, antes de o cadastro existir. É a primeira
+                        // vez que a pessoa vê a cor da própria filha.
+                        ref.read(generoEscolhidoProvider.notifier).escolher(g);
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: Space.x16),
+                FormField<DateTime>(
+                  initialValue: _birthDate,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (DateTime? v) =>
+                      v == null ? S.requiredField : null,
+                  builder: (FormFieldState<DateTime> campo) => _ComErro(
+                    erro: campo.errorText,
+                    child: _PickerField(
+                      label: S.birthDate,
+                      value: _birthDate == null ? null : Fmt.date(_birthDate!),
+                      icon: Icons.calendar_today_outlined,
+                      temErro: campo.hasError,
+                      onTap: () async {
+                        await _pickDate();
+                        campo.didChange(_birthDate);
+                      },
+                    ),
+                  ),
                 ),
                 const SizedBox(height: Space.x16),
                 _PickerField(
-                  label: S.birthDate,
-                  value: _birthDate == null ? null : Fmt.date(_birthDate!),
-                  icon: Icons.calendar_today_outlined,
-                  onTap: _pickDate,
-                ),
-                const SizedBox(height: Space.x16),
-                _PickerField(
-                  label: S.birthTime,
+                  label: S.birthTimeOptional,
                   value: _birthTime == null
                       ? null
                       : '${_birthTime!.hour.toString().padLeft(2, '0')}:'
@@ -202,7 +231,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
                   decoration: const InputDecoration(
-                    labelText: S.birthWeight,
+                    labelText: S.birthWeightOptional,
                     suffixText: 'kg',
                   ),
                   validator: (String? v) =>
@@ -218,7 +247,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
                   decoration: const InputDecoration(
-                    labelText: S.birthHeight,
+                    labelText: S.birthHeightOptional,
                     suffixText: 'cm',
                   ),
                   validator: (String? v) =>
@@ -324,10 +353,19 @@ class _PhotoPicker extends StatelessWidget {
 
 /// Menino ou menina - define a concordância de todos os textos do app.
 class _GenderPicker extends StatelessWidget {
-  const _GenderPicker({required this.value, required this.onChanged});
+  const _GenderPicker({
+    required this.value,
+    required this.onChanged,
+    this.temErro = false,
+  });
 
   final BabyGender? value;
   final ValueChanged<BabyGender> onChanged;
+
+  /// Pinta a borda de erro enquanto nada foi escolhido e o formulário já
+  /// foi conferido. Sem isso, a mensagem embaixo não diz a qual dos campos
+  /// em branco ela pertence.
+  final bool temErro;
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +391,9 @@ class _GenderPicker extends StatelessWidget {
                       border: Border.all(
                         color: value == gender
                             ? context.cores.primary
-                            : context.cores.divider,
+                            : (temErro
+                                  ? AppPalette.error
+                                  : context.cores.divider),
                         width: value == gender ? 1.6 : 1,
                       ),
                     ),
@@ -386,12 +426,14 @@ class _PickerField extends StatelessWidget {
     required this.value,
     required this.icon,
     required this.onTap,
+    this.temErro = false,
   });
 
   final String label;
   final String? value;
   final IconData icon;
   final VoidCallback onTap;
+  final bool temErro;
 
   @override
   Widget build(BuildContext context) {
@@ -399,12 +441,55 @@ class _PickerField extends StatelessWidget {
       onTap: onTap,
       borderRadius: Radii.fieldR,
       child: InputDecorator(
+        // `errorText` vazio, e nao a mensagem: quem escreve a mensagem e o
+        // `_ComErro`, embaixo, e o Material desenharia as duas. O que se
+        // quer daqui e so a borda no estado de erro, que sai do tema e nao
+        // de uma cor escolhida na mao.
         decoration: InputDecoration(
           labelText: label,
+          errorText: temErro ? '' : null,
+          errorStyle: const TextStyle(fontSize: 0, height: 0),
           suffixIcon: Icon(icon, size: 20),
         ),
         child: Text(value ?? '', style: Theme.of(context).textTheme.bodyLarge),
       ),
+    );
+  }
+}
+
+/// Um campo que não é `TextFormField` mostrando a mensagem de erro dele.
+///
+/// O Material desenha isso sozinho num campo de texto, e não num seletor.
+/// Sem este envelope, o sexo e a data em branco só se anunciavam por um
+/// aviso no rodapé da tela, longe do campo que faltou preencher, e quem
+/// tivesse deixado os dois em branco descobria um de cada vez.
+class _ComErro extends StatelessWidget {
+  const _ComErro({required this.child, this.erro});
+
+  final Widget child;
+  final String? erro;
+
+  @override
+  Widget build(BuildContext context) {
+    if (erro == null) return child;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        child,
+        const SizedBox(height: Space.x8),
+        Padding(
+          // O mesmo recuo que o Material dá à mensagem de um campo de texto,
+          // para as duas ficarem na mesma coluna.
+          padding: const EdgeInsets.only(left: Space.x12),
+          child: Text(
+            erro!,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppPalette.error),
+          ),
+        ),
+      ],
     );
   }
 }

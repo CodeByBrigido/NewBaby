@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/baby_gender.dart';
 import '../models/baby_profile.dart';
 import '../models/capsule_pulse.dart';
 import '../models/entry.dart';
@@ -112,6 +113,28 @@ final StreamProvider<User?> authStateProvider = StreamProvider<User?>(
 final Provider<String?> uidProvider = Provider<String?>((Ref ref) {
   return ref.watch(authStateProvider).value?.uid;
 });
+
+/// O sexo que a pessoa acabou de tocar no cadastro, antes de salvar.
+///
+/// Existe por um motivo só: a paleta do aplicativo vem do cadastro, e no
+/// cadastro ainda não há cadastro. Sem isto, quem escolhe "menina" continua
+/// vendo a cor neutra até terminar de preencher o formulário inteiro, e a
+/// escolha parece não ter surtido efeito.
+///
+/// Some sozinho quando o perfil chega: o tema prefere o que está salvo, e
+/// este valor passa a ser ignorado.
+final NotifierProvider<GeneroEscolhidoNotifier, BabyGender?>
+generoEscolhidoProvider =
+    NotifierProvider<GeneroEscolhidoNotifier, BabyGender?>(
+      GeneroEscolhidoNotifier.new,
+    );
+
+class GeneroEscolhidoNotifier extends Notifier<BabyGender?> {
+  @override
+  BabyGender? build() => null;
+
+  void escolher(BabyGender? genero) => state = genero;
+}
 
 // --------------------------------------------------------------- perfil
 

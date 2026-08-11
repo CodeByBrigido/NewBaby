@@ -70,9 +70,13 @@ class Copy {
   // para não precisar do referente.
 
   /// Subtítulo do cadastro. Nunca tem nome: é onde o nome está sendo digitado.
+  ///
+  /// A quebra de linha é escrita à mão porque as duas frases são duas ideias,
+  /// e deixar o texto quebrar sozinho poria "Vamos começar" no fim da
+  /// primeira linha em alguns aparelhos e não em outros.
   String get onboardingSubtitle =>
-      'Vamos preparar o aplicativo para guardar cada memória, '
-      'organizada por idade, desde hoje.';
+      'Cada momento merece ser lembrado.\n'
+      'Vamos começar a guardar essa história?';
 
   String get addPhotoHint =>
       hasName ? 'Adicionar fotos $ofName' : 'Adicionar fotos';

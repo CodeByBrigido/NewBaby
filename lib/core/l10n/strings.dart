@@ -41,6 +41,15 @@ abstract final class S {
   static const String birthTime = 'Hora de nascimento';
   static const String birthWeight = 'Peso ao nascer';
   static const String birthHeight = 'Altura ao nascer';
+
+  /// Os rótulos do cadastro, onde "(opcional)" é informação e não enfeite.
+  ///
+  /// Separados dos de cima porque aqueles também rotulam o dado **já
+  /// salvo**, na tela de informações da criança. Ali "(opcional)" seria
+  /// bobagem: o valor está preenchido, na frente de quem lê.
+  static const String birthTimeOptional = 'Hora de nascimento (opcional)';
+  static const String birthWeightOptional = 'Peso ao nascer (opcional)';
+  static const String birthHeightOptional = 'Altura ao nascer (opcional)';
   static const String hospitalOptional = 'Hospital (opcional)';
   static const String birthPhoto = 'Foto do nascimento';
   static const String continueLabel = 'Continuar';
