@@ -229,6 +229,17 @@ abstract final class S {
       'Suas memórias continuam guardadas no seu Google Drive. As miniaturas '
       'e os arquivos baixados são apagados deste aparelho.';
 
+  // Documentos
+  static const String privacyPolicy = 'Política de privacidade';
+
+  /// O título da leitura, e não da ação: são duas telas, e a diferença
+  /// entre elas é a diferença entre entender e apagar.
+  static const String accountDeletionTitle = 'Exclusão de conta e de dados';
+
+  /// A mesma tela, num rodapé estreito. O nome inteiro quebraria em duas
+  /// linhas ao lado de um link de uma linha só, e o par ficaria torto.
+  static const String accountDeletionShort = 'Exclusão de conta';
+
   // Exclusão de conta
   static const String deleteAccount = 'Apagar minha conta e meus dados';
   static const String deleteAccountTitle = 'Apagar a conta?';

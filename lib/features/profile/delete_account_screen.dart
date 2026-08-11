@@ -84,7 +84,20 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
         ),
         children: <Widget>[
           SoftCard(child: Text(S.deleteAccountBody, style: text.bodyMedium)),
-          const SizedBox(height: Space.block),
+          const SizedBox(height: Space.x8),
+          // O texto do cartão é o resumo. Quem quiser o detalhe, item por
+          // item, do que é apagado e do que não é, lê aqui antes de tocar
+          // no botão vermelho, e não depois de ele já ter sido tocado.
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: _working
+                  ? null
+                  : () => context.push(Routes.accountDeletion),
+              child: const Text(S.accountDeletionTitle),
+            ),
+          ),
+          const SizedBox(height: Space.x12),
           const SectionHeader(title: S.deleteAccountDriveQuestion),
           SoftCard(
             child: Column(

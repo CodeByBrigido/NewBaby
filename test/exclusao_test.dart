@@ -18,6 +18,12 @@ import 'package:meu_bebe/services/firestore_service.dart';
 /// página nenhuma.
 ///
 /// Cada teste prende uma frase do texto a um fato do código.
+String _semMarcacao(String texto) => texto
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+
 void main() {
   final String texto = accountDeletionPage
       .map((PrivacySection s) => '${s.title}\n${s.body.join("\n")}')
@@ -213,6 +219,15 @@ void main() {
       expect(html, isNot(contains('<link')));
       expect(html, isNot(contains('src=')));
       expect(html, contains('<style>'));
+    });
+
+    test('a página no ar e a tela do aplicativo são o mesmo texto', () {
+      // Se um dia a versão de dentro do aplicativo passar a ser escrita à
+      // parte, elas divergem na primeira correção, e a pessoa lê uma coisa
+      // no aplicativo e outra na URL que a loja publica.
+      for (final PrivacySection s in accountDeletionPage) {
+        expect(html, contains(_semMarcacao(s.title)));
+      }
     });
 
     test('as cores da página são as da paleta do aplicativo', () {
