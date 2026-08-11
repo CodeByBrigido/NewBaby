@@ -42,7 +42,7 @@ class AccountDeletionScreen extends ConsumerWidget {
                   backgroundColor: AppPalette.danger,
                   minimumSize: const Size.fromHeight(50),
                 ),
-                child: const Text(S.deleteAccount),
+                child: const Text(S.goToDeleteAccount),
               ),
             )
           : null,

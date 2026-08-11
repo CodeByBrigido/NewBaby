@@ -107,6 +107,34 @@ class Copy {
   /// Rodapé do menu lateral, depois de "Guardado com amor no Drive de".
   String get driveOwner => hasName ? name : 'você';
 
+  // ------------------------------------------------- a última pergunta feita
+
+  /// A pergunta do aviso que aparece antes de apagar a conta.
+  ///
+  /// Com o nome, e não "a conta": é o que separa uma confirmação de rotina
+  /// de uma pergunta que a pessoa lê de verdade. Ninguém pula um aviso que
+  /// diz o nome do próprio filho.
+  String get deleteConfirmTitle =>
+      hasName ? 'Apagar a cápsula $ofName?' : 'Apagar a conta?';
+
+  /// O corpo do aviso.
+  ///
+  /// Escrito para o aviso, e não copiado do cartão que está logo acima na
+  /// tela: um aviso que repete o que a pessoa acabou de ler é um aviso que
+  /// ela pula. E a frase que mais importa vem primeiro, não no fim.
+  String get deleteConfirmBody =>
+      'Isto não pode ser desfeito. Não guardamos backup, e não há como '
+      'recuperar depois.\n\n'
+      '${hasName ? "Some agora tudo o que guardamos sobre $theName" : "Some agora tudo o que guardamos sobre a criança"}: '
+      'o cadastro, a linha do tempo inteira e o texto das cartas.\n\n'
+      'As fotos e os vídeos continuam no Google Drive, porque são seus.';
+
+  /// O botão que confirma.
+  ///
+  /// Diz o que acontece ao ser tocado. "Sim" e "Confirmar" servem para
+  /// qualquer coisa, e é justamente por isso que são tocados no automático.
+  String get deleteConfirmAction => 'Apagar para sempre';
+
   String get aboutStorage =>
       'As fotos, os vídeos e os documentos ficam guardados no Google Drive '
       'da sua própria conta, em pastas organizadas por idade. O aplicativo é '
