@@ -141,8 +141,16 @@ class ProfileScreen extends ConsumerWidget {
                 // esse nome, e obrigar a caçar é o oposto de transparência.
                 _Tile(
                   icon: Icons.shield_outlined,
-                  title: 'Política de privacidade',
+                  title: S.privacyPolicy,
                   onTap: () => context.push(Routes.privacy),
+                ),
+                // A leitura, e não o botão vermelho. Quem quer entender o
+                // que perde ao apagar não deveria ter que abrir a tela que
+                // apaga para descobrir.
+                _Tile(
+                  icon: Icons.delete_outline,
+                  title: S.accountDeletionTitle,
+                  onTap: () => context.push(Routes.accountDeletion),
                 ),
                 const SizedBox(height: Space.x24),
                 TextButton(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
@@ -30,20 +31,29 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
   DriveDisposal _disposal = DriveDisposal.keep;
   bool _working = false;
 
-  Future<void> _delete() async {
+  /// O cadastro chega de cima, de quem o observa no `build`.
+  ///
+  /// Não é `ref.read` aqui dentro: um `StreamProvider` sem ninguém ouvindo
+  /// não tem valor, e um cadastro nulo neste ponto significaria um aviso sem
+  /// nome e, pior, a pasta do Drive escapando da lixeira por falta do id.
+  Future<void> _delete(BabyProfile? profile) async {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
 
+    final Copy copy = Copy.of(profile);
+
+    // Nada é apagado antes desta resposta. O aviso diz o nome da criança e
+    // abre pela frase que mais importa, para não ser o tipo de caixa que se
+    // fecha no automático.
     final bool confirmed = await confirm(
       context,
-      title: S.deleteAccountTitle,
-      message: S.deleteAccountBody,
-      confirmLabel: S.deleteAccount,
+      title: copy.deleteConfirmTitle,
+      message: copy.deleteConfirmBody,
+      confirmLabel: copy.deleteConfirmAction,
     );
     if (!confirmed) return;
 
     setState(() => _working = true);
-    final BabyProfile? profile = ref.read(profileProvider).value;
     try {
       await ref
           .read(sessionServiceProvider)
@@ -62,6 +72,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
+    final BabyProfile? profile = ref.watch(profileProvider).value;
 
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +95,20 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
         ),
         children: <Widget>[
           SoftCard(child: Text(S.deleteAccountBody, style: text.bodyMedium)),
-          const SizedBox(height: Space.block),
+          const SizedBox(height: Space.x8),
+          // O texto do cartão é o resumo. Quem quiser o detalhe, item por
+          // item, do que é apagado e do que não é, lê aqui antes de tocar
+          // no botão vermelho, e não depois de ele já ter sido tocado.
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: _working
+                  ? null
+                  : () => context.push(Routes.accountDeletion),
+              child: const Text(S.accountDeletionTitle),
+            ),
+          ),
+          const SizedBox(height: Space.x12),
           const SectionHeader(title: S.deleteAccountDriveQuestion),
           SoftCard(
             child: Column(
@@ -116,7 +140,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
           ),
           const SizedBox(height: Space.x32),
           FilledButton(
-            onPressed: _working ? null : _delete,
+            onPressed: _working ? null : () => _delete(profile),
             style: FilledButton.styleFrom(
               backgroundColor: AppPalette.danger,
               minimumSize: const Size.fromHeight(50),

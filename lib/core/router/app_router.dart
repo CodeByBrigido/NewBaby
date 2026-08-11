@@ -18,6 +18,7 @@ import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/profile/about_screen.dart';
 import '../../features/profile/baby_info_screen.dart';
 import '../../features/profile/delete_account_screen.dart';
+import '../../features/profile/account_deletion_screen.dart';
 import '../../features/profile/privacy_screen.dart';
 import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/settings_screen.dart';
@@ -54,8 +55,22 @@ abstract final class Routes {
   static const String privacy = '/privacidade';
   static const String babyInfo = '/perfil/bebe';
   static const String deleteAccount = '/perfil/apagar';
+  static const String accountDeletion = '/exclusao';
   static const String newLetter = '/cartas/nova';
   static const String intro = '/apresentacao';
+
+  /// As telas que abrem sem sessão.
+  ///
+  /// Os dois documentos entram aqui de propósito. Ler o que o aplicativo faz
+  /// com os dados de um filho é justamente o que se faz **antes** de
+  /// entregar a conta, e um texto que só existe depois do login é um texto
+  /// que chega tarde para a única decisão que ele deveria informar.
+  static const List<String> semSessao = <String>[
+    login,
+    intro,
+    privacy,
+    accountDeletion,
+  ];
 
   static String bucket(String type, String bucketKey) =>
       '/$type/balde/$bucketKey';
@@ -98,8 +113,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         if (!ref.read(introSeenProvider)) {
           return location == Routes.intro ? null : Routes.intro;
         }
-        if (location == Routes.intro) return null;
-        return location == Routes.login ? null : Routes.login;
+        return Routes.semSessao.contains(location) ? null : Routes.login;
       }
 
       if (profile.isLoading) return null;
@@ -214,6 +228,10 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       ),
       GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
       GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
+      GoRoute(
+        path: Routes.accountDeletion,
+        builder: (_, _) => const AccountDeletionScreen(),
+      ),
       GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
       GoRoute(
         path: Routes.deleteAccount,

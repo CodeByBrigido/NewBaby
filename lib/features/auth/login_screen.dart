@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../services/auth_service.dart';
@@ -145,13 +147,83 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white.withValues(alpha: 0.6),
                     ),
                   ),
-                  const SizedBox(height: Space.x48),
+                  const SizedBox(height: Space.x16),
+                  // Os dois documentos abertos antes de entrar, e não
+                  // escondidos atrás do login. O que o aplicativo faz com os
+                  // dados de um filho, e como desfazer isso, é o que se lê
+                  // antes de entregar a conta; depois já não informa decisão
+                  // nenhuma.
+                  const _LinksDosDocumentos(),
+                  const SizedBox(height: Space.x32),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Os dois documentos públicos, no rodapé da tela de entrada.
+///
+/// Discretos de propósito: eles não competem com a única decisão da tela,
+/// mas estão à mão de quem quer lê-los antes de tomá-la. O contraste do
+/// branco a 70% sobre o véu escuro passa o mínimo de texto pequeno.
+class _LinksDosDocumentos extends StatelessWidget {
+  const _LinksDosDocumentos();
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle? estilo = Theme.of(context).textTheme.bodySmall?.copyWith(
+      color: Colors.white.withValues(alpha: 0.7),
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white.withValues(alpha: 0.4),
+    );
+
+    // Wrap, e não Row: em aparelho estreito ou com o texto do sistema
+    // aumentado, os dois descem um sob o outro em vez de espremer as
+    // palavras. E os rótulos são curtos para que, no caso comum, caibam
+    // lado a lado.
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: <Widget>[
+        _Link(rotulo: S.privacyPolicy, estilo: estilo, destino: Routes.privacy),
+        Text('·', style: estilo?.copyWith(decoration: TextDecoration.none)),
+        _Link(
+          rotulo: S.accountDeletionShort,
+          estilo: estilo,
+          destino: Routes.accountDeletion,
+        ),
+      ],
+    );
+  }
+}
+
+class _Link extends StatelessWidget {
+  const _Link({
+    required this.rotulo,
+    required this.estilo,
+    required this.destino,
+  });
+
+  final String rotulo;
+  final TextStyle? estilo;
+  final String destino;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => context.push(destino),
+      style: TextButton.styleFrom(
+        // A área de toque continua a do botão; o que encolhe é a folga
+        // lateral, para os dois caberem na mesma linha.
+        padding: const EdgeInsets.symmetric(horizontal: Space.x8),
+        minimumSize: const Size(0, 44),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text(rotulo, textAlign: TextAlign.center, style: estilo),
     );
   }
 }

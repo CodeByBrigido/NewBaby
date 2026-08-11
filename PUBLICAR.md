@@ -191,7 +191,73 @@ Desde 2023 o Google Play exige, para todo aplicativo com criação de conta:
 - exclusão **dentro do aplicativo** - já existe, em *Perfil → Apagar minha
   conta e meus dados*;
 - uma **URL pública** onde a exclusão possa ser pedida sem instalar o app.
-  Você precisa criar essa página e informá-la no Play Console.
+
+As duas páginas já estão escritas e estão em `docs/`. Falta só ligar o
+GitHub Pages, que é de graça.
+
+### Como pôr as duas páginas no ar
+
+As páginas são geradas do mesmo texto que o aplicativo mostra:
+
+```bash
+dart run tool/gerar_site.dart
+```
+
+Isso escreve `docs/index.html`, `docs/privacidade.html` e
+`docs/exclusao.html`. **Não edite esses arquivos à mão**: edite
+`lib/core/l10n/privacy_policy.dart` ou `lib/core/l10n/account_deletion.dart`
+e rode o comando de novo. O `exclusao_test.dart` compara os arquivos com o
+que a ferramenta geraria, então esquecer de rodar quebra a suíte em vez de
+deixar no ar uma página que descreve outro aplicativo.
+
+Para publicar, uma vez só:
+
+1. O repositório precisa ser **público** (o GitHub Pages só é gratuito em
+   repositório público). Nada aqui é segredo: a chave de assinatura e o
+   `key.properties` já ficam fora do repositório.
+2. No GitHub, *Settings → Pages*
+3. Em *Source*, escolha **Deploy from a branch**
+4. Branch `main`, pasta **`/docs`**, e *Save*
+5. Em um ou dois minutos os endereços ficam de pé:
+
+| Página | Endereço |
+|---|---|
+| Política de privacidade | `https://codebybrigido.github.io/NewBaby/privacidade.html` |
+| Exclusão de conta | `https://codebybrigido.github.io/NewBaby/exclusao.html` |
+
+Confira os dois numa aba anônima, **sem estar logado no GitHub**: é assim
+que o revisor da loja vai abrir.
+
+### Onde informar cada um no Play Console
+
+- *Política → Conteúdo do app → Política de privacidade*: o endereço da
+  política
+- *Política → Segurança dos dados*, no fim do formulário, em **"URL de
+  solicitação de exclusão de conta"**: o endereço da exclusão
+- *Ficha da loja*, no campo de política de privacidade: o mesmo da política
+
+O campo da exclusão é o que costuma reprovar a revisão quando fica vazio, e
+ele é separado do campo da política: preencher um não preenche o outro.
+
+### O que a página de exclusão diz, e por quê
+
+Ela cobre as arestas que a revisão cobra, e algumas que ela não cobra:
+
+- funciona **sem o aplicativo instalado**, que é a razão de ela existir;
+- exige que o pedido parta do **email da própria conta Google**. Sem isso,
+  um email bastaria para apagar o acervo de outra pessoa;
+- promete um prazo de **30 dias**, que é o limite do Art. 12(3) do GDPR;
+- separa **o que é apagado** do **que não é apagado**, um logo depois do
+  outro. As fotos não são apagadas porque nunca foram nossas, e depois da
+  exclusão o acesso `drive.file` é revogado: nem se você pedir dá para
+  mexer nelas. A página ensina a apagar a pasta pelo próprio Drive;
+- diz que dá para **apagar só uma parte** sem apagar a conta, que é uma
+  pergunta explícita do formulário de Segurança dos Dados;
+- lembra que é **uma conta por criança**, então o pedido é um por conta;
+- é honesta sobre os **registros operacionais do Firebase**, que são do
+  Google e não estão sob o nosso controle;
+- tem uma seção em **inglês**, porque o revisor raramente lê português e
+  uma URL ilegível custa um ciclo inteiro de revisão.
 
 ### O que dizer sobre o acesso ao Google Drive
 
@@ -250,8 +316,11 @@ produção.
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity
+- [ ] GitHub Pages ligado em `main` / `/docs`, e as duas páginas abrindo
+      numa aba anônima
 - [ ] Política de privacidade no ar e acessível
-- [ ] URL pública de exclusão de conta no ar e informada no Play Console
+- [ ] URL pública de exclusão de conta no ar e informada no Play Console, no
+      campo próprio de *Segurança dos dados* (não é o mesmo campo da política)
 - [ ] Testado o "Apagar minha conta e meus dados" de ponta a ponta, conferindo
       no console do Firebase que `users/{uid}` sumiu
 - [ ] Conferido no APK que as permissões dos lembretes são só
