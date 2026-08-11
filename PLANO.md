@@ -159,10 +159,16 @@ vai ficar sendo a do aplicativo para sempre.
 A loja exige dois URLs que hoje não existem: a política de privacidade e a
 página de exclusão de conta. Sem eles o formulário não fecha.
 
-- Escrever os dois textos. A política precisa dizer com todas as letras que
+- ~~Escrever os dois textos. A política precisa dizer com todas as letras que
   as fotos e os vídeos ficam no Google Drive **da própria pessoa**, que o
-  aplicativo guarda apenas metadados, e que apagar a conta apaga tudo
-- Publicar de graça no GitHub Pages do próprio repositório
+  aplicativo guarda apenas metadados, e que apagar a conta apaga tudo~~
+  Feito. Os dois moram em `lib/core/l10n/`, junto do texto que o aplicativo
+  mostra, e `dart run tool/gerar_site.dart` os transforma nas páginas de
+  `docs/`. Um teste compara as páginas com o código e quebra a suíte se
+  alguém mudar um sem regerar o outro
+- Publicar de graça no GitHub Pages do próprio repositório. Falta só ligar:
+  *Settings → Pages → Deploy from a branch → `main` / `/docs`*. O passo a
+  passo e onde colar cada endereço no Play Console estão no `PUBLICAR.md`
 - Ligar os dois no aplicativo, na tela Sobre
 
 **Pronto quando:** os dois endereços abrem no navegador de qualquer pessoa,

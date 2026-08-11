@@ -14,4 +14,8 @@ import 'package:meu_bebe/core/l10n/privacy_policy.dart';
 void main() {
   File('POLITICA-DE-PRIVACIDADE.md').writeAsStringSync(politicaEmMarkdown());
   stdout.writeln('POLITICA-DE-PRIVACIDADE.md gerado.');
+  stdout.writeln(
+    'As páginas de docs/ saem do mesmo texto: rode também '
+    'dart run tool/gerar_site.dart',
+  );
 }
