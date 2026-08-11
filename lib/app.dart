@@ -10,6 +10,7 @@ import 'core/theme/app_palette.dart';
 import 'core/theme/app_theme.dart';
 import 'features/shell/app_lock_gate.dart';
 import 'features/shell/splash_gate.dart';
+import 'models/baby_gender.dart';
 import 'models/baby_profile.dart';
 import 'models/entry.dart';
 import 'models/reminder.dart';
@@ -82,11 +83,16 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
     // Quando o perfil chega, o `MaterialApp` anima a troca sozinho: é para
     // isso que a paleta é uma `ThemeExtension` e não um punhado de constantes.
     final BabyProfile? profile = ref.watch(profileProvider).value;
+    // Enquanto não há cadastro, vale o que a pessoa acabou de escolher na
+    // tela de cadastro. Com cadastro, ele manda: o que está salvo é a
+    // verdade, e a escolha em andamento deixa de importar.
+    final BabyGender? genero =
+        profile?.gender ?? ref.watch(generoEscolhidoProvider);
 
     return MaterialApp.router(
       title: S.appName,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.build(AppPalette.of(profile?.gender)),
+      theme: AppTheme.build(AppPalette.of(genero)),
       routerConfig: ref.watch(routerProvider),
       // A trava fica acima do roteador, envolvendo qualquer rota: uma tela
       // trancada não pode ser contornada navegando. A abertura fica por cima
