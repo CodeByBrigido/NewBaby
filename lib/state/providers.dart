@@ -24,6 +24,7 @@ import '../services/notification_service.dart';
 import '../services/memory_repository.dart';
 import '../services/session_service.dart';
 import '../services/thumbnail_service.dart';
+import '../core/utils/reconexao.dart';
 
 /// Chave do Scaffold da casca do aplicativo.
 ///
@@ -169,7 +170,11 @@ final StreamProvider<BabyProfile?> profileProvider =
     StreamProvider<BabyProfile?>((Ref ref) {
       final String? uid = ref.watch(uidProvider);
       if (uid == null) return Stream<BabyProfile?>.value(null);
-      return ref.watch(firestoreServiceProvider).watchProfile(uid);
+      final FirestoreService firestore = ref.watch(firestoreServiceProvider);
+      // Sem reconexão, um erro aqui manda a pessoa para o cadastro e a
+      // deixa lá: o roteador lê perfil ausente e perfil com erro do mesmo
+      // jeito, e nada volta a tentar.
+      return comReconexao(() => firestore.watchProfile(uid));
     });
 
 // -------------------------------------------------------------- entradas
@@ -363,11 +368,18 @@ final Provider<EntryFile?> avatarPhotoProvider = Provider<EntryFile?>((
   return null;
 });
 
+/// A linha do tempo inteira, ao vivo.
+///
+/// Com [comReconexao] em volta: um ouvinte do Firestore que falha não volta
+/// sozinho, e sem isso a tela ficava presa no erro até o aplicativo ser
+/// fechado e aberto. Quem enviava uma foto via o envio terminar e a lista
+/// não mudar, o que parecia atraso e era um ouvinte morto.
 final StreamProvider<List<Entry>> entriesProvider = StreamProvider<List<Entry>>(
   (Ref ref) {
     final String? uid = ref.watch(uidProvider);
     if (uid == null) return Stream<List<Entry>>.value(const <Entry>[]);
-    return ref.watch(firestoreServiceProvider).watchEntries(uid);
+    final FirestoreService firestore = ref.watch(firestoreServiceProvider);
+    return comReconexao(() => firestore.watchEntries(uid));
   },
 );
 
@@ -376,7 +388,8 @@ final StreamProvider<List<Entry>> trashProvider = StreamProvider<List<Entry>>((
 ) {
   final String? uid = ref.watch(uidProvider);
   if (uid == null) return Stream<List<Entry>>.value(const <Entry>[]);
-  return ref.watch(firestoreServiceProvider).watchTrash(uid);
+  final FirestoreService firestore = ref.watch(firestoreServiceProvider);
+  return comReconexao(() => firestore.watchTrash(uid));
 });
 
 /// Entradas de um tipo só - usado pelas telas de Fotos, Vídeos, Cartas...
