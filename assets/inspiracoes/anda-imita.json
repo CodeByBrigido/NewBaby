@@ -1,0 +1,34 @@
+{
+  "titulo": "Ela imita tudo o que você faz",
+  "resumo": "Varrer, falar ao telefone, mexer na panela. Dê uma versão pequena de um objeto real e filme: é onde aparece o jeito de vocês nela.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Você virou o brinquedo preferido",
+      "texto": "Varrer, mexer panela, atender o telefone, calçar o seu sapato: imitar o adulto é a brincadeira mais séria dessa fase, e a que exige menos preparo de todas, porque o roteiro é o seu dia."
+    },
+    {
+      "titulo": "Como aproveitar em vez de atrapalhar",
+      "itens": [
+        "Dê uma versão pequena do que você está usando: um pano, uma escova, uma colher.",
+        "Deixe uma gaveta baixa na cozinha só com potes e panos, que ela possa abrir sempre.",
+        "Faça devagar e narrando. A parte de narrar é o que ela mais aproveita.",
+        "Aceite que vai levar o triplo do tempo. Se você tem pressa hoje, faça amanhã."
+      ]
+    },
+    {
+      "titulo": "O que não deixar imitar",
+      "texto": "Fogão, tomada, produto de limpeza, faca e escada. A imitação não distingue perigo, e nessa fase o interesse por essas coisas é justamente maior porque são as que você usa e ela não pode."
+    },
+    {
+      "titulo": "O vídeo",
+      "texto": "Filme de longe, sem chamar. No instante em que ela percebe a câmera, para de imitar e passa a atuar, e a cena perde a graça inteira. Vinte segundos escondido valem mais que dois minutos pedidos."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "titulo": "Uma música para cada hora",
+  "resumo": "A mesma canção no banho, outra na hora de dormir. Vira aviso do que vem a seguir, acalma, e daqui a vinte anos aquela música devolve a casa inteira.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Música como aviso, não como trilha",
+      "texto": "Uma música fixa para cada momento do dia funciona como um sinal: antes de entender palavras, ela entende que aquela melodia significa banho, ou que a outra significa dormir. E, de brinde, vocês ganham um acervo sonoro com data."
+    },
+    {
+      "titulo": "Escolhendo",
+      "itens": [
+        "Uma para acordar, uma para o banho, uma para dormir. Três chegam.",
+        "Curtas, de menos de dois minutos, e que você aguente ouvir mil vezes.",
+        "Pode ser cantada por você, sem instrumento. Funciona igual e vale mais depois.",
+        "Nada de trocar a cada semana: a repetição é o ponto inteiro."
+      ]
+    },
+    {
+      "titulo": "Grave você cantando",
+      "texto": "Uma vez, no celular, sem ensaio. É o arquivo que ela vai querer ouvir adulta, e o que nenhum serviço de música substitui. Guarde na cápsula com o nome da música e a data."
+    },
+    {
+      "titulo": "O teste do tempo",
+      "texto": "Daqui a alguns anos, ponha a música do sono para tocar. A reação é imediata mesmo em criança que já nem lembra por quê. Vale filmar esse dia também."
+    }
+  ]
+}

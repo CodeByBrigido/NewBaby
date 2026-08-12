@@ -1,0 +1,34 @@
+{
+  "titulo": "A cara da comida nova",
+  "resumo": "Abacate, manga, beterraba. A careta da primeira colherada de cada sabor rende uma sequência de fotos que envelhece muito bem.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "A série mais divertida do acervo",
+      "texto": "A careta da primeira colherada de cada alimento novo é uma sequência que se monta sozinha e que rende risada em qualquer reunião de família dez anos depois. Não precisa de nenhuma habilidade fotográfica, só de constância."
+    },
+    {
+      "titulo": "Como fazer render",
+      "itens": [
+        "Um alimento por foto, e anote o nome na descrição. Sem o nome, a série vira só caretas.",
+        "Fotografe no primeiro segundo. A careta some rápido e a segunda colherada já não tem graça.",
+        "Deixe o pote ou a fruta aparecer no quadro, para se saber do que se trata.",
+        "Rajada de fotos: você escolhe a melhor depois, e ela quase nunca é a primeira."
+      ]
+    },
+    {
+      "titulo": "Uma foto por semana já basta",
+      "texto": "Não precisa registrar tudo. Um alimento novo por semana, ao longo de alguns meses, já monta uma sequência ótima e não transforma a refeição em sessão de fotos."
+    },
+    {
+      "titulo": "Cuidado com o clima da mesa",
+      "texto": "Se o celular estiver atrapalhando a refeição, guarde. A careta de amanhã é tão boa quanto a de hoje, e comida com câmera na cara cansa qualquer um."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Bacia de água no quintal",
+  "resumo": "Uma bacia, dois copos e uma colher. Vinte minutos de concentração absoluta por praticamente nada. Filme de longe, sem interromper.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "A brincadeira mais barata do verão",
+      "texto": "Uma bacia com dois dedos de água, no chão, à sombra, e alguns potes. Rende mais tempo que quase qualquer brinquedo, e o material já existe na sua cozinha."
+    },
+    {
+      "titulo": "O que pôr junto",
+      "itens": [
+        "Potes de tamanhos diferentes, para encher e despejar.",
+        "Uma peneira e um copo furado, pelo efeito.",
+        "Esponja, que absorve e escorre.",
+        "Uma colher grande e um funil, se houver.",
+        "Coisas que boiam e coisas que afundam, para comparar."
+      ]
+    },
+    {
+      "titulo": "Segurança, que aqui é a parte séria",
+      "texto": "Criança pequena se afoga em muito pouca água, e em silêncio. Fique junto o tempo inteiro, sem exceção e sem celular. Ao terminar, esvazie a bacia na hora e vire de boca para baixo, mesmo que vá usar de novo em uma hora."
+    },
+    {
+      "titulo": "Registrar",
+      "texto": "Foto de cima, pegando as mãos dentro da água e os potes. Contraluz de fim de tarde com respingos também rende, e o vídeo de dez segundos do despejo é melhor que qualquer foto."
+    }
+  ]
+}

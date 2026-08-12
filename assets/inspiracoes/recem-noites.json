@@ -1,0 +1,33 @@
+{
+  "titulo": "Anote uma linha por noite difícil",
+  "resumo": "Parece a última coisa que você quer fazer às três da manhã. Mas essa é a fase que some da memória mais rápido, e a que mais vale ter registrado depois.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Registrar o que é difícil também é registrar",
+      "texto": "A cápsula tende a guardar só o bonito, e um acervo só de sorrisos é meia verdade. As noites em claro dos primeiros meses são a parte da história que as fotos não contam, e que ninguém consegue reconstruir depois, porque o cansaço apaga a própria memória."
+    },
+    {
+      "titulo": "Uma linha, e só",
+      "texto": "Não é diário. É uma linha, escrita no escuro, sem revisar. \"Terceira noite seguida acordado. 4h12. Ela dormiu no meu peito e eu não.\" Isso basta, e é mais forte que um parágrafo bem escrito no mês seguinte."
+    },
+    {
+      "titulo": "Para quem isso serve",
+      "itens": [
+        "Para você, daqui a dois anos, quando tudo isso tiver virado uma névoa.",
+        "Para ela, adulta, entendendo o que custou e o que valeu.",
+        "Para outra pessoa da família que esteja passando pela mesma coisa e ache que só ela sente isso."
+      ]
+    },
+    {
+      "titulo": "Nada disso é queixa",
+      "texto": "Escrever que foi duro não tira o amor da frase. As duas coisas cabem na mesma noite, e o registro fica mais verdadeiro quando as duas aparecem. Se um dia você achar que uma linha foi longe demais, ela é sua: dá para apagar."
+    }
+  ]
+}

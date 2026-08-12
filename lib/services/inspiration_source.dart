@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/inspiration.dart';
@@ -16,29 +16,65 @@ abstract interface class InspirationSource {
 
 /// Conteúdo que viaja dentro do aplicativo.
 ///
-/// É de propósito, e não só um provisório: assim o feed funciona sem rede,
-/// sem custo de servidor e sem mandar para lugar nenhum a idade da criança,
-/// que é o que uma consulta a um backend inevitavelmente entregaria.
+/// É de propósito, e não um provisório: assim o blog funciona sem rede, sem
+/// custo de servidor e sem mandar para lugar nenhum a idade da criança, que
+/// é o que uma consulta a um backend inevitavelmente entregaria.
+///
+/// Uma postagem é **um arquivo**, `assets/inspiracoes/<id>.json`, com a capa
+/// ao lado dela como `<id>.webp`. Não há catálogo central para editar, não
+/// há id para inventar (o nome do arquivo é o id) e não há linha para
+/// acrescentar no `pubspec.yaml`: a pasta inteira já está declarada, e o
+/// [AssetManifest] descobre em tempo de execução o que existe dentro dela.
+///
+/// Publicar uma postagem é soltar dois arquivos com o mesmo nome na pasta.
 class AssetInspirationSource implements InspirationSource {
-  const AssetInspirationSource({this.path = 'assets/inspiracoes.json'});
+  const AssetInspirationSource({this.pasta = 'assets/inspiracoes/'});
 
-  final String path;
+  final String pasta;
 
   @override
   Future<List<Inspiration>> load() async {
-    final String cru = await rootBundle.loadString(path);
-    return parseInspirations(cru);
+    final AssetManifest manifest = await AssetManifest.loadFromAssetBundle(
+      rootBundle,
+    );
+
+    final List<String> arquivos =
+        manifest
+            .listAssets()
+            .where((String a) => a.startsWith(pasta) && a.endsWith('.json'))
+            .toList()
+          // Ordem estável, para a lista não depender do sistema de arquivos
+          // de quem compilou.
+          ..sort();
+
+    final List<Inspiration> postagens = <Inspiration>[];
+    for (final String arquivo in arquivos) {
+      final String cru = await rootBundle.loadString(arquivo);
+      postagens.add(
+        parseInspiration(cru, id: idDoArquivo(arquivo, pasta: pasta)),
+      );
+    }
+    return postagens;
   }
 }
 
-/// Separado da leitura do arquivo para que o teste consiga exercitar o
-/// mesmo caminho sem depender do carregador de assets do Flutter.
-List<Inspiration> parseInspirations(String json) {
-  return (jsonDecode(json) as List<Object?>)
-      .whereType<Map<String, Object?>>()
-      .map(Inspiration.fromMap)
-      .toList();
+/// O id de uma postagem é o nome do arquivo, sem pasta e sem extensão.
+String idDoArquivo(String caminho, {String pasta = 'assets/inspiracoes/'}) {
+  final String semPasta = caminho.startsWith(pasta)
+      ? caminho.substring(pasta.length)
+      : caminho;
+  return semPasta.endsWith('.json')
+      ? semPasta.substring(0, semPasta.length - '.json'.length)
+      : semPasta;
 }
+
+/// Separado da leitura do arquivo para que o teste consiga exercitar o mesmo
+/// caminho sem depender do carregador de assets do Flutter.
+Inspiration parseInspiration(String json, {required String id}) =>
+    Inspiration.fromMap(
+      (jsonDecode(json) as Map<Object?, Object?>).cast<String, Object?>(),
+      id: id,
+    );
 
 /// O que já foi lido.
 ///

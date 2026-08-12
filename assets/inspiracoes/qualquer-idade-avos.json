@@ -1,0 +1,35 @@
+{
+  "titulo": "Filme os avós com ela",
+  "resumo": "Não a criança sozinha: os dois juntos, conversando. É o registro que a família mais vai querer ter, e a janela não fica aberta para sempre.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Por que este é o registro mais urgente da lista",
+      "texto": "Todas as outras ideias daqui podem ser feitas no mês que vem. Esta não. A voz e o jeito dos avós é o material que a família mais lamenta não ter, e não há como recuperar depois. Se você fizer uma coisa só desta lista inteira, faça esta."
+    },
+    {
+      "titulo": "O que gravar",
+      "itens": [
+        "Os dois juntos, brincando, sem falar com a câmera. Filme de longe.",
+        "O avô ou a avó contando uma história da infância dele. Uma só, com detalhe.",
+        "A receita da família sendo feita, com as mãos aparecendo e a explicação em voz alta.",
+        "Um recado de um minuto para ela aos dezoito anos.",
+        "Como era o mundo quando eles tinham a idade que ela tem agora."
+      ]
+    },
+    {
+      "titulo": "Como pedir sem constranger",
+      "texto": "Muita gente trava na frente da câmera. Filme durante alguma coisa que já esteja acontecendo, em vez de marcar uma sessão. Se travar, deixe o celular apoiado, gravando, e converse normalmente: em dois minutos todo mundo esquece que ele está ali."
+    },
+    {
+      "titulo": "Guarde com nome completo",
+      "texto": "Escreva na descrição o nome inteiro, o parentesco e o ano. Daqui a cinquenta anos, quem assistir talvez não saiba quem é. \"Vovó\" não identifica ninguém para um bisneto."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "titulo": "O primeiro Natal",
+  "resumo": "Presente, foto, e o que fazer com um bebê que não vai lembrar de nada disso.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "O presente que fica",
+      "texto": "Brinquedo de primeiro Natal dura seis meses. O que dura é o que foi guardado.",
+      "itens": [
+        "Uma carta de Natal escrita por cada um dos pais, guardada para os dezoito anos.",
+        "Um enfeite de árvore com o ano escrito. Todo ano vem um novo, e em vinte anos a árvore conta a história inteira.",
+        "Um livro com dedicatória e data."
+      ]
+    },
+    {
+      "titulo": "A foto",
+      "itens": [
+        "Luz da árvore no fundo, luz da janela no rosto. Sem flash: o flash apaga as luzinhas.",
+        "Foto no mesmo canto da casa, todo ano. Em cinco anos vira a sequência que todo mundo para para olhar.",
+        "A foto da família inteira, com tripé ou timer. Todo ano falta alguém nas fotos, e quase sempre é quem estava segurando o celular."
+      ]
+    },
+    {
+      "titulo": "Expectativa realista",
+      "texto": "Bebê no Natal costuma dormir, estranhar barulho ou chorar na hora da ceia. Nada disso é problema, e tudo isso rende foto boa. Não force sorriso para a câmera: a cara de sono do primeiro Natal é mais engraçada daqui a vinte anos que um sorriso arrancado."
+    }
+  ]
+}

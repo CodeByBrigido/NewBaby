@@ -1,0 +1,35 @@
+{
+  "titulo": "A foto das mãos",
+  "resumo": "A mão de vocês ao lado da mão dela, na mesma foto. É a imagem que mais impressiona anos depois, porque a escala não volta nunca mais.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Por que essa foto e não outra",
+      "texto": "A mão é a parte que mais muda e a que menos se fotografa. Rosto todo mundo registra. A mão inteira cabendo no seu dedo é uma escala que a memória apaga: daqui a dois anos você não vai acreditar que era daquele tamanho, e sem a foto não terá como conferir."
+    },
+    {
+      "titulo": "Como fazer, na prática",
+      "itens": [
+        "Perto da janela, com a luz vindo de lado. Sem flash, que apaga o desenho da pele.",
+        "Fundo escuro e liso: uma camiseta escura, o sofá, a manta dobrada. Fundo bagunçado rouba a atenção da mão.",
+        "Toque de leve no dorso da mão dela e espere: o reflexo de agarrar faz o resto sozinho.",
+        "Coloque a sua mão junto, para dar escala. É a diferença entre uma foto bonita e um documento.",
+        "Faça uns dez cliques. Mão de recém-nascido não fica parada, e você só descobre a boa depois."
+      ]
+    },
+    {
+      "titulo": "Repita",
+      "texto": "Refaça a mesma foto no primeiro mês, aos seis meses e no aniversário, do mesmo jeito e com a mesma mão sua ao lado. Três fotos que sozinhas são bonitas e juntas são impressionantes."
+    },
+    {
+      "titulo": "E os pés",
+      "texto": "Vale a mesma coisa, e a planta do pé enrugada dos primeiros dias dura menos ainda. Se for fazer uma só, faça a das mãos; se der para fazer duas, faça as duas no mesmo dia."
+    }
+  ]
+}

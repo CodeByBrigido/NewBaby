@@ -1,0 +1,33 @@
+{
+  "titulo": "Contraste forte diverte",
+  "resumo": "Nas primeiras semanas o contraste alto chama mais atenção que a cor. Um papel com listras pretas e brancas, movido devagar, rende minutos de fascínio e caretas ótimas.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Por que contraste",
+      "texto": "Nos primeiros meses a visão ainda distingue melhor as diferenças fortes de claro e escuro do que as cores suaves. Formas de contraste alto prendem a atenção por mais tempo, e isso é o que torna a brincadeira interessante para ela, não uma tarefa."
+    },
+    {
+      "titulo": "O que dá para fazer em casa, hoje",
+      "itens": [
+        "Desenhe listras grossas, espirais e alvos com caneta preta numa folha branca. Uma folha por desenho.",
+        "Prenda uma folha na lateral do berço ou no chão, na altura em que ela olha.",
+        "Xadrez preto e branco funciona muito bem, e você desenha em dois minutos.",
+        "Vale também o que já existe: uma camiseta listrada, o rodapé escuro contra a parede clara."
+      ]
+    },
+    {
+      "titulo": "Quanto tempo",
+      "texto": "Enquanto ela estiver interessada, e nem um minuto além. Virar o rosto é resposta, não recusa. Um a dois minutos por vez, algumas vezes ao dia, é o formato que funciona."
+    },
+    {
+      "titulo": "Vale registrar",
+      "texto": "Filme quinze segundos do olhar dela seguindo o desenho, com a folha aparecendo no quadro. É um vídeo que envelhece muito bem, porque mostra a atenção nascendo."
+    }
+  ]
+}

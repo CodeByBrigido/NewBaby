@@ -1,0 +1,34 @@
+{
+  "titulo": "Anote as palavras erradas",
+  "resumo": "As primeiras palavras saem tortas, e a versão torta é a que a família adota para sempre. Escreva antes que a pronúncia certa apague a graça.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "A fase mais curta de todas",
+      "texto": "As palavras trocadas duram meses, não anos. E somem sem cerimônia: um dia a criança simplesmente passa a dizer certo, e ninguém lembra qual era a versão antiga. É o registro que as famílias mais lamentam não ter feito."
+    },
+    {
+      "titulo": "Como anotar",
+      "itens": [
+        "Uma carta só, que você vai editando conforme aparecem palavras novas.",
+        "A palavra errada, a palavra certa, e a data. As três coisas.",
+        "Anote no dia. Anotar no fim do mês significa anotar metade.",
+        "Vale também a frase inteira, quando a graça está na construção e não na palavra."
+      ]
+    },
+    {
+      "titulo": "Grave a voz, não só o texto",
+      "texto": "O texto guarda qual era a palavra; o áudio guarda como ela soava, que é a parte insubstituível. Quinze segundos de conversa comum, sem pedir para ela repetir. Palavra pedida sai diferente da espontânea."
+    },
+    {
+      "titulo": "Não corrija durante a gravação",
+      "texto": "Corrigir na hora encerra a fase mais rápido e, principalmente, encerra a conversa. Ela vai chegar à forma certa de qualquer jeito. Enquanto não chega, é material de acervo."
+    }
+  ]
+}

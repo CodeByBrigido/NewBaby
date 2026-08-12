@@ -14,9 +14,23 @@ import 'package:meu_bebe/services/inspiration_source.dart';
 /// uma angústia que não pediu. A varredura abaixo reprova o CI se algum
 /// texto novo escorregar para esse tom.
 void main() {
-  final List<Inspiration> catalogo = parseInspirations(
-    File('assets/inspiracoes.json').readAsStringSync(),
-  );
+  // Lê a pasta como o aplicativo lê: uma postagem por arquivo, com o id
+  // vindo do nome. Assim um arquivo novo entra na suíte sozinho, e ninguém
+  // publica uma postagem que nenhum teste olhou.
+  final List<Inspiration> catalogo =
+      (Directory('assets/inspiracoes')
+              .listSync()
+              .whereType<File>()
+              .where((File f) => f.path.endsWith('.json'))
+              .toList()
+            ..sort((File a, File b) => a.path.compareTo(b.path)))
+          .map(
+            (File f) => parseInspiration(
+              f.readAsStringSync(),
+              id: idDoArquivo(f.uri.pathSegments.last, pasta: ''),
+            ),
+          )
+          .toList();
 
   BabyProfile nascidaEm(DateTime birth) =>
       BabyProfile(name: 'Maria Eduarda', birth: birth);
@@ -77,6 +91,35 @@ void main() {
         isEmpty,
         reason: 'Postagem sem seções: escreva o texto antes de publicá-la.',
       );
+    });
+
+    test('o id vem do nome do arquivo, e não de dentro dele', () {
+      // Um campo "id" dentro do arquivo poderia discordar do nome, e aí a
+      // capa <id>.webp apontaria para o lugar errado sem nada reclamar.
+      for (final File f
+          in Directory('assets/inspiracoes').listSync().whereType<File>().where(
+            (File f) => f.path.endsWith('.json'),
+          )) {
+        expect(
+          f.readAsStringSync(),
+          isNot(contains('"id"')),
+          reason: '${f.path}: o nome do arquivo já é o id.',
+        );
+      }
+    });
+
+    test('cada postagem é um arquivo, e nenhum id se repete', () {
+      final Set<String> ids = catalogo.map((Inspiration i) => i.id).toSet();
+      expect(ids, hasLength(catalogo.length));
+      expect(ids.any((String id) => id.isEmpty), isFalse);
+    });
+
+    test('nenhum id tem caractere que atrapalhe nome de arquivo', () {
+      // O id vira nome de arquivo duas vezes: no .json e na capa .webp.
+      final RegExp seguro = RegExp(r'^[a-z0-9-]+$');
+      for (final Inspiration i in catalogo) {
+        expect(seguro.hasMatch(i.id), isTrue, reason: i.id);
+      }
     });
 
     test('os destaques são poucos', () {

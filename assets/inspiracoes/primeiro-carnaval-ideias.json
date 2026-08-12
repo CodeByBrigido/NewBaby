@@ -1,0 +1,42 @@
+{
+  "titulo": "O primeiro Carnaval",
+  "resumo": "Uma fantasia improvisada em casa rende tanta foto quanto bloco lotado, e ninguém volta esgotado.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Carnaval com criança pequena é em casa",
+      "texto": "Bloco tem multidão, som alto e sol forte, e nada disso combina com quem tem poucos meses. A fantasia, a música e a bagunça funcionam perfeitamente na sala, e rendem as mesmas fotos sem nenhum dos problemas."
+    },
+    {
+      "titulo": "Se for sair",
+      "itens": [
+        "Protetor auricular infantil. Som de bloco é alto demais para ouvido pequeno.",
+        "Sombra garantida e horário fora do pico de sol.",
+        "Fique na borda, nunca no meio, e com rota de saída conhecida.",
+        "Bloco de rua infantil, de manhã, é outra coisa: menor, mais curto e feito para isso.",
+        "Combine antes com quem estiver junto quanto tempo vocês ficam, e cumpra."
+      ]
+    },
+    {
+      "titulo": "A fantasia",
+      "texto": "Confortável ganha de bonita. Tecido leve, sem elástico apertado, sem capuz que esquente, sem nada colado que possa ir à boca. Uma fantasia improvisada com o que tem em casa costuma render foto melhor que a comprada."
+    },
+    {
+      "titulo": "O que guardar",
+      "itens": [
+        "A foto da fantasia inteira, de corpo inteiro, na melhor luz que houver.",
+        "O rosto, de perto, com a pintura ou o adereço.",
+        "Um vídeo curto dançando com você no colo.",
+        "A cara de sono no fim, que é sempre a melhor foto do dia.",
+        "Duas linhas escritas: qual foi a fantasia, quem escolheu e por quê."
+      ]
+    }
+  ]
+}

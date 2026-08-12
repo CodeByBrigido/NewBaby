@@ -1,0 +1,35 @@
+{
+  "titulo": "Um túnel de almofadas",
+  "resumo": "Almofadas do sofá, caixa de papelão aberta nas duas pontas, um lençol sobre duas cadeiras. Gasta energia, custa nada.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Um túnel com o que já existe na casa",
+      "texto": "Almofadas, o sofá, uma caixa aberta dos dois lados e um lençol sobre duas cadeiras. Um percurso curto que ela atravesse engatinhando entretém mais que a maioria dos brinquedos, e muda de forma toda vez que vocês montam."
+    },
+    {
+      "titulo": "Como montar",
+      "itens": [
+        "Curto: um metro e meio já é uma aventura. Longo demais assusta.",
+        "Sempre com as duas saídas abertas e visíveis. Túnel fechado vira armadilha.",
+        "Chão macio embaixo, tapete ou edredom dobrado.",
+        "Você do outro lado, chamando. É o que faz ela atravessar na primeira vez.",
+        "Um brinquedo no fim, para dar um motivo."
+      ]
+    },
+    {
+      "titulo": "Segurança, em três linhas",
+      "texto": "Nada que possa desabar em cima, nada de móvel pesado como parede, e você por perto o tempo todo. Se ela travar no meio e reclamar, desmonte um pedaço em vez de puxar."
+    },
+    {
+      "titulo": "O registro",
+      "texto": "Deite no chão, do lado de fora, e filme a saída do túnel. O rosto aparecendo é o quadro. Vale mais que qualquer foto do túnel montado."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Deixe ela contar a história",
+  "resumo": "Pegue um livro conhecido e peça que ela conte para você, olhando as figuras. A versão dela costuma ser melhor que a original.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Inverta os papéis",
+      "texto": "Depois de meses ouvindo, ela passa a conseguir contar. Peça que ela conte a história para você, olhando as figuras de um livro que já conhece. O que sai não é a história do livro, e é justamente isso que vale."
+    },
+    {
+      "titulo": "Como puxar",
+      "itens": [
+        "Pegue um livro que ela já ouviu muitas vezes, e vá virando as páginas.",
+        "Pergunte \"e aí, o que aconteceu?\" em vez de corrigir o que ela disse.",
+        "Aceite desvios completos do enredo. A versão dela é o documento.",
+        "Se travar, aponte uma figura e espere. Espere mais do que parece confortável.",
+        "Termine antes de cansar, mesmo no meio."
+      ]
+    },
+    {
+      "titulo": "Grave, sempre",
+      "texto": "Esta é uma daquelas coisas que o texto não guarda. O jeito de contar, as pausas, a entonação copiada de você: tudo isso só existe em áudio ou vídeo. Um minuto por vez, algumas vezes ao ano."
+    },
+    {
+      "titulo": "Invente uma história juntos",
+      "texto": "Comece com uma frase e deixe ela continuar, alternando. Grave. É a brincadeira que mais rende nesta idade e a que produz o material mais engraçado do acervo inteiro."
+    }
+  ]
+}

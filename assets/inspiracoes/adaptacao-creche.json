@@ -1,0 +1,31 @@
+{
+  "titulo": "A adaptação à creche",
+  "resumo": "Como costuma ser a primeira semana, o que combinar com a escola, e o registro que ninguém faz.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Como costuma ser",
+      "texto": "Quase sempre a primeira semana é curta e cresce aos poucos: uma hora, depois duas, depois o turno. Chorar na porta é comum e costuma passar rápido depois que você sai, mesmo quando não parece. Cada escola tem seu método, e vale perguntar o deles antes de começar."
+    },
+    {
+      "titulo": "O que combinar antes",
+      "itens": [
+        "Quem leva e quem busca em cada dia da semana.",
+        "Como a escola avisa se algo acontecer, e em quanto tempo.",
+        "Se pode levar o objeto de apego de casa.",
+        "Nome em tudo. Absolutamente tudo."
+      ]
+    },
+    {
+      "titulo": "O registro que ninguém faz",
+      "texto": "Todo mundo fotografa a criança na porta da escola. Quase ninguém escreve como foi para quem ficou do lado de fora. Escreva no mesmo dia: o que você sentiu voltando para o carro sozinho. Daqui a vinte anos, essa parte vale mais que a foto."
+    }
+  ]
+}

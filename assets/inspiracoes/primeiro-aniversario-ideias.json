@@ -1,0 +1,69 @@
+{
+  "titulo": "Ideias para o primeiro aniversário",
+  "resumo": "Falta pouco. Onde fazer, o que servir, quem chamar e, principalmente, o que registrar antes que o dia passe voando.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Antes de tudo: para quem é a festa",
+      "texto": "Com um ano, a criança não entende festa, estranha barulho e costuma dormir no meio. A festa é para vocês e para quem ama vocês, e assumir isso desde o começo tira metade da pressão. Festa pequena não é festa menor."
+    },
+    {
+      "titulo": "Onde fazer",
+      "texto": "O lugar define quase tudo o que vem depois: quantidade de gente, custo e cansaço.",
+      "itens": [
+        "Em casa: mais barato, mais confortável para a criança dormir, e você limpa depois. Funciona muito bem até uns quinze convidados.",
+        "Casa de festa ou buffet infantil: resolve comida, decoração e limpeza de uma vez. Reserve com dois a três meses de antecedência, porque sábado à tarde some cedo.",
+        "Salão do prédio: meio-termo comum e barato. Confira antes se tem tomada, geladeira e banheiro perto.",
+        "Parque ou praça: sombra, grama e crianças correndo. Leve toalha, tenda e um plano B para chuva.",
+        "Chácara ou sítio: bom quando a família é grande e vem de longe. Some o custo do deslocamento de todo mundo antes de decidir."
+      ]
+    },
+    {
+      "titulo": "Tema, sem complicar",
+      "texto": "Tema serve para você não ter que decidir cada detalhe do zero. Escolha um que já exista na vida de vocês.",
+      "itens": [
+        "O bicho preferido, o livro que ela pede toda noite, a fruta que ela adora.",
+        "Duas cores e pronto: com duas cores, qualquer coisa que você comprar combina.",
+        "Chá de fraldas ao contrário: cada convidado traz um livro infantil com uma dedicatória. Vira uma biblioteca com autógrafo da família."
+      ]
+    },
+    {
+      "titulo": "Comida",
+      "texto": "Lembre que boa parte dos convidados são adultos com pressa e crianças com fome.",
+      "itens": [
+        "Bolo de aniversário para as fotos, e um bolinho separado sem açúcar para ela, se a pediatra já tiver liberado.",
+        "Frutas cortadas somem mais rápido que doce e sujam menos.",
+        "Comida de dedo para os adultos evita prato, talher e louça para lavar."
+      ]
+    },
+    {
+      "titulo": "O que registrar, e o que quase todo mundo esquece",
+      "texto": "No dia, ninguém lembra de nada. Deixe combinado antes.",
+      "itens": [
+        "Peça a alguém para ser o fotógrafo do dia. Sem isso, você termina a festa sem uma foto sua com ela.",
+        "Uma foto com cada grupo: avós, padrinhos, primos. É a foto que a família vai querer daqui a vinte anos.",
+        "Um vídeo curto de dez segundos de cada convidado mandando um recado para ela aos dezoito anos.",
+        "O barulho da festa gravado em áudio, mesmo bagunçado: é a coisa que mais devolve o dia depois.",
+        "A carta. Antes de dormir, escreva como foi o primeiro ano. Você vai achar que lembra para sempre. Não vai."
+      ]
+    },
+    {
+      "titulo": "Duas semanas antes",
+      "itens": [
+        "Confirmar lugar e horário",
+        "Fechar a lista de convidados e mandar o convite",
+        "Encomendar ou combinar o bolo",
+        "Separar a roupa dela e a sua",
+        "Combinar quem fotografa",
+        "Escrever a carta com calma, sem a correria do dia"
+      ]
+    }
+  ]
+}

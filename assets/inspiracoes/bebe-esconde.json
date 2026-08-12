@@ -1,0 +1,35 @@
+{
+  "titulo": "Achou!",
+  "resumo": "Esconder o rosto atrás das mãos e reaparecer. A gargalhada que vem daí é curta na vida e eterna em vídeo.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Por que essa brincadeira dura tanto",
+      "texto": "Sumir e voltar é a primeira piada que a maioria das crianças entende, e ela funciona porque a expectativa e o alívio acontecem em dois segundos. Não precisa de material, de espaço nem de preparo, e você já está com tudo o que ela pede: o seu rosto."
+    },
+    {
+      "titulo": "Variações, para não cansar",
+      "itens": [
+        "As mãos no rosto, o clássico. Comece por aí.",
+        "Atrás de um pano leve, que ela mesma pode puxar. A parte de puxar é a melhor.",
+        "Atrás da porta ou do canto do sofá, com o corpo inteiro.",
+        "Esconder um objeto sob um pano, e não você. Uma versão diferente da mesma piada.",
+        "Deixe ela esconder você. Muda tudo quando quem controla é ela."
+      ]
+    },
+    {
+      "titulo": "O ritmo importa mais que a variação",
+      "texto": "A graça está na pausa antes de aparecer. Espere um segundo a mais do que parece natural, e observe: é ali que o riso nasce. Rápido demais não constrói expectativa nenhuma."
+    },
+    {
+      "titulo": "O vídeo que vale",
+      "texto": "Peça para alguém filmar você brincando, e não filme você mesmo. O que se guarda aqui não é a criança rindo, é a cena das duas pessoas. Vinte segundos bastam."
+    }
+  ]
+}

@@ -1,32 +1,71 @@
-# As capas das postagens
+# As postagens do blog
 
-Uma imagem por postagem, com o **id** dela como nome do arquivo:
+**Uma postagem é um par de arquivos com o mesmo nome:**
 
 ```
-assets/inspiracoes/primeiro-aniversario-ideias.webp
-assets/inspiracoes/carta-primeiro-mes.webp
+assets/inspiracoes/carta-primeiro-mes.json   <- o texto
+assets/inspiracoes/carta-primeiro-mes.webp   <- a capa
 ```
 
-Os ids estão em `assets/inspiracoes.json`, no campo `id`.
+O nome do arquivo **é** o identificador da postagem. Não existe campo `id`
+dentro do JSON, não existe catálogo central para editar, e não existe linha
+para acrescentar no `pubspec.yaml`.
+
+## Publicar uma postagem nova
+
+1. Escolha um nome: letras minúsculas, números e hífen. Ele aparece só aqui,
+   nunca na tela.
+2. Crie o `.json` com o formato abaixo.
+3. Solte a capa ao lado, com o mesmo nome e extensão `.webp`.
+
+Pronto. O aplicativo descobre a pasta em tempo de execução, e a suíte de
+testes passa a cobrir a postagem nova sozinha.
 
 ## Trocar a arte de uma postagem
 
-Substitua o arquivo. Não há nada a editar no JSON nem no código: a tela
-monta o caminho a partir do id.
+Substitua o `.webp`. Nada mais.
 
-## Enquanto a arte não existe
+## Enquanto a capa não existe
 
-A postagem não quebra. Sem o arquivo, a tela desenha a ilustração gerada
-por `InspirationArt`, que é a mesma de antes. Isso permite escrever o texto
-de uma postagem hoje e mandar fazer a foto depois.
+A postagem não quebra: entra a ilustração gerada por `InspirationArt`. Dá
+para escrever o texto hoje e mandar fazer a arte depois.
 
-## Formato
+## Formato da capa
 
-WebP, proporção 16:9, largura de 1200 px. WebP porque é a metade do peso de
-um JPEG na mesma qualidade, e o aplicativo inteiro viaja dentro do APK.
+WebP, proporção 16:9, largura de 1200 px. WebP porque pesa cerca de metade
+de um JPEG na mesma qualidade, e tudo isto viaja dentro do APK.
 
-## Por que uma pasta plana
+## Formato do texto
 
-A lista de `assets` do `pubspec.yaml` não alcança subpastas. Uma pasta por
-postagem obrigaria a acrescentar uma linha ali a cada postagem nova; assim
-é uma linha só, para sempre.
+```json
+{
+  "titulo": "Título curto, que cabe em duas linhas no cartão",
+  "resumo": "Uma ou duas frases que digam do que se trata.",
+  "tipo": "brincadeira",
+  "quando": { "tipo": "idade", "deDias": 0, "ateDias": 180 },
+  "registrar": "foto",
+  "destaque": false,
+  "secoes": [
+    { "titulo": "Uma seção", "texto": "Um parágrafo." },
+    { "titulo": "Outra", "texto": "Abertura.", "itens": ["um", "dois"] }
+  ]
+}
+```
+
+- **tipo**: `brincadeira`, `passeio`, `foto`, `carta`, `leitura`, `preparo`,
+  `rotina`, `cuidado`
+- **quando**: `idade` (`deDias`, `ateDias`), `antesDoAniversario` (`anos`,
+  `diasAntes`) ou `dataEspecial` (`data`, `diasAntes`, `apenasPrimeira`)
+- **registrar**: opcional. Liga o botão que abre a folha de adicionar
+- **destaque**: use com parcimônia. Se tudo é destaque, nada é
+
+## O que os testes cobram
+
+Rode `flutter test test/inspiration_test.dart` depois de escrever. Eles
+reprovam, entre outras coisas:
+
+- seção sem texto e sem itens
+- linguagem de cobrança ou de tabela de desenvolvimento ("deveria",
+  "esperado para", "atrasado")
+- postagem sem nenhuma seção
+- id com caractere que atrapalhe nome de arquivo

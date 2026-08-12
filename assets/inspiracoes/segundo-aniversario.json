@@ -1,0 +1,31 @@
+{
+  "titulo": "Ideias para o segundo aniversário",
+  "resumo": "Aos dois ela já participa. Muda tudo em relação ao primeiro.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 2,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "A diferença para o primeiro",
+      "texto": "Aos dois anos ela escolhe, opina e lembra por semanas. Deixe que escolha o tema, mesmo que a escolha seja estranha. A festa dela com a escolha dela vale mais que a festa perfeita com a sua."
+    },
+    {
+      "titulo": "O que funciona nessa idade",
+      "itens": [
+        "Poucas crianças e muito espaço para correr.",
+        "Uma atividade só: bolha de sabão, tinta lavável, caixa de areia. Mais que uma vira confusão.",
+        "Horário curto: duas horas é o suficiente para todo mundo.",
+        "Bolo simples. Ela quer o brigadeiro, não a arquitetura."
+      ]
+    },
+    {
+      "titulo": "A entrevista",
+      "texto": "Aos dois ela já responde. Grave em áudio três perguntas: qual sua cor preferida, o que você mais gosta de fazer, o que você quer ser quando crescer. Faça as mesmas três todo ano. Em dez anos você vai ter a coleção mais impagável do acervo."
+    }
+  ]
+}

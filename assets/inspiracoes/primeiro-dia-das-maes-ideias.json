@@ -1,0 +1,36 @@
+{
+  "titulo": "O primeiro Dia das Mães",
+  "resumo": "A foto que quase nunca existe é a da mãe com o bebê, porque é ela quem fotografa. Peça a alguém. Hoje é o dia.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDasMaes",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "O primeiro é diferente dos outros",
+      "texto": "Nesse ano a data muda de lado: quem sempre comemorou passa a ser comemorada, ou volta a comemorar com uma pessoa a mais na foto. É uma virada que só acontece uma vez, e vale registrar como virada, e não como mais um domingo."
+    },
+    {
+      "titulo": "Ideias que independem de dinheiro",
+      "itens": [
+        "A foto das três gerações juntas, se der. É a que mais falta nos acervos.",
+        "A mão dela pintada com tinta lavável, carimbada num papel com a data.",
+        "Uma carta escrita pelo outro adulto da casa, no lugar da criança, contando o primeiro ano.",
+        "Um áudio da criança, mesmo sem palavra nenhuma, guardado com a data.",
+        "Café da manhã na cama, com ela no meio da bagunça."
+      ]
+    },
+    {
+      "titulo": "A foto que quase sempre falta",
+      "texto": "Quem tira as fotos raramente aparece nelas. Peça, no dia, que alguém fotografe você com ela: não a foto posada, a de vocês fazendo alguma coisa. Se não houver ninguém, use o temporizador e o celular apoiado."
+    },
+    {
+      "titulo": "Repita todo ano",
+      "texto": "Mesma pose, mesmo lugar, todo Dia das Mães. Cinco anos depois, essa série é o presente."
+    }
+  ]
+}

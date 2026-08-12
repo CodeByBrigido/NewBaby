@@ -135,28 +135,35 @@ class Inspiration {
     this.highlight = false,
   });
 
-  factory Inspiration.fromMap(Map<String, Object?> map) => Inspiration(
-    id: (map['id'] as String?) ?? '',
-    title: (map['titulo'] as String?) ?? '',
-    summary: (map['resumo'] as String?) ?? '',
-    kind: InspirationKind.fromId(map['tipo'] as String?),
-    anchor: Anchor.fromMap(
-      (map['quando'] as Map<Object?, Object?>?)?.cast<String, Object?>() ??
-          const <String, Object?>{},
-    ),
-    sections: <InspirationSection>[
-      ...?(map['secoes'] as List<Object?>?)
-          ?.whereType<Map<Object?, Object?>>()
-          .map(
-            (Map<Object?, Object?> m) =>
-                InspirationSection.fromMap(m.cast<String, Object?>()),
-          ),
-    ],
-    suggests: map['registrar'] == null
-        ? null
-        : EntryType.fromId(map['registrar'] as String?),
-    highlight: map['destaque'] == true,
-  );
+  /// Monta a postagem a partir do arquivo dela.
+  ///
+  /// O [id] vem de fora, do **nome do arquivo**, e não de um campo dentro
+  /// dele. Assim não há como os dois divergirem, e criar uma postagem é
+  /// escolher um nome de arquivo em vez de inventar um identificador e
+  /// lembrar de repeti-lo em dois lugares.
+  factory Inspiration.fromMap(Map<String, Object?> map, {required String id}) =>
+      Inspiration(
+        id: id,
+        title: (map['titulo'] as String?) ?? '',
+        summary: (map['resumo'] as String?) ?? '',
+        kind: InspirationKind.fromId(map['tipo'] as String?),
+        anchor: Anchor.fromMap(
+          (map['quando'] as Map<Object?, Object?>?)?.cast<String, Object?>() ??
+              const <String, Object?>{},
+        ),
+        sections: <InspirationSection>[
+          ...?(map['secoes'] as List<Object?>?)
+              ?.whereType<Map<Object?, Object?>>()
+              .map(
+                (Map<Object?, Object?> m) =>
+                    InspirationSection.fromMap(m.cast<String, Object?>()),
+              ),
+        ],
+        suggests: map['registrar'] == null
+            ? null
+            : EntryType.fromId(map['registrar'] as String?),
+        highlight: map['destaque'] == true,
+      );
 
   final String id;
   final String title;
@@ -178,16 +185,12 @@ class Inspiration {
   /// Poucos, de propósito: se tudo é destaque, nada é.
   final bool highlight;
 
-  /// A foto de capa da postagem.
+  /// A foto de capa da postagem, ao lado do texto dela.
   ///
-  /// O caminho vem do id, sem campo no catálogo: acrescentar a arte de uma
-  /// postagem é soltar um arquivo com o nome dela na pasta, e trocar a arte
-  /// é substituir esse arquivo. Nada de editar JSON nem código para mudar
-  /// uma imagem.
-  ///
-  /// Plano, e não uma pasta por postagem, por um motivo do Flutter: a lista
-  /// de assets do `pubspec.yaml` não alcança subpastas, então cada postagem
-  /// nova exigiria uma linha nova ali. Assim é uma linha só, para sempre.
+  /// O caminho sai do id, que por sua vez é o nome do arquivo: a postagem
+  /// `carta-primeiro-mes.json` tem a capa `carta-primeiro-mes.webp` na
+  /// mesma pasta. Trocar a arte é substituir o arquivo, e não há campo,
+  /// catálogo nem linha de configuração para mexer junto.
   String get coverAsset => 'assets/inspiracoes/$id.webp';
 
   /// Tudo o que a busca do blog olha, numa string só.

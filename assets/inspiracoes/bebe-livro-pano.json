@@ -1,0 +1,33 @@
+{
+  "titulo": "Livro de pano, mordido mesmo",
+  "resumo": "Nessa fase o livro é objeto antes de ser história: para amassar, morder e virar do avesso. Ler junto agora é sobre associar o livro ao colo.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "Livro nessa fase é objeto, não leitura",
+      "texto": "Ela vai morder, amassar e virar de cabeça para baixo. Está certo. O que se constrói aqui não é compreensão da história, é a associação entre livro, colo e voz. Um livro destruído de tanto uso é um livro que funcionou."
+    },
+    {
+      "titulo": "O que funciona",
+      "itens": [
+        "Livro de pano ou de banho, que aguenta boca e lavagem.",
+        "Livro cartonado de página grossa, que a mão ainda desajeitada consegue virar.",
+        "Poucas páginas. Cinco é ótimo, vinte é longe demais para agora.",
+        "Imagens grandes e contrastadas, uma por página, sem cenário cheio de detalhe."
+      ]
+    },
+    {
+      "titulo": "Como ler",
+      "texto": "Não precisa ler o que está escrito. Aponte, nomeie, faça o som do bicho, e pare no meio se ela virar o rosto. Três minutos por dia, sempre no mesmo horário, valem mais que meia hora no fim de semana."
+    },
+    {
+      "titulo": "Vale guardar",
+      "texto": "Fotografe o livro preferido dela agora, inclusive mastigado. Daqui a anos, esse livro estragado é um objeto com data, e a foto vale mais do que ele inteiro."
+    }
+  ]
+}

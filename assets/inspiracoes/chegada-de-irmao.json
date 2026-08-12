@@ -1,0 +1,25 @@
+{
+  "titulo": "Quando vem um irmão",
+  "resumo": "Como preparar e o que registrar antes que a casa mude de configuração para sempre.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "O registro que só dá para fazer antes",
+      "texto": "Existe uma última foto de vocês como família de três, e ninguém sabe que ela é a última na hora de tirá-la. Se um irmão está a caminho, marque uma tarde e faça essa foto de propósito."
+    },
+    {
+      "titulo": "Ajuda na adaptação",
+      "itens": [
+        "Deixe ela ajudar em algo pequeno e real: escolher uma roupinha, guardar as fraldas.",
+        "Um tempo só dela, todo dia, mesmo que sejam dez minutos.",
+        "Uma carta escrita para ela, sobre ela, no meio da chegada do outro. É o que ela vai querer ler depois, quando pensar que a atenção mudou de lugar."
+      ]
+    }
+  ]
+}

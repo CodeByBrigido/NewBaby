@@ -1,0 +1,39 @@
+{
+  "titulo": "A mesma foto, todo mês",
+  "resumo": "Escolha um lugar fixo e repita todo mês. Separadas não dizem muito. Juntas, no fim do ano, são a coisa mais bonita do acervo.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "A ideia inteira em uma frase",
+      "texto": "Escolha um lugar da casa e fotografe a criança ali, do mesmo ponto, uma vez por mês. Cada foto sozinha não é nada. As doze juntas são a coisa mais impressionante que você vai ter no fim do ano."
+    },
+    {
+      "titulo": "Escolhendo o lugar",
+      "itens": [
+        "Algo que não vá mudar: uma poltrona, o canto do sofá, a mesma parede.",
+        "Com um objeto fixo do lado, que dê escala. Uma almofada, um urso, a planta.",
+        "Perto de janela, para a luz ser parecida em todos os meses.",
+        "Evite o berço: ele sai de cena no meio do caminho e a série se quebra."
+      ]
+    },
+    {
+      "titulo": "Para as fotos combinarem",
+      "itens": [
+        "Marque com fita no chão onde você fica de pé. Parece exagero e é o que salva a série.",
+        "Sempre na horizontal, ou sempre na vertical. Misturar estraga a montagem depois.",
+        "Um dia fixo por mês, o do aniversário mensal, para não virar assunto de decisão.",
+        "Um alarme mensal no celular. A série morre por esquecimento, nunca por vontade."
+      ]
+    },
+    {
+      "titulo": "No fim do ano",
+      "texto": "Junte as doze numa grade de quatro por três. É a imagem que a família inteira vai querer, e é a que fica na parede. Se você perder um mês, siga assim mesmo: onze fotos ainda contam a história toda."
+    }
+  ]
+}
