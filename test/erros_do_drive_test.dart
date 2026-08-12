@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:googleapis/drive/v3.dart' show DetailedApiRequestError;
 import 'package:meu_bebe/core/utils/error_text.dart';
 
@@ -71,6 +72,31 @@ void main() {
         userMessage(DetailedApiRequestError(null, 'vazio')),
         contains('Google Drive'),
       );
+    });
+  });
+
+  group('o que o Firestore recusa', () {
+    String firestore(String code) =>
+        userMessage(FirebaseException(plugin: 'cloud_firestore', code: code));
+
+    test('a recusa da regra não é vendida como sessão expirada', () {
+      // O `permission-denied` tem duas causas opostas: a sessão caiu, ou o
+      // servidor recusou o formato do que foi gravado. Chamar as duas de
+      // "sua sessão expirou" manda a pessoa refazer o login para resolver
+      // algo que não é dela, e some com o único sintoma que apontaria para
+      // uma regra publicada fora de dia. Foi o que aconteceu no cadastro.
+      final String texto = firestore('permission-denied');
+      expect(texto, contains('recusou'));
+      expect(texto, contains('não sua'));
+      expect(texto, isNot(contains('sessão expirou')));
+    });
+
+    test('a sessão de verdade continua tendo a frase da sessão', () {
+      expect(firestore('unauthenticated'), contains('Sua sessão expirou'));
+    });
+
+    test('servidor fora do ar pede espera', () {
+      expect(firestore('unavailable'), contains('não respondeu'));
     });
   });
 
