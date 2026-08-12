@@ -32,8 +32,19 @@ String userMessage(Object error, {String? context}) {
     DetailedApiRequestError() => _drive(error),
 
     FirebaseException(:final String code) => switch (code) {
+      // Duas causas moram neste código, e são opostas: ou a sessão caiu, ou
+      // o servidor recusou o formato do que foi gravado (regra publicada
+      // fora de dia com a versão instalada, por exemplo).
+      //
+      // Dizer só "sua sessão expirou" manda a pessoa sair e entrar de novo
+      // para resolver algo que não é dela, e esconde de quem publica o
+      // aplicativo o único sintoma que apontaria para as regras. A frase
+      // cobre as duas, e a segunda metade tira o peso das costas de quem
+      // está tentando cadastrar um filho.
       'permission-denied' =>
-        'Sua sessão expirou. Entre de novo para continuar.',
+        'O servidor recusou a gravação. Saia da conta e entre de novo; se '
+            'continuar, é uma configuração do aplicativo, e não sua.',
+      'unauthenticated' => 'Sua sessão expirou. Entre de novo para continuar.',
       'unavailable' || 'deadline-exceeded' =>
         'O servidor não respondeu. Tente de novo em instantes.',
       'requires-recent-login' =>
