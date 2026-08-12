@@ -70,7 +70,10 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         shape: const CircleBorder(),
         child: const Icon(Icons.add, size: 30),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // Mais para baixo que o `centerDocked` padrão. O botão parecia
+      // flutuar solto acima da barra; encostado no entalhe, ele volta a
+      // fazer parte dela.
+      floatingActionButtonLocation: const _BotaoEncaixado(),
       bottomNavigationBar: _BottomBar(
         index: _index,
         onSelected: _onDestination,
@@ -98,48 +101,78 @@ class _BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: context.cores.surface,
-      elevation: 0,
-      height: 68,
-      padding: EdgeInsets.zero,
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 8,
-      child: Row(
-        children: <Widget>[
-          _BarItem(
-            icon: Icons.home_outlined,
-            selectedIcon: Icons.home_rounded,
-            label: S.home,
-            selected: index == 0,
-            onTap: () => onSelected(0),
-          ),
-          _BarItem(
-            icon: Icons.timeline_outlined,
-            selectedIcon: Icons.timeline_rounded,
-            label: S.timeline,
-            selected: index == 1,
-            onTap: () => onSelected(1),
-          ),
-          const Expanded(child: SizedBox.shrink()),
-          _BarItem(
-            icon: Icons.lightbulb_outline,
-            selectedIcon: Icons.lightbulb,
-            label: 'Inspirações',
-            selected: index == 3,
-            badge: novidades,
-            onTap: () => onSelected(3),
-          ),
-          _BarItem(
-            icon: Icons.person_outline,
-            selectedIcon: Icons.person_rounded,
-            label: S.profile,
-            selected: index == 4,
-            onTap: () => onSelected(4),
-          ),
-        ],
+    // A linha escura no alto separa a barra do conteúdo que rola por baixo
+    // dela. Sem ela, uma foto clara encostando na barra fazia as duas
+    // parecerem a mesma superfície, e o rodapé sumia.
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: context.cores.textPrimary, width: 1),
+        ),
+      ),
+      child: BottomAppBar(
+        color: context.cores.surface,
+        elevation: 0,
+        height: 68,
+        padding: EdgeInsets.zero,
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8,
+        child: Row(
+          children: <Widget>[
+            _BarItem(
+              icon: Icons.home_outlined,
+              selectedIcon: Icons.home_rounded,
+              label: S.home,
+              selected: index == 0,
+              onTap: () => onSelected(0),
+            ),
+            _BarItem(
+              icon: Icons.timeline_outlined,
+              selectedIcon: Icons.timeline_rounded,
+              label: S.timeline,
+              selected: index == 1,
+              onTap: () => onSelected(1),
+            ),
+            const Expanded(child: SizedBox.shrink()),
+            _BarItem(
+              icon: Icons.lightbulb_outline,
+              selectedIcon: Icons.lightbulb,
+              label: 'Inspirações',
+              selected: index == 3,
+              badge: novidades,
+              onTap: () => onSelected(3),
+            ),
+            _BarItem(
+              icon: Icons.person_outline,
+              selectedIcon: Icons.person_rounded,
+              label: S.profile,
+              selected: index == 4,
+              onTap: () => onSelected(4),
+            ),
+          ],
+        ),
       ),
     );
+  }
+}
+
+/// O "+" um pouco mais para baixo que o encaixe padrão.
+///
+/// O `centerDocked` do Flutter deixa o botão sobrando bastante acima da
+/// barra, e a impressão é de uma bolha solta no ar em cima do rodapé.
+/// Descer alguns pixels o assenta no entalhe, sem cobrir os rótulos.
+class _BotaoEncaixado extends FloatingActionButtonLocation {
+  const _BotaoEncaixado();
+
+  /// Quanto descer em relação ao encaixe padrão.
+  static const double _descida = 10;
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry geometry) {
+    final Offset padrao = FloatingActionButtonLocation.centerDocked.getOffset(
+      geometry,
+    );
+    return Offset(padrao.dx, padrao.dy + _descida);
   }
 }
 

@@ -15,7 +15,6 @@ import '../../models/capsule_pulse.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
 import '../moments/moments_screen.dart';
-import '../shell/add_sheet.dart';
 import '../timeline/upload_banner.dart';
 import 'pulse_cards.dart';
 
@@ -84,14 +83,11 @@ class HomeScreen extends ConsumerWidget {
           PulseCards(pulse: pulse, copy: copy),
           const SizedBox(height: Space.x16),
           NextSuggestion(copy: copy),
-          FilledButton.icon(
-            onPressed: () => showAddSheet(context),
-            icon: const Icon(Icons.add),
-            label: const Text('Registrar momento'),
-          ),
-          const SizedBox(height: Space.x8),
+          // Sem botão de registrar aqui: o "+" da barra de baixo está
+          // sempre à mão, em todas as telas, e dois botões para a mesma
+          // ação a poucos centímetros um do outro só ocupam espaço.
           const UploadBanner(),
-          const SectionHeader(title: 'Atalhos'),
+          const SectionHeader(title: 'Acervo'),
           _Shortcuts(),
           const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
@@ -135,39 +131,49 @@ class _Hero extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Space.x20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[context.cores.primarySoft, context.cores.accentSoft],
-        ),
+        // Uma cor com nome, e não um gradiente entre dois tons pálidos.
+        // Ela é escura o bastante para exigir os tons `onHero`: os de texto
+        // do resto do aplicativo não passam no contraste em cima dela.
+        color: context.cores.heroFill,
         borderRadius: Radii.cardR,
       ),
+      // Duas colunas, cada uma com o conteúdo centralizado na própria
+      // altura. Antes tudo se alinhava ao topo, e a foto ficava pendurada
+      // no canto enquanto o texto descia sozinho.
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   '${Fmt.greeting(DateTime.now())}!',
                   style: text.bodyMedium?.copyWith(
-                    color: context.cores.primaryDark,
+                    color: context.cores.onHeroSoft,
                   ),
                 ),
                 const SizedBox(height: Space.x12),
-                Text('Hoje ${copy.theName} está com', style: text.bodyMedium),
+                Text(
+                  'Hoje ${copy.theName} está com',
+                  style: text.bodyMedium?.copyWith(
+                    color: context.cores.onHeroSoft,
+                  ),
+                ),
                 const SizedBox(height: Space.x4),
                 Text(
                   pulse.age.detailedLabel(alwaysShowDays: true),
                   style: text.headlineSmall?.copyWith(
-                    color: context.cores.textPrimary,
+                    color: context.cores.onHero,
                   ),
                 ),
                 const SizedBox(height: Space.x8),
                 Text(
                   'Nasceu em ${Fmt.longDate(profile.birth)}',
-                  style: text.bodySmall,
+                  style: text.bodySmall?.copyWith(
+                    color: context.cores.onHeroSoft,
+                  ),
                 ),
               ],
             ),
