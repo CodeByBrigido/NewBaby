@@ -27,7 +27,7 @@ const String nomeDoProduto = 'Meu Bebê: Cápsula do Tempo';
 const Map<String, String> coresDaPagina = <String, String>{
   'primary': '#D2654E',
   'primaryDark': '#B8513E',
-  'background': '#FBF8F5',
+  'background': '#FCF3EE',
   'surface': '#FFFFFF',
   'textPrimary': '#2F251F',
   'textSecondary': '#71665E',

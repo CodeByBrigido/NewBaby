@@ -23,7 +23,10 @@ class PulseCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> cards = <Widget>[
+    // Os cartões de ocasião: aniversário e marco. Aparecem de vez em
+    // quando, têm texto de tamanho imprevisível, e por isso continuam num
+    // `Wrap`, que os deixa ocupar o que precisarem.
+    final List<Widget> ocasiao = <Widget>[
       if (pulse.isBirthday)
         _PulseCard(
           icon: Icons.cake_outlined,
@@ -54,15 +57,40 @@ class PulseCards extends StatelessWidget {
             background: context.cores.accentSoft,
           ),
       ],
-      for (final EntryType type in <EntryType>[
-        EntryType.photo,
-        EntryType.letter,
-        EntryType.growth,
-      ])
-        _LastOfType(pulse: pulse, type: type),
     ];
 
-    return Wrap(spacing: 10, runSpacing: 10, children: cards);
+    // Os três "última foto / última carta / última medição" são sempre os
+    // mesmos três, e por isso ganham largura igual numa linha só.
+    //
+    // Antes eles também estavam no `Wrap`, cada um do tamanho do próprio
+    // texto, e "Última medição" nunca cabia: sobrava sempre um cartão
+    // sozinho na linha de baixo, sem motivo aparente. Diminuir a folga não
+    // resolvia, porque o problema era a largura ser livre.
+    const List<EntryType> ultimos = <EntryType>[
+      EntryType.photo,
+      EntryType.letter,
+      EntryType.growth,
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (ocasiao.isNotEmpty) ...<Widget>[
+          Wrap(spacing: Space.x8, runSpacing: Space.x8, children: ocasiao),
+          const SizedBox(height: Space.x8),
+        ],
+        Row(
+          children: <Widget>[
+            for (final EntryType type in ultimos) ...<Widget>[
+              Expanded(
+                child: _LastOfType(pulse: pulse, type: type),
+              ),
+              if (type != ultimos.last) const SizedBox(width: Space.x8),
+            ],
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -128,33 +156,33 @@ class _PulseCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: Radii.buttonR,
         child: Padding(
+          // Folga menor por dentro, pelo mesmo motivo: o que sobra de
+          // largura aqui é o que decide se três cartões cabem numa linha.
           padding: const EdgeInsets.symmetric(
-            horizontal: Space.x16,
+            horizontal: Space.x12,
             vertical: Space.x12,
           ),
-          child: Row(
+          // Ícone em cima, texto embaixo. Lado a lado, o ícone comia a
+          // largura de que o rótulo precisava, e "Última medição" quebrava
+          // em três linhas dentro de um cartão de um terço da tela.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(icon, size: 20, color: accent),
-              const SizedBox(width: Space.x12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    label,
-                    style: text.labelSmall?.copyWith(
-                      color: context.cores.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: Space.x4),
-                  Text(
-                    value,
-                    style: text.titleSmall?.copyWith(
-                      color: context.cores.textPrimary,
-                    ),
-                  ),
-                ],
+              const SizedBox(height: Space.x8),
+              Text(
+                label,
+                style: text.labelSmall?.copyWith(
+                  color: context.cores.textSecondary,
+                ),
+              ),
+              const SizedBox(height: Space.x4),
+              Text(
+                value,
+                style: text.titleSmall?.copyWith(
+                  color: context.cores.textPrimary,
+                ),
               ),
             ],
           ),

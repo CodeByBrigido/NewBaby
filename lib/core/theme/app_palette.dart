@@ -24,6 +24,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
     required this.accent,
     required this.accentSoft,
     required this.background,
+    required this.heroFill,
+    required this.onHero,
+    required this.onHeroSoft,
     required this.surface,
     required this.surfaceMuted,
     required this.textPrimary,
@@ -71,6 +74,23 @@ class AppPalette extends ThemeExtension<AppPalette> {
   final Color accentSoft;
 
   final Color background;
+
+  /// O painel cheio do topo da Home.
+  ///
+  /// Antes ali havia um gradiente entre `primarySoft` e `accentSoft`, e o
+  /// resultado era um tom pálido que não existia como token nenhum: quem
+  /// tirasse a cor com conta-gotas pegaria um valor do meio do caminho, sem
+  /// nome e sem lugar no Design System. Agora é uma cor só, com nome.
+  ///
+  /// Ela é escura o bastante para exigir os pares abaixo: os tons de texto
+  /// do resto do aplicativo não passam no contraste em cima dela.
+  final Color heroFill;
+
+  /// O texto principal sobre [heroFill].
+  final Color onHero;
+
+  /// O texto secundário sobre [heroFill], ainda acima de 4.5:1.
+  final Color onHeroSoft;
   final Color surface;
   final Color surfaceMuted;
 
@@ -144,7 +164,11 @@ class AppPalette extends ThemeExtension<AppPalette> {
     primarySoft: Color(0xFFF1DFEC),
     accent: Color(0xFF9B87C4),
     accentSoft: Color(0xFFEDE4F5),
-    background: Color(0xFFFFFDFE),
+    background: Color(0xFFFCF3EE),
+    // O tom pedido para o painel do topo.
+    heroFill: Color(0xFFC893AC),
+    onHero: Color(0xFF32292E),
+    onHeroSoft: Color(0xFF3E3138),
     surface: Colors.white,
     surfaceMuted: Color(0xFFF7EDF5),
     textPrimary: Color(0xFF32292E),
@@ -173,11 +197,19 @@ class AppPalette extends ThemeExtension<AppPalette> {
     primarySoft: Color(0xFFDDEAF8),
     accent: Color(0xFF6FB0A6),
     accentSoft: Color(0xFFDFEFEC),
-    background: Color(0xFFF8FBFE),
+    background: Color(0xFFFCF3EE),
+    // O equivalente da família Sky, com a mesma clareza do tom pedido para
+    // a Lavender, para o painel ter o mesmo peso nos dois temas.
+    heroFill: Color(0xFF93AEC8),
+    onHero: Color(0xFF23292F),
+    onHeroSoft: Color(0xFF2F3941),
     surface: Colors.white,
     surfaceMuted: Color(0xFFEDF5FC),
     textPrimary: Color(0xFF2A3138),
-    textSecondary: Color(0xFF66727D),
+    // Um passo mais escuro que antes: sobre o fundo creme novo, o tom
+    // anterior dava 4.497:1, três milésimos abaixo do mínimo de AA. O
+    // teste de contraste pegou.
+    textSecondary: Color(0xFF646F7A),
     muted: Color(0xFF98A4AE),
     border: Color(0xFFDCE6F1),
     photo: _foto,
@@ -207,7 +239,10 @@ class AppPalette extends ThemeExtension<AppPalette> {
     primarySoft: Color(0xFFF8E2DC),
     accent: Color(0xFFC98C6B),
     accentSoft: Color(0xFFF6E7DC),
-    background: Color(0xFFFBF8F5),
+    background: Color(0xFFFCF3EE),
+    heroFill: Color(0xFFC89B8B),
+    onHero: Color(0xFF2F251F),
+    onHeroSoft: Color(0xFF3B2F28),
     surface: Colors.white,
     surfaceMuted: Color(0xFFF8F0EB),
     textPrimary: Color(0xFF2F251F),
@@ -245,6 +280,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
     Color? accent,
     Color? accentSoft,
     Color? background,
+    Color? heroFill,
+    Color? onHero,
+    Color? onHeroSoft,
     Color? surface,
     Color? surfaceMuted,
     Color? textPrimary,
@@ -272,6 +310,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
       accent: accent ?? this.accent,
       accentSoft: accentSoft ?? this.accentSoft,
       background: background ?? this.background,
+      heroFill: heroFill ?? this.heroFill,
+      onHero: onHero ?? this.onHero,
+      onHeroSoft: onHeroSoft ?? this.onHeroSoft,
       surface: surface ?? this.surface,
       surfaceMuted: surfaceMuted ?? this.surfaceMuted,
       textPrimary: textPrimary ?? this.textPrimary,
@@ -305,6 +346,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
       accent: mix(accent, other.accent),
       accentSoft: mix(accentSoft, other.accentSoft),
       background: mix(background, other.background),
+      heroFill: mix(heroFill, other.heroFill),
+      onHero: mix(onHero, other.onHero),
+      onHeroSoft: mix(onHeroSoft, other.onHeroSoft),
       surface: mix(surface, other.surface),
       surfaceMuted: mix(surfaceMuted, other.surfaceMuted),
       textPrimary: mix(textPrimary, other.textPrimary),

@@ -70,7 +70,10 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         shape: const CircleBorder(),
         child: const Icon(Icons.add, size: 30),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // Mais para baixo que o `centerDocked` padrão. O botão parecia
+      // flutuar solto acima da barra; encostado no entalhe, ele volta a
+      // fazer parte dela.
+      floatingActionButtonLocation: const _BotaoEncaixado(),
       bottomNavigationBar: _BottomBar(
         index: _index,
         onSelected: _onDestination,
@@ -140,6 +143,26 @@ class _BottomBar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// O "+" um pouco mais para baixo que o encaixe padrão.
+///
+/// O `centerDocked` do Flutter deixa o botão sobrando bastante acima da
+/// barra, e a impressão é de uma bolha solta no ar em cima do rodapé.
+/// Descer alguns pixels o assenta no entalhe, sem cobrir os rótulos.
+class _BotaoEncaixado extends FloatingActionButtonLocation {
+  const _BotaoEncaixado();
+
+  /// Quanto descer em relação ao encaixe padrão.
+  static const double _descida = 10;
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry geometry) {
+    final Offset padrao = FloatingActionButtonLocation.centerDocked.getOffset(
+      geometry,
+    );
+    return Offset(padrao.dx, padrao.dy + _descida);
   }
 }
 

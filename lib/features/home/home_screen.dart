@@ -15,7 +15,6 @@ import '../../models/capsule_pulse.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
 import '../moments/moments_screen.dart';
-import '../shell/add_sheet.dart';
 import '../timeline/upload_banner.dart';
 import 'pulse_cards.dart';
 
@@ -84,14 +83,11 @@ class HomeScreen extends ConsumerWidget {
           PulseCards(pulse: pulse, copy: copy),
           const SizedBox(height: Space.x16),
           NextSuggestion(copy: copy),
-          FilledButton.icon(
-            onPressed: () => showAddSheet(context),
-            icon: const Icon(Icons.add),
-            label: const Text('Registrar momento'),
-          ),
-          const SizedBox(height: Space.x8),
+          // Sem botão de registrar aqui: o "+" da barra de baixo está
+          // sempre à mão, em todas as telas, e dois botões para a mesma
+          // ação a poucos centímetros um do outro só ocupam espaço.
           const UploadBanner(),
-          const SectionHeader(title: 'Atalhos'),
+          const SectionHeader(title: 'Acervo'),
           _Shortcuts(),
           const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
@@ -117,10 +113,16 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-/// O cabeçalho: quem, quantos anos, e desde quando.
+/// O cabeçalho: quem, e quantos anos.
 ///
 /// A frase é a mesma que alguém diria em voz alta ao ser perguntado, e é
 /// por isso que a idade vem grande e o resto vem pequeno.
+///
+/// A data de nascimento saiu daqui. Nenhum pai ou mãe precisa ser lembrado
+/// dela todo dia, ao abrir o aplicativo, e repetir o que a pessoa sabe de
+/// cor gasta a linha mais visível da tela com informação nenhuma. Ela
+/// continua no cadastro, que é onde se procura um dado, e não onde se
+/// tropeça nele.
 class _Hero extends StatelessWidget {
   const _Hero({required this.profile, required this.pulse, required this.copy});
 
@@ -135,39 +137,46 @@ class _Hero extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Space.x20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[context.cores.primarySoft, context.cores.accentSoft],
-        ),
+        // Uma cor com nome, e não um gradiente entre dois tons pálidos.
+        // Ela é escura o bastante para exigir os tons `onHero`: os de texto
+        // do resto do aplicativo não passam no contraste em cima dela.
+        color: context.cores.heroFill,
         borderRadius: Radii.cardR,
       ),
+      // Duas colunas, cada uma centralizada por inteiro na própria coluna:
+      // na altura e também na largura. Com o texto encostado à esquerda, a
+      // coluna dele ocupava a largura toda e sobrava um vão enorme antes da
+      // foto; centralizado, o texto se aproxima dela sozinho.
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   '${Fmt.greeting(DateTime.now())}!',
+                  textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
-                    color: context.cores.primaryDark,
+                    color: context.cores.onHeroSoft,
                   ),
                 ),
                 const SizedBox(height: Space.x12),
-                Text('Hoje ${copy.theName} está com', style: text.bodyMedium),
+                Text(
+                  'Hoje ${copy.theName} está com',
+                  textAlign: TextAlign.center,
+                  style: text.bodyMedium?.copyWith(
+                    color: context.cores.onHeroSoft,
+                  ),
+                ),
                 const SizedBox(height: Space.x4),
                 Text(
                   pulse.age.detailedLabel(alwaysShowDays: true),
+                  textAlign: TextAlign.center,
                   style: text.headlineSmall?.copyWith(
-                    color: context.cores.textPrimary,
+                    color: context.cores.onHero,
                   ),
-                ),
-                const SizedBox(height: Space.x8),
-                Text(
-                  'Nasceu em ${Fmt.longDate(profile.birth)}',
-                  style: text.bodySmall,
                 ),
               ],
             ),
