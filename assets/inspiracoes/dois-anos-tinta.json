@@ -1,0 +1,35 @@
+{
+  "titulo": "Tinta lavável e papel grande",
+  "resumo": "Papel pardo no chão, tinta guache e a mão inteira. A sujeira é o ponto. Guarde a impressão da mão com a data.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Antes de começar, resolva a sujeira",
+      "texto": "Metade do estresse da pintura vem de improvisar a limpeza depois. Resolvido isso antes, sobra a parte boa. Faça no chão da área de serviço, no quintal, ou sobre um plástico grande, e com ela só de fralda: pele lava mais fácil que roupa."
+    },
+    {
+      "titulo": "O que usar",
+      "itens": [
+        "Tinta lavável atóxica, própria para a idade, e confira o rótulo.",
+        "Papel grande. Papel pardo de rolo é barato e é o melhor investimento aqui.",
+        "Pincel grosso, esponja, rolinho, e principalmente as mãos.",
+        "Duas ou três cores no máximo. Com mais, tudo vira marrom em dois minutos e a frustração é dela.",
+        "Um balde de água morna e uma toalha velha do lado, prontos antes de abrir a tinta."
+      ]
+    },
+    {
+      "titulo": "O processo importa mais que o resultado",
+      "texto": "Não é para sair um desenho. É para descobrir o que a mão faz com a tinta. Não conduza, não peça para fazer uma casa, não corrija a cor do céu. Sente do lado e pinte a sua própria folha."
+    },
+    {
+      "titulo": "O que guardar",
+      "texto": "Fotografe as mãos sujas, o papel no meio do processo e o rosto concentrado. Depois, uma foto do desenho seco e inteiro, com a data. Três fotos, e a folha pode ir embora sem culpa."
+    }
+  ]
+}

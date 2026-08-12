@@ -1,0 +1,39 @@
+{
+  "titulo": "A primeira viagem",
+  "resumo": "O que levar, quanto tempo de trajeto aguenta, e como não voltar sem nenhuma foto dos três juntos.",
+  "tipo": "passeio",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 1000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Escolhendo o destino",
+      "itens": [
+        "Perto é melhor que bonito. Três horas de carro com paradas é um limite confortável nos primeiros meses.",
+        "Lugar com cozinha vale mais que lugar com piscina.",
+        "Se for de avião, voo no horário do sono costuma render mais que voo cedo."
+      ]
+    },
+    {
+      "titulo": "A mala",
+      "itens": [
+        "Roupa para o dobro dos dias. Sempre acontece algo.",
+        "Remédio de rotina, receita e carteira de vacinação.",
+        "Um brinquedo conhecido e um cobertor de casa: o cheiro familiar ajuda a dormir em cama estranha.",
+        "Sacola de lixo e lenço umedecido em todo canto: mochila, carro, bolsa."
+      ]
+    },
+    {
+      "titulo": "As fotos que faltam depois",
+      "itens": [
+        "A foto dos três juntos. Peça a um estranho, mesmo que dê preguiça. Você volta de toda viagem só com fotos que você tirou.",
+        "A foto da paisagem com ela pequenininha no canto, para dar escala.",
+        "Um vídeo de dez segundos por dia, sem edição. Juntos, viram o melhor resumo da viagem."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "titulo": "A fase dos porquês",
+  "resumo": "Anote as perguntas que você não soube responder. É o retrato mais fiel de como ela pensava nessa idade, e some em poucos meses.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "O que está acontecendo",
+      "texto": "A pergunta repetida não é teimosia nem provocação. É a descoberta de que existe causa por trás das coisas, e de que você é a fonte. O cansaço é real e a fase passa; enquanto dura, é a melhor matéria-prima de acervo que vocês vão ter."
+    },
+    {
+      "titulo": "Como responder sem enlouquecer",
+      "itens": [
+        "Responda de verdade as duas ou três primeiras. Vale muito.",
+        "Depois devolva: \"e por que você acha?\" A resposta dela costuma ser melhor que a sua.",
+        "\"Não sei\" é resposta legítima. Procurar junto é ainda melhor.",
+        "Quando não der mais, diga que não dá mais agora. Fingir paciência que acabou não engana ninguém."
+      ]
+    },
+    {
+      "titulo": "Anote as perguntas, não as respostas",
+      "texto": "As perguntas dessa fase são o registro. \"Por que o sol vai embora?\", \"Por que o vovô é velho?\", \"Por que a gente morre?\". Anote a pergunta exata e a data, numa carta que você vai alimentando. Em seis meses você tem um documento que vale mais que um álbum."
+    },
+    {
+      "titulo": "Grave uma rodada",
+      "texto": "Um minuto de áudio de uma sequência de porquês, com a sua voz respondendo. É engraçado hoje e é comovente daqui a vinte anos, quando quem pergunta for outra pessoa."
+    }
+  ]
+}

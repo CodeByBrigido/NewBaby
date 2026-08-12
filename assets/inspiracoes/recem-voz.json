@@ -1,0 +1,35 @@
+{
+  "titulo": "Grave a sua voz, não a dela",
+  "resumo": "Cantar, ler em voz alta, conversar sobre o dia. Daqui a trinta anos, quem vai querer se ouvir é ela, mas quem ela mais vai querer ouvir é você.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "A voz que vai fazer falta é a sua",
+      "texto": "Todo mundo tenta gravar o som da criança. O que a criança adulta vai querer ouvir é a sua voz, falando com ela quando ela ainda não entendia nada. Daqui a trinta anos, esse é o arquivo que não tem substituto."
+    },
+    {
+      "titulo": "O que gravar",
+      "itens": [
+        "A canção que você canta para fazer dormir, cantada mal mesmo.",
+        "Você contando como foi o dia do nascimento, em voz alta, do seu jeito.",
+        "Uma conversa boba enquanto troca a fralda. É o tom do dia a dia que se perde.",
+        "O nome dela dito por você, várias vezes, em situações diferentes.",
+        "Os avós falando com ela. Essa é a gravação que vira insubstituível mais rápido do que se imagina."
+      ]
+    },
+    {
+      "titulo": "Como, sem produzir",
+      "texto": "O gravador do próprio celular resolve. Um minuto basta, e mais de três ninguém escuta. Fale perto, num cômodo com pano e sofá, que abafa o eco. Não regrave para ficar bonito: o engasgo e a risada no meio são o que dá vida ao arquivo."
+    },
+    {
+      "titulo": "Onde guardar",
+      "texto": "Grave, mande para a cápsula e escreva na descrição a data e o que é. Áudio sem etiqueta vira arquivo sem dono, e daqui a vinte anos ninguém sabe se era música ou teste de microfone."
+    }
+  ]
+}

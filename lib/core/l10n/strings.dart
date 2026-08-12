@@ -222,7 +222,6 @@ abstract final class S {
       'Esta ação não pode ser desfeita.';
 
   // Perfil
-  static const String googleAccount = 'Conta Google';
   static const String currentAge = 'Idade atual';
   static const String signOutConfirmTitle = 'Sair da conta?';
   static const String signOutConfirmBody =

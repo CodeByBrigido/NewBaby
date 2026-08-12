@@ -109,6 +109,12 @@ flutter:
     # trocar a arte sem mexer aqui.
     - assets/images/onboarding/
     - assets/images/icon/icon.png
+    # O blog inteiro: uma postagem é um `<id>.json` com a capa `<id>.webp`
+    # ao lado. Esta linha declara a pasta uma vez e nunca mais muda, porque
+    # o aplicativo descobre o que existe dentro dela pelo AssetManifest, em
+    # tempo de execução. Publicar é soltar dois arquivos aqui.
+    # Ver assets/inspiracoes/LEIA-ME.md.
+    - assets/inspiracoes/
 
   # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
   # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:

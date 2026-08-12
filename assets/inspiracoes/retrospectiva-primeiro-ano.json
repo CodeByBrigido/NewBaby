@@ -1,0 +1,27 @@
+{
+  "titulo": "Montando a retrospectiva do primeiro ano",
+  "resumo": "Um roteiro para transformar o acervo do ano num vídeo ou num álbum que a família inteira vai querer ver.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "O roteiro mais simples que funciona",
+      "itens": [
+        "Uma foto de cada mês, do mesmo lugar se você tiver.",
+        "Três vídeos curtos: um do começo, um do meio, um recente.",
+        "A voz de vocês por cima, contando o que aconteceu naquele mês.",
+        "Termina com a foto do dia do nascimento e a de hoje, lado a lado."
+      ]
+    },
+    {
+      "titulo": "Onde as pessoas travam",
+      "texto": "Todo mundo trava tentando escolher entre trezentas fotos. Não escolha as melhores: escolha uma por mês, na ordem, e siga. Retrospectiva feita vale infinitamente mais que retrospectiva perfeita não feita."
+    }
+  ]
+}

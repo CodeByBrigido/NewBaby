@@ -1,0 +1,36 @@
+{
+  "titulo": "O primeiro Dia dos Pais",
+  "resumo": "Um áudio do pai falando com ela aos dezoito anos vale mais que qualquer presente que ele possa ganhar hoje.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Registrar a mudança, não a data",
+      "texto": "O primeiro Dia dos Pais com a criança na casa marca uma virada de papel que não se repete. O que vale guardar é isso: como era antes, como está agora, e o que mudou em quem virou pai neste ano."
+    },
+    {
+      "titulo": "Ideias simples",
+      "itens": [
+        "A foto das três gerações, quando existir essa possibilidade.",
+        "O carimbo do pé ou da mão dela num papel, com a data.",
+        "Uma carta escrita por ele, para ela ler adulta, sobre este primeiro ano.",
+        "Um vídeo dos dois fazendo a coisa mais boba do dia: trocando fralda, vendo o jogo, dormindo no sofá.",
+        "A foto dos dois dormindo, que é o clássico e é clássico por um motivo."
+      ]
+    },
+    {
+      "titulo": "Quem fotografa também precisa aparecer",
+      "texto": "Vale a mesma regra: peça a alguém, ou use o temporizador. Um acervo sem o pai nas fotos conta uma história errada, e é o erro mais comum de todos."
+    },
+    {
+      "titulo": "A pergunta que rende todo ano",
+      "texto": "Grave um vídeo curto respondendo: \"o que eu aprendi neste ano?\" Todo Dia dos Pais, a mesma pergunta. É a entrevista anual, do outro lado da câmera."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "titulo": "A caixa de papelão vence o brinquedo",
+  "resumo": "Uma caixa grande vira carro, casa e esconderijo, e entretém mais que o brinquedo que veio dentro dela. Vale registrar essa injustiça.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Por que a caixa ganha",
+      "texto": "A caixa não faz nada, e é exatamente por isso que ela funciona: quem faz é a criança. O brinquedo que toca música e acende luz entretém por três dias; a caixa de papelão volta a ser outra coisa toda semana."
+    },
+    {
+      "titulo": "O que fazer com uma caixa grande",
+      "itens": [
+        "Abrir os dois lados e virar túnel.",
+        "Deixar fechada com uma porta recortada e virar casa.",
+        "Deitar e virar carrinho, com você puxando pelo chão liso.",
+        "Deixar ela desenhar por dentro, com giz de cera, quando já segurar.",
+        "Encher de outras caixas menores, para tirar e pôr. É a brincadeira mais longa da lista."
+      ]
+    },
+    {
+      "titulo": "Cuidados",
+      "itens": [
+        "Tire grampos, fitas e etiquetas antes.",
+        "Dobre as bordas para dentro ou passe fita larga: papelão corta.",
+        "Nada de caixa que já teve produto de limpeza dentro."
+      ]
+    },
+    {
+      "titulo": "Guarde a prova",
+      "texto": "Fotografe a caixa depois de pronta, com ela dentro, e escreva na descrição o que aquilo virou naquele dia. É o tipo de detalhe que ninguém lembra e que faz rir muito depois."
+    }
+  ]
+}

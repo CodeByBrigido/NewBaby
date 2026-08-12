@@ -1,0 +1,34 @@
+{
+  "titulo": "O espelho",
+  "resumo": "Sente com ela de frente para um espelho e converse. A reação muda de mês para mês, e filmar a mesma cena a cada dois meses vira uma sequência linda.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "A brincadeira mais barata que existe",
+      "texto": "Um espelho seguro na altura do chão entretém por mais tempo que quase todo brinquedo comprado, e não custa nada se você já tiver um em casa. A reação vale por si: primeiro estranha, depois sorri, depois tenta pegar."
+    },
+    {
+      "titulo": "Como montar",
+      "itens": [
+        "Espelho de acrílico, ou um de vidro bem preso à parede, na horizontal, rente ao chão.",
+        "Deite ela de barriga para baixo de frente para o espelho: junta as duas brincadeiras.",
+        "Sente com ela no colo e converse olhando para o reflexo, apontando: \"essa é você, esse sou eu\".",
+        "O espelho do banheiro, depois do banho, com ela enrolada na toalha, funciona igual."
+      ]
+    },
+    {
+      "titulo": "O que muda com o tempo",
+      "texto": "A relação com o reflexo muda muito ao longo dos meses, e é justamente por isso que vale voltar a esta brincadeira de tempos em tempos. A mesma cena, filmada com alguns meses de diferença, mostra a mudança sem precisar de legenda."
+    },
+    {
+      "titulo": "A foto",
+      "texto": "Fotografe de lado, pegando a criança e o reflexo no mesmo quadro. É uma composição que sai bonita mesmo com celular, e conta a brincadeira inteira numa imagem só."
+    }
+  ]
+}

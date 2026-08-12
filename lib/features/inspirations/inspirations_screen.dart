@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/copy.dart';
-import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
-import '../shell/add_sheet.dart';
-import 'inspiration_art.dart';
+import 'capa_da_postagem.dart';
 import 'inspiration_article_screen.dart';
+import 'inspiration_search_screen.dart';
 
 /// Ideias do que fazer e do que guardar, escolhidas pela idade e pelo
 /// calendário.
@@ -20,29 +18,68 @@ import 'inspiration_article_screen.dart';
 /// Não é um blog. Cada cartão é uma coisa que dá para fazer, e o que tem
 /// data aparece na hora certa: as ideias para o primeiro aniversário chegam
 /// três semanas antes, não no dia nem no ano passado.
-class InspirationsScreen extends ConsumerWidget {
+class InspirationsScreen extends ConsumerStatefulWidget {
   const InspirationsScreen({super.key, this.embedded = false});
 
   final bool embedded;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<InspirationsScreen> createState() => _InspirationsScreenState();
+}
+
+class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
+  /// O que era novidade quando esta visita começou.
+  ///
+  /// Capturado uma vez, e não recalculado a cada quadro, porque a própria
+  /// visita marca tudo como visto: sem a foto do começo, os selos sumiriam
+  /// na frente de quem acabou de abrir a tela para vê-los.
+  Set<String>? _novasNestaVisita;
+
+  /// Guarda a foto do começo e marca a lista inteira como vista.
+  void _anotarVisita(List<ActiveInspiration> ativas) {
+    if (_novasNestaVisita != null) return;
+
+    final Set<String> vistas = ref.read(inspiracoesVistasProvider);
+    _novasNestaVisita = ativas
+        .map((ActiveInspiration a) => a.inspiration.id)
+        .where((String id) => !vistas.contains(id))
+        .toSet();
+
+    // Depois do quadro: marcar durante a construção mexeria no provider no
+    // meio do desenho da tela.
+    final List<String> todos = ativas
+        .map((ActiveInspiration a) => a.inspiration.id)
+        .toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ref.read(inspiracoesVistasProvider.notifier).marcar(todos);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final AsyncValue<List<ActiveInspiration>> feed = ref.watch(
       inspirationsProvider,
     );
-    final Set<String> lidas = ref.watch(readInspirationsProvider);
     final Copy copy = Copy.of(profile);
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: !embedded,
+        automaticallyImplyLeading: !widget.embedded,
         title: const Text('Inspirações'),
         actions: <Widget>[
+          // A lupa daqui busca **dentro do blog**, e não no acervo do
+          // Drive. Eram duas coisas sem relação: quem está lendo sobre a
+          // primeira viagem não está procurando uma foto antiga.
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Buscar nas memórias',
-            onPressed: () => context.push(Routes.search),
+            tooltip: 'Buscar nas postagens',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const InspirationSearchScreen(),
+              ),
+            ),
           ),
         ],
       ),
@@ -54,6 +91,7 @@ class InspirationsScreen extends ConsumerWidget {
           message: 'Tente abrir de novo daqui a pouco.',
         ),
         data: (List<ActiveInspiration> itens) {
+          _anotarVisita(itens);
           if (itens.isEmpty) {
             return const EmptyState(
               icon: Icons.lightbulb_outline,
@@ -73,7 +111,10 @@ class InspirationsScreen extends ConsumerWidget {
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) return _Intro(copy: copy);
               final ActiveInspiration a = itens[index - 1];
-              return _Card(active: a, isNew: !lidas.contains(a.inspiration.id));
+              return _Card(
+                active: a,
+                isNew: _novasNestaVisita?.contains(a.inspiration.id) ?? false,
+              );
             },
           );
         },
@@ -120,13 +161,11 @@ class _Card extends StatelessWidget {
       borderRadius: Radii.cardR,
       child: InkWell(
         borderRadius: Radii.cardR,
-        onTap: i.hasArticle
-            ? () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => InspirationArticleScreen(active: active),
-                ),
-              )
-            : null,
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => InspirationArticleScreen(active: active),
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(Space.x16),
           decoration: BoxDecoration(
@@ -171,43 +210,35 @@ class _Card extends StatelessWidget {
                 ),
               ],
 
-              if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                InspirationArt(kind: i.kind, seed: i.id, height: 108),
-              ],
+              const SizedBox(height: Space.x12),
+              CapaDaPostagem(inspiration: i, height: 132),
 
-              const SizedBox(height: Space.x8),
+              const SizedBox(height: Space.x12),
               Text(i.title, style: text.titleSmall),
               const SizedBox(height: Space.x8),
               Text(i.summary, style: text.bodyMedium),
 
-              if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Ler as ideias',
-                      style: text.labelLarge?.copyWith(
-                        color: context.cores.primaryDark,
-                      ),
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      size: 18,
+              // Um botão só, e ele leva à postagem. Antes o cartão
+              // decidia entre "ler" e "registrar agora", e essa escolha
+              // ficava com quem ainda não sabia do que a postagem tratava.
+              // Registrar continua existindo, dentro da leitura, onde a
+              // pessoa já decidiu que aquilo é para hoje.
+              const SizedBox(height: Space.x12),
+              Row(
+                children: <Widget>[
+                  Text(
+                    'Ler a postagem',
+                    style: text.labelLarge?.copyWith(
                       color: context.cores.primaryDark,
                     ),
-                  ],
-                ),
-              ] else if (i.suggests != null) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: FilledButton.tonal(
-                    onPressed: () => showAddSheet(context),
-                    child: const Text('Registrar agora'),
                   ),
-                ),
-              ],
+                  Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: context.cores.primaryDark,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

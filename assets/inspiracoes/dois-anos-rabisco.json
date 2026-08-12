@@ -1,0 +1,34 @@
+{
+  "titulo": "Guarde o primeiro rabisco",
+  "resumo": "Fotografe o desenho junto com a mão que desenhou. Papel amarela, some, vira embrulho. A foto fica.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "O primeiro rabisco tem data e some",
+      "texto": "Desenho de criança se acumula rápido e vai para o lixo por volume. O primeiro, porém, é documento: é a primeira vez que ela deixou uma marca no mundo de propósito. Sem foto e sem data, vira mais uma folha na pilha."
+    },
+    {
+      "titulo": "Como guardar direito",
+      "itens": [
+        "Fotografe de cima, com o papel inteiro no quadro e luz de janela, sem sombra da sua mão.",
+        "Escreva a data e a idade na descrição, não no papel, para não estragar o desenho.",
+        "Se ela já falar, pergunte o que é e anote a resposta, palavra por palavra. É essa frase que vale mais que o desenho.",
+        "Fotografe também a mão dela segurando o giz: dá escala e conta a fase."
+      ]
+    },
+    {
+      "titulo": "O que oferecer",
+      "texto": "Giz de cera grosso, daqueles atarracados que a mão fechada segura, e papel grande, quanto maior melhor. Papel pequeno vira frustração; folha de rolo de pão ou o verso de um cartaz resolve."
+    },
+    {
+      "titulo": "Depois do primeiro",
+      "texto": "Não guarde todos. Escolha um por mês, fotografe, e deixe o resto seguir o destino natural. Um por mês em doze meses é uma coleção; todos é um armário cheio que ninguém abre."
+    }
+  ]
+}

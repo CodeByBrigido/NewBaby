@@ -14,9 +14,23 @@ import 'package:meu_bebe/services/inspiration_source.dart';
 /// uma angústia que não pediu. A varredura abaixo reprova o CI se algum
 /// texto novo escorregar para esse tom.
 void main() {
-  final List<Inspiration> catalogo = parseInspirations(
-    File('assets/inspiracoes.json').readAsStringSync(),
-  );
+  // Lê a pasta como o aplicativo lê: uma postagem por arquivo, com o id
+  // vindo do nome. Assim um arquivo novo entra na suíte sozinho, e ninguém
+  // publica uma postagem que nenhum teste olhou.
+  final List<Inspiration> catalogo =
+      (Directory('assets/inspiracoes')
+              .listSync()
+              .whereType<File>()
+              .where((File f) => f.path.endsWith('.json'))
+              .toList()
+            ..sort((File a, File b) => a.path.compareTo(b.path)))
+          .map(
+            (File f) => parseInspiration(
+              f.readAsStringSync(),
+              id: idDoArquivo(f.uri.pathSegments.last, pasta: ''),
+            ),
+          )
+          .toList();
 
   BabyProfile nascidaEm(DateTime birth) =>
       BabyProfile(name: 'Maria Eduarda', birth: birth);
@@ -61,6 +75,50 @@ void main() {
             reason: '${i.id} / ${s.title} está vazia.',
           );
         }
+      }
+    });
+
+    test('toda postagem tem texto, e não só título e resumo', () {
+      // O cartão de qualquer uma abre a leitura. Uma sem seções abriria uma
+      // página com o resumo repetido e mais nada, que é pior que não abrir:
+      // a pessoa tocou esperando ler.
+      final List<String> vazias = catalogo
+          .where((Inspiration i) => !i.hasArticle)
+          .map((Inspiration i) => i.id)
+          .toList();
+      expect(
+        vazias,
+        isEmpty,
+        reason: 'Postagem sem seções: escreva o texto antes de publicá-la.',
+      );
+    });
+
+    test('o id vem do nome do arquivo, e não de dentro dele', () {
+      // Um campo "id" dentro do arquivo poderia discordar do nome, e aí a
+      // capa <id>.webp apontaria para o lugar errado sem nada reclamar.
+      for (final File f
+          in Directory('assets/inspiracoes').listSync().whereType<File>().where(
+            (File f) => f.path.endsWith('.json'),
+          )) {
+        expect(
+          f.readAsStringSync(),
+          isNot(contains('"id"')),
+          reason: '${f.path}: o nome do arquivo já é o id.',
+        );
+      }
+    });
+
+    test('cada postagem é um arquivo, e nenhum id se repete', () {
+      final Set<String> ids = catalogo.map((Inspiration i) => i.id).toSet();
+      expect(ids, hasLength(catalogo.length));
+      expect(ids.any((String id) => id.isEmpty), isFalse);
+    });
+
+    test('nenhum id tem caractere que atrapalhe nome de arquivo', () {
+      // O id vira nome de arquivo duas vezes: no .json e na capa .webp.
+      final RegExp seguro = RegExp(r'^[a-z0-9-]+$');
+      for (final Inspiration i in catalogo) {
+        expect(seguro.hasMatch(i.id), isTrue, reason: i.id);
       }
     });
 
@@ -346,6 +404,53 @@ void main() {
       );
     });
 
+    test('uma das três é sempre de outro assunto', () {
+      // Três do mesmo tema prendem quem entrou por uma ideia de foto num
+      // corredor de ideias de foto. A vaga reservada é a janela: é por ela
+      // que alguém descobre que existe uma seção sobre cartas.
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+
+      for (final ActiveInspiration a in ativas) {
+        final List<ActiveInspiration> perto = relatedTo(a, ativas);
+        final bool haOutroAssunto = ativas.any(
+          (ActiveInspiration o) =>
+              o.inspiration.id != a.inspiration.id &&
+              o.inspiration.kind != a.inspiration.kind,
+        );
+        if (!haOutroAssunto || perto.length < 3) continue;
+
+        expect(
+          perto.any(
+            (ActiveInspiration r) => r.inspiration.kind != a.inspiration.kind,
+          ),
+          isTrue,
+          reason: 'A postagem ${a.inspiration.id} só oferece o próprio tema',
+        );
+      }
+    });
+
+    test('a saída não é sempre a mesma postagem', () {
+      // Presa ao id, e não fixa: se fosse a mesma para todas, a "janela"
+      // viraria outra parede, com o mesmo cartaz pendurado.
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      final Set<String> saidas = <String>{};
+      for (final ActiveInspiration a in ativas) {
+        final List<ActiveInspiration> perto = relatedTo(a, ativas);
+        for (final ActiveInspiration r in perto) {
+          if (r.inspiration.kind != a.inspiration.kind) {
+            saidas.add(r.inspiration.id);
+          }
+        }
+      }
+      expect(saidas.length, greaterThan(1));
+    });
+
     test('uma lista com um item só não sugere nada', () {
       final List<ActiveInspiration> ativas = ativasEm(
         DateTime(2026, 3, 10),
@@ -354,6 +459,79 @@ void main() {
       expect(
         relatedTo(ativas.first, <ActiveInspiration>[ativas.first]),
         isEmpty,
+      );
+    });
+  });
+
+  group('a busca dentro do blog', () {
+    test('acha pelo título, e o título vem antes', () {
+      final List<Inspiration> achadas = buscarInspiracoes('creche', catalogo);
+      expect(achadas, isNotEmpty);
+      expect(achadas.first.id, 'adaptacao-creche');
+    });
+
+    test('acha pelo corpo, e não só pelo título', () {
+      // Quem procura por uma palavra que só aparece no meio do texto está
+      // procurando aquele assunto do mesmo jeito. Uma busca que só olha
+      // títulos manda a pessoa embora achando que não existe.
+      final List<Inspiration> achadas = buscarInspiracoes('espelho', catalogo);
+      expect(achadas.map((Inspiration i) => i.id), contains('bebe-espelho'));
+    });
+
+    test('acento não muda o resultado', () {
+      // Ninguém digita til numa busca apressada.
+      expect(
+        buscarInspiracoes('musica', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('música', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('maiúscula não muda o resultado', () {
+      expect(
+        buscarInspiracoes('FESTA', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('festa', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('busca vazia não devolve o catálogo inteiro', () {
+      // Devolver tudo com o campo em branco faria a tela piscar a lista
+      // completa antes da primeira letra.
+      expect(buscarInspiracoes('', catalogo), isEmpty);
+      expect(buscarInspiracoes('   ', catalogo), isEmpty);
+    });
+
+    test('o que não existe devolve vazio, e não um palpite', () {
+      expect(buscarInspiracoes('paraquedismo', catalogo), isEmpty);
+    });
+
+    test('a ordem não dança entre duas buscas iguais', () {
+      expect(
+        buscarInspiracoes('foto', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('foto', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('busca o catálogo inteiro, e não só o que vale hoje', () {
+      // É a diferença entre sugerir e responder. Quem digitou "aniversário"
+      // com a criança de dois meses quer a postagem sobre aniversário.
+      final List<ActiveInspiration> hoje = pickFor(
+        all: catalogo,
+        profile: nascidaEm(DateTime(2027, 1, 10)),
+        now: DateTime(2027, 3, 10),
+      );
+      final Set<String> ativas = hoje
+          .map((ActiveInspiration a) => a.inspiration.id)
+          .toSet();
+
+      final List<Inspiration> achadas = buscarInspiracoes(
+        'aniversario',
+        catalogo,
+      );
+      expect(achadas, isNotEmpty);
+      expect(
+        achadas.any((Inspiration i) => !ativas.contains(i.id)),
+        isTrue,
+        reason: 'A busca precisa alcançar o que ainda não chegou',
       );
     });
   });

@@ -210,10 +210,21 @@ class _BarItem extends StatelessWidget {
               ],
             ),
             const SizedBox(height: Space.x4),
+            // Centralizado, e com as duas linhas previstas. "Linha do Tempo"
+            // não cabe em uma linha no espaço que sobra ao lado do botão de
+            // adicionar, e sem `textAlign` as duas linhas encostavam à
+            // esquerda enquanto o ícone ficava no meio: o rótulo parecia
+            // torto em relação ao próprio ícone.
             Text(
               label,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontSize: 11,
+                // Entrelinha curta para as duas linhas caberem na altura da
+                // barra sem empurrar o ícone para cima.
+                height: 1.1,
                 color: color,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
               ),

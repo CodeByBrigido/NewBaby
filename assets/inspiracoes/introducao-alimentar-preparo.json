@@ -1,0 +1,35 @@
+{
+  "titulo": "Preparando a introdução alimentar",
+  "resumo": "O que separar em casa e como registrar. Quando e o que oferecer, quem diz é a pediatra.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Isto não é orientação de saúde",
+      "texto": "Quando começar, o que oferecer e em que ordem é conversa com a pediatra, e só com ela. O que está aqui é a parte prática: o que deixar pronto em casa e como guardar a memória dessa fase, que é curta e muito engraçada."
+    },
+    {
+      "titulo": "O que facilita a vida",
+      "itens": [
+        "Cadeirão que dá para lavar inteiro, ou um plástico grande embaixo.",
+        "Babador de manga comprida. Os pequenos não servem para nada nessa fase.",
+        "Pratinho com ventosa, que ganha uns dias antes de virar brinquedo.",
+        "Duas colheres: uma para ela segurar e outra para você usar."
+      ]
+    },
+    {
+      "titulo": "A memória que vale",
+      "itens": [
+        "A careta de cada sabor novo. Faça a foto do rosto, não do prato.",
+        "Um vídeo curto do primeiro dia sentada no cadeirão.",
+        "A lista dos alimentos que ela amou e dos que ela cuspiu. Daqui a quinze anos, comparar com o gosto dela é hilário."
+      ]
+    }
+  ]
+}

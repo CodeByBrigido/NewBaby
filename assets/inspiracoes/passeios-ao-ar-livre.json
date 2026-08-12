@@ -1,0 +1,39 @@
+{
+  "titulo": "Onde ir com criança pequena",
+  "resumo": "Lugares que funcionam de verdade, por faixa de idade, e o que levar para não voltar cedo.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Bebê que ainda não anda",
+      "itens": [
+        "Parque com sombra e uma canga no chão. Olhar folha mexendo entretém mais do que parece.",
+        "Feira livre de manhã: barulho, cor e cheiro, e você ainda resolve a compra da semana.",
+        "Praia ou lago no fim da tarde, quando o sol está fraco."
+      ]
+    },
+    {
+      "titulo": "Quem já anda",
+      "itens": [
+        "Praça com chão irregular: grama, areia, pedrinha. Cansa e diverte ao mesmo tempo.",
+        "Horto, jardim botânico ou viveiro de plantas. Costuma ser barato ou de graça e tem sombra.",
+        "Aquário ou borboletário, quando tiver na cidade.",
+        "Trilha curta e plana, com um objetivo no fim: uma ponte, um riacho, uma pedra grande."
+      ]
+    },
+    {
+      "titulo": "O que sempre falta",
+      "itens": [
+        "Água e uma fruta.",
+        "Uma muda de roupa inteira.",
+        "Protetor solar e chapéu.",
+        "Sair de casa antes das dez ou depois das quatro. No meio do dia ninguém aguenta."
+      ]
+    }
+  ]
+}

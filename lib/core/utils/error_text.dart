@@ -45,6 +45,14 @@ String userMessage(Object error, {String? context}) {
         'O servidor recusou a gravação. Saia da conta e entre de novo; se '
             'continuar, é uma configuração do aplicativo, e não sua.',
       'unauthenticated' => 'Sua sessão expirou. Entre de novo para continuar.',
+      // Falta um índice no Firestore. Nada foi perdido: as memórias estão
+      // gravadas, é a consulta que ordena a lista que não consegue rodar.
+      // Dizer isso importa, porque a tela fica vazia e vazia parece
+      // "sumiu tudo".
+      'failed-precondition' =>
+        'As suas memórias estão salvas, mas o servidor ainda não consegue '
+            'organizá-las para mostrar aqui. É uma configuração do '
+            'aplicativo, e não sua.',
       'unavailable' || 'deadline-exceeded' =>
         'O servidor não respondeu. Tente de novo em instantes.',
       'requires-recent-login' =>

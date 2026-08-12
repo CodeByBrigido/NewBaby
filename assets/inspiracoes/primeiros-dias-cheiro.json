@@ -1,0 +1,36 @@
+{
+  "titulo": "Escreva o que ninguém vai lembrar",
+  "resumo": "O cheiro da cabeça, o barulho que faz mamando, o jeito que segura o dedo. São as coisas que somem primeiro da memória. Uma frase basta.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "O que some primeiro",
+      "texto": "A memória guarda mal justamente o que é constante. O cheiro da cabeça, o peso exato no colo, o som que ela faz antes de chorar de verdade: nada disso vira foto, e some sem avisar. Não é que você vá esquecer o nascimento; você vai esquecer como era estar ali."
+    },
+    {
+      "titulo": "Escreva agora, mal escrito",
+      "texto": "Esta carta não precisa ser bonita. Ela precisa existir enquanto a informação ainda está fresca. Dez minutos, no celular, com uma mão só, na madrugada. O texto torto é parte do documento.",
+      "itens": [
+        "O cheiro. Tente descrever, mesmo que saia bobo.",
+        "O peso no colo, e como ele muda quando ela dorme.",
+        "O som exato do choro, e o outro som, o de antes do choro.",
+        "O que você sente às três da manhã, sem filtrar para ficar bonito.",
+        "O que te assusta. Isso também é verdade daquele dia."
+      ]
+    },
+    {
+      "titulo": "Não escreva para ela agora",
+      "texto": "A tentação é escrever uma carta de conselhos para o futuro. Guarde isso para depois. O que tem valor hoje é o relato do presente, porque é ele que ninguém consegue reconstituir vinte anos depois. Conselho você dá pessoalmente; o cheiro dos primeiros dias, não."
+    },
+    {
+      "titulo": "Uma por semana, no primeiro mês",
+      "texto": "Quatro cartas curtas valem mais que uma longa que nunca sai. E as quatro juntas mostram uma coisa que uma só não mostra: o quanto muda em trinta dias, dela e de você."
+    }
+  ]
+}

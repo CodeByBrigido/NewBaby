@@ -1,0 +1,41 @@
+{
+  "titulo": "Cozinhar junto, sujeira inclusa",
+  "resumo": "Misturar, despejar, apertar massa. A bagunça é o ponto, não o efeito colateral. Um pano no chão resolve e a memória fica.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "O que uma criança de três anos consegue fazer de verdade",
+      "itens": [
+        "Misturar com colher numa tigela grande e funda.",
+        "Amassar banana, abacate ou batata com garfo.",
+        "Rasgar folha de alface e de couve com as mãos.",
+        "Pincelar manteiga, polvilhar farinha, apertar cortador de biscoito.",
+        "Despejar de um pote pequeno para outro maior, com você segurando junto.",
+        "Escolher entre duas opções que você oferece. Escolher é metade da diversão."
+      ]
+    },
+    {
+      "titulo": "As regras que tornam isso possível",
+      "texto": "Um banquinho estável, tudo o que for cortante e quente fora de alcance e do outro lado da bancada, e a expectativa ajustada: a receita vai demorar o dobro e não vai ficar bonita. Se você precisa que fique bonita hoje, cozinhe junto amanhã."
+    },
+    {
+      "titulo": "Receitas que aguentam bagunça",
+      "itens": [
+        "Bolo de caneca ou de liquidificador, em que misturar é a receita inteira.",
+        "Biscoito amanteigado de cortador, que é modelagem pura.",
+        "Pão de queijo de rolinho, que é massa de brincar comestível.",
+        "Salada de frutas, com faca de plástico e frutas macias.",
+        "Pizza de pão, em que ela monta a cobertura sozinha."
+      ]
+    },
+    {
+      "titulo": "Guardar",
+      "texto": "Foto das mãos na massa, e depois uma dela com o resultado, mesmo torto. Escreva a receita e a idade na descrição. Daqui a anos, essa receita boba vira tradição com data de nascimento."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "titulo": "Quando você não sabe o que escrever",
+  "resumo": "Cinco começos de frase que resolvem a página em branco.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Comece por uma destas",
+      "itens": [
+        "Hoje você fez uma coisa que eu quero que você saiba...",
+        "Uma coisa que eu tenho medo de esquecer é...",
+        "Se eu pudesse te contar como é ser sua mãe (ou seu pai) hoje, eu diria...",
+        "Quando você ler isto, você vai ter X anos, e eu queria que você soubesse...",
+        "Hoje foi um dia difícil, e mesmo assim..."
+      ]
+    },
+    {
+      "titulo": "Não precisa ser bonito",
+      "texto": "As cartas que mais emocionam não são as bem escritas: são as que contam uma coisa específica. \"Você chorou a noite inteira e eu chorei junto às quatro da manhã\" vale mais que qualquer parágrafo sobre amor incondicional. Escreva feio, escreva curto, mas escreva concreto."
+    },
+    {
+      "titulo": "Lacre",
+      "texto": "Ao guardar, escolha uma data de abertura: os quinze anos, os dezoito. A carta que ela sabe que existe e não pode ler ainda é um presente que dura anos antes de ser aberto."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Chão diferente todo fim de semana",
+  "resumo": "Grama, areia, pedrinha, folha seca. Andar em superfícies diferentes é diversão e treino ao mesmo tempo, e o parque perto de casa serve.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Por que trocar o chão",
+      "texto": "Quem está aprendendo a andar passa a maior parte do tempo no mesmo piso liso de casa. Cada superfície diferente é um problema novo para o corpo resolver, e é também um passeio que não custa nada: já existe a poucos quarteirões de vocês."
+    },
+    {
+      "titulo": "Uma superfície por fim de semana",
+      "itens": [
+        "Grama, que afunda um pouco e muda o equilíbrio.",
+        "Areia seca e areia molhada, que são duas coisas completamente diferentes.",
+        "Pedrinha de praça, com você segurando a mão.",
+        "Tábua de madeira de um deque, com as frestas.",
+        "Poça rasa, de galocha, no dia seguinte à chuva.",
+        "Uma ladeira suave, subindo e descendo, que é outro exercício."
+      ]
+    },
+    {
+      "titulo": "O que levar",
+      "texto": "Roupa que possa sujar sem dar problema, uma troca completa, água e o mínimo possível de coisas. Passeio com muita bagagem cansa quem carrega e encurta o programa."
+    },
+    {
+      "titulo": "O registro que vale",
+      "texto": "Foto dos pés dela na superfície do dia, sempre do mesmo ângulo, de cima. Ao longo de um ano vira uma série ótima, e é a foto mais fácil de fazer com uma criança que não para."
+    }
+  ]
+}

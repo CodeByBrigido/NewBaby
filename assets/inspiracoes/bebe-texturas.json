@@ -1,0 +1,39 @@
+{
+  "titulo": "Uma caixa de texturas",
+  "resumo": "Retalho felpudo, papel que amassa, colher de madeira, esponja seca. Nada pequeno o bastante para caber inteiro na boca. Entretém mais que brinquedo caro.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "Uma caixa, cinco coisas",
+      "texto": "Não precisa comprar nada. Junte cinco objetos com superfícies bem diferentes numa caixa de sapato e ofereça um de cada vez, com você por perto o tempo todo. A brincadeira é a diferença entre eles, e não a quantidade."
+    },
+    {
+      "titulo": "O que colocar",
+      "itens": [
+        "Um pedaço de lã ou um cachecol de tricô.",
+        "Uma esponja limpa e seca, das macias.",
+        "Papel celofane ou papel de seda, pelo barulho.",
+        "Uma colher de madeira e outra de metal, para comparar temperatura e peso.",
+        "Um pote de plástico com tampa, que também serve para bater."
+      ]
+    },
+    {
+      "titulo": "As regras de segurança, que aqui não são detalhe",
+      "itens": [
+        "Nada que passe por dentro de um rolo de papel higiênico: se passa, engasga.",
+        "Nada com peça colada, ímã, pilha ou barbante comprido.",
+        "Tudo vai à boca, então tudo precisa poder ser lavado.",
+        "Você fica junto o tempo inteiro. Esta não é uma brincadeira para deixar sozinha."
+      ]
+    },
+    {
+      "titulo": "Guardar",
+      "texto": "Fotografe a caixa montada, com os cinco objetos, antes de oferecer. Daqui a alguns anos, essa foto boba vai lembrar exatamente o que existia na casa de vocês naquele ano."
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import '../../features/profile/about_screen.dart';
 import '../../features/profile/baby_info_screen.dart';
 import '../../features/profile/delete_account_screen.dart';
 import '../../features/profile/account_deletion_screen.dart';
+import '../../features/profile/escolher_foto_screen.dart';
 import '../../features/profile/privacy_screen.dart';
 import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/settings_screen.dart';
@@ -54,6 +55,7 @@ abstract final class Routes {
   static const String about = '/sobre';
   static const String privacy = '/privacidade';
   static const String babyInfo = '/perfil/bebe';
+  static const String profilePhoto = '/perfil/foto';
   static const String deleteAccount = '/perfil/apagar';
   static const String accountDeletion = '/exclusao';
   static const String newLetter = '/cartas/nova';
@@ -244,6 +246,10 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         builder: (_, _) => const AccountDeletionScreen(),
       ),
       GoRoute(path: Routes.babyInfo, builder: (_, _) => const BabyInfoScreen()),
+      GoRoute(
+        path: Routes.profilePhoto,
+        builder: (_, _) => const EscolherFotoScreen(),
+      ),
       GoRoute(
         path: Routes.deleteAccount,
         builder: (_, _) => const DeleteAccountScreen(),

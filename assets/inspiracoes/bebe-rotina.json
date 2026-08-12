@@ -1,0 +1,35 @@
+{
+  "titulo": "Filme o comum",
+  "resumo": "O banho, a mamada, o caminho de casa. Ninguém filma o comum porque parece que vai durar para sempre, e é o comum que some sem avisar.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "O que ninguém filma",
+      "texto": "Filmamos aniversário, viagem e primeira vez. Não filmamos a troca de fralda das sete da manhã, a mamada da madrugada, o caminho até a creche. E é justamente isso que some por inteiro, porque é o que parece que vai durar para sempre."
+    },
+    {
+      "titulo": "O que filmar esta semana",
+      "itens": [
+        "Uma refeição inteira, do começo ao fim, com a bagunça e a sua paciência acabando.",
+        "O ritual de dormir, com a música que vocês usam.",
+        "Vinte segundos do banho, com a voz de quem está dando banho.",
+        "O caminho de casa até algum lugar que vocês fazem toda semana.",
+        "O canto da casa onde ela passa mais tempo, filmado devagar, sem ninguém no quadro."
+      ]
+    },
+    {
+      "titulo": "Como filmar sem produzir",
+      "texto": "Vídeo curto, na horizontal, sem falar com a câmera. Não peça para ela olhar nem chame pelo nome: é a cena natural que tem valor, e ela morre no instante em que alguém percebe que está sendo filmado."
+    },
+    {
+      "titulo": "Por que agora",
+      "texto": "A rotina de hoje já não existirá daqui a seis meses. Não é o crescimento que apaga isso, é a substituição: cada fase troca a rotina inteira, e a anterior desaparece sem que ninguém tenha registrado nada."
+    }
+  ]
+}

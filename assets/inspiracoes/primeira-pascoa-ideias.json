@@ -1,0 +1,42 @@
+{
+  "titulo": "A primeira Páscoa",
+  "resumo": "Chocolate ainda não, provavelmente. Mas a foto com as orelhinhas e a carta de Páscoa duram muito mais que o ovo.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "pascoa",
+    "diasAntes": 18,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "O que dá para fazer, por idade",
+      "itens": [
+        "Antes de comer chocolate: a caça pode ser de brinquedos ou de bichinhos de pelúcia escondidos pela casa.",
+        "Uma cesta com poucos itens, escondida num lugar fácil. Duas ou três descobertas bastam.",
+        "Orelhas de coelho de papel, feitas em cinco minutos, que rendem a melhor foto do dia.",
+        "Pintar ovos cozidos com tinta lavável, com jornal embaixo.",
+        "Se for a primeira de todas, aceite que ela não vai entender nada. A festa é de vocês."
+      ]
+    },
+    {
+      "titulo": "Sobre chocolate",
+      "texto": "Idade para introduzir chocolate é conversa com quem acompanha a saúde dela, e não com a internet. Enquanto isso, a caça funciona igual com brinquedo, e ninguém sente falta: o que diverte é procurar e achar."
+    },
+    {
+      "titulo": "O que registrar",
+      "itens": [
+        "A cesta montada, antes de qualquer coisa.",
+        "O rosto no instante em que acha o primeiro. Fique com a câmera pronta e à frente dela.",
+        "A boca suja, se houver chocolate.",
+        "Uma foto de família inteira, que quase sempre falta.",
+        "Um vídeo de quinze segundos da procura, com o som."
+      ]
+    },
+    {
+      "titulo": "A carta",
+      "texto": "Duas linhas à noite: que idade ela tinha, quem estava junto, e o que ela fez de mais engraçado. Todo ano no mesmo formato. Em dez anos, você tem a Páscoa da família inteira documentada."
+    }
+  ]
+}

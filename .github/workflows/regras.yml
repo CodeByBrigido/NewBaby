@@ -1,16 +1,21 @@
-name: Publicar as regras do Firestore
+name: Publicar as regras e os índices do Firestore
 
-# Publica `firebase/firestore.rules` no projeto de verdade.
+# Publica `firebase/firestore.rules` e `firebase/firestore.indexes.json`
+# no projeto de verdade.
 #
-# Existe porque as regras são a única coisa neste repositório que **não
-# viaja no aplicativo**: elas moram no servidor do Firebase, e o aplicativo
-# instalado no celular obedece à versão que estiver publicada lá, não à que
-# está no arquivo aqui.
+# Existe porque estes dois arquivos são a parte deste repositório que **não
+# viaja no aplicativo**: eles moram no servidor do Firebase, e o aplicativo
+# instalado no celular obedece à versão publicada lá, não à que está aqui.
 #
-# Quando as duas se separam, o sintoma é cruel e mudo: o cadastro é aceito
-# no aparelho, o servidor recusa dois segundos depois, e a pessoa volta ao
-# formulário. Foi exatamente o que aconteceu quando `arquivoInfoId` entrou
-# no aplicativo e nas regras do repositório, mas não no servidor.
+# Quando as versões se separam, o sintoma é cruel e mudo, e sempre parece
+# defeito do aplicativo:
+#
+# - regra atrasada: o cadastro é aceito no aparelho, o servidor recusa dois
+#   segundos depois, e a pessoa volta ao formulário
+# - índice faltando: a linha do tempo abre vazia, como se as memórias
+#   tivessem sumido, quando estão todas gravadas
+#
+# Os dois aconteceram de verdade, um atrás do outro.
 #
 # Por isso a publicação roda sozinha quando o arquivo muda na `main`, e não
 # só no botão: o caminho automático é o que impede as duas de se separarem
@@ -37,13 +42,45 @@ jobs:
     name: Publicar no Firebase
     runs-on: ubuntu-latest
     steps:
+      # Enquanto os segredos não existirem, este fluxo não pode ficar
+      # vermelho a cada mudança nas regras: um alarme que sempre toca é um
+      # alarme que se aprende a ignorar, e o dia em que a publicação falhar
+      # de verdade ninguém vai olhar.
+      #
+      # No botão (`workflow_dispatch`) é o contrário: alguém pediu para
+      # publicar, e não publicar é uma falha que precisa aparecer.
+      - name: Conferir se os segredos existem
+        id: segredos
+        env:
+          CREDENCIAL: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJETO: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -n "$CREDENCIAL" ] && [ -n "$PROJETO" ]; then
+            echo "ok=sim" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "ok=nao" >> "$GITHUB_OUTPUT"
+          aviso="Faltam os segredos FIREBASE_SERVICE_ACCOUNT e/ou"
+          aviso="$aviso FIREBASE_PROJECT_ID. O passo a passo para criá-los"
+          aviso="$aviso está no PUBLICAR.md, passo 5.1.1. Enquanto isso, as"
+          aviso="$aviso regras podem ser publicadas colando o arquivo no"
+          aviso="$aviso Firebase Console."
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::error::$aviso"
+            exit 1
+          fi
+          echo "::warning::$aviso"
+
       - uses: actions/checkout@v5
+        if: steps.segredos.outputs.ok == 'sim'
 
       - uses: actions/setup-node@v4
+        if: steps.segredos.outputs.ok == 'sim'
         with:
           node-version: '22'
 
       - uses: actions/setup-java@v4
+        if: steps.segredos.outputs.ok == 'sim'
         # O emulador do Firestore é um .jar e exige JDK 21 ou superior.
         with:
           distribution: temurin
@@ -55,31 +92,36 @@ jobs:
       # que fecha a porta errada tranca famílias reais para fora do próprio
       # acervo. O minuto que isto custa é barato perto disso.
       - name: Instalar as ferramentas
+        if: steps.segredos.outputs.ok == 'sim'
         working-directory: firebase/teste
         run: npm ci
 
       - name: Conferir as regras antes de publicar
+        if: steps.segredos.outputs.ok == 'sim'
         working-directory: firebase/teste
         run: npm test
 
       - name: Publicar
+        if: steps.segredos.outputs.ok == 'sim'
         working-directory: firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/conta.json
           CREDENCIAL: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           PROJETO: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          if [ -z "$CREDENCIAL" ] || [ -z "$PROJETO" ]; then
-            echo "::error::Faltam os segredos FIREBASE_SERVICE_ACCOUNT e/ou"\
-                 "FIREBASE_PROJECT_ID. Veja o passo a passo em PUBLICAR.md."
-            exit 1
-          fi
           printf '%s' "$CREDENCIAL" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          # Os índices vão junto das regras, e não em outro fluxo.
+          #
+          # As duas coisas moram no servidor e falham do mesmo jeito quando
+          # ficam para trás: a regra recusa a gravação, o índice recusa a
+          # consulta, e nos dois casos o aplicativo instalado parece quebrado
+          # sem nada de errado nele. Separá-las seria criar duas chances de
+          # esquecer em vez de uma.
           npx --yes firebase-tools@14 deploy \
-            --only firestore:rules \
+            --only firestore:rules,firestore:indexes \
             --project "$PROJETO" \
             --non-interactive
 
       - name: Apagar a credencial do disco
-        if: always()
+        if: always() && steps.segredos.outputs.ok == 'sim'
         run: rm -f "${{ runner.temp }}/conta.json"

@@ -1,0 +1,38 @@
+{
+  "titulo": "Documente um dia comum inteiro",
+  "resumo": "Escolha um sábado qualquer e fotografe de hora em hora, sem produzir nada. Um dia sem nada de especial é o que você mais vai querer rever.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Um dia inteiro, do jeito que ele é",
+      "texto": "Escolha um dia sem nada de especial e registre a rotina de ponta a ponta. Não é o dia bonito: é o dia comum, aquele que se repete e que, por se repetir, parece que nunca vai acabar. Ele acaba, e sem aviso."
+    },
+    {
+      "titulo": "O roteiro",
+      "itens": [
+        "A cara de quem acabou de acordar, antes de qualquer coisa.",
+        "O café da manhã, com a mesa como ela está de verdade.",
+        "O caminho para a creche ou para o parque.",
+        "O que ela faz sozinha quando ninguém está propondo nada.",
+        "O almoço, a bagunça inclusa.",
+        "A soneca, se houver.",
+        "O banho.",
+        "O ritual de dormir, e a última cena antes de apagar a luz."
+      ]
+    },
+    {
+      "titulo": "As regras",
+      "texto": "Nada de arrumar a casa antes, nada de trocar a roupa para a foto, nada de pedir para olhar para a câmera. O valor deste registro é ser verdadeiro. Uma foto por etapa já basta, e dois ou três vídeos de dez segundos completam."
+    },
+    {
+      "titulo": "Repita uma vez por ano",
+      "texto": "Sempre no mesmo mês. Comparar o dia comum de um ano com o do ano seguinte mostra mais mudança que qualquer foto de aniversário, porque muda a casa, a rotina e as pessoas junto com ela."
+    }
+  ]
+}

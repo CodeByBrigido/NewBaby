@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/utils/error_text.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
@@ -64,7 +65,14 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         error: (Object error, _) => EmptyState(
           icon: Icons.cloud_off_outlined,
           title: S.genericError,
-          message: '$error',
+          message: userMessage(error),
+          // A reconexão já tenta sozinha, com espera crescente. O botão é
+          // para quem não quer esperar: quem acabou de consertar a causa
+          // do outro lado quer ver agora, não daqui a um minuto.
+          action: TextButton(
+            onPressed: () => ref.invalidate(entriesProvider),
+            child: const Text(S.retry),
+          ),
         ),
         data: (List<Entry> all) {
           // O cadastro chega por outro caminho que as entradas, e pode

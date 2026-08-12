@@ -1,0 +1,35 @@
+{
+  "titulo": "A marca na parede",
+  "resumo": "Um canto de porta, um lápis e a data. É o registro mais analógico que existe e o que mais emociona quando a família muda de casa. Fotografe antes de mudar.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "A marca na parede, feita para durar",
+      "texto": "Marcar a altura no batente é tradição antiga e tem um problema conhecido: a parede fica na casa quando a família se muda. Alguns cuidados resolvem isso e transformam a brincadeira em acervo de verdade."
+    },
+    {
+      "titulo": "Como fazer",
+      "itens": [
+        "Escolha um canto que não vá ser pintado tão cedo, e sempre o mesmo.",
+        "Sem sapato, calcanhares na parede, olhando para a frente.",
+        "Use um livro apoiado no alto da cabeça, na horizontal, para marcar reto.",
+        "Escreva a data ao lado da marca, sempre. Marca sem data não serve para nada.",
+        "Fotografe a parede inteira a cada nova marca. É a foto que sobrevive à mudança de casa."
+      ]
+    },
+    {
+      "titulo": "Se não puder marcar a parede",
+      "texto": "Uma régua de tecido ou de madeira presa à parede resolve, e vai junto na mudança. Uma fita de papel comprida colada atrás da porta também funciona, e pode ser enrolada e guardada."
+    },
+    {
+      "titulo": "De quanto em quanto tempo",
+      "texto": "A cada três meses no primeiro ano e a cada aniversário depois. Marcar toda semana enche a parede sem contar história nenhuma; a distância entre as marcas é que é o registro."
+    }
+  ]
+}

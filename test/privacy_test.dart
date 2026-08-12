@@ -156,8 +156,40 @@ void main() {
         offenders,
         isEmpty,
         reason:
-            'A pasta da cápsula é reencontrada pelo id guardado no Firestore, '
-            'nunca procurada na raiz. Veja DriveService._ensureRootFolder.',
+            'A cápsula é reencontrada pelo id guardado no Firestore e, na '
+            'falta dele, pelo nome. Nunca perguntando ao Drive o que existe '
+            'na raiz da conta. Veja DriveService._ensureRootFolder.',
+      );
+    });
+
+    test('a cápsula é procurada antes de ser criada', () {
+      // Sem esta ordem, cada reinstalação criava outra pasta com o mesmo
+      // nome. Aconteceu de verdade: oito pastas "Meu Bebê - Cápsula do
+      // Tempo" no mesmo Drive, cada uma com um pedaço da infância dentro,
+      // e nenhuma com o acervo inteiro.
+      //
+      // Procurar é seguro: sob o drive.file a consulta só devolve o que
+      // este aplicativo criou, e a restrição é do servidor do Google.
+      final String fonte = File(
+        'lib/services/drive_service.dart',
+      ).readAsStringSync();
+
+      final int corpo = fonte.indexOf('Future<String> _ensureRootFolder');
+      expect(corpo, greaterThan(-1));
+
+      final int procura = fonte.indexOf('_procurarRaiz(api)', corpo);
+      final int cria = fonte.indexOf(
+        '_createFolder(api, rootFolderName',
+        corpo,
+      );
+
+      expect(procura, greaterThan(-1), reason: 'A busca pelo nome sumiu');
+      expect(
+        procura,
+        lessThan(cria),
+        reason:
+            'Criar antes de procurar é o que enche o Drive de pastas '
+            'repetidas a cada reinstalação',
       );
     });
   });
