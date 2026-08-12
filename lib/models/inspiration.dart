@@ -190,6 +190,25 @@ class Inspiration {
   /// nova exigiria uma linha nova ali. Assim é uma linha só, para sempre.
   String get coverAsset => 'assets/inspiracoes/$id.webp';
 
+  /// Tudo o que a busca do blog olha, numa string só.
+  ///
+  /// Inclui o corpo das seções, e não só o título e o resumo: quem procura
+  /// "creche" quer achar a postagem que fala de adaptação mesmo que a
+  /// palavra não esteja no título. Sem os acentos, porque ninguém digita
+  /// "amamentação" com til numa busca apressada.
+  String get searchable => semAcento(
+    <String>[
+      title,
+      summary,
+      kind.label,
+      for (final InspirationSection s in sections) ...<String>[
+        s.title,
+        s.body,
+        ...s.bullets,
+      ],
+    ].join(' ').toLowerCase(),
+  );
+
   /// Se a postagem tem texto próprio além do resumo.
   ///
   /// Deixou de decidir se o cartão leva a algum lugar: **toda** inspiração
@@ -218,6 +237,50 @@ class ActiveInspiration {
   final int? daysLeft;
 
   bool get hasDeadline => daysLeft != null;
+}
+
+/// Tira os acentos, para a busca não depender de teclado nem de pressa.
+String semAcento(String texto) {
+  const String com = 'áàâãäéèêëíìîïóòôõöúùûüçñ';
+  const String sem = 'aaaaaeeeeiiiiooooouuuucn';
+  final StringBuffer saida = StringBuffer();
+  for (final int unidade in texto.codeUnits) {
+    final String c = String.fromCharCode(unidade);
+    final int i = com.indexOf(c);
+    saida.write(i == -1 ? c : sem[i]);
+  }
+  return saida.toString();
+}
+
+/// As postagens que respondem a um termo de busca.
+///
+/// Busca no catálogo inteiro, e não só no que está ativo hoje. É uma
+/// diferença de intenção: a lista **sugere**, e sugerir algo de daqui a dois
+/// anos seria ruim; a busca **responde**, e quem digitou "creche" quer a
+/// postagem sobre creche mesmo que a criança ainda tenha dois meses.
+///
+/// A ordem põe primeiro quem tem o termo no título, depois no resumo, e por
+/// último quem só o tem no corpo. Empate se resolve pelo id, para a lista
+/// não dançar entre uma busca e outra.
+List<Inspiration> buscarInspiracoes(String termo, List<Inspiration> todas) {
+  final String alvo = semAcento(termo.trim().toLowerCase());
+  if (alvo.isEmpty) return const <Inspiration>[];
+
+  int nota(Inspiration i) {
+    if (semAcento(i.title.toLowerCase()).contains(alvo)) return 3;
+    if (semAcento(i.summary.toLowerCase()).contains(alvo)) return 2;
+    if (i.searchable.contains(alvo)) return 1;
+    return 0;
+  }
+
+  final List<Inspiration> achadas = todas
+      .where((Inspiration i) => nota(i) > 0)
+      .toList();
+  achadas.sort((Inspiration a, Inspiration b) {
+    final int porNota = nota(b).compareTo(nota(a));
+    return porNota != 0 ? porNota : a.id.compareTo(b.id);
+  });
+  return achadas;
 }
 
 /// Resolve o catálogo contra a criança e o dia de hoje.

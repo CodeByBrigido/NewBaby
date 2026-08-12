@@ -1041,7 +1041,32 @@
       "tipo": "idade",
       "deDias": 330,
       "ateDias": 900
-    }
+    },
+    "secoes": [
+      {
+        "titulo": "Por que trocar o chão",
+        "texto": "Quem está aprendendo a andar passa a maior parte do tempo no mesmo piso liso de casa. Cada superfície diferente é um problema novo para o corpo resolver, e é também um passeio que não custa nada: já existe a poucos quarteirões de vocês."
+      },
+      {
+        "titulo": "Uma superfície por fim de semana",
+        "itens": [
+          "Grama, que afunda um pouco e muda o equilíbrio.",
+          "Areia seca e areia molhada, que são duas coisas completamente diferentes.",
+          "Pedrinha de praça, com você segurando a mão.",
+          "Tábua de madeira de um deque, com as frestas.",
+          "Poça rasa, de galocha, no dia seguinte à chuva.",
+          "Uma ladeira suave, subindo e descendo, que é outro exercício."
+        ]
+      },
+      {
+        "titulo": "O que levar",
+        "texto": "Roupa que possa sujar sem dar problema, uma troca completa, água e o mínimo possível de coisas. Passeio com muita bagagem cansa quem carrega e encurta o programa."
+      },
+      {
+        "titulo": "O registro que vale",
+        "texto": "Foto dos pés dela na superfície do dia, sempre do mesmo ângulo, de cima. Ao longo de um ano vira uma série ótima, e é a foto mais fácil de fazer com uma criança que não para."
+      }
+    ]
   },
   {
     "id": "anda-palavras-erradas",
@@ -1053,7 +1078,30 @@
       "deDias": 300,
       "ateDias": 1200
     },
-    "registrar": "carta"
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "A fase mais curta de todas",
+        "texto": "As palavras trocadas duram meses, não anos. E somem sem cerimônia: um dia a criança simplesmente passa a dizer certo, e ninguém lembra qual era a versão antiga. É o registro que as famílias mais lamentam não ter feito."
+      },
+      {
+        "titulo": "Como anotar",
+        "itens": [
+          "Uma carta só, que você vai editando conforme aparecem palavras novas.",
+          "A palavra errada, a palavra certa, e a data. As três coisas.",
+          "Anote no dia. Anotar no fim do mês significa anotar metade.",
+          "Vale também a frase inteira, quando a graça está na construção e não na palavra."
+        ]
+      },
+      {
+        "titulo": "Grave a voz, não só o texto",
+        "texto": "O texto guarda qual era a palavra; o áudio guarda como ela soava, que é a parte insubstituível. Quinze segundos de conversa comum, sem pedir para ela repetir. Palavra pedida sai diferente da espontânea."
+      },
+      {
+        "titulo": "Não corrija durante a gravação",
+        "texto": "Corrigir na hora encerra a fase mais rápido e, principalmente, encerra a conversa. Ela vai chegar à forma certa de qualquer jeito. Enquanto não chega, é material de acervo."
+      }
+    ]
   },
   {
     "id": "anda-imita",
@@ -1065,7 +1113,30 @@
       "deDias": 360,
       "ateDias": 1200
     },
-    "registrar": "video"
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "Você virou o brinquedo preferido",
+        "texto": "Varrer, mexer panela, atender o telefone, calçar o seu sapato: imitar o adulto é a brincadeira mais séria dessa fase, e a que exige menos preparo de todas, porque o roteiro é o seu dia."
+      },
+      {
+        "titulo": "Como aproveitar em vez de atrapalhar",
+        "itens": [
+          "Dê uma versão pequena do que você está usando: um pano, uma escova, uma colher.",
+          "Deixe uma gaveta baixa na cozinha só com potes e panos, que ela possa abrir sempre.",
+          "Faça devagar e narrando. A parte de narrar é o que ela mais aproveita.",
+          "Aceite que vai levar o triplo do tempo. Se você tem pressa hoje, faça amanhã."
+        ]
+      },
+      {
+        "titulo": "O que não deixar imitar",
+        "texto": "Fogão, tomada, produto de limpeza, faca e escada. A imitação não distingue perigo, e nessa fase o interesse por essas coisas é justamente maior porque são as que você usa e ela não pode."
+      },
+      {
+        "titulo": "O vídeo",
+        "texto": "Filme de longe, sem chamar. No instante em que ela percebe a câmera, para de imitar e passa a atuar, e a cena perde a graça inteira. Vinte segundos escondido valem mais que dois minutos pedidos."
+      }
+    ]
   },
   {
     "id": "dois-anos-rabisco",
@@ -1077,7 +1148,30 @@
       "deDias": 500,
       "ateDias": 1500
     },
-    "registrar": "desenho"
+    "registrar": "desenho",
+    "secoes": [
+      {
+        "titulo": "O primeiro rabisco tem data e some",
+        "texto": "Desenho de criança se acumula rápido e vai para o lixo por volume. O primeiro, porém, é documento: é a primeira vez que ela deixou uma marca no mundo de propósito. Sem foto e sem data, vira mais uma folha na pilha."
+      },
+      {
+        "titulo": "Como guardar direito",
+        "itens": [
+          "Fotografe de cima, com o papel inteiro no quadro e luz de janela, sem sombra da sua mão.",
+          "Escreva a data e a idade na descrição, não no papel, para não estragar o desenho.",
+          "Se ela já falar, pergunte o que é e anote a resposta, palavra por palavra. É essa frase que vale mais que o desenho.",
+          "Fotografe também a mão dela segurando o giz: dá escala e conta a fase."
+        ]
+      },
+      {
+        "titulo": "O que oferecer",
+        "texto": "Giz de cera grosso, daqueles atarracados que a mão fechada segura, e papel grande, quanto maior melhor. Papel pequeno vira frustração; folha de rolo de pão ou o verso de um cartaz resolve."
+      },
+      {
+        "titulo": "Depois do primeiro",
+        "texto": "Não guarde todos. Escolha um por mês, fotografe, e deixe o resto seguir o destino natural. Um por mês em doze meses é uma coleção; todos é um armário cheio que ninguém abre."
+      }
+    ]
   },
   {
     "id": "dois-anos-agua-bacia",
@@ -1089,7 +1183,31 @@
       "deDias": 540,
       "ateDias": 1400
     },
-    "registrar": "video"
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "A brincadeira mais barata do verão",
+        "texto": "Uma bacia com dois dedos de água, no chão, à sombra, e alguns potes. Rende mais tempo que quase qualquer brinquedo, e o material já existe na sua cozinha."
+      },
+      {
+        "titulo": "O que pôr junto",
+        "itens": [
+          "Potes de tamanhos diferentes, para encher e despejar.",
+          "Uma peneira e um copo furado, pelo efeito.",
+          "Esponja, que absorve e escorre.",
+          "Uma colher grande e um funil, se houver.",
+          "Coisas que boiam e coisas que afundam, para comparar."
+        ]
+      },
+      {
+        "titulo": "Segurança, que aqui é a parte séria",
+        "texto": "Criança pequena se afoga em muito pouca água, e em silêncio. Fique junto o tempo inteiro, sem exceção e sem celular. Ao terminar, esvazie a bacia na hora e vire de boca para baixo, mesmo que vá usar de novo em uma hora."
+      },
+      {
+        "titulo": "Registrar",
+        "texto": "Foto de cima, pegando as mãos dentro da água e os potes. Contraluz de fim de tarde com respingos também rende, e o vídeo de dez segundos do despejo é melhor que qualquer foto."
+      }
+    ]
   },
   {
     "id": "dois-anos-entrevista",
@@ -1101,7 +1219,39 @@
       "deDias": 700,
       "ateDias": 6000
     },
-    "registrar": "audio"
+    "registrar": "audio",
+    "secoes": [
+      {
+        "titulo": "As mesmas perguntas, todo ano",
+        "texto": "Um vídeo curto, no aniversário, com as mesmas cinco ou seis perguntas. Sozinho não é grande coisa. Quinze anos depois, com todos em sequência, é provavelmente a coisa mais valiosa da cápsula inteira."
+      },
+      {
+        "titulo": "As perguntas",
+        "itens": [
+          "Quantos anos você tem?",
+          "Qual a sua cor preferida?",
+          "O que você quer ser quando crescer?",
+          "Qual a sua comida preferida?",
+          "Quem é o seu melhor amigo?",
+          "O que você mais gosta de fazer?",
+          "O que você quer dizer para você mesma quando estiver grande?"
+        ]
+      },
+      {
+        "titulo": "Regras que fazem a série funcionar",
+        "itens": [
+          "As mesmas perguntas, na mesma ordem, todo ano. Mudar quebra a comparação.",
+          "Sempre no mesmo dia, o do aniversário, para não depender de decisão.",
+          "Não corrija nem insista. \"Não sei\" é uma resposta ótima e envelhece muito bem.",
+          "Vídeo curto e na horizontal, sempre. Um minuto basta.",
+          "Aos dois anos, quase nada será respondido. Grave assim mesmo: é o primeiro da série."
+        ]
+      },
+      {
+        "titulo": "Onde guardar",
+        "texto": "Na cápsula, com o título \"Entrevista, X anos\", sempre igual. O nome consistente é o que permite achar todos juntos e montar a sequência depois."
+      }
+    ]
   },
   {
     "id": "dois-anos-tinta",
@@ -1113,7 +1263,31 @@
       "deDias": 540,
       "ateDias": 1800
     },
-    "registrar": "desenho"
+    "registrar": "desenho",
+    "secoes": [
+      {
+        "titulo": "Antes de começar, resolva a sujeira",
+        "texto": "Metade do estresse da pintura vem de improvisar a limpeza depois. Resolvido isso antes, sobra a parte boa. Faça no chão da área de serviço, no quintal, ou sobre um plástico grande, e com ela só de fralda: pele lava mais fácil que roupa."
+      },
+      {
+        "titulo": "O que usar",
+        "itens": [
+          "Tinta lavável atóxica, própria para a idade, e confira o rótulo.",
+          "Papel grande. Papel pardo de rolo é barato e é o melhor investimento aqui.",
+          "Pincel grosso, esponja, rolinho, e principalmente as mãos.",
+          "Duas ou três cores no máximo. Com mais, tudo vira marrom em dois minutos e a frustração é dela.",
+          "Um balde de água morna e uma toalha velha do lado, prontos antes de abrir a tinta."
+        ]
+      },
+      {
+        "titulo": "O processo importa mais que o resultado",
+        "texto": "Não é para sair um desenho. É para descobrir o que a mão faz com a tinta. Não conduza, não peça para fazer uma casa, não corrija a cor do céu. Sente do lado e pinte a sua própria folha."
+      },
+      {
+        "titulo": "O que guardar",
+        "texto": "Fotografe as mãos sujas, o papel no meio do processo e o rosto concentrado. Depois, uma foto do desenho seco e inteiro, com a data. Três fotos, e a folha pode ir embora sem culpa."
+      }
+    ]
   },
   {
     "id": "tres-anos-cozinha",
@@ -1124,7 +1298,38 @@
       "tipo": "idade",
       "deDias": 900,
       "ateDias": 2200
-    }
+    },
+    "secoes": [
+      {
+        "titulo": "O que uma criança de três anos consegue fazer de verdade",
+        "itens": [
+          "Misturar com colher numa tigela grande e funda.",
+          "Amassar banana, abacate ou batata com garfo.",
+          "Rasgar folha de alface e de couve com as mãos.",
+          "Pincelar manteiga, polvilhar farinha, apertar cortador de biscoito.",
+          "Despejar de um pote pequeno para outro maior, com você segurando junto.",
+          "Escolher entre duas opções que você oferece. Escolher é metade da diversão."
+        ]
+      },
+      {
+        "titulo": "As regras que tornam isso possível",
+        "texto": "Um banquinho estável, tudo o que for cortante e quente fora de alcance e do outro lado da bancada, e a expectativa ajustada: a receita vai demorar o dobro e não vai ficar bonita. Se você precisa que fique bonita hoje, cozinhe junto amanhã."
+      },
+      {
+        "titulo": "Receitas que aguentam bagunça",
+        "itens": [
+          "Bolo de caneca ou de liquidificador, em que misturar é a receita inteira.",
+          "Biscoito amanteigado de cortador, que é modelagem pura.",
+          "Pão de queijo de rolinho, que é massa de brincar comestível.",
+          "Salada de frutas, com faca de plástico e frutas macias.",
+          "Pizza de pão, em que ela monta a cobertura sozinha."
+        ]
+      },
+      {
+        "titulo": "Guardar",
+        "texto": "Foto das mãos na massa, e depois uma dela com o resultado, mesmo torto. Escreva a receita e a idade na descrição. Daqui a anos, essa receita boba vira tradição com data de nascimento."
+      }
+    ]
   },
   {
     "id": "tres-anos-historia",
@@ -1136,7 +1341,31 @@
       "deDias": 900,
       "ateDias": 2400
     },
-    "registrar": "audio"
+    "registrar": "audio",
+    "secoes": [
+      {
+        "titulo": "Inverta os papéis",
+        "texto": "Depois de meses ouvindo, ela passa a conseguir contar. Peça que ela conte a história para você, olhando as figuras de um livro que já conhece. O que sai não é a história do livro, e é justamente isso que vale."
+      },
+      {
+        "titulo": "Como puxar",
+        "itens": [
+          "Pegue um livro que ela já ouviu muitas vezes, e vá virando as páginas.",
+          "Pergunte \"e aí, o que aconteceu?\" em vez de corrigir o que ela disse.",
+          "Aceite desvios completos do enredo. A versão dela é o documento.",
+          "Se travar, aponte uma figura e espere. Espere mais do que parece confortável.",
+          "Termine antes de cansar, mesmo no meio."
+        ]
+      },
+      {
+        "titulo": "Grave, sempre",
+        "texto": "Esta é uma daquelas coisas que o texto não guarda. O jeito de contar, as pausas, a entonação copiada de você: tudo isso só existe em áudio ou vídeo. Um minuto por vez, algumas vezes ao ano."
+      },
+      {
+        "titulo": "Invente uma história juntos",
+        "texto": "Comece com uma frase e deixe ela continuar, alternando. Grave. É a brincadeira que mais rende nesta idade e a que produz o material mais engraçado do acervo inteiro."
+      }
+    ]
   },
   {
     "id": "tres-anos-porques",
@@ -1148,7 +1377,30 @@
       "deDias": 900,
       "ateDias": 2200
     },
-    "registrar": "carta"
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "O que está acontecendo",
+        "texto": "A pergunta repetida não é teimosia nem provocação. É a descoberta de que existe causa por trás das coisas, e de que você é a fonte. O cansaço é real e a fase passa; enquanto dura, é a melhor matéria-prima de acervo que vocês vão ter."
+      },
+      {
+        "titulo": "Como responder sem enlouquecer",
+        "itens": [
+          "Responda de verdade as duas ou três primeiras. Vale muito.",
+          "Depois devolva: \"e por que você acha?\" A resposta dela costuma ser melhor que a sua.",
+          "\"Não sei\" é resposta legítima. Procurar junto é ainda melhor.",
+          "Quando não der mais, diga que não dá mais agora. Fingir paciência que acabou não engana ninguém."
+        ]
+      },
+      {
+        "titulo": "Anote as perguntas, não as respostas",
+        "texto": "As perguntas dessa fase são o registro. \"Por que o sol vai embora?\", \"Por que o vovô é velho?\", \"Por que a gente morre?\". Anote a pergunta exata e a data, numa carta que você vai alimentando. Em seis meses você tem um documento que vale mais que um álbum."
+      },
+      {
+        "titulo": "Grave uma rodada",
+        "texto": "Um minuto de áudio de uma sequência de porquês, com a sua voz respondendo. É engraçado hoje e é comovente daqui a vinte anos, quando quem pergunta for outra pessoa."
+      }
+    ]
   },
   {
     "id": "escola-primeiro-dia",
@@ -1160,7 +1412,37 @@
       "deDias": 600,
       "ateDias": 2200
     },
-    "registrar": "carta"
+    "registrar": "carta",
+    "secoes": [
+      {
+        "titulo": "Antes do dia",
+        "itens": [
+          "Visite a escola com ela antes, se der. Conhecer o lugar tira metade do susto.",
+          "Fale do que vai acontecer em ordem, com frases curtas, nos dias anteriores.",
+          "Deixe ela escolher uma coisa: a mochila, a garrafa, a roupa. Escolher dá controle.",
+          "Combine antes com a escola como será a despedida, e cumpra o combinado.",
+          "Prepare a mochila junto com ela na véspera, e fotografe a mochila pronta."
+        ]
+      },
+      {
+        "titulo": "No dia",
+        "texto": "Chegue com folga, sem correria. Despeça-se uma vez só, com clareza, e vá. Voltar para dar mais um abraço reinicia o choro e ensina que chorar traz você de volta. É duro, e é o que funciona melhor para ela."
+      },
+      {
+        "titulo": "O que registrar, em cinco minutos",
+        "itens": [
+          "A foto na porta de casa, antes de sair, de corpo inteiro com a mochila.",
+          "A mesma foto na entrada da escola, para comparar com todos os anos seguintes.",
+          "A mochila aberta, com tudo o que foi dentro.",
+          "Um vídeo de dez segundos no caminho, com você perguntando como ela está se sentindo.",
+          "A cara na saída, que quase sempre é o oposto da cara da entrada."
+        ]
+      },
+      {
+        "titulo": "Escreva no mesmo dia",
+        "texto": "Uma carta curta, à noite, sobre como foi para você. Essa é a parte que ninguém registra, e é a que a criança adulta mais vai querer ler. Repita a mesma foto de porta e a mesma carta todo primeiro dia de aula, por anos."
+      }
+    ]
   },
   {
     "id": "qualquer-idade-avos",
@@ -1172,7 +1454,31 @@
       "deDias": 0,
       "ateDias": 6000
     },
-    "registrar": "video"
+    "registrar": "video",
+    "secoes": [
+      {
+        "titulo": "Por que este é o registro mais urgente da lista",
+        "texto": "Todas as outras ideias daqui podem ser feitas no mês que vem. Esta não. A voz e o jeito dos avós é o material que a família mais lamenta não ter, e não há como recuperar depois. Se você fizer uma coisa só desta lista inteira, faça esta."
+      },
+      {
+        "titulo": "O que gravar",
+        "itens": [
+          "Os dois juntos, brincando, sem falar com a câmera. Filme de longe.",
+          "O avô ou a avó contando uma história da infância dele. Uma só, com detalhe.",
+          "A receita da família sendo feita, com as mãos aparecendo e a explicação em voz alta.",
+          "Um recado de um minuto para ela aos dezoito anos.",
+          "Como era o mundo quando eles tinham a idade que ela tem agora."
+        ]
+      },
+      {
+        "titulo": "Como pedir sem constranger",
+        "texto": "Muita gente trava na frente da câmera. Filme durante alguma coisa que já esteja acontecendo, em vez de marcar uma sessão. Se travar, deixe o celular apoiado, gravando, e converse normalmente: em dois minutos todo mundo esquece que ele está ali."
+      },
+      {
+        "titulo": "Guarde com nome completo",
+        "texto": "Escreva na descrição o nome inteiro, o parentesco e o ano. Daqui a cinquenta anos, quem assistir talvez não saiba quem é. \"Vovó\" não identifica ninguém para um bisneto."
+      }
+    ]
   },
   {
     "id": "qualquer-idade-altura-parede",
@@ -1184,7 +1490,31 @@
       "deDias": 330,
       "ateDias": 6000
     },
-    "registrar": "foto"
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "A marca na parede, feita para durar",
+        "texto": "Marcar a altura no batente é tradição antiga e tem um problema conhecido: a parede fica na casa quando a família se muda. Alguns cuidados resolvem isso e transformam a brincadeira em acervo de verdade."
+      },
+      {
+        "titulo": "Como fazer",
+        "itens": [
+          "Escolha um canto que não vá ser pintado tão cedo, e sempre o mesmo.",
+          "Sem sapato, calcanhares na parede, olhando para a frente.",
+          "Use um livro apoiado no alto da cabeça, na horizontal, para marcar reto.",
+          "Escreva a data ao lado da marca, sempre. Marca sem data não serve para nada.",
+          "Fotografe a parede inteira a cada nova marca. É a foto que sobrevive à mudança de casa."
+        ]
+      },
+      {
+        "titulo": "Se não puder marcar a parede",
+        "texto": "Uma régua de tecido ou de madeira presa à parede resolve, e vai junto na mudança. Uma fita de papel comprida colada atrás da porta também funciona, e pode ser enrolada e guardada."
+      },
+      {
+        "titulo": "De quanto em quanto tempo",
+        "texto": "A cada três meses no primeiro ano e a cada aniversário depois. Marcar toda semana enche a parede sem contar história nenhuma; a distância entre as marcas é que é o registro."
+      }
+    ]
   },
   {
     "id": "qualquer-idade-dia-comum",
@@ -1196,7 +1526,34 @@
       "deDias": 60,
       "ateDias": 6000
     },
-    "registrar": "foto"
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "Um dia inteiro, do jeito que ele é",
+        "texto": "Escolha um dia sem nada de especial e registre a rotina de ponta a ponta. Não é o dia bonito: é o dia comum, aquele que se repete e que, por se repetir, parece que nunca vai acabar. Ele acaba, e sem aviso."
+      },
+      {
+        "titulo": "O roteiro",
+        "itens": [
+          "A cara de quem acabou de acordar, antes de qualquer coisa.",
+          "O café da manhã, com a mesa como ela está de verdade.",
+          "O caminho para a creche ou para o parque.",
+          "O que ela faz sozinha quando ninguém está propondo nada.",
+          "O almoço, a bagunça inclusa.",
+          "A soneca, se houver.",
+          "O banho.",
+          "O ritual de dormir, e a última cena antes de apagar a luz."
+        ]
+      },
+      {
+        "titulo": "As regras",
+        "texto": "Nada de arrumar a casa antes, nada de trocar a roupa para a foto, nada de pedir para olhar para a câmera. O valor deste registro é ser verdadeiro. Uma foto por etapa já basta, e dois ou três vídeos de dez segundos completam."
+      },
+      {
+        "titulo": "Repita uma vez por ano",
+        "texto": "Sempre no mesmo mês. Comparar o dia comum de um ano com o do ano seguinte mostra mais mudança que qualquer foto de aniversário, porque muda a casa, a rotina e as pessoas junto com ela."
+      }
+    ]
   },
   {
     "id": "primeira-pascoa-ideias",
@@ -1209,7 +1566,37 @@
       "diasAntes": 18,
       "apenasPrimeira": true
     },
-    "registrar": "foto"
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "O que dá para fazer, por idade",
+        "itens": [
+          "Antes de comer chocolate: a caça pode ser de brinquedos ou de bichinhos de pelúcia escondidos pela casa.",
+          "Uma cesta com poucos itens, escondida num lugar fácil. Duas ou três descobertas bastam.",
+          "Orelhas de coelho de papel, feitas em cinco minutos, que rendem a melhor foto do dia.",
+          "Pintar ovos cozidos com tinta lavável, com jornal embaixo.",
+          "Se for a primeira de todas, aceite que ela não vai entender nada. A festa é de vocês."
+        ]
+      },
+      {
+        "titulo": "Sobre chocolate",
+        "texto": "Idade para introduzir chocolate é conversa com quem acompanha a saúde dela, e não com a internet. Enquanto isso, a caça funciona igual com brinquedo, e ninguém sente falta: o que diverte é procurar e achar."
+      },
+      {
+        "titulo": "O que registrar",
+        "itens": [
+          "A cesta montada, antes de qualquer coisa.",
+          "O rosto no instante em que acha o primeiro. Fique com a câmera pronta e à frente dela.",
+          "A boca suja, se houver chocolate.",
+          "Uma foto de família inteira, que quase sempre falta.",
+          "Um vídeo de quinze segundos da procura, com o som."
+        ]
+      },
+      {
+        "titulo": "A carta",
+        "texto": "Duas linhas à noite: que idade ela tinha, quem estava junto, e o que ela fez de mais engraçado. Todo ano no mesmo formato. Em dez anos, você tem a Páscoa da família inteira documentada."
+      }
+    ]
   },
   {
     "id": "primeiro-dia-das-maes-ideias",
@@ -1222,7 +1609,31 @@
       "diasAntes": 14,
       "apenasPrimeira": true
     },
-    "registrar": "foto"
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "O primeiro é diferente dos outros",
+        "texto": "Nesse ano a data muda de lado: quem sempre comemorou passa a ser comemorada, ou volta a comemorar com uma pessoa a mais na foto. É uma virada que só acontece uma vez, e vale registrar como virada, e não como mais um domingo."
+      },
+      {
+        "titulo": "Ideias que independem de dinheiro",
+        "itens": [
+          "A foto das três gerações juntas, se der. É a que mais falta nos acervos.",
+          "A mão dela pintada com tinta lavável, carimbada num papel com a data.",
+          "Uma carta escrita pelo outro adulto da casa, no lugar da criança, contando o primeiro ano.",
+          "Um áudio da criança, mesmo sem palavra nenhuma, guardado com a data.",
+          "Café da manhã na cama, com ela no meio da bagunça."
+        ]
+      },
+      {
+        "titulo": "A foto que quase sempre falta",
+        "texto": "Quem tira as fotos raramente aparece nelas. Peça, no dia, que alguém fotografe você com ela: não a foto posada, a de vocês fazendo alguma coisa. Se não houver ninguém, use o temporizador e o celular apoiado."
+      },
+      {
+        "titulo": "Repita todo ano",
+        "texto": "Mesma pose, mesmo lugar, todo Dia das Mães. Cinco anos depois, essa série é o presente."
+      }
+    ]
   },
   {
     "id": "primeiro-dia-dos-pais-ideias",
@@ -1235,7 +1646,31 @@
       "diasAntes": 14,
       "apenasPrimeira": true
     },
-    "registrar": "audio"
+    "registrar": "audio",
+    "secoes": [
+      {
+        "titulo": "Registrar a mudança, não a data",
+        "texto": "O primeiro Dia dos Pais com a criança na casa marca uma virada de papel que não se repete. O que vale guardar é isso: como era antes, como está agora, e o que mudou em quem virou pai neste ano."
+      },
+      {
+        "titulo": "Ideias simples",
+        "itens": [
+          "A foto das três gerações, quando existir essa possibilidade.",
+          "O carimbo do pé ou da mão dela num papel, com a data.",
+          "Uma carta escrita por ele, para ela ler adulta, sobre este primeiro ano.",
+          "Um vídeo dos dois fazendo a coisa mais boba do dia: trocando fralda, vendo o jogo, dormindo no sofá.",
+          "A foto dos dois dormindo, que é o clássico e é clássico por um motivo."
+        ]
+      },
+      {
+        "titulo": "Quem fotografa também precisa aparecer",
+        "texto": "Vale a mesma regra: peça a alguém, ou use o temporizador. Um acervo sem o pai nas fotos conta uma história errada, e é o erro mais comum de todos."
+      },
+      {
+        "titulo": "A pergunta que rende todo ano",
+        "texto": "Grave um vídeo curto respondendo: \"o que eu aprendi neste ano?\" Todo Dia dos Pais, a mesma pergunta. É a entrevista anual, do outro lado da câmera."
+      }
+    ]
   },
   {
     "id": "primeiro-carnaval-ideias",
@@ -1248,6 +1683,36 @@
       "diasAntes": 14,
       "apenasPrimeira": true
     },
-    "registrar": "foto"
+    "registrar": "foto",
+    "secoes": [
+      {
+        "titulo": "Carnaval com criança pequena é em casa",
+        "texto": "Bloco tem multidão, som alto e sol forte, e nada disso combina com quem tem poucos meses. A fantasia, a música e a bagunça funcionam perfeitamente na sala, e rendem as mesmas fotos sem nenhum dos problemas."
+      },
+      {
+        "titulo": "Se for sair",
+        "itens": [
+          "Protetor auricular infantil. Som de bloco é alto demais para ouvido pequeno.",
+          "Sombra garantida e horário fora do pico de sol.",
+          "Fique na borda, nunca no meio, e com rota de saída conhecida.",
+          "Bloco de rua infantil, de manhã, é outra coisa: menor, mais curto e feito para isso.",
+          "Combine antes com quem estiver junto quanto tempo vocês ficam, e cumpra."
+        ]
+      },
+      {
+        "titulo": "A fantasia",
+        "texto": "Confortável ganha de bonita. Tecido leve, sem elástico apertado, sem capuz que esquente, sem nada colado que possa ir à boca. Uma fantasia improvisada com o que tem em casa costuma render foto melhor que a comprada."
+      },
+      {
+        "titulo": "O que guardar",
+        "itens": [
+          "A foto da fantasia inteira, de corpo inteiro, na melhor luz que houver.",
+          "O rosto, de perto, com a pintura ou o adereço.",
+          "Um vídeo curto dançando com você no colo.",
+          "A cara de sono no fim, que é sempre a melhor foto do dia.",
+          "Duas linhas escritas: qual foi a fantasia, quem escolheu e por quê."
+        ]
+      }
+    ]
   }
 ]

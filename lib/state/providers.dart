@@ -187,6 +187,16 @@ final StreamProvider<BabyProfile?> profileProvider =
 final Provider<InspirationSource> inspirationSourceProvider =
     Provider<InspirationSource>((Ref ref) => const AssetInspirationSource());
 
+/// O catálogo inteiro, sem filtro de idade.
+///
+/// A lista da aba mostra só o que vale hoje. A busca olha tudo: sugerir
+/// algo de daqui a dois anos seria ruim, mas quem digitou "creche" quer a
+/// postagem sobre creche mesmo que a criança ainda tenha dois meses.
+final FutureProvider<List<Inspiration>> inspirationCatalogProvider =
+    FutureProvider<List<Inspiration>>(
+      (Ref ref) => ref.watch(inspirationSourceProvider).load(),
+    );
+
 /// As inspirações que valem hoje, resolvidas contra a idade e o calendário.
 final FutureProvider<List<ActiveInspiration>> inspirationsProvider =
     FutureProvider<List<ActiveInspiration>>((Ref ref) async {

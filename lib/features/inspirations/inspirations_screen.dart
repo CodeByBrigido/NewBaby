@@ -10,6 +10,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import 'capa_da_postagem.dart';
 import 'inspiration_article_screen.dart';
+import 'inspiration_search_screen.dart';
 
 /// Ideias do que fazer e do que guardar, escolhidas pela idade e pelo
 /// calendário.
@@ -67,10 +68,20 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: !widget.embedded,
         title: const Text('Inspirações'),
-        // Sem a lupa aqui. Ela busca no acervo, e o acervo não tem nada a
-        // ver com esta aba: quem está lendo uma postagem sobre a primeira
-        // viagem não está procurando uma foto antiga. A busca continua onde
-        // faz sentido, na linha do tempo e nas galerias.
+        actions: <Widget>[
+          // A lupa daqui busca **dentro do blog**, e não no acervo do
+          // Drive. Eram duas coisas sem relação: quem está lendo sobre a
+          // primeira viagem não está procurando uma foto antiga.
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Buscar nas postagens',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const InspirationSearchScreen(),
+              ),
+            ),
+          ),
+        ],
       ),
       body: feed.when(
         loading: () => const Center(child: CircularProgressIndicator()),

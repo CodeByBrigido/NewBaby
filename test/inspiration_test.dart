@@ -64,6 +64,21 @@ void main() {
       }
     });
 
+    test('toda postagem tem texto, e não só título e resumo', () {
+      // O cartão de qualquer uma abre a leitura. Uma sem seções abriria uma
+      // página com o resumo repetido e mais nada, que é pior que não abrir:
+      // a pessoa tocou esperando ler.
+      final List<String> vazias = catalogo
+          .where((Inspiration i) => !i.hasArticle)
+          .map((Inspiration i) => i.id)
+          .toList();
+      expect(
+        vazias,
+        isEmpty,
+        reason: 'Postagem sem seções: escreva o texto antes de publicá-la.',
+      );
+    });
+
     test('os destaques são poucos', () {
       // Se tudo é destaque, nada é.
       final int destaques = catalogo
@@ -401,6 +416,79 @@ void main() {
       expect(
         relatedTo(ativas.first, <ActiveInspiration>[ativas.first]),
         isEmpty,
+      );
+    });
+  });
+
+  group('a busca dentro do blog', () {
+    test('acha pelo título, e o título vem antes', () {
+      final List<Inspiration> achadas = buscarInspiracoes('creche', catalogo);
+      expect(achadas, isNotEmpty);
+      expect(achadas.first.id, 'adaptacao-creche');
+    });
+
+    test('acha pelo corpo, e não só pelo título', () {
+      // Quem procura por uma palavra que só aparece no meio do texto está
+      // procurando aquele assunto do mesmo jeito. Uma busca que só olha
+      // títulos manda a pessoa embora achando que não existe.
+      final List<Inspiration> achadas = buscarInspiracoes('espelho', catalogo);
+      expect(achadas.map((Inspiration i) => i.id), contains('bebe-espelho'));
+    });
+
+    test('acento não muda o resultado', () {
+      // Ninguém digita til numa busca apressada.
+      expect(
+        buscarInspiracoes('musica', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('música', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('maiúscula não muda o resultado', () {
+      expect(
+        buscarInspiracoes('FESTA', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('festa', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('busca vazia não devolve o catálogo inteiro', () {
+      // Devolver tudo com o campo em branco faria a tela piscar a lista
+      // completa antes da primeira letra.
+      expect(buscarInspiracoes('', catalogo), isEmpty);
+      expect(buscarInspiracoes('   ', catalogo), isEmpty);
+    });
+
+    test('o que não existe devolve vazio, e não um palpite', () {
+      expect(buscarInspiracoes('paraquedismo', catalogo), isEmpty);
+    });
+
+    test('a ordem não dança entre duas buscas iguais', () {
+      expect(
+        buscarInspiracoes('foto', catalogo).map((Inspiration i) => i.id),
+        buscarInspiracoes('foto', catalogo).map((Inspiration i) => i.id),
+      );
+    });
+
+    test('busca o catálogo inteiro, e não só o que vale hoje', () {
+      // É a diferença entre sugerir e responder. Quem digitou "aniversário"
+      // com a criança de dois meses quer a postagem sobre aniversário.
+      final List<ActiveInspiration> hoje = pickFor(
+        all: catalogo,
+        profile: nascidaEm(DateTime(2027, 1, 10)),
+        now: DateTime(2027, 3, 10),
+      );
+      final Set<String> ativas = hoje
+          .map((ActiveInspiration a) => a.inspiration.id)
+          .toSet();
+
+      final List<Inspiration> achadas = buscarInspiracoes(
+        'aniversario',
+        catalogo,
+      );
+      expect(achadas, isNotEmpty);
+      expect(
+        achadas.any((Inspiration i) => !ativas.contains(i.id)),
+        isTrue,
+        reason: 'A busca precisa alcançar o que ainda não chegou',
       );
     });
   });
