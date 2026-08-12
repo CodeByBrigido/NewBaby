@@ -218,6 +218,10 @@ class ReadInspirationsNotifier extends Notifier<Set<String>> {
     final ReadInspirations store = ReadInspirations(
       await SharedPreferences.getInstance(),
     );
+    // O disco responde depois, e nesse intervalo o provider pode ter sido
+    // descartado: sair da conta e trocar de criança fazem isso. Escrever
+    // num provider morto lança, e a exceção sobe no meio de outra coisa.
+    if (!ref.mounted) return;
     _store = store;
     state = store.ids;
   }
@@ -226,6 +230,44 @@ class ReadInspirationsNotifier extends Notifier<Set<String>> {
     if (state.contains(id)) return;
     state = <String>{...state, id};
     await _store?.markRead(id);
+  }
+}
+
+/// O que já apareceu na lista de inspirações, aberto ou não.
+///
+/// É o que sustenta o selo "Novo". Ver a lista marca tudo o que está nela;
+/// da próxima vez, novo é só o que chegou depois.
+final NotifierProvider<InspiracoesVistasNotifier, Set<String>>
+inspiracoesVistasProvider =
+    NotifierProvider<InspiracoesVistasNotifier, Set<String>>(
+      InspiracoesVistasNotifier.new,
+    );
+
+class InspiracoesVistasNotifier extends Notifier<Set<String>> {
+  InspiracoesVistas? _store;
+
+  @override
+  Set<String> build() {
+    unawaited(_carregar());
+    return const <String>{};
+  }
+
+  Future<void> _carregar() async {
+    final InspiracoesVistas store = InspiracoesVistas(
+      await SharedPreferences.getInstance(),
+    );
+    if (!ref.mounted) return;
+    _store = store;
+    state = store.ids;
+  }
+
+  Future<void> marcar(Iterable<String> ids) async {
+    final Set<String> novos = ids
+        .where((String i) => !state.contains(i))
+        .toSet();
+    if (novos.isEmpty) return;
+    state = <String>{...state, ...novos};
+    await _store?.marcar(novos);
   }
 }
 
@@ -272,12 +314,17 @@ class IntroSeenNotifier extends Notifier<bool> {
 ///
 /// É o que põe o pontinho na aba. Zero quando não há nada novo: selo
 /// permanente vira decoração e some da percepção.
+/// Quantas inspirações chegaram desde a última visita à aba.
+///
+/// Conta as **não vistas**, e não as não lidas. Com "não lidas", quem nunca
+/// abriu nenhuma via o mesmo número para sempre no rodapé, e um aviso que
+/// nunca muda deixa de ser aviso.
 final Provider<int> unreadInspirationsProvider = Provider<int>((Ref ref) {
   final List<ActiveInspiration> ativas =
       ref.watch(inspirationsProvider).value ?? const <ActiveInspiration>[];
-  final Set<String> lidas = ref.watch(readInspirationsProvider);
+  final Set<String> vistas = ref.watch(inspiracoesVistasProvider);
   return ativas
-      .where((ActiveInspiration a) => !lidas.contains(a.inspiration.id))
+      .where((ActiveInspiration a) => !vistas.contains(a.inspiration.id))
       .length;
 });
 

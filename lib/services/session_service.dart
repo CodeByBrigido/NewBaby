@@ -8,6 +8,7 @@ import '../models/baby_profile.dart';
 import 'auth_service.dart';
 import 'drive_service.dart';
 import 'firestore_service.dart';
+import 'inspiration_source.dart';
 import 'media_optimizer.dart';
 import 'memory_repository.dart';
 import 'notification_service.dart';
@@ -177,6 +178,12 @@ class SessionService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await ReminderPreferences(prefs).clear();
     await prefs.remove(_recentSearchesKey);
+    // A política promete que o que fica no aparelho sai quando a pessoa sai
+    // da conta. As inspirações lidas e vistas contam: são leitura de quem
+    // estava usando, e a próxima pessoa a entrar neste aparelho começa do
+    // zero, como se o aplicativo fosse novo.
+    await prefs.remove(ReadInspirations.chave);
+    await prefs.remove(InspiracoesVistas.chave);
     await prefs.setBool(_pendingCacheKey, true);
   }
 

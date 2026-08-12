@@ -20,23 +20,55 @@ import 'inspiration_article_screen.dart';
 /// Não é um blog. Cada cartão é uma coisa que dá para fazer, e o que tem
 /// data aparece na hora certa: as ideias para o primeiro aniversário chegam
 /// três semanas antes, não no dia nem no ano passado.
-class InspirationsScreen extends ConsumerWidget {
+class InspirationsScreen extends ConsumerStatefulWidget {
   const InspirationsScreen({super.key, this.embedded = false});
 
   final bool embedded;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<InspirationsScreen> createState() => _InspirationsScreenState();
+}
+
+class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
+  /// O que era novidade quando esta visita começou.
+  ///
+  /// Capturado uma vez, e não recalculado a cada quadro, porque a própria
+  /// visita marca tudo como visto: sem a foto do começo, os selos sumiriam
+  /// na frente de quem acabou de abrir a tela para vê-los.
+  Set<String>? _novasNestaVisita;
+
+  /// Guarda a foto do começo e marca a lista inteira como vista.
+  void _anotarVisita(List<ActiveInspiration> ativas) {
+    if (_novasNestaVisita != null) return;
+
+    final Set<String> vistas = ref.read(inspiracoesVistasProvider);
+    _novasNestaVisita = ativas
+        .map((ActiveInspiration a) => a.inspiration.id)
+        .where((String id) => !vistas.contains(id))
+        .toSet();
+
+    // Depois do quadro: marcar durante a construção mexeria no provider no
+    // meio do desenho da tela.
+    final List<String> todos = ativas
+        .map((ActiveInspiration a) => a.inspiration.id)
+        .toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ref.read(inspiracoesVistasProvider.notifier).marcar(todos);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final AsyncValue<List<ActiveInspiration>> feed = ref.watch(
       inspirationsProvider,
     );
-    final Set<String> lidas = ref.watch(readInspirationsProvider);
     final Copy copy = Copy.of(profile);
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: !embedded,
+        automaticallyImplyLeading: !widget.embedded,
         title: const Text('Inspirações'),
         actions: <Widget>[
           IconButton(
@@ -54,6 +86,7 @@ class InspirationsScreen extends ConsumerWidget {
           message: 'Tente abrir de novo daqui a pouco.',
         ),
         data: (List<ActiveInspiration> itens) {
+          _anotarVisita(itens);
           if (itens.isEmpty) {
             return const EmptyState(
               icon: Icons.lightbulb_outline,
@@ -73,7 +106,10 @@ class InspirationsScreen extends ConsumerWidget {
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) return _Intro(copy: copy);
               final ActiveInspiration a = itens[index - 1];
-              return _Card(active: a, isNew: !lidas.contains(a.inspiration.id));
+              return _Card(
+                active: a,
+                isNew: _novasNestaVisita?.contains(a.inspiration.id) ?? false,
+              );
             },
           );
         },

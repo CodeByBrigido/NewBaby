@@ -47,14 +47,41 @@ List<Inspiration> parseInspirations(String json) {
 class ReadInspirations {
   const ReadInspirations(this._prefs);
 
-  static const String _chave = 'inspiracoes_lidas';
+  static const String chave = 'inspiracoes_lidas';
 
   final SharedPreferences _prefs;
 
-  Set<String> get ids => <String>{...?_prefs.getStringList(_chave)};
+  Set<String> get ids => <String>{...?_prefs.getStringList(chave)};
 
   Future<void> markRead(String id) async {
     final Set<String> atual = ids..add(id);
-    await _prefs.setStringList(_chave, atual.toList());
+    await _prefs.setStringList(chave, atual.toList());
+  }
+}
+
+/// O que já apareceu na lista, tenha sido aberto ou não.
+///
+/// Separado de [ReadInspirations] porque responde a outra pergunta. "Lida"
+/// é sobre consumir o conteúdo, e alimenta os lembretes. "Vista" é sobre o
+/// selo de novidade, e a pergunta ali é apenas: **isto já estava aqui da
+/// última vez que você olhou?**
+///
+/// Antes o selo dizia "Novo" para tudo o que não tinha sido aberto. Quem
+/// nunca abriu nenhuma via "Novo" em todas as sugestões, para sempre, e um
+/// selo que marca a lista inteira não informa nada: é ruído com cara de
+/// aviso. Ler o título e decidir que aquilo não era para hoje é uma resposta
+/// legítima, e não pode deixar a etiqueta acesa até o fim dos tempos.
+class InspiracoesVistas {
+  const InspiracoesVistas(this._prefs);
+
+  static const String chave = 'inspiracoes_vistas';
+
+  final SharedPreferences _prefs;
+
+  Set<String> get ids => <String>{...?_prefs.getStringList(chave)};
+
+  Future<void> marcar(Iterable<String> novos) async {
+    final Set<String> atual = ids..addAll(novos);
+    await _prefs.setStringList(chave, atual.toList());
   }
 }

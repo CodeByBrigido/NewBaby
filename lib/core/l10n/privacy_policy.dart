@@ -106,7 +106,8 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
     title: 'O que nunca sai do aparelho',
     body: <String>[
       'Ajustes de lembretes, a marca de que a apresentação inicial já foi '
-          'vista, as inspirações já lidas, a preferência de bloqueio por '
+          'vista, as inspirações já vistas e lidas, a preferência de '
+          'bloqueio por '
           'biometria e o cache de miniaturas das fotos.',
       'Nada disso é enviado para lugar nenhum. Sai do aparelho quando você '
           'sai da conta ou desinstala o aplicativo.',
