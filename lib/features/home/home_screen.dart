@@ -113,10 +113,16 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-/// O cabeçalho: quem, quantos anos, e desde quando.
+/// O cabeçalho: quem, e quantos anos.
 ///
 /// A frase é a mesma que alguém diria em voz alta ao ser perguntado, e é
 /// por isso que a idade vem grande e o resto vem pequeno.
+///
+/// A data de nascimento saiu daqui. Nenhum pai ou mãe precisa ser lembrado
+/// dela todo dia, ao abrir o aplicativo, e repetir o que a pessoa sabe de
+/// cor gasta a linha mais visível da tela com informação nenhuma. Ela
+/// continua no cadastro, que é onde se procura um dado, e não onde se
+/// tropeça nele.
 class _Hero extends StatelessWidget {
   const _Hero({required this.profile, required this.pulse, required this.copy});
 
@@ -170,14 +176,6 @@ class _Hero extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: text.headlineSmall?.copyWith(
                     color: context.cores.onHero,
-                  ),
-                ),
-                const SizedBox(height: Space.x8),
-                Text(
-                  'Nasceu em ${Fmt.longDate(profile.birth)}',
-                  textAlign: TextAlign.center,
-                  style: text.bodySmall?.copyWith(
-                    color: context.cores.onHeroSoft,
                   ),
                 ),
               ],
