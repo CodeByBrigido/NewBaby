@@ -1,0 +1,85 @@
+name: Publicar as regras do Firestore
+
+# Publica `firebase/firestore.rules` no projeto de verdade.
+#
+# Existe porque as regras são a única coisa neste repositório que **não
+# viaja no aplicativo**: elas moram no servidor do Firebase, e o aplicativo
+# instalado no celular obedece à versão que estiver publicada lá, não à que
+# está no arquivo aqui.
+#
+# Quando as duas se separam, o sintoma é cruel e mudo: o cadastro é aceito
+# no aparelho, o servidor recusa dois segundos depois, e a pessoa volta ao
+# formulário. Foi exatamente o que aconteceu quando `arquivoInfoId` entrou
+# no aplicativo e nas regras do repositório, mas não no servidor.
+#
+# Por isso a publicação roda sozinha quando o arquivo muda na `main`, e não
+# só no botão: o caminho automático é o que impede as duas de se separarem
+# de novo.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'firebase/firestore.rules'
+      - 'firebase/firestore.indexes.json'
+      - 'firebase/firebase.json'
+      - '.github/workflows/regras.yml'
+  workflow_dispatch:
+
+# Duas publicações ao mesmo tempo poderiam deixar no ar a versão mais
+# antiga das duas. A fila garante que a última a entrar é a que fica.
+concurrency:
+  group: regras-do-firestore
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    name: Publicar no Firebase
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-java@v4
+        # O emulador do Firestore é um .jar e exige JDK 21 ou superior.
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # A mesma suíte que roda no CI, de novo, aqui.
+      #
+      # Não é desperdício: este job publica direto na produção, e uma regra
+      # que fecha a porta errada tranca famílias reais para fora do próprio
+      # acervo. O minuto que isto custa é barato perto disso.
+      - name: Instalar as ferramentas
+        working-directory: firebase/teste
+        run: npm ci
+
+      - name: Conferir as regras antes de publicar
+        working-directory: firebase/teste
+        run: npm test
+
+      - name: Publicar
+        working-directory: firebase
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/conta.json
+          CREDENCIAL: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJETO: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -z "$CREDENCIAL" ] || [ -z "$PROJETO" ]; then
+            echo "::error::Faltam os segredos FIREBASE_SERVICE_ACCOUNT e/ou"\
+                 "FIREBASE_PROJECT_ID. Veja o passo a passo em PUBLICAR.md."
+            exit 1
+          fi
+          printf '%s' "$CREDENCIAL" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          npx --yes firebase-tools@14 deploy \
+            --only firestore:rules \
+            --project "$PROJETO" \
+            --non-interactive
+
+      - name: Apagar a credencial do disco
+        if: always()
+        run: rm -f "${{ runner.temp }}/conta.json"

@@ -179,8 +179,69 @@ medidas, em ordem de importância:
    e o id do projeto - que viajam dentro do APK - bastam para chamar o
    Firestore de fora do aplicativo.
 3. **Regras validando formato**, já no repositório. Elas recusam documento
-   fora do formato esperado e limitam o tamanho dos textos. Rode
-   `cd firebase/teste && npm test` depois de qualquer mudança nelas.
+   fora do formato esperado e limitam o tamanho dos textos. O CI as testa
+   contra o emulador oficial a cada pull request.
+
+---
+
+## Passo 5.1.1 - Publicar as regras (pelo GitHub, sem terminal)
+
+**As regras são a única coisa deste repositório que não viaja dentro do
+aplicativo.** Elas moram no servidor do Firebase, e o aplicativo instalado
+no celular obedece à versão publicada lá, não à que está no arquivo aqui.
+
+Quando as duas se separam, o sintoma é cruel e mudo: o cadastro é aceito no
+aparelho, o servidor recusa dois segundos depois, e a pessoa volta ao
+formulário. Foi o que aconteceu quando o campo `arquivoInfoId` entrou no
+aplicativo e nas regras do repositório, mas não no servidor.
+
+Existe um fluxo do GitHub Actions que publica sozinho: **Publicar as regras
+do Firestore**. Ele roda quando o arquivo muda na `main`, e também no botão
+*Run workflow*, igual ao que gera o APK. Antes de publicar, ele roda a
+suíte de regras contra o emulador: uma regra que fecha a porta errada
+tranca famílias reais para fora do próprio acervo.
+
+### O que fazer uma vez só, para o botão funcionar
+
+Tudo pelo navegador. Nenhum comando.
+
+**1. Criar a credencial** (Google Cloud Console, projeto do Firebase):
+
+- *IAM e administrador → Contas de serviço → *Criar conta de serviço*
+- Nome: `publicar-regras`
+- Em *Conceder acesso*, adicione os dois papéis:
+  - **Firebase Rules Admin** (`roles/firebaserules.admin`)
+  - **Firebase Admin SDK Administrator Service Agent**, ou simplesmente
+    **Editor** se preferir não caçar papel
+- Concluir. Depois abra a conta criada → aba **Chaves** → *Adicionar chave
+  → Criar nova chave → JSON*. O arquivo baixa sozinho
+
+**2. Guardar no GitHub** (*Settings → Secrets and variables → Actions →
+New repository secret*), dois segredos:
+
+| Nome | Valor |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | o conteúdo **inteiro** do arquivo JSON baixado, colado |
+| `FIREBASE_PROJECT_ID` | `meu-bebe-16a7d` |
+
+**3. Publicar**: aba *Actions* → **Publicar as regras do Firestore** → *Run
+workflow*. Em um minuto as regras do repositório estão no ar, e daí em
+diante isso acontece sozinho a cada mudança na `main`.
+
+O arquivo JSON baixado é uma credencial de verdade: apague o download
+depois de colar, e **não** o coloque no repositório.
+
+### O caminho manual, se preferir não criar a credencial agora
+
+Também é só navegador, e desbloqueia na hora:
+
+1. Abra `firebase/firestore.rules` no GitHub e copie o conteúdo
+2. *Firebase Console → Firestore Database → aba Regras*
+3. Apague o que está no editor, cole, e **Publicar**
+
+A desvantagem é que é preciso lembrar de refazer isso toda vez que as
+regras mudarem, e esquecer é exatamente o defeito que o fluxo automático
+existe para eliminar.
 
 ---
 
@@ -382,8 +443,9 @@ produção.
 - [ ] Tela de consentimento OAuth em *Em produção*
 - [ ] SHA-1 da chave de release cadastrado no cliente OAuth Android
 - [ ] `android/key.properties` fora do repositório, com cópia da chave guardada
-- [ ] Regras do Firestore publicadas (`firebase deploy --only firestore:rules`)
-      e conferidas no console - não as do "modo de teste"
+- [ ] Regras do Firestore publicadas pelo fluxo *Publicar as regras do
+      Firestore* (passo 5.1.1) e conferidas no console - não as do
+      "modo de teste". O campo `arquivoInfoId` tem que aparecer lá
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity
