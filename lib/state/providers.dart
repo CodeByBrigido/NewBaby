@@ -136,6 +136,32 @@ class GeneroEscolhidoNotifier extends Notifier<BabyGender?> {
   void escolher(BabyGender? genero) => state = genero;
 }
 
+/// Verdadeiro enquanto o cadastro está sendo enviado.
+///
+/// Existe para segurar o roteador, e a razão é uma corrida que custou caro.
+///
+/// O Firestore avisa quem escuta no instante em que a escrita entra no cache
+/// local, muito antes de o servidor dizer se aceita. O perfil aparecia, o
+/// roteador levava para a linha do tempo, e dois segundos depois a recusa
+/// do servidor chegava, a escrita era desfeita, e a pessoa voltava para o
+/// formulário. Pior que o vaivém: a mensagem de erro era escrita na tela do
+/// cadastro, que a essa altura já tinha sido destruída. Sobrava um
+/// formulário em branco e nenhuma explicação.
+///
+/// Enquanto isto é verdadeiro, ninguém sai do cadastro. Quando o envio
+/// termina, ou o perfil existe de verdade e o roteador segue, ou a falha
+/// aparece na tela que continua ali, com tudo o que foi digitado no lugar.
+final NotifierProvider<CadastroEmAndamento, bool> cadastroEmAndamentoProvider =
+    NotifierProvider<CadastroEmAndamento, bool>(CadastroEmAndamento.new);
+
+class CadastroEmAndamento extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void comecou() => state = true;
+  void terminou() => state = false;
+}
+
 // --------------------------------------------------------------- perfil
 
 /// Cadastro da criança. `null` significa "ainda não passou pelo onboarding".

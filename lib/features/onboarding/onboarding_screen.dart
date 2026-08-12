@@ -110,11 +110,20 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       _saving = true;
       _erro = null;
     });
+    // Segura o roteador até o servidor responder. Sem isto ele sai daqui
+    // assim que o Firestore grava no cache local, e uma recusa do servidor
+    // dois segundos depois devolve a pessoa a um formulário vazio, sem
+    // mensagem nenhuma: o aviso teria sido escrito nesta tela, que já não
+    // existe mais.
+    final CadastroEmAndamento porta = ref.read(
+      cadastroEmAndamentoProvider.notifier,
+    );
+    porta.comecou();
     try {
       await ref
           .read(memoryRepositoryProvider)
           .setUpBaby(uid: uid, profile: profile, birthPhoto: _photo);
-      // O roteador leva para a linha do tempo assim que o perfil existe.
+      // O roteador leva para a linha do tempo assim que a porta abre.
     } on Exception catch (e) {
       if (mounted) {
         setState(() {
@@ -122,6 +131,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           _erro = userMessage(e, context: 'Concluir cadastro');
         });
       }
+    } finally {
+      porta.terminou();
     }
   }
 
