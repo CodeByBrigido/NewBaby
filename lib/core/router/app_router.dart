@@ -90,6 +90,9 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   ref.listen(authStateProvider, (_, _) => refresh.value++);
   ref.listen(profileProvider, (_, _) => refresh.value++);
   ref.listen(introSeenProvider, (_, _) => refresh.value++);
+  // Sem isto o roteador ficaria parado depois que o cadastro termina: é a
+  // volta deste valor para falso que libera a ida à linha do tempo.
+  ref.listen(cadastroEmAndamentoProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
@@ -117,6 +120,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       }
 
       if (profile.isLoading) return null;
+
+      // Enquanto o cadastro está sendo enviado, ninguém sai da tela. O
+      // Firestore avisa quem escuta assim que a escrita entra no cache
+      // local, e sair daqui nesse instante é apostar que o servidor vai
+      // aceitar. Quando não aceita, a pessoa volta para um formulário vazio
+      // e a mensagem de erro morre junto com a tela que a mostraria.
+      if (ref.read(cadastroEmAndamentoProvider)) return null;
+
       final bool hasProfile = profile.value != null;
 
       if (!hasProfile) {

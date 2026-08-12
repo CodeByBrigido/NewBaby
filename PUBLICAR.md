@@ -297,6 +297,77 @@ comunicação em caso de incidente.
 
 ---
 
+## Passo 5.3 - Recriar o repositório antes de enviar
+
+**Faça isto por último, e antes do envio.** É o único passo da lista que
+não dá para refazer depois: o que já foi publicado num repositório público
+não volta atrás.
+
+### Por que recriar, e não limpar
+
+O repositório é público, e assim fica: é o que mantém o GitHub Pages
+gratuito servindo as duas URLs do passo anterior. O custo é que estas
+coisas estão à vista desde o primeiro commit:
+
+- `android/app/google-services.json`, com o `project_id` e a API key
+- a mesma chave repetida em `lib/firebase_options.dart`
+
+Elas **não são segredo** no modelo do Firebase: identificam o projeto, e
+quem protege os dados são as regras do Firestore. O que permitem é **abuso
+de cota**, ou seja, conta no fim do mês, e é por isso que isto entra junto
+com o App Check e o alerta de orçamento do passo 5.1.
+
+E não adianta `git rm --cached`: ele não apaga o passado, e o GitHub
+mantém os commits órfãos alcançáveis por SHA mesmo depois de um
+force-push. Só apagar o repositório tira aquilo do ar.
+
+### A ordem, que importa
+
+Rotacionar **antes** de recriar. Ao contrário, você só muda o endereço em
+que a chave velha está publicada.
+
+1. **Rotacionar a API key** no Google Cloud, em *APIs e Serviços →
+   Credenciais*: criar uma nova, restringir a **aplicativos Android** com o
+   pacote `br.com.brigido.meu_bebe` e o SHA-1 da chave de release, e só
+   então apagar a antiga
+2. Baixar o `google-services.json` novo e regerar o `firebase_options.dart`
+   (`flutterfire configure`)
+3. Ver o que mais passou pelo histórico, antes de decidir:
+
+   ```bash
+   git log --all --full-history --name-only --pretty=format: \
+     | sort -u | grep -iE "google-services|key\.properties|\.jks|\.env"
+   ```
+
+4. Criar o **repositório novo**, já público, e subir **um commit só** a
+   partir da árvore de trabalho, com o `.gitignore` valendo desde o começo.
+   O histórico antigo não vem: é ele o problema
+5. Conferir que nada sensível entrou. Tem que voltar vazio:
+
+   ```bash
+   git ls-files | grep -iE "google-services|key\.properties|\.jks|\.keystore|\.env"
+   ```
+
+   Os arquivos `.example` continuam: documentam o formato sem entregar
+   conteúdo
+6. Recriar os segredos do Actions, em *Settings → Secrets and variables →
+   Actions*. Eles não viajam com o código:
+   `GOOGLE_SERVICES_JSON`, `FIREBASE_OPTIONS_DART`, `RELEASE_KEYSTORE`,
+   `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`
+7. Religar o **GitHub Pages** em `main` / `/docs` e abrir as duas URLs em
+   aba anônima
+8. **Apagar o repositório antigo**
+9. Se o nome do repositório mudar, atualizar as duas URLs no Play Console e
+   no `PUBLICAR.md`
+
+### O que nunca entra, nem no repositório novo
+
+O `android/key.properties` e o `.jks`. Esses **são** segredo de verdade:
+quem tem a chave de assinatura publica atualização no seu lugar, e o Google
+não troca a chave de um aplicativo já publicado.
+
+---
+
 ## Passo 6 - Testes antes do público
 
 Comece por **teste interno** (libera em minutos, até 100 pessoas) para você
@@ -316,6 +387,12 @@ produção.
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity
+- [ ] API key do Firebase **rotacionada** e restrita ao pacote + SHA-1 de
+      release, com a antiga apagada no Google Cloud
+- [ ] Repositório recriado do zero, sem o histórico antigo, e o antigo
+      apagado (passo 5.3). `git ls-files | grep -iE "google-services|
+      key\.properties|\.jks"` volta vazio
+- [ ] Segredos do Actions recriados e o CI verde no repositório novo
 - [ ] GitHub Pages ligado em `main` / `/docs`, e as duas páginas abrindo
       numa aba anônima
 - [ ] Política de privacidade no ar e acessível

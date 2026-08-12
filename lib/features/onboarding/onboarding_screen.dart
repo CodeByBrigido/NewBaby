@@ -15,7 +15,6 @@ import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
 import '../../services/lock_service.dart';
 import '../../state/providers.dart';
-import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
 /// Cadastro inicial. Tudo que o aplicativo precisa para calcular idade,
@@ -39,6 +38,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   TimeOfDay? _birthTime;
   File? _photo;
   bool _saving = false;
+
+  /// A última falha, mantida na tela até a próxima tentativa.
+  String? _erro;
 
   @override
   void dispose() {
@@ -104,17 +106,33 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       hospital: _hospital.text.trim().isEmpty ? null : _hospital.text.trim(),
     );
 
-    setState(() => _saving = true);
+    setState(() {
+      _saving = true;
+      _erro = null;
+    });
+    // Segura o roteador até o servidor responder. Sem isto ele sai daqui
+    // assim que o Firestore grava no cache local, e uma recusa do servidor
+    // dois segundos depois devolve a pessoa a um formulário vazio, sem
+    // mensagem nenhuma: o aviso teria sido escrito nesta tela, que já não
+    // existe mais.
+    final CadastroEmAndamento porta = ref.read(
+      cadastroEmAndamentoProvider.notifier,
+    );
+    porta.comecou();
     try {
       await ref
           .read(memoryRepositoryProvider)
           .setUpBaby(uid: uid, profile: profile, birthPhoto: _photo);
-      // O roteador leva para a linha do tempo assim que o perfil existe.
+      // O roteador leva para a linha do tempo assim que a porta abre.
     } on Exception catch (e) {
       if (mounted) {
-        setState(() => _saving = false);
-        showMessage(context, userMessage(e, context: 'Concluir cadastro'));
+        setState(() {
+          _saving = false;
+          _erro = userMessage(e, context: 'Concluir cadastro');
+        });
       }
+    } finally {
+      porta.terminou();
     }
   }
 
@@ -285,6 +303,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     S.preparingDrive,
                     textAlign: TextAlign.center,
                     style: text.bodySmall,
+                  ),
+                ],
+                // A falha fica na tela, e não some sozinha como o aviso de
+                // rodapé. Aqui a pessoa está parada: sem o cadastro não há
+                // aplicativo, e um recado que dura quatro segundos é um
+                // recado que ela vai ler pela metade e reler tocando de novo.
+                if (_erro != null) ...<Widget>[
+                  const SizedBox(height: Space.x16),
+                  Text(
+                    _erro!,
+                    textAlign: TextAlign.center,
+                    style: text.bodyMedium?.copyWith(color: AppPalette.danger),
                   ),
                 ],
               ],
