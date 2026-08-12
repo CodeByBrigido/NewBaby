@@ -137,19 +137,21 @@ class _Hero extends StatelessWidget {
         color: context.cores.heroFill,
         borderRadius: Radii.cardR,
       ),
-      // Duas colunas, cada uma com o conteúdo centralizado na própria
-      // altura. Antes tudo se alinhava ao topo, e a foto ficava pendurada
-      // no canto enquanto o texto descia sozinho.
+      // Duas colunas, cada uma centralizada por inteiro na própria coluna:
+      // na altura e também na largura. Com o texto encostado à esquerda, a
+      // coluna dele ocupava a largura toda e sobrava um vão enorme antes da
+      // foto; centralizado, o texto se aproxima dela sozinho.
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   '${Fmt.greeting(DateTime.now())}!',
+                  textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.onHeroSoft,
                   ),
@@ -157,6 +159,7 @@ class _Hero extends StatelessWidget {
                 const SizedBox(height: Space.x12),
                 Text(
                   'Hoje ${copy.theName} está com',
+                  textAlign: TextAlign.center,
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.onHeroSoft,
                   ),
@@ -164,6 +167,7 @@ class _Hero extends StatelessWidget {
                 const SizedBox(height: Space.x4),
                 Text(
                   pulse.age.detailedLabel(alwaysShowDays: true),
+                  textAlign: TextAlign.center,
                   style: text.headlineSmall?.copyWith(
                     color: context.cores.onHero,
                   ),
@@ -171,6 +175,7 @@ class _Hero extends StatelessWidget {
                 const SizedBox(height: Space.x8),
                 Text(
                   'Nasceu em ${Fmt.longDate(profile.birth)}',
+                  textAlign: TextAlign.center,
                   style: text.bodySmall?.copyWith(
                     color: context.cores.onHeroSoft,
                   ),

@@ -101,56 +101,46 @@ class _BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A linha escura no alto separa a barra do conteúdo que rola por baixo
-    // dela. Sem ela, uma foto clara encostando na barra fazia as duas
-    // parecerem a mesma superfície, e o rodapé sumia.
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: context.cores.textPrimary, width: 1),
-        ),
-      ),
-      child: BottomAppBar(
-        color: context.cores.surface,
-        elevation: 0,
-        height: 68,
-        padding: EdgeInsets.zero,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
-        child: Row(
-          children: <Widget>[
-            _BarItem(
-              icon: Icons.home_outlined,
-              selectedIcon: Icons.home_rounded,
-              label: S.home,
-              selected: index == 0,
-              onTap: () => onSelected(0),
-            ),
-            _BarItem(
-              icon: Icons.timeline_outlined,
-              selectedIcon: Icons.timeline_rounded,
-              label: S.timeline,
-              selected: index == 1,
-              onTap: () => onSelected(1),
-            ),
-            const Expanded(child: SizedBox.shrink()),
-            _BarItem(
-              icon: Icons.lightbulb_outline,
-              selectedIcon: Icons.lightbulb,
-              label: 'Inspirações',
-              selected: index == 3,
-              badge: novidades,
-              onTap: () => onSelected(3),
-            ),
-            _BarItem(
-              icon: Icons.person_outline,
-              selectedIcon: Icons.person_rounded,
-              label: S.profile,
-              selected: index == 4,
-              onTap: () => onSelected(4),
-            ),
-          ],
-        ),
+    return BottomAppBar(
+      color: context.cores.surface,
+      elevation: 0,
+      height: 68,
+      padding: EdgeInsets.zero,
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 8,
+      child: Row(
+        children: <Widget>[
+          _BarItem(
+            icon: Icons.home_outlined,
+            selectedIcon: Icons.home_rounded,
+            label: S.home,
+            selected: index == 0,
+            onTap: () => onSelected(0),
+          ),
+          _BarItem(
+            icon: Icons.timeline_outlined,
+            selectedIcon: Icons.timeline_rounded,
+            label: S.timeline,
+            selected: index == 1,
+            onTap: () => onSelected(1),
+          ),
+          const Expanded(child: SizedBox.shrink()),
+          _BarItem(
+            icon: Icons.lightbulb_outline,
+            selectedIcon: Icons.lightbulb,
+            label: 'Inspirações',
+            selected: index == 3,
+            badge: novidades,
+            onTap: () => onSelected(3),
+          ),
+          _BarItem(
+            icon: Icons.person_outline,
+            selectedIcon: Icons.person_rounded,
+            label: S.profile,
+            selected: index == 4,
+            onTap: () => onSelected(4),
+          ),
+        ],
       ),
     );
   }
