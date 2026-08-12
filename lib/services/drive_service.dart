@@ -88,11 +88,26 @@ class DriveService {
     });
   }
 
-  /// Encontra ou cria a pasta da cápsula **sem consultar a raiz do Drive**.
+  /// Encontra ou cria a pasta da cápsula.
   ///
-  /// O id vem do Firestore, que é onde ele fica guardado desde o cadastro.
-  /// Se ainda não existe, a pasta é criada direto. Em nenhum momento o
-  /// aplicativo pergunta ao Drive o que mais existe na raiz da conta.
+  /// Três tentativas, nesta ordem, e a ordem é o que impede o acervo de se
+  /// partir em pedaços:
+  ///
+  /// 1. o id guardado no Firestore, que é o caminho normal;
+  /// 2. **procurar pelo nome**, para o caso de o id não existir mais deste
+  ///    lado: reinstalar o aplicativo, entrar de novo depois de apagar a
+  ///    conta, ou cadastrar numa conta que já tinha usado o aplicativo;
+  /// 3. só então criar.
+  ///
+  /// O passo 2 faltava, e o resultado aparecia no Drive da pessoa como uma
+  /// fila de pastas com o mesmo nome, uma por tentativa de cadastro, cada
+  /// uma com um pedaço da infância dentro.
+  ///
+  /// Procurar aqui **não** é bisbilhotar o Drive de ninguém. O escopo é
+  /// `drive.file`, então esta consulta só enxerga o que este aplicativo
+  /// criou: uma pasta com este nome feita por outra pessoa, ou pelo próprio
+  /// dono à mão, é invisível para ela. A restrição é do servidor do Google,
+  /// não uma promessa nossa.
   Future<String> _ensureRootFolder(drive.DriveApi api, String? knownId) async {
     if (knownId != null && knownId.isNotEmpty) {
       try {
@@ -101,13 +116,43 @@ class DriveService {
         final String? id = existing.id;
         if (existing.trashed != true && id != null) return id;
       } on drive.DetailedApiRequestError catch (e) {
-        // 404 é a pasta apagada de vez: cabe criar outra. Qualquer outro
-        // erro é rede ou permissão, e criar uma segunda pasta aí seria
-        // duplicar o acervo da pessoa por causa de uma falha passageira.
+        // 404 é a pasta apagada de vez: cabe procurar outra. Qualquer outro
+        // erro é rede ou permissão, e seguir adiante aí seria duplicar o
+        // acervo da pessoa por causa de uma falha passageira.
         if (e.status != 404) rethrow;
       }
     }
+
+    final String? encontrada = await _procurarRaiz(api);
+    if (encontrada != null) return encontrada;
+
     return _createFolder(api, rootFolderName, null);
+  }
+
+  /// A cápsula que já existe nesta conta, se existir.
+  ///
+  /// Sem filtro de pasta-mãe de propósito: quem arrastou a cápsula para
+  /// dentro de outra pasta do próprio Drive continua com a mesma cápsula, e
+  /// exigir que ela esteja na raiz criaria uma segunda.
+  ///
+  /// Entre várias, a mais antiga. É a que tem mais chance de guardar o
+  /// acervo de verdade; as outras nasceram das tentativas seguintes.
+  Future<String?> _procurarRaiz(drive.DriveApi api) async {
+    final String escaped = rootFolderName
+        .replaceAll(r'\', r'\\')
+        .replaceAll("'", r"\'");
+
+    final drive.FileList found = await api.files.list(
+      q:
+          "name = '$escaped' and mimeType = '$_folderMime' "
+          'and trashed = false',
+      orderBy: 'createdTime',
+      $fields: 'files(id)',
+      pageSize: 1,
+    );
+    final List<drive.File>? files = found.files;
+    if (files == null || files.isEmpty) return null;
+    return files.first.id;
   }
 
   /// Pasta de uma categoria (`Fotos`, `Cartas`, ...) dentro da cápsula.

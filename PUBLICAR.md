@@ -184,19 +184,26 @@ medidas, em ordem de importância:
 
 ---
 
-## Passo 5.1.1 - Publicar as regras (pelo GitHub, sem terminal)
+## Passo 5.1.1 - Publicar as regras e os índices (sem terminal)
 
-**As regras são a única coisa deste repositório que não viaja dentro do
-aplicativo.** Elas moram no servidor do Firebase, e o aplicativo instalado
-no celular obedece à versão publicada lá, não à que está no arquivo aqui.
+**As regras e os índices são a parte deste repositório que não viaja dentro
+do aplicativo.** Eles moram no servidor do Firebase, e o aplicativo
+instalado no celular obedece à versão publicada lá, não à que está aqui.
 
-Quando as duas se separam, o sintoma é cruel e mudo: o cadastro é aceito no
-aparelho, o servidor recusa dois segundos depois, e a pessoa volta ao
-formulário. Foi o que aconteceu quando o campo `arquivoInfoId` entrou no
-aplicativo e nas regras do repositório, mas não no servidor.
+Quando as versões se separam, o sintoma é cruel e mudo, e sempre parece
+defeito do aplicativo:
 
-Existe um fluxo do GitHub Actions que publica sozinho: **Publicar as regras
-do Firestore**. Ele roda quando o arquivo muda na `main`, e também no botão
+| O que ficou para trás | O que a pessoa vê |
+|---|---|
+| Regra | o cadastro é aceito, o servidor recusa dois segundos depois, e ela volta ao formulário |
+| Índice | a linha do tempo abre vazia, como se as memórias tivessem sumido |
+
+Os dois aconteceram de verdade, um atrás do outro: o campo `arquivoInfoId`
+entrou no aplicativo e nas regras do repositório mas não no servidor, e os
+índices da linha do tempo nunca tinham sido publicados.
+
+Existe um fluxo do GitHub Actions que publica os dois sozinho: **Publicar
+as regras e os índices do Firestore**. Ele roda quando o arquivo muda na `main`, e também no botão
 *Run workflow*, igual ao que gera o APK. Antes de publicar, ele roda a
 suíte de regras contra o emulador: uma regra que fecha a porta errada
 tranca famílias reais para fora do próprio acervo.
@@ -235,9 +242,16 @@ depois de colar, e **não** o coloque no repositório.
 
 Também é só navegador, e desbloqueia na hora:
 
+**Regras:**
+
 1. Abra `firebase/firestore.rules` no GitHub e copie o conteúdo
 2. *Firebase Console → Firestore Database → aba Regras*
 3. Apague o que está no editor, cole, e **Publicar**
+
+**Índices:** o console não aceita colar o arquivo, mas o próprio erro do
+aplicativo traz um link que cria o índice que faltou, com um clique. Os
+três que o aplicativo usa estão em `firebase/firestore.indexes.json`, e
+levam alguns minutos para ficarem prontos depois de criados.
 
 A desvantagem é que é preciso lembrar de refazer isso toda vez que as
 regras mudarem, e esquecer é exatamente o defeito que o fluxo automático

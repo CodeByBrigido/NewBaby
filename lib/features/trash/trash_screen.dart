@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/utils/error_text.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -35,7 +36,7 @@ class TrashScreen extends ConsumerWidget {
         error: (Object error, _) => EmptyState(
           icon: Icons.cloud_off_outlined,
           title: S.genericError,
-          message: '$error',
+          message: userMessage(error),
         ),
         data: (List<Entry> entries) {
           if (entries.isEmpty) {
