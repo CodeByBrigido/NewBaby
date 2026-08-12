@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/copy.dart';
-import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
@@ -69,13 +67,10 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: !widget.embedded,
         title: const Text('Inspirações'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Buscar nas memórias',
-            onPressed: () => context.push(Routes.search),
-          ),
-        ],
+        // Sem a lupa aqui. Ela busca no acervo, e o acervo não tem nada a
+        // ver com esta aba: quem está lendo uma postagem sobre a primeira
+        // viagem não está procurando uma foto antiga. A busca continua onde
+        // faz sentido, na linha do tempo e nas galerias.
       ),
       body: feed.when(
         loading: () => const Center(child: CircularProgressIndicator()),
