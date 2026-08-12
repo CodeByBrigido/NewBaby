@@ -80,13 +80,32 @@ class ProfileScreen extends ConsumerWidget {
                 Space.scrollEnd,
               ),
               children: <Widget>[
-                Center(child: BabyAvatar(profile: profile, radius: 44)),
+                Center(
+                  child: _FotoDePerfil(
+                    profile: profile,
+                    onTap: () => context.push(Routes.profilePhoto),
+                  ),
+                ),
                 const SizedBox(height: Space.x16),
                 Text(
                   profile.name,
                   textAlign: TextAlign.center,
                   style: text.titleLarge,
                 ),
+                // O email logo abaixo do nome, e não num item de lista com
+                // seta. Ele não leva a lugar nenhum: é identificação, do
+                // mesmo tipo que o nome, e um item tocável que não faz nada
+                // é uma promessa que a tela não cumpre.
+                if (email != null) ...<Widget>[
+                  const SizedBox(height: Space.x4),
+                  Text(
+                    email,
+                    textAlign: TextAlign.center,
+                    style: text.bodySmall?.copyWith(
+                      color: context.cores.textSecondary,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: Space.x24),
                 SoftCard(
                   child: Row(
@@ -119,13 +138,6 @@ class ProfileScreen extends ConsumerWidget {
                   title: Copy.of(profile).babyInfo,
                   onTap: () => context.push(Routes.babyInfo),
                 ),
-                if (email != null)
-                  _Tile(
-                    icon: Icons.account_circle_outlined,
-                    title: S.googleAccount,
-                    subtitle: email,
-                    onTap: null,
-                  ),
                 _Tile(
                   icon: Icons.settings_outlined,
                   title: S.settings,
@@ -193,6 +205,54 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
+/// O avatar com o convite para trocá-lo.
+///
+/// O selo da câmera existe porque um avatar tocável sem nenhuma marca é um
+/// avatar que ninguém descobre que dá para tocar. Ele é pequeno e fica na
+/// borda, para não competir com o rosto.
+class _FotoDePerfil extends StatelessWidget {
+  const _FotoDePerfil({required this.profile, required this.onTap});
+
+  final BabyProfile profile;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Trocar a foto de perfil',
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: Stack(
+          children: <Widget>[
+            BabyAvatar(profile: profile, radius: 44),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.all(Space.x8),
+                decoration: BoxDecoration(
+                  // A variante forte, e não a de marca: o ícone em cima é
+                  // branco, e o Design System exige o contraste maior aí.
+                  color: context.cores.primaryStrong,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: context.cores.surface, width: 2),
+                ),
+                child: const Icon(
+                  Icons.photo_camera_outlined,
+                  size: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _Fact extends StatelessWidget {
   const _Fact({required this.label, required this.value});
 
@@ -213,16 +273,10 @@ class _Fact extends StatelessWidget {
 }
 
 class _Tile extends StatelessWidget {
-  const _Tile({
-    required this.icon,
-    required this.title,
-    required this.onTap,
-    this.subtitle,
-  });
+  const _Tile({required this.icon, required this.title, required this.onTap});
 
   final IconData icon;
   final String title;
-  final String? subtitle;
   final VoidCallback? onTap;
 
   @override
@@ -231,7 +285,6 @@ class _Tile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Space.x4),
       leading: Icon(icon),
       title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
-      subtitle: subtitle == null ? null : Text(subtitle!),
       trailing: onTap == null
           ? null
           : const Icon(Icons.chevron_right, size: 20),
