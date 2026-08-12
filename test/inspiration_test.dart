@@ -346,6 +346,53 @@ void main() {
       );
     });
 
+    test('uma das três é sempre de outro assunto', () {
+      // Três do mesmo tema prendem quem entrou por uma ideia de foto num
+      // corredor de ideias de foto. A vaga reservada é a janela: é por ela
+      // que alguém descobre que existe uma seção sobre cartas.
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+
+      for (final ActiveInspiration a in ativas) {
+        final List<ActiveInspiration> perto = relatedTo(a, ativas);
+        final bool haOutroAssunto = ativas.any(
+          (ActiveInspiration o) =>
+              o.inspiration.id != a.inspiration.id &&
+              o.inspiration.kind != a.inspiration.kind,
+        );
+        if (!haOutroAssunto || perto.length < 3) continue;
+
+        expect(
+          perto.any(
+            (ActiveInspiration r) => r.inspiration.kind != a.inspiration.kind,
+          ),
+          isTrue,
+          reason: 'A postagem ${a.inspiration.id} só oferece o próprio tema',
+        );
+      }
+    });
+
+    test('a saída não é sempre a mesma postagem', () {
+      // Presa ao id, e não fixa: se fosse a mesma para todas, a "janela"
+      // viraria outra parede, com o mesmo cartaz pendurado.
+      final List<ActiveInspiration> ativas = ativasEm(
+        DateTime(2026, 3, 10),
+        DateTime(2027, 2, 20),
+      );
+      final Set<String> saidas = <String>{};
+      for (final ActiveInspiration a in ativas) {
+        final List<ActiveInspiration> perto = relatedTo(a, ativas);
+        for (final ActiveInspiration r in perto) {
+          if (r.inspiration.kind != a.inspiration.kind) {
+            saidas.add(r.inspiration.id);
+          }
+        }
+      }
+      expect(saidas.length, greaterThan(1));
+    });
+
     test('uma lista com um item só não sugere nada', () {
       final List<ActiveInspiration> ativas = ativasEm(
         DateTime(2026, 3, 10),

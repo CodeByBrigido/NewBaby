@@ -109,6 +109,9 @@ flutter:
     # trocar a arte sem mexer aqui.
     - assets/images/onboarding/
     - assets/images/icon/icon.png
+    # As capas das postagens, uma por id. Ver assets/inspiracoes/LEIA-ME.md:
+    # a pasta é plana justamente para esta linha nunca mais mudar.
+    - assets/inspiracoes/
 
   # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
   # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:

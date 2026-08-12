@@ -10,8 +10,7 @@ import '../../models/baby_profile.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
-import '../shell/add_sheet.dart';
-import 'inspiration_art.dart';
+import 'capa_da_postagem.dart';
 import 'inspiration_article_screen.dart';
 
 /// Ideias do que fazer e do que guardar, escolhidas pela idade e pelo
@@ -156,13 +155,11 @@ class _Card extends StatelessWidget {
       borderRadius: Radii.cardR,
       child: InkWell(
         borderRadius: Radii.cardR,
-        onTap: i.hasArticle
-            ? () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => InspirationArticleScreen(active: active),
-                ),
-              )
-            : null,
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => InspirationArticleScreen(active: active),
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(Space.x16),
           decoration: BoxDecoration(
@@ -207,43 +204,35 @@ class _Card extends StatelessWidget {
                 ),
               ],
 
-              if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                InspirationArt(kind: i.kind, seed: i.id, height: 108),
-              ],
+              const SizedBox(height: Space.x12),
+              CapaDaPostagem(inspiration: i, height: 132),
 
-              const SizedBox(height: Space.x8),
+              const SizedBox(height: Space.x12),
               Text(i.title, style: text.titleSmall),
               const SizedBox(height: Space.x8),
               Text(i.summary, style: text.bodyMedium),
 
-              if (i.hasArticle) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Ler as ideias',
-                      style: text.labelLarge?.copyWith(
-                        color: context.cores.primaryDark,
-                      ),
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      size: 18,
+              // Um botão só, e ele leva à postagem. Antes o cartão
+              // decidia entre "ler" e "registrar agora", e essa escolha
+              // ficava com quem ainda não sabia do que a postagem tratava.
+              // Registrar continua existindo, dentro da leitura, onde a
+              // pessoa já decidiu que aquilo é para hoje.
+              const SizedBox(height: Space.x12),
+              Row(
+                children: <Widget>[
+                  Text(
+                    'Ler a postagem',
+                    style: text.labelLarge?.copyWith(
                       color: context.cores.primaryDark,
                     ),
-                  ],
-                ),
-              ] else if (i.suggests != null) ...<Widget>[
-                const SizedBox(height: Space.x12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: FilledButton.tonal(
-                    onPressed: () => showAddSheet(context),
-                    child: const Text('Registrar agora'),
                   ),
-                ),
-              ],
+                  Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: context.cores.primaryDark,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

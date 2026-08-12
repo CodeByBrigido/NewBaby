@@ -7,7 +7,7 @@ import '../../core/utils/formatters.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../shell/add_sheet.dart';
-import 'inspiration_art.dart';
+import 'capa_da_postagem.dart';
 
 /// O texto longo de uma inspiração.
 ///
@@ -58,7 +58,7 @@ class _InspirationArticleScreenState
           Space.scrollEnd,
         ),
         children: <Widget>[
-          InspirationArt(kind: i.kind, seed: i.id, height: 132),
+          CapaDaPostagem(inspiration: i, height: 200),
           const SizedBox(height: Space.x20),
           if (widget.active.daysLeft case final int dias)
             Padding(
@@ -190,7 +190,13 @@ class _Related extends ConsumerWidget {
         const SizedBox(height: Space.x32),
         Divider(color: context.cores.divider),
         const SizedBox(height: Space.x16),
-        Text('Para ler depois', style: Theme.of(context).textTheme.titleSmall),
+        // "Para ler depois" tratava a lista como uma pilha de pendências.
+        // Estas são postagens do mesmo assunto, e o convite é continuar
+        // lendo agora, não guardar para um depois que não chega.
+        Text(
+          'Postagens parecidas',
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
         const SizedBox(height: Space.x12),
         for (final ActiveInspiration a in outras) _RelatedTile(active: a),
       ],
@@ -226,8 +232,8 @@ class _RelatedTile extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  width: 56,
-                  child: InspirationArt(kind: i.kind, seed: i.id, height: 48),
+                  width: 64,
+                  child: CapaDaPostagem(inspiration: i, height: 48),
                 ),
                 const SizedBox(width: Space.x12),
                 Expanded(

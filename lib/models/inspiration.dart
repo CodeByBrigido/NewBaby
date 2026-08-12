@@ -178,6 +178,23 @@ class Inspiration {
   /// Poucos, de propósito: se tudo é destaque, nada é.
   final bool highlight;
 
+  /// A foto de capa da postagem.
+  ///
+  /// O caminho vem do id, sem campo no catálogo: acrescentar a arte de uma
+  /// postagem é soltar um arquivo com o nome dela na pasta, e trocar a arte
+  /// é substituir esse arquivo. Nada de editar JSON nem código para mudar
+  /// uma imagem.
+  ///
+  /// Plano, e não uma pasta por postagem, por um motivo do Flutter: a lista
+  /// de assets do `pubspec.yaml` não alcança subpastas, então cada postagem
+  /// nova exigiria uma linha nova ali. Assim é uma linha só, para sempre.
+  String get coverAsset => 'assets/inspiracoes/$id.webp';
+
+  /// Se a postagem tem texto próprio além do resumo.
+  ///
+  /// Deixou de decidir se o cartão leva a algum lugar: **toda** inspiração
+  /// é uma postagem e abre. Serve agora só para ordenar, dando um empurrão
+  /// a quem tem mais o que dizer.
   bool get hasArticle => sections.isNotEmpty;
 }
 
@@ -322,6 +339,7 @@ List<ActiveInspiration> relatedTo(
   final List<ActiveInspiration> outras = ativas
       .where((ActiveInspiration a) => a.inspiration.id != atual.inspiration.id)
       .toList();
+  if (outras.isEmpty || limit <= 0) return const <ActiveInspiration>[];
 
   int nota(ActiveInspiration a) {
     int n = 0;
@@ -337,5 +355,40 @@ List<ActiveInspiration> relatedTo(
         ? porNota
         : a.inspiration.id.compareTo(b.inspiration.id);
   });
-  return outras.take(limit).toList();
+
+  // A última vaga é uma porta de saída do assunto.
+  //
+  // Com as três escolhidas por afinidade, quem entrou por uma ideia de foto
+  // só encontra ideias de foto, e a leitura vira um corredor sem janela. A
+  // vaga reservada oferece outra coisa: é assim que alguém descobre que
+  // existe uma seção sobre cartas.
+  //
+  // A escolha é sorteada, mas presa ao id da postagem: muda entre uma
+  // postagem e outra, e não muda a cada vez que a mesma é aberta. Uma lista
+  // que se remexe a cada quadro é uma lista em que ninguém consegue voltar
+  // ao que acabou de ver.
+  final List<ActiveInspiration> escolhidas = outras.take(limit - 1).toList();
+
+  final List<ActiveInspiration> deOutroAssunto = outras
+      .where(
+        (ActiveInspiration a) =>
+            a.inspiration.kind != atual.inspiration.kind &&
+            !escolhidas.contains(a),
+      )
+      .toList();
+
+  if (deOutroAssunto.isEmpty) {
+    // Só existe este assunto ativo hoje: melhor uma a mais dele do que uma
+    // vaga vazia.
+    return outras.take(limit).toList();
+  }
+
+  final int sorteio =
+      atual.inspiration.id.codeUnits.fold<int>(
+        7,
+        (int a, int c) => a * 31 + c,
+      ) &
+      0x7fffffff;
+  escolhidas.add(deOutroAssunto[sorteio % deOutroAssunto.length]);
+  return escolhidas;
 }
