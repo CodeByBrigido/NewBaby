@@ -8,9 +8,14 @@ name: Android
 #    lado Gradle, já que `flutter analyze` e `flutter test` rodam na Dart VM
 #    e não encostam no build nativo.
 #
-# 2. `apk` só roda quando pedido (ou em uma tag) e usa a configuração real
-#    do Firebase, guardada nos segredos do repositório, para gerar o APK
-#    que dá para instalar no celular.
+# 2. `apk` usa a configuração real do Firebase, guardada nos segredos do
+#    repositório, para gerar o APK que dá para instalar no celular. Ele roda
+#    a cada merge na main, nas tags e quando pedido à mão.
+#
+#    O que ele **não** faz é rodar em pull request, e isso é de propósito:
+#    num repositório público, um PR vindo de fora executaria código de
+#    estranho com a chave de assinatura do aplicativo ao alcance. O GitHub
+#    já nega segredos a PR de fork, e a condição abaixo é a segunda tranca.
 
 on:
   pull_request:
@@ -166,8 +171,14 @@ jobs:
 
   apk:
     name: Gerar APK para instalar
-    # Só quando pedido de propósito: este é o job que usa a conta real.
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    # Tudo menos pull request. O `on:` acima só dispara `push` na main e nas
+    # tags `v*`, então isto quer dizer: todo merge, toda tag, e à mão.
+    #
+    # Antes era só à mão, e o efeito era que depois de cada merge alguém
+    # tinha que lembrar de vir aqui apertar um botão. O APK é o único jeito
+    # de ver o aplicativo de verdade neste projeto: deixá-lo atrás de um
+    # passo manual é deixar a verificação para depois, sempre.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -313,7 +324,11 @@ jobs:
         with:
           name: meu-bebe-apk
           path: build/app/outputs/flutter-apk/*-release.apk
-          retention-days: 90
+          # Guarda muito só o que vale guardar. O APK de uma tag é uma
+          # versão publicada e fica os 90 dias; o de um merge existe para
+          # ser instalado nos próximos dias e depois vira lixo, porque o
+          # merge seguinte já produziu outro melhor.
+          retention-days: ${{ startsWith(github.ref, 'refs/tags/v') && 90 || 14 }}
           if-no-files-found: error
 
       - name: Anexar ao Release quando for uma tag
