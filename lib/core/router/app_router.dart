@@ -189,10 +189,8 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         routes: <RouteBase>[
           GoRoute(
             path: 'nova',
-            // A data vem da folha de adicionar quando a carta foi começada
-            // por lá; pela tela de cartas não vem nada, e a carta é de hoje.
-            builder: (_, GoRouterState state) =>
-                LetterEditorScreen(date: state.extra as DateTime?),
+            // Sem data nenhuma: a carta é sempre do dia em que foi escrita.
+            builder: (_, _) => const LetterEditorScreen(),
           ),
           GoRoute(
             path: ':id',

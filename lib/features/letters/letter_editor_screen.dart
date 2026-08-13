@@ -12,19 +12,21 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
-import '../shell/add_sheet.dart';
 import '../../core/utils/error_text.dart';
 
-/// Escrever ou editar uma carta. Só dois campos - título e mensagem.
+/// Escrever ou editar uma carta. Só dois campos: título e mensagem.
+///
+/// Não pergunta a data.
+///
+/// A carta é do dia em que foi escrita, e pronto. Foto e vídeo precisam de
+/// data porque chegam de anos atrás, com a hora gravada dentro do arquivo;
+/// carta nasce agora, na hora em que alguém senta para escrever. Perguntar
+/// transformava o ato de escrever numa ficha a preencher.
 class LetterEditorScreen extends ConsumerStatefulWidget {
-  const LetterEditorScreen({super.key, this.entryId, this.date});
+  const LetterEditorScreen({super.key, this.entryId});
 
   /// `null` cria uma carta nova.
   final String? entryId;
-
-  /// Quando a memória aconteceu, se veio escolhida da folha de adicionar.
-  /// Sem isto, a carta é do dia em que foi escrita.
-  final DateTime? date;
 
   @override
   ConsumerState<LetterEditorScreen> createState() => _LetterEditorScreenState();
@@ -91,28 +93,6 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
     _focoDaMensagem.requestFocus();
   }
 
-  /// Quando a carta aconteceu.
-  ///
-  /// Carta não tem arquivo de onde ler a data, então ela começa em hoje, que
-  /// é quando quase toda carta é escrita. O controle existe para o resto:
-  /// quem senta para escrever a carta do primeiro mês três meses depois
-  /// precisa poder datá-la no primeiro mês, senão ela cai na idade errada.
-  late DateTime _quando = widget.date ?? DateTime.now();
-
-  Future<void> _escolherData() async {
-    final BabyProfile? profile = ref.read(profileProvider).value;
-    final DateTime agora = DateTime.now();
-    final DateTime? escolhida = await showDatePicker(
-      context: context,
-      initialDate: _quando,
-      firstDate: profile?.birthDay ?? DateTime(agora.year - 20),
-      lastDate: agora,
-      helpText: 'Quando isso aconteceu?',
-    );
-    if (escolhida == null) return;
-    setState(() => _quando = comHoraDoRelogio(escolhida, agora));
-  }
-
   @override
   void dispose() {
     _title.dispose();
@@ -153,7 +133,6 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               profile: profile,
               title: title.isEmpty ? 'Carta' : title,
               message: message,
-              date: _quando,
             );
       } else {
         await ref
@@ -230,17 +209,6 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
             ),
           ),
-          // Só na carta nova. Numa carta já guardada, mudar a data
-          // moveria o `.txt` de pasta no Drive, e a tela de edição não
-          // trata disso.
-          if (existing == null) ...<Widget>[
-            const SizedBox(height: Space.x16),
-            DataDaMemoria(
-              quando: _quando,
-              explicacao: 'Quando esta carta aconteceu. Toque para trocar.',
-              onTap: _escolherData,
-            ),
-          ],
           const SizedBox(height: Space.x16),
           TextField(
             controller: _message,
@@ -295,8 +263,11 @@ class _ComoComecar extends StatelessWidget {
         ),
         const SizedBox(height: Space.x12),
         Wrap(
-          spacing: Space.x8,
-          runSpacing: Space.x8,
+          // Junto, e não espalhado: são sete rótulos curtos, e o respiro
+          // largo fazia cada um parecer um botão separado em vez de uma
+          // lista de opções para varrer com os olhos.
+          spacing: Space.x4,
+          runSpacing: Space.x4,
           children: <Widget>[
             for (final String comeco in S.letterStarters)
               ActionChip(
