@@ -63,11 +63,8 @@ class ProfileScreen extends ConsumerWidget {
                     : context.go(Routes.timeline),
               ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.switch_account_outlined),
-            tooltip: S.switchAccount,
-            onPressed: () => _switchAccount(context, ref),
-          ),
+          _BotaoDeContas(onTap: () => _switchAccount(context, ref)),
+          const SizedBox(width: Space.x8),
         ],
       ),
       body: profile == null
@@ -202,6 +199,70 @@ class ProfileScreen extends ConsumerWidget {
     // miniaturas, os downloads, as buscas recentes e agenda o descarte do
     // cache do Firestore.
     await ref.read(sessionServiceProvider).signOut();
+  }
+}
+
+/// A porta para as contas, no alto da tela de perfil.
+///
+/// Era um ícone sozinho, e ícone sozinho não conta que existe mais de uma
+/// conta: quem tem dois filhos precisa descobrir isso, e descobrir sozinho
+/// é o mesmo que não existir. Com a palavra escrita e a seta para baixo, o
+/// controle diz o que é e diz que abre uma lista.
+///
+/// A seta é promessa de lista, e a lista que abre é a do próprio Google.
+/// Veja [ProfileScreen._switchAccount]: não existe lista nossa de contas, e
+/// isso é decisão, não falta. O aplicativo não tem como enumerar as contas
+/// do aparelho (isso exigiria a permissão `GET_ACCOUNTS`, que a auditoria
+/// do CI reprova) nem como abrir direto numa conta escolhida (o
+/// `authenticate` do google_sign_in não recebe qual conta usar). Uma lista
+/// nossa seria, então, uma cópia sempre desatualizada em que tocar num
+/// nome não levaria àquele nome.
+class _BotaoDeContas extends StatelessWidget {
+  const _BotaoDeContas({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Semantics(
+      button: true,
+      label: S.switchAccount,
+      child: Material(
+        color: context.cores.primarySoft,
+        borderRadius: Radii.pillR,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: Radii.pillR,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              Space.x12,
+              Space.x8,
+              Space.x8,
+              Space.x8,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  S.accountsLabel,
+                  style: text.labelMedium?.copyWith(
+                    color: context.cores.primaryDark,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: 20,
+                  color: context.cores.primaryDark,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

@@ -56,14 +56,31 @@ void main() {
       expect(S.switchAccountHint, contains('carregar'));
     });
 
+    test('diz onde se acrescenta a cápsula de outro filho', () {
+      // O botão promete uma lista de contas. A lista é a do Google, e é lá
+      // que fica o "Adicionar outra conta" - dizer isso antes evita que a
+      // pessoa procure aqui dentro um botão que não existe.
+      expect(S.switchAccountHint, contains('Adicionar outra'));
+    });
+
     test('nenhum texto usa travessão', () {
       for (final String t in <String>[
+        S.accountsLabel,
         S.switchAccount,
         S.switchAccountAction,
         S.switchAccountHint,
       ]) {
         expect(t, isNot(contains('—')));
       }
+    });
+  });
+
+  group('o botão de contas', () {
+    test('está no plural, que é o que conta a existência de outras', () {
+      // Um ícone sozinho não diz que mais de uma conta cabe aqui, e quem tem
+      // dois filhos precisa descobrir isso sem procurar.
+      expect(S.accountsLabel, 'CONTAS');
+      expect(S.accountsLabel, S.accountsLabel.toUpperCase());
     });
   });
 }

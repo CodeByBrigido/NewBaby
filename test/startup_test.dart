@@ -96,7 +96,7 @@ void main() {
   const Duration bemMaisQueOPrazo = Duration(minutes: 2);
 
   group('o preparo do login não segura a abertura', () {
-    test('quando a restauração da sessão anterior nunca responde', () {
+    test('porque nem tenta restaurar a sessão anterior', () {
       final _FakePlatform platform = _FakePlatform(leveTravado: true);
       GoogleSignInPlatform.instance = platform;
 
@@ -106,18 +106,20 @@ void main() {
 
         async.elapse(bemMaisQueOPrazo);
 
-        expect(
-          pronto,
-          isTrue,
-          reason:
-              'Restaurar a sessão é conforto, não requisito: serve só para '
-              'quem já entrou não ver a tela de login piscar. Esperar por '
-              'isso é o que deixa a tela em branco.',
-        );
+        expect(pronto, isTrue);
         expect(
           platform.leveChamado,
-          isTrue,
-          reason: 'A tentativa continua acontecendo; ela é que não é esperada.',
+          isFalse,
+          reason:
+              'No Android, `attemptLightweightAuthentication` abre a folha '
+              'de contas do sistema quando não consegue escolher sozinha, e '
+              'ela não consegue em aparelho com mais de uma conta. Na '
+              'abertura isso virava um seletor de contas em toda vez que o '
+              'aplicativo era aberto, com a linha do tempo já carregada '
+              'atrás dele.\n'
+              'Quem sustenta a sessão é o Firebase Auth, lido do disco. A '
+              'conta do Google só faz falta para o Drive, e é lá que ela '
+              'passou a ser buscada.',
         );
       });
     });
