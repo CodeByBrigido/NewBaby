@@ -67,21 +67,26 @@ class _InspirationArticleScreenState
             ),
           Text(i.title, style: text.headlineSmall),
           const SizedBox(height: Space.x12),
+          // A abertura é o mesmo corpo de texto do resto, separada só pela
+          // cor. Ela vinha em `bodyLarge` enquanto o miolo vinha em
+          // `bodyMedium`, e como a escala usa peso 400 num e 500 no outro, o
+          // primeiro parágrafo parecia escrito noutra fonte.
           Text(
             i.summary,
-            style: text.bodyLarge?.copyWith(
-              color: context.cores.textSecondary,
-              height: 1.5,
-            ),
+            style: text.bodyLarge?.copyWith(color: context.cores.textSecondary),
           ),
           const SizedBox(height: Space.x8),
 
           for (final InspirationSection s in i.sections) ...<Widget>[
             const SizedBox(height: Space.x24),
-            Text(s.title, style: text.titleSmall),
+            // 20/700, e não 14/600: o tópico vinha do mesmo tamanho do corpo
+            // e com meio passo de peso a mais, então não separava assunto
+            // nenhum. Uma postagem longa se lê pelos títulos antes de se ler
+            // pelas frases.
+            Text(s.title, style: text.titleLarge),
             if (s.body.isNotEmpty) ...<Widget>[
               const SizedBox(height: Space.x8),
-              Text(s.body, style: text.bodyMedium?.copyWith(height: 1.55)),
+              Text(s.body, style: text.bodyLarge),
             ],
             if (s.bullets.isNotEmpty) const SizedBox(height: Space.x12),
             for (final String item in s.bullets)
@@ -102,12 +107,7 @@ class _InspirationArticleScreenState
                         shape: BoxShape.circle,
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        item,
-                        style: text.bodyMedium?.copyWith(height: 1.5),
-                      ),
-                    ),
+                    Expanded(child: Text(item, style: text.bodyLarge)),
                   ],
                 ),
               ),
@@ -193,9 +193,12 @@ class _Related extends ConsumerWidget {
         // "Para ler depois" tratava a lista como uma pilha de pendências.
         // Estas são postagens do mesmo assunto, e o convite é continuar
         // lendo agora, não guardar para um depois que não chega.
+        // Do mesmo tamanho dos tópicos do texto: é o último título da
+        // página, e deixá-lo menor que os de cima faria a postagem terminar
+        // em outra hierarquia da que ela usou o tempo todo.
         Text(
           'Postagens parecidas',
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: Space.x12),
         for (final ActiveInspiration a in outras) _RelatedTile(active: a),

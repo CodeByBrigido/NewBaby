@@ -65,7 +65,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 _Fixed(
                   icon: Icons.photo_outlined,
                   title: 'Fotos',
-                  value: 'Metade da resolução original',
+                  value: 'Até 1600 px no lado maior',
                 ),
                 Divider(height: 24),
                 _Fixed(
