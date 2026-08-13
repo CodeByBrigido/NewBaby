@@ -97,10 +97,29 @@ class _FailedBanner extends ConsumerWidget {
             color: AppPalette.danger,
           ),
           const SizedBox(width: Space.x12),
+          // O motivo, e não só a contagem. Sem ele a faixa dizia que algo
+          // falhou e escondia a única informação capaz de resolver: se foi
+          // permissão, rede, espaço no Drive ou arquivo que sumiu. A pessoa
+          // ficava apertando "Tentar de novo" às cegas.
           Expanded(
-            child: Text(
-              '${S.uploadFailed}: ${_itemCount(entries.length)}',
-              style: text.bodySmall?.copyWith(color: AppPalette.danger),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '${S.uploadFailed}: ${_itemCount(entries.length)}',
+                  style: text.bodySmall?.copyWith(color: AppPalette.danger),
+                ),
+                if (entries.first.errorMessage case final String motivo
+                    when motivo.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: Space.x4),
+                  Text(
+                    motivo,
+                    style: text.bodySmall?.copyWith(
+                      color: context.cores.textSecondary,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
           TextButton(

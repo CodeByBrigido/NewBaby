@@ -58,14 +58,14 @@ class OptimizedMedia {
 /// * vídeo - sempre 540p com bitrate otimizado;
 /// * o original permanece no celular e o temporário é apagado após o envio.
 class MediaOptimizer {
-  MediaOptimizer({this.imageQuality = 80});
+  MediaOptimizer({this.imageQuality = 78});
 
-  /// 80 é o degrau em que o JPEG para de gastar bytes guardando o ruído do
-  /// sensor, que é justamente a parte da foto que ninguém quer de volta.
+  /// 78 é o piso: abaixo disso o JPEG começa a deixar marca visível em pele
+  /// e em céu, que é metade do que uma cápsula guarda.
   ///
-  /// Abaixo de 78 ele começa a deixar marca visível em pele e em céu, que é
-  /// metade do que uma cápsula guarda. Por isso este número desce até ali, e
-  /// não mais.
+  /// Quem faz o trabalho de encolher aqui é o teto de resolução, e não este
+  /// número. Espremer a qualidade deixa a foto suja; tirar pixels que
+  /// ninguém vai olhar só a deixa menor.
   final int imageQuality;
 
   /// O maior lado, em pixels, de uma foto guardada na cápsula.
@@ -77,11 +77,15 @@ class MediaOptimizer {
   /// que restava. Um teto faz toda foto cair na mesma faixa, venha da
   /// câmera que vier.
   ///
-  /// 1600 cobre qualquer tela de celular com folga para ampliar e imprime
-  /// 13x18 cm. Aqui é o único número a mexer se as fotos ficarem apertadas
-  /// demais, ou se um dia sobrar espaço: subir para 2048 devolve o detalhe,
-  /// descer para 1280 economiza outro tanto.
-  static const int maxLongEdge = 1600;
+  /// 960 porque o teto só serve para o que passa dele, e 1600 não passava
+  /// de quase nada: as fotos que chegam aqui já vinham menores que isso, o
+  /// teto não encostava nelas, e o arquivo saía **maior** que na regra
+  /// antiga da metade. Um teto que não corta ninguém não é um teto.
+  ///
+  /// 960 ainda enche a tela de um celular e imprime 10x15 cm. Aqui é o
+  /// único número a mexer: subir para 1280 devolve detalhe, descer para 800
+  /// economiza outro tanto.
+  static const int maxLongEdge = 960;
 
   Future<Directory> _workDir() async {
     final Directory base = await getTemporaryDirectory();

@@ -48,10 +48,40 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
   );
   late int _index = widget.initialIndex;
 
+  /// Enquanto a foto está ampliada, o deslize entre fotos para.
+  ///
+  /// Sem isto, arrastar para ver o canto da foto vira trocar de foto: o
+  /// `PageView` fica com o gesto horizontal e a ampliação não serve de nada.
+  bool _ampliada = false;
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  /// Manda a memória para a lixeira, com confirmação.
+  ///
+  /// Existe aqui, e não só na tela de detalhe, porque é aqui que a pessoa
+  /// descobre que enviou a foto errada: ela abre a foto para olhar, vê que é
+  /// do trabalho, e quer sumir com ela naquele instante.
+  Future<void> _apagar(Entry entry) async {
+    final bool ok = await confirm(
+      context,
+      title: S.deleteConfirmTitle,
+      message: S.deleteConfirmBody,
+      confirmLabel: S.delete,
+    );
+    if (!ok || !mounted) return;
+
+    final String? uid = ref.read(uidProvider);
+    if (uid == null) return;
+    try {
+      await ref.read(memoryRepositoryProvider).moveToTrash(uid, entry);
+      if (mounted) Navigator.of(context).pop();
+    } on Exception catch (e) {
+      if (mounted) showMessage(context, userMessage(e, context: S.delete));
+    }
   }
 
   Future<void> _share() async {
@@ -93,6 +123,11 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
         ),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.ios_share), onPressed: _share),
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            tooltip: S.delete,
+            onPressed: () => _apagar(entry),
+          ),
         ],
       ),
       body: Column(
@@ -101,7 +136,16 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
             child: PageView.builder(
               controller: _controller,
               itemCount: widget.files.length,
-              onPageChanged: (int i) => setState(() => _index = i),
+              // Ampliada, a foto fica com o gesto para si.
+              physics: _ampliada
+                  ? const NeverScrollableScrollPhysics()
+                  : const PageScrollPhysics(),
+              onPageChanged: (int i) => setState(() {
+                _index = i;
+                // Trocar de foto começa do tamanho normal: a próxima não
+                // herda a ampliação da anterior.
+                _ampliada = false;
+              }),
               itemBuilder: (BuildContext context, int index) {
                 final EntryFile current = widget.files[index];
                 if (current.isVideo) return DriveVideoPlayer(file: current);
@@ -109,13 +153,24 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                 // já construiu, e duas etiquetas iguais na mesma árvore
                 // derrubam a tela.
                 final Widget imagem = DriveFullImage(file: current);
-                return index == _index
+                final Widget comVoo = index == _index
                     ? HeroDaMidia(
                         origem: widget.origemDoVoo,
                         file: current,
                         child: imagem,
                       )
                     : imagem;
+                return FotoAmpliavel(
+                  // Uma chave por arquivo: sem ela, deslizar reaproveitaria
+                  // o estado da foto anterior e a nova abriria ampliada.
+                  key: ValueKey<String>(current.driveId),
+                  onZoom: (bool ampliada) {
+                    if (index == _index && ampliada != _ampliada) {
+                      setState(() => _ampliada = ampliada);
+                    }
+                  },
+                  child: comVoo,
+                );
               },
             ),
           ),
@@ -294,6 +349,124 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Uma foto que dá para ampliar com dois dedos e com dois toques.
+///
+/// O visualizador não tinha zoom nenhum. O que existia era um `PageView` com
+/// a imagem dentro, e o `PageView` fica com o gesto horizontal para si: por
+/// isso abrir os dois dedos "às vezes funcionava", quando o movimento saía
+/// vertical o bastante para ele não reclamar.
+///
+/// Duas coisas resolvem isso juntas, e nenhuma sozinha:
+///
+/// * o `InteractiveViewer`, que é quem amplia de verdade; e
+/// * travar o deslize entre fotos enquanto está ampliado, senão arrastar
+///   para ver o canto da foto vira trocar de foto.
+///
+/// O toque duplo existe porque é como se amplia uma foto em qualquer outro
+/// aplicativo, e porque dois dedos numa foto que ocupa a tela inteira é um
+/// gesto que escorrega.
+class FotoAmpliavel extends StatefulWidget {
+  const FotoAmpliavel({required this.child, required this.onZoom, super.key});
+
+  final Widget child;
+
+  /// Avisa quem está por fora que a foto saiu do tamanho normal, para o
+  /// deslize entre fotos parar enquanto isso durar.
+  final ValueChanged<bool> onZoom;
+
+  @override
+  State<FotoAmpliavel> createState() => _FotoAmpliavelState();
+}
+
+class _FotoAmpliavelState extends State<FotoAmpliavel>
+    with SingleTickerProviderStateMixin {
+  final TransformationController _transformacao = TransformationController();
+  late final AnimationController _animacao = AnimationController(
+    vsync: this,
+    duration: Motion.slide,
+  );
+  Animation<Matrix4>? _voo;
+
+  /// Onde a pessoa tocou duas vezes, para a ampliação ir para lá em vez de
+  /// para o centro da tela.
+  TapDownDetails? _ultimoToque;
+
+  static const double _ampliacao = 2.5;
+
+  @override
+  void initState() {
+    super.initState();
+    _transformacao.addListener(_avisar);
+    _animacao.addListener(() {
+      final Animation<Matrix4>? voo = _voo;
+      if (voo != null) _transformacao.value = voo.value;
+    });
+  }
+
+  @override
+  void dispose() {
+    _transformacao
+      ..removeListener(_avisar)
+      ..dispose();
+    _animacao.dispose();
+    super.dispose();
+  }
+
+  bool _ampliado = false;
+
+  void _avisar() {
+    // A escala é o primeiro valor da matriz.
+    final bool agora = _transformacao.value.getMaxScaleOnAxis() > 1.01;
+    if (agora == _ampliado) return;
+    _ampliado = agora;
+    widget.onZoom(agora);
+  }
+
+  void _alternar() {
+    final bool voltando = _transformacao.value.getMaxScaleOnAxis() > 1.01;
+    final Matrix4 destino;
+
+    if (voltando) {
+      destino = Matrix4.identity();
+    } else {
+      final Offset ponto = _ultimoToque?.localPosition ?? Offset.zero;
+      // Leva o ponto tocado para onde ele estava, já ampliado: sem isto a
+      // foto salta para o centro e a pessoa perde de vista o que queria ver.
+      destino = Matrix4.identity()
+        ..translateByDouble(
+          -ponto.dx * (_ampliacao - 1),
+          -ponto.dy * (_ampliacao - 1),
+          0,
+          1,
+        )
+        ..scaleByDouble(_ampliacao, _ampliacao, _ampliacao, 1);
+    }
+
+    _voo = Matrix4Tween(
+      begin: _transformacao.value,
+      end: destino,
+    ).animate(CurvedAnimation(parent: _animacao, curve: Curves.easeOutCubic));
+    _animacao.forward(from: 0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTapDown: (TapDownDetails d) => _ultimoToque = d,
+      onDoubleTap: _alternar,
+      child: InteractiveViewer(
+        transformationController: _transformacao,
+        minScale: 1,
+        maxScale: 5,
+        // Sem recorte: a foto ampliada pode passar da borda enquanto a
+        // pessoa arrasta, e cortar isso faz a imagem piscar nas laterais.
+        clipBehavior: Clip.none,
+        child: widget.child,
       ),
     );
   }

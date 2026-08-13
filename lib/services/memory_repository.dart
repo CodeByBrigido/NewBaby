@@ -425,12 +425,43 @@ class MemoryRepository {
       return;
     }
 
+    // O arquivo escolhido é uma cópia no cache do aplicativo, e o Android
+    // limpa cache quando o armazenamento aperta. Sem esta conferência o
+    // reenvio morria lá na frente, com uma mensagem sobre caminho de arquivo
+    // que não diz a ninguém o que fazer, e o item ficava tentando para
+    // sempre uma coisa impossível.
+    for (final PendingFile item in pending) {
+      if (!File(item.path).existsSync()) {
+        await firestore.patchEntry(uid, entry.id, <String, Object?>{
+          'uploadStatus': UploadStatus.failed.id,
+          'erro':
+              'O arquivo saiu deste aparelho antes de o envio terminar. '
+              'Escolha a foto de novo para guardá-la.',
+        });
+        return;
+      }
+    }
+
     // Tentar de novo é a pessoa olhando para a tela e pedindo, então aqui a
     // permissão do Drive pode ser pedida com a tela do Google. Sem isto, um
     // envio que falhou por falta de consentimento repetia o mesmo erro para
     // sempre: o envio comum não abre tela nenhuma, e portanto não tinha como
     // resolver o que estava faltando.
-    await drive.garantirPermissao();
+    //
+    // O `try` não é enfeite. Sem ele, recusar a tela do Google jogava a
+    // exceção para fora do reenvio inteiro, e a tela não mostrava nada:
+    // o botão parecia não fazer efeito nenhum.
+    try {
+      await drive.garantirPermissao();
+    } on Exception catch (e) {
+      final String message = userMessage(e, context: 'Reenvio de ${entry.id}');
+      await firestore.patchEntry(uid, entry.id, <String, Object?>{
+        'uploadStatus': UploadStatus.failed.id,
+        'erro': message,
+      });
+      _emit(entry.id, UploadStatus.failed, message: message);
+      return;
+    }
 
     final AgeBucket bucket = AgeCalculator.bucketAt(profile.birth, entry.date);
     await _processUpload(uid, profile, entry, pending, bucket);

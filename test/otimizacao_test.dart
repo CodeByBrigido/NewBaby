@@ -12,15 +12,15 @@ void main() {
     test('reduz o lado maior até o teto e preserva a proporção', () {
       // A câmera de celular mais comum, 12 MP em 4:3.
       final (int, int) r = MediaOptimizer.archiveSize(4032, 3024);
-      expect(r.$1, 1600);
-      expect(r.$2, 1200);
+      expect(r.$1, 960);
+      expect(r.$2, 720);
       expect(r.$1 / r.$2, closeTo(4032 / 3024, 0.001));
     });
 
     test('funciona igual em pé, que é como quase toda foto é tirada', () {
       final (int, int) r = MediaOptimizer.archiveSize(3024, 4032);
-      expect(r.$2, 1600);
-      expect(r.$1, 1200);
+      expect(r.$2, 960);
+      expect(r.$1, 720);
     });
 
     test('a câmera de 48 MP cai na mesma faixa que a de 12 MP', () {
@@ -28,15 +28,15 @@ void main() {
       // foto precisa ser, e não de qual celular a família comprou. Pela
       // regra antiga, de metade, esta foto ficaria com 4000 px de lado.
       final (int, int) r = MediaOptimizer.archiveSize(8000, 6000);
-      expect(r.$1, 1600);
-      expect(r.$2, 1200);
+      expect(r.$1, 960);
+      expect(r.$2, 720);
     });
 
     test('foto que já cabe no teto sai intacta', () {
       // Pela regra antiga esta foto era reduzida a 600x450, ou seja, o
       // aplicativo estragava justamente a que já tinha menos a perder.
-      expect(MediaOptimizer.archiveSize(1200, 900), (1200, 900));
-      expect(MediaOptimizer.archiveSize(1600, 1200), (1600, 1200));
+      expect(MediaOptimizer.archiveSize(800, 600), (800, 600));
+      expect(MediaOptimizer.archiveSize(960, 720), (960, 720));
     });
 
     test('nunca aumenta uma foto pequena', () {
@@ -48,10 +48,10 @@ void main() {
     test('o arredondamento nunca passa do original', () {
       // O compressor usa uma escala só e nunca amplia: um alvo maior que a
       // imagem faria o lado curto sair acima do teto sem ninguém notar.
-      for (int w = 1601; w < 2000; w++) {
-        final (int, int) r = MediaOptimizer.archiveSize(w, 1067);
+      for (int w = 961; w < 1400; w++) {
+        final (int, int) r = MediaOptimizer.archiveSize(w, 640);
         expect(r.$1, lessThanOrEqualTo(w));
-        expect(r.$2, lessThanOrEqualTo(1067));
+        expect(r.$2, lessThanOrEqualTo(640));
         expect(r.$1, lessThanOrEqualTo(MediaOptimizer.maxLongEdge));
       }
     });

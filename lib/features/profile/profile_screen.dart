@@ -20,18 +20,12 @@ class ProfileScreen extends ConsumerWidget {
 
   /// Troca de conta do Google, e com ela de criança.
   ///
-  /// A confirmação existe por causa da limpeza: trocar apaga o que estava
-  /// guardado no aparelho, então a linha do tempo recarrega. Sem o aviso, a
-  /// primeira troca parece que o aplicativo travou.
+  /// Vai direto ao seletor do Google, sem aviso antes. O aviso existia para
+  /// contar que a troca recarrega a linha do tempo, mas isso é uma espera de
+  /// segundos que se explica sozinha, e nada se perde no caminho: desistir
+  /// no seletor deixa tudo como estava, porque a limpeza só acontece depois
+  /// de a entrada dar certo.
   Future<void> _switchAccount(BuildContext context, WidgetRef ref) async {
-    final bool ok = await confirm(
-      context,
-      title: S.switchAccount,
-      message: S.switchAccountHint,
-      confirmLabel: S.switchAccountAction,
-    );
-    if (!ok || !context.mounted) return;
-
     try {
       await ref.read(sessionServiceProvider).switchAccount();
       if (context.mounted) context.go(Routes.timeline);
@@ -153,9 +147,14 @@ class ProfileScreen extends ConsumerWidget {
                   title: S.privacyPolicy,
                   onTap: () => context.push(Routes.privacy),
                 ),
-                // A leitura, e não o botão vermelho. Quem quer entender o
-                // que perde ao apagar não deveria ter que abrir a tela que
-                // apaga para descobrir.
+                // O único caminho para apagar a conta, e é a leitura que vem
+                // primeiro. O botão vermelho fica no fim dela, depois de a
+                // pessoa ter lido o que perde.
+                //
+                // Havia também um atalho direto aqui embaixo, e ele era pior
+                // que redundante: dois controles com nomes diferentes para a
+                // mesma coisa, um deles pulando justamente a explicação que
+                // o outro existe para dar.
                 _Tile(
                   icon: Icons.delete_outline,
                   title: S.accountDeletionTitle,
@@ -169,18 +168,6 @@ class ProfileScreen extends ConsumerWidget {
                     minimumSize: const Size.fromHeight(48),
                   ),
                   child: const Text(S.signOut),
-                ),
-                const SizedBox(height: Space.x4),
-                TextButton(
-                  onPressed: () => context.push(Routes.deleteAccount),
-                  style: TextButton.styleFrom(
-                    foregroundColor: context.cores.textSecondary,
-                    minimumSize: const Size.fromHeight(44),
-                  ),
-                  child: const Text(
-                    S.deleteAccount,
-                    style: TextStyle(fontSize: 13),
-                  ),
                 ),
               ],
             ),
