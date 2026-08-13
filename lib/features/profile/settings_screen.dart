@@ -71,7 +71,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 _Fixed(
                   icon: Icons.videocam_outlined,
                   title: 'Vídeos',
-                  value: '720p com bitrate otimizado',
+                  value: '540p com bitrate otimizado',
                 ),
                 Divider(height: 24),
                 _Fixed(

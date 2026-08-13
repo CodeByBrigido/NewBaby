@@ -269,7 +269,7 @@ class EmptyState extends StatelessWidget {
   }
 }
 
-/// Faixa informativa discreta, como o aviso de vídeo em 720p.
+/// Faixa informativa discreta, como o aviso de vídeo em 540p.
 class InfoNote extends StatelessWidget {
   const InfoNote({
     required this.message,

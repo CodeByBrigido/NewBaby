@@ -177,7 +177,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
 /// Player de um vídeo guardado no Drive.
 ///
 /// O arquivo é baixado para o cache antes de tocar: streaming autenticado
-/// direto do Drive é instável em rede móvel, e o vídeo já está em 720p.
+/// direto do Drive é instável em rede móvel, e o vídeo já está em 540p.
 class DriveVideoPlayer extends ConsumerStatefulWidget {
   const DriveVideoPlayer({required this.file, super.key});
 

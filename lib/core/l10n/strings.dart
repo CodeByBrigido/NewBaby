@@ -152,7 +152,7 @@ abstract final class S {
   static const String photosOptimizedNote =
       'As fotos são comprimidas automaticamente para otimizar espaço.';
   static const String videoOptimizedNote =
-      'Este vídeo foi salvo em 720p para otimizar espaço.';
+      'Este vídeo foi salvo em 540p para otimizar espaço.';
   static const String allFilesOptimizedNote =
       'Todos os arquivos são otimizados para economizar espaço.';
 

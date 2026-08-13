@@ -55,7 +55,7 @@ class OptimizedMedia {
 ///
 /// Regras fixas, vindas da especificação:
 /// * foto - teto de [maxLongEdge] no lado maior, qualidade visual preservada;
-/// * vídeo - sempre 720p com bitrate otimizado;
+/// * vídeo - sempre 540p com bitrate otimizado;
 /// * o original permanece no celular e o temporário é apagado após o envio.
 class MediaOptimizer {
   MediaOptimizer({this.imageQuality = 80});
@@ -172,13 +172,23 @@ class MediaOptimizer {
     );
   }
 
-  /// Converte o vídeo para 720p com bitrate otimizado.
+  /// Converte o vídeo para 540p com bitrate otimizado.
+  ///
+  /// Um degrau abaixo dos 720p de antes, e o arquivo cai por volta da
+  /// metade: a biblioteca calcula o bitrate a partir da área da imagem, e
+  /// 960x540 tem 44% menos pixels que 1280x720.
+  ///
+  /// O degrau seguinte, `Res640x480Quality`, não é 480p em vídeo de celular.
+  /// Ele limita o lado maior a 640, e num vídeo deitado, que é o formato de
+  /// quase tudo que se filma, isso dá 640x360. É pouco demais para uma
+  /// gravação que alguém vai assistir numa televisão daqui a vinte anos, e
+  /// por isso a parada é aqui.
   Future<OptimizedMedia> optimizeVideo(File source) async {
     final int originalBytes = await source.length();
 
     final MediaInfo? info = await VideoCompress.compressVideo(
       source.path,
-      quality: VideoQuality.Res1280x720Quality,
+      quality: VideoQuality.Res960x540Quality,
       includeAudio: true,
       // O vídeo original é da família: nunca apagamos nada da galeria.
       deleteOrigin: false,
