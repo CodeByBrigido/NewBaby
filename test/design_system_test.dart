@@ -384,6 +384,25 @@ void main() {
       });
     });
 
+    test('o rótulo do campo é legível depois de o Flutter encolher', () {
+      // O rótulo flutuante é desenhado a 75% do tamanho declarado, e o
+      // aplicativo o mantém sempre flutuando. Conferir só o estilo deixaria
+      // passar exatamente a falha que existia aqui: um `labelLarge` de 13
+      // que chegava à tela com 9,75 px.
+      //
+      // Por isso o teste mede o que aparece, e não o que está escrito.
+      final double? declarado =
+          tema.inputDecorationTheme.floatingLabelStyle?.fontSize;
+      expect(declarado, isNotNull);
+      expect(declarado! * 0.75, closeTo(14, 0.001));
+
+      // E nunca abaixo do menor tamanho da escala.
+      expect(
+        declarado * 0.75,
+        greaterThanOrEqualTo(tema.textTheme.bodySmall!.fontSize!),
+      );
+    });
+
     test('a altura de linha segue a escala, e não o padrão do Material', () {
       // Herdar do Material deixaria metade da escala com os valores do
       // Google. `height` é razão, então 24/16 = 1,5 no corpo de texto.
