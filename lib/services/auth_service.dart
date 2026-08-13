@@ -108,29 +108,55 @@ class AuthService {
       },
     );
 
-    // Sem `await`, de propósito.
+    // Aqui **não** se tenta restaurar a conta do Google, e isso é o ponto
+    // deste comentário.
     //
-    // Restaurar a sessão anterior é conforto, não requisito: serve para quem
-    // já entrou não ver a tela de login piscar. Esperar por isso na abertura
-    // custa caro demais - a chamada conversa com o Play Services, e num
-    // aparelho onde ela não responde o aplicativo simplesmente não abre.
+    // O nome `attemptLightweightAuthentication` promete uma restauração
+    // silenciosa, mas no Android ela não é silenciosa. O plugin faz duas
+    // tentativas em sequência (veja `google_sign_in_android.dart`): a
+    // primeira com `filterToAuthorized: true, autoSelectEnabled: true`, que
+    // de fato não mostra nada; e, **quando essa devolve nulo**, uma segunda
+    // com as duas em falso, que é a folha do Credential Manager listando
+    // todas as contas do aparelho.
     //
-    // Solto, o resultado chega pelo `authenticationEvents` quando chegar, e o
-    // roteador reage. O pior caso vira um piscar da tela de login, em vez de
-    // uma tela em branco para sempre.
-    unawaited(_attemptSilentSignIn());
+    // A primeira só resolve sozinha quando existe exatamente uma conta já
+    // autorizada e o sistema topa escolher por conta própria. Em aparelho
+    // com mais de uma conta, ou depois de a pessoa fechar a folha uma vez, o
+    // Android para de escolher sozinho e cai sempre na segunda. Resultado:
+    // um seletor de contas em toda abertura, pedindo uma escolha que o
+    // aplicativo não precisa.
+    //
+    // Não precisa porque quem sustenta a sessão é o Firebase Auth, que
+    // guarda a dele em disco e é lido sem rede nenhuma. A linha do tempo, o
+    // perfil e o cadastro abrem com ela. A conta do Google só faz falta para
+    // falar com o Drive, e por isso ela passou a ser buscada lá, em
+    // `_authorizeDrive`, na primeira vez que o Drive é realmente usado.
+    //
+    // A saída pela `hostedDomain` (que faz o plugin pular a segunda
+    // tentativa) não serve: ela restringe a entrada a um domínio corporativo
+    // e deixaria de fora toda conta `gmail.com`, que é a de todo mundo aqui.
   }
 
-  Future<void> _attemptSilentSignIn() async {
+  /// Recupera a conta do Google de uma sessão anterior.
+  ///
+  /// Pode abrir a folha de contas do Android, pelo motivo explicado em
+  /// [initialize]. Por isso só é chamada quando o Drive é necessário de
+  /// verdade: aí a escolha tem uma razão visível para quem está olhando, em
+  /// vez de aparecer sozinha na abertura.
+  Future<GoogleSignInAccount?> _restoreAccount() async {
     try {
-      await _googleSignIn.attemptLightweightAuthentication()?.timeout(_prazo);
+      final GoogleSignInAccount? conta = await _googleSignIn
+          .attemptLightweightAuthentication()
+          ?.timeout(_prazo);
+      _account ??= conta;
     } on GoogleSignInException catch (e) {
-      debugPrint('Login silencioso não disponível: ${e.code}');
+      debugPrint('Sessão anterior não disponível: ${e.code}');
     } on TimeoutException {
-      debugPrint('Login silencioso demorou demais; seguindo sem ele.');
+      debugPrint('Restaurar a sessão demorou demais; seguindo sem ela.');
     } on Object catch (e) {
-      debugPrint('Login silencioso falhou: $e');
+      debugPrint('Restaurar a sessão falhou: $e');
     }
+    return _account;
   }
 
   /// Fluxo completo de entrada: escolhe a conta, autoriza o Drive e conecta
@@ -196,7 +222,10 @@ class AuthService {
   Future<GoogleSignInClientAuthorization> _authorizeDrive({
     required bool interactive,
   }) async {
-    final GoogleSignInAccount? account = _account;
+    // Depois de reabrir o aplicativo, `_account` está vazio de propósito: a
+    // abertura não mexe mais no login do Google. É aqui, na primeira vez que
+    // o Drive é usado, que a conta da sessão anterior é recuperada.
+    final GoogleSignInAccount? account = _account ?? await _restoreAccount();
     if (account == null) {
       throw const AuthFailure('Entre com a conta Google para continuar.');
     }
