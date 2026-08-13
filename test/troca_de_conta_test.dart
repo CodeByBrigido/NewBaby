@@ -47,31 +47,30 @@ void main() {
     });
   });
 
-  group('o aviso antes de trocar', () {
-    test('explica a consequência, e não só a ação', () {
-      // A troca apaga o cache local, então a linha do tempo recarrega. Sem
-      // dizer isso, a primeira troca parece que o aplicativo travou.
-      expect(S.switchAccountHint, contains('conta do Google'));
-      expect(S.switchAccountHint, contains('apagado'));
-      expect(S.switchAccountHint, contains('carregar'));
-    });
+  group('trocar de conta vai direto ao seletor', () {
+    test('não existe mais texto de aviso para mostrar antes', () {
+      // O aviso contava que a troca recarrega a linha do tempo. É uma
+      // espera de segundos que se explica sozinha, e nada se perde no
+      // caminho: desistir no seletor deixa tudo como estava, porque a
+      // limpeza só acontece depois de a entrada dar certo.
+      //
+      // O teste olha a tela, e não a constante: uma constante apagada
+      // some do compilador sozinha, mas uma caixa de diálogo reintroduzida
+      // com texto escrito na hora passaria despercebida.
+      final String fonte = File(
+        'lib/features/profile/profile_screen.dart',
+      ).readAsStringSync();
 
-    test('diz onde se acrescenta a cápsula de outro filho', () {
-      // O botão promete uma lista de contas. A lista é a do Google, e é lá
-      // que fica o "Adicionar outra conta" - dizer isso antes evita que a
-      // pessoa procure aqui dentro um botão que não existe.
-      expect(S.switchAccountHint, contains('Adicionar outra'));
-    });
-
-    test('nenhum texto usa travessão', () {
-      for (final String t in <String>[
-        S.accountsLabel,
-        S.switchAccount,
-        S.switchAccountAction,
-        S.switchAccountHint,
-      ]) {
-        expect(t, isNot(contains('—')));
-      }
+      final int troca = fonte.indexOf('_switchAccount(BuildContext');
+      // Termina onde o método termina, e não lá adiante: um trecho largo
+      // demais reprovaria por causa de um `confirm` de outra coisa.
+      final int fim = fonte.indexOf('Widget build(', troca);
+      expect(troca, isNot(-1));
+      expect(
+        fonte.substring(troca, fim),
+        isNot(contains('confirm(')),
+        reason: 'Trocar de conta não pede confirmação nenhuma.',
+      );
     });
   });
 

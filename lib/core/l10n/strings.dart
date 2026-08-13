@@ -70,15 +70,6 @@ abstract final class S {
   /// Trocar de conta do Google, que é como se troca de filho: cada criança
   /// tem a própria conta, e é ela que a criança recebe quando crescer.
   static const String switchAccount = 'Trocar de conta';
-  static const String switchAccountAction = 'Trocar';
-  static const String switchAccountHint =
-      'Cada criança tem a própria conta do Google. Você vai escolher a conta '
-      'na tela do Google, e a cápsula dela aparece no lugar desta.\n\n'
-      'Para começar a cápsula de outro filho, escolha "Adicionar outra '
-      'conta" nessa mesma tela.\n\n'
-      'O que está guardado neste aparelho é apagado, então a linha do tempo '
-      'leva um instante para carregar de novo.';
-
   static const String profile = 'Perfil';
   static const String photos = 'Fotos';
   static const String videos = 'Vídeos';
