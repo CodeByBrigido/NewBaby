@@ -123,6 +123,23 @@ abstract final class S {
     'Primeiro aniversário',
   ];
 
+  // Cartas - começos sugeridos.
+  //
+  // A parte difícil de escrever uma carta para um filho não é o tamanho do
+  // campo: é a primeira frase. Cada um destes termina no meio de propósito,
+  // porque um começo pronto convida a continuar e uma frase fechada convida
+  // a concordar e fechar o aplicativo.
+  static const String letterStartersTitle = 'Não sabe como começar?';
+  static const List<String> letterStarters = <String>[
+    'Hoje eu quero te contar sobre ',
+    'Quando você ler isto, ',
+    'Você ainda não sabe, mas ',
+    'Uma coisa que eu nunca quero esquecer: ',
+    'Se eu pudesse te dizer uma só coisa, seria ',
+    'O dia em que você ',
+    'Do jeito que você é hoje, o que eu mais amo é ',
+  ];
+
   // Campos comuns
   static const String titleField = 'Título';
   static const String messageField = 'Mensagem';
@@ -152,7 +169,7 @@ abstract final class S {
   static const String photosOptimizedNote =
       'As fotos são comprimidas automaticamente para otimizar espaço.';
   static const String videoOptimizedNote =
-      'Este vídeo foi salvo em 720p para otimizar espaço.';
+      'Este vídeo foi salvo em 540p para otimizar espaço.';
   static const String allFilesOptimizedNote =
       'Todos os arquivos são otimizados para economizar espaço.';
 

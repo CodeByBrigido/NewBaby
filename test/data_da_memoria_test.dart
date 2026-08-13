@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/core/utils/age_calculator.dart';
+import 'package:meu_bebe/core/utils/data_do_arquivo.dart';
 import 'package:meu_bebe/features/shell/add_sheet.dart';
 import 'package:meu_bebe/core/l10n/copy.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
@@ -198,7 +199,11 @@ void main() {
                       profile: maria,
                       type: EntryType.photo,
                       quantidade: quantidade,
-                      quando: DateTime(2027, 4, 10, 14, 35),
+                      lote: DataDoLote(
+                        quando: DateTime(2027, 4, 10, 14, 35),
+                        lida: true,
+                        diasDiferentes: 1,
+                      ),
                     );
                     saida['terminou'] = true;
                   },
@@ -254,55 +259,143 @@ void main() {
       expect(saida['terminou'], isTrue);
       expect(saida['data'], DateTime(2027, 4, 10, 14, 35));
     });
+
+    testWidgets('os dois botões dividem uma linha só', (
+      WidgetTester tester,
+    ) async {
+      // Empilhados, o botão cheio esticava na largura inteira e virava a
+      // coisa mais pesada da tela. O teste mede a geometria porque é
+      // justamente isso que muda sozinho quando o texto de um botão cresce.
+      await abrir(tester);
+
+      final Rect cancelar = tester.getRect(find.byType(TextButton));
+      final Rect guardar = tester.getRect(find.byType(FilledButton));
+
+      expect(
+        cancelar.center.dy,
+        moreOrLessEquals(guardar.center.dy, epsilon: 1),
+        reason: 'os dois precisam estar na mesma linha',
+      );
+      expect(cancelar.right, lessThanOrEqualTo(guardar.left));
+    });
+
+    testWidgets('guardar ocupa o dobro de cancelar', (
+      WidgetTester tester,
+    ) async {
+      await abrir(tester);
+
+      final double cancelar = tester.getSize(find.byType(TextButton)).width;
+      final double guardar = tester.getSize(find.byType(FilledButton)).width;
+
+      expect(guardar / cancelar, moreOrLessEquals(2, epsilon: 0.05));
+    });
   });
 
-  group('o aviso na folha de adicionar', () {
-    Widget harness(DateTime quando, {VoidCallback? onReset}) => MaterialApp(
+  group('de onde a data veio', () {
+    // A data agora é adivinhada a partir do arquivo. Adivinhar é aceitável;
+    // adivinhar sem dizer que adivinhou, não.
+    final DataDoLote lida = DataDoLote(
+      quando: DateTime(2027, 4, 10),
+      lida: true,
+      diasDiferentes: 1,
+    );
+
+    test('quando saiu do arquivo, a tela diz isso', () {
+      expect(
+        origemDaData(lida, EntryType.photo),
+        contains('do próprio arquivo'),
+      );
+    });
+
+    test('quando não saiu, a tela diz que hoje é palpite', () {
+      final DataDoLote palpite = DataDoLote(
+        quando: DateTime(2027, 4, 10),
+        lida: false,
+        diasDiferentes: 0,
+      );
+      expect(
+        origemDaData(palpite, EntryType.photo),
+        contains('vale a de hoje'),
+      );
+      expect(origemDaData(palpite, EntryType.photo), contains('da mídia'));
+      expect(origemDaData(palpite, EntryType.document), contains('do arquivo'));
+    });
+
+    test('lote de vários dias avisa, porque uma data só não descreve', () {
+      final DataDoLote misturado = DataDoLote(
+        quando: DateTime(2027, 4, 10),
+        lida: true,
+        diasDiferentes: 3,
+      );
+      final String texto = origemDaData(misturado, EntryType.photo);
+      expect(texto, contains('3 dias'));
+      expect(texto, contains('um dia de cada vez'));
+    });
+  });
+
+  group('o cartão da data', () {
+    Widget harness(
+      DateTime quando, {
+      String explicacao = 'Data lida do próprio arquivo. Toque para trocar.',
+      bool alerta = false,
+      VoidCallback? onTap,
+    }) => MaterialApp(
       theme: AppTheme.build(AppPalette.of(BabyGender.girl)),
       locale: const Locale('pt', 'BR'),
       home: Scaffold(
         body: DataDaMemoria(
           quando: quando,
-          onTap: () {},
-          onReset: onReset ?? () {},
+          explicacao: explicacao,
+          alerta: alerta,
+          onTap: onTap ?? () {},
         ),
       ),
     );
 
-    testWidgets('no caminho normal não pede nada de ninguém', (
+    testWidgets('mostra a data por extenso, e não "hoje"', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(harness(DateTime.now()));
-
-      expect(find.text('Aconteceu hoje'), findsOneWidget);
-      // Nada para desfazer quando a data é a de hoje.
-      expect(find.byIcon(Icons.close), findsNothing);
-    });
-
-    testWidgets('com data antiga, mostra a data por extenso', (
-      WidgetTester tester,
-    ) async {
+      // A tela existe para conferir a data. "Aconteceu hoje" escondia
+      // justamente o dado que se está conferindo.
       await tester.pumpWidget(harness(DateTime(2027, 4, 10, 14, 35)));
 
       expect(find.text('10 de abril de 2027'), findsOneWidget);
       expect(
-        find.text('Vale para tudo que você adicionar agora'),
+        find.text('Data lida do próprio arquivo. Toque para trocar.'),
         findsOneWidget,
       );
     });
 
-    testWidgets('dá para voltar para hoje sem sair da folha', (
+    testWidgets('sem alerta, o ícone é de calendário', (
       WidgetTester tester,
     ) async {
-      // Uma data antiga esquecida ligada é pior que não ter a função: as
-      // próximas fotos entrariam caladas na idade errada.
-      int voltas = 0;
+      await tester.pumpWidget(harness(DateTime(2027, 4, 10)));
+
+      expect(find.byIcon(Icons.event_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.warning_amber_outlined), findsNothing);
+    });
+
+    testWidgets('com alerta, troca o ícone e o fundo', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        harness(DateTime(2027, 4, 10), onReset: () => voltas++),
+        harness(DateTime(2027, 4, 10), alerta: true, explicacao: 'Atenção'),
       );
 
-      await tester.tap(find.byIcon(Icons.close));
-      expect(voltas, 1);
+      expect(find.byIcon(Icons.warning_amber_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.event_outlined), findsNothing);
+    });
+
+    testWidgets('tocar leva para a troca de data', (WidgetTester tester) async {
+      // É o único jeito de corrigir uma data adivinhada errado, então precisa
+      // funcionar tocando em qualquer lugar do cartão.
+      int toques = 0;
+      await tester.pumpWidget(
+        harness(DateTime(2027, 4, 10), onTap: () => toques++),
+      );
+
+      await tester.tap(find.byIcon(Icons.edit_calendar_outlined));
+      expect(toques, 1);
     });
   });
 }

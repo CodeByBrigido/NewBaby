@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
@@ -119,17 +118,11 @@ class LetterScreen extends ConsumerWidget {
                 label: S.edit,
                 onTap: () => context.push(Routes.editLetter(letter.id)),
               ),
-              _Action(
-                icon: Icons.ios_share,
-                label: S.share,
-                onTap: () => SharePlus.instance.share(
-                  ShareParams(
-                    text:
-                        '${letter.title ?? S.letters}\n\n'
-                        '${letter.description ?? ''}',
-                  ),
-                ),
-              ),
+              // Sem compartilhar. Uma carta é escrita para uma pessoa só, e
+              // para ser lida daqui a muitos anos; um botão que a joga num
+              // aplicativo de mensagens hoje convida a fazer dela outra
+              // coisa. Foto e vídeo continuam com o botão, porque são
+              // arquivos que a família manda para a avó e isso é o esperado.
               _Action(
                 icon: Icons.delete_outline,
                 label: S.delete,

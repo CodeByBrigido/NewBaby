@@ -148,6 +148,13 @@ abstract final class AppTheme {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: text.labelLarge?.copyWith(color: cores.textSecondary),
+        // Com o rótulo sempre flutuando, é este estilo que aparece, e não o
+        // de cima. Veja `_rotuloNaTela`: o tamanho é calculado para cair em
+        // 14 px depois de o Flutter encolher.
+        floatingLabelStyle: text.labelLarge?.copyWith(
+          color: cores.textSecondary,
+          fontSize: _rotuloNaTela / _encolhimentoDoRotulo,
+        ),
         hintStyle: text.bodyMedium?.copyWith(color: cores.muted),
         prefixIconColor: cores.textSecondary,
         suffixIconColor: cores.textSecondary,
@@ -311,6 +318,25 @@ abstract final class AppTheme {
     fontWeight: FontWeight.w700,
     height: 1.25,
   );
+
+  /// O quanto o Flutter encolhe o rótulo do campo quando ele flutua.
+  ///
+  /// É o `_kFinalLabelScale` do `input_decorator.dart`, e não é um estilo:
+  /// é uma transformação aplicada em cima de qualquer tamanho declarado, e
+  /// por isso não dá para fugir dela escolhendo outro estilo da escala.
+  static const double _encolhimentoDoRotulo = 0.75;
+
+  /// O tamanho que o rótulo do campo tem **na tela**, já contada a redução.
+  ///
+  /// O aplicativo mantém o rótulo sempre flutuando, então esse encolhimento
+  /// vale sempre. Com `labelLarge`, de 13, o rótulo chegava a 9,75 px: menor
+  /// que o menor tamanho da escala, que é 12, e pequeno a ponto de "Título"
+  /// e "Mensagem" não se lerem com o celular perto do rosto.
+  ///
+  /// Por isso o número declarado aqui é o que se quer ver, e a divisão
+  /// abaixo desfaz a redução do Flutter. Escrever o tamanho da fonte direto
+  /// esconderia a conta e o próximo a mexer erraria de novo.
+  static const double _rotuloNaTela = 14;
 
   static OutlineInputBorder _campo(Color cor, {double width = 1}) {
     return OutlineInputBorder(

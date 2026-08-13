@@ -12,6 +12,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../shell/add_sheet.dart';
 import '../../core/utils/error_text.dart';
 
 /// Escrever ou editar uma carta. Só dois campos - título e mensagem.
@@ -29,16 +30,94 @@ class LetterEditorScreen extends ConsumerStatefulWidget {
   ConsumerState<LetterEditorScreen> createState() => _LetterEditorScreenState();
 }
 
+/// Quanto da tela o campo da mensagem ocupa quando ainda está vazio.
+///
+/// Ele ia até o fim da tela, e uma folha em branco desse tamanho é o que
+/// faz a pessoa fechar sem escrever. Pela metade, o campo continua sendo o
+/// maior elemento da tela e ainda sobra lugar para mostrar por onde começar.
+///
+/// O campo cresce sozinho conforme a carta cresce: isto é o começo, não o
+/// teto. O limite de caracteres não mudou.
+const double _fracaoDaTela = 0.42;
+
+/// A entrelinha da carta, mais folgada que a do corpo comum: é texto para
+/// ler devagar. A mesma da tela de leitura.
+const double _entrelinhaDaCarta = 1.6;
+
+/// O campo depois de receber um começo pronto, na posição do cursor.
+///
+/// Substituir o texto inteiro seria mais simples e apagaria a carta de quem
+/// tocou por curiosidade depois de já ter escrito. Por isso o começo entra
+/// onde o cursor está, o que já estava escrito continua lá, e o cursor para
+/// no fim do começo, que é onde a pessoa vai continuar.
+///
+/// É função de topo, e não método da tela, para o teste exercitar esta
+/// conta e não uma cópia dela: uma cópia passaria verde para sempre,
+/// inclusive no dia em que a tela mudasse de ideia.
+@visibleForTesting
+TextEditingValue comComeco(TextEditingValue atual, String comeco) {
+  final bool temCursor = atual.selection.isValid;
+  final int inicio = temCursor ? atual.selection.start : atual.text.length;
+  final int fim = temCursor ? atual.selection.end : atual.text.length;
+
+  final String antes = atual.text.substring(0, inicio);
+  final String depois = atual.text.substring(fim);
+  // Um parágrafo de distância do que já estava escrito, para o começo não
+  // grudar no fim da frase anterior.
+  final String separador =
+      antes.isEmpty || antes.endsWith('\n') || antes.endsWith(' ')
+      ? ''
+      : '\n\n';
+
+  return TextEditingValue(
+    text: '$antes$separador$comeco$depois',
+    selection: TextSelection.collapsed(
+      offset: antes.length + separador.length + comeco.length,
+    ),
+  );
+}
+
 class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
   final TextEditingController _title = TextEditingController();
   final TextEditingController _message = TextEditingController();
+  final FocusNode _focoDaMensagem = FocusNode();
   bool _loaded = false;
   bool _saving = false;
+
+  void _comecarCom(String comeco) {
+    final TextEditingValue novo = comComeco(_message.value, comeco);
+    if (novo.text.length > Limits.description) return;
+    _message.value = novo;
+    _focoDaMensagem.requestFocus();
+  }
+
+  /// Quando a carta aconteceu.
+  ///
+  /// Carta não tem arquivo de onde ler a data, então ela começa em hoje, que
+  /// é quando quase toda carta é escrita. O controle existe para o resto:
+  /// quem senta para escrever a carta do primeiro mês três meses depois
+  /// precisa poder datá-la no primeiro mês, senão ela cai na idade errada.
+  late DateTime _quando = widget.date ?? DateTime.now();
+
+  Future<void> _escolherData() async {
+    final BabyProfile? profile = ref.read(profileProvider).value;
+    final DateTime agora = DateTime.now();
+    final DateTime? escolhida = await showDatePicker(
+      context: context,
+      initialDate: _quando,
+      firstDate: profile?.birthDay ?? DateTime(agora.year - 20),
+      lastDate: agora,
+      helpText: 'Quando isso aconteceu?',
+    );
+    if (escolhida == null) return;
+    setState(() => _quando = comHoraDoRelogio(escolhida, agora));
+  }
 
   @override
   void dispose() {
     _title.dispose();
     _message.dispose();
+    _focoDaMensagem.dispose();
     super.dispose();
   }
 
@@ -74,7 +153,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               profile: profile,
               title: title.isEmpty ? 'Carta' : title,
               message: message,
-              date: widget.date,
+              date: _quando,
             );
       } else {
         await ref
@@ -98,6 +177,19 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
         showMessage(context, userMessage(e, context: 'Salvar carta'));
       }
     }
+  }
+
+  /// Quantas linhas o campo abre, para ele começar com meia tela.
+  ///
+  /// Vem da altura do aparelho, e não de um número fixo de linhas: a mesma
+  /// contagem que ocupa metade de um celular pequeno passa longe disso num
+  /// aparelho grande. Os limites existem para os extremos, como a tela
+  /// dividida, onde a conta devolveria duas linhas.
+  int _linhasIniciais(BuildContext context) {
+    final TextStyle corpo = Theme.of(context).textTheme.bodyLarge!;
+    final double alturaDaLinha = corpo.fontSize! * _entrelinhaDaCarta;
+    final double disponivel = MediaQuery.sizeOf(context).height * _fracaoDaTela;
+    return (disponivel / alturaDaLinha).round().clamp(6, 20);
   }
 
   @override
@@ -124,43 +216,98 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
           ),
         ],
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(Space.x20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              controller: _title,
-              textCapitalization: TextCapitalization.sentences,
-              maxLength: Limits.title,
-              style: Theme.of(context).textTheme.titleLarge,
-              decoration: InputDecoration(
-                counterText: '',
-                labelText: S.titleField,
-                hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
-              ),
+        children: <Widget>[
+          TextField(
+            controller: _title,
+            textCapitalization: TextCapitalization.sentences,
+            maxLength: Limits.title,
+            style: Theme.of(context).textTheme.titleLarge,
+            decoration: InputDecoration(
+              counterText: '',
+              labelText: S.titleField,
+              hintText: Copy.of(ref.watch(profileProvider).value).letterHint,
             ),
+          ),
+          // Só na carta nova. Numa carta já guardada, mudar a data
+          // moveria o `.txt` de pasta no Drive, e a tela de edição não
+          // trata disso.
+          if (existing == null) ...<Widget>[
             const SizedBox(height: Space.x16),
-            Expanded(
-              child: TextField(
-                controller: _message,
-                textCapitalization: TextCapitalization.sentences,
-                maxLength: Limits.description,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(height: 1.6),
-                decoration: const InputDecoration(
-                  labelText: S.messageField,
-                  alignLabelWithHint: true,
-                ),
-              ),
+            DataDaMemoria(
+              quando: _quando,
+              explicacao: 'Quando esta carta aconteceu. Toque para trocar.',
+              onTap: _escolherData,
             ),
           ],
-        ),
+          const SizedBox(height: Space.x16),
+          TextField(
+            controller: _message,
+            focusNode: _focoDaMensagem,
+            textCapitalization: TextCapitalization.sentences,
+            maxLength: Limits.description,
+            // `minLines` em vez de `expands`: o campo abre com meia tela e
+            // cresce junto com a carta, em vez de ser uma caixa fixa que
+            // rola por dentro de uma tela que já rola.
+            minLines: _linhasIniciais(context),
+            maxLines: null,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(height: _entrelinhaDaCarta),
+            decoration: const InputDecoration(
+              counterText: '',
+              labelText: S.messageField,
+              alignLabelWithHint: true,
+            ),
+          ),
+          const SizedBox(height: Space.x24),
+          _ComoComecar(onEscolher: _comecarCom),
+          const SizedBox(height: Space.x24),
+          InfoNote(
+            icon: Icons.lock_clock_outlined,
+            message: Copy.of(ref.watch(profileProvider).value).letterKeepsafe,
+          ),
+        ],
       ),
+    );
+  }
+}
+
+/// Começos prontos, para quem travou na primeira frase.
+///
+/// Ficam embaixo do campo, e não dentro dele como dica: uma dica some no
+/// primeiro toque, e é justamente depois de tocar que a pessoa percebe que
+/// não sabe como começar.
+class _ComoComecar extends StatelessWidget {
+  const _ComoComecar({required this.onEscolher});
+
+  final void Function(String) onEscolher;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          S.letterStartersTitle,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: Space.x12),
+        Wrap(
+          spacing: Space.x8,
+          runSpacing: Space.x8,
+          children: <Widget>[
+            for (final String comeco in S.letterStarters)
+              ActionChip(
+                // Sem as aspas e sem o espaço do fim, que servem ao texto
+                // escrito e não ao rótulo.
+                label: Text(comeco.trim()),
+                onPressed: () => onEscolher(comeco),
+              ),
+          ],
+        ),
+      ],
     );
   }
 }

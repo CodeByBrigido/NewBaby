@@ -16,7 +16,7 @@ import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 
 /// Registrar peso e altura - três campos, um toque para salvar.
-Future<void> showGrowthEditor(BuildContext context, {DateTime? quando}) {
+Future<void> showGrowthEditor(BuildContext context) {
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -24,16 +24,13 @@ Future<void> showGrowthEditor(BuildContext context, {DateTime? quando}) {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: _GrowthEditor(quando: quando),
+      child: const _GrowthEditor(),
     ),
   );
 }
 
 class _GrowthEditor extends ConsumerStatefulWidget {
-  const _GrowthEditor({this.quando});
-
-  /// Data já escolhida na folha de adicionar, quando veio de lá.
-  final DateTime? quando;
+  const _GrowthEditor();
 
   @override
   ConsumerState<_GrowthEditor> createState() => _GrowthEditorState();
@@ -42,7 +39,7 @@ class _GrowthEditor extends ConsumerStatefulWidget {
 class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
   final TextEditingController _weight = TextEditingController();
   final TextEditingController _height = TextEditingController();
-  late DateTime _date = widget.quando ?? DateTime.now();
+  DateTime _date = DateTime.now();
   File? _photo;
   bool _saving = false;
 

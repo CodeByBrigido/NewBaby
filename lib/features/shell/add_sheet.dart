@@ -11,6 +11,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
+import '../../core/utils/data_do_arquivo.dart';
 import '../../core/utils/formatters.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -42,28 +43,6 @@ class _AddSheet extends ConsumerStatefulWidget {
 }
 
 class _AddSheetState extends ConsumerState<_AddSheet> {
-  /// Quando a memória aconteceu, e não quando ela está sendo guardada.
-  ///
-  /// Começa em hoje, que é o caso de quase todo envio, então o caminho rápido
-  /// continua com o mesmo número de toques. Quem está trazendo o acervo
-  /// antigo para dentro do aplicativo toca uma vez aqui e o lote inteiro
-  /// entra na idade certa.
-  DateTime _quando = DateTime.now();
-
-  Future<void> _escolherData() async {
-    final BabyProfile? profile = ref.read(profileProvider).value;
-    final DateTime agora = DateTime.now();
-    final DateTime? escolhida = await showDatePicker(
-      context: context,
-      initialDate: _quando,
-      firstDate: profile?.birthDay ?? DateTime(agora.year - 20),
-      lastDate: agora,
-      helpText: 'Quando isso aconteceu?',
-    );
-    if (escolhida == null) return;
-    setState(() => _quando = comHoraDoRelogio(escolhida, agora));
-  }
-
   @override
   Widget build(BuildContext context) {
     final Copy g = Copy.of(ref.watch(profileProvider).value);
@@ -89,23 +68,17 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
             const SizedBox(height: Space.x20),
             Text(S.addQuestion, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: Space.x16),
-            DataDaMemoria(
-              quando: _quando,
-              onTap: _escolherData,
-              onReset: () => setState(() => _quando = DateTime.now()),
-            ),
-            const SizedBox(height: Space.x16),
             _Option(
               type: EntryType.photo,
               title: S.addPhoto,
               subtitle: g.addPhotoHint,
-              onTap: () => _addPhotos(context, ref, _quando),
+              onTap: () => _addPhotos(context, ref),
             ),
             _Option(
               type: EntryType.video,
               title: S.addVideo,
               subtitle: g.addVideoHint,
-              onTap: () => _addVideos(context, ref, _quando),
+              onTap: () => _addVideos(context, ref),
             ),
             _Option(
               type: EntryType.letter,
@@ -113,20 +86,20 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               subtitle: g.addLetterHint,
               onTap: () {
                 Navigator.of(context).pop();
-                context.push(Routes.newLetter, extra: _quando);
+                context.push(Routes.newLetter);
               },
             ),
             _Option(
               type: EntryType.drawing,
               title: S.addDrawing,
               subtitle: S.addDrawingHint,
-              onTap: () => _addDrawings(context, ref, _quando),
+              onTap: () => _addDrawings(context, ref),
             ),
             _Option(
               type: EntryType.document,
               title: S.addDocument,
               subtitle: S.addDocumentHint,
-              onTap: () => _addDocuments(context, ref, _quando),
+              onTap: () => _addDocuments(context, ref),
             ),
             _Option(
               type: EntryType.growth,
@@ -134,7 +107,7 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               subtitle: S.addGrowthHint,
               onTap: () {
                 Navigator.of(context).pop();
-                showGrowthEditor(context, quando: _quando);
+                showGrowthEditor(context);
               },
             ),
           ],
@@ -206,6 +179,25 @@ List<String> resumoDoEnvio({
 String _artigoDoBalde(AgeBucket balde) =>
     balde.unit == AgeBucketUnit.week ? 'na' : 'no';
 
+/// O que a tela diz sobre a origem da data, antes de a pessoa confirmar.
+///
+/// Assumir a data do arquivo só é aceitável se estiver escrito de onde ela
+/// veio. Uma data que aparece sozinha, sem explicação, é uma data que
+/// ninguém confere, e conferir é justamente o ponto desta tela.
+@visibleForTesting
+String origemDaData(DataDoLote lote, EntryType type) {
+  if (!lote.lida) {
+    return 'Não achamos a data dentro ${type == EntryType.document ? 'do arquivo' : 'da mídia'}, '
+        'então vale a de hoje. Toque para trocar.';
+  }
+  if (lote.variosDias) {
+    return 'Atenção: o que você escolheu é de ${lote.diasDiferentes} dias '
+        'diferentes, e tudo vai ser guardado com esta data. Para separar, '
+        'envie um dia de cada vez.';
+  }
+  return 'Data lida do próprio arquivo. Toque para trocar.';
+}
+
 /// Confirmação depois de escolher os arquivos, antes de qualquer envio.
 ///
 /// Devolve a data confirmada, ou `null` se a pessoa desistiu. A data pode ser
@@ -217,12 +209,12 @@ Future<DateTime?> confirmarEnvio(
   required BabyProfile profile,
   required EntryType type,
   required int quantidade,
-  required DateTime quando,
+  required DataDoLote lote,
 }) {
   return showDialog<DateTime>(
     context: context,
     builder: (BuildContext dialogContext) {
-      DateTime escolhida = quando;
+      DateTime escolhida = lote.quando;
 
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -259,19 +251,44 @@ Future<DateTime?> confirmarEnvio(
                 const SizedBox(height: Space.x8),
                 DataDaMemoria(
                   quando: escolhida,
+                  explicacao: origemDaData(lote, type),
+                  alerta: lote.variosDias,
                   onTap: mudar,
-                  onReset: () => setState(() => escolhida = DateTime.now()),
                 ),
               ],
             ),
+            // Os dois numa linha só, e não empilhados. Guardar ocupa dois
+            // terços porque é o que a pessoa veio fazer; cancelar fica com o
+            // terço restante, alcançável sem virar o caminho mais largo da
+            // tela.
+            //
+            // A linha vem numa `Row` própria em vez de dois itens soltos em
+            // `actions`, que é o que deixava o botão cheio esticado sozinho.
+            actionsPadding: const EdgeInsets.fromLTRB(
+              Space.x24,
+              Space.x8,
+              Space.x24,
+              Space.x20,
+            ),
             actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(),
-                child: const Text(S.cancel),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.of(dialogContext).pop(escolhida),
-                child: const Text('Guardar'),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: const Text(S.cancel),
+                    ),
+                  ),
+                  const SizedBox(width: Space.x12),
+                  Expanded(
+                    flex: 2,
+                    child: FilledButton(
+                      onPressed: () =>
+                          Navigator.of(dialogContext).pop(escolhida),
+                      child: const Text('Guardar'),
+                    ),
+                  ),
+                ],
               ),
             ],
           );
@@ -281,34 +298,41 @@ Future<DateTime?> confirmarEnvio(
   );
 }
 
-/// A data que vale para o que for adicionado a seguir.
+/// A data da memória, com de onde ela veio escrito embaixo.
 ///
-/// Fica acima das opções, e não depois de escolher os arquivos, porque assim
-/// ela vale para o lote inteiro e é decidida antes de o envio começar: a
-/// pasta do Drive é escolhida pela idade na data, e mudar isso depois
-/// significaria mover arquivo de pasta.
+/// Aparece depois de escolher os arquivos, e não antes: agora a data sai do
+/// próprio arquivo, e antes de escolher não há o que ler. É também o último
+/// ponto em que corrigir é barato, porque a pasta do Drive vem da idade na
+/// data e mudar depois significaria mover arquivo de pasta.
+///
+/// A explicação embaixo não é enfeite. O aplicativo está adivinhando a data,
+/// e uma adivinhação sem etiqueta é uma adivinhação que ninguém confere.
 class DataDaMemoria extends StatelessWidget {
   const DataDaMemoria({
     required this.quando,
+    required this.explicacao,
     required this.onTap,
-    required this.onReset,
+    this.alerta = false,
     super.key,
   });
 
   final DateTime quando;
+  final String explicacao;
   final VoidCallback onTap;
-  final VoidCallback onReset;
 
-  static bool _mesmoDia(DateTime a, DateTime b) =>
-      a.year == b.year && a.month == b.month && a.day == b.day;
+  /// Pinta o cartão de aviso. Só para o caso em que uma data não descreve o
+  /// lote inteiro, que é quando a pessoa precisa parar e reler.
+  final bool alerta;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
-    final bool hoje = _mesmoDia(quando, DateTime.now());
+    final Color realce = alerta
+        ? context.cores.primaryDark
+        : context.cores.textSecondary;
 
     return Material(
-      color: hoje ? context.cores.surfaceMuted : context.cores.primarySoft,
+      color: alerta ? context.cores.primarySoft : context.cores.surfaceMuted,
       borderRadius: Radii.fieldR,
       child: InkWell(
         onTap: onTap,
@@ -321,11 +345,9 @@ class DataDaMemoria extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Icon(
-                Icons.event_outlined,
+                alerta ? Icons.warning_amber_outlined : Icons.event_outlined,
                 size: 20,
-                color: hoje
-                    ? context.cores.textSecondary
-                    : context.cores.primaryDark,
+                color: realce,
               ),
               const SizedBox(width: Space.x12),
               Expanded(
@@ -333,31 +355,20 @@ class DataDaMemoria extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      hoje ? 'Aconteceu hoje' : Fmt.longDate(quando),
+                      Fmt.longDate(quando),
                       style: text.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: hoje ? null : context.cores.primaryDark,
                       ),
                     ),
                     const SizedBox(height: Space.x4),
                     Text(
-                      hoje
-                          ? 'Toque para guardar algo de outro dia'
-                          : 'Vale para tudo que você adicionar agora',
-                      style: text.bodySmall?.copyWith(
-                        color: context.cores.textSecondary,
-                      ),
+                      explicacao,
+                      style: text.bodySmall?.copyWith(color: realce),
                     ),
                   ],
                 ),
               ),
-              if (!hoje)
-                IconButton(
-                  onPressed: onReset,
-                  icon: const Icon(Icons.close, size: 18),
-                  tooltip: 'Voltar para hoje',
-                  visualDensity: VisualDensity.compact,
-                ),
+              Icon(Icons.edit_calendar_outlined, size: 18, color: realce),
             ],
           ),
         ),
@@ -374,25 +385,44 @@ class DataDaMemoria extends StatelessWidget {
   return (uid: uid, profile: profile);
 }
 
-Future<void> _addPhotos(
-  BuildContext context,
+/// A data que os arquivos escolhidos sugerem, dentro do que o cadastro
+/// permite.
+///
+/// O piso é o nascimento porque é o piso do seletor de data também: uma
+/// memória anterior a ele não cabe em pasta de idade nenhuma.
+Future<DataDoLote> _dataDosArquivos(
   WidgetRef ref,
-  DateTime quando,
+  List<String> caminhos,
 ) async {
+  final BabyProfile? profile = ref.read(profileProvider).value;
+  return dataDoLote(
+    caminhos,
+    naoAntesDe: profile?.birthDay ?? DateTime(DateTime.now().year - 20),
+  );
+}
+
+Future<void> _addPhotos(BuildContext context, WidgetRef ref) async {
   final List<XFile> picked = await ExternalActivity.run(
     () => ImagePicker().pickMultiImage(
-      // Sem metadados completos a seleção é bem mais rápida; a orientação é
-      // preservada na compressão.
+      // Só vale no iOS, onde pedir metadado completo abre outra permissão e
+      // deixa a seleção lenta. No Android este parâmetro nem chega ao
+      // plugin, e o EXIF do arquivo escolhido continua inteiro - que é de
+      // onde sai a data da foto.
       requestFullMetadata: false,
     ),
   );
   if (picked.isEmpty) return;
+
+  final DataDoLote lote = await _dataDosArquivos(
+    ref,
+    picked.map((XFile f) => f.path).toList(),
+  );
   if (!context.mounted) return;
 
   await _send(
     context,
     ref,
-    quando: quando,
+    lote: lote,
     type: EntryType.photo,
     files: picked
         .map((XFile f) => PendingFile(path: f.path, kind: EntryType.photo))
@@ -402,21 +432,22 @@ Future<void> _addPhotos(
   );
 }
 
-Future<void> _addDrawings(
-  BuildContext context,
-  WidgetRef ref,
-  DateTime quando,
-) async {
+Future<void> _addDrawings(BuildContext context, WidgetRef ref) async {
   final List<XFile> picked = await ExternalActivity.run(
     () => ImagePicker().pickMultiImage(requestFullMetadata: false),
   );
   if (picked.isEmpty) return;
+
+  final DataDoLote lote = await _dataDosArquivos(
+    ref,
+    picked.map((XFile f) => f.path).toList(),
+  );
   if (!context.mounted) return;
 
   await _send(
     context,
     ref,
-    quando: quando,
+    lote: lote,
     type: EntryType.drawing,
     files: picked
         .map((XFile f) => PendingFile(path: f.path, kind: EntryType.drawing))
@@ -425,11 +456,7 @@ Future<void> _addDrawings(
   );
 }
 
-Future<void> _addVideos(
-  BuildContext context,
-  WidgetRef ref,
-  DateTime quando,
-) async {
+Future<void> _addVideos(BuildContext context, WidgetRef ref) async {
   // `image_picker` só escolhe um vídeo por vez; o `file_picker` permite
   // vários de uma vez, que é o que a especificação pede.
   final FilePickerResult? result = await ExternalActivity.run(
@@ -437,12 +464,17 @@ Future<void> _addVideos(
   );
   final List<PlatformFile> files = result?.files ?? const <PlatformFile>[];
   if (files.isEmpty) return;
+
+  final DataDoLote lote = await _dataDosArquivos(ref, <String>[
+    for (final PlatformFile f in files)
+      if (f.path != null) f.path!,
+  ]);
   if (!context.mounted) return;
 
   await _send(
     context,
     ref,
-    quando: quando,
+    lote: lote,
     type: EntryType.video,
     files: files
         .where((PlatformFile f) => f.path != null)
@@ -451,20 +483,21 @@ Future<void> _addVideos(
               PendingFile(path: f.path!, kind: EntryType.video, name: f.name),
         )
         .toList(),
-    message: 'Convertendo para 720p e enviando...',
+    message: 'Convertendo para 540p e enviando...',
   );
 }
 
-Future<void> _addDocuments(
-  BuildContext context,
-  WidgetRef ref,
-  DateTime quando,
-) async {
+Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
   final FilePickerResult? result = await ExternalActivity.run(
     () => FilePicker.pickFiles(allowMultiple: true),
   );
   final List<PlatformFile> files = result?.files ?? const <PlatformFile>[];
   if (files.isEmpty) return;
+
+  final DataDoLote lote = await _dataDosArquivos(ref, <String>[
+    for (final PlatformFile f in files)
+      if (f.path != null) f.path!,
+  ]);
   if (!context.mounted) return;
 
   final ({String uid, BabyProfile profile})? ctx = _context(ref);
@@ -482,7 +515,7 @@ Future<void> _addDocuments(
     profile: ctx.profile,
     type: EntryType.document,
     quantidade: files.length,
-    quando: quando,
+    lote: lote,
   );
   if (confirmada == null || !context.mounted) return;
 
@@ -492,7 +525,7 @@ Future<void> _addDocuments(
     await _send(
       context,
       ref,
-      quando: confirmada,
+      lote: DataDoLote(quando: confirmada, lida: false, diasDiferentes: 1),
       confirmar: false,
       type: EntryType.document,
       files: <PendingFile>[
@@ -519,7 +552,7 @@ String _titleFromFileName(String name) {
 Future<void> _send(
   BuildContext context,
   WidgetRef ref, {
-  required DateTime quando,
+  required DataDoLote lote,
   required EntryType type,
   required List<PendingFile> files,
   required String message,
@@ -534,7 +567,7 @@ Future<void> _send(
   }
   if (files.isEmpty) return;
 
-  DateTime data = quando;
+  DateTime data = lote.quando;
   if (confirmar) {
     final DateTime? confirmada = await confirmarEnvio(
       context,
@@ -542,7 +575,7 @@ Future<void> _send(
       profile: ctx.profile,
       type: type,
       quantidade: files.length,
-      quando: quando,
+      lote: lote,
     );
     if (confirmada == null || !context.mounted) return;
     data = confirmada;

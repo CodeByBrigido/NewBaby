@@ -104,6 +104,20 @@ class Copy {
 
   String get letterHint => hasName ? 'Para $theName 💜' : 'Para o futuro 💜';
 
+  /// O que fica escrito embaixo do campo, enquanto a carta está sendo
+  /// escrita.
+  ///
+  /// É a promessa do produto inteiro dita no único lugar em que ela é
+  /// literal. Foto e vídeo se explicam sozinhos; uma carta não, porque
+  /// quem escreve precisa saber que existe alguém do outro lado e que a
+  /// espera vale a pena. Sem isso, escrever para o futuro parece falar
+  /// sozinho.
+  String get letterKeepsafe => hasName
+      ? 'Esta carta fica guardada no Drive $ofName. Um dia, quando a conta '
+            'for $theirs, ela vai estar lá esperando.'
+      : 'Esta carta fica guardada no Drive da criança. Um dia, quando a '
+            'conta for dela, ela vai estar lá esperando.';
+
   /// Rodapé do menu lateral, depois de "Guardado com amor no Drive de".
   String get driveOwner => hasName ? name : 'você';
 

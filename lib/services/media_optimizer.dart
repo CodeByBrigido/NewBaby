@@ -54,17 +54,34 @@ class OptimizedMedia {
 /// Comprime fotos e vídeos antes do upload, sem perguntar nada ao usuário.
 ///
 /// Regras fixas, vindas da especificação:
-/// * foto - metade da resolução, qualidade visual preservada;
-/// * vídeo - sempre 720p com bitrate otimizado;
+/// * foto - teto de [maxLongEdge] no lado maior, qualidade visual preservada;
+/// * vídeo - sempre 540p com bitrate otimizado;
 /// * o original permanece no celular e o temporário é apagado após o envio.
 class MediaOptimizer {
-  MediaOptimizer({this.imageQuality = 88});
+  MediaOptimizer({this.imageQuality = 80});
 
-  /// 88 mantém a foto visualmente idêntica com um arquivo bem menor.
+  /// 80 é o degrau em que o JPEG para de gastar bytes guardando o ruído do
+  /// sensor, que é justamente a parte da foto que ninguém quer de volta.
+  ///
+  /// Abaixo de 78 ele começa a deixar marca visível em pele e em céu, que é
+  /// metade do que uma cápsula guarda. Por isso este número desce até ali, e
+  /// não mais.
   final int imageQuality;
 
-  /// Abaixo disso reduzir pela metade estraga a foto sem economizar nada.
-  static const int _minDimension = 640;
+  /// O maior lado, em pixels, de uma foto guardada na cápsula.
+  ///
+  /// A regra antiga era "metade do original", e ela era proporcional à
+  /// câmera em vez de ser proporcional ao que a foto precisa ser. Numa
+  /// câmera de 48 MP a metade ainda tinha 12 MP e pesava megabytes; numa
+  /// foto que já chegou reduzida pelo WhatsApp a metade estragava o pouco
+  /// que restava. Um teto faz toda foto cair na mesma faixa, venha da
+  /// câmera que vier.
+  ///
+  /// 1600 cobre qualquer tela de celular com folga para ampliar e imprime
+  /// 13x18 cm. Aqui é o único número a mexer se as fotos ficarem apertadas
+  /// demais, ou se um dia sobrar espaço: subir para 2048 devolve o detalhe,
+  /// descer para 1280 economiza outro tanto.
+  static const int maxLongEdge = 1600;
 
   Future<Directory> _workDir() async {
     final Directory base = await getTemporaryDirectory();
@@ -73,7 +90,31 @@ class MediaOptimizer {
     return dir;
   }
 
-  /// Reduz a foto para ~50% da resolução original.
+  /// As dimensões com que a foto vai ser guardada.
+  ///
+  /// Só reduz. Uma foto que já cabe no teto sai como entrou: aumentar
+  /// inventaria pixels que a câmera nunca registrou e ainda cobraria espaço
+  /// por eles.
+  ///
+  /// A proporção é preservada, e o arredondamento nunca passa do original -
+  /// é o que garante que o compressor, que trabalha com uma escala só, não
+  /// receba um alvo maior do que a imagem que ele tem em mãos.
+  @visibleForTesting
+  static (int, int) archiveSize(
+    int width,
+    int height, {
+    int longEdge = maxLongEdge,
+  }) {
+    final int maior = width > height ? width : height;
+    if (maior <= longEdge) return (width, height);
+    final double escala = longEdge / maior;
+    return (
+      (width * escala).round().clamp(1, width),
+      (height * escala).round().clamp(1, height),
+    );
+  }
+
+  /// Reduz a foto ao teto de [maxLongEdge] no lado maior.
   Future<OptimizedMedia> optimizeImage(File source) async {
     final int originalBytes = await source.length();
     final Directory dir = await _workDir();
@@ -83,19 +124,22 @@ class MediaOptimizer {
     );
 
     final (int, int)? size = _readSize(source);
-    // Sem as dimensões não dá para calcular a metade; o compressor então
-    // trabalha só com a qualidade, que já reduz bastante.
-    final int targetWidth = size == null ? 0 : (size.$1 / 2).round();
-    final int targetHeight = size == null ? 0 : (size.$2 / 2).round();
-    final bool worthResizing =
-        size != null && (size.$1 > _minDimension || size.$2 > _minDimension);
+    // `minWidth`/`minHeight` são um piso, e não um teto: o compressor usa
+    // uma escala só, `max(1, min(w/minWidth, h/minHeight))`, então entregar
+    // as dimensões já calculadas é o que faz o alvo valer. Sem as dimensões
+    // do original não há o que calcular, e o 1080 nos dois lados deixa o
+    // lado menor em 1080 - fica maior que o teto, mas é o pior caso de um
+    // caminho raro, e errar para cima preserva a foto.
+    final (int, int) alvo = size == null
+        ? (1080, 1080)
+        : archiveSize(size.$1, size.$2);
 
     final XFile? result = await FlutterImageCompress.compressAndGetFile(
       source.path,
       target,
       quality: imageQuality,
-      minWidth: worthResizing ? targetWidth : (size?.$1 ?? 1080),
-      minHeight: worthResizing ? targetHeight : (size?.$2 ?? 1080),
+      minWidth: alvo.$1,
+      minHeight: alvo.$2,
       // O EXIF é descartado de propósito. Ele carrega latitude e longitude,
       // ou seja, o endereço de casa, da creche e da maternidade dentro de
       // cada foto - e vai junto no dia em que alguém compartilhar o arquivo.
@@ -128,13 +172,23 @@ class MediaOptimizer {
     );
   }
 
-  /// Converte o vídeo para 720p com bitrate otimizado.
+  /// Converte o vídeo para 540p com bitrate otimizado.
+  ///
+  /// Um degrau abaixo dos 720p de antes, e o arquivo cai por volta da
+  /// metade: a biblioteca calcula o bitrate a partir da área da imagem, e
+  /// 960x540 tem 44% menos pixels que 1280x720.
+  ///
+  /// O degrau seguinte, `Res640x480Quality`, não é 480p em vídeo de celular.
+  /// Ele limita o lado maior a 640, e num vídeo deitado, que é o formato de
+  /// quase tudo que se filma, isso dá 640x360. É pouco demais para uma
+  /// gravação que alguém vai assistir numa televisão daqui a vinte anos, e
+  /// por isso a parada é aqui.
   Future<OptimizedMedia> optimizeVideo(File source) async {
     final int originalBytes = await source.length();
 
     final MediaInfo? info = await VideoCompress.compressVideo(
       source.path,
-      quality: VideoQuality.Res1280x720Quality,
+      quality: VideoQuality.Res960x540Quality,
       includeAudio: true,
       // O vídeo original é da família: nunca apagamos nada da galeria.
       deleteOrigin: false,

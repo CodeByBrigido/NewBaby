@@ -24,6 +24,25 @@ void main() {
     description: description,
   );
 
+  group('a carta não sai do aplicativo', () {
+    test('a tela de leitura não tem botão de compartilhar', () {
+      // Foto e vídeo têm, e devem ter: são arquivos que a família manda para
+      // a avó. Carta é outra coisa. Ela é escrita para uma pessoa só e para
+      // ser lida daqui a muitos anos, e um botão que a joga num aplicativo
+      // de mensagens hoje convida a fazer dela outra coisa.
+      //
+      // O teste olha o código, e não a tela, porque a falha aqui chegaria
+      // como um `import` conveniente num dia de pressa.
+      final String fonte = File(
+        'lib/features/letters/letter_screen.dart',
+      ).readAsStringSync();
+
+      expect(fonte, isNot(contains('share_plus')));
+      expect(fonte, isNot(contains('SharePlus')));
+      expect(fonte, isNot(contains('S.share')));
+    });
+  });
+
   group('o texto das cartas não é duplicado no Firestore', () {
     test('o documento gravado não tem campo de busca', () {
       final Map<String, Object?> map = letterOf(
