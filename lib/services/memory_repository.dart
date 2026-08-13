@@ -425,6 +425,13 @@ class MemoryRepository {
       return;
     }
 
+    // Tentar de novo é a pessoa olhando para a tela e pedindo, então aqui a
+    // permissão do Drive pode ser pedida com a tela do Google. Sem isto, um
+    // envio que falhou por falta de consentimento repetia o mesmo erro para
+    // sempre: o envio comum não abre tela nenhuma, e portanto não tinha como
+    // resolver o que estava faltando.
+    await drive.garantirPermissao();
+
     final AgeBucket bucket = AgeCalculator.bucketAt(profile.birth, entry.date);
     await _processUpload(uid, profile, entry, pending, bucket);
   }

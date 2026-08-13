@@ -139,4 +139,79 @@ void main() {
       expect(restaurar, contains('on Object'));
     });
   });
+
+  group('a autorização do Drive', () {
+    test('tenta o caminho sem conta antes de abrir qualquer tela', () {
+      // A ordem é o que decide se enviar uma foto depois de reabrir o
+      // aplicativo mostra um seletor de contas ou não passa nada na frente.
+      //
+      // O token do Drive não depende de saber quem é a pessoa: o
+      // consentimento fica guardado no aparelho. Pedir a conta antes disso
+      // era o que transformava todo envio numa escolha, e depois num envio
+      // travado quando alguém fechava a folha.
+      final String corpo = corpoDe(
+        'Future<GoogleSignInClientAuthorization> _authorizeDrive(',
+      );
+
+      // Sem os espaços: onde o `dart format` quebra a linha é assunto dele,
+      // e um teste que dependa disso quebra por reformatação, não por
+      // regressão.
+      final String liso = corpo.replaceAll(RegExp(r'\s+'), '');
+      final int semConta = liso.indexOf('_googleSignIn.authorizationClient');
+      final int comTela = liso.indexOf('_restoreAccount()');
+
+      expect(semConta, isNot(-1), reason: 'o degrau sem conta precisa existir');
+      expect(comTela, isNot(-1), reason: 'o degrau interativo precisa existir');
+      expect(
+        semConta,
+        lessThan(comTela),
+        reason:
+            'A autorização guardada precisa ser tentada antes de qualquer '
+            'coisa que possa abrir tela.',
+      );
+    });
+
+    test('o envio comum nunca pede a tela do Google', () {
+      // `driveClient` é o caminho de todo envio e de toda miniatura. Se ele
+      // pudesse abrir tela, a folha de contas voltaria a aparecer sozinha.
+      final String corpo = corpoDe('Future<gapis.AuthClient> driveClient(');
+      expect(corpo, contains('interactive: false'));
+    });
+
+    test('tentar de novo pode pedir, porque a pessoa está olhando', () {
+      final String corpo = corpoDe('Future<void> garantirPermissaoDoDrive(');
+      expect(corpo, contains('interactive: true'));
+    });
+
+    test('um token de outra conta é recusado, e não usado em silêncio', () {
+      // O degrau sem conta não diz de qual conta é. Num aparelho com duas
+      // contas autorizadas, o sistema pode devolver a errada, e aí as
+      // memórias de um filho entrariam no Drive do outro: silencioso na hora
+      // e irreversível depois.
+      final String corpo = corpoDe('Future<void> _conferirDono(');
+
+      expect(corpo, contains('currentUser?.email'));
+      expect(corpo, contains('toLowerCase()'));
+      expect(corpo, contains('needsPermission: true'));
+      expect(
+        corpo,
+        contains('_account = null'),
+        reason:
+            'Recusar sem esquecer a conta deixaria o próximo pedido repetir '
+            'o mesmo token errado.',
+      );
+    });
+
+    test('a conferência não bloqueia o envio quando não dá para comparar', () {
+      // Sem email no Firebase, ou com a rede fora, não há o que comparar.
+      // Recusar por falta de informação deixaria o envio impossível em vez
+      // de seguro.
+      final String conferir = corpoDe('Future<void> _conferirDono(');
+      expect(conferir, contains('esperado == null'));
+
+      final String consultar = corpoDe('Future<String?> _emailDoDrive(');
+      expect(consultar, contains('on Object'));
+      expect(consultar, contains('return null'));
+    });
+  });
 }
