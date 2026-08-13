@@ -93,15 +93,21 @@ o workflow para logo no primeiro passo e diz qual é.
 
 ---
 
-## Passo 3 - mandar o GitHub gerar o APK
+## Passo 3 - pegar o APK
+
+**Todo merge na `main` já gera um APK sozinho.** Não precisa apertar nada:
+vá na aba **Actions**, abra a execução mais recente do **Android** e role
+até o fim.
+
+Se quiser um APK sem ter feito merge nenhum, dá para pedir à mão:
 
 1. Vá na aba **Actions** do repositório.
 2. Na lista da esquerda, escolha **Android**.
 3. Clique em **Run workflow** → **Run workflow**.
 
-Leva uns dez minutos. Quando terminar com um ✅, abra a execução e role
-até o fim: em **Artifacts** vai estar **`meu-bebe-apk`**. Baixe - vem um
-`.zip` com três arquivos:
+De um jeito ou de outro leva uns dez minutos. Quando terminar com um ✅,
+em **Artifacts** vai estar **`meu-bebe-apk`**. Baixe - vem um `.zip` com
+três arquivos:
 
 | Arquivo | Para quem |
 |---|---|
