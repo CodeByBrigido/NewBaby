@@ -61,6 +61,12 @@ abstract final class S {
   static const String timeline = 'Linha do Tempo';
   static const String search = 'Busca';
 
+  /// O rótulo do botão no alto do perfil.
+  ///
+  /// No plural de propósito: é a palavra que conta, para quem tem mais de um
+  /// filho, que mais de uma conta cabe aqui. Um ícone sozinho não contava.
+  static const String accountsLabel = 'CONTAS';
+
   /// Trocar de conta do Google, que é como se troca de filho: cada criança
   /// tem a própria conta, e é ela que a criança recebe quando crescer.
   static const String switchAccount = 'Trocar de conta';
@@ -68,6 +74,8 @@ abstract final class S {
   static const String switchAccountHint =
       'Cada criança tem a própria conta do Google. Você vai escolher a conta '
       'na tela do Google, e a cápsula dela aparece no lugar desta.\n\n'
+      'Para começar a cápsula de outro filho, escolha "Adicionar outra '
+      'conta" nessa mesma tela.\n\n'
       'O que está guardado neste aparelho é apagado, então a linha do tempo '
       'leva um instante para carregar de novo.';
 
