@@ -46,6 +46,12 @@ class DriveService {
 
   final AuthService _auth;
 
+  /// Pede o consentimento do Drive quando ele faltar, com a tela do Google.
+  ///
+  /// Só para o "Tentar de novo": o caminho normal do envio não pode abrir
+  /// tela nenhuma. Veja [AuthService.garantirPermissaoDoDrive].
+  Future<void> garantirPermissao() => _auth.garantirPermissaoDoDrive();
+
   /// A pasta única onde tudo do aplicativo vive, na raiz do Drive.
   ///
   /// O nome é distintivo de propósito: nada do aplicativo é criado fora

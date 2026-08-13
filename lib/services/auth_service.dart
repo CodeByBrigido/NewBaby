@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/googleapis_auth.dart' as gapis;
+import 'package:http/http.dart' as http;
 
 /// Erro de autenticação já traduzido para a interface.
 class AuthFailure implements Exception {
@@ -216,35 +218,150 @@ class AuthService {
     final GoogleSignInClientAuthorization authorization = await _authorizeDrive(
       interactive: false,
     );
-    return authorization.authClient(scopes: driveScopes);
+    final gapis.AuthClient client = authorization.authClient(
+      scopes: driveScopes,
+    );
+    await _conferirDono(client);
+    return client;
   }
 
+  /// Garante o consentimento do Drive, podendo mostrar a tela do Google.
+  ///
+  /// Existe para o botão "Tentar de novo". Sem ela, um envio que falhou por
+  /// falta de permissão ficava travado para sempre: o caminho normal do
+  /// envio não pode abrir tela nenhuma, então tentar de novo repetia o mesmo
+  /// erro sem chance de resolvê-lo. Tocar em "Tentar de novo" é a pessoa
+  /// olhando para o aplicativo e pedindo, que é exatamente quando abrir a
+  /// tela do Google é aceitável.
+  ///
+  /// Não faz nada quando o consentimento já existe, que é o caso comum.
+  Future<void> garantirPermissaoDoDrive() async {
+    await _authorizeDrive(interactive: true);
+  }
+
+  /// De quem é o Drive que este token abre.
+  ///
+  /// Guardado por sessão: a resposta não muda enquanto o aplicativo estiver
+  /// aberto, e uma chamada por envio seria desperdício.
+  String? _donoConferido;
+
+  /// Recusa um token que não seja da conta em uso.
+  ///
+  /// O degrau 2 de [_authorizeDrive] pede autorização sem dizer de qual
+  /// conta, porque não tem como dizer. Num aparelho com duas contas já
+  /// autorizadas, o sistema pode devolver a outra, e aí as memórias de um
+  /// filho entrariam no Drive do outro. Num aplicativo que existe para
+  /// guardar a infância de alguém, isso é o pior defeito possível: silencioso
+  /// na hora e irreversível depois.
+  ///
+  /// Por isso a conferência é contra o Firebase, que é quem sabe de quem é a
+  /// sessão. Quando não dá para comparar, o token passa: recusar por falta de
+  /// informação deixaria o envio impossível em vez de seguro.
+  Future<void> _conferirDono(gapis.AuthClient client) async {
+    final String? esperado = currentUser?.email;
+    if (esperado == null || _donoConferido == esperado) return;
+
+    final String? dono = await _emailDoDrive(client);
+    if (dono == null) return;
+
+    if (dono.toLowerCase() != esperado.toLowerCase()) {
+      // O consentimento guardado é de outra conta. Some com ele para o
+      // próximo pedido passar pelo caminho interativo, na conta certa.
+      _account = null;
+      _donoConferido = null;
+      throw const AuthFailure(
+        'A permissão guardada é de outra conta do Google. Entre de novo '
+        'para continuar guardando nesta cápsula.',
+        needsPermission: true,
+      );
+    }
+    _donoConferido = esperado;
+  }
+
+  /// O email do dono do Drive que o token alcança.
+  ///
+  /// `about.get` já é usado pela tela de estatísticas com este mesmo escopo,
+  /// então não custa consentimento nenhum a mais.
+  Future<String?> _emailDoDrive(gapis.AuthClient client) async {
+    try {
+      final http.Response resposta = await client
+          .get(
+            Uri.parse(
+              'https://www.googleapis.com/drive/v3/about'
+              '?fields=user%2FemailAddress',
+            ),
+          )
+          .timeout(_prazo);
+      if (resposta.statusCode != 200) return null;
+
+      final Object? corpo = jsonDecode(resposta.body);
+      if (corpo is! Map<String, Object?>) return null;
+      final Object? usuario = corpo['user'];
+      if (usuario is! Map<String, Object?>) return null;
+      final Object? email = usuario['emailAddress'];
+      return email is String ? email : null;
+    } on Object catch (e) {
+      // Rede fora, ou resposta estranha. Não é motivo para bloquear o envio:
+      // a conferência é uma trava contra o caso raro, não um requisito.
+      debugPrint('Não foi possível conferir o dono do Drive: $e');
+      return null;
+    }
+  }
+
+  /// Consegue autorização para o Drive, preferindo sempre o caminho que não
+  /// mostra nada na tela.
+  ///
+  /// A ordem dos três degraus é o que faz o envio funcionar depois de
+  /// reabrir o aplicativo sem pedir a conta de novo.
   Future<GoogleSignInClientAuthorization> _authorizeDrive({
     required bool interactive,
   }) async {
-    // Depois de reabrir o aplicativo, `_account` está vazio de propósito: a
-    // abertura não mexe mais no login do Google. É aqui, na primeira vez que
-    // o Drive é usado, que a conta da sessão anterior é recuperada.
-    final GoogleSignInAccount? account = _account ?? await _restoreAccount();
-    if (account == null) {
-      throw const AuthFailure('Entre com a conta Google para continuar.');
-    }
-
     try {
-      final GoogleSignInClientAuthorization? existing = await account
+      // 1. Com a conta em mãos, o pedido vai amarrado ao email dela. É o
+      //    caminho de quem acabou de entrar, e o mais preciso que existe.
+      final GoogleSignInAccount? account = _account;
+      if (account != null) {
+        final GoogleSignInClientAuthorization? existing = await account
+            .authorizationClient
+            .authorizationForScopes(driveScopes);
+        if (existing != null) return existing;
+
+        if (interactive) {
+          return await account.authorizationClient.authorizeScopes(driveScopes);
+        }
+      }
+
+      // 2. Sem a conta, que é a situação de todo reinício do aplicativo.
+      //
+      //    O token de autorização do Drive não depende de saber quem é a
+      //    pessoa: o consentimento fica guardado no aparelho, e o plugin
+      //    devolve o token sem interface nenhuma. Era isto que faltava, e a
+      //    falta transformava todo envio depois de reabrir num seletor de
+      //    contas, e depois num envio travado quando alguém o fechava.
+      //
+      //    O preço é que o pedido não diz de qual conta é. Num aparelho com
+      //    duas contas já autorizadas, ele pode voltar com a errada, e por
+      //    isso `driveClient` confere de quem é o token antes de usá-lo.
+      final GoogleSignInClientAuthorization? guardada = await _googleSignIn
           .authorizationClient
           .authorizationForScopes(driveScopes);
-      if (existing != null) return existing;
+      if (guardada != null) return guardada;
 
+      // 3. Não há consentimento guardado. Agora a interface é inevitável, e
+      //    só quem chamou sabe se é hora de mostrá-la.
       if (!interactive) {
-        // Sem interação disponível: quem chamou precisa levar o usuário de
-        // volta a uma tela onde o consentimento possa ser pedido.
         throw const AuthFailure(
           'Precisamos renovar a permissão do Google Drive.',
           needsPermission: true,
         );
       }
-      return await account.authorizationClient.authorizeScopes(driveScopes);
+
+      final GoogleSignInAccount? recuperada =
+          _account ?? await _restoreAccount();
+      if (recuperada == null) {
+        throw const AuthFailure('Entre com a conta Google para continuar.');
+      }
+      return await recuperada.authorizationClient.authorizeScopes(driveScopes);
     } on GoogleSignInException catch (e) {
       throw AuthFailure(
         _messageFor(
