@@ -259,6 +259,36 @@ void main() {
       expect(saida['terminou'], isTrue);
       expect(saida['data'], DateTime(2027, 4, 10, 14, 35));
     });
+
+    testWidgets('os dois botões dividem uma linha só', (
+      WidgetTester tester,
+    ) async {
+      // Empilhados, o botão cheio esticava na largura inteira e virava a
+      // coisa mais pesada da tela. O teste mede a geometria porque é
+      // justamente isso que muda sozinho quando o texto de um botão cresce.
+      await abrir(tester);
+
+      final Rect cancelar = tester.getRect(find.byType(TextButton));
+      final Rect guardar = tester.getRect(find.byType(FilledButton));
+
+      expect(
+        cancelar.center.dy,
+        moreOrLessEquals(guardar.center.dy, epsilon: 1),
+        reason: 'os dois precisam estar na mesma linha',
+      );
+      expect(cancelar.right, lessThanOrEqualTo(guardar.left));
+    });
+
+    testWidgets('guardar ocupa o dobro de cancelar', (
+      WidgetTester tester,
+    ) async {
+      await abrir(tester);
+
+      final double cancelar = tester.getSize(find.byType(TextButton)).width;
+      final double guardar = tester.getSize(find.byType(FilledButton)).width;
+
+      expect(guardar / cancelar, moreOrLessEquals(2, epsilon: 0.05));
+    });
   });
 
   group('de onde a data veio', () {

@@ -257,14 +257,38 @@ Future<DateTime?> confirmarEnvio(
                 ),
               ],
             ),
+            // Os dois numa linha só, e não empilhados. Guardar ocupa dois
+            // terços porque é o que a pessoa veio fazer; cancelar fica com o
+            // terço restante, alcançável sem virar o caminho mais largo da
+            // tela.
+            //
+            // A linha vem numa `Row` própria em vez de dois itens soltos em
+            // `actions`, que é o que deixava o botão cheio esticado sozinho.
+            actionsPadding: const EdgeInsets.fromLTRB(
+              Space.x24,
+              Space.x8,
+              Space.x24,
+              Space.x20,
+            ),
             actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(),
-                child: const Text(S.cancel),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.of(dialogContext).pop(escolhida),
-                child: const Text('Guardar'),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: const Text(S.cancel),
+                    ),
+                  ),
+                  const SizedBox(width: Space.x12),
+                  Expanded(
+                    flex: 2,
+                    child: FilledButton(
+                      onPressed: () =>
+                          Navigator.of(dialogContext).pop(escolhida),
+                      child: const Text('Guardar'),
+                    ),
+                  ),
+                ],
               ),
             ],
           );
