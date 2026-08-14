@@ -47,7 +47,13 @@ abstract final class Space {
   /// flutuante, e a pessoa acha que a lista acabou antes. A soma está
   /// escrita à vista de propósito: se a barra mudar de altura, dá para ver
   /// daqui de onde este número veio.
-  static const double scrollEnd = x64 + x32;
+  /// O respiro depois do último item de uma lista que rola.
+  ///
+  /// Só precisa cobrir o que fica **por cima** do conteúdo, que é a parte do
+  /// botão de adicionar que sobra acima da barra de baixo. A barra em si o
+  /// `Scaffold` já desconta sozinho, e somar a altura dela aqui deixava umas
+  /// cinquenta e poucas alturas de nada no fim de toda tela.
+  static const double scrollEnd = x40;
 }
 
 /// Raio de canto por tipo de superfície.

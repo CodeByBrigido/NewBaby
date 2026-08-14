@@ -108,13 +108,19 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
   Widget build(BuildContext context) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final Entry entry = widget.entries[_index];
-    final EntryFile file = widget.files[_index];
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
+        // Os dois `iconTheme` não são redundância. O tema do aplicativo
+        // define `appBarTheme.iconTheme` com a cor escura do texto, e um
+        // `iconTheme` vindo do tema vence o `foregroundColor` declarado
+        // aqui: sem estas duas linhas, voltar, compartilhar e apagar saem
+        // cinza-escuro sobre o preto da tela.
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           profile == null
               ? Fmt.date(entry.date)
@@ -188,7 +194,7 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
               children: <Widget>[
                 Text(
                   Fmt.longDate(entry.date),
-                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  style: const TextStyle(color: Colors.white, fontSize: 13),
                 ),
                 if (entry.description != null &&
                     entry.description!.isNotEmpty) ...<Widget>[
@@ -198,28 +204,11 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
-                if (file.isVideo) ...<Widget>[
-                  const SizedBox(height: Space.x12),
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.info_outline,
-                        size: 15,
-                        color: Colors.white38,
-                      ),
-                      const SizedBox(width: Space.x8),
-                      Expanded(
-                        child: Text(
-                          S.videoOptimizedNote,
-                          style: const TextStyle(
-                            color: Colors.white38,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                // O aviso de que o vídeo foi salvo em 540p saiu daqui. Ele
+                // aparecia toda vez que alguém abria uma lembrança para
+                // assistir, e contava um detalhe de implementação a quem só
+                // queria ver o filho. Quem quiser a informação continua com
+                // ela nas Configurações, que é onde se vai procurar isso.
               ],
             ),
           ),

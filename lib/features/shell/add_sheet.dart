@@ -21,7 +21,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 import '../growth/growth_editor_sheet.dart';
-import '../timeline/details_editor_sheet.dart';
+import 'envio_em_andamento.dart';
 
 /// Folha "O que você deseja adicionar?".
 ///
@@ -596,25 +596,25 @@ Future<void> _send(
         );
     if (!context.mounted) return;
 
-    // Documentos já vêm com o nome do arquivo como título; para foto, vídeo
-    // e desenho o aviso é a chance de dizer que aquilo foi o "Primeiro
-    // sorriso" - opcional, e sem segurar o envio.
+    // Documento não tem pasta de idade para apontar: ele vai para a lista de
+    // documentos e pronto.
     if (type == EntryType.document) {
       showMessage(context, message);
       return;
     }
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          duration: const Duration(seconds: 6),
-          action: SnackBarAction(
-            label: 'Marcar',
-            onPressed: () => showDetailsEditor(context, entry),
-          ),
-        ),
-      );
+
+    // A janela acompanha o envio até o fim e termina apontando a pasta.
+    //
+    // Antes era uma tarja de seis segundos que dizia que o envio começou e
+    // nunca dizia que terminou. Quem mandasse uma foto e trocasse de tela
+    // não descobria se deu certo, e principalmente não descobria **onde** a
+    // foto foi parar: numa cápsula organizada por idade, esse "onde" é
+    // metade da informação.
+    await mostrarEnvio(
+      context,
+      entry: entry,
+      bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
+    );
   } on Exception catch (e) {
     if (context.mounted) {
       showMessage(context, userMessage(e, context: 'Enviar memória'));
