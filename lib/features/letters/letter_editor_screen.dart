@@ -275,6 +275,17 @@ class _ComoComecar extends StatelessWidget {
                 // escrito e não ao rótulo.
                 label: Text(comeco.trim()),
                 onPressed: () => onEscolher(comeco),
+                // O espaço entre os rótulos quase todo vinha daqui, e não do
+                // `spacing` acima: por padrão o chip reserva 48 px de altura
+                // de área de toque, o que empurrava cada linha para longe da
+                // seguinte. Sem essa reserva, o respiro passa a ser o que
+                // está escrito.
+                //
+                // A área de toque encolhe junto, e isso é aceitável só aqui:
+                // são atalhos de escrita, não caminho obrigatório de nada, e
+                // errar o alvo custa apagar uma frase.
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
               ),
           ],
         ),
