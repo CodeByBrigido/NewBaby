@@ -519,10 +519,13 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
   );
   if (confirmada == null || !context.mounted) return;
 
+  // Cada documento vira uma memória própria, mas a janela é uma só: uma por
+  // arquivo seguraria o envio do próximo até alguém fechar a anterior.
+  final List<Entry> criadas = <Entry>[];
   for (final PlatformFile file in files) {
     if (file.path == null) continue;
     if (!context.mounted) return;
-    await _send(
+    final Entry? criada = await _send(
       context,
       ref,
       lote: DataDoLote(quando: confirmada, lida: false, diasDiferentes: 1),
@@ -538,9 +541,19 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
       title: _titleFromFileName(file.name),
       message: 'Enviando ${file.name}...',
       keepSheetOpen: true,
+      mostrarJanela: false,
     );
+    if (criada != null) criadas.add(criada);
   }
-  if (context.mounted) Navigator.of(context).maybePop();
+
+  if (!context.mounted) return;
+  Navigator.of(context).maybePop();
+  if (!context.mounted) return;
+  await mostrarEnvio(
+    context,
+    entries: criadas,
+    bucket: AgeCalculator.bucketAt(ctx.profile.birth, confirmada),
+  );
 }
 
 /// `Certidão de Nascimento.pdf` vira `Certidão de Nascimento`.
@@ -549,7 +562,11 @@ String _titleFromFileName(String name) {
   return dot <= 0 ? name : name.substring(0, dot);
 }
 
-Future<void> _send(
+/// Envia e, salvo pedido em contrário, abre a janela que acompanha.
+///
+/// Devolve a memória criada para quem precisar juntar várias antes de abrir
+/// uma janela só: é o caso do documento, que vira uma memória por arquivo.
+Future<Entry?> _send(
   BuildContext context,
   WidgetRef ref, {
   required DataDoLote lote,
@@ -559,13 +576,14 @@ Future<void> _send(
   String? title,
   bool keepSheetOpen = false,
   bool confirmar = true,
+  bool mostrarJanela = true,
 }) async {
   final ({String uid, BabyProfile profile})? ctx = _context(ref);
   if (ctx == null) {
     showMessage(context, S.genericError);
-    return;
+    return null;
   }
-  if (files.isEmpty) return;
+  if (files.isEmpty) return null;
 
   DateTime data = lote.quando;
   if (confirmar) {
@@ -577,7 +595,7 @@ Future<void> _send(
       quantidade: files.length,
       lote: lote,
     );
-    if (confirmada == null || !context.mounted) return;
+    if (confirmada == null || !context.mounted) return null;
     data = confirmada;
   }
 
@@ -594,31 +612,27 @@ Future<void> _send(
           date: data,
           title: title,
         );
-    if (!context.mounted) return;
+    if (!context.mounted) return entry;
 
-    // Documento não tem pasta de idade para apontar: ele vai para a lista de
-    // documentos e pronto.
-    if (type == EntryType.document) {
-      showMessage(context, message);
-      return;
-    }
-
-    // A janela acompanha o envio até o fim e termina apontando a pasta.
+    // A janela acompanha o envio até o fim e termina apontando o lugar.
     //
     // Antes era uma tarja de seis segundos que dizia que o envio começou e
-    // nunca dizia que terminou. Quem mandasse uma foto e trocasse de tela
-    // não descobria se deu certo, e principalmente não descobria **onde** a
-    // foto foi parar: numa cápsula organizada por idade, esse "onde" é
-    // metade da informação.
-    await mostrarEnvio(
-      context,
-      entry: entry,
-      bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
-    );
+    // nunca dizia que terminou. Quem mandasse alguma coisa e trocasse de
+    // tela não descobria se deu certo, e principalmente não descobria
+    // **onde** aquilo foi parar.
+    if (mostrarJanela) {
+      await mostrarEnvio(
+        context,
+        entries: <Entry>[entry],
+        bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
+      );
+    }
+    return entry;
   } on Exception catch (e) {
     if (context.mounted) {
       showMessage(context, userMessage(e, context: 'Enviar memória'));
     }
+    return null;
   }
 }
 
