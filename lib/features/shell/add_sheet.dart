@@ -547,10 +547,13 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
   }
 
   if (!context.mounted) return;
+  // Mesmo cuidado do `_send`: a folha morre no `maybePop`, e com ela o
+  // contexto que abriria a janela.
+  final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
   Navigator.of(context).maybePop();
-  if (!context.mounted) return;
+  if (!raiz.mounted) return;
   await mostrarEnvio(
-    context,
+    raiz.context,
     entries: criadas,
     bucket: AgeCalculator.bucketAt(ctx.profile.birth, confirmada),
   );
@@ -599,6 +602,15 @@ Future<Entry?> _send(
     data = confirmada;
   }
 
+  // Capturado **antes** de fechar a folha.
+  //
+  // O `context` que chega aqui é o da folha de adicionar. Fechá-la mata
+  // esse contexto, e foi assim que a janela do envio nunca apareceu: o
+  // `context.mounted` logo abaixo virava falso e a função saía antes de
+  // abrir qualquer coisa. O contexto da raiz sobrevive à folha, porque não
+  // é ele que está sendo fechado.
+  final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
+
   if (!keepSheetOpen) Navigator.of(context).pop();
 
   try {
@@ -612,7 +624,7 @@ Future<Entry?> _send(
           date: data,
           title: title,
         );
-    if (!context.mounted) return entry;
+    if (!raiz.mounted) return entry;
 
     // A janela acompanha o envio até o fim e termina apontando o lugar.
     //
@@ -622,7 +634,7 @@ Future<Entry?> _send(
     // **onde** aquilo foi parar.
     if (mostrarJanela) {
       await mostrarEnvio(
-        context,
+        raiz.context,
         entries: <Entry>[entry],
         bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
       );
