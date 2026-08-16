@@ -80,8 +80,9 @@ class HomeScreen extends ConsumerWidget {
         children: <Widget>[
           _Hero(profile: profile, pulse: pulse, copy: copy),
           const SizedBox(height: Space.x16),
+          // A folga de baixo é do próprio `PulseCards`, porque ele some
+          // inteiro nos dias sem ocasião, que são quase todos.
           PulseCards(pulse: pulse, copy: copy),
-          const SizedBox(height: Space.x16),
           NextSuggestion(copy: copy),
           // Sem botão de registrar aqui: o "+" da barra de baixo está
           // sempre à mão, em todas as telas, e dois botões para a mesma

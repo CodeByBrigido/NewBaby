@@ -832,6 +832,47 @@ O visualizador em tela cheia continua deslizando pela pasta inteira, e não só
 pela seção em que se tocou: quem está olhando uma foto da Semana 2 espera
 chegar na Semana 3 arrastando.
 
+### A tela inicial para de cobrar ✅
+
+Saíram os três cartões "última foto", "última carta" e "última medição".
+Eles eram sempre os mesmos três e apareciam sempre, e numa cápsula do tempo
+"há 1 ano" na primeira linha da tela é cobrança, não informação: a pessoa já
+sabe que não registrou. Quem acabava de criar a conta abria o aplicativo e
+levava três avisos de que não tinha feito nada.
+
+Os cartões de ocasião ficam (hoje é aniversário, hoje faz exatamente, a
+contagem para o próximo). Esses aparecem de vez em quando e contam algo que
+é verdade só naquele dia, que era a ideia original. Nos dias sem ocasião o
+bloco some inteiro, com a folga junto, para não deixar um buraco.
+
+#### O botão que não existia
+
+O cartão de sugestão ("O primeiro corte de cabelo") aparecia com um botão
+só, "Agora não". Uma sugestão sem forma de aceitar se lê como cobrança, e
+foi exatamente assim que ela foi relatada: não dava para entender o que era
+nem o que fazer.
+
+O "Registrar" estava no código o tempo todo. A causa era do tema: os botões
+do aplicativo são de largura cheia, e para isso o tema usa
+`minimumSize: Size.fromHeight(...)`, que é `Size(double.infinity, altura)`.
+Largura mínima infinita não pode ser medida dentro de uma `Row`, então o
+botão falhava no layout e nunca era pintado.
+
+**O que faz esse defeito perigoso é o silêncio.** Em compilação de depuração
+a asserção grita; no APK instalado as asserções não rodam e o botão só some.
+Nenhum teste olhava para isso, e nenhuma varredura de código acharia, porque
+o botão está lá escrito. Foi preciso alguém instalar e estranhar.
+
+Consertado com `Expanded` nos dois botões, que dá largura fixa e limita o
+mínimo infinito. O teste novo não se contenta em achar o botão na árvore, já
+que o quebrado também estava lá: ele mede o tamanho. Uma varredura confirmou
+que não há outro botão solto dentro de uma `Row` no aplicativo.
+
+Na tela inicial o cartão ganhou também uma linha dizendo o que ele é
+("Momento para registrar"). Na tela de Momentos a barra do topo já apresenta
+o assunto; na inicial ele caía entre a idade e o acervo sem apresentação
+nenhuma.
+
 ### O papel de cada tema ✅
 
 O creme (`#FCF3EE`) tinha ido para as três paletas. Na Lavender ele está
