@@ -117,6 +117,16 @@ AgeBucket _bucketFor(BabyProfile profile, DateTime date, AgeBucketUnit unit) {
 ///
 /// A ordem vai do maior período para o menor, e é a ordem em que se procura
 /// uma memória antiga: primeiro o ano, depois o mês, depois a semana.
+///
+/// **Nada aponta para esta tela hoje.** Fotos e Vídeos abrem o
+/// `AcervoScreen`, que é a rolagem única por mês. Ela fica de pé de
+/// propósito, e não por esquecimento: o acervo novo é um experimento, e
+/// voltar atrás precisa ser trocar duas linhas no roteador em vez de
+/// reescrever uma tela. Se o acervo novo ficar, esta some junto com as abas.
+///
+/// O que este arquivo tem de vivo é o `groupIntoBuckets` e o
+/// `BucketSummary`, usados pela tela de uma pasta de idade, que continua
+/// sendo o destino do botão "Ver a pasta" da janela de envio.
 class GalleryScreen extends ConsumerStatefulWidget {
   const GalleryScreen({required this.type, super.key});
 
