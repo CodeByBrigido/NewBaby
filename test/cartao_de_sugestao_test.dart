@@ -8,6 +8,8 @@ import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/features/moments/moments_screen.dart';
 import 'package:meu_bebe/models/suggestion.dart';
 
+import 'fonte_de_verdade.dart';
+
 /// O cartão de sugestão precisa oferecer o "sim", e não só o "agora não".
 ///
 /// O defeito, visto no aparelho: o cartão aparecia na tela inicial com o
@@ -26,6 +28,8 @@ import 'package:meu_bebe/models/suggestion.dart';
 /// botão simplesmente não existe, e nada nos testes de então olhava para
 /// isso. Foi preciso alguém instalar e estranhar.
 void main() {
+  setUpAll(carregarFonteDeVerdade);
+
   Widget montar({required bool compact}) {
     const Suggestion s = Suggestion(
       id: 'corte-de-cabelo',
@@ -94,10 +98,14 @@ void main() {
       );
     });
 
-    test('o botão compacto não fica menor que o alvo mínimo de toque', () {
-      // 48 é o mínimo recomendado, e aqui não é detalhe de norma: quem usa
-      // este aplicativo costuma estar com uma mão só, com a criança na outra.
-      expect(Sizes.buttonCompact, greaterThanOrEqualTo(48));
+    test('o botão compacto não desce abaixo do piso combinado', () {
+      // 44 é escolha do dono do produto, tomada depois de o custo ser dito.
+      //
+      // O recomendado do Material são 48, e o argumento contra descer é real:
+      // quem usa este aplicativo costuma estar com uma mão só, com a criança
+      // na outra. Ficou em 44, que é o mínimo da diretriz da Apple, e daqui
+      // não desce mais sem uma decisão nova.
+      expect(Sizes.buttonCompact, greaterThanOrEqualTo(44));
     });
 
     testWidgets('o botão de aceitar é o maior dos dois', (

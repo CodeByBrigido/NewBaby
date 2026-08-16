@@ -6,36 +6,33 @@ import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/features/common/widgets.dart';
 
+import 'fonte_de_verdade.dart';
+
 /// O cartão de Informações do bebê.
 ///
-/// O pedido: a data de nascimento e a idade em uma linha só. O caminho até
-/// lá teve duas tentativas erradas, e é por isso que este teste mede em vez
-/// de conferir a aparência de olho.
+/// O pedido: a data de nascimento e a idade em uma linha só, com os dias.
 ///
-/// A primeira: rótulo à esquerda, valor à direita. Não cabia. Os rótulos
-/// daqui são longos ("Data de nascimento", "Altura ao nascer") e ocupavam
-/// 216 dos 288 px do cartão, deixando menos de sessenta para o valor.
+/// **Este teste carrega a fonte de verdade, e sem isso ele mentiria.** O
+/// `flutter test` desenha com uma fonte substituta em que todo caractere
+/// ocupa um em: `i` e `W` medem igual. Nela a idade completa parecia pedir
+/// 378 px, e eu cheguei a quebrar o texto em duas linhas por causa desse
+/// número. Com a Plus Jakarta Sans ela pede 179, contra os 288 do cartão, e
+/// cabe folgada.
 ///
-/// A segunda: a mesma coisa com `maxLines: 1`. Aí a data parava de quebrar e
-/// passava a sair truncada com reticências, o que é pior: quebrar espreme o
-/// dado, truncar esconde. E nada acusa, porque o widget não dá erro. Foi este
-/// teste que pegou: dentro do `SoftCard` sobram 248 px num telefone de 320,
-/// e `10 de abril de 2026` precisa de 265.
+/// Fica o aprendizado: teste de layout sem a fonte do produto mede ficção,
+/// e o pior é que ele passa.
 ///
-/// Por isso a garantia de linha única vale para 360 dp, que é o telefone
-/// comum, e a de nunca truncar vale para qualquer largura.
-///
-/// A idade não entra nessa garantia, e a conta explica por quê: com os dias
-/// ela pede 378 px e o cartão tem 288. Encolher a fonte até caber daria
-/// 10,7 px, abaixo dos 12 px que são o menor tamanho da escala. Então ela
-/// quebra em duas linhas, mas no lugar que a frase permite, e em tamanho
-/// normal.
+/// O que sobrou de verdadeiro da investigação anterior é o desenho: rótulo
+/// em cima e valor embaixo. Lado a lado, "Data de nascimento" come 114 dos
+/// 288 px e sobram 158 para o valor, menos que os 179 da idade.
 void main() {
+  setUpAll(carregarFonteDeVerdade);
+
   /// O texto mais longo de cada campo.
   const String dataPorExtenso = '10 de abril de 2026';
 
-  /// A idade completa, já quebrada onde a frase permite.
-  const String idadeEmDuasLinhas = '20 anos, 11 meses\ne 30 dias';
+  /// A idade completa, na forma mais longa que o aplicativo escreve.
+  const String idadeMaisLonga = '20 anos, 11 meses e 30 dias';
 
   Future<void> montar(WidgetTester tester, {required double dp}) {
     tester.view.physicalSize = Size(dp * 3, 2400);
@@ -53,7 +50,7 @@ void main() {
                 children: <Widget>[
                   _linha(S.birthDate, dataPorExtenso),
                   const Divider(height: 26),
-                  _linha(S.currentAge, idadeEmDuasLinhas),
+                  _linha(S.currentAge, idadeMaisLonga),
                 ],
               ),
             ),
@@ -72,39 +69,35 @@ void main() {
       expect(tester.getRect(find.text(dataPorExtenso)).height, 20);
     });
 
-    testWidgets('a idade ocupa duas linhas, e não mais', (
+    testWidgets('a idade completa cabe numa linha', (
       WidgetTester tester,
     ) async {
-      // Duas é o que a quebra deliberada produz. Três significaria que uma
-      // das duas linhas também não coube, e aí a quebra automática voltou a
-      // mandar.
       await montar(tester, dp: 360);
       await tester.pumpAndSettle();
-      expect(tester.getRect(find.text(idadeEmDuasLinhas)).height, 40);
+      expect(tester.getRect(find.text(idadeMaisLonga)).height, 20);
     });
   });
 
-  group('a idade com os dias', () {
-    test('não caberia numa linha em tamanho legível', () {
-      // A conta que decidiu o desenho, presa aqui para ninguém "consertar"
-      // isto encolhendo a fonte: seria preciso ir a menos de 12 px, que é o
-      // menor tamanho da escala do Design System.
-      const double larguraDoCartao = 288;
-      final TextPainter medidor = TextPainter(
-        text: const TextSpan(
-          text: '20 anos, 11 meses e 30 dias',
-          style: TextStyle(fontSize: 14),
+  group('a fonte usada para medir', () {
+    test('é a do produto, e não a substituta do ambiente de teste', () {
+      // A guarda que faltava. Na fonte substituta todo caractere mede um em,
+      // então `i` e `W` saem iguais; foi assim que uma frase de 179 px
+      // pareceu pedir 378 e me levou a quebrar o texto sem necessidade.
+      //
+      // Se este teste falhar, a fonte parou de ser carregada e toda medida
+      // de largura deste arquivo voltou a ser ficção.
+      double largura(String texto) => (TextPainter(
+        text: TextSpan(
+          text: texto,
+          style: const TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 10),
         ),
         textDirection: TextDirection.ltr,
-      )..layout();
+      )..layout()).width;
 
-      final double tamanhoNecessario = 14 * larguraDoCartao / medidor.width;
       expect(
-        tamanhoNecessario,
-        lessThan(12),
-        reason:
-            'se um dia couber acima de 12 px, a idade pode voltar a ser uma '
-            'linha só',
+        largura('W'),
+        greaterThan(largura('i')),
+        reason: 'a fonte de verdade não foi carregada',
       );
     });
   });
@@ -122,10 +115,7 @@ void main() {
         await montar(tester, dp: dp);
         await tester.pumpAndSettle();
 
-        for (final String valor in <String>[
-          dataPorExtenso,
-          idadeEmDuasLinhas,
-        ]) {
+        for (final String valor in <String>[dataPorExtenso, idadeMaisLonga]) {
           final RenderBox caixa = tester.renderObject<RenderBox>(
             find.text(valor),
           );

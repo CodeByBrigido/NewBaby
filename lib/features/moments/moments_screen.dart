@@ -155,6 +155,7 @@ class SuggestionCard extends ConsumerWidget {
           ],
 
           const SizedBox(height: Space.x8),
+
           // Os dois botões dividem a linha, e cada um dentro de um
           // `Expanded`. Não é gosto de layout: o tema dá aos botões
           // `minimumSize: Size.fromHeight(...)`, que é `Size(infinito,
@@ -172,6 +173,14 @@ class SuggestionCard extends ConsumerWidget {
           // além de altos eles eram desiguais: dois botões lado a lado com
           // alturas diferentes é o tipo de coisa que ninguém sabe nomear e
           // todo mundo percebe.
+          //
+          // O `shrinkWrap` é o que faz os 44 valerem de verdade. Por padrão o
+          // Flutter envolve todo botão num preenchimento que garante 48 de
+          // área de toque: sem dispensá-lo, o botão seria pintado com 44 e
+          // continuaria ocupando 48 na linha, e a altura não teria mudado.
+          //
+          // O preço é que a área de toque passa a ser os 44 desenhados. Foi
+          // decisão do dono do produto, tomada depois de o custo ser dito.
           Row(
             children: <Widget>[
               Expanded(
@@ -179,6 +188,7 @@ class SuggestionCard extends ConsumerWidget {
                   onPressed: () => _resolve(ref, dismissed: true),
                   style: TextButton.styleFrom(
                     minimumSize: const Size.fromHeight(Sizes.buttonCompact),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: const Text('Agora não'),
                 ),
@@ -190,6 +200,7 @@ class SuggestionCard extends ConsumerWidget {
                   onPressed: () => showAddSheet(context),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(Sizes.buttonCompact),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: const Text('Registrar'),
                 ),

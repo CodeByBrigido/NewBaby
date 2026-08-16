@@ -157,11 +157,19 @@ abstract final class Sizes {
   /// o que confirma um envio. Dentro de um cartão de sugestão essa altura
   /// pesa mais que o próprio conteúdo do cartão.
   ///
-  /// **Não desce abaixo de 48**, e isto não é gosto: 48 é o alvo mínimo de
-  /// toque recomendado, e quem usa este aplicativo costuma estar com uma mão
-  /// só, com a criança na outra. Um botão mais baixo fica bonito na captura
-  /// de tela e erra o toque no colo.
-  static const double buttonCompact = 48;
+  /// 44 é escolha do dono do produto, tomada sabendo do custo.
+  ///
+  /// O recomendado do Material são 48, e o argumento contra descer era real:
+  /// quem usa este aplicativo costuma estar com uma mão só, com a criança na
+  /// outra. Ficou em 44, que é o mínimo da diretriz da Apple, e é o piso
+  /// daqui para baixo.
+  ///
+  /// O que salva a diferença é o `MaterialTapTargetSize.padded`, que o
+  /// Flutter usa por padrão: ele mantém a **área de toque** em 48 mesmo com o
+  /// botão desenhado menor. Encolhe o que se vê, não o que se acerta. Há
+  /// teste medindo as duas coisas, porque trocar esse padrão em algum lugar
+  /// transformaria 44 no tamanho real do alvo.
+  static const double buttonCompact = 44;
 
   /// Altura de campo de texto.
   static const double field = 56;

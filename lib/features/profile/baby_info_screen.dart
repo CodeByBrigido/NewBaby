@@ -75,24 +75,19 @@ class BabyInfoScreen extends ConsumerWidget {
                         _Row(label: 'Hospital', value: profile.hospital!),
                       ],
                       const Divider(height: 26),
-                      // Com os dias, quebrada onde a frase permite.
+                      // Completa e numa linha só.
                       //
-                      // Numa linha só ela não cabe: `20 anos, 11 meses e 30
-                      // dias` pede 378 px e o cartão tem 288. Encolher a
-                      // fonte até caber daria 10,7 px, abaixo dos 12 px que
-                      // são o menor tamanho da escala, e naquele tamanho o
-                      // texto deixa de ser legível de braço estendido.
-                      //
-                      // Então a idade quebra em duas linhas, mas no lugar
-                      // certo: "20 anos, 11 meses" em cima e "e 2 dias"
-                      // embaixo, as duas em tamanho normal. É a mesma quebra
-                      // do painel da tela inicial.
+                      // Cheguei a quebrá-la em duas por ter medido errado. A
+                      // conta vinha de um teste de widget, e no `flutter test`
+                      // a fonte é um substituto em que todo caractere ocupa um
+                      // em: `i` e `W` medem igual. Ali a frase parecia pedir
+                      // 378 px; com a Plus Jakarta Sans de verdade ela pede
+                      // 179, contra os 288 do cartão.
                       _Row(
                         label: S.currentAge,
-                        value: profile
-                            .ageNow()
-                            .detailedLines(alwaysShowDays: true)
-                            .join('\n'),
+                        value: profile.ageNow().detailedLabel(
+                          alwaysShowDays: true,
+                        ),
                       ),
                     ],
                   ),
@@ -114,18 +109,15 @@ class _Row extends StatelessWidget {
     final TextTheme text = Theme.of(context).textTheme;
     // Rótulo em cima, valor embaixo, os dois centralizados.
     //
-    // Antes era rótulo à esquerda e valor à direita, na mesma linha, e não
-    // cabia: os rótulos daqui são longos ("Data de nascimento", "Altura ao
-    // nascer") e ocupavam 216 dos 288 px do cartão, deixando menos de
-    // sessenta para o valor. Até `10/04/2026` quebrava em duas linhas.
+    // Lado a lado não cabia. Os rótulos daqui são longos, e "Data de
+    // nascimento" come 114 dos 288 px do cartão: sobram 158 para o valor, e
+    // a idade completa pede 179. Empilhado, o valor fica com a largura
+    // inteira e tanto a data por extenso quanto a idade cabem numa linha.
     //
-    // Empilhado, o valor tem a largura inteira do cartão, e a data por
-    // extenso e a idade cabem numa linha num telefone comum.
-    //
-    // **Sem `maxLines`, e isso é decisão.** Forçar linha única aqui trocaria
-    // a quebra por reticências, e num telefone estreito de 320 dp a data
-    // sairia cortada. Espremer um dado em duas linhas é feio; escondê-lo
-    // atrás de "..." é perder a informação que a pessoa veio ler.
+    // **Sem `maxLines`, e isso é decisão.** Forçar linha única trocaria a
+    // quebra por reticências, e num telefone bem estreito um nome de
+    // hospital sairia cortado. Espremer um dado em duas linhas é feio;
+    // escondê-lo atrás de "..." é perder a informação que a pessoa veio ler.
     return Column(
       children: <Widget>[
         Text(label, style: text.bodySmall, textAlign: TextAlign.center),
