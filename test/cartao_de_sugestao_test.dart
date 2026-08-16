@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/core/l10n/copy.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
+import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/features/moments/moments_screen.dart';
 import 'package:meu_bebe/models/suggestion.dart';
 
@@ -68,6 +69,35 @@ void main() {
       );
       expect(tamanho.height, greaterThan(0));
       expect(tamanho.width.isFinite, isTrue);
+    });
+
+    testWidgets('os dois têm a mesma altura, e ela é a compacta', (
+      WidgetTester tester,
+    ) async {
+      // Dois botões lado a lado com alturas diferentes é o tipo de coisa que
+      // ninguém sabe nomear e todo mundo percebe. Era o caso: o "Registrar"
+      // pegava os 56 do tema e o "Agora não" ficava em 48.
+      //
+      // 56 é a altura de quem manda numa tela inteira. Dentro de um cartão de
+      // sugestão ela pesa mais que o próprio conteúdo do cartão.
+      await tester.pumpWidget(montar(compact: true));
+      await tester.pumpAndSettle();
+
+      final double aceitar = tester.getSize(find.byType(FilledButton)).height;
+      final double recusar = tester.getSize(find.byType(TextButton)).height;
+      expect(aceitar, recusar);
+      expect(aceitar, Sizes.buttonCompact);
+      expect(
+        aceitar,
+        lessThan(Sizes.button),
+        reason: 'no cartão o botão é menor que o de uma tela inteira',
+      );
+    });
+
+    test('o botão compacto não fica menor que o alvo mínimo de toque', () {
+      // 48 é o mínimo recomendado, e aqui não é detalhe de norma: quem usa
+      // este aplicativo costuma estar com uma mão só, com a criança na outra.
+      expect(Sizes.buttonCompact, greaterThanOrEqualTo(48));
     });
 
     testWidgets('o botão de aceitar é o maior dos dois', (

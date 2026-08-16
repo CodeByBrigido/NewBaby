@@ -151,6 +151,18 @@ abstract final class Sizes {
   /// Altura de botão principal e secundário.
   static const double button = 56;
 
+  /// Altura de botão dentro de um cartão.
+  ///
+  /// 56 é a altura de quem manda numa tela: o botão que fecha um formulário,
+  /// o que confirma um envio. Dentro de um cartão de sugestão essa altura
+  /// pesa mais que o próprio conteúdo do cartão.
+  ///
+  /// **Não desce abaixo de 48**, e isto não é gosto: 48 é o alvo mínimo de
+  /// toque recomendado, e quem usa este aplicativo costuma estar com uma mão
+  /// só, com a criança na outra. Um botão mais baixo fica bonito na captura
+  /// de tela e erra o toque no colo.
+  static const double buttonCompact = 48;
+
   /// Altura de campo de texto.
   static const double field = 56;
   static const double fieldCompact = 52;

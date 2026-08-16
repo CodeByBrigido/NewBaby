@@ -166,11 +166,20 @@ class SuggestionCard extends ConsumerWidget {
           //
           // `Expanded` dá largura fixa ao botão, e aí o mínimo infinito é
           // limitado pela linha em vez de ser passado adiante.
+          //
+          // A altura é a compacta, e os dois usam a mesma. Antes o
+          // "Registrar" vinha com os 56 do tema e o "Agora não" com 48, então
+          // além de altos eles eram desiguais: dois botões lado a lado com
+          // alturas diferentes é o tipo de coisa que ninguém sabe nomear e
+          // todo mundo percebe.
           Row(
             children: <Widget>[
               Expanded(
                 child: TextButton(
                   onPressed: () => _resolve(ref, dismissed: true),
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size.fromHeight(Sizes.buttonCompact),
+                  ),
                   child: const Text('Agora não'),
                 ),
               ),
@@ -179,6 +188,9 @@ class SuggestionCard extends ConsumerWidget {
                 flex: 2,
                 child: FilledButton.tonal(
                   onPressed: () => showAddSheet(context),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(Sizes.buttonCompact),
+                  ),
                   child: const Text('Registrar'),
                 ),
               ),
