@@ -391,7 +391,20 @@ class Entry {
     'excluidoEm': deletedAt == null ? null : Timestamp.fromDate(deletedAt!),
     'erro': errorMessage,
     'lacradoAte': sealedUntil == null ? null : Timestamp.fromDate(sealedUntil!),
-    'ordem': ordem,
+    // Só entra no documento quando existe, ao contrário de todo campo acima.
+    //
+    // Não é estilo: é compatibilidade com as regras que estão **no
+    // servidor**. As regras validam com `hasOnly`, uma lista fechada de
+    // campos, e escrever um campo que a lista não conhece faz o servidor
+    // recusar a gravação inteira. Escrever `'ordem': null` bastava para
+    // criar a chave e derrubar todo envio, toda carta e toda medição em
+    // qualquer aparelho cujas regras ainda fossem as antigas.
+    //
+    // Foi exatamente o que aconteceu: o campo entrou no aplicativo antes de
+    // as regras novas serem publicadas, e o aplicativo instalado parou de
+    // gravar qualquer coisa. Omitindo o nulo, só quem foi arrastado carrega
+    // o campo, e todo o resto continua funcionando com as regras de antes.
+    if (ordem != null) 'ordem': ordem,
   };
 
   static Entry fromMap(String id, Map<String, Object?> map) {

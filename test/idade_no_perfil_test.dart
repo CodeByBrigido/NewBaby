@@ -7,6 +7,8 @@ import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/core/utils/age_calculator.dart';
 import 'package:meu_bebe/features/common/widgets.dart';
 
+import 'fonte_de_verdade.dart';
+
 /// A idade no Perfil precisa caber, e caber daqui a vinte anos.
 ///
 /// O defeito, visto no aparelho: "1 ano e 9 meses e 14 dias" já espremia o
@@ -20,7 +22,13 @@ import 'package:meu_bebe/features/common/widgets.dart';
 /// cápsula aos vinte anos não pode ser verificado só com um bebê de meses:
 /// o texto cresce sozinho com o tempo, e quem descobre é quem estiver
 /// usando, anos depois de alguém ter escrito o código.
+///
+/// E carrega a fonte do produto, sem a qual toda medida daqui seria ficção:
+/// no `flutter test` a fonte padrão dá a todo caractere a mesma largura, e
+/// nela a idade parecia pedir o dobro do que pede.
 void main() {
+  setUpAll(carregarFonteDeVerdade);
+
   /// A forma mais longa possível: dois dígitos em cada uma das três partes.
   ///
   /// Com vírgula e um "e" só, que é como se escreve em português. A forma
@@ -80,7 +88,7 @@ void main() {
       );
     });
 
-    testWidgets('cabe em duas linhas num telefone comum', (
+    testWidgets('cabe numa linha num telefone comum', (
       WidgetTester tester,
     ) async {
       await montar(tester, cartao(maisLonga));
@@ -89,10 +97,10 @@ void main() {
       final Rect valor = tester.getRect(find.text(maisLonga));
       expect(
         valor.height,
-        lessThanOrEqualTo(48),
+        20,
         reason:
-            'a idade passou de duas linhas: com três o cartão fica torto ao '
-            'lado de uma data de uma linha só.',
+            'a idade quebrou: ao lado de uma data de uma linha só, o cartão '
+            'fica torto.',
       );
     });
 
@@ -117,8 +125,8 @@ void main() {
     testWidgets('num telefone estreito continua sem estourar', (
       WidgetTester tester,
     ) async {
-      // 320 dp é o mais estreito que ainda se vende. Aqui a idade passa de
-      // duas linhas, e tudo bem: o que não pode é vazar do cartão.
+      // 320 dp é o mais estreito que ainda se vende. Aqui a idade pode
+      // quebrar, e tudo bem: o que não pode é vazar do cartão.
       await montar(tester, cartao(maisLonga), dp: 320);
       await tester.pumpAndSettle();
 

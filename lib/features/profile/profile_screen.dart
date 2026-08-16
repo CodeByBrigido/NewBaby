@@ -102,15 +102,15 @@ class ProfileScreen extends ConsumerWidget {
                   // Uma linha por dado, e não duas colunas.
                   //
                   // Em duas colunas cada dado ficava com metade do cartão, e
-                  // metade não cabe a idade: "20 anos e 11 meses e 30 dias"
-                  // quebrava em três linhas ao lado de uma data de uma linha
-                  // só, com um divisor de 34 px fixos no meio que ficava bem
-                  // mais curto que o texto. Aos poucos meses de vida ninguém
-                  // via o problema; ele aparece sozinho conforme a criança
-                  // cresce, que é justamente o horizonte deste aplicativo.
+                  // metade não cabe a idade: ela quebrava ao lado de uma data
+                  // de uma linha só, com um divisor de 34 px fixos no meio
+                  // que ficava mais curto que o texto. Aos poucos meses de
+                  // vida ninguém via o problema; ele aparece sozinho conforme
+                  // a criança cresce, que é justamente o horizonte deste
+                  // aplicativo.
                   //
-                  // Empilhado, cada dado tem a largura inteira do cartão e a
-                  // idade cabe em duas linhas num telefone comum.
+                  // Empilhado, cada dado tem a largura inteira do cartão, e a
+                  // idade completa cabe numa linha num telefone comum.
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
