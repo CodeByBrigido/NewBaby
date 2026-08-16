@@ -7,7 +7,7 @@ import '../../features/documents/document_screen.dart';
 import '../../features/documents/documents_screen.dart';
 import '../../features/drawings/drawings_screen.dart';
 import '../../features/gallery/bucket_screen.dart';
-import '../../features/gallery/gallery_screen.dart';
+import '../../features/gallery/acervo_screen.dart';
 import '../../features/growth/growth_chart_screen.dart';
 import '../../features/growth/growth_screen.dart';
 import '../../features/intro/intro_screen.dart';
@@ -161,7 +161,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       GoRoute(path: Routes.search, builder: (_, _) => const SearchScreen()),
       GoRoute(
         path: Routes.photos,
-        builder: (_, _) => const GalleryScreen(type: EntryType.photo),
+        builder: (_, _) => const AcervoScreen(type: EntryType.photo),
         routes: <RouteBase>[
           GoRoute(
             path: 'balde/:bucket',
@@ -174,7 +174,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       ),
       GoRoute(
         path: Routes.videos,
-        builder: (_, _) => const GalleryScreen(type: EntryType.video),
+        builder: (_, _) => const AcervoScreen(type: EntryType.video),
         routes: <RouteBase>[
           GoRoute(
             path: 'balde/:bucket',

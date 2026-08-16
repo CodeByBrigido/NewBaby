@@ -238,13 +238,15 @@ abstract final class S {
       'Esta ação não pode ser desfeita.';
 
   // Perfil
-  //
-  // "Idade" e não "Idade atual": o rótulo divide a linha com o valor, e o
-  // valor aqui é o texto mais longo do aplicativo ("20 anos e 11 meses e 30
-  // dias"). Cada palavra a menos no rótulo é largura a mais para ele caber
-  // sem quebrar em três linhas. Ao lado de "Data de nascimento", "Idade"
-  // não deixa dúvida sobre o que é.
-  static const String currentAge = 'Idade';
+  static const String currentAge = 'Idade atual';
+
+  /// "Data de nascimento" encurtado, para o cartão de duas colunas do Perfil.
+  ///
+  /// Ali os dois dados dividem a largura, e quem estava apertando a coluna
+  /// não era a data (77 px) e sim o próprio rótulo (114 px). Encurtá-lo
+  /// devolve quase quarenta pixels para a idade, que é o texto que cresce
+  /// com o tempo. Nas telas onde há largura sobrando, o nome completo fica.
+  static const String birthDateShort = 'Nascimento';
   static const String signOutConfirmTitle = 'Sair da conta?';
   static const String signOutConfirmBody =
       'Suas memórias continuam guardadas no seu Google Drive. As miniaturas '

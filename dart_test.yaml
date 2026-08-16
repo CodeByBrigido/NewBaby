@@ -1,0 +1,15 @@
+# As prévias visuais ficam fora da suíte.
+#
+# Elas comparam pixels contra um PNG gravado, e pixel depende da máquina:
+# outra versão do Flutter, outro sistema, outro jeito de desenhar a fonte, e
+# o teste falha sem que nada do aplicativo tenha mudado. Um alarme que toca
+# sozinho é um alarme que se aprende a ignorar, e aí ele deixa de servir
+# para o dia em que tocar por um motivo real.
+#
+# Para gerar as imagens de novo:
+#
+#   flutter test --run-skipped --update-goldens test/previa_do_acervo_test.dart
+#   flutter test --run-skipped --update-goldens test/previa_da_linha_do_tempo_test.dart
+tags:
+  previa:
+    skip: 'Prévia visual: rode à mão com --run-skipped --update-goldens'
