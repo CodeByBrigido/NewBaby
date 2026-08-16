@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,16 +8,19 @@ import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/utils/age_calculator.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/mosaico.dart';
+import '../../core/utils/periodo.dart';
 import '../../models/baby_profile.dart';
 import '../../models/capsule_pulse.dart';
-import '../../models/day_summary.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/entrada_na_rolagem.dart';
+import '../common/drive_image.dart';
 import '../common/esqueleto.dart';
+import '../common/hero_da_midia.dart';
 import '../common/widgets.dart';
+import '../gallery/media_viewer_screen.dart';
 import 'timeline_card.dart';
 import 'upload_banner.dart';
 
@@ -32,6 +34,10 @@ class TimelineScreen extends ConsumerStatefulWidget {
 
 class _TimelineScreenState extends ConsumerState<TimelineScreen> {
   EntryType? _filter;
+
+  /// A lente do agrupamento. O mês é o padrão porque é a gaveta em que as
+  /// pessoas pensam: "as fotos de maio", e não "as fotos da semana 19".
+  Periodo _periodo = Periodo.mes;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +53,38 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
               ref.read(shellScaffoldKeyProvider).currentState?.openDrawer(),
         ),
         actions: <Widget>[
+          // A escolha do período fica num menu suspenso, e não em abas.
+          //
+          // Abas ocupariam uma faixa da tela o tempo todo para uma escolha
+          // que se faz uma vez e raramente se muda. O menu some depois de
+          // usado, e o ícone marcado conta qual lente está valendo.
+          PopupMenuButton<Periodo>(
+            icon: const Icon(Icons.calendar_view_month_outlined),
+            tooltip: 'Agrupar por',
+            initialValue: _periodo,
+            onSelected: (Periodo p) => setState(() => _periodo = p),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<Periodo>>[
+              for (final Periodo p in Periodo.values)
+                PopupMenuItem<Periodo>(
+                  value: p,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        p == _periodo
+                            ? Icons.radio_button_checked
+                            : Icons.radio_button_unchecked,
+                        size: 18,
+                        color: p == _periodo
+                            ? context.cores.primary
+                            : context.cores.muted,
+                      ),
+                      const SizedBox(width: Space.x12),
+                      Text(p.plural),
+                    ],
+                  ),
+                ),
+            ],
+          ),
           IconButton(
             icon: Icon(
               _filter == null ? Icons.filter_list : Icons.filter_list_alt,
@@ -94,7 +132,11 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             );
           }
 
-          return TimelineList(entries: visible, profile: profile);
+          return TimelineList(
+            entries: visible,
+            profile: profile,
+            periodo: _periodo,
+          );
         },
       ),
     );
@@ -134,7 +176,16 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
   }
 }
 
-/// A lista da linha do tempo, agrupada por dia e desenhada sobre um trilho.
+/// A lista da linha do tempo, agrupada pelo período escolhido.
+///
+/// Cada seção traz o período à esquerda, quantos itens ele tem à direita, e
+/// abaixo as memórias: as que são imagem num mosaico de tamanhos variados, e
+/// as que não são em cartões.
+///
+/// Antes o agrupamento era por dia. Dia funciona enquanto a cápsula é nova,
+/// e vira uma escada infinita quando ela tem anos: rolar 2019 inteiro dia a
+/// dia é o que faz alguém desistir de procurar. O período escolhido dá o
+/// tamanho da gaveta, e o mesmo acervo se reagrupa sem perder nada.
 ///
 /// Separada da tela para poder ser montada em testes sem Firebase.
 class TimelineList extends StatelessWidget {
@@ -142,43 +193,298 @@ class TimelineList extends StatelessWidget {
     required this.entries,
     required this.profile,
     super.key,
+    this.periodo = Periodo.mes,
     this.showHeader = true,
   });
 
   final List<Entry> entries;
   final BabyProfile profile;
+  final Periodo periodo;
   final bool showHeader;
 
   @override
   Widget build(BuildContext context) {
-    // As entradas já vêm ordenadas por data decrescente do Firestore.
-    final Map<DateTime, List<Entry>> byDay = groupBy<Entry, DateTime>(
-      entries,
-      (Entry e) => AgeCalculator.dayOf(e.date),
+    final List<FatiaDoTempo<Entry>> fatias = fatiarPorPeriodo<Entry>(
+      itens: entries,
+      quando: (Entry e) => e.date,
+      periodo: periodo,
     );
-    final List<DateTime> days = byDay.keys.toList()
-      ..sort((DateTime a, DateTime b) => b.compareTo(a));
 
-    return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(0, Space.x8, 0, Space.scrollEnd),
-      itemCount: days.length + (showHeader ? 2 : 0),
-      itemBuilder: (BuildContext context, int index) {
-        if (showHeader) {
-          if (index == 0) return _BabyHeader(profile: profile);
-          if (index == 1) return const UploadBanner();
-          index -= 2;
-        }
-        final DateTime day = days[index];
-        return EntradaNaRolagem(
-          indice: index,
-          child: _DayGroup(
-            day: day,
-            entries: byDay[day]!,
-            profile: profile,
-            isLast: index == days.length - 1,
-          ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints vaga) {
+        return ListView.builder(
+          padding: const EdgeInsets.fromLTRB(0, Space.x8, 0, Space.scrollEnd),
+          itemCount: fatias.length + (showHeader ? 2 : 0),
+          itemBuilder: (BuildContext context, int index) {
+            if (showHeader) {
+              if (index == 0) return _BabyHeader(profile: profile);
+              if (index == 1) return const UploadBanner();
+              index -= 2;
+            }
+            return EntradaNaRolagem(
+              indice: index,
+              child: _Fatia(
+                fatia: fatias[index],
+                profile: profile,
+                periodo: periodo,
+                largura: vaga.maxWidth,
+                ultima: index == fatias.length - 1,
+              ),
+            );
+          },
         );
       },
+    );
+  }
+}
+
+/// Uma seção de período: cabeçalho, mosaico e cartões.
+class _Fatia extends StatelessWidget {
+  const _Fatia({
+    required this.fatia,
+    required this.profile,
+    required this.periodo,
+    required this.largura,
+    required this.ultima,
+  });
+
+  final FatiaDoTempo<Entry> fatia;
+  final BabyProfile profile;
+  final Periodo periodo;
+  final double largura;
+  final bool ultima;
+
+  /// A data redonda que caiu neste período, se caiu alguma.
+  ///
+  /// Procurada entre os dias em que há memória, e não no calendário inteiro:
+  /// um "1 ano" num mês sem nenhuma foto seria um selo apontando para o
+  /// vazio. A conta é a mesma da tela inicial, de propósito: duas contas
+  /// separadas para a mesma pergunta acabariam divergindo, e o histórico
+  /// contradiria a abertura do aplicativo.
+  String? get _redonda {
+    for (final Entry e in fatia.itens) {
+      final String? r = CapsulePulse.dataRedondaEm(profile.birth, e.date);
+      if (r != null) return r;
+    }
+    return null;
+  }
+
+  /// Largura do trilho da esquerda, com o ponto e a linha.
+  static const double _trilho = 32;
+
+  /// Só o que é imagem entra no mosaico.
+  ///
+  /// Carta e crescimento não têm o que mostrar numa miniatura, e documento é
+  /// quase sempre um PDF: os três continuam em cartão, que é onde o conteúdo
+  /// deles cabe. Sem essa separação, uma carta viraria um retângulo cinza no
+  /// meio das fotos.
+  static bool _ehImagem(EntryType t) =>
+      t == EntryType.photo || t == EntryType.video || t == EntryType.drawing;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    final List<(Entry, EntryFile)> imagens = <(Entry, EntryFile)>[
+      for (final Entry e in fatia.itens)
+        if (_ehImagem(e.type))
+          for (final EntryFile f in e.files) (e, f),
+    ];
+    final List<Entry> cartoes = <Entry>[
+      for (final Entry e in fatia.itens)
+        if (!_ehImagem(e.type)) e,
+    ];
+
+    // Quantos itens o período tem, contando arquivo por arquivo: uma
+    // postagem com doze fotos são doze memórias para quem está olhando.
+    final int quantos = imagens.length + cartoes.length;
+    final double util = largura - _trilho - Space.x16;
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          _TrilhoDoPeriodo(ultima: ultima),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: Space.x16,
+                bottom: Space.x24,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(fatia.rotulo, style: text.titleSmall),
+                      ),
+                      const SizedBox(width: Space.x8),
+                      Text(
+                        Fmt.count(quantos, 'item', 'itens'),
+                        style: text.labelSmall?.copyWith(
+                          color: context.cores.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (_redonda case final String marco) ...<Widget>[
+                    const SizedBox(height: Space.x8),
+                    _SeloDaDataRedonda(rotulo: marco),
+                  ],
+                  const SizedBox(height: Space.x12),
+                  if (imagens.isNotEmpty)
+                    _MosaicoDoPeriodo(imagens: imagens, largura: util),
+                  for (final Entry e in cartoes) ...<Widget>[
+                    const SizedBox(height: Space.x12),
+                    TimelineCard(entry: e),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// O ponto do período e a linha que liga um ao seguinte.
+class _TrilhoDoPeriodo extends StatelessWidget {
+  const _TrilhoDoPeriodo({required this.ultima});
+
+  final bool ultima;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _Fatia._trilho,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: Space.x4),
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: context.cores.primary,
+              shape: BoxShape.circle,
+            ),
+          ),
+          if (!ultima)
+            Expanded(
+              child: VerticalDivider(
+                width: 1,
+                thickness: 1.5,
+                color: context.cores.primarySoft,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// As imagens do período, em linhas justificadas.
+class _MosaicoDoPeriodo extends StatelessWidget {
+  const _MosaicoDoPeriodo({required this.imagens, required this.largura});
+
+  final List<(Entry, EntryFile)> imagens;
+  final double largura;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<MesDoMosaico<(Entry, EntryFile)>> blocos =
+        mosaico<(Entry, EntryFile)>(
+          itens: imagens,
+          // Um período já é uma fatia só, então o agrupamento por mês de
+          // dentro do mosaico não separa nada: tudo cai num bloco.
+          quando: ((Entry, EntryFile) _) => DateTime(2000),
+          proporcao: ((Entry, EntryFile) p) =>
+              proporcaoSegura(p.$2.width, p.$2.height),
+          largura: largura,
+          alturaAlvo: 104,
+          espaco: Space.x4,
+        );
+    if (blocos.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        for (final LinhaDoMosaico<(Entry, EntryFile)> linha
+            in blocos.single.linhas)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Space.x4),
+            child: Row(
+              children: <Widget>[
+                for (final LadrilhoDoMosaico<(Entry, EntryFile)> l
+                    in linha.ladrilhos) ...<Widget>[
+                  _LadrilhoDoTempo(ladrilho: l, todos: imagens),
+                  if (l != linha.ladrilhos.last)
+                    const SizedBox(width: Space.x4),
+                ],
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _LadrilhoDoTempo extends StatelessWidget {
+  const _LadrilhoDoTempo({required this.ladrilho, required this.todos});
+
+  final LadrilhoDoMosaico<(Entry, EntryFile)> ladrilho;
+  final List<(Entry, EntryFile)> todos;
+
+  @override
+  Widget build(BuildContext context) {
+    final (Entry entry, EntryFile file) = ladrilho.item;
+
+    return GestureDetector(
+      onTap: () => abrirEmTelaCheia(
+        context,
+        MediaViewerScreen(
+          files: todos.map(((Entry, EntryFile) r) => r.$2).toList(),
+          entries: todos.map(((Entry, EntryFile) r) => r.$1).toList(),
+          initialIndex: todos.indexOf(ladrilho.item),
+          origemDoVoo: origemGaleria,
+        ),
+      ),
+      child: SizedBox(
+        width: ladrilho.largura,
+        height: ladrilho.altura,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            HeroDaMidia(
+              origem: origemGaleria,
+              file: file,
+              child: DriveThumbnail(file: file, borderRadius: Radii.mediaR),
+            ),
+            if (file.isVideo)
+              const Center(
+                child: Icon(
+                  Icons.play_circle_fill_rounded,
+                  color: Colors.white70,
+                  size: 28,
+                ),
+              ),
+            if (entry.uploadStatus.isBusy)
+              const Positioned(
+                right: 6,
+                top: 6,
+                child: SizedBox(
+                  width: 12,
+                  height: 12,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.6,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -231,214 +537,11 @@ class _BabyHeader extends StatelessWidget {
   }
 }
 
-/// Um dia da linha do tempo: a data e a idade à esquerda, os cartões à
-/// direita, ligados pelo trilho vertical.
+/// O selo do período em que caiu uma data redonda.
 ///
-/// Dia cheio começa recolhido, mostrando só o resumo. O limite não é
-/// enfeite: um aniversário com trinta fotos, aberto, empurra o resto do mês
-/// para fora da tela, e quem está folheando a infância inteira perde o fio.
-///
-/// Dia curto nunca recolhe. Esconder duas fotos atrás de um toque seria
-/// trocar a memória por um menu, que é exatamente o que este aplicativo não
-/// quer ser.
-class _DayGroup extends StatefulWidget {
-  const _DayGroup({
-    required this.day,
-    required this.entries,
-    required this.profile,
-    required this.isLast,
-  });
-
-  /// Acima disto, o dia abre recolhido.
-  static const int limiteParaRecolher = 4;
-
-  final DateTime day;
-  final List<Entry> entries;
-  final BabyProfile profile;
-  final bool isLast;
-
-  @override
-  State<_DayGroup> createState() => _DayGroupState();
-}
-
-class _DayGroupState extends State<_DayGroup> {
-  late bool _aberto = widget.entries.length <= _DayGroup.limiteParaRecolher;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
-    final Age age = widget.profile.ageAt(widget.day);
-    // O dia em que a criança fez um ano, oito meses ou três semanas. Sai da
-    // mesma conta que o cartão de hoje usa: duas contas separadas para a
-    // mesma pergunta acabariam divergindo, e o histórico contradiria a
-    // tela inicial.
-    final String? redonda = CapsulePulse.dataRedondaEm(
-      widget.profile.birth,
-      widget.day,
-    );
-    final bool podeRecolher =
-        widget.entries.length > _DayGroup.limiteParaRecolher;
-
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(
-            width: 92,
-            child: Padding(
-              padding: const EdgeInsets.only(left: Space.x16, top: Space.x4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    Fmt.timelineDay(widget.day),
-                    style: text.labelMedium?.copyWith(
-                      color: context.cores.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: Space.x4),
-                  // O selo substitui a idade, e não se soma a ela: num dia
-                  // redondo os dois diriam a mesma coisa, e "3 meses" logo
-                  // abaixo de "3 meses" é ruído.
-                  if (redonda != null)
-                    _SeloDaDataRedonda(rotulo: redonda)
-                  else
-                    Text(
-                      age.detailedLabel(),
-                      style: text.labelSmall?.copyWith(
-                        color: context.cores.textSecondary,
-                        height: 1.3,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-          _Rail(isLast: widget.isLast),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: Space.x16,
-                bottom: Space.x20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  if (podeRecolher)
-                    _DaySummary(
-                      resumo: summarizeDay(widget.entries),
-                      aberto: _aberto,
-                      onTap: () => setState(() => _aberto = !_aberto),
-                    ),
-                  if (_aberto)
-                    for (final Entry entry in widget.entries) ...<Widget>[
-                      if (entry != widget.entries.first || podeRecolher)
-                        const SizedBox(height: Space.x12),
-                      TimelineCard(entry: entry),
-                    ],
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// A linha que resume o dia e abre ou fecha os cartões.
-class _DaySummary extends StatelessWidget {
-  const _DaySummary({
-    required this.resumo,
-    required this.aberto,
-    required this.onTap,
-  });
-
-  final String resumo;
-  final bool aberto;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: context.cores.surfaceMuted,
-      borderRadius: Radii.fieldR,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: Radii.fieldR,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Space.x16,
-            vertical: Space.x12,
-          ),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  resumo,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: context.cores.textPrimary,
-                  ),
-                ),
-              ),
-              AnimatedRotation(
-                turns: aberto ? 0.5 : 0,
-                duration: const Duration(milliseconds: 180),
-                child: Icon(
-                  Icons.expand_more,
-                  size: 20,
-                  color: context.cores.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Ponto e linha vertical que costuram os dias.
-class _Rail extends StatelessWidget {
-  const _Rail({required this.isLast});
-
-  final bool isLast;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 24,
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: Space.x4),
-          Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: context.cores.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-          if (!isLast)
-            Expanded(
-              child: VerticalDivider(
-                width: 1,
-                thickness: 1.5,
-                color: context.cores.primarySoft,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-/// O selo do dia em que caiu uma data redonda.
-///
-/// A linha do tempo é uma sequência de dias iguais, e é justamente por isso
-/// que "1 ano" precisa saltar quando alguém rola até lá. Sem marca, o dia
-/// mais importante do acervo tem exatamente a mesma cara que uma terça-feira
+/// A linha do tempo é uma sequência de períodos iguais, e é justamente por
+/// isso que "1 ano" precisa saltar quando alguém rola até lá. Sem marca, o
+/// mês mais importante do acervo tem exatamente a mesma cara que um mês
 /// qualquer.
 ///
 /// O selo fica: quem rolar de novo daqui a dez anos precisa ver a mesma

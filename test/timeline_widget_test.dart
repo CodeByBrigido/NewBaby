@@ -8,7 +8,7 @@ import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/features/timeline/timeline_screen.dart';
 import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/features/timeline/timeline_card.dart';
-import 'package:meu_bebe/models/day_summary.dart';
+import 'package:meu_bebe/core/utils/periodo.dart';
 import 'package:meu_bebe/models/entry.dart';
 import 'package:meu_bebe/services/thumbnail_service.dart';
 import 'package:meu_bebe/state/providers.dart';
@@ -72,7 +72,7 @@ Entry entry({
 }
 
 /// Monta só a lista da linha do tempo, sem Firebase nem Google Drive.
-Widget harness(List<Entry> entries) {
+Widget harness(List<Entry> entries, {Periodo periodo = Periodo.mes}) {
   return ProviderScope(
     overrides: [thumbnailServiceProvider.overrideWithValue(_NoThumbnails())],
     child: MaterialApp(
@@ -82,6 +82,7 @@ Widget harness(List<Entry> entries) {
         body: TimelineList(
           entries: entries,
           profile: profile,
+          periodo: periodo,
           // O cabeçalho e a faixa de envio dependem de providers com rede.
           showHeader: false,
         ),
@@ -91,248 +92,200 @@ Widget harness(List<Entry> entries) {
 }
 
 void main() {
-  agrupamentoPorDia();
   setUpAll(() => initializeDateFormatting('pt_BR'));
 
-  testWidgets('mostra a idade calculada ao lado de cada dia', (
-    WidgetTester tester,
-  ) async {
-    // 03/04 e não 02/04: aquele dia caía exatamente em dez semanas de vida,
-    // e num dia redondo a coluna mostra o selo no lugar da idade miúda.
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(
-          type: EntryType.letter,
-          date: DateTime(2027, 4, 3),
-          title: 'Para minha filha',
-          description: 'Minha pequena,',
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    // 22/01 + 2 meses = 22/03; até 03/04 são mais 12 dias.
-    expect(find.text('2 meses e 12 dias'), findsOneWidget);
-    expect(find.text('03/04/2027'), findsOneWidget);
-  });
-
-  testWidgets('o dia de uma data redonda troca a idade pelo selo', (
-    WidgetTester tester,
-  ) async {
-    // 22/01 + 70 dias = 02/04, que são dez semanas exatas. Sem o selo, o dia
-    // em que a criança completou dez semanas tem a mesma cara que uma
-    // terça-feira qualquer.
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(
-          type: EntryType.letter,
-          date: DateTime(2027, 4, 2),
-          title: 'Para minha filha',
-          description: 'Minha pequena,',
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('10 semanas'), findsOneWidget);
-    expect(find.text('2 meses e 11 dias'), findsNothing);
-  });
-
-  testWidgets('cartas aparecem com o prefixo "Carta:"', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(
-          type: EntryType.letter,
-          date: DateTime(2027, 4, 2),
-          title: 'Para minha filha',
-          description: 'Minha pequena,',
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('Carta: Para minha filha'), findsOneWidget);
-    expect(find.text('Minha pequena,'), findsOneWidget);
-  });
-
-  testWidgets('registro de crescimento mostra peso e altura', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(
-          type: EntryType.growth,
-          date: DateTime(2027, 3, 22),
-          growth: const GrowthData(weightGrams: 4200, heightCm: 55),
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('Registro de crescimento'), findsOneWidget);
-    expect(find.text('4,200 kg'), findsOneWidget);
-    expect(find.text('55 cm'), findsOneWidget);
-  });
-
-  testWidgets('um lote de fotos vira "Fotos adicionadas" com contador', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(
-          type: EntryType.photo,
-          date: DateTime(2027, 4, 22),
-          fileCount: 14,
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('Fotos adicionadas'), findsOneWidget);
-    // Três miniaturas visíveis e o resto somado na última.
-    expect(find.text('+12'), findsOneWidget);
-  });
-
-  testWidgets('itens do mesmo dia ficam sob um único cabeçalho', (
-    WidgetTester tester,
-  ) async {
-    final DateTime day = DateTime(2027, 4, 22);
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(type: EntryType.photo, date: day, fileCount: 1),
-        entry(
-          type: EntryType.growth,
-          date: day,
-          growth: const GrowthData(weightGrams: 5800, heightCm: 61),
-        ),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('22/04/2027'), findsOneWidget);
-    expect(find.text('3 meses'), findsOneWidget);
-    expect(find.text('Foto adicionada'), findsOneWidget);
-    expect(find.text('Registro de crescimento'), findsOneWidget);
-  });
-
-  testWidgets('dias diferentes recebem cabeçalhos separados', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(
-      harness(<Entry>[
-        entry(type: EntryType.photo, date: DateTime(2027, 4, 22), fileCount: 1),
-        entry(type: EntryType.photo, date: DateTime(2027, 4, 18), fileCount: 1),
-      ]),
-    );
-    await tester.pump();
-
-    expect(find.text('22/04/2027'), findsOneWidget);
-    expect(find.text('18/04/2027'), findsOneWidget);
-    expect(find.text('3 meses'), findsOneWidget);
-    expect(find.text('2 meses e 27 dias'), findsOneWidget);
-  });
-}
-
-/// Um dia cheio recolhe; um dia curto, não.
-///
-/// A regra existe porque um aniversário com trinta fotos, todo aberto,
-/// empurra o resto do mês para fora da tela. Mas esconder duas fotos atrás
-/// de um toque seria trocar a memória por um menu.
-void agrupamentoPorDia() {
-  group('o resumo de um dia', () {
-    test('conta cada tipo e junta como se escreve em português', () {
-      final DateTime dia = DateTime(2027, 4, 10);
-      expect(
-        summarizeDay(<Entry>[
-          entry(type: EntryType.photo, date: dia),
-          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 1))),
-          entry(type: EntryType.video, date: dia.add(const Duration(hours: 2))),
-          entry(
-            type: EntryType.letter,
-            date: dia.add(const Duration(hours: 3)),
-          ),
-        ]),
-        '2 fotos, 1 vídeo e 1 carta',
-      );
-    });
-
-    test('um tipo só dispensa a conjunção', () {
-      expect(
-        summarizeDay(<Entry>[
-          entry(type: EntryType.photo, date: DateTime(2027, 4, 10)),
-        ]),
-        '1 foto',
-      );
-    });
-
-    test('a ordem é sempre a mesma, não a da contagem', () {
-      // Dois dias parecidos precisam se parecer na tela.
-      final DateTime dia = DateTime(2027, 4, 10);
-      expect(
-        summarizeDay(<Entry>[
-          entry(type: EntryType.letter, date: dia),
-          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 1))),
-          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 2))),
-          entry(type: EntryType.photo, date: dia.add(const Duration(hours: 3))),
-        ]),
-        '3 fotos e 1 carta',
-      );
-    });
-  });
-
-  group('a linha do tempo agrupa o que é grande', () {
-    List<Entry> noMesmoDia(int quantidade) {
-      final DateTime dia = DateTime(2027, 4, 10, 9);
-      return <Entry>[
-        for (int i = 0; i < quantidade; i++)
+  group('o cabeçalho de um período', () {
+    testWidgets('traz o rótulo à esquerda e a contagem à direita', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
           entry(
             type: EntryType.photo,
-            date: dia.add(Duration(minutes: i)),
+            date: DateTime(2027, 4, 22),
+            fileCount: 3,
           ),
+          entry(
+            type: EntryType.letter,
+            date: DateTime(2027, 4, 2),
+            title: 'Para minha filha',
+            description: 'Minha pequena,',
+          ),
+        ]),
+      );
+      await tester.pump();
+
+      expect(find.text('Abril de 2027'), findsOneWidget);
+      // Três arquivos de foto mais a carta: a contagem é do que se vê, e
+      // uma postagem com três fotos são três memórias para quem olha.
+      expect(find.text('4 itens'), findsOneWidget);
+    });
+
+    testWidgets('períodos diferentes recebem cabeçalhos separados', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.photo,
+            date: DateTime(2027, 4, 22),
+            fileCount: 1,
+          ),
+          entry(
+            type: EntryType.photo,
+            date: DateTime(2027, 3, 18),
+            fileCount: 1,
+          ),
+        ]),
+      );
+      await tester.pump();
+
+      expect(find.text('Abril de 2027'), findsOneWidget);
+      expect(find.text('Março de 2027'), findsOneWidget);
+    });
+
+    testWidgets('o mesmo acervo se reagrupa quando a lente muda', (
+      WidgetTester tester,
+    ) async {
+      final List<Entry> acervo = <Entry>[
+        entry(type: EntryType.photo, date: DateTime(2027, 4, 22), fileCount: 1),
+        entry(type: EntryType.photo, date: DateTime(2027, 3, 18), fileCount: 1),
       ];
-    }
 
-    testWidgets('poucos itens aparecem direto, sem resumo', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(harness(noMesmoDia(3)));
+      await tester.pumpWidget(harness(acervo, periodo: Periodo.ano));
       await tester.pump();
+      // Um ano só, com os dois dentro.
+      expect(find.text('2027'), findsOneWidget);
+      expect(find.text('2 itens'), findsOneWidget);
 
-      expect(
-        find.textContaining('3 fotos'),
-        findsNothing,
-        reason: 'Esconder três fotos atrás de um toque não ajuda ninguém.',
-      );
-      expect(find.byType(TimelineCard), findsNWidgets(3));
+      await tester.pumpWidget(harness(acervo, periodo: Periodo.mes));
+      await tester.pump();
+      expect(find.text('Abril de 2027'), findsOneWidget);
+      expect(find.text('Março de 2027'), findsOneWidget);
     });
 
-    testWidgets('muitos itens começam recolhidos, mostrando o resumo', (
+    testWidgets('a data redonda ganha selo no período em que caiu', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(harness(noMesmoDia(12)));
+      // 22/01 + 70 dias = 02/04, que são dez semanas exatas. Sem a marca, o
+      // mês mais importante do acervo tem a mesma cara que um mês qualquer.
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.letter,
+            date: DateTime(2027, 4, 2),
+            title: 'Para minha filha',
+            description: 'Minha pequena,',
+          ),
+        ]),
+      );
       await tester.pump();
 
-      expect(find.text('12 fotos'), findsOneWidget);
-      expect(
-        find.byType(TimelineCard),
-        findsNothing,
-        reason: 'Recolhido é recolhido.',
-      );
+      expect(find.text('10 semanas'), findsOneWidget);
     });
 
-    testWidgets('tocar no resumo abre e fecha', (WidgetTester tester) async {
-      await tester.pumpWidget(harness(noMesmoDia(12)));
+    testWidgets('um período sem data redonda não inventa selo', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.letter,
+            date: DateTime(2027, 4, 3),
+            title: 'Para minha filha',
+            description: 'Minha pequena,',
+          ),
+        ]),
+      );
       await tester.pump();
 
-      await tester.tap(find.text('12 fotos'));
-      await tester.pumpAndSettle();
-      expect(find.byType(TimelineCard), findsWidgets);
+      expect(find.text('10 semanas'), findsNothing);
+      expect(find.text('Abril de 2027'), findsOneWidget);
+    });
+  });
 
-      await tester.tap(find.text('12 fotos'));
-      await tester.pumpAndSettle();
+  group('o que não é imagem continua em cartão', () {
+    testWidgets('cartas aparecem com o prefixo "Carta:"', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.letter,
+            date: DateTime(2027, 4, 2),
+            title: 'Para minha filha',
+            description: 'Minha pequena,',
+          ),
+        ]),
+      );
+      await tester.pump();
+
+      expect(find.text('Carta: Para minha filha'), findsOneWidget);
+      expect(find.text('Minha pequena,'), findsOneWidget);
+    });
+
+    testWidgets('registro de crescimento mostra peso e altura', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.growth,
+            date: DateTime(2027, 3, 22),
+            growth: const GrowthData(weightGrams: 4200, heightCm: 55),
+          ),
+        ]),
+      );
+      await tester.pump();
+
+      expect(find.text('Registro de crescimento'), findsOneWidget);
+      expect(find.text('4,200 kg'), findsOneWidget);
+      expect(find.text('55 cm'), findsOneWidget);
+    });
+
+    testWidgets('foto não vira cartão: ela vai para o mosaico', (
+      WidgetTester tester,
+    ) async {
+      // A separação que o desenho novo faz. Sem ela, uma carta viraria um
+      // retângulo cinza no meio das fotos, e uma foto viraria um cartão com
+      // título dentro de uma lista que já é visual.
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.photo,
+            date: DateTime(2027, 4, 22),
+            fileCount: 4,
+          ),
+        ]),
+      );
+      await tester.pump();
+
       expect(find.byType(TimelineCard), findsNothing);
+      expect(find.text('4 itens'), findsOneWidget);
+    });
+
+    testWidgets('imagem e cartão convivem no mesmo período', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        harness(<Entry>[
+          entry(
+            type: EntryType.photo,
+            date: DateTime(2027, 4, 22),
+            fileCount: 2,
+          ),
+          entry(
+            type: EntryType.growth,
+            date: DateTime(2027, 4, 10),
+            growth: const GrowthData(weightGrams: 5800, heightCm: 61),
+          ),
+        ]),
+      );
+      await tester.pump();
+
+      expect(find.byType(TimelineCard), findsOneWidget);
+      expect(find.text('Registro de crescimento'), findsOneWidget);
+      expect(find.text('3 itens'), findsOneWidget);
     });
   });
 }

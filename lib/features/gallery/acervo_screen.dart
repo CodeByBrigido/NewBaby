@@ -259,26 +259,24 @@ class _CabecalhoDoMes extends StatelessWidget {
         Space.x8,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Divider(height: 1, color: context.cores.divider),
           const SizedBox(height: Space.x12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: <Widget>[
-              // Mês e ano sempre juntos. Só o mês seria a mesma frase em
-              // vinte anos diferentes, e num acervo que atravessa décadas
-              // isso não localiza nada.
-              Text(Fmt.monthYear(secao.mes), style: text.titleSmall),
-              const SizedBox(width: Space.x8),
-              Text(
-                Fmt.count(secao.mosaico.quantos, 'item', 'itens'),
-                style: text.labelSmall?.copyWith(
-                  color: context.cores.textSecondary,
-                ),
-              ),
-            ],
+          // Centralizado e sozinho.
+          //
+          // Sem a contagem de itens: aqui ela era um número que ninguém foi
+          // buscar. Quem abre o acervo quer ver as fotos, e saber que julho
+          // teve onze não muda nada do que se faz em seguida. Na linha do
+          // tempo é diferente, porque lá o número diz o tamanho do mês antes
+          // de a pessoa decidir se entra nele.
+          //
+          // Mês e ano sempre juntos: só o mês seria a mesma frase em vinte
+          // anos diferentes.
+          Text(
+            Fmt.monthYear(secao.mes),
+            textAlign: TextAlign.center,
+            style: text.titleSmall,
           ),
         ],
       ),
