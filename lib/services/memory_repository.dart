@@ -400,6 +400,35 @@ class MemoryRepository {
     }
   }
 
+  /// Troca o nome que a lista mostra, sem tocar no arquivo do Drive.
+  ///
+  /// São duas coisas diferentes de propósito. O arquivo no Drive mantém o
+  /// nome com que foi enviado, porque é ele que a pessoa vai reconhecer se
+  /// um dia abrir a pasta sem o aplicativo; o título é como ela quer chamar
+  /// aquilo aqui dentro. `IMG_20240412_093311.pdf` não é nome de certidão.
+  Future<void> renomear(String uid, String entryId, String titulo) {
+    final String limpo = titulo.trim();
+    return firestore.patchEntry(uid, entryId, <String, Object?>{
+      'titulo': limpo.isEmpty ? null : limpo,
+    });
+  }
+
+  /// Grava a ordem escolhida à mão, uma posição por documento.
+  ///
+  /// Recebe a lista inteira já na ordem final, e não "moveu de 3 para 1".
+  /// Regravar todos é mais escrita, e é o que garante que a lista no
+  /// aparelho e a do Firestore não possam discordar depois de dois
+  /// arrastões seguidos.
+  Future<void> reordenar(String uid, List<Entry> naOrdem) async {
+    await Future.wait(<Future<void>>[
+      for (int i = 0; i < naOrdem.length; i++)
+        if (naOrdem[i].ordem != i)
+          firestore.patchEntry(uid, naOrdem[i].id, <String, Object?>{
+            'ordem': i,
+          }),
+    ]);
+  }
+
   /// Reenvia uma entrada que falhou, reaproveitando os arquivos originais.
   Future<void> retry(String uid, BabyProfile profile, Entry entry) async {
     final List<PendingFile> pending = entry.files

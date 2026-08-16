@@ -21,6 +21,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 import '../growth/growth_editor_sheet.dart';
+import '../documents/nome_do_documento.dart';
 import 'envio_em_andamento.dart';
 
 /// Folha "O que você deseja adicionar?".
@@ -506,18 +507,39 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
     return;
   }
 
-  // Cada documento vira uma entrada com o nome do próprio arquivo, então o
-  // envio é um por vez. A pergunta, não: confirmar cinco vezes seguidas é o
-  // jeito mais rápido de a pessoa parar de ler o que está confirmando.
-  final DateTime? confirmada = await confirmarEnvio(
-    context,
-    g: Copy.of(ctx.profile),
-    profile: ctx.profile,
-    type: EntryType.document,
-    quantidade: files.length,
-    lote: lote,
-  );
-  if (confirmada == null || !context.mounted) return;
+  // Documento não pergunta a data: pergunta o nome.
+  //
+  // A data existe para escolher a pasta de idade, e documento não entra em
+  // pasta de idade (`EntryType.bucketsByAge`). Perguntar em que semana de
+  // vida da criança está a certidão de nascimento é perguntar por um dado
+  // que não vai ser usado, e cada pergunta a mais no caminho é uma pessoa a
+  // menos que chega ao fim dele.
+  //
+  // O que falta de verdade é o nome. Sem ele a lista de documentos fica com
+  // `Scan_0007.jpg` e `IMG_20240412_093311.pdf`, e ninguém acha nada.
+  //
+  // Um por arquivo, e aqui a repetição se justifica: são nomes diferentes,
+  // não a mesma confirmação cinco vezes. Quem não quiser trocar só confirma,
+  // porque o campo já vem preenchido e selecionado.
+  final Map<String, String> nomes = <String, String>{};
+  for (final PlatformFile file in files) {
+    if (file.path == null) continue;
+    if (!context.mounted) return;
+    final String? nome = await perguntarNomeDoDocumento(
+      context,
+      sugestao: _titleFromFileName(file.name),
+      titulo: files.length == 1
+          ? 'Nome do documento'
+          : 'Nome do documento ${nomes.length + 1} de ${files.length}',
+    );
+    // Desistir de um nome desiste do envio inteiro. Mandar os anteriores e
+    // parar no meio deixaria metade guardada sem nenhum aviso de qual metade.
+    if (nome == null) return;
+    nomes[file.path!] = nome;
+  }
+  if (!context.mounted) return;
+
+  final DateTime confirmada = lote.quando;
 
   // Cada documento vira uma memória própria, mas a janela é uma só: uma por
   // arquivo seguraria o envio do próximo até alguém fechar a anterior.
@@ -538,7 +560,7 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
           name: file.name,
         ),
       ],
-      title: _titleFromFileName(file.name),
+      title: nomes[file.path!],
       message: 'Enviando ${file.name}...',
       keepSheetOpen: true,
       mostrarJanela: false,

@@ -231,6 +231,7 @@ class Entry {
     this.deletedAt,
     this.errorMessage,
     this.sealedUntil,
+    this.ordem,
   });
 
   final String id;
@@ -266,6 +267,14 @@ class Entry {
   final UploadStatus uploadStatus;
   final DateTime? deletedAt;
   final String? errorMessage;
+
+  /// Posição escolhida à mão, quando existe.
+  ///
+  /// Só os documentos usam. Certidão, carteira de vacinação e passaporte não
+  /// têm ordem natural: a data em que alguém fotografou a certidão não diz
+  /// nada sobre a importância dela, e quem procura um documento procura pelo
+  /// que ele é. `null` quer dizer "nunca foi arrastado", e aí vale a data.
+  final int? ordem;
 
   /// Guardado para ser aberto só a partir desta data.
   ///
@@ -339,6 +348,7 @@ class Entry {
     String? bucketKey,
     String? bucketName,
     DateTime? sealedUntil,
+    int? ordem,
     bool clearError = false,
     bool clearSeal = false,
   }) {
@@ -360,6 +370,7 @@ class Entry {
       deletedAt: deletedAt ?? this.deletedAt,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       sealedUntil: clearSeal ? null : (sealedUntil ?? this.sealedUntil),
+      ordem: ordem ?? this.ordem,
     );
   }
 
@@ -380,6 +391,7 @@ class Entry {
     'excluidoEm': deletedAt == null ? null : Timestamp.fromDate(deletedAt!),
     'erro': errorMessage,
     'lacradoAte': sealedUntil == null ? null : Timestamp.fromDate(sealedUntil!),
+    'ordem': ordem,
   };
 
   static Entry fromMap(String id, Map<String, Object?> map) {
@@ -409,6 +421,7 @@ class Entry {
       deletedAt: _toDate(map['excluidoEm']),
       errorMessage: map['erro'] as String?,
       sealedUntil: _toDate(map['lacradoAte']),
+      ordem: (map['ordem'] as num?)?.toInt(),
     );
   }
 

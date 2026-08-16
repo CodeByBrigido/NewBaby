@@ -92,12 +92,18 @@ class _Row extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
+    // O rótulo ocupa o que precisa; o resto da linha é do valor.
+    //
+    // Antes os dois eram flexíveis, e aí a linha se dividia ao meio mesmo
+    // quando o rótulo era curto: sobrava vão em branco à esquerda e o valor
+    // quebrava em três linhas à direita. Quem paga essa conta é a idade, que
+    // é o valor mais longo daqui e o único que cresce com o tempo.
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Expanded(child: Text(label, style: text.bodySmall)),
+        Text(label, style: text.bodySmall),
         const SizedBox(width: Space.x16),
-        Flexible(
+        Expanded(
           child: Text(value, style: text.titleSmall, textAlign: TextAlign.end),
         ),
       ],

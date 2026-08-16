@@ -238,7 +238,13 @@ abstract final class S {
       'Esta ação não pode ser desfeita.';
 
   // Perfil
-  static const String currentAge = 'Idade atual';
+  //
+  // "Idade" e não "Idade atual": o rótulo divide a linha com o valor, e o
+  // valor aqui é o texto mais longo do aplicativo ("20 anos e 11 meses e 30
+  // dias"). Cada palavra a menos no rótulo é largura a mais para ele caber
+  // sem quebrar em três linhas. Ao lado de "Data de nascimento", "Idade"
+  // não deixa dúvida sobre o que é.
+  static const String currentAge = 'Idade';
   static const String signOutConfirmTitle = 'Sair da conta?';
   static const String signOutConfirmBody =
       'Suas memórias continuam guardadas no seu Google Drive. As miniaturas '

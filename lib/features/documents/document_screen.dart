@@ -16,6 +16,7 @@ import '../../models/entry.dart';
 import '../../services/lock_service.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import 'nome_do_documento.dart';
 import '../../core/utils/error_text.dart';
 
 /// Detalhe de um documento: abrir, baixar ou compartilhar.
@@ -72,6 +73,19 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     );
   }
 
+  /// Troca o nome que a lista mostra. O arquivo no Drive não muda.
+  Future<void> _renomear(Entry entry) async {
+    final String? nome = await perguntarNomeDoDocumento(
+      context,
+      sugestao: entry.title ?? entry.coverFile?.name ?? '',
+      titulo: 'Renomear documento',
+    );
+    if (nome == null || !mounted) return;
+    final String? uid = ref.read(uidProvider);
+    if (uid == null) return;
+    await ref.read(memoryRepositoryProvider).renomear(uid, entry.id, nome);
+  }
+
   Future<void> _delete(Entry entry) async {
     final bool confirmed = await confirm(
       context,
@@ -121,7 +135,13 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
         ),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.drive_file_rename_outline),
+            tooltip: 'Renomear',
+            onPressed: () => _renomear(entry),
+          ),
+          IconButton(
             icon: const Icon(Icons.delete_outline),
+            tooltip: S.delete,
             onPressed: () => _delete(entry),
           ),
         ],
