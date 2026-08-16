@@ -1,3 +1,6 @@
+@Tags(<String>['previa'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -21,9 +24,10 @@ import 'fonte_de_verdade.dart';
 /// proporção de cada retângulo é a mesma que a foto teria, então o
 /// enquadramento na tela é fiel mesmo sem a imagem.
 ///
-/// Não roda por padrão: gerar imagem em toda execução da suíte deixaria o
-/// CI comparando pixels e falhando por diferença de máquina. Roda à mão com
-/// `flutter test --update-goldens test/previa_do_acervo_test.dart`.
+/// Marcada com a etiqueta `previa`, que o `dart_test.yaml` pula: deixar a
+/// suíte comparando pixels faria o CI falhar por diferença de máquina. Roda
+/// à mão com
+/// `flutter test --run-skipped --update-goldens test/previa_do_acervo_test.dart`.
 void main() {
   setUpAll(() async {
     await initializeDateFormatting('pt_BR');
