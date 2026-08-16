@@ -99,32 +99,49 @@ class ProfileScreen extends ConsumerWidget {
                 ],
                 const SizedBox(height: Space.x24),
                 SoftCard(
-                  // Uma linha por dado, e não duas colunas.
+                  // Os dois dados lado a lado, como sempre foram.
                   //
-                  // Em duas colunas cada dado ficava com metade do cartão, e
-                  // metade não cabe a idade: ela quebrava ao lado de uma data
-                  // de uma linha só, com um divisor de 34 px fixos no meio
-                  // que ficava mais curto que o texto. Aos poucos meses de
-                  // vida ninguém via o problema; ele aparece sozinho conforme
-                  // a criança cresce, que é justamente o horizonte deste
-                  // aplicativo.
+                  // Cheguei a empilhá-los porque a idade não cabia, e a
+                  // culpa não era da idade: era do rótulo. "Data de
+                  // nascimento" ocupa 114 px, enquanto a data em si ocupa
+                  // 77. O rótulo curto devolve quase quarenta pixels para a
+                  // coluna da idade, que é a única que cresce com o tempo.
                   //
-                  // Empilhado, cada dado tem a largura inteira do cartão, e a
-                  // idade completa cabe numa linha num telefone comum.
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      _Fact(label: S.birthDate, value: Fmt.date(profile.birth)),
-                      const SizedBox(height: Space.x12),
-                      Divider(height: 1, color: context.cores.divider),
-                      const SizedBox(height: Space.x12),
-                      _Fact(
-                        label: S.currentAge,
-                        value: profile.ageNow().detailedLabel(
-                          alwaysShowDays: true,
+                  // A divisão é 2 para 5, e não meio a meio: a data tem
+                  // tamanho fixo para sempre, a idade vai de "3 dias" a
+                  // "20 anos, 10 meses e 30 dias". Dar metade a cada uma é
+                  // repartir por simetria em vez de por necessidade.
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: _Fact(
+                            label: S.birthDateShort,
+                            value: Fmt.date(profile.birth),
+                          ),
                         ),
-                      ),
-                    ],
+                        // O divisor acompanha a altura do conteúdo em vez de
+                        // ter uma altura fixa. Antes eram 34 px cravados, e
+                        // bastava a idade ganhar uma linha para ele ficar
+                        // visivelmente mais curto que o texto ao lado.
+                        VerticalDivider(
+                          width: Space.x16,
+                          thickness: 1,
+                          color: context.cores.divider,
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: _Fact(
+                            label: S.currentAge,
+                            value: profile.ageNow().detailedLabel(
+                              alwaysShowDays: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: Space.x20),
@@ -314,21 +331,12 @@ class _Fact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
-    // Rótulo à esquerda, valor encostado na borda direita do cartão. O valor
-    // é o que se procura ao abrir o Perfil, e alinhado à direita ele tem a
-    // largura toda que sobra do rótulo para quebrar quando precisar.
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(label, style: text.labelSmall),
-        const SizedBox(width: Space.x12),
-        Expanded(
-          child: Text(
-            value,
-            style: text.titleSmall,
-            textAlign: TextAlign.right,
-          ),
-        ),
+        Text(label, style: text.labelSmall, textAlign: TextAlign.center),
+        const SizedBox(height: Space.x4),
+        Text(value, style: text.titleSmall, textAlign: TextAlign.center),
       ],
     );
   }
