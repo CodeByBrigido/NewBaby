@@ -114,21 +114,69 @@ class Age {
   /// Com [alwaysShowDays] o `e 0 dias` é mantido - é o formato do perfil
   /// e do menu lateral (`3 meses e 0 dias`).
   String detailedLabel({bool alwaysShowDays = false}) {
-    if (totalDays == 0) return 'No nascimento';
-    if (months == 0) return _plural(totalDays, 'dia', 'dias');
+    final List<String> partes = _partes(alwaysShowDays: alwaysShowDays);
+    if (partes.isEmpty) return 'No nascimento';
+    return _juntar(partes);
+  }
 
-    final String head = months < 12
-        ? _plural(months, 'mês', 'meses')
-        : monthsInYear == 0
-        ? _plural(years, 'ano', 'anos')
-        : '${_plural(years, 'ano', 'anos')} e '
-              '${_plural(monthsInYear, 'mês', 'meses')}';
+  /// O mesmo rótulo em duas linhas, com os dias embaixo.
+  ///
+  /// Existe para o painel da tela inicial, onde a idade vem grande. Ali
+  /// `1 ano, 9 meses e 14 dias` não cabe numa linha e a quebra automática
+  /// caía no pior lugar possível, separando o número da unidade:
+  ///
+  /// ```
+  /// 1 ano, 9 meses e 14
+  /// dias
+  /// ```
+  ///
+  /// Quebrar onde a frase permite é diferente de deixar quebrar onde couber.
+  ///
+  /// Só quebra com três parcelas, que é quando a frase de fato não cabe.
+  /// `1 mês e 14 dias` continua numa linha: parti-lo seria criar o problema
+  /// que este método existe para resolver.
+  ///
+  /// A primeira linha usa vírgula, e não "e", porque a frase continua na
+  /// linha de baixo. Fechar a de cima com "e" faria as duas juntas lerem
+  /// `1 ano e 9 meses e 14 dias`, que é exatamente o erro que saiu daqui.
+  List<String> detailedLines({bool alwaysShowDays = false}) {
+    final List<String> partes = _partes(alwaysShowDays: alwaysShowDays);
+    if (partes.isEmpty) return const <String>['No nascimento'];
+    if (partes.length < 3) return <String>[_juntar(partes)];
+    return <String>[
+      partes.sublist(0, partes.length - 1).join(', '),
+      'e ${partes.last}',
+    ];
+  }
+
+  /// As parcelas da idade, já sem as que não valem a pena mostrar.
+  List<String> _partes({required bool alwaysShowDays}) {
+    if (totalDays == 0) return const <String>[];
+    if (months == 0) return <String>[_plural(totalDays, 'dia', 'dias')];
+
+    final List<String> partes = <String>[
+      if (months >= 12) _plural(years, 'ano', 'anos'),
+      if (months < 12 || monthsInYear > 0)
+        _plural(months < 12 ? months : monthsInYear, 'mês', 'meses'),
+    ];
 
     // A partir de um ano os dias poluem a leitura, então só aparecem
     // quando explicitamente pedidos.
-    if (months >= 12 && !alwaysShowDays) return head;
-    if (daysInMonth == 0 && !alwaysShowDays) return head;
-    return '$head e ${_plural(daysInMonth, 'dia', 'dias')}';
+    final bool comDias = alwaysShowDays || (months < 12 && daysInMonth != 0);
+    if (comDias) partes.add(_plural(daysInMonth, 'dia', 'dias'));
+    return partes;
+  }
+
+  /// Junta as parcelas como se escreve em português.
+  ///
+  /// Só a última leva "e"; as anteriores se separam por vírgula. Aqui isso
+  /// não é preciosismo: com três parcelas, juntar tudo com "e" produzia
+  /// `1 ano e 9 meses e 14 dias`, que é a frase que aparecia na tela inicial
+  /// e que se lê como erro de digitação.
+  static String _juntar(List<String> partes) {
+    if (partes.length == 1) return partes.single;
+    final String inicio = partes.sublist(0, partes.length - 1).join(', ');
+    return '$inicio e ${partes.last}';
   }
 
   static String _plural(int value, String one, String many) =>

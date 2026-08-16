@@ -400,6 +400,18 @@ class MemoryRepository {
     }
   }
 
+  /// Corrige o cadastro e reescreve o `Informacoes.txt`.
+  ///
+  /// As duas coisas juntas de propósito: o `.txt` é a versão legível do
+  /// cadastro para quem abrir o Drive sem o aplicativo, e um cadastro
+  /// corrigido no Firestore com o arquivo antigo no Drive são duas verdades
+  /// diferentes sobre a mesma criança. Numa cápsula de vinte anos, a que
+  /// sobrevive é a do arquivo.
+  Future<void> atualizarCadastro(String uid, BabyProfile profile) async {
+    await firestore.saveProfile(uid, profile);
+    await escreverInformacoes(uid, profile);
+  }
+
   /// Troca o nome que a lista mostra, sem tocar no arquivo do Drive.
   ///
   /// São duas coisas diferentes de propósito. O arquivo no Drive mantém o

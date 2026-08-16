@@ -172,8 +172,14 @@ class _Hero extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: Space.x4),
+                // A idade quebrada onde a frase permite, e não onde couber.
+                //
+                // Aqui ela vem grande, e `1 ano, 9 meses e 14 dias` não cabe
+                // numa linha. A quebra automática caía no pior lugar
+                // possível, separando o número da unidade: a linha de cima
+                // terminava em "14" e a de baixo começava em "dias".
                 Text(
-                  pulse.age.detailedLabel(alwaysShowDays: true),
+                  pulse.age.detailedLines(alwaysShowDays: true).join('\n'),
                   textAlign: TextAlign.center,
                   style: text.headlineSmall?.copyWith(
                     color: context.cores.onHero,

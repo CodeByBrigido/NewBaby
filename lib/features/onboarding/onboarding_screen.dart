@@ -101,8 +101,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       name: _name.text.trim(),
       gender: gender,
       birth: DateTime(date.year, date.month, date.day, time.hour, time.minute),
-      birthWeightGrams: _parseWeightGrams(_weight.text),
-      birthHeightCm: _parseDecimal(_height.text),
+      birthWeightGrams: Fmt.parseWeightGrams(_weight.text),
+      birthHeightCm: Fmt.parseDecimal(_height.text),
       hospital: _hospital.text.trim().isEmpty ? null : _hospital.text.trim(),
     );
 
@@ -253,7 +253,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     suffixText: 'kg',
                   ),
                   validator: (String? v) =>
-                      _parseWeightGrams(v ?? '') == null && (v ?? '').isNotEmpty
+                      Fmt.parseWeightGrams(v ?? '') == null &&
+                          (v ?? '').isNotEmpty
                       ? S.invalidNumber
                       : null,
                 ),
@@ -269,7 +270,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     suffixText: 'cm',
                   ),
                   validator: (String? v) =>
-                      _parseDecimal(v ?? '') == null && (v ?? '').isNotEmpty
+                      Fmt.parseDecimal(v ?? '') == null && (v ?? '').isNotEmpty
                       ? S.invalidNumber
                       : null,
                 ),
@@ -330,20 +331,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 final TextInputFormatter _decimalFormatter = FilteringTextInputFormatter.allow(
   RegExp(r'[0-9.,]'),
 );
-
-double? _parseDecimal(String raw) {
-  final String cleaned = raw.trim().replaceAll(',', '.');
-  if (cleaned.isEmpty) return null;
-  final double? value = double.tryParse(cleaned);
-  return (value == null || value <= 0) ? null : value;
-}
-
-/// Peso vem em quilos e é guardado em gramas, para não acumular erro de
-/// ponto flutuante ao longo dos anos.
-int? _parseWeightGrams(String raw) {
-  final double? kg = _parseDecimal(raw);
-  return kg == null ? null : (kg * 1000).round();
-}
 
 class _PhotoPicker extends StatelessWidget {
   const _PhotoPicker({required this.photo, required this.onTap});

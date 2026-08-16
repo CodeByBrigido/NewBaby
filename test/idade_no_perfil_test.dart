@@ -22,7 +22,11 @@ import 'package:meu_bebe/features/common/widgets.dart';
 /// usando, anos depois de alguém ter escrito o código.
 void main() {
   /// A forma mais longa possível: dois dígitos em cada uma das três partes.
-  const String maisLonga = '20 anos e 11 meses e 30 dias';
+  ///
+  /// Com vírgula e um "e" só, que é como se escreve em português. A forma
+  /// antiga (`20 anos e 11 meses e 30 dias`) tinha dois "e" e era, além de
+  /// errada, dois caracteres mais longa.
+  const String maisLonga = '20 anos, 11 meses e 30 dias';
 
   /// Uma tela de telefone comum, em pontos lógicos.
   Future<void> montar(WidgetTester tester, Widget filho, {double dp = 360}) {
@@ -67,7 +71,7 @@ void main() {
       final String real = idade.detailedLabel(alwaysShowDays: true);
       expect(
         real,
-        matches(RegExp(r'^\d+ anos? e \d+ (mês|meses) e \d+ dias?$')),
+        matches(RegExp(r'^\d+ anos?, \d+ (mês|meses) e \d+ dias?$')),
       );
       expect(
         real.length,
