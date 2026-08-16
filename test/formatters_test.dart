@@ -19,10 +19,22 @@ void main() {
       expect(Fmt.monthYear(DateTime(2027, 3, 1)), 'Março de 2027');
     });
 
-    test('intervalo do balde de idade', () {
+    test('intervalo do balde de idade diz de que ano é', () {
+      // Sem o ano, "22/01 a 28/01" é a mesma frase em vinte anos diferentes.
+      // Num acervo que atravessa décadas, um período sem ano é um período
+      // sem lugar, e foi assim que ele foi relatado: "é de qual ano?".
       expect(
         Fmt.dateRange(DateTime(2027, 1, 22), DateTime(2027, 1, 28)),
-        '22/01 a 28/01',
+        '22/01 a 28/01 de 2027',
+      );
+    });
+
+    test('quando o período vira o ano, cada ponta leva o seu', () {
+      // Um ano só no fim seria mentira sobre a primeira data. Acontece em
+      // toda semana e todo mês que cruzam 31 de dezembro.
+      expect(
+        Fmt.dateRange(DateTime(2027, 12, 27), DateTime(2028, 1, 2)),
+        '27/12/2027 a 02/01/2028',
       );
     });
 

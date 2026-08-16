@@ -121,11 +121,16 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
         // cinza-escuro sobre o preto da tela.
         iconTheme: const IconThemeData(color: Colors.white),
         actionsIconTheme: const IconThemeData(color: Colors.white),
+        // A cor precisa estar escrita aqui, pela mesma razão dos ícones
+        // acima: o tema do aplicativo define `appBarTheme.titleTextStyle`
+        // com a cor escura do texto, e ela vence o `foregroundColor`. Sem o
+        // branco explícito, o período da foto sai cinza-escuro sobre o preto
+        // da tela, legível só contra a luz.
         title: Text(
           profile == null
               ? Fmt.date(entry.date)
               : profile.ageAt(entry.date).detailedLabel(),
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.ios_share), onPressed: _share),

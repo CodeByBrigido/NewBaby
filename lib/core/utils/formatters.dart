@@ -27,8 +27,21 @@ abstract final class Fmt {
   static String time(DateTime d) => _time.format(d);
 
   /// `22/01 a 28/01` - subtítulo dos baldes de idade.
-  static String dateRange(DateTime start, DateTime end) =>
-      '${dayMonth(start)} a ${dayMonth(end)}';
+  /// `02/01 a 02/02 de 2025`, ou com os dois anos quando o período vira o ano.
+  ///
+  /// O ano não é enfeite. Sem ele o intervalo é `02/01 a 02/02`, e num
+  /// aplicativo cujo acervo atravessa décadas isso não diz de que ano se
+  /// está falando: a mesma semana existe em vinte anos diferentes. Numa
+  /// cápsula do tempo, um período sem ano é um período sem lugar.
+  ///
+  /// Quando o intervalo cruza a virada do ano, cada ponta leva o próprio
+  /// ano, porque aí um ano só no fim seria mentira sobre a primeira data.
+  static String dateRange(DateTime start, DateTime end) {
+    if (start.year == end.year) {
+      return '${dayMonth(start)} a ${dayMonth(end)} de ${start.year}';
+    }
+    return '${date(start)} a ${date(end)}';
+  }
 
   /// Prefixo do nome do arquivo enviado ao Drive: `2027-01-22_143500`.
   static String fileStamp(DateTime d) => _fileStamp.format(d);
