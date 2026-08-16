@@ -104,11 +104,11 @@ ilustração desenhada por `InspirationArt`, então nada quebra e nada avisa.
 Basta soltar os arquivos em `assets/inspiracoes/`. Sem código, sem
 `pubspec.yaml`, sem catálogo. O `LEIA-ME.md` da pasta explica.
 
-### 3. Uma pergunta em aberto sobre a cor
+### 3. ~~Uma pergunta em aberto sobre a cor~~ resolvida
 
-O fundo creme (`#FCF3EE`) foi aplicado às três paletas, inclusive a de
-menino. Não foi dito se o azul deve voltar ali. Enquanto não for, fica como
-está.
+O fundo creme tinha sido aplicado às três paletas. Ficou decidido que na Sky
+ele não serve, e o menino passou a ter papel frio (`#F1F5FB`). Ver
+[O papel de cada tema](#o-papel-de-cada-tema-).
 
 ### 4. A pasta `Crescimento` nasce vazia
 
@@ -831,6 +831,48 @@ A pasta de semana volta com uma seção só, de título vazio, e nenhum cabeçal
 O visualizador em tela cheia continua deslizando pela pasta inteira, e não só
 pela seção em que se tocou: quem está olhando uma foto da Semana 2 espera
 chegar na Semana 3 arrastando.
+
+### O papel de cada tema ✅
+
+O creme (`#FCF3EE`) tinha ido para as três paletas. Na Lavender ele está
+certo, mas ele é um papel **quente** (matiz 21°) e não sai da paleta de
+ninguém: existe para harmonizar com o rosa. Sobre a Sky, que é fria inteira,
+ele briga.
+
+A Sky passou a ter papel próprio, `#F1F5FB`, tirado dela mesma: matiz 216° e
+saturação 56%, contra 213° e 57% do `primary`, clareado até dar exatamente a
+mesma presença do creme contra um cartão branco (1,0941:1 nos dois). Os dois
+temas têm o mesmo peso de papel, e só a temperatura muda.
+
+#### O preenchimento teve de mudar junto, e esse é o aprendizado
+
+Trocar só o fundo teria quebrado a tela em silêncio. O que separa
+`surfaceMuted` do papel na Lavender é a **temperatura**: o fundo tem b* +3,5
+e o preenchimento b* -2,7, e essa virada responde por quase todo o ΔE 6,87
+entre os dois. Com o fundo frio, o preenchimento azul de antes caía para
+ΔE 1,48, abaixo do limiar em que o olho separa duas cores, e o esqueleto, a
+miniatura e o cartão sumiriam dentro da tela.
+
+A saída estava na própria paleta, no verde-água do `accent`: `#E9F2EE`,
+ΔE 5,71 do papel novo, com a mesma presença do preenchimento da Lavender. O
+eixo mudou de temperatura para matiz, o resultado é o mesmo.
+
+#### Um defeito antigo que apareceu junto
+
+A guarda nova reprovou também o tema **Welcome**, e ali o problema já existia
+havia meses: fundo `#FCF3EE` e preenchimento `#F8F0EB` a ΔE 1,18. Esqueleto e
+cartão eram desenhados e não apareciam, justamente nas telas de apresentação
+e de login, que são as primeiras que alguém vê. Passou despercebido porque
+**nada dá erro quando uma cor some**. Corrigido para `#F5E9E0`, areia.
+
+#### Por que a regra da WCAG não pegava nada disso
+
+Contraste da WCAG só enxerga claro contra escuro. Duas cores de luminância
+parecida e matizes diferentes voltam com razão perto de 1 mesmo sendo
+perfeitamente distinguíveis, e o contrário também: no caso da Sky a razão ia
+de 1,007 para 1,101, e nenhum dos dois números diz nada sobre sumir. Por isso
+o teste novo mede distância em CIE Lab, que é o espaço onde "o olho separa"
+tem significado.
 
 ### O acerto visual ✅
 
