@@ -24,10 +24,18 @@ import 'package:meu_bebe/features/common/widgets.dart';
 ///
 /// Por isso a garantia de linha única vale para 360 dp, que é o telefone
 /// comum, e a de nunca truncar vale para qualquer largura.
+///
+/// A idade não entra nessa garantia, e a conta explica por quê: com os dias
+/// ela pede 378 px e o cartão tem 288. Encolher a fonte até caber daria
+/// 10,7 px, abaixo dos 12 px que são o menor tamanho da escala. Então ela
+/// quebra em duas linhas, mas no lugar que a frase permite, e em tamanho
+/// normal.
 void main() {
-  /// O texto mais longo de cada campo que precisa caber numa linha.
+  /// O texto mais longo de cada campo.
   const String dataPorExtenso = '10 de abril de 2026';
-  const String idadeMaisLonga = '20 anos e 11 meses';
+
+  /// A idade completa, já quebrada onde a frase permite.
+  const String idadeEmDuasLinhas = '20 anos, 11 meses\ne 30 dias';
 
   Future<void> montar(WidgetTester tester, {required double dp}) {
     tester.view.physicalSize = Size(dp * 3, 2400);
@@ -45,7 +53,7 @@ void main() {
                 children: <Widget>[
                   _linha(S.birthDate, dataPorExtenso),
                   const Divider(height: 26),
-                  _linha(S.currentAge, idadeMaisLonga),
+                  _linha(S.currentAge, idadeEmDuasLinhas),
                 ],
               ),
             ),
@@ -64,10 +72,40 @@ void main() {
       expect(tester.getRect(find.text(dataPorExtenso)).height, 20);
     });
 
-    testWidgets('a idade cabe numa linha', (WidgetTester tester) async {
+    testWidgets('a idade ocupa duas linhas, e não mais', (
+      WidgetTester tester,
+    ) async {
+      // Duas é o que a quebra deliberada produz. Três significaria que uma
+      // das duas linhas também não coube, e aí a quebra automática voltou a
+      // mandar.
       await montar(tester, dp: 360);
       await tester.pumpAndSettle();
-      expect(tester.getRect(find.text(idadeMaisLonga)).height, 20);
+      expect(tester.getRect(find.text(idadeEmDuasLinhas)).height, 40);
+    });
+  });
+
+  group('a idade com os dias', () {
+    test('não caberia numa linha em tamanho legível', () {
+      // A conta que decidiu o desenho, presa aqui para ninguém "consertar"
+      // isto encolhendo a fonte: seria preciso ir a menos de 12 px, que é o
+      // menor tamanho da escala do Design System.
+      const double larguraDoCartao = 288;
+      final TextPainter medidor = TextPainter(
+        text: const TextSpan(
+          text: '20 anos, 11 meses e 30 dias',
+          style: TextStyle(fontSize: 14),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      final double tamanhoNecessario = 14 * larguraDoCartao / medidor.width;
+      expect(
+        tamanhoNecessario,
+        lessThan(12),
+        reason:
+            'se um dia couber acima de 12 px, a idade pode voltar a ser uma '
+            'linha só',
+      );
     });
   });
 
@@ -84,7 +122,10 @@ void main() {
         await montar(tester, dp: dp);
         await tester.pumpAndSettle();
 
-        for (final String valor in <String>[dataPorExtenso, idadeMaisLonga]) {
+        for (final String valor in <String>[
+          dataPorExtenso,
+          idadeEmDuasLinhas,
+        ]) {
           final RenderBox caixa = tester.renderObject<RenderBox>(
             find.text(valor),
           );

@@ -75,17 +75,24 @@ class BabyInfoScreen extends ConsumerWidget {
                         _Row(label: 'Hospital', value: profile.hospital!),
                       ],
                       const Divider(height: 26),
-                      // Sem os dias, ao contrário da tela inicial.
+                      // Com os dias, quebrada onde a frase permite.
                       //
-                      // Aqui a idade divide a linha com o rótulo, e
-                      // `20 anos, 11 meses e 30 dias` não cabe numa linha em
-                      // largura nenhuma que este cartão tenha. Os dias são a
-                      // parcela que envelhece pior: num cartão de dados de
-                      // nascimento, "20 anos e 11 meses" é o que se procura,
-                      // e a contagem exata continua grande na tela inicial.
+                      // Numa linha só ela não cabe: `20 anos, 11 meses e 30
+                      // dias` pede 378 px e o cartão tem 288. Encolher a
+                      // fonte até caber daria 10,7 px, abaixo dos 12 px que
+                      // são o menor tamanho da escala, e naquele tamanho o
+                      // texto deixa de ser legível de braço estendido.
+                      //
+                      // Então a idade quebra em duas linhas, mas no lugar
+                      // certo: "20 anos, 11 meses" em cima e "e 2 dias"
+                      // embaixo, as duas em tamanho normal. É a mesma quebra
+                      // do painel da tela inicial.
                       _Row(
                         label: S.currentAge,
-                        value: profile.ageNow().detailedLabel(),
+                        value: profile
+                            .ageNow()
+                            .detailedLines(alwaysShowDays: true)
+                            .join('\n'),
                       ),
                     ],
                   ),
