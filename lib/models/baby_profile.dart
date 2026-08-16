@@ -74,14 +74,22 @@ class BabyProfile {
     String? photoDriveId,
     String? rootFolderId,
     String? infoFileId,
+    // Apagar um campo opcional precisa ser dito, porque passar `null` num
+    // `copyWith` quer dizer "não mexe". Sem estes, quem apagasse o peso na
+    // tela de editar veria o valor antigo voltar sozinho ao salvar.
+    bool clearWeight = false,
+    bool clearHeight = false,
+    bool clearHospital = false,
   }) {
     return BabyProfile(
       name: name ?? this.name,
       birth: birth ?? this.birth,
       gender: gender ?? this.gender,
-      birthWeightGrams: birthWeightGrams ?? this.birthWeightGrams,
-      birthHeightCm: birthHeightCm ?? this.birthHeightCm,
-      hospital: hospital ?? this.hospital,
+      birthWeightGrams: clearWeight
+          ? null
+          : (birthWeightGrams ?? this.birthWeightGrams),
+      birthHeightCm: clearHeight ? null : (birthHeightCm ?? this.birthHeightCm),
+      hospital: clearHospital ? null : (hospital ?? this.hospital),
       photoDriveId: photoDriveId ?? this.photoDriveId,
       rootFolderId: rootFolderId ?? this.rootFolderId,
       infoFileId: infoFileId ?? this.infoFileId,

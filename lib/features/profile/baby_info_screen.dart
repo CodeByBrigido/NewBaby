@@ -21,6 +21,13 @@ class BabyInfoScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.edit_outlined),
+            tooltip: 'Editar',
+            onPressed: () => context.push(Routes.babyInfoEdit),
+          ),
+        ],
         title: Text(Copy.of(profile).babyInfo),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -68,11 +75,17 @@ class BabyInfoScreen extends ConsumerWidget {
                         _Row(label: 'Hospital', value: profile.hospital!),
                       ],
                       const Divider(height: 26),
+                      // Sem os dias, ao contrário da tela inicial.
+                      //
+                      // Aqui a idade divide a linha com o rótulo, e
+                      // `20 anos, 11 meses e 30 dias` não cabe numa linha em
+                      // largura nenhuma que este cartão tenha. Os dias são a
+                      // parcela que envelhece pior: num cartão de dados de
+                      // nascimento, "20 anos e 11 meses" é o que se procura,
+                      // e a contagem exata continua grande na tela inicial.
                       _Row(
                         label: S.currentAge,
-                        value: profile.ageNow().detailedLabel(
-                          alwaysShowDays: true,
-                        ),
+                        value: profile.ageNow().detailedLabel(),
                       ),
                     ],
                   ),
@@ -92,14 +105,25 @@ class _Row extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    // Rótulo em cima, valor embaixo, os dois centralizados.
+    //
+    // Antes era rótulo à esquerda e valor à direita, na mesma linha, e não
+    // cabia: os rótulos daqui são longos ("Data de nascimento", "Altura ao
+    // nascer") e ocupavam 216 dos 288 px do cartão, deixando menos de
+    // sessenta para o valor. Até `10/04/2026` quebrava em duas linhas.
+    //
+    // Empilhado, o valor tem a largura inteira do cartão, e a data por
+    // extenso e a idade cabem numa linha num telefone comum.
+    //
+    // **Sem `maxLines`, e isso é decisão.** Forçar linha única aqui trocaria
+    // a quebra por reticências, e num telefone estreito de 320 dp a data
+    // sairia cortada. Espremer um dado em duas linhas é feio; escondê-lo
+    // atrás de "..." é perder a informação que a pessoa veio ler.
+    return Column(
       children: <Widget>[
-        Expanded(child: Text(label, style: text.bodySmall)),
-        const SizedBox(width: Space.x16),
-        Flexible(
-          child: Text(value, style: text.titleSmall, textAlign: TextAlign.end),
-        ),
+        Text(label, style: text.bodySmall, textAlign: TextAlign.center),
+        const SizedBox(height: Space.x4),
+        Text(value, style: text.titleSmall, textAlign: TextAlign.center),
       ],
     );
   }

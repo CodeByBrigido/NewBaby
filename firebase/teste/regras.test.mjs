@@ -88,6 +88,17 @@ checar('título gigante é recusado',
 checar('lista de arquivos absurda é recusada',
   () => assertFails(setDoc(doc(ana, 'users/ana/entradas/e6'),
     { ...entradaValida, arquivos: new Array(61).fill({ driveId: 'a' }) })));
+// A posição escolhida à mão na lista de documentos. O campo é novo, e
+// campo novo só passa se estiver na lista de permitidos das regras.
+checar('a ordem escolhida à mão é aceita',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/e7'),
+    { ...entradaValida, ordem: 3 })));
+checar('ordem nula é aceita (nunca foi arrastado)',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/entradas/e8'),
+    { ...entradaValida, ordem: null })));
+checar('ordem que não é número é recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/entradas/e9'),
+    { ...entradaValida, ordem: 'primeiro' })));
 checar('perfil com campo estranho é recusado',
   () => assertFails(setDoc(doc(ana, 'users/ana/perfil/bebe'), { nome: 'Alice', extra: 1 })));
 checar('o id do Informacoes.txt cabe no perfil',

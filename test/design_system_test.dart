@@ -28,6 +28,41 @@ void main() {
     return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
   }
 
+  /// Distância entre duas cores como o olho a percebe, em CIE Lab.
+  ///
+  /// Contraste da WCAG não serve aqui: ele só enxerga claro contra escuro, e
+  /// duas cores de luminância parecida e matizes diferentes voltam com razão
+  /// perto de 1 mesmo sendo perfeitamente distinguíveis. Para saber se um
+  /// preenchimento aparece sobre o fundo, o que vale é a distância no espaço
+  /// perceptual.
+  double distancia(Color a, Color b) {
+    List<double> lab(Color c) {
+      double canal(double v) => v <= 0.04045
+          ? v / 12.92
+          : math.pow((v + 0.055) / 1.055, 2.4) as double;
+      final double r = canal(c.r);
+      final double g = canal(c.g);
+      final double bl = canal(c.b);
+      final double x = (0.4124 * r + 0.3576 * g + 0.1805 * bl) / 0.95047;
+      final double y = 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+      final double z = (0.0193 * r + 0.1192 * g + 0.9505 * bl) / 1.08883;
+      double f(double t) =>
+          t > 0.008856 ? math.pow(t, 1 / 3) as double : 7.787 * t + 16 / 116;
+      final double fx = f(x);
+      final double fy = f(y);
+      final double fz = f(z);
+      return <double>[116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+    }
+
+    final List<double> la = lab(a);
+    final List<double> lb = lab(b);
+    return math.sqrt(
+      math.pow(la[0] - lb[0], 2) +
+          math.pow(la[1] - lb[1], 2) +
+          math.pow(la[2] - lb[2], 2),
+    );
+  }
+
   const Map<String, AppPalette> temas = <String, AppPalette>{
     'Welcome': AppPalette.neutral,
     'Boy': AppPalette.boy,
@@ -68,6 +103,32 @@ void main() {
           contraste(t.value.background, Colors.white),
           lessThan(1.1),
           reason: t.key,
+        );
+      }
+    });
+
+    test('o preenchimento suave não some dentro do fundo', () {
+      // `surfaceMuted` é o esqueleto, a miniatura que ainda não chegou, o
+      // cartão e a tarja: treze lugares onde ele é desenhado direto sobre o
+      // fundo. Se os dois ficarem perto demais, essas peças deixam de
+      // existir na tela, e nada no aplicativo dá erro por isso.
+      //
+      // O limiar do olho para duas cores lado a lado fica por volta de ΔE 2.
+      // Quatro é o dobro disso, e é folgado o bastante para não engessar uma
+      // paleta nova: a Lavender está em 6,9 e a Sky em 5,7.
+      //
+      // Este teste nasceu de um caso real. Trocar o fundo da Sky de creme
+      // para azul, sem tocar no preenchimento, derrubava a distância para
+      // 1,48. A regra da WCAG não pegava, porque em luminância os dois são
+      // quase iguais: a razão de contraste ficava em 1,007 antes e 1,101
+      // depois, e nenhum dos dois números diz nada sobre sumir.
+      for (final MapEntry<String, AppPalette> t in temas.entries) {
+        expect(
+          distancia(t.value.surfaceMuted, t.value.background),
+          greaterThanOrEqualTo(4.0),
+          reason:
+              '${t.key}: o preenchimento suave e o fundo estão perto demais '
+              'para o olho separar.',
         );
       }
     });

@@ -51,6 +51,8 @@ service cloud.firestore {
                // Id do `.txt` da carta no Drive. Fica fora de `arquivos`
                // porque não é anexo: é a mesma carta em outro formato.
                'arquivoTextoId',
+               // Posição escolhida à mão na lista de documentos.
+               'ordem',
                // Legado: versões antigas gravavam aqui uma segunda cópia do
                // texto das cartas. O aplicativo não escreve mais este campo,
                // mas quem tem documentos antigos precisa poder editá-los.
@@ -65,6 +67,7 @@ service cloud.firestore {
           && textUpTo('tipo', 30)
           && textUpTo('status', 20)
           && textUpTo('uploadStatus', 20)
+          && (!('ordem' in data) || data.ordem == null || data.ordem is int)
           && (!('arquivos' in data)
               || data.arquivos == null
               || (data.arquivos is list && data.arquivos.size() <= 60));

@@ -24,6 +24,7 @@ import '../services/notification_service.dart';
 import '../services/memory_repository.dart';
 import '../services/session_service.dart';
 import '../services/thumbnail_service.dart';
+import '../core/utils/ordem_dos_documentos.dart';
 import '../core/utils/reconexao.dart';
 
 /// Chave do Scaffold da casca do aplicativo.
@@ -456,6 +457,19 @@ final entriesOfTypeProvider = Provider.family<List<Entry>, EntryType>((
 ) {
   final List<Entry> all = ref.watch(entriesProvider).value ?? const <Entry>[];
   return all.where((Entry e) => e.type == type).toList();
+});
+
+/// Documentos na ordem escolhida à mão, com os demais por data.
+///
+/// Tem provedor próprio porque é o único tipo cuja ordem não é a do tempo.
+/// Uma certidão não fica mais ou menos importante conforme envelhece, e quem
+/// procura um documento procura pelo que ele é.
+final Provider<List<Entry>> documentsProvider = Provider<List<Entry>>((
+  Ref ref,
+) {
+  return ordemDosDocumentos(
+    ref.watch(entriesOfTypeProvider(EntryType.document)),
+  );
 });
 
 /// Registros de crescimento em ordem cronológica, incluindo o nascimento.

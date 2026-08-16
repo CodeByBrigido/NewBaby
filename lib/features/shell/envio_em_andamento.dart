@@ -152,7 +152,14 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
                       Navigator.of(context).pop();
                       context.push(d.rota);
                     },
-                    child: Text(d.rotulo),
+                    // Centralizado porque o rótulo quebra em duas linhas.
+                    //
+                    // "Ver o documento" não cabe numa linha só dentro de dois
+                    // terços da janela, e um `Text` de duas linhas alinha à
+                    // esquerda por padrão. O botão ficava com o texto encostado
+                    // numa borda e vazio na outra, parecendo desalinhado com
+                    // ele mesmo.
+                    child: Text(d.rotulo, textAlign: TextAlign.center),
                   ),
                 ),
               ],

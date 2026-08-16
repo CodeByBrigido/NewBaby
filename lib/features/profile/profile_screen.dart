@@ -99,25 +99,29 @@ class ProfileScreen extends ConsumerWidget {
                 ],
                 const SizedBox(height: Space.x24),
                 SoftCard(
-                  child: Row(
+                  // Uma linha por dado, e não duas colunas.
+                  //
+                  // Em duas colunas cada dado ficava com metade do cartão, e
+                  // metade não cabe a idade: "20 anos e 11 meses e 30 dias"
+                  // quebrava em três linhas ao lado de uma data de uma linha
+                  // só, com um divisor de 34 px fixos no meio que ficava bem
+                  // mais curto que o texto. Aos poucos meses de vida ninguém
+                  // via o problema; ele aparece sozinho conforme a criança
+                  // cresce, que é justamente o horizonte deste aplicativo.
+                  //
+                  // Empilhado, cada dado tem a largura inteira do cartão e a
+                  // idade cabe em duas linhas num telefone comum.
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Expanded(
-                        child: _Fact(
-                          label: S.birthDate,
-                          value: Fmt.date(profile.birth),
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 34,
-                        color: context.cores.divider,
-                      ),
-                      Expanded(
-                        child: _Fact(
-                          label: S.currentAge,
-                          value: profile.ageNow().detailedLabel(
-                            alwaysShowDays: true,
-                          ),
+                      _Fact(label: S.birthDate, value: Fmt.date(profile.birth)),
+                      const SizedBox(height: Space.x12),
+                      Divider(height: 1, color: context.cores.divider),
+                      const SizedBox(height: Space.x12),
+                      _Fact(
+                        label: S.currentAge,
+                        value: profile.ageNow().detailedLabel(
+                          alwaysShowDays: true,
                         ),
                       ),
                     ],
@@ -310,11 +314,21 @@ class _Fact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
-    return Column(
+    // Rótulo à esquerda, valor encostado na borda direita do cartão. O valor
+    // é o que se procura ao abrir o Perfil, e alinhado à direita ele tem a
+    // largura toda que sobra do rótulo para quebrar quando precisar.
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(label, style: text.labelSmall, textAlign: TextAlign.center),
-        const SizedBox(height: Space.x4),
-        Text(value, style: text.titleSmall, textAlign: TextAlign.center),
+        Text(label, style: text.labelSmall),
+        const SizedBox(width: Space.x12),
+        Expanded(
+          child: Text(
+            value,
+            style: text.titleSmall,
+            textAlign: TextAlign.right,
+          ),
+        ),
       ],
     );
   }

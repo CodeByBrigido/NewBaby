@@ -105,6 +105,21 @@ class SuggestionCard extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    // Só na tela inicial, e é ela que faz o cartão fazer
+                    // sentido ali. Na tela de Momentos a barra do topo já
+                    // diz o que é isto; na inicial o cartão aparecia sem
+                    // apresentação nenhuma, entre a idade e o acervo, e
+                    // "O primeiro corte de cabelo" sozinho não diz se é um
+                    // aviso, uma cobrança ou algo que já aconteceu.
+                    if (compact) ...<Widget>[
+                      Text(
+                        'Momento para registrar',
+                        style: text.labelSmall?.copyWith(
+                          color: context.cores.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: Space.x4),
+                    ],
                     Text(s.title, style: text.titleSmall),
                     if (active.daysLeft case final int dias) ...<Widget>[
                       const SizedBox(height: Space.x4),
@@ -140,16 +155,32 @@ class SuggestionCard extends ConsumerWidget {
           ],
 
           const SizedBox(height: Space.x8),
+          // Os dois botões dividem a linha, e cada um dentro de um
+          // `Expanded`. Não é gosto de layout: o tema dá aos botões
+          // `minimumSize: Size.fromHeight(...)`, que é `Size(infinito,
+          // altura)`, e um botão de largura mínima infinita solto numa `Row`
+          // não consegue ser medido. O "Registrar" falhava no layout e não
+          // era pintado, então na tela sobrava só o "Agora não" e o cartão
+          // virava uma cobrança sem saída. Em compilação de depuração isso
+          // grita; no APK instalado a asserção não roda e o botão só some.
+          //
+          // `Expanded` dá largura fixa ao botão, e aí o mínimo infinito é
+          // limitado pela linha em vez de ser passado adiante.
           Row(
             children: <Widget>[
-              TextButton(
-                onPressed: () => _resolve(ref, dismissed: true),
-                child: const Text('Agora não'),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => _resolve(ref, dismissed: true),
+                  child: const Text('Agora não'),
+                ),
               ),
-              const Spacer(),
-              FilledButton.tonal(
-                onPressed: () => showAddSheet(context),
-                child: const Text('Registrar'),
+              const SizedBox(width: Space.x12),
+              Expanded(
+                flex: 2,
+                child: FilledButton.tonal(
+                  onPressed: () => showAddSheet(context),
+                  child: const Text('Registrar'),
+                ),
               ),
             ],
           ),

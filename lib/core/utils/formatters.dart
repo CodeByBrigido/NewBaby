@@ -44,6 +44,38 @@ abstract final class Fmt {
   }
 
   /// `3,250 kg` - peso guardado em gramas.
+  /// Lê um decimal digitado, aceitando vírgula ou ponto.
+  ///
+  /// Vive aqui, e não na tela de cadastro onde nasceu, porque a tela de
+  /// editar precisa ler exatamente do mesmo jeito. Duas leituras diferentes
+  /// para o mesmo campo é como o peso vira outro ao ser corrigido.
+  static double? parseDecimal(String raw) {
+    final String limpo = raw.trim().replaceAll(',', '.');
+    if (limpo.isEmpty) return null;
+    final double? valor = double.tryParse(limpo);
+    return (valor == null || valor <= 0) ? null : valor;
+  }
+
+  /// Peso vem em quilos e é guardado em gramas, para não acumular erro de
+  /// ponto flutuante ao longo dos anos.
+  static int? parseWeightGrams(String raw) {
+    final double? kg = parseDecimal(raw);
+    return kg == null ? null : (kg * 1000).round();
+  }
+
+  /// O peso de volta ao campo, no formato em que foi digitado.
+  ///
+  /// Sem unidade e sem separador de milhar: isto volta para dentro de um
+  /// `TextField`, e o que sai daqui precisa ser lido de novo por
+  /// [parseWeightGrams] sem perder nada.
+  static String weightInput(int grams) =>
+      (grams / 1000).toStringAsFixed(3).replaceAll('.', ',');
+
+  /// A altura de volta ao campo. Sem casa decimal quando é número redondo.
+  static String decimalInput(double value) =>
+      (value == value.roundToDouble() ? value.round().toString() : '$value')
+          .replaceAll('.', ',');
+
   static String weight(int grams) {
     final String value = NumberFormat('#,##0.000', locale).format(grams / 1000);
     return '$value kg';

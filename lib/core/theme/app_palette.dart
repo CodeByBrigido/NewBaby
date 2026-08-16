@@ -197,18 +197,40 @@ class AppPalette extends ThemeExtension<AppPalette> {
     primarySoft: Color(0xFFDDEAF8),
     accent: Color(0xFF6FB0A6),
     accentSoft: Color(0xFFDFEFEC),
-    background: Color(0xFFFCF3EE),
+    // Papel frio, e não o creme da Lavender.
+    //
+    // O creme é um papel quente (matiz 21°) e não sai da paleta de ninguém:
+    // ele existe para ser o fundo neutro que harmoniza com o rosa. Sobre a
+    // Sky ele briga, porque a Sky é fria inteira.
+    //
+    // Este tom sai da própria Sky: matiz 216° e saturação 56%, contra 213° e
+    // 57% do `primary`, clareado até dar exatamente a mesma presença do creme
+    // contra um cartão branco (1,0941:1 nos dois). Assim os dois temas têm o
+    // mesmo peso de papel, e só a temperatura muda.
+    background: Color(0xFFF1F5FB),
     // O equivalente da família Sky, com a mesma clareza do tom pedido para
     // a Lavender, para o painel ter o mesmo peso nos dois temas.
     heroFill: Color(0xFF93AEC8),
     onHero: Color(0xFF23292F),
     onHeroSoft: Color(0xFF2F3941),
     surface: Colors.white,
-    surfaceMuted: Color(0xFFEDF5FC),
+    // O preenchimento teve de mudar junto com o fundo, e não por gosto.
+    //
+    // O que separa o preenchimento do papel na Lavender é a temperatura: o
+    // fundo tem b* +3,5 e este tom tem b* -2,7, e essa virada de quente para
+    // frio responde por quase todo o ΔE 6,87 entre os dois. Com o fundo agora
+    // frio, o azul de antes (`#EDF5FC`) caía para ΔE 1,48, abaixo do limiar
+    // em que o olho separa duas cores: esqueleto, miniatura e cartão sumiriam
+    // dentro da tela.
+    //
+    // A saída estava na própria paleta, no verde-água do `accent`. Sobre o
+    // papel azul ele volta a ΔE 5,71, com a mesma presença do preenchimento
+    // da Lavender (1,141:1 contra 1,142:1). O eixo mudou de temperatura para
+    // matiz, o resultado é o mesmo.
+    surfaceMuted: Color(0xFFE9F2EE),
     textPrimary: Color(0xFF2A3138),
-    // Um passo mais escuro que antes: sobre o fundo creme novo, o tom
-    // anterior dava 4.497:1, três milésimos abaixo do mínimo de AA. O
-    // teste de contraste pegou.
+    // Um passo mais escuro que o tom original da Sky, que dava 4.497:1 e
+    // reprovava em AA por três milésimos. Sobre o papel novo dá 4,685:1.
     textSecondary: Color(0xFF646F7A),
     muted: Color(0xFF98A4AE),
     border: Color(0xFFDCE6F1),
@@ -244,7 +266,17 @@ class AppPalette extends ThemeExtension<AppPalette> {
     onHero: Color(0xFF2F251F),
     onHeroSoft: Color(0xFF3B2F28),
     surface: Colors.white,
-    surfaceMuted: Color(0xFFF8F0EB),
+    // Areia, e não o quase-branco de antes.
+    //
+    // O tom anterior (`#F8F0EB`) ficava a ΔE 1,18 do fundo, abaixo do limiar
+    // do olho: esqueleto e cartão eram desenhados e não apareciam, justamente
+    // nas telas de apresentação e de login, que são as primeiras que alguém vê.
+    // Ninguém tinha reclamado porque nada dá erro quando uma cor some.
+    //
+    // Aqui a separação tem de vir de claridade, e não de temperatura como na
+    // Lavender: o tema Welcome é quente inteiro, do terracota ao fundo, e não
+    // há para onde ir no matiz sem sair da família.
+    surfaceMuted: Color(0xFFF5E9E0),
     textPrimary: Color(0xFF2F251F),
     textSecondary: Color(0xFF71665E),
     muted: Color(0xFFA39890),

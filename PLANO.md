@@ -1,7 +1,14 @@
 # Plano de evolução
 
-Documento de acompanhamento. Releia antes de cada fase; ao concluir uma,
-mova o bloco para [Concluído](#concluído), no fim do arquivo.
+Documento de acompanhamento, e o primeiro arquivo a ler ao retomar o
+projeto. Comece por [Onde estamos](#onde-estamos-15082026), que diz o estado
+de hoje, e por [O próximo passo](#o-próximo-passo-exato).
+
+Uma fase concluída ganha ✅ no próprio título e fica onde está quando o
+texto dela ainda explica uma decisão viva; as que fecharam por completo vão
+para [Concluído](#concluído), no fim do arquivo. Fase que muda de desenho é
+**reescrita**, e não apagada: o desenho antigo e a razão da troca são metade
+do valor deste documento.
 
 ## A régua
 
@@ -17,117 +24,156 @@ completo: ninguém vê pasta, arquivo, sincronização ou cota.
 
 ---
 
-## Auditoria do que existe hoje
+## Onde estamos (15/08/2026)
 
-63 arquivos, 11.452 linhas, 113 testes. A base de armazenamento está
-sólida. O que segue é o que a lista de adicionais encosta.
+101 arquivos em `lib/`, 23.202 linhas, 43 arquivos de teste, **565 testes
+verdes**. `flutter analyze --fatal-infos --fatal-warnings` limpo.
 
-### A paleta é constante de compilação
+O aplicativo está em teste no aparelho, instalado pelo APK que o CI gera a
+cada merge na `main`. Não foi submetido à Play Store.
 
-`AppColors` é `abstract final` com tudo `static const`, e há **158 usos em
-61 arquivos**. Adaptar a cor ao sexo da criança não é trocar valores: é
-trocar o mecanismo. Uma constante não muda em tempo de execução.
+**Último trabalho:** PR #21, rascunho, CI verde nos quatro trabalhos
+(análise e testes, regras do Firestore, compila o Android; o "Gerar APK" só
+roda no merge, e por isso aparece como skipped no PR). Falta o merge.
 
-Caminho escolhido: `ThemeExtension<AppPalette>`, com a paleta ativa
-resolvida a partir do perfil e lida por um atalho curto (`context.cores`).
-É mais trabalho do que um global mutável, mas é o que sobrevive a tema
-escuro, a testes e a troca de perfil sem gambiarra.
+### O que foi feito e não estava escrito aqui
 
-O trabalho é mecânico e o analisador aponta cada ponto. Alto volume de
-diff, baixo risco.
+Muito do trabalho recente não nasceu de fase nenhuma: veio do uso no
+aparelho. Ficou registrado em [Concluído](#concluído), no fim do arquivo,
+porque decisão sem registro vira decisão para refazer.
 
-### O helper de gênero existe, e fala exatamente o que você quer eliminar
+- [A estrutura do Drive](#a-estrutura-do-drive-), com `Informacoes.txt` e
+  nomenclatura por ano
+- [A privacidade da sessão](#a-privacidade-da-sessão-), incluindo a abertura
+  que não pede mais a conta do Google
+- [O tamanho dos arquivos](#o-tamanho-dos-arquivos-), com teto fixo de 960 px
+  e vídeo em 540p
+- [A janela do envio](#a-janela-do-envio-), que acompanha e diz onde a
+  memória foi parar
+- [As pastas divididas por dentro](#as-pastas-divididas-por-dentro-), com o
+  mês em semanas e o ano em meses
+- [O blog](#o-blog-), com 46 postagens, capa, busca própria e página de
+  leitura
 
-`lib/core/l10n/gendered.dart` já centraliza a concordância, mas a API dele
-é construída em cima de `yourBaby` e `ofYourBaby`, que produzem "sua bebê"
-e "do seu bebê". Está espalhado por telas vazias, dicas e o cadastro.
+Uma fase mudou de desenho e foi reescrita no lugar: a
+[Fase 11](#fase-11---mais-de-um-filho--o-desenho-mudou-por-inteiro), que
+agora é uma conta do Google por filho. O áudio saiu do produto junto com
+ela, e a razão está na [Fase 4](#fase-4---cápsula-lacrada-a-voz-entrou-e-saiu-).
 
-O perfil já tem `firstName`. A correção não é substituir string por
-string: é o helper passar a receber o perfil inteiro, para que a frase
-padrão vire "as memórias da Maria" e a forma genérica só apareça enquanto
-o nome ainda não existe (login e primeira etapa do cadastro).
+### Restrições que valem para sempre neste projeto
 
-### A timeline já agrupa por dia, só não mostra assim
+Não são preferências. Cada uma tem consequência fora do código.
 
-`timeline_screen.dart:140` já faz `groupBy` por dia. O que falta é o
-cabeçalho com o resumo ("5 fotos, 1 vídeo, 1 carta") e o recolher/expandir.
-O item 9 é mais barato do que parece.
-
-### O BottomSheet do item 8 já existe
-
-`lib/features/shell/add_sheet.dart` já oferece foto, vídeo, carta,
-documento, desenho e crescimento. A Home só precisa do botão que o abre.
-
-### Não existe nenhuma infraestrutura de notificação
-
-Nem `firebase_messaging`, nem `flutter_local_notifications`.
-
-**Decisão: notificações locais, não push.** Todas as condições que você
-descreveu ("7 dias sem foto", "40 dias sem medir") são calculáveis no
-próprio aparelho, a partir de dados que o app já tem. Push exigiria Cloud
-Functions, que exige o plano Blaze, que exige cartão de crédito e vira
-custo recorrente para observar algo que o celular já sabe. Local é mais
-barato, funciona sem rede e não manda dado nenhum para fora.
-
-### As regras do Firestore são estritamente do dono
-
-Todo `match` exige `isOwner(uid)`, e há um `allow read, write: if false`
-final fechando o resto. Isso foi deliberado e é o que blinda o projeto.
-Compartilhamento exige um modelo novo por cima, sem afrouxar o que existe.
+- **O escopo do Google continua sendo só `drive.file`.** Qualquer escopo
+  restrito (`drive.readonly` e parentes) obriga auditoria de segurança anual
+  paga por terceiro para publicar na loja. Isso está fora do orçamento e
+  fora do prazo, e mudar de escopo sem dizer isso com todas as letras é
+  risco jurídico, não detalhe técnico
+- **Nenhum travessão em nenhum texto do projeto**, nem em código, nem em
+  comentário, nem em documento. Há teste varrendo
+- **Nenhum link de sessão do Claude em nada que vá para o GitHub**, nem em
+  commit, nem em corpo de PR. Quando a ferramenta injeta um, ele é removido
+  logo depois de criar o PR
+- **O Design System manda na cor.** Cor não se mede de arte nem se ajusta no
+  tema caso a caso
 
 ---
 
-## O que não está na lista dos 12 e entra assim mesmo
+## Defeitos conhecidos e pendências
 
-A lista numerada não é o escopo inteiro. Duas outras coisas pertencem a
-este plano, e ficaram de fora da primeira versão dele por engano meu.
+### 1. O envio que trava, e ainda não foi resolvido
 
-### Pendências já conhecidas
+**O único defeito aberto de comportamento.** Relatado no aparelho: um envio
+falha e o "Tentar de novo" não sai do lugar.
 
-- **Ícone do aplicativo.** Ainda é o do Flutter, idêntico ao do modelo
-- **Foto da criança como avatar.** O campo `photoDriveId` existe, nunca é
-  gravado (o envio retorna antes do upload terminar) e nunca é lido
-- **Ajuste visual** conforme a referência enviada no início do projeto
-- **Itens da Play Store:** política de privacidade publicada, URL de
-  exclusão de conta, alerta de orçamento no Firebase, App Check
+Duas causas foram encontradas e corrigidas ao longo da sessão (o arquivo
+temporário que já não existe mais no disco, e a recusa de permissão que
+estourava para fora da repetição em vez de virar mensagem). O relato
+continuou depois disso.
 
-### O que a régua da cápsula exige e o produto ainda não tem
+**O que falta para seguir:** o texto exato do aviso de falha, lido no
+aparelho. A mensagem diz de qual dos três degraus de autorização veio o
+erro, e sem ela qualquer conserto é chute. Foi pedido e ainda não veio.
 
-- **Voz.** Os tipos são foto, vídeo, carta, desenho, documento e
-  crescimento. Nenhum áudio. A voz é a primeira coisa que a memória perde
-  e a mais densa que existe: trinta segundos da mãe dizendo "hoje você deu
-  o primeiro passo" valem mais que duzentas fotos. O encanamento de upload
-  já existe, então o custo é baixo e o retorno é o maior da lista inteira
-- **Cápsula lacrada.** O aplicativo se chama Cápsula do Tempo e não tem
-  cápsula. Carta hoje é texto com data. Falta lacrar algo com data de
-  abertura ("abrir quando você fizer 18 anos"), que é o que transforma
-  arquivo em presente
+### 2. As 46 capas do blog não existem
+
+Cada postagem é um par de arquivos com o mesmo nome, o `.json` e o `.webp`.
+Os 46 `.json` estão lá; nenhum `.webp` está. Enquanto a capa falta, entra a
+ilustração desenhada por `InspirationArt`, então nada quebra e nada avisa.
+
+Basta soltar os arquivos em `assets/inspiracoes/`. Sem código, sem
+`pubspec.yaml`, sem catálogo. O `LEIA-ME.md` da pasta explica.
+
+### 3. ~~Uma pergunta em aberto sobre a cor~~ resolvida
+
+O fundo creme tinha sido aplicado às três paletas. Ficou decidido que na Sky
+ele não serve, e o menino passou a ter papel frio (`#F1F5FB`). Ver
+[O papel de cada tema](#o-papel-de-cada-tema-).
+
+### 4. A pasta `Crescimento` nasce vazia
+
+`topLevelFolders` ainda cria `Crescimento` no Drive, mas peso e altura
+passaram a viver no `Informacoes.txt` e nada mais é gravado nessa pasta. É
+uma pasta vazia na cápsula de quem abrir o Drive. Nit, não defeito.
+
+### 5. Itens da Play Store que dependem de você, não de código
+
+Ligar o GitHub Pages (*Settings → Pages → `main` / `/docs`*), o alerta de
+orçamento no Google Cloud e o App Check em modo monitoramento. O passo a
+passo está no `PUBLICAR.md`.
+
+---
+
+## O próximo passo exato
+
+**Dar merge no PR #21.** A CI está verde e o APK sai do merge.
+
+Depois disso, instalar o APK e conferir duas coisas no aparelho:
+
+1. **A janela do envio aparece?** Mandar uma foto, e ver se aparece a de
+   progresso e depois a de "Guardado" com o botão de ir para a pasta. É o
+   que o PR #21 conserta, e é o único jeito de confirmar
+2. **Se um envio falhar, qual é a frase exata do aviso?** É o dado que falta
+   para o defeito 1 acima. Anotar ou fotografar a tela
+
+Com essas duas respostas, a próxima sessão começa sabendo se o conserto
+pegou e tendo com que trabalhar no envio travado.
+
+---
+
+## O que a régua da cápsula exige e o produto ainda não tem
+
 - **A cápsula pode morrer antes da criança.** O Google apaga contas
   inativas por 2 anos. Se esta conta parar de ser usada daqui a 8 anos, o
-  acervo vai junto e a cápsula de 20 anos vira nada
+  acervo vai junto e a cápsula de 20 anos vira nada. Tratado na Fase 8a, com
+  o aviso que vive fora da janela de reagendamento
 - **O aplicativo é o elo mais frágil da corrente.** Em 25 anos o Flutter,
   o Firebase e o Android terão mudado. A cápsula precisa ser legível **sem
   o aplicativo**: uma exportação que gere pasta navegável com as mídias e
   um índice que abra em qualquer computador do futuro. Um produto de longo
-  prazo precisa presumir a própria morte
+  prazo precisa presumir a própria morte. É a Fase 12
+- **Voz.** Foi construída e foi retirada. A razão está registrada em
+  [Fase 4](#fase-4---cápsula-lacrada-a-voz-entrou-e-saiu-), e a decisão de
+  tirar foi de produto, não técnica
 
 ---
 
 ## Fases
 
-Sete já saíram. O compartilhamento familiar ficou para depois (seção
-"Adiado", abaixo). O que resta se divide em duas listas:
-
-**Agora, com o aplicativo ainda em teste:** a 10 inteira (a primeira
-impressão de quem instala) e a 11 (mais de um filho). A 8a já está feita, a
-8b foi descartada e a 10a está pronta.
+As fases 1 a 8, 10 e 11 saíram. O compartilhamento familiar ficou para depois
+(seção "Adiado", abaixo). **Sobram três**, e nenhuma está em andamento:
 
 **Quando você der o comando de publicar:** a 9 inteira. Ela é o que bloqueia
 a submissão, e ficou para depois por escolha sua: assinar o pacote definitivo
-só faz sentido quando o aplicativo estiver do jeito que você quer.
+só faz sentido quando o aplicativo estiver do jeito que você quer. Dentro
+dela, a 9b já está escrita e só falta ligar o GitHub Pages.
 
 **Depois do lançamento:** a 12 (exportação) e a 13 (assinatura). As duas são
 grandes, e nenhuma família perde nada por esperar por elas.
+
+O trabalho de hoje não é de fase: é acerto de tela e de defeito, vindo do uso
+no aparelho. Está em [Defeitos conhecidos](#defeitos-conhecidos-e-pendências)
+e em [O próximo passo](#o-próximo-passo-exato).
 
 Cada passo abaixo termina com o aplicativo compilando, testado e
 instalável.
@@ -428,47 +474,77 @@ pelo `flutter_launcher_icons`, pela abertura e pela última tela. O desenho
 por código de `tool/gerar_icone.py` saiu: ele era a fonte quando não havia
 arte, e manter os dois deixaria duas verdades sobre qual é a marca.
 
-#### 10c. O sistema de movimento
+#### 10c. O sistema de movimento ✅
 
-Movimento como sistema, não efeitos espalhados. O que entra:
+Feito. Movimento como sistema, não efeitos espalhados: as durações vivem em
+`Motion`, dentro de `tokens.dart`, e quem for animar algo novo escolhe entre
+elas em vez de inventar um número. É o que faz o aplicativo inteiro parecer
+ter sido feito pela mesma pessoa.
 
-- transição entre telas, com identidade própria
-- **miniatura crescendo até virar a foto em tela cheia**, saindo do lugar
-  exato onde estava. Num aplicativo de fotos é o ganho mais óbvio de todos
-- cartões da linha do tempo entrando conforme a rolagem
-- o botão + e a folha de adicionar subindo
-- esqueleto do conteúdo no lugar da bolinha girando
-- um instante de destaque quando aparece uma data redonda
+Entrou tudo o que estava previsto: transição entre telas, a **miniatura
+crescendo até virar a foto em tela cheia** saindo do lugar exato onde estava
+(`HeroDaMidia`), os cartões da linha do tempo entrando conforme a rolagem, o
+botão + e a folha subindo, o esqueleto no lugar da bolinha girando, e o
+instante de destaque numa data redonda.
 
-O que **não** entra, por decisão tomada: texto aparecendo letra por letra.
+O que **não** entrou, por decisão tomada: texto aparecendo letra por letra.
 Atrasa a leitura de quem está com o bebê no colo tentando ver uma foto com
 uma mão só.
 
-O ajuste de acessibilidade do Android que remove animações é respeitado.
-Ignorá-lo é problema real para quem tem enxaqueca vestibular, e é uma linha
-de código.
+O ajuste de acessibilidade do Android que remove animações é respeitado
+(`MediaQuery.disableAnimationsOf`). Ignorá-lo é problema real para quem tem
+enxaqueca vestibular, e é uma linha de código.
 
-### Fase 11 - Mais de um filho
+Uma duração foge do sistema de propósito, e o motivo está escrito ao lado
+dela: o brilho do esqueleto é muito mais lento que o resto, porque é o único
+movimento que se repete sem parar. Na velocidade dos outros ele viraria
+pisca-pisca e chamaria mais atenção que o conteúdo.
 
-Um botão no canto superior direito do perfil para acrescentar outra criança,
-e um jeito de trocar entre elas.
+### Fase 11 - Mais de um filho ✅ (o desenho mudou por inteiro)
 
-**É a maior mudança estrutural que sobrou**, e não parece. Hoje a cápsula é
-uma só por conta: tudo vive em `users/{uid}`, com o cadastro num documento
-fixo em `perfil/bebe`. Passar a ter várias significa:
+**O texto antigo desta fase estava errado, e o erro era meu.** Eu tinha
+planejado várias crianças dentro de uma conta só: `users/{uid}/criancas/{id}`,
+regras novas, uma pasta raiz por criança no Drive, um seletor de criança
+ativa e uma migração para quem já usava. Nada disso foi feito, e nada disso
+precisa ser.
 
-- mover tudo para `users/{uid}/criancas/{id}/...`, com regras novas
-- uma pasta raiz no Drive por criança
-- **migrar quem já usa**, sem perder nada e sem pedir nada
-- um seletor de criança ativa, e todo provedor de dados passando por ele
-- os lembretes e as inspirações passam a ser por criança
+**Cada filho tem a própria conta do Google.** A Maria tem a dela, o Pedro
+tem a dele. Entra-se com a conta da Maria e tudo vai para o Drive da Maria;
+troca-se para a do Pedro e o aplicativo inteiro passa a mostrar a cápsula
+dele.
 
-O seletor de criança ativa é exatamente a mesma forma do
-`capsuleOwnerProvider` que existiu para o compartilhamento familiar: um
-ponto único por onde toda leitura passa. O desenho já foi provado uma vez.
+Isso é coerente com o que o produto prega desde a apresentação: a conta é da
+criança desde o primeiro dia, e um dia ela recebe a conta inteira, login e
+senha, sem transferência nenhuma. Duas crianças na mesma conta contradiria
+justamente isso.
 
-Fica depois do lançamento por ser grande e por mexer em dado de gente que já
-está usando. Migração malfeita aqui não é tela quebrada, é memória perdida.
+E resolve o problema difícil de graça. Contas diferentes do Google são `uid`
+diferentes no Firebase, então o isolamento entre os filhos **já existe**, é
+imposto pelo servidor, e é o mesmo que separa duas famílias quaisquer. A
+regra "conteúdo de um filho nunca vai para a pasta do outro" passa a ser
+verdade por construção, e não por filtro de consulta que alguém pode
+esquecer de aplicar. A migração some junto, porque não há o que migrar.
+
+**Como ficou:** `switchAccount()` em `session_service.dart`, e no Perfil uma
+pílula "CONTAS ▾" que vai direto para o seletor do Google. "Acrescentar uma
+criança" é entrar com outra conta, no mesmo botão, e a tela de cadastro
+aparece sozinha porque aquele `uid` ainda não tem perfil.
+
+**Nenhuma lista nossa de contas.** O seletor do Google já mostra os nomes,
+os emails e as fotos das contas do aparelho, e ele é a fonte da verdade
+sobre quais existem. Manter uma lista paralela seria uma segunda verdade
+para ficar errada.
+
+#### Duas consequências, ditas antes de serem descobertas
+
+**A troca passa pelo seletor do Google toda vez.** Não é uma aba: são três
+ou quatro toques. Isso é do modelo, não da implementação, e é o preço de
+cada filho ter a própria conta.
+
+**Os lembretes são só do filho ativo.** Quem tem dois filhos e passou o mês
+na conta da Maria não recebe o aviso do aniversário do Pedro. O aparelho só
+calcula lembretes da conta que está aberta. Limitação conhecida, para
+resolver depois se incomodar.
 
 ### Fase 12 - Exportação legível sem o aplicativo
 
@@ -606,6 +682,275 @@ de teste tem documentos gravados nelas.
 
 ## Concluído
 
+### A estrutura do Drive ✅
+
+Cinco pastas criadas no cadastro, mais o arquivo de informações. As pastas
+de idade nascem no primeiro conteúdo que precisa delas.
+
+```
+Meu Bebê - Cápsula do Tempo/
+├── Fotos/
+│   └── Primeiro Ano/     <- só quando a primeira foto chega
+├── Vídeos/
+├── Cartas/
+├── Desenhos/
+├── Documentos/
+└── Informacoes.txt
+```
+
+**A nomenclatura por ano vale só no Drive.** `Primeiro Ano`, `1 Ano`,
+`2 Anos`, por `AgeBucket.driveFolderName`. Dentro do aplicativo a galeria
+continua em `Semana 07` e `Mês 14`, por `folderName`. Públicos diferentes:
+quem abre a pasta daqui a vinte anos quer anos, quem registra hoje quer a
+semana.
+
+**Carta virou `.txt` no Drive**, na pasta da idade, reescrito quando editada.
+Sem isso a pasta `Cartas` ficaria vazia para sempre e as cartas continuariam
+morrendo junto com o aplicativo.
+
+**O `Informacoes.txt`** guarda o cadastro e todas as medições em texto
+legível, reescrito inteiro a cada mudança, por id de arquivo guardado no
+Firestore. **O aplicativo nunca lê esse arquivo:** o Firestore continua sendo
+a fonte da verdade, e o `.txt` é representação para quem abrir a pasta sem o
+aplicativo. Peso e altura deixaram de ter pasta e passaram a viver ali.
+
+**O acervo antigo não precisou de migração.** As pastas de idade antigas
+(`Semana 07`) continuam válidas, com o id guardado no Firestore. As duas
+convenções convivem, e isso é aceitável: o Drive fica com um pouco de
+história.
+
+### A privacidade da sessão ✅
+
+**Abrir o aplicativo não pede mais a conta do Google.** O seletor aparecia em
+toda abertura, com a linha do tempo já carregada atrás dele: a sessão estava
+restaurada e a escolha era inútil.
+
+A causa levou investigação no código do plugin, e vale registrada porque o
+nome do método mente. `attemptLightweightAuthentication` promete restauração
+silenciosa, mas no Android o plugin faz **duas** tentativas em sequência: a
+primeira com `filterToAuthorized: true` e `autoSelectEnabled: true`, de fato
+silenciosa; e, quando essa devolve nulo, uma segunda com as duas em falso,
+que é a folha do Credential Manager com todas as contas do aparelho. Em
+aparelho com mais de uma conta, cai sempre na segunda.
+
+Quem sustenta a sessão é o Firebase Auth, lido do disco sem rede. A conta do
+Google só faz falta para o Drive, e por isso a recuperação foi adiada para o
+momento em que o Drive precisa dela.
+
+**O envio não precisa da conta, só da autorização.** Tirar a chamada da
+abertura quebrou o envio, e o conserto de verdade foi um degrau novo:
+`authorizationClient.authorizationForScopes`, que devolve o token do Drive
+sem usuário nenhum e sem abrir tela, porque o consentimento fica guardado no
+aparelho. Três degraus, nesta ordem: com a conta que já está em mãos, sem
+conta nenhuma, e só então o caminho interativo.
+
+**O degrau sem conta tem um risco, e ele é conferido.** Ele não diz de qual
+conta é o token. Num aparelho com duas contas autorizadas, o sistema pode
+devolver a errada, e aí as memórias de um filho entrariam no Drive do outro:
+silencioso na hora e irreversível depois. Por isso `_conferirDono` compara o
+dono do Drive com o email do Firebase, uma vez por sessão, e recusa em vez de
+usar. Quando não há o que comparar (sem email, sem rede), deixa passar:
+recusar por falta de informação deixaria o envio impossível em vez de seguro.
+
+Há teste lendo o código para as três coisas, porque o defeito não aparece em
+teste de widget nem no `analyze`: ele só se vê num aparelho com duas contas,
+que é justamente onde ninguém roda a suíte.
+
+### O tamanho dos arquivos ✅
+
+**Teto fixo de 960 px no lado maior, qualidade 78.** Vídeo em 540p.
+
+A regra é um teto, e essa palavra foi o pedido: nenhum aparelho e nenhuma
+contagem de megapixels pode ser reduzido de forma diferente de outro. Foto
+que já é menor que o teto não é ampliada.
+
+**Um erro meu no caminho, e ele ensina algo.** A primeira tentativa deixou a
+foto **maior** (101 KB viraram 181 KB). O teto de então era 1.600 px e não
+encostava nas fotos daquele aparelho, que já eram menores; só a qualidade
+valia, e qualidade 80 sobre o tamanho inteiro pesa mais que qualidade 88
+sobre a metade. Baixar o teto para onde ele de fato corta foi o que resolveu.
+A lição: um teto que não encosta em nada não reduz nada, e medir antes de
+concluir teria evitado a viagem.
+
+### A janela do envio ✅
+
+Antes, o envio avisava por uma tarja que sumia sozinha em seis segundos. Ela
+dizia que o envio começou e nunca dizia que terminou, então quem mandava algo
+e trocava de tela não descobria se deu certo, e principalmente não descobria
+**onde** aquilo foi parar. Numa cápsula organizada por idade, esse "onde" é
+metade da informação.
+
+`EnvioEmAndamento` acompanha do começo ao fim e termina apontando o lugar,
+com botão que leva até lá: "Ver a pasta" para foto e vídeo, "Ver o desenho",
+"Ver o documento". Carta, crescimento e nascimento não entram em pasta de
+idade, então não ganham botão, e a frase diz Drive em vez de citar uma semana
+que seria mentira.
+
+Recebe uma **lista** de memórias, e não uma só, porque documento é enviado um
+por arquivo: três documentos são três memórias, e uma janela por arquivo
+seguraria o envio do próximo até alguém fechar a anterior.
+
+Ela lê o fluxo de progresso **e** a lista de entradas. Sem a segunda, um
+envio que termina antes de a janela abrir deixaria ela girando para sempre.
+
+#### O defeito que ela teve, e que vale guardar
+
+A janela não aparecia. O `context` que chegava no envio era o da própria
+folha de adicionar; fechar a folha desmonta a rota, e a partir daí
+`context.mounted` é falso. O envio é assíncrono e demora bem mais que a
+animação de fechamento, então quando a janela ia ser pedida o guarda de
+segurança pegava primeiro e a função retornava calada. Sem exceção, sem
+aviso, sem nada no `analyze`.
+
+O conserto é guardar o `NavigatorState` da raiz **antes** do `pop`: ele não é
+o que está sendo fechado.
+
+O teste disso teve uma segunda lição. A primeira versão dele passava com o
+conserto revertido, porque eu tinha usado um envio instantâneo, e com envio
+instantâneo a rota ainda está de pé e a janela abre até pelo contexto errado.
+O defeito só existe porque o envio demora, e o teste só vale se demorar
+também.
+
+### As pastas divididas por dentro ✅
+
+Abrir o `Mês 14` era rolar uma parede de fotos sem nenhuma pista de quando
+cada uma aconteceu. Agora o mês se divide por semana e o ano se divide por
+mês, por `secoesDoBalde`, uma função pura.
+
+**A contagem é relativa à pasta**, e é aí que mora o erro fácil: dentro do
+`Mês 14` a primeira semana é a `Semana 1`, e não a `Semana 57`. Quem abriu a
+pasta do mês está pensando naquele mês.
+
+**Sub-período vazio não vira seção.** Um mês com fotos só na quarta semana
+mostra `Semana 4` e mais nada; `Semana 1`, `2` e `3` não aparecem como
+buracos. Uma semana em que ninguém registrou não é informação.
+
+A pasta de semana volta com uma seção só, de título vazio, e nenhum cabeçalho
+é desenhado: sete dias não têm o que separar.
+
+O visualizador em tela cheia continua deslizando pela pasta inteira, e não só
+pela seção em que se tocou: quem está olhando uma foto da Semana 2 espera
+chegar na Semana 3 arrastando.
+
+### A tela inicial para de cobrar ✅
+
+Saíram os três cartões "última foto", "última carta" e "última medição".
+Eles eram sempre os mesmos três e apareciam sempre, e numa cápsula do tempo
+"há 1 ano" na primeira linha da tela é cobrança, não informação: a pessoa já
+sabe que não registrou. Quem acabava de criar a conta abria o aplicativo e
+levava três avisos de que não tinha feito nada.
+
+Os cartões de ocasião ficam (hoje é aniversário, hoje faz exatamente, a
+contagem para o próximo). Esses aparecem de vez em quando e contam algo que
+é verdade só naquele dia, que era a ideia original. Nos dias sem ocasião o
+bloco some inteiro, com a folga junto, para não deixar um buraco.
+
+#### O botão que não existia
+
+O cartão de sugestão ("O primeiro corte de cabelo") aparecia com um botão
+só, "Agora não". Uma sugestão sem forma de aceitar se lê como cobrança, e
+foi exatamente assim que ela foi relatada: não dava para entender o que era
+nem o que fazer.
+
+O "Registrar" estava no código o tempo todo. A causa era do tema: os botões
+do aplicativo são de largura cheia, e para isso o tema usa
+`minimumSize: Size.fromHeight(...)`, que é `Size(double.infinity, altura)`.
+Largura mínima infinita não pode ser medida dentro de uma `Row`, então o
+botão falhava no layout e nunca era pintado.
+
+**O que faz esse defeito perigoso é o silêncio.** Em compilação de depuração
+a asserção grita; no APK instalado as asserções não rodam e o botão só some.
+Nenhum teste olhava para isso, e nenhuma varredura de código acharia, porque
+o botão está lá escrito. Foi preciso alguém instalar e estranhar.
+
+Consertado com `Expanded` nos dois botões, que dá largura fixa e limita o
+mínimo infinito. O teste novo não se contenta em achar o botão na árvore, já
+que o quebrado também estava lá: ele mede o tamanho. Uma varredura confirmou
+que não há outro botão solto dentro de uma `Row` no aplicativo.
+
+Na tela inicial o cartão ganhou também uma linha dizendo o que ele é
+("Momento para registrar"). Na tela de Momentos a barra do topo já apresenta
+o assunto; na inicial ele caía entre a idade e o acervo sem apresentação
+nenhuma.
+
+### O papel de cada tema ✅
+
+O creme (`#FCF3EE`) tinha ido para as três paletas. Na Lavender ele está
+certo, mas ele é um papel **quente** (matiz 21°) e não sai da paleta de
+ninguém: existe para harmonizar com o rosa. Sobre a Sky, que é fria inteira,
+ele briga.
+
+A Sky passou a ter papel próprio, `#F1F5FB`, tirado dela mesma: matiz 216° e
+saturação 56%, contra 213° e 57% do `primary`, clareado até dar exatamente a
+mesma presença do creme contra um cartão branco (1,0941:1 nos dois). Os dois
+temas têm o mesmo peso de papel, e só a temperatura muda.
+
+#### O preenchimento teve de mudar junto, e esse é o aprendizado
+
+Trocar só o fundo teria quebrado a tela em silêncio. O que separa
+`surfaceMuted` do papel na Lavender é a **temperatura**: o fundo tem b* +3,5
+e o preenchimento b* -2,7, e essa virada responde por quase todo o ΔE 6,87
+entre os dois. Com o fundo frio, o preenchimento azul de antes caía para
+ΔE 1,48, abaixo do limiar em que o olho separa duas cores, e o esqueleto, a
+miniatura e o cartão sumiriam dentro da tela.
+
+A saída estava na própria paleta, no verde-água do `accent`: `#E9F2EE`,
+ΔE 5,71 do papel novo, com a mesma presença do preenchimento da Lavender. O
+eixo mudou de temperatura para matiz, o resultado é o mesmo.
+
+#### Um defeito antigo que apareceu junto
+
+A guarda nova reprovou também o tema **Welcome**, e ali o problema já existia
+havia meses: fundo `#FCF3EE` e preenchimento `#F8F0EB` a ΔE 1,18. Esqueleto e
+cartão eram desenhados e não apareciam, justamente nas telas de apresentação
+e de login, que são as primeiras que alguém vê. Passou despercebido porque
+**nada dá erro quando uma cor some**. Corrigido para `#F5E9E0`, areia.
+
+#### Por que a regra da WCAG não pegava nada disso
+
+Contraste da WCAG só enxerga claro contra escuro. Duas cores de luminância
+parecida e matizes diferentes voltam com razão perto de 1 mesmo sendo
+perfeitamente distinguíveis, e o contrário também: no caso da Sky a razão ia
+de 1,007 para 1,101, e nenhum dos dois números diz nada sobre sumir. Por isso
+o teste novo mede distância em CIE Lab, que é o espaço onde "o olho separa"
+tem significado.
+
+### O acerto visual ✅
+
+Fundo creme (`#FCF3EE`), painel do topo com cor própria, barra sem contorno,
+o texto do painel centralizado de verdade, e a Home mais enxuta: a data de
+nascimento saiu de lá, porque quem abre o aplicativo todo dia já sabe.
+
+O visualizador em tela cheia ganhou ícones em branco forte. Vale registrar o
+detalhe, porque custou tempo: `appBarTheme.iconTheme` **vence** o
+`foregroundColor` do widget, então mudar a cor no lugar óbvio não faz nada.
+
+A foto em tela cheia ganhou zoom por toque duplo no ponto tocado, e o
+`PageView` para de deslizar enquanto está ampliada, senão arrastar para
+enquadrar viraria trocar de foto. E ganhou o botão de apagar do acervo.
+
+Os rótulos dos campos passaram de 9,75 px para 14. O motivo é uma armadilha
+do Flutter: o rótulo flutuante é encolhido por uma **transformação** de 0,75,
+e não por uma fonte menor, então quem quer 14 px na tela precisa pedir
+14 / 0,75. Medido na tela, não deduzido, e há teste.
+
+**A pergunta em aberto:** o fundo creme foi aplicado às três paletas,
+inclusive a de menino. Ver
+[Defeitos conhecidos](#defeitos-conhecidos-e-pendências).
+
+### O blog ✅
+
+As inspirações viraram um blog de verdade: capa, página de leitura, busca
+própria e uma porta de saída. **46 postagens**, todas com texto.
+
+**Uma postagem é um par de arquivos com o mesmo nome**, o `.json` e o
+`.webp`, e o nome do arquivo **é** o identificador. Não existe campo `id`
+dentro do JSON, não existe catálogo central e não existe linha para
+acrescentar no `pubspec.yaml`: o aplicativo descobre a pasta em tempo de
+execução e a suíte passa a cobrir a postagem nova sozinha.
+
+As capas ainda não existem. Ver [Defeitos conhecidos](#defeitos-conhecidos-e-pendências).
+
 ### Fase 6 - Notificações inteligentes ✅
 
 Locais, sem servidor. Tudo o que o aplicativo precisa para lembrar de algo
@@ -667,8 +1012,12 @@ sem foto seria cobrar uma coisa que ela nem pode fazer.
 
 ### Fase 5 - Aba Inspirações ✅
 
-*(Revisada depois da primeira entrega: o conteúdo era raso e as âncoras só
-sabiam faixa de idade. Ver "O que mudou na revisão", abaixo.)*
+*(Revisada duas vezes. Primeiro porque o conteúdo era raso e as âncoras só
+sabiam faixa de idade, e é o que a seção "O que mudou na revisão" conta
+abaixo. Depois a aba virou um blog, com capa, página de leitura e busca
+própria, e o catálogo passou de 42 para 46 postagens: ver [O
+blog](#o-blog-). O que continua valendo deste bloco é a régua do conteúdo,
+que é a parte que mais importa.)*
 
 Nova aba na barra de baixo, no lugar da Busca. A busca não sumiu: foi para
 a lupa no topo da Home, da linha do tempo e da própria aba nova, que é onde
@@ -740,25 +1089,26 @@ limpos. Os testes cobrem a contagem regressiva chegando na hora, sumindo
 depois da festa, funcionando para quem nasceu em 29 de fevereiro, e o feed
 nunca ficando vazio em doze idades diferentes.
 
-### Fase 4 - Voz e cápsula lacrada ✅
+### Fase 4 - Cápsula lacrada (a voz entrou e saiu) ✅
 
-**Voz.** Novo tipo de memória, gravado dentro do aplicativo, em AAC dentro
-de contêiner MP4: toca em qualquer aparelho e em qualquer computador, hoje
-e daqui a vinte anos. Formato exótico envelhece mal, e este acervo precisa
-continuar legível. Limite de cinco minutos, para a gravação não rodar
-esquecida no bolso.
+**A voz foi construída inteira e depois retirada do produto.** Ela era um
+tipo de memória gravado no aplicativo, em AAC dentro de contêiner MP4, com
+limite de cinco minutos. Saiu por decisão de produto, e o registro do porquê
+importa mais que o código que existiu.
 
-Reprodução na própria linha do tempo, com o arquivo baixado só ao tocar:
-um dia com dez áudios não baixa dez arquivos que ninguém pediu. Áudio não
-passa pelo compressor, porque já sai comprimido.
+O que saiu junto: `features/audio/`, o `EntryType.audio`, a opção na folha
+de adicionar, as cores da paleta, as dependências `record` e `just_audio`, e
+a permissão `RECORD_AUDIO` do manifesto. Ela era **a única permissão
+perigosa** que o aplicativo pedia, e o aplicativo hoje não pede nenhuma.
 
-**Uma mudança de política que precisa estar escrita.** O CI tinha uma
-barreira dura recusando permissões perigosas, e `RECORD_AUDIO` estava
-nela. Ela saiu de lá e entrou na lista fixa, com a razão registrada no
-próprio workflow: as outras dão acesso ao acervo que já existe no aparelho
-sem a pessoa escolher item por item; o microfone não lê nada que exista,
-só abre enquanto ela está gravando, depois de apertar gravar. E não há
-substituto: existe seletor de fotos do sistema, não existe seletor de voz.
+**A armadilha da remoção, que quase custou memória de gente.**
+`EntryType.fromId` tem `orElse: () => EntryType.photo`. Apagar o valor do
+enum faria toda gravação já feita **virar foto** na linha do tempo, com um
+`.m4a` que a galeria tentaria desenhar. Por isso a remoção veio com uma
+limpeza única (`limparRestosDeAudio`), que apaga do Firestore as entradas de
+áudio e manda a pasta `Áudios` do Drive para a lixeira, uma vez por
+aparelho. Há teste garantindo que uma entrada antiga de áudio não é lida
+como foto.
 
 **Cápsula lacrada.** Qualquer entrada aceita uma data de abertura. A
 escolha fica junto do título, e não escondida num menu, porque decidir
