@@ -219,12 +219,7 @@ Entry _entrada(
 /// `DriveThumbnail` desenha o arquivo local quando ele existe, então o
 /// caminho da miniatura é o mesmo do aparelho: nada de widget substituto só
 /// para a prévia, que é como uma imagem de teste deixa de valer.
-Future<String> _pintar(
-  Directory pasta,
-  int n,
-  int largura,
-  int altura,
-) async {
+Future<String> _pintar(Directory pasta, int n, int largura, int altura) async {
   // Tons da paleta, só para as peças se distinguirem umas das outras.
   final AppPalette cores = AppPalette.of(_perfil.gender);
   final List<Color> tons = <Color>[
