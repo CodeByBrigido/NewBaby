@@ -141,10 +141,12 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen>
   /// vale um número quebrado entre duas abas.
   late final TabController _abas = TabController(
     length: _unidades.length,
-    // A semana continua sendo a aba de entrada, mesmo tendo ido para o fim
-    // da fila. Quem abre esta tela hoje tem um bebê de semanas; a ordem
-    // serve para procurar, e o começo serve para o uso do dia.
-    initialIndex: _unidades.indexOf(AgeBucketUnit.week),
+    // Abre no ano, que é a primeira da fila.
+    //
+    // Escrito por unidade e não como zero: se a ordem das abas mudar de
+    // novo, a aba de entrada continua sendo o ano em vez de virar seja lá o
+    // que tiver ido para o começo.
+    initialIndex: _unidades.indexOf(AgeBucketUnit.year),
     vsync: this,
   );
 
