@@ -9,13 +9,21 @@ Imagens geradas em teste, para olhar o desenho sem instalar o APK.
 | `linha-do-tempo-ano.png` | a linha do tempo agrupada por Anos |
 | `linha-do-tempo-mes.png` | por Meses, que é como ela abre |
 | `linha-do-tempo-semana.png` | por Semanas |
+| `home-1` a `home-6` | **propostas** para a tela inicial, que ainda não existem |
 
 Regeneradas com:
 
 ```
-flutter test --update-goldens test/previa_do_acervo_test.dart
-flutter test --update-goldens test/previa_da_linha_do_tempo_test.dart
+flutter test --run-skipped --update-goldens test/previa_do_acervo_test.dart
+flutter test --run-skipped --update-goldens test/previa_da_linha_do_tempo_test.dart
+flutter test --run-skipped --update-goldens test/previa_da_home_test.dart
 ```
+
+**As da tela inicial são diferentes das outras duas.** Acervo e linha do
+tempo desenham telas que existem; as `home-*` desenham telas que **não**
+existem, feitas para escolher um caminho antes de escrever qualquer código.
+Enquanto nenhuma for escolhida, elas são conversa, e não documentação do
+aplicativo.
 
 **O que é real nelas:** no acervo, a função `mosaico`, o agrupamento por mês
 e o cabeçalho. Na linha do tempo, a `TimelineList` de verdade, a mesma que a
