@@ -264,7 +264,7 @@ class MemoryRepository {
     );
 
     await firestore.createEntry(uid, entry);
-    unawaited(_processUpload(uid, profile, entry, files, bucket));
+    unawaited(_processUpload(uid, profile, entry, files));
     return entry;
   }
 
@@ -273,7 +273,6 @@ class MemoryRepository {
     BabyProfile profile,
     Entry entry,
     List<PendingFile> pending,
-    AgeBucket bucket,
   ) async {
     final List<OptimizedMedia> temporaries = <OptimizedMedia>[];
     try {
@@ -286,7 +285,7 @@ class MemoryRepository {
         uid: uid,
         profile: profile,
         type: entry.type,
-        bucket: bucket,
+        quando: entry.date,
       );
 
       _emit(entry.id, UploadStatus.uploading, total: pending.length);
@@ -504,8 +503,7 @@ class MemoryRepository {
       return;
     }
 
-    final AgeBucket bucket = AgeCalculator.bucketAt(profile.birth, entry.date);
-    await _processUpload(uid, profile, entry, pending, bucket);
+    await _processUpload(uid, profile, entry, pending);
   }
 
   Future<OptimizedMedia> _optimize(PendingFile item, EntryType type) {
@@ -520,34 +518,65 @@ class MemoryRepository {
     };
   }
 
-  /// Encontra (ou cria) a pasta de destino, guardando o id para a próxima vez.
+  /// Onde uma memória daquele tipo e daquela data mora dentro da cápsula.
+  ///
+  /// `['Fotos', 'Ano 0', 'Mês 07']`, `['Documentos']`.
+  ///
+  /// Documento e crescimento ficam direto na pasta da categoria: uma
+  /// certidão não pertence a uma idade, ela vale a vida inteira.
+  static List<String> caminhoDaPasta({
+    required DateTime birth,
+    required EntryType type,
+    required DateTime quando,
+  }) => <String>[
+    type.folder,
+    if (type.bucketsByAge) ...AgeCalculator.caminhoNoDrive(birth, quando),
+  ];
+
+  /// Se esta chave do cache aponta para a organização antiga do Drive.
+  ///
+  /// A antiga tinha um nível de idade só, com o nome que a galeria usa:
+  /// `Fotos/Semana 07`, `Vídeos/Mês 14`, `Cartas/Ano 3`. A nova tem dois,
+  /// e o primeiro deles sempre começa por `Ano `: `Fotos/Ano 0/Mês 07`.
+  ///
+  /// `Cartas/Ano 3` é o caso que obriga a olhar o número de níveis, e não só
+  /// o prefixo: ele começa por `Ano ` e ainda assim é antigo.
+  @visibleForTesting
+  static bool daOrganizacaoAntiga(String chave) => chave.split('/').length == 2;
+
+  /// Encontra (ou cria) a pasta de destino, guardando os ids para a próxima
+  /// vez.
   Future<String> _resolveFolder({
     required String uid,
     required BabyProfile profile,
     required EntryType type,
-    required AgeBucket bucket,
+    required DateTime quando,
   }) async {
     final String rootId =
         profile.rootFolderId ??
         await drive.ensureRootStructure(knownRootId: profile.rootFolderId);
 
-    final String key = type.bucketsByAge
-        ? '${type.folder}/${bucket.folderName}'
-        : type.folder;
+    final List<String> caminho = caminhoDaPasta(
+      birth: profile.birth,
+      type: type,
+      quando: quando,
+    );
 
-    final String? cached = await firestore.folderId(uid, key);
+    final String? cached = await firestore.folderId(uid, caminho.join('/'));
     if (cached != null && cached.isNotEmpty) return cached;
 
-    final String folderId = type.bucketsByAge
-        ? await drive.ensureAgeFolder(
-            rootId: rootId,
-            category: type.folder,
-            bucketName: bucket.folderName,
-          )
-        : await drive.ensureCategoryFolder(rootId, type.folder);
-
-    await firestore.rememberFolder(uid, key, folderId);
-    return folderId;
+    final List<String> ids = await drive.ensureFolderPath(rootId, caminho);
+    // Um registro por nível, e não só o do fim. É o que deixa a limpeza
+    // saber, mais tarde, qual é o id do `Ano 0` para conferir se ele ficou
+    // vazio depois de o último mês sair.
+    for (int i = 0; i < caminho.length; i++) {
+      await firestore.rememberFolder(
+        uid,
+        caminho.sublist(0, i + 1).join('/'),
+        ids[i],
+      );
+    }
+    return ids.last;
   }
 
   /// Nome estável e ordenável dentro da pasta: `2027-04-22_143500_1.jpg`.
@@ -648,15 +677,11 @@ class MemoryRepository {
     Entry carta,
   ) async {
     try {
-      final AgeBucket bucket = AgeCalculator.bucketAt(
-        profile.birth,
-        carta.date,
-      );
       final String pasta = await _resolveFolder(
         uid: uid,
         profile: profile,
         type: EntryType.letter,
-        bucket: bucket,
+        quando: carta.date,
       );
 
       return await drive.upsertTextFile(
@@ -808,14 +833,83 @@ class MemoryRepository {
   // ------------------------------------------------------------- lixeira
 
   /// Move a entrada e seus arquivos para a lixeira, dos dois lados.
-  Future<void> moveToTrash(String uid, Entry entry) async {
+  Future<void> moveToTrash(
+    String uid,
+    Entry entry, {
+    BabyProfile? profile,
+  }) async {
     await firestore.moveToTrash(uid, entry.id);
     await _setDriveTrashed(entry, trashed: true);
+    if (profile != null) await limparPastaDoPeriodo(uid, profile, entry);
   }
 
-  Future<void> restore(String uid, Entry entry) async {
+  /// Devolve a memória à linha do tempo e ao lugar dela no Drive.
+  ///
+  /// Precisa reencontrar a pasta, e não só tirar o arquivo da lixeira: se
+  /// aquela era a última mídia do período, a pasta foi para a lixeira junto.
+  /// Um arquivo restaurado dentro de uma pasta na lixeira continua invisível,
+  /// e a pessoa veria a memória voltar no aplicativo e não voltar no Drive.
+  Future<void> restore(String uid, Entry entry, {BabyProfile? profile}) async {
     await firestore.restoreFromTrash(uid, entry.id);
     await _setDriveTrashed(entry, trashed: false);
+    if (profile == null || !entry.type.bucketsByAge) return;
+
+    try {
+      final String destino = await _resolveFolder(
+        uid: uid,
+        profile: profile,
+        type: entry.type,
+        quando: entry.date,
+      );
+      for (final String fileId in arquivosNoDrive(entry)) {
+        await drive.moverPara(fileId, destino);
+      }
+    } on Object catch (e) {
+      debugPrint('A memória voltou ao índice mas não à pasta: $e');
+    }
+  }
+
+  /// Apaga a pasta do período quando a última memória dela sai.
+  ///
+  /// O relato que originou isto: enviar uma foto criava a pasta daquele
+  /// período, apagar a foto deixava a pasta lá, vazia, para sempre. Um acervo
+  /// de vinte anos acumularia uma pasta por período em que alguém guardou e
+  /// desistiu, e a organização por idade só serve enquanto uma pasta que
+  /// existe significa que há algo dentro.
+  ///
+  /// Sobe do mês para o ano, porque o ano que perdeu o último mês também
+  /// ficou vazio. Para na pasta da categoria (`Fotos`), que nasce no cadastro
+  /// e faz parte do desenho do acervo mesmo vazia.
+  ///
+  /// Confere antes de apagar, e é isso que o pedido pedia: pasta com outra
+  /// mídia dentro permanece.
+  Future<void> limparPastaDoPeriodo(
+    String uid,
+    BabyProfile profile,
+    Entry entry,
+  ) async {
+    if (!entry.type.bucketsByAge) return;
+
+    final List<String> caminho = caminhoDaPasta(
+      birth: profile.birth,
+      type: entry.type,
+      quando: entry.date,
+    );
+
+    for (int n = caminho.length; n > 1; n--) {
+      final String chave = caminho.sublist(0, n).join('/');
+      try {
+        final String? id = await firestore.folderId(uid, chave);
+        if (id == null || id.isEmpty) return;
+        if (!await drive.pastaVazia(id)) return;
+        await drive.setTrashed(id, trashed: true);
+        await firestore.forgetFolderTree(uid, chave);
+      } on Object catch (e) {
+        // Sobra de pasta é feiura, não perda: não vale derrubar nada.
+        debugPrint('A pasta $chave não pôde ser limpa: $e');
+        return;
+      }
+    }
   }
 
   Future<void> deleteForever(String uid, Entry entry) async {
@@ -855,6 +949,101 @@ class MemoryRepository {
       if (f.driveId.isNotEmpty) f.driveId,
     if (entry.textFileId case final String texto when texto.isNotEmpty) texto,
   ];
+
+  // ------------------------------------------- reorganização do acervo
+
+  bool _reorganizando = false;
+
+  /// Move o acervo já guardado para a organização por ano e mês.
+  ///
+  /// O Drive de quem usou as versões anteriores tem `Fotos/Semana 07` e
+  /// `Vídeos/Mês 14`. A organização nova é `Fotos/Ano 0/Mês 01`, e as duas
+  /// convivendo seriam pior que qualquer uma das duas sozinha: metade da
+  /// infância numa convenção e metade na outra, sem nada escrito em lugar
+  /// nenhum dizendo qual é qual.
+  ///
+  /// **Move, não copia.** No Drive a pasta é uma propriedade do arquivo, e
+  /// mover é trocar essa propriedade: nada sobe de novo, o id continua o
+  /// mesmo, e tudo que o índice guardou sobre aquele arquivo continua
+  /// valendo. Não existe janela em que o arquivo esteja em dois lugares nem
+  /// em nenhum.
+  ///
+  /// **Sem marca de "já rodou".** A marca é o próprio dado: enquanto houver
+  /// chave antiga no cache de pastas, há trabalho. Isso evita gravar um
+  /// campo novo no cadastro, que as regras do servidor ainda não conhecem, e
+  /// tem a propriedade de sempre terminar o serviço: uma migração
+  /// interrompida pela rede continua na abertura seguinte, de onde parou.
+  ///
+  /// Devolve quantos arquivos mudaram de lugar.
+  Future<int> reorganizarODrive({
+    required String uid,
+    required BabyProfile profile,
+    required List<Entry> entradas,
+  }) async {
+    if (_reorganizando) return 0;
+
+    final Map<String, String> pastas = await firestore.allFolders(uid);
+    final List<String> antigas = pastas.keys
+        .where(daOrganizacaoAntiga)
+        .toList();
+    if (antigas.isEmpty) return 0;
+
+    _reorganizando = true;
+    try {
+      int movidos = 0;
+
+      // Guiada pelo índice, e não pela listagem do Drive: é o índice que sabe
+      // a data de cada memória, e é a data que decide a pasta. O nome do
+      // arquivo até começa pela data, mas ler a pasta de destino de um nome
+      // de arquivo seria confiar num texto onde existe um campo.
+      for (final Entry entrada in entradas) {
+        if (!entrada.type.bucketsByAge) continue;
+        final List<String> arquivos = arquivosNoDrive(entrada);
+        if (arquivos.isEmpty) continue;
+
+        try {
+          final String destino = await _resolveFolder(
+            uid: uid,
+            profile: profile,
+            type: entrada.type,
+            quando: entrada.date,
+          );
+          for (final String fileId in arquivos) {
+            if (await drive.moverPara(fileId, destino)) movidos++;
+          }
+          // `Object`, e não `Exception`: o próprio `DriveService` lança
+          // `StateError` quando o Google devolve uma resposta sem id, e
+          // `StateError` não é `Exception`. Com o filtro estreito, uma
+          // pasta que o Drive se recusou a criar derrubava a passagem
+          // inteira e o resto do acervo ficava para trás.
+        } on Object catch (e) {
+          // Um arquivo que não move não pode parar os outros: o que ficou
+          // para trás é reencontrado na próxima abertura, porque a chave
+          // antiga continua no cache.
+          debugPrint('A memória ${entrada.id} não foi movida: $e');
+        }
+      }
+
+      for (final String chave in antigas) {
+        try {
+          final String id = pastas[chave]!;
+          // Só vai para a lixeira se estiver mesmo vazia. Sobra ali o que o
+          // índice não conhece, e apagar às cegas o que este aplicativo não
+          // sabe explicar seria apagar memória de alguém.
+          if (await drive.pastaVazia(id)) {
+            await drive.setTrashed(id, trashed: true);
+          }
+          await firestore.forgetFolderTree(uid, chave);
+        } on Object catch (e) {
+          debugPrint('A pasta antiga $chave continua lá: $e');
+        }
+      }
+
+      return movidos;
+    } finally {
+      _reorganizando = false;
+    }
+  }
 
   // ------------------------------------------------------------ downloads
 

@@ -261,11 +261,10 @@ class _DriveFalso implements DriveService {
   }
 
   @override
-  Future<String> ensureAgeFolder({
-    required String rootId,
-    required String category,
-    required String bucketName,
-  }) async => 'pasta';
+  Future<List<String>> ensureFolderPath(
+    String rootId,
+    List<String> caminho,
+  ) async => <String>[for (final String _ in caminho) 'pasta'];
 
   @override
   Future<String> ensureCategoryFolder(String rootId, String category) async =>

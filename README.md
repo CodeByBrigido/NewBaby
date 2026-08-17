@@ -30,19 +30,36 @@ gente, sem o aplicativo.
 ```
 Meu Bebê - Cápsula do Tempo/
 ├── Fotos/
-│   ├── Semana 01 · Semana 02 · … · Semana 52
-│   ├── Mês 13 · Mês 14 · … · Mês 24
-│   └── Ano 2 · Ano 3 · …
+│   ├── Ano 0/        Mês 00 · Mês 01 · … · Mês 11
+│   ├── Ano 1/        Mês 00 · Mês 01 · … · Mês 11
+│   └── Ano 2/ …
 ├── Vídeos/          (mesma estrutura por idade)
-├── Cartas/
+├── Cartas/          (mesma estrutura por idade)
 ├── Desenhos/
 ├── Documentos/
-└── Crescimento/
+├── Crescimento/
+└── Informacoes.txt
 ```
 
+O ano é a gaveta que alguém abre primeiro, e o mês reinicia dentro dela:
+`Ano 1 / Mês 03` se lê "1 ano e 3 meses", que é como a idade de uma criança
+é dita em voz alta. `Mês 00` é o primeiro mês de vida, antes de completar um
+mês.
+
 As pastas de idade nascem sob demanda, no primeiro conteúdo daquela idade -
-criar mais de cem pastas no primeiro acesso deixaria o cadastro lento sem
-necessidade.
+criar mais de sessenta pastas no primeiro acesso deixaria o cadastro lento
+sem necessidade. E somem quando esvaziam: tirar a última mídia de um período
+leva junto a pasta dele, porque uma pasta que existe precisa significar que
+há algo dentro.
+
+**Duas convenções, dois públicos.** Dentro do aplicativo a galeria continua
+em `Semana 07` e `Mês 14`: quem registra hoje pensa em semanas. Quem abre a
+pasta daqui a vinte anos pensa em anos, e é essa pessoa que a estrutura do
+Drive atende.
+
+O acervo guardado antes desta organização (`Fotos/Semana 07`) muda de lugar
+sozinho na abertura seguinte. Move, não copia: no Drive a pasta é uma
+propriedade do arquivo, então o id continua o mesmo e nada sobe de novo.
 
 ---
 
@@ -113,14 +130,14 @@ downloads e o cache local.
 Tudo - o nome da pasta, o rótulo na linha do tempo, o agrupamento das
 galerias - sai de `lib/core/utils/age_calculator.dart`.
 
-| Idade | Rótulo | Pasta |
-|---|---|---|
-| dia do nascimento | Recém-nascida | `Semana 01` |
-| 22 dias | 22 dias | `Semana 04` |
-| 2 meses e 11 dias | 2 meses e 11 dias | `Semana 11` |
-| 1 ano | 1 ano | `Mês 13` |
-| 1 ano e 2 meses | 1 ano e 2 meses | `Mês 15` |
-| 2 anos | 2 anos | `Ano 2` |
+| Idade | Rótulo | Galeria | Pasta no Drive |
+|---|---|---|---|
+| dia do nascimento | Recém-nascida | `Semana 01` | `Ano 0 / Mês 00` |
+| 22 dias | 22 dias | `Semana 04` | `Ano 0 / Mês 00` |
+| 2 meses e 11 dias | 2 meses e 11 dias | `Semana 11` | `Ano 0 / Mês 02` |
+| 1 ano | 1 ano | `Mês 13` | `Ano 1 / Mês 00` |
+| 1 ano e 2 meses | 1 ano e 2 meses | `Mês 15` | `Ano 1 / Mês 02` |
+| 2 anos | 2 anos | `Ano 2` | `Ano 2 / Mês 00` |
 
 Os meses são de calendário, não blocos de 30 dias: quem nasce em 31/01
 completa um mês em 28/02. Há testes cobrindo anos bissextos, viradas de mês

@@ -191,7 +191,9 @@ class EntryDetailScreen extends ConsumerWidget {
 
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
-    await ref.read(memoryRepositoryProvider).moveToTrash(uid, entry);
+    await ref
+        .read(memoryRepositoryProvider)
+        .moveToTrash(uid, entry, profile: ref.read(profileProvider).value);
     if (context.mounted) context.pop();
   }
 }

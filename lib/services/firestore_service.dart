@@ -167,6 +167,26 @@ class FirestoreService {
         'criadoEm': Timestamp.fromDate(DateTime.now()),
       });
 
+  /// Todas as pastas já criadas, do caminho para o id do Drive.
+  ///
+  /// Serve à reorganização do acervo, que precisa saber o que existe hoje
+  /// para descobrir o que ainda está na estrutura antiga. É a lista completa
+  /// numa leitura só, e não uma consulta por caminho: são poucas dezenas de
+  /// documentos, e perguntar um a um custaria uma ida ao servidor por pasta.
+  Future<Map<String, String>> allFolders(String uid) async {
+    final QuerySnapshot<Map<String, Object?>> tudo = await _user(
+      uid,
+    ).collection(_folders).get();
+
+    return <String, String>{
+      for (final QueryDocumentSnapshot<Map<String, Object?>> d in tudo.docs)
+        if (d.data()['caminho'] case final String caminho)
+          if (d.data()['driveId'] case final String driveId
+              when driveId.isNotEmpty)
+            caminho: driveId,
+    };
+  }
+
   /// Esquece uma pasta do cache, com as subpastas dela.
   ///
   /// O cache é indexado pelo caminho, então tudo que começa pelo mesmo

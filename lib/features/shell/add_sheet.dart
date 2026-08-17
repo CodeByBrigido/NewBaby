@@ -152,7 +152,6 @@ List<String> resumoDoEnvio({
   required DateTime quando,
 }) {
   final Age idade = profile.ageAt(quando);
-  final AgeBucket balde = AgeCalculator.bucketAt(profile.birth, quando);
 
   final String oQue = quantosItens(type, quantidade);
   final String comData = '$oQue com a data de ${Fmt.longDate(quando)}.';
@@ -171,14 +170,30 @@ List<String> resumoDoEnvio({
     comData,
     comIdade,
     // Só os tipos agrupados por idade têm um lugar por idade para citar.
-    // Documento e carta não entram em semana nenhuma.
+    // Documento não entra em pasta de idade nenhuma.
     if (type.bucketsByAge)
-      'Vai ficar guardado ${_artigoDoBalde(balde)} ${balde.folderName}.',
+      'No Drive, vai ficar em ${ondeNoDrive(profile, type, quando)}.',
   ];
 }
 
-String _artigoDoBalde(AgeBucket balde) =>
-    balde.unit == AgeBucketUnit.week ? 'na' : 'no';
+/// O caminho da pasta como a pessoa vai lê-lo no Google Drive.
+///
+/// `Fotos / Ano 0 / Mês 01`.
+///
+/// Esta frase dizia a semana (`Semana 12`), que é o nome que a galeria usa
+/// aqui dentro. Enquanto a pasta do Drive também se chamava assim, as duas
+/// coisas coincidiam; desde que o Drive passou a ser organizado por ano e
+/// mês, dizer a semana mandaria a pessoa procurar uma pasta que não existe.
+///
+/// A galeria continua em semanas de propósito: quem registra hoje pensa em
+/// semanas, e quem abre a pasta daqui a vinte anos pensa em anos. O que não
+/// pode é uma tela sobre o Drive falar a língua da outra.
+String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
+    MemoryRepository.caminhoDaPasta(
+      birth: profile.birth,
+      type: type,
+      quando: quando,
+    ).join(' / ');
 
 /// O que a tela diz sobre a origem da data, antes de a pessoa confirmar.
 ///

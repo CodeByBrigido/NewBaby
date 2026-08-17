@@ -241,45 +241,77 @@ void main() {
     });
   });
 
-  group('o nome da pasta no Drive', () {
-    AgeBucket balde(DateTime nascimento, DateTime quando) =>
-        AgeCalculator.bucketAt(nascimento, quando);
+  group('o caminho da pasta no Drive', () {
+    List<String> caminho(DateTime nascimento, DateTime quando) =>
+        AgeCalculator.caminhoNoDrive(nascimento, quando);
 
     final DateTime nascimento = DateTime(2026, 4, 15);
 
-    test('o primeiro ano inteiro é uma pasta só', () {
-      // 52 pastas de semana fazem sentido para quem registra e nenhum para
-      // quem folheia o acervo daqui a vinte anos.
-      expect(
-        balde(nascimento, DateTime(2026, 4, 16)).driveFolderName,
-        'Primeiro Ano',
-      );
-      expect(
-        balde(nascimento, DateTime(2027, 4, 14)).driveFolderName,
-        'Primeiro Ano',
-      );
+    test('o primeiro mês de vida é o Mês 00 do Ano 0', () {
+      // Zero, e não um: o número da pasta é a idade, e quem ainda não
+      // completou um mês não tem mês nenhum.
+      expect(caminho(nascimento, DateTime(2026, 4, 16)), <String>[
+        'Ano 0',
+        'Mês 00',
+      ]);
     });
 
-    test('do primeiro ao segundo aniversário é "1 Ano"', () {
-      expect(balde(nascimento, DateTime(2027, 4, 15)).driveFolderName, '1 Ano');
-      expect(balde(nascimento, DateTime(2028, 4, 14)).driveFolderName, '1 Ano');
+    test('o último mês antes do aniversário ainda é do Ano 0', () {
+      expect(caminho(nascimento, DateTime(2027, 4, 14)), <String>[
+        'Ano 0',
+        'Mês 11',
+      ]);
     });
 
-    test('daí em diante o plural entra', () {
-      expect(
-        balde(nascimento, DateTime(2028, 4, 15)).driveFolderName,
-        '2 Anos',
-      );
-      expect(balde(nascimento, DateTime(2031, 6, 1)).driveFolderName, '5 Anos');
+    test('o aniversário vira o ano e zera o mês', () {
+      // É a borda que erra fácil: um dia depois, tudo muda de gaveta.
+      expect(caminho(nascimento, DateTime(2027, 4, 15)), <String>[
+        'Ano 1',
+        'Mês 00',
+      ]);
+      expect(caminho(nascimento, DateTime(2028, 4, 15)), <String>[
+        'Ano 2',
+        'Mês 00',
+      ]);
+    });
+
+    test('o mês reinicia a cada ano, e é assim que a idade se fala', () {
+      // `Ano 1/Mês 03` se lê "1 ano e 3 meses". Numeração contínua daria
+      // `Mês 15`, que ordena igual e não corresponde a nada que alguém fale.
+      expect(caminho(nascimento, DateTime(2027, 7, 20)), <String>[
+        'Ano 1',
+        'Mês 03',
+      ]);
+    });
+
+    test('o mês vem com dois dígitos, para a pasta ordenar sozinha', () {
+      // Sem o zero à esquerda o Drive lista `Mês 1, Mês 10, Mês 2`.
+      expect(caminho(nascimento, DateTime(2026, 6, 1)).last, 'Mês 01');
+      expect(caminho(nascimento, DateTime(2027, 3, 1)).last, 'Mês 10');
     });
 
     test('o nome do Drive e o da interface são independentes', () {
       // Se alguém colapsar os dois num só, a galeria perde a semana ou o
       // Drive ganha 52 pastas por ano. Este teste é a única coisa que
       // registra que a separação foi de propósito.
-      final AgeBucket b = balde(nascimento, DateTime(2026, 6, 1));
-      expect(b.folderName, 'Semana 07');
-      expect(b.driveFolderName, 'Primeiro Ano');
+      final DateTime quando = DateTime(2026, 6, 1);
+      expect(
+        AgeCalculator.bucketAt(nascimento, quando).folderName,
+        'Semana 07',
+      );
+      expect(caminho(nascimento, quando), <String>['Ano 0', 'Mês 01']);
+    });
+
+    test('sempre dois níveis, nunca um só', () {
+      // O ano é a gaveta que alguém abre primeiro, e a criança de cinco anos
+      // tem sessenta meses de acervo.
+      for (final DateTime d in <DateTime>[
+        DateTime(2026, 4, 15),
+        DateTime(2027, 1, 1),
+        DateTime(2031, 6, 1),
+      ]) {
+        expect(caminho(nascimento, d), hasLength(2), reason: '$d');
+      }
     });
   });
 }

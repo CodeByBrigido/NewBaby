@@ -77,7 +77,9 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
     try {
-      await ref.read(memoryRepositoryProvider).moveToTrash(uid, entry);
+      await ref
+          .read(memoryRepositoryProvider)
+          .moveToTrash(uid, entry, profile: ref.read(profileProvider).value);
       if (mounted) Navigator.of(context).pop();
     } on Exception catch (e) {
       if (mounted) showMessage(context, userMessage(e, context: S.delete));

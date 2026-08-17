@@ -100,7 +100,7 @@ void main() {
         <String>[
           '5 fotos com a data de 10 de abril de 2027.',
           'Nessa data a Maria tinha 2 meses e 19 dias.',
-          'Vai ficar guardado na Semana 12.',
+          'No Drive, vai ficar em Fotos / Ano 0 / Mês 02.',
         ],
       );
     });
@@ -111,25 +111,25 @@ void main() {
       expect(quantosItens(EntryType.document, 2), '2 documentos');
     });
 
-    test('mês e ano concordam com o artigo certo', () {
+    test('o caminho acompanha a idade, ano e mês', () {
       expect(
         resumo(
           type: EntryType.video,
           quantidade: 1,
           quando: DateTime(2028, 4, 10),
         ).last,
-        'Vai ficar guardado no Mês 15.',
+        'No Drive, vai ficar em Vídeos / Ano 1 / Mês 02.',
       );
-      // Mês conta o mês de vida (aos 12 meses completos, "Mês 13"); ano
-      // conta anos completos ("Ano 3" para quem tem 3 anos). É a convenção
-      // que a galeria já usa, e a confirmação repete a mesma.
+      // A frase diz o caminho do Drive, e não a semana que a galeria usa
+      // aqui dentro: é sobre onde o arquivo vai parar lá fora. O mês
+      // reinicia a cada ano, então `Ano 1 / Mês 02` se lê "1 ano e 2 meses".
       expect(
         resumo(
           type: EntryType.photo,
           quantidade: 1,
           quando: DateTime(2030, 4, 10),
         ).last,
-        'Vai ficar guardado no Ano 3.',
+        'No Drive, vai ficar em Fotos / Ano 3 / Mês 02.',
       );
     });
 
@@ -233,7 +233,10 @@ void main() {
         find.text('Nessa data a Maria tinha 2 meses e 19 dias.'),
         findsOneWidget,
       );
-      expect(find.text('Vai ficar guardado na Semana 12.'), findsOneWidget);
+      expect(
+        find.text('No Drive, vai ficar em Fotos / Ano 0 / Mês 02.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('cancelar não devolve data nenhuma', (

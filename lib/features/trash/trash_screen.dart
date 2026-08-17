@@ -145,7 +145,9 @@ class TrashScreen extends ConsumerWidget {
   ) async {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
-    await ref.read(memoryRepositoryProvider).restore(uid, entry);
+    await ref
+        .read(memoryRepositoryProvider)
+        .restore(uid, entry, profile: ref.read(profileProvider).value);
     if (context.mounted) showMessage(context, 'Item restaurado.');
   }
 
