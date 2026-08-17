@@ -202,8 +202,26 @@ void main() {
       // Documento é uma memória por arquivo. Uma janela por arquivo travaria
       // o envio do próximo até alguém fechar a anterior.
       final String corpo = corpoDe('Future<void> _addDocuments(');
-      expect(corpo, contains('mostrarJanela:false'));
+      expect('mostrarEnvio('.allMatches(corpo), hasLength(1));
       expect(corpo, contains('entries:criadas'));
+    });
+
+    test('a folha fecha antes de os documentos começarem a subir', () {
+      // Este caminho era o único que segurava a folha aberta durante os
+      // envios, para fechá-la só no fim. Eram três coisas disputando a mesma
+      // pilha de navegação, e a janela não aparecia. O caminho da foto nunca
+      // teve esse problema porque faz o simples, e agora documento faz igual.
+      final String corpo = corpoDe('Future<void> _addDocuments(');
+
+      final int fechou = corpo.indexOf('Navigator.of(context).pop()');
+      final int enviou = corpo.indexOf('.addFiles(');
+      expect(fechou, isNot(-1), reason: 'a folha precisa fechar');
+      expect(enviou, isNot(-1), reason: 'os documentos precisam subir');
+      expect(
+        fechou,
+        lessThan(enviou),
+        reason: 'Fechar depois do envio é o desenho que não funcionava.',
+      );
     });
   });
 }

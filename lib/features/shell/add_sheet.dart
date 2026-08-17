@@ -152,7 +152,6 @@ List<String> resumoDoEnvio({
   required DateTime quando,
 }) {
   final Age idade = profile.ageAt(quando);
-  final AgeBucket balde = AgeCalculator.bucketAt(profile.birth, quando);
 
   final String oQue = quantosItens(type, quantidade);
   final String comData = '$oQue com a data de ${Fmt.longDate(quando)}.';
@@ -171,14 +170,30 @@ List<String> resumoDoEnvio({
     comData,
     comIdade,
     // Só os tipos agrupados por idade têm um lugar por idade para citar.
-    // Documento e carta não entram em semana nenhuma.
+    // Documento não entra em pasta de idade nenhuma.
     if (type.bucketsByAge)
-      'Vai ficar guardado ${_artigoDoBalde(balde)} ${balde.folderName}.',
+      'No Drive, vai ficar em ${ondeNoDrive(profile, type, quando)}.',
   ];
 }
 
-String _artigoDoBalde(AgeBucket balde) =>
-    balde.unit == AgeBucketUnit.week ? 'na' : 'no';
+/// O caminho da pasta como a pessoa vai lê-lo no Google Drive.
+///
+/// `Fotos / Ano 0 / Mês 01`.
+///
+/// Esta frase dizia a semana (`Semana 12`), que é o nome que a galeria usa
+/// aqui dentro. Enquanto a pasta do Drive também se chamava assim, as duas
+/// coisas coincidiam; desde que o Drive passou a ser organizado por ano e
+/// mês, dizer a semana mandaria a pessoa procurar uma pasta que não existe.
+///
+/// A galeria continua em semanas de propósito: quem registra hoje pensa em
+/// semanas, e quem abre a pasta daqui a vinte anos pensa em anos. O que não
+/// pode é uma tela sobre o Drive falar a língua da outra.
+String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
+    MemoryRepository.caminhoDaPasta(
+      birth: profile.birth,
+      type: type,
+      quando: quando,
+    ).join(' / ');
 
 /// O que a tela diz sobre a origem da data, antes de a pessoa confirmar.
 ///
@@ -541,38 +556,54 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
 
   final DateTime confirmada = lote.quando;
 
+  // A folha fecha **antes** dos envios, e não depois deles.
+  //
+  // Este caminho era o único que mantinha a folha aberta enquanto os
+  // arquivos subiam, para só então fechá-la e abrir a janela. Eram três
+  // coisas disputando a mesma pilha de navegação, e a janela do envio não
+  // aparecia. O caminho da foto nunca teve esse problema porque faz o
+  // simples: fecha a folha, envia, mostra a janela. Documento passa a fazer
+  // igual.
+  //
+  // O `raiz` é capturado antes do fechamento. O contexto que chega aqui é o
+  // da folha, e fechá-la o mata; o da raiz sobrevive, porque não é ele que
+  // está sendo fechado.
+  final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
+  Navigator.of(context).pop();
+  if (!raiz.mounted) return;
+
   // Cada documento vira uma memória própria, mas a janela é uma só: uma por
   // arquivo seguraria o envio do próximo até alguém fechar a anterior.
   final List<Entry> criadas = <Entry>[];
-  for (final PlatformFile file in files) {
-    if (file.path == null) continue;
-    if (!context.mounted) return;
-    final Entry? criada = await _send(
-      context,
-      ref,
-      lote: DataDoLote(quando: confirmada, lida: false, diasDiferentes: 1),
-      confirmar: false,
-      type: EntryType.document,
-      files: <PendingFile>[
-        PendingFile(
-          path: file.path!,
-          kind: EntryType.document,
-          name: file.name,
-        ),
-      ],
-      title: nomes[file.path!],
-      message: 'Enviando ${file.name}...',
-      keepSheetOpen: true,
-      mostrarJanela: false,
-    );
-    if (criada != null) criadas.add(criada);
+  try {
+    for (final PlatformFile file in files) {
+      if (file.path == null) continue;
+      criadas.add(
+        await ref
+            .read(memoryRepositoryProvider)
+            .addFiles(
+              uid: ctx.uid,
+              profile: ctx.profile,
+              type: EntryType.document,
+              files: <PendingFile>[
+                PendingFile(
+                  path: file.path!,
+                  kind: EntryType.document,
+                  name: file.name,
+                ),
+              ],
+              date: confirmada,
+              title: nomes[file.path!],
+            ),
+      );
+    }
+  } on Exception catch (e) {
+    if (raiz.mounted) {
+      showMessage(raiz.context, userMessage(e, context: 'Enviar documento'));
+    }
+    return;
   }
 
-  if (!context.mounted) return;
-  // Mesmo cuidado do `_send`: a folha morre no `maybePop`, e com ela o
-  // contexto que abriria a janela.
-  final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
-  Navigator.of(context).maybePop();
   if (!raiz.mounted) return;
   await mostrarEnvio(
     raiz.context,
@@ -599,9 +630,6 @@ Future<Entry?> _send(
   required List<PendingFile> files,
   required String message,
   String? title,
-  bool keepSheetOpen = false,
-  bool confirmar = true,
-  bool mostrarJanela = true,
 }) async {
   final ({String uid, BabyProfile profile})? ctx = _context(ref);
   if (ctx == null) {
@@ -610,19 +638,16 @@ Future<Entry?> _send(
   }
   if (files.isEmpty) return null;
 
-  DateTime data = lote.quando;
-  if (confirmar) {
-    final DateTime? confirmada = await confirmarEnvio(
-      context,
-      g: Copy.of(ctx.profile),
-      profile: ctx.profile,
-      type: type,
-      quantidade: files.length,
-      lote: lote,
-    );
-    if (confirmada == null || !context.mounted) return null;
-    data = confirmada;
-  }
+  final DateTime? confirmada = await confirmarEnvio(
+    context,
+    g: Copy.of(ctx.profile),
+    profile: ctx.profile,
+    type: type,
+    quantidade: files.length,
+    lote: lote,
+  );
+  if (confirmada == null || !context.mounted) return null;
+  final DateTime data = confirmada;
 
   // Capturado **antes** de fechar a folha.
   //
@@ -633,7 +658,7 @@ Future<Entry?> _send(
   // é ele que está sendo fechado.
   final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
 
-  if (!keepSheetOpen) Navigator.of(context).pop();
+  Navigator.of(context).pop();
 
   try {
     final Entry entry = await ref
@@ -654,17 +679,15 @@ Future<Entry?> _send(
     // nunca dizia que terminou. Quem mandasse alguma coisa e trocasse de
     // tela não descobria se deu certo, e principalmente não descobria
     // **onde** aquilo foi parar.
-    if (mostrarJanela) {
-      await mostrarEnvio(
-        raiz.context,
-        entries: <Entry>[entry],
-        bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
-      );
-    }
+    await mostrarEnvio(
+      raiz.context,
+      entries: <Entry>[entry],
+      bucket: AgeCalculator.bucketAt(ctx.profile.birth, data),
+    );
     return entry;
   } on Exception catch (e) {
-    if (context.mounted) {
-      showMessage(context, userMessage(e, context: 'Enviar memória'));
+    if (raiz.mounted) {
+      showMessage(raiz.context, userMessage(e, context: 'Enviar memória'));
     }
     return null;
   }

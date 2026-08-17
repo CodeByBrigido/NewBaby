@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/age_calculator.dart';
+import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../services/memory_repository.dart';
 import '../../state/providers.dart';
+import 'add_sheet.dart';
 
 /// Para onde a janela leva quando o envio termina.
 ///
@@ -171,20 +174,27 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
 
   /// A frase que diz onde a memória ficou, no tempo certo.
   String _onde({required bool pronto}) {
+    final BabyProfile? profile = ref.watch(profileProvider).value;
+    final Copy g = Copy.of(profile);
     final String verbo = pronto ? 'Está guardado' : 'Vai ficar guardado';
 
-    // Carta e documento não entram em pasta de idade, então citar uma semana
-    // ali seria mentira.
-    if (!_tipo.bucketsByAge) {
-      return pronto
-          ? 'Está guardado na sua conta do Google Drive.'
-          : 'Vai ser guardado na sua conta do Google Drive.';
+    // "no Google Drive da sua filha", e não "na sua conta do Google Drive".
+    // A conta é da criança desde o primeiro dia, e esta é a frase que a
+    // pessoa lê no instante em que a memória vai para lá.
+    final String conta = 'no Google Drive ${g.ofTheChild}';
+
+    // Documento não entra em pasta de idade, então citar um mês seria
+    // mentira.
+    if (!_tipo.bucketsByAge || profile == null) {
+      return pronto ? 'Está guardado $conta.' : 'Vai ser guardado $conta.';
     }
-    final String artigo = widget.bucket.unit == AgeBucketUnit.week
-        ? 'na'
-        : 'no';
-    return '$verbo $artigo ${widget.bucket.folderName}'
-        '${pronto ? ", na sua conta do Google Drive." : "."}';
+
+    // O caminho de verdade, e não o nome da semana que a galeria usa aqui
+    // dentro. É esta a tela que promete dizer **onde** a memória foi parar,
+    // e mandar procurar `Semana 12` no Drive é mandar procurar uma pasta que
+    // não existe mais.
+    final String pasta = ondeNoDrive(profile, _tipo, widget.entries.first.date);
+    return '$verbo em $pasta${pronto ? ", $conta." : "."}';
   }
 
   /// Para onde o botão leva, ou `null` quando não há tela para aquilo.

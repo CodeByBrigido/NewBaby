@@ -151,7 +151,9 @@ class LetterScreen extends ConsumerWidget {
 
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
-    await ref.read(memoryRepositoryProvider).moveToTrash(uid, letter);
+    await ref
+        .read(memoryRepositoryProvider)
+        .moveToTrash(uid, letter, profile: ref.read(profileProvider).value);
     if (context.mounted) context.pop();
   }
 }

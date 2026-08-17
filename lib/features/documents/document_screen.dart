@@ -96,7 +96,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     if (!confirmed) return;
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
-    await ref.read(memoryRepositoryProvider).moveToTrash(uid, entry);
+    await ref
+        .read(memoryRepositoryProvider)
+        .moveToTrash(uid, entry, profile: ref.read(profileProvider).value);
     if (mounted) context.pop();
   }
 

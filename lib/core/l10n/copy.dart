@@ -121,6 +121,25 @@ class Copy {
   /// Rodapé do menu lateral, depois de "Guardado com amor no Drive de".
   String get driveOwner => hasName ? name : 'você';
 
+  /// De quem é o Google Drive onde a memória acabou de ser guardada.
+  ///
+  /// `do seu filho` / `da sua filha` / `da criança`.
+  ///
+  /// A janela do envio dizia "na sua conta do Google Drive", e o "sua" ali
+  /// estava simplesmente errado sobre o produto. A conta é da criança desde o
+  /// primeiro dia, e um dia ela recebe a conta inteira: dizer que o acervo
+  /// está no Drive de quem está segurando o celular contradiz a promessa no
+  /// exato momento em que ela está sendo cumprida.
+  ///
+  /// Fica com `filho`/`filha` em vez do nome porque é o que descreve a
+  /// relação. `no Google Drive da Maria` diz de quem é a conta; `da sua
+  /// filha` diz também por que ela é dela.
+  String get ofTheChild => switch (_gender) {
+    BabyGender.girl => 'da sua filha',
+    BabyGender.boy => 'do seu filho',
+    null => 'da criança',
+  };
+
   // ------------------------------------------------- a última pergunta feita
 
   /// A pergunta do aviso que aparece antes de apagar a conta.

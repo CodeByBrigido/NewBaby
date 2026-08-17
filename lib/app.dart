@@ -53,6 +53,23 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
       final List<Entry>? entradas = agora.value;
       if (entradas == null) return;
       unawaited(ref.read(cartasAtrasadasProvider).gravar(entradas));
+
+      // O acervo guardado nas versões anteriores está em `Fotos/Semana 07`,
+      // e a organização passou a ser `Fotos/Ano 0/Mês 01`. Duas convenções
+      // convivendo seriam pior que qualquer uma sozinha, então o que já
+      // existe muda de lugar.
+      //
+      // Sai daqui, junto das cartas atrasadas, pelo mesmo motivo: a lista já
+      // está em memória e nenhuma leitura nova é feita. Ela mesma decide se
+      // há trabalho, olhando se sobrou chave antiga no cache de pastas.
+      final String? uid = ref.read(uidProvider);
+      final BabyProfile? profile = ref.read(profileProvider).value;
+      if (uid == null || profile == null) return;
+      unawaited(
+        ref
+            .read(memoryRepositoryProvider)
+            .reorganizarODrive(uid: uid, profile: profile, entradas: entradas),
+      );
     }, fireImmediately: true);
 
     ref.listenManual(plannedRemindersProvider, (

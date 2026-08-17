@@ -168,15 +168,69 @@ class DriveService {
     );
   }
 
-  /// Pasta de idade dentro de uma categoria: `Fotos/Semana 07`.
-  Future<String> ensureAgeFolder({
-    required String rootId,
-    required String category,
-    required String bucketName,
-  }) {
+  /// Percorre (criando o que faltar) uma sequência de subpastas.
+  ///
+  /// `['Fotos', 'Ano 0', 'Mês 07']` devolve o id da última.
+  ///
+  /// Cria sob demanda, nível a nível, e nunca em lote: o primeiro acesso de
+  /// uma criança de cinco anos precisaria de mais de sessenta chamadas para
+  /// criar pastas que talvez nunca recebam nada. A pasta do período nasce
+  /// junto com o primeiro conteúdo dele, e é por isso que não há pasta vazia
+  /// no Drive de quem acabou de se cadastrar.
+  /// Devolve um id por nível, e não só o do fim: quem chama guarda todos no
+  /// cache, e é isso que permite mais tarde perguntar se o **ano** ficou
+  /// vazio depois de o último mês dele sair.
+  Future<List<String>> ensureFolderPath(String rootId, List<String> caminho) {
     return _withApi((drive.DriveApi api) async {
-      final String categoryId = await _ensureFolder(api, category, rootId);
-      return _ensureFolder(api, bucketName, categoryId);
+      final List<String> ids = <String>[];
+      String id = rootId;
+      for (final String nome in caminho) {
+        id = await _ensureFolder(api, nome, id);
+        ids.add(id);
+      }
+      return ids;
+    });
+  }
+
+  /// Muda um arquivo de pasta, sem copiar nem reenviar.
+  ///
+  /// O Drive guarda a pasta como uma propriedade do arquivo, então mover é
+  /// trocar essa propriedade: o conteúdo não sobe de novo, o id continua o
+  /// mesmo, e tudo que o aplicativo guardou sobre ele continua valendo.
+  ///
+  /// Devolve `false` quando o arquivo já estava no destino, para quem chama
+  /// poder contar o que de fato mudou.
+  Future<bool> moverPara(String fileId, String destinoId) {
+    return _withApi((drive.DriveApi api) async {
+      final drive.File atual =
+          await api.files.get(fileId, $fields: 'parents') as drive.File;
+      final List<String> pais = atual.parents ?? const <String>[];
+      if (pais.length == 1 && pais.single == destinoId) return false;
+
+      await api.files.update(
+        drive.File(),
+        fileId,
+        addParents: destinoId,
+        // Sai de todas as anteriores. Um arquivo com duas pastas-mãe aparece
+        // nos dois lugares no Drive, e a bagunça que a reorganização veio
+        // desfazer voltaria em dobro.
+        removeParents: pais.where((String p) => p != destinoId).join(','),
+        $fields: 'id',
+      );
+      return true;
+    });
+  }
+
+  /// Se a pasta não tem mais nada dentro, contando o que está na lixeira
+  /// como fora.
+  Future<bool> pastaVazia(String folderId) {
+    return _withApi((drive.DriveApi api) async {
+      final drive.FileList filhos = await api.files.list(
+        q: "'$folderId' in parents and trashed = false",
+        $fields: 'files(id)',
+        pageSize: 1,
+      );
+      return (filhos.files ?? const <drive.File>[]).isEmpty;
     });
   }
 

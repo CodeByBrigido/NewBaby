@@ -208,4 +208,38 @@ void main() {
       expect(BabyGender.fromId('menino'), BabyGender.boy);
     });
   });
+
+  group('de quem é o Drive', () {
+    // A janela do envio dizia "na sua conta do Google Drive". O "sua" ali
+    // contradizia o produto no exato instante em que ele está sendo
+    // cumprido: a conta é da criança desde o primeiro dia.
+    test('concorda com o sexo do cadastro', () {
+      expect(
+        Copy.of(profileOf('Maria', BabyGender.girl)).ofTheChild,
+        'da sua filha',
+      );
+      expect(
+        Copy.of(profileOf('Pedro', BabyGender.boy)).ofTheChild,
+        'do seu filho',
+      );
+    });
+
+    test('sem sexo informado, uma frase que não precisa de concordância', () {
+      // Não é a versão pior da mesma frase: é outra frase, escrita para não
+      // ter que arriscar "do Maria".
+      expect(Copy.of(profileOf('Alex', null)).ofTheChild, 'da criança');
+      expect(Copy.of(null).ofTheChild, 'da criança');
+    });
+
+    test('nunca diz que o Drive é de quem está segurando o celular', () {
+      for (final BabyGender? sexo in <BabyGender?>[
+        ...BabyGender.values,
+        null,
+      ]) {
+        final String frase = Copy.of(profileOf('Maria', sexo)).ofTheChild;
+        expect(frase, isNot(contains('sua conta')), reason: '$sexo');
+        expect(frase, startsWith('d'), reason: '$sexo');
+      }
+    });
+  });
 }

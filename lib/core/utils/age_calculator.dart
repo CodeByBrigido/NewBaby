@@ -32,22 +32,6 @@ class AgeBucket {
     AgeBucketUnit.year => 'Ano $index',
   };
 
-  /// Nome da pasta no Google Drive.
-  ///
-  /// Grosso de propósito, e diferente do [folderName] que a interface usa.
-  /// São dois públicos: quem registra hoje quer saber a semana, e quem abrir
-  /// a pasta daqui a vinte anos quer o ano. `Semana 07` não diz nada a essa
-  /// segunda pessoa, e cinquenta e duas pastas no primeiro ano de vida só
-  /// atrapalham quem está folheando o acervo inteiro.
-  ///
-  /// O primeiro ano é uma pasta só, porque é o período com mais conteúdo e
-  /// menos sentido de subdivisão para quem olha de longe: tudo ali é bebê.
-  String get driveFolderName => switch (unit) {
-    AgeBucketUnit.week => 'Primeiro Ano',
-    AgeBucketUnit.month => '1 Ano',
-    AgeBucketUnit.year => index == 1 ? '1 Ano' : '$index Anos',
-  };
-
   /// Chave estável usada no Firestore e para ordenar os baldes.
   /// Ordena corretamente porque semana < mês < ano na comparação de texto.
   String get key => switch (unit) {
@@ -296,5 +280,35 @@ abstract final class AgeCalculator {
       start: start,
       end: end,
     );
+  }
+
+  /// O caminho da pasta no Drive para um conteúdo daquela data.
+  ///
+  /// `['Ano 0', 'Mês 07']`, `['Ano 1', 'Mês 03']`, `['Ano 5', 'Mês 11']`.
+  ///
+  /// **Duas convenções, e são dois públicos.** Quem registra hoje quer a
+  /// semana, e é ela que a galeria mostra ([AgeBucket.folderName]). Quem
+  /// abrir a pasta daqui a vinte anos quer a idade como se fala dela:
+  /// `Semana 33` não diz nada a essa segunda pessoa, e cinquenta e duas
+  /// pastas por ano de vida atrapalham quem está folheando o acervo inteiro.
+  ///
+  /// **O mês reinicia a cada ano** porque é assim que a idade de uma criança
+  /// é dita: `Ano 1/Mês 03` se lê "1 ano e 3 meses". Uma numeração contínua
+  /// daria `Mês 15`, que ordena igualmente bem e não corresponde a nada que
+  /// alguém fale em voz alta.
+  ///
+  /// `Mês 00` é o primeiro mês de vida, antes de completar um mês. Fica com
+  /// zero, e não com um, para o número da pasta continuar sendo a idade e
+  /// não a contagem: dentro de `Ano 0`, `Mês 00` é quem ainda não tem mês
+  /// nenhum completo.
+  ///
+  /// Dois níveis, e não um só com tudo dentro: o ano é a gaveta que alguém
+  /// abre primeiro, e a criança de cinco anos tem sessenta meses de acervo.
+  static List<String> caminhoNoDrive(DateTime birth, DateTime date) {
+    final Age idade = ageAt(birth, date);
+    return <String>[
+      'Ano ${idade.years}',
+      'Mês ${(idade.months % 12).toString().padLeft(2, '0')}',
+    ];
   }
 }
