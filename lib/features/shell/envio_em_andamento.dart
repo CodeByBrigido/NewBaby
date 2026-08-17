@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/copy.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/tokens.dart';
@@ -171,20 +172,24 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
 
   /// A frase que diz onde a memória ficou, no tempo certo.
   String _onde({required bool pronto}) {
+    final Copy g = Copy.of(ref.watch(profileProvider).value);
     final String verbo = pronto ? 'Está guardado' : 'Vai ficar guardado';
+
+    // "no Google Drive da sua filha", e não "na sua conta do Google Drive".
+    // A conta é da criança desde o primeiro dia, e esta é a frase que a
+    // pessoa lê no instante em que a memória vai para lá.
+    final String conta = 'no Google Drive ${g.ofTheChild}';
 
     // Carta e documento não entram em pasta de idade, então citar uma semana
     // ali seria mentira.
     if (!_tipo.bucketsByAge) {
-      return pronto
-          ? 'Está guardado na sua conta do Google Drive.'
-          : 'Vai ser guardado na sua conta do Google Drive.';
+      return pronto ? 'Está guardado $conta.' : 'Vai ser guardado $conta.';
     }
     final String artigo = widget.bucket.unit == AgeBucketUnit.week
         ? 'na'
         : 'no';
     return '$verbo $artigo ${widget.bucket.folderName}'
-        '${pronto ? ", na sua conta do Google Drive." : "."}';
+        '${pronto ? ", $conta." : "."}';
   }
 
   /// Para onde o botão leva, ou `null` quando não há tela para aquilo.

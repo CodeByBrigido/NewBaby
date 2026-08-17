@@ -572,6 +572,21 @@ class MemoryRepository {
   /// O arquivo existe por um motivo só, e é o mais importante do produto: sem
   /// ele, a carta é a única memória que morre junto com o aplicativo. Foto e
   /// vídeo já sobrevivem sozinhos, porque são arquivos numa pasta.
+  /// O arquivo é gravado **antes** do índice, e a ordem é o conserto de um
+  /// defeito que aparecia no Drive como duas cartas iguais.
+  ///
+  /// Gravar o índice primeiro abria uma janela: o Firestore avisa quem
+  /// escuta assim que a escrita entra no cache local, a linha do tempo
+  /// recebia a carta ainda sem `arquivoTextoId`, e [CartasAtrasadas] a
+  /// tratava como carta antiga sem arquivo e gravava um `.txt`. Ao mesmo
+  /// tempo, a gravação daqui também estava a caminho, com o mesmo
+  /// `knownFileId` vazio. Duas criações, dois arquivos na pasta.
+  ///
+  /// Invertendo, a carta só chega ao índice quando já tem o id do arquivo, e
+  /// não existe instante nenhum em que ela pareça atrasada. Quando o Drive
+  /// falha, o id vem nulo, a carta é gravada assim mesmo e aí sim a fila de
+  /// atrasadas cuida dela na próxima abertura - que é exatamente o caso para
+  /// o qual essa fila foi feita.
   Future<Entry> addLetter({
     required String uid,
     required BabyProfile profile,
@@ -579,15 +594,28 @@ class MemoryRepository {
     required String message,
     DateTime? date,
   }) async {
-    final Entry carta = await _addTextEntry(
-      uid: uid,
-      profile: profile,
+    final DateTime when = date ?? DateTime.now();
+    final Age age = AgeCalculator.ageAt(profile.birth, when);
+    final AgeBucket bucket = AgeCalculator.bucketAt(profile.birth, when);
+
+    final Entry carta = Entry(
+      id: _uuid.v4(),
       type: EntryType.letter,
+      date: when,
+      createdAt: DateTime.now(),
+      ageDays: age.totalDays,
+      bucketKey: bucket.key,
+      bucketName: bucket.folderName,
       title: title,
       description: message,
-      date: date,
     );
-    return escreverCarta(uid, profile, carta);
+
+    final String? arquivo = await _gravarTextoDaCarta(uid, profile, carta);
+    final Entry completa = arquivo == null
+        ? carta
+        : carta.copyWith(textFileId: arquivo);
+    await firestore.createEntry(uid, completa);
+    return completa;
   }
 
   /// Grava (ou regrava) o `.txt` de uma carta na pasta da idade dela.
@@ -602,6 +630,23 @@ class MemoryRepository {
   ) async {
     if (carta.type != EntryType.letter) return carta;
 
+    final String? id = await _gravarTextoDaCarta(uid, profile, carta);
+    if (id == null || id == carta.textFileId) return carta;
+    await firestore.patchEntry(uid, carta.id, <String, Object?>{
+      'arquivoTextoId': id,
+    });
+    return carta.copyWith(textFileId: id);
+  }
+
+  /// Grava o `.txt` e devolve o id, ou `null` quando o Drive não colaborou.
+  ///
+  /// Não toca no Firestore: quem chama decide se cria a entrada com o id
+  /// junto ([addLetter]) ou se corrige uma que já existe ([escreverCarta]).
+  Future<String?> _gravarTextoDaCarta(
+    String uid,
+    BabyProfile profile,
+    Entry carta,
+  ) async {
     try {
       final AgeBucket bucket = AgeCalculator.bucketAt(
         profile.birth,
@@ -614,21 +659,15 @@ class MemoryRepository {
         bucket: bucket,
       );
 
-      final String id = await drive.upsertTextFile(
+      return await drive.upsertTextFile(
         folderId: pasta,
         name: _nomeDaCarta(carta),
         content: textoDaCarta(carta: carta, profile: profile),
         knownFileId: carta.textFileId,
       );
-
-      if (id == carta.textFileId) return carta;
-      await firestore.patchEntry(uid, carta.id, <String, Object?>{
-        'arquivoTextoId': id,
-      });
-      return carta.copyWith(textFileId: id);
     } on Object catch (e) {
       debugPrint('A carta não foi gravada no Drive: $e');
-      return carta;
+      return null;
     }
   }
 
@@ -780,28 +819,42 @@ class MemoryRepository {
   }
 
   Future<void> deleteForever(String uid, Entry entry) async {
-    for (final EntryFile file in entry.files) {
-      if (file.driveId.isEmpty) continue;
+    for (final String driveId in arquivosNoDrive(entry)) {
       try {
-        await drive.deleteForever(file.driveId);
+        await drive.deleteForever(driveId);
       } on Exception catch (e) {
         // Um arquivo já removido no Drive não deve travar a limpeza.
-        debugPrint('Arquivo ${file.driveId} não pôde ser removido: $e');
+        debugPrint('Arquivo $driveId não pôde ser removido: $e');
       }
     }
     await firestore.deleteEntry(uid, entry.id);
   }
 
   Future<void> _setDriveTrashed(Entry entry, {required bool trashed}) async {
-    for (final EntryFile file in entry.files) {
-      if (file.driveId.isEmpty) continue;
+    for (final String driveId in arquivosNoDrive(entry)) {
       try {
-        await drive.setTrashed(file.driveId, trashed: trashed);
+        await drive.setTrashed(driveId, trashed: trashed);
       } on Exception catch (e) {
-        debugPrint('Lixeira do Drive falhou para ${file.driveId}: $e');
+        debugPrint('Lixeira do Drive falhou para $driveId: $e');
       }
     }
   }
+
+  /// Tudo que esta entrada tem no Drive, anexos e `.txt` da carta.
+  ///
+  /// A carta guarda o arquivo dela em `textFileId`, fora de `files`, porque
+  /// na tela ela não é anexo: é a própria carta em outro formato. Só que a
+  /// lixeira e o apagar percorriam apenas `files`, e o resultado era o que se
+  /// via no Drive: a pessoa apagava a carta no aplicativo e o `.txt`
+  /// continuava lá, sozinho, sem nada no aplicativo que soubesse dele. Numa
+  /// cápsula que a criança vai abrir daqui a vinte anos, uma carta que os
+  /// pais decidiram apagar não pode ser a que sobrevive.
+  @visibleForTesting
+  static List<String> arquivosNoDrive(Entry entry) => <String>[
+    for (final EntryFile f in entry.files)
+      if (f.driveId.isNotEmpty) f.driveId,
+    if (entry.textFileId case final String texto when texto.isNotEmpty) texto,
+  ];
 
   // ------------------------------------------------------------ downloads
 
