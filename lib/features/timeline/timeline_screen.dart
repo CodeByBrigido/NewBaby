@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/utils/error_text.dart';
 import '../../core/l10n/copy.dart';
-import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -92,10 +90,10 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             ),
             onPressed: _showFilter,
           ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => context.push(Routes.search),
-          ),
+          // A lupa saiu daqui. Buscar por palavra só alcança o que tem texto
+          // escrito, e o que enche a linha do tempo é foto e vídeo, que não
+          // têm nenhum: procurar aqui quase sempre devolvia nada. Quem quer
+          // procurar continua tendo a lupa na tela inicial.
         ],
       ),
       body: entries.when(

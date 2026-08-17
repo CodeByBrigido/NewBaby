@@ -162,17 +162,20 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
               itemBuilder: (BuildContext context, int index) {
                 final EntryFile current = widget.files[index];
                 if (current.isVideo) return DriveVideoPlayer(file: current);
-                // Só a página aberta entra no voo. As vizinhas o `PageView`
-                // já construiu, e duas etiquetas iguais na mesma árvore
-                // derrubam a tela.
-                final Widget imagem = DriveFullImage(file: current);
-                final Widget comVoo = index == _index
-                    ? HeroDaMidia(
-                        origem: widget.origemDoVoo,
-                        file: current,
-                        child: imagem,
-                      )
-                    : imagem;
+
+                // Só a página aberta voa, mas o envoltório fica em todas.
+                //
+                // Antes as vizinhas vinham sem `HeroDaMidia` nenhum, e a
+                // cada deslize duas páginas mudavam de forma ao mesmo tempo:
+                // a que saía perdia o envoltório e a que entrava ganhava um.
+                // O Flutter reconcilia por tipo de widget em cada posição,
+                // então isso desmontava a imagem e montava outra do zero, e
+                // a imagem recomeça o download em `initState`. Era esse o
+                // piscar: a foto voltava para a miniatura e a rodinha antes
+                // de reaparecer.
+                //
+                // Com `ativo` a etiqueta apenas muda, e o que está dentro do
+                // `Hero` continua sendo o mesmo.
                 return FotoAmpliavel(
                   // Uma chave por arquivo: sem ela, deslizar reaproveitaria
                   // o estado da foto anterior e a nova abriria ampliada.
@@ -182,7 +185,12 @@ class _MediaViewerScreenState extends ConsumerState<MediaViewerScreen> {
                       setState(() => _ampliada = ampliada);
                     }
                   },
-                  child: comVoo,
+                  child: HeroDaMidia(
+                    origem: widget.origemDoVoo,
+                    file: current,
+                    ativo: index == _index,
+                    child: DriveFullImage(file: current),
+                  ),
                 );
               },
             ),

@@ -82,6 +82,7 @@ class HeroDaMidia extends StatelessWidget {
     required this.origem,
     required this.file,
     required this.child,
+    this.ativo = true,
     super.key,
   });
 
@@ -89,10 +90,30 @@ class HeroDaMidia extends StatelessWidget {
   final EntryFile file;
   final Widget child;
 
+  /// Se esta cópia é a que pode voar.
+  ///
+  /// Existe para o visualizador, onde três páginas ficam montadas ao mesmo
+  /// tempo e só a que está à frente tem par do outro lado.
+  ///
+  /// **Desligar é diferente de tirar da árvore, e a diferença era um defeito
+  /// visível.** O visualizador envolvia no voo só a página aberta e deixava
+  /// as vizinhas sem envoltório nenhum. A cada deslize a forma da árvore
+  /// mudava nas duas páginas, o Flutter desmontava e remontava o que havia
+  /// ali dentro, e a imagem recomeçava o download: dava um piscar, como se a
+  /// foto fechasse e abrisse.
+  ///
+  /// Com a etiqueta apenas trocando, o `Hero` continua sendo o mesmo widget
+  /// no mesmo lugar, e o que está dentro dele sobrevive intacto.
+  final bool ativo;
+
   @override
   Widget build(BuildContext context) {
+    final String etiqueta = etiquetaDaMidia(origem, file);
     return Hero(
-      tag: etiquetaDaMidia(origem, file),
+      // Parada, a etiqueta ganha um sufixo que não existe em tela nenhuma:
+      // sem par, não há voo. É o mesmo efeito de não ter `Hero`, sem o custo
+      // de mudar a forma da árvore.
+      tag: ativo ? etiqueta : '$etiqueta:parado',
       // Durante o voo a imagem sai do cartão e passa a ser desenhada sozinha
       // sobre a tela. Sem isto ela herda o retângulo da miniatura e pisca de
       // um recorte para o outro no meio do caminho.
