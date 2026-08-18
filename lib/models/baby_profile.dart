@@ -18,6 +18,7 @@ class BabyProfile {
     this.photoDriveId,
     this.rootFolderId,
     this.infoFileId,
+    this.premium = false,
   });
 
   /// Nome completo, usado em toda a interface.
@@ -51,6 +52,26 @@ class BabyProfile {
   /// na pasta.
   final String? infoFileId;
 
+  /// Se esta conta tem a licença que libera criar carta, desenho, documento
+  /// e crescimento.
+  ///
+  /// **A licença é da conta que faz login**, e não do aparelho nem de quem
+  /// pagou. Três filhos que entram no mesmo celular são três contas, e cada
+  /// uma responde por si. Por isso o valor mora aqui, no perfil daquela
+  /// criança, e não no que a biblioteca de faturamento devolve: ela responde
+  /// pela conta da Play Store do aparelho, que é outra pessoa.
+  ///
+  /// Ausente quer dizer plano básico. Toda conta que existe hoje entra assim,
+  /// sem migração nenhuma, e continua podendo ler tudo e mandar foto e vídeo.
+  ///
+  /// **O aplicativo ainda não escreve este campo**, e por isso ele está fora
+  /// do [toMap]. Hoje ele é virado à mão no Firebase Console, que é como o
+  /// portão se testa sem depender da loja; quando o faturamento entrar, quem
+  /// escreve é a confirmação da compra, por um caminho próprio. Enquanto
+  /// estiver fora do [toMap], o `merge` do perfil preserva o que já está
+  /// gravado, e salvar o cadastro não apaga a licença de ninguém.
+  final bool premium;
+
   /// Primeiro nome - o que aparece nos cabeçalhos.
   String get firstName => name.trim().split(RegExp(r'\s+')).first;
 
@@ -74,6 +95,7 @@ class BabyProfile {
     String? photoDriveId,
     String? rootFolderId,
     String? infoFileId,
+    bool? premium,
     // Apagar um campo opcional precisa ser dito, porque passar `null` num
     // `copyWith` quer dizer "não mexe". Sem estes, quem apagasse o peso na
     // tela de editar veria o valor antigo voltar sozinho ao salvar.
@@ -93,6 +115,7 @@ class BabyProfile {
       photoDriveId: photoDriveId ?? this.photoDriveId,
       rootFolderId: rootFolderId ?? this.rootFolderId,
       infoFileId: infoFileId ?? this.infoFileId,
+      premium: premium ?? this.premium,
     );
   }
 
@@ -119,6 +142,7 @@ class BabyProfile {
       photoDriveId: map['fotoDriveId'] as String?,
       rootFolderId: map['pastaRaizId'] as String?,
       infoFileId: map['arquivoInfoId'] as String?,
+      premium: map['premium'] == true,
     );
   }
 

@@ -163,13 +163,22 @@ pegou e tendo com que trabalhar no envio travado.
 As fases 1 a 8, 10 e 11 saíram. O compartilhamento familiar ficou para depois
 (seção "Adiado", abaixo). **Sobram três**, e nenhuma está em andamento:
 
+**Antes do `.aab`:** a **13a**, o portão do Premium. Decisão sua, de
+18/08/2026: o bloqueio por licença entra antes da publicação, e não numa
+atualização depois. Ele não depende da loja, porque o aplicativo lê a licença
+do Firestore, então dá para construí-lo e experimentá-lo inteiro hoje.
+
 **Quando você der o comando de publicar:** a 9 inteira. Ela é o que bloqueia
 a submissão, e ficou para depois por escolha sua: assinar o pacote definitivo
 só faz sentido quando o aplicativo estiver do jeito que você quer. Dentro
 dela, a 9b já está escrita e só falta ligar o GitHub Pages.
 
-**Depois do lançamento:** a 12 (exportação) e a 13 (assinatura). As duas são
-grandes, e nenhuma família perde nada por esperar por elas.
+**Depois do primeiro envio à loja:** a **13b**, o faturamento. Não é ordem
+que eu escolhi: testar compra exige o AAB já numa faixa da Play, então ela
+não tem como vir antes da 9.
+
+**Depois do lançamento:** a 12 (exportação). É grande, e nenhuma família
+perde nada por esperar por ela.
 
 O trabalho de hoje não é de fase: é acerto de tela e de defeito, vindo do uso
 no aparelho. Está em [Defeitos conhecidos](#defeitos-conhecidos-e-pendências)
@@ -562,6 +571,24 @@ ouviu falar deste aplicativo.
 
 Assinatura **anual**, de 3 euros, com o básico livre e o resto pago.
 
+A fase é feita em duas metades, e elas não são contíguas no calendário:
+
+- **13a, o portão.** O campo da licença, o popup do convite e o bloqueio dos
+  quatro caminhos de criação. **Vem antes do `.aab`.** Não depende da Play
+  Store para nada: o aplicativo lê a licença do Firestore, então dá para virar
+  o valor à mão no Firebase Console e experimentar os dois estados no aparelho
+  hoje mesmo.
+- **13b, o faturamento.** A compra de verdade, pelo Google Play Billing.
+  **Vem depois do primeiro envio à loja**, e isso não é escolha: testar
+  faturamento exige o AAB assinado já numa faixa de teste interno, com o
+  produto criado no Play Console e a conta na lista de testadores de licença.
+  Não existe atalho fora da loja para assinatura, nem sequer os IDs de teste
+  do Google, que só valem para compra avulsa.
+
+Fazer nessa ordem também protege o portão: quando o faturamento chegar, ele
+não vai inventar regra nenhuma, só escrever o mesmo campo que já estará
+testado.
+
 **Livre:** ler a cápsula inteira, sempre; enviar fotos e vídeos; aba
 Inspirações; perfil. Dá para viver no aplicativo sem pagar nada.
 
@@ -668,10 +695,12 @@ saem na mesma versão:
   precisa ser cancelada na Play, senão continua renovando.
 - **Ficha da Play:** marcar compras no aplicativo e declarar o produto.
 
-Também recomendo **lançar de graça e trazer a assinatura na primeira
-atualização**. Faturamento é a parte mais fácil de errar de um aplicativo, e
-errar nela com a loja em revisão é atrasar o lançamento inteiro. Com zero
-usuários, não existe o desgaste de "era grátis e agora cobram".
+Eu tinha recomendado lançar de graça e trazer a assinatura inteira na
+primeira atualização, e **a decisão de 18/08/2026 foi outra**: o portão entra
+antes da publicação. A separação em 13a e 13b atende as duas coisas. O que
+sai no primeiro `.aab` é o bloqueio, que é o que dá para testar sem loja; o
+faturamento, que é a parte mais fácil de errar e a que mais atrasa uma
+revisão, chega depois, sem segurar o lançamento.
 
 ---
 

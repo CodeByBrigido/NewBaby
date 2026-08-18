@@ -21,6 +21,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 import '../growth/growth_editor_sheet.dart';
+import '../premium/porta_do_premium.dart';
 import '../documents/nome_do_documento.dart';
 import 'envio_em_andamento.dart';
 
@@ -44,9 +45,31 @@ class _AddSheet extends ConsumerStatefulWidget {
 }
 
 class _AddSheetState extends ConsumerState<_AddSheet> {
+  /// Fecha a folha e, se a licença faltar, abre o convite no lugar da ação.
+  ///
+  /// A folha fecha **antes** do convite, e não depois. Duas coisas modais
+  /// disputando a mesma pilha de navegação é o que já fez a janela do envio
+  /// não aparecer neste mesmo arquivo; o contexto da raiz sobrevive ao
+  /// fechamento porque não é ele que está sendo fechado.
+  Future<void> _seLiberado(
+    BabyProfile? profile,
+    EntryType type,
+    void Function() seguir,
+  ) async {
+    if (podeCriar(profile, type)) {
+      seguir();
+      return;
+    }
+    final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
+    Navigator.of(context).pop();
+    if (!raiz.mounted) return;
+    await liberadoParaCriar(raiz.context, profile, type);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Copy g = Copy.of(ref.watch(profileProvider).value);
+    final BabyProfile? profile = ref.watch(profileProvider).value;
+    final Copy g = Copy.of(profile);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -85,31 +108,43 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               type: EntryType.letter,
               title: S.addLetter,
               subtitle: g.addLetterHint,
-              onTap: () {
+              trancada: !podeCriar(profile, EntryType.letter),
+              onTap: () => _seLiberado(profile, EntryType.letter, () {
                 Navigator.of(context).pop();
                 context.push(Routes.newLetter);
-              },
+              }),
             ),
             _Option(
               type: EntryType.drawing,
               title: S.addDrawing,
               subtitle: S.addDrawingHint,
-              onTap: () => _addDrawings(context, ref),
+              trancada: !podeCriar(profile, EntryType.drawing),
+              onTap: () => _seLiberado(
+                profile,
+                EntryType.drawing,
+                () => _addDrawings(context, ref),
+              ),
             ),
             _Option(
               type: EntryType.document,
               title: S.addDocument,
               subtitle: S.addDocumentHint,
-              onTap: () => _addDocuments(context, ref),
+              trancada: !podeCriar(profile, EntryType.document),
+              onTap: () => _seLiberado(
+                profile,
+                EntryType.document,
+                () => _addDocuments(context, ref),
+              ),
             ),
             _Option(
               type: EntryType.growth,
               title: S.addGrowth,
               subtitle: S.addGrowthHint,
-              onTap: () {
+              trancada: !podeCriar(profile, EntryType.growth),
+              onTap: () => _seLiberado(profile, EntryType.growth, () {
                 Navigator.of(context).pop();
                 showGrowthEditor(context);
-              },
+              }),
             ),
           ],
         ),
@@ -699,12 +734,20 @@ class _Option extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.trancada = false,
   });
 
   final EntryType type;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+
+  /// Mostra o cadeado à direita, para quem ainda não tem a licença.
+  ///
+  /// A opção continua tocável de propósito: quem toca recebe o convite, que
+  /// explica o plano. Desativar o botão esconderia a explicação justamente de
+  /// quem precisa dela, e deixaria a pessoa achando que o aplicativo quebrou.
+  final bool trancada;
 
   @override
   Widget build(BuildContext context) {
@@ -742,6 +785,12 @@ class _Option extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (trancada)
+                  Icon(
+                    Icons.lock_outline,
+                    size: 20,
+                    color: context.cores.textSecondary,
+                  ),
               ],
             ),
           ),

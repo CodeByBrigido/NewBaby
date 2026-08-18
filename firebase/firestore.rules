@@ -29,11 +29,25 @@ service cloud.firestore {
     }
 
     function isValidProfile() {
-      return request.resource.data.keys().hasOnly([
+      let data = request.resource.data;
+      return data.keys().hasOnly([
                'nome', 'nascimento', 'genero', 'pesoGramas',
                'alturaCm', 'hospital', 'fotoDriveId', 'pastaRaizId',
-               'arquivoInfoId'
+               'arquivoInfoId',
+               // A licença do plano Premium, desta conta.
+               //
+               // Precisa estar nesta lista mesmo que o aplicativo nunca
+               // escreva o campo. Num `set` com `merge`, o
+               // `request.resource.data` é o documento **resultante**, e não
+               // só o que veio na escrita: assim que o campo existir no
+               // documento, ele aparece aqui em toda gravação de perfil. Sem
+               // esta linha, virar a licença no console passaria a recusar
+               // qualquer edição de cadastro daquela conta, e o erro
+               // apareceria longe da causa.
+               'premium'
              ])
+          && (!('premium' in data) || data.premium == null
+              || data.premium is bool)
           && textUpTo('nome', 120)
           && textUpTo('hospital', 200)
           && textUpTo('genero', 20)

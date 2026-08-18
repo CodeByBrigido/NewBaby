@@ -449,6 +449,30 @@ Comece por **teste interno** (libera em minutos, até 100 pessoas) para você
 e a família validarem o login e o envio de verdade. Depois promova para
 produção.
 
+### 6.1 - Experimentar o portão do Premium sem loja nenhuma
+
+O aplicativo lê a licença do Firestore, e não da biblioteca de faturamento.
+Isso é de propósito: a licença é da conta que faz login, e a biblioteca
+responde pela conta da Play Store do aparelho, que costuma ser de outra
+pessoa. O efeito colateral bom é que dá para experimentar os dois estados sem
+faturamento nenhum, com o APK comum instalado:
+
+1. Firebase Console > **Firestore Database**
+2. Abra `users` > o seu `uid` > `perfil` > `bebe`
+3. **Adicionar campo**: nome `premium`, tipo `booleano`, valor `false`
+4. Volte ao aplicativo e toque em "+" > **Carta**. Tem que aparecer o cadeado
+   na opção e, ao tocar, o popup do convite
+5. Mude o campo para `true`, volte e toque de novo. Tem que entrar direto,
+   sem popup e sem cadeado
+
+O aplicativo **nunca escreve** esse campo, então o valor que você puser fica
+onde está, mesmo salvando o cadastro de novo.
+
+> **Antes de promover para produção**, o faturamento precisa existir (fase
+> 13b). Em teste interno o portão sem caixa é o que se quer, porque a licença
+> se vira à mão; aberto ao público, seria bloquear quatro dos seis caminhos
+> sem oferecer como sair do bloqueio.
+
 ---
 
 ## Antes de apertar publicar
@@ -459,7 +483,10 @@ produção.
 - [ ] `android/key.properties` fora do repositório, com cópia da chave guardada
 - [ ] Regras do Firestore publicadas pelo fluxo *Publicar as regras do
       Firestore* (passo 5.1.1) e conferidas no console - não as do
-      "modo de teste". O campo `arquivoInfoId` tem que aparecer lá
+      "modo de teste". Os campos `arquivoInfoId` e `premium` têm que aparecer
+      lá. Sem `premium` na lista, virar a licença de uma conta faz **toda**
+      edição de cadastro dela passar a ser recusada, porque a regra valida o
+      documento resultante do `merge`, e não só o que foi enviado
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity

@@ -12,6 +12,8 @@ Imagens geradas em teste, para olhar o desenho sem instalar o APK.
 | `home-1` a `home-6` | **propostas** recusadas para a tela inicial |
 | `painel-menina/menino/sem-sexo.png` | o painel novo do topo, nos três temas |
 | `home-nova-menina/menino.png` | a tela inicial com o painel novo e o Acervo como está |
+| `folha-trancada-menina/menino.png` | a folha de adicionar com os cadeados do Premium |
+| `convite-premium-menina/menino.png` | o popup que o toque numa opção trancada abre |
 
 Regeneradas com:
 
@@ -21,6 +23,7 @@ flutter test --run-skipped --update-goldens test/previa_da_linha_do_tempo_test.d
 flutter test --run-skipped --update-goldens test/previa_da_home_test.dart
 flutter test --run-skipped --update-goldens test/previa_do_painel_test.dart
 flutter test --run-skipped --update-goldens test/previa_da_home_nova_test.dart
+flutter test --run-skipped --update-goldens test/previa_do_convite_test.dart
 ```
 
 **Nem toda imagem aqui desenha uma tela que existe.** As `home-1` a `home-6`
