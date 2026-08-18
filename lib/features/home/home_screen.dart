@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
-import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
@@ -15,6 +14,8 @@ import '../common/drive_image.dart';
 import '../common/widgets.dart';
 import '../moments/moments_screen.dart';
 import '../timeline/upload_banner.dart';
+import 'carrossel_de_inspiracao.dart';
+import 'faz_um_tempo.dart';
 import 'painel_do_bebe.dart';
 import 'pulse_cards.dart';
 
@@ -88,8 +89,12 @@ class HomeScreen extends ConsumerWidget {
           // sempre à mão, em todas as telas, e dois botões para a mesma
           // ação a poucos centímetros um do outro só ocupam espaço.
           const UploadBanner(),
-          const SectionHeader(title: 'Acervo'),
-          _Shortcuts(),
+          // No lugar da grade do Acervo, que era um terceiro caminho para as
+          // mesmas pastas que o menu lateral já lista e a linha do tempo já
+          // percorre melhor.
+          const CarrosselDeInspiracao(),
+          const SizedBox(height: Space.x24),
+          FazUmTempo(pulse: pulse),
           const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
             SectionHeader(
@@ -110,54 +115,6 @@ class HomeScreen extends ConsumerWidget {
             ),
         ],
       ),
-    );
-  }
-}
-
-class _Shortcuts extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const List<(EntryType, String)> items = <(EntryType, String)>[
-      (EntryType.photo, Routes.photos),
-      (EntryType.video, Routes.videos),
-      (EntryType.letter, Routes.letters),
-      (EntryType.drawing, Routes.drawings),
-      (EntryType.document, Routes.documents),
-      (EntryType.growth, Routes.growth),
-    ];
-
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      crossAxisSpacing: Space.x12,
-      mainAxisSpacing: Space.x12,
-      childAspectRatio: 1.05,
-      children: <Widget>[
-        for (final (EntryType type, String route) in items)
-          Material(
-            color: type.soft(context),
-            borderRadius: Radii.buttonR,
-            child: InkWell(
-              onTap: () => context.push(route),
-              borderRadius: Radii.buttonR,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(type.icon, color: type.accent(context), size: 26),
-                  const SizedBox(height: Space.x8),
-                  Text(
-                    type.label,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: context.cores.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-      ],
     );
   }
 }

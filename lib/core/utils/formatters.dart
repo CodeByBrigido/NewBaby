@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+import 'age_calculator.dart';
+
 /// Formatação em português do Brasil para datas, medidas e tamanhos.
 abstract final class Fmt {
   static const String locale = 'pt_BR';
@@ -153,6 +155,43 @@ abstract final class Fmt {
     }
     final int anos = days ~/ 365;
     return anos == 1 ? 'há 1 ano' : 'há $anos anos';
+  }
+
+  /// Quanto tempo faz, na unidade que a pessoa usaria em voz alta.
+  ///
+  /// `hoje`, `1 dia`, `23 dias`, `1 mês`, `7 meses`, `1 ano`, `3 anos`.
+  ///
+  /// A escada é dia até 30, depois mês até 12, depois ano. É diferente do
+  /// [ago], que fala em semanas e serve para datar uma memória no passado.
+  /// Aqui o número é uma cutucada sobre o que anda parado, e "há 4 semanas"
+  /// obriga quem lê a converter de cabeça para saber se é muito ou pouco.
+  ///
+  /// Os meses são de calendário, e não blocos de trinta dias: quem registrou
+  /// em 31 de janeiro completa um mês em 28 de fevereiro. Com a divisão por
+  /// trinta, o mesmo caso mostraria "28 dias" até março.
+  ///
+  /// Sem sinal de "atrás" nem de "há": a frase é montada por quem chama, e o
+  /// que a lista mostra é só a duração, ao lado do nome do que está parado.
+  static String tempoDesde(DateTime quando, {DateTime? agora}) {
+    final DateTime hoje = AgeCalculator.dayOf(agora ?? DateTime.now());
+    final DateTime dia = AgeCalculator.dayOf(quando);
+    final int dias = hoje.difference(dia).inDays;
+
+    if (dias <= 0) return 'hoje';
+    if (dias <= 30) return count(dias, 'dia', 'dias');
+
+    int meses = (hoje.year - dia.year) * 12 + (hoje.month - dia.month);
+    if (meses > 0 && AgeCalculator.addMonths(dia, meses).isAfter(hoje)) {
+      meses -= 1;
+    }
+    // Passou de trinta dias, então é pelo menos um mês. O piso existe para o
+    // caso de virada curta, tipo 31 de janeiro para 2 de março, em que a
+    // conta de calendário poderia devolver zero e a lista mostraria
+    // "0 meses" logo depois de "30 dias".
+    if (meses < 1) meses = 1;
+
+    if (meses < 12) return count(meses, 'mês', 'meses');
+    return count(meses ~/ 12, 'ano', 'anos');
   }
 
   /// `primeiro`, `segundo`, ... e a partir de onde a palavra fica pior que

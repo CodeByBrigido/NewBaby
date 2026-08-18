@@ -9,6 +9,7 @@ import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/core/theme/tokens.dart';
 import 'package:meu_bebe/core/utils/age_calculator.dart';
+import 'package:meu_bebe/core/utils/formatters.dart';
 import 'package:meu_bebe/features/common/widgets.dart';
 import 'package:meu_bebe/features/home/painel_do_bebe.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
@@ -99,8 +100,9 @@ class _Tela extends StatelessWidget {
             idade: AgeCalculator.ageAt(perfil.birth, DateTime(2028, 8, 16)),
           ),
           const SizedBox(height: Space.x16),
-          const SectionHeader(title: 'Acervo'),
-          const _Atalhos(),
+          const _Ideia(),
+          const SizedBox(height: Space.x24),
+          const _FazUmTempo(),
           const SizedBox(height: Space.x24),
           SectionHeader(
             title: 'Fotos recentes',
@@ -116,49 +118,190 @@ class _Tela extends StatelessWidget {
   }
 }
 
-/// A grade do Acervo como está hoje, sem nenhuma mudança.
-class _Atalhos extends StatelessWidget {
-  const _Atalhos();
+/// O cartão de ideia do carrossel, com o conteúdo encenado.
+class _Ideia extends StatelessWidget {
+  const _Ideia();
 
   @override
   Widget build(BuildContext context) {
-    const List<EntryType> tipos = <EntryType>[
-      EntryType.photo,
-      EntryType.video,
-      EntryType.letter,
-      EntryType.drawing,
-      EntryType.document,
-      EntryType.growth,
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(Space.x16),
+          decoration: BoxDecoration(
+            color: context.cores.surface,
+            borderRadius: Radii.cardR,
+            boxShadow: Shadows.level1,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const Sobrancelha('Para Maria, agora'),
+                    const SizedBox(height: Space.x8),
+                    Text(
+                      'Os primeiros anos passam rápido',
+                      style: text.titleSmall,
+                    ),
+                    const SizedBox(height: Space.x4),
+                    Text(
+                      'Ideias simples para criar memórias que ficam.',
+                      style: text.bodySmall?.copyWith(
+                        color: context.cores.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: Space.x16),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Ver inspiração',
+                          style: text.labelLarge?.copyWith(
+                            color: context.cores.primary,
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          size: 18,
+                          color: context.cores.primary,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: Space.x12),
+              Container(
+                width: 76,
+                height: 76,
+                decoration: BoxDecoration(
+                  color: context.cores.accentSoft,
+                  borderRadius: Radii.fieldR,
+                ),
+                child: Icon(
+                  Icons.auto_awesome,
+                  color: context.cores.accent,
+                  size: 32,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: Space.x12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: Space.x4,
+          children: <Widget>[
+            for (int i = 0; i < 5; i++)
+              Container(
+                width: i == 0 ? 18 : 6,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: i == 0 ? context.cores.primary : context.cores.border,
+                  borderRadius: Radii.pillR,
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// A lista "Faz um tempo", com os números encenados.
+class _FazUmTempo extends StatelessWidget {
+  const _FazUmTempo();
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+    const List<(EntryType, int)> linhas = <(EntryType, int)>[
+      (EntryType.photo, 23),
+      (EntryType.video, 4),
+      (EntryType.letter, 45),
+      (EntryType.growth, 400),
     ];
 
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      crossAxisSpacing: Space.x12,
-      mainAxisSpacing: Space.x12,
-      childAspectRatio: 1.05,
-      children: <Widget>[
-        for (final EntryType tipo in tipos)
-          Material(
-            color: tipo.soft(context),
-            borderRadius: Radii.buttonR,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(tipo.icon, color: tipo.accent(context), size: 26),
-                const SizedBox(height: Space.x8),
-                Text(
-                  tipo.label,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: context.cores.textPrimary,
-                    fontWeight: FontWeight.w600,
+    return Container(
+      decoration: BoxDecoration(
+        color: context.cores.surface,
+        borderRadius: Radii.cardR,
+        boxShadow: Shadows.level1,
+      ),
+      padding: const EdgeInsets.fromLTRB(
+        Space.x16,
+        Space.x16,
+        Space.x8,
+        Space.x8,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Sobrancelha('Faz um tempo'),
+          const SizedBox(height: Space.x4),
+          for (final (EntryType tipo, int dias) in linhas)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Space.x8,
+                vertical: Space.x12,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: tipo.soft(context),
+                          borderRadius: Radii.fieldR,
+                        ),
+                        child: Icon(
+                          tipo.icon,
+                          size: 20,
+                          color: tipo.accent(context),
+                        ),
+                      ),
+                      const SizedBox(width: Space.x12),
+                      Expanded(
+                        child: Text(
+                          tipo.label,
+                          style: text.bodyMedium?.copyWith(
+                            color: context.cores.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        Fmt.tempoDesde(
+                          DateTime(2028, 8, 18).subtract(Duration(days: dias)),
+                          agora: DateTime(2028, 8, 18),
+                        ),
+                        style: text.bodySmall?.copyWith(
+                          color: context.cores.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: Space.x8),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: context.cores.muted,
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  if (tipo != linhas.last.$1) ...<Widget>[
+                    const SizedBox(height: Space.x12),
+                    Divider(height: 1, color: context.cores.divider),
+                  ],
+                ],
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

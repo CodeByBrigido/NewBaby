@@ -367,3 +367,31 @@ Future<bool> confirm(
   );
   return result ?? false;
 }
+
+/// O rótulo em maiúsculas que abre um cartão da tela inicial.
+///
+/// `FAZ UM TEMPO`, `PARA MARIA, AGORA`. É a etiqueta que diz de que assunto
+/// o cartão trata antes de a pessoa ler o conteúdo, e ela precisa ser lida
+/// como etiqueta, e não como título: daí o tamanho pequeno, o espaçamento
+/// entre letras e a cor da marca.
+///
+/// As maiúsculas ficam aqui, na exibição, e não no texto que chega. Assim o
+/// nome da criança continua guardado como a pessoa escreveu, e um dia em que
+/// alguém decidir que a etiqueta é em caixa normal muda um arquivo só.
+class Sobrancelha extends StatelessWidget {
+  const Sobrancelha(this.texto, {super.key});
+
+  final String texto;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      texto.toUpperCase(),
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+        color: context.cores.primary,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.8,
+      ),
+    );
+  }
+}
