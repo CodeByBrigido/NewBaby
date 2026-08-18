@@ -9,7 +9,9 @@ Imagens geradas em teste, para olhar o desenho sem instalar o APK.
 | `linha-do-tempo-ano.png` | a linha do tempo agrupada por Anos |
 | `linha-do-tempo-mes.png` | por Meses, que é como ela abre |
 | `linha-do-tempo-semana.png` | por Semanas |
-| `home-1` a `home-6` | **propostas** para a tela inicial, que ainda não existem |
+| `home-1` a `home-6` | **propostas** recusadas para a tela inicial |
+| `painel-menina/menino/sem-sexo.png` | o painel novo do topo, nos três temas |
+| `home-nova-menina/menino.png` | a tela inicial com o painel novo e o Acervo como está |
 
 Regeneradas com:
 
@@ -17,13 +19,14 @@ Regeneradas com:
 flutter test --run-skipped --update-goldens test/previa_do_acervo_test.dart
 flutter test --run-skipped --update-goldens test/previa_da_linha_do_tempo_test.dart
 flutter test --run-skipped --update-goldens test/previa_da_home_test.dart
+flutter test --run-skipped --update-goldens test/previa_do_painel_test.dart
+flutter test --run-skipped --update-goldens test/previa_da_home_nova_test.dart
 ```
 
-**As da tela inicial são diferentes das outras duas.** Acervo e linha do
-tempo desenham telas que existem; as `home-*` desenham telas que **não**
-existem, feitas para escolher um caminho antes de escrever qualquer código.
-Enquanto nenhuma for escolhida, elas são conversa, e não documentação do
-aplicativo.
+**Nem toda imagem aqui desenha uma tela que existe.** As `home-1` a `home-6`
+são propostas que foram recusadas: ficam como registro do que já foi tentado,
+para as mesmas ideias não voltarem recicladas. Todas as outras desenham
+telas que estão no aplicativo.
 
 **O que é real nelas:** no acervo, a função `mosaico`, o agrupamento por mês
 e o cabeçalho. Na linha do tempo, a `TimelineList` de verdade, a mesma que a
