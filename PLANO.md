@@ -581,33 +581,39 @@ dia, a cápsula é dela, e um dia ela recebe a conta inteira. Uma assinatura
 que morasse na conta do pai seria mais uma coisa a transferir vinte anos
 depois.
 
-#### O atrito entre essa decisão e o Google Play
+#### A regra, dita sem rodeio
 
-Vale escrever antes de alguém descobrir no meio da implementação: **o Google
-Play não cobra por conta de aplicativo, cobra por conta da Play Store do
-aparelho.** Quem compra é a conta logada na loja, que é a do pai, enquanto o
-aplicativo está logado como a criança. E uma mesma conta da Play não consegue
-manter duas compras ativas do mesmo produto de assinatura: a segunda tentativa
-volta como item já adquirido.
+**A licença é da conta que faz login no aplicativo.** Não importa por onde o
+aplicativo foi baixado, nem de quem é o aparelho, nem quem passou o cartão. O
+que decide se as cartas, os desenhos, os documentos e o crescimento estão
+abertos é a conta que está logada naquele momento.
 
-O que fecha essa distância, sem servidor:
+Três filhos que entram no mesmo celular são três contas, e as três precisam
+pagar para ter o aplicativo inteiro. Não é efeito colateral da implementação:
+é a regra.
 
-1. Ao abrir a compra, mandar o `uid` da criança ativa como
+O que não paga também não perde nada do que já é seu. Entrar, ler a cápsula
+inteira e mandar foto e vídeo continua livre para sempre, em qualquer conta.
+
+#### Como isso se prende ao Google Play
+
+A licença mora com o login, então ela mora no Firestore, no documento daquela
+criança. É de lá que o aplicativo lê, e não da biblioteca de faturamento:
+
+1. Ao abrir a compra, mandar o `uid` da criança logada como
    `obfuscatedAccountId`, que é o campo que o Play oferece justamente para
    prender uma compra a um perfil dentro do aplicativo.
-2. Ao confirmar, gravar `premium` no documento **daquela** criança no
-   Firestore.
-3. O aplicativo lê o `premium` da criança aberta, e não o que a biblioteca de
-   faturamento devolve. É o que faz a assinatura ser por conta de verdade: o
-   filho pago libera, o filho não pago continua no básico, no mesmo aparelho
-   e na mesma conta da Play.
+2. Ao confirmar, gravar `premium` no documento **daquela** criança.
+3. O aplicativo lê o `premium` da criança logada. É isso que faz a licença ser
+   da conta: no mesmo aparelho, o filho que pagou tem tudo aberto e o filho que
+   não pagou continua no básico.
 
-Fica um caso sem saída limpa: **o segundo filho na mesma conta da Play.** O
-passo 3 sabe que ele não pagou, mas o passo 1 não consegue cobrar, porque a
-loja recusa a segunda compra do mesmo produto. As saídas são criar produtos
-de assinatura distintos por vaga, o que não escala, ou exigir outra conta da
-Play, o que é pedir demais. Precisa ser conferido no Play Console antes de
-implementar, e a decisão de qual caminho seguir fica para essa hora.
+Um detalhe de implementação a conferir no Play Console antes de codar: uma
+mesma conta da Play Store não mantém duas compras ativas do mesmo produto de
+assinatura, e quem compra é a conta da loja, não a do aplicativo. Então o pai
+que quer pagar pelo segundo filho na mesma loja precisa de um caminho, seja um
+segundo produto de assinatura, seja outra forma de compra. **Isso não muda a
+regra acima**, que já está decidida: muda só por qual porta o dinheiro entra.
 
 #### O que o Google resolve por nós
 
