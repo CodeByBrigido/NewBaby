@@ -16,6 +16,7 @@ library;
 
 import 'account_deletion.dart';
 import 'privacy_policy.dart';
+import 'terms_of_use.dart';
 
 /// O nome do produto, como aparece no cabeçalho das duas páginas.
 const String nomeDoProduto = 'Meu Bebê: Cápsula do Tempo';
@@ -268,6 +269,17 @@ String exclusaoEmHtml() => _pagina(
   navegacao: '<a href="privacidade.html">Política de privacidade</a>',
 );
 
+/// A página pública dos termos de uso.
+String termosEmHtml() => _pagina(
+  titulo: 'Termos de Uso',
+  descricao:
+      'As regras de uso do $nomeDoProduto: o que ele é, de quem é o '
+      'conteúdo e o que não é prometido.',
+  data: termsOfUseDate,
+  secoes: termsOfUse,
+  navegacao: '<a href="privacidade.html">Política de privacidade</a>',
+);
+
 /// A página pública da política de privacidade.
 String privacidadeEmHtml() => _pagina(
   titulo: 'Política de Privacidade',
@@ -275,7 +287,9 @@ String privacidadeEmHtml() => _pagina(
       'O que o $nomeDoProduto guarda, onde guarda e o que você pode apagar.',
   data: privacyPolicyDate,
   secoes: privacyPolicy,
-  navegacao: '<a href="exclusao.html">Exclusão de conta e de dados</a>',
+  navegacao:
+      '<a href="termos.html">Termos de Uso</a> &middot; '
+      '<a href="exclusao.html">Exclusão de conta e de dados</a>',
 );
 
 /// A porta de entrada, para quem chegar na raiz do endereço.
@@ -301,6 +315,7 @@ ${_estilo().trim()}
   <p>Um diário digital da infância do seu filho, guardado no Google Drive da
     própria criança.</p>
   <ul>
+    <li><a href="termos.html">Termos de Uso</a></li>
     <li><a href="privacidade.html">Política de privacidade</a></li>
     <li><a href="exclusao.html">Exclusão de conta e de dados</a></li>
   </ul>

@@ -191,11 +191,15 @@ class _LinksDosDocumentos extends StatelessWidget {
       children: <Widget>[
         _Link(rotulo: S.privacyPolicy, estilo: estilo, destino: Routes.privacy),
         Text('·', style: estilo?.copyWith(decoration: TextDecoration.none)),
-        _Link(
-          rotulo: S.accountDeletionShort,
-          estilo: estilo,
-          destino: Routes.accountDeletion,
-        ),
+        // Termos de uso, e não a exclusão de conta.
+        //
+        // Quem está nesta tela ainda não tem conta, e um atalho para apagá-la
+        // ali é uma resposta para uma pergunta que ninguém fez. O que falta
+        // antes de entrar é saber com o que se está concordando.
+        //
+        // A página de exclusão continua no ar e continua alcançável dentro do
+        // aplicativo, pelo Perfil, que é onde alguém a procura de verdade.
+        _Link(rotulo: S.termsOfUse, estilo: estilo, destino: Routes.terms),
       ],
     );
   }

@@ -254,6 +254,7 @@ abstract final class S {
 
   // Documentos
   static const String privacyPolicy = 'Política de privacidade';
+  static const String termsOfUse = 'Termos de Uso';
 
   /// O título da leitura, e não da ação: são duas telas, e a diferença
   /// entre elas é a diferença entre entender e apagar.

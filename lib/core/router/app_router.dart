@@ -22,6 +22,7 @@ import '../../features/profile/delete_account_screen.dart';
 import '../../features/profile/account_deletion_screen.dart';
 import '../../features/profile/escolher_foto_screen.dart';
 import '../../features/profile/privacy_screen.dart';
+import '../../features/profile/terms_screen.dart';
 import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/settings_screen.dart';
 import '../../features/search/search_screen.dart';
@@ -55,6 +56,7 @@ abstract final class Routes {
   static const String reminders = '/configuracoes/lembretes';
   static const String about = '/sobre';
   static const String privacy = '/privacidade';
+  static const String terms = '/termos';
   static const String babyInfo = '/perfil/bebe';
   static const String babyInfoEdit = '/perfil/bebe/editar';
   static const String profilePhoto = '/perfil/foto';
@@ -241,6 +243,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       ),
       GoRoute(path: Routes.about, builder: (_, _) => const AboutScreen()),
       GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
+      GoRoute(path: Routes.terms, builder: (_, _) => const TermsScreen()),
       GoRoute(
         path: Routes.accountDeletion,
         builder: (_, _) => const AccountDeletionScreen(),

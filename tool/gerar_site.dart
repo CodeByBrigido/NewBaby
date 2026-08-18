@@ -2,11 +2,11 @@
 //
 // Rodar com: dart run tool/gerar_site.dart
 //
-// São os dois endereços que o Google Play exige: a política de privacidade e
-// a exclusão de conta. Saem do mesmo texto que o aplicativo mostra, e o
-// `exclusao_test.dart` compara os arquivos no disco com o que esta
-// ferramenta geraria, então esquecer de rodar isto quebra a suíte em vez de
-// deixar no ar uma página que descreve outro aplicativo.
+// Entre elas estão os dois endereços que o Google Play exige, a política de
+// privacidade e a exclusão de conta, mais os termos de uso. Saem do mesmo
+// texto que o aplicativo mostra, e os testes comparam os arquivos no disco
+// com o que esta ferramenta geraria, então esquecer de rodar isto quebra a
+// suíte em vez de deixar no ar uma página que descreve outro aplicativo.
 
 import 'dart:io';
 
@@ -18,6 +18,7 @@ void main() {
   final Map<String, String> paginas = <String, String>{
     'index.html': indiceEmHtml(),
     'privacidade.html': privacidadeEmHtml(),
+    'termos.html': termosEmHtml(),
     'exclusao.html': exclusaoEmHtml(),
   };
 
