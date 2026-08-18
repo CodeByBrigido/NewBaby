@@ -131,6 +131,7 @@ class Inspiration {
     required this.kind,
     required this.anchor,
     this.sections = const <InspirationSection>[],
+    this.label,
     this.suggests,
     this.highlight = false,
   });
@@ -159,6 +160,9 @@ class Inspiration {
                     InspirationSection.fromMap(m.cast<String, Object?>()),
               ),
         ],
+        label: (map['etiqueta'] as String?)?.trim().isNotEmpty == true
+            ? (map['etiqueta'] as String).trim()
+            : null,
         suggests: map['registrar'] == null
             ? null
             : EntryType.fromId(map['registrar'] as String?),
@@ -176,6 +180,17 @@ class Inspiration {
 
   /// O texto longo, aberto ao tocar. Vazio quando o resumo já basta.
   final List<InspirationSection> sections;
+
+  /// A etiqueta do cartão da tela inicial, quando a postagem quer uma sua.
+  ///
+  /// `PARA VIVER AGORA`, `UM MOMENTO PARA GUARDAR`. É a linha pequena em
+  /// maiúsculas acima do título, e ela existe como campo para o texto ser
+  /// escrito junto da postagem, por quem escreveu a postagem.
+  ///
+  /// Sem o campo, o cartão monta uma etiqueta sozinho a partir do que sabe:
+  /// o nome da criança, ou o prazo quando a postagem aponta para uma data.
+  /// Nenhuma postagem antiga precisou ser mexida por causa disto.
+  final String? label;
 
   /// O que a pessoa pode registrar depois de fazer, quando cabe.
   final EntryType? suggests;
