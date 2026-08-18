@@ -95,11 +95,12 @@ footer {
     <p class="produto">Meu Bebê: Cápsula do Tempo</p>
     <h1>Política de Privacidade</h1>
   </header>
-  <p class="data">Última atualização: 9 de agosto de 2026</p>
+  <p class="data">Última atualização: 18 de agosto de 2026</p>
     <h2>Em resumo</h2>
     <p>As fotos, os vídeos e os documentos nunca passam por servidor nosso: vão direto do seu aparelho para o Google Drive da sua própria conta.</p>
     <p>O aplicativo guarda em servidor apenas um índice de texto, que é o que faz a linha do tempo e a busca funcionarem.</p>
     <p>Não há publicidade, rastreamento, perfilamento nem venda de dados.</p>
+    <p>A assinatura Premium é cobrada pelo Google Play. Nenhum dado de pagamento passa por nós.</p>
     <p>Você apaga tudo isso a qualquer momento, dentro do aplicativo, sem precisar pedir a ninguém.</p>
     <h2>Quem é o responsável</h2>
     <p>Responsável pelo tratamento dos dados pessoais (controlador, nos termos do Art. 4(7) do GDPR): Rodrigo Andrade Brigido, pessoa física, desenvolvedor individual.</p>
@@ -115,11 +116,16 @@ footer {
     <p>O índice fica no Cloud Firestore, serviço do Google Cloud. Esta é a lista completa do que ele guarda:</p>
     <ul>
       <li>Do cadastro: nome da criança, data de nascimento, sexo informado, peso e altura de nascimento, nome do hospital se preenchido, e o identificador da pasta raiz no seu Drive.</li>
+      <li>Do plano: um único valor, sim ou não, dizendo se a conta tem a assinatura Premium. Nada mais sobre pagamento passa por aqui.</li>
       <li>De cada memória: tipo, data, idade em dias, título, descrição e, no caso das cartas, o texto integral da carta; peso e altura dos registros de crescimento; a data de abertura, quando a memória é lacrada; e o identificador, nome, tipo e tamanho de cada arquivo no seu Drive.</li>
       <li>De apoio: o cache dos identificadores das pastas criadas no Drive e o progresso das sugestões que você marcou.</li>
       <li>Da autenticação: o Firebase Authentication guarda seu identificador de usuário, seu email, seu nome e o endereço da sua foto de perfil do Google.</li>
     </ul>
     <p>Cada índice é isolado por conta. Regras de segurança no servidor impedem que qualquer conta leia ou escreva os dados de outra, e essas regras são verificadas por testes automatizados a cada alteração do aplicativo.</p>
+    <h2>O pagamento da assinatura</h2>
+    <p>Quem cobra a assinatura Premium é o Google Play, e não nós. Cartão, endereço de cobrança, nota fiscal e histórico de compras ficam com ele, sob a política de privacidade dele.</p>
+    <p>Nós não recebemos, não vemos e não guardamos nenhum dado de pagamento. Do lado de cá fica só o valor de sim ou não descrito acima, no índice daquela conta, que é o que faz o aplicativo saber se libera guardar carta, desenho, documento e crescimento.</p>
+    <p>Como a assinatura vale por conta, e cada criança tem a própria conta do Google, esse valor nunca é comparado entre contas nem usado para ligar uma conta à outra.</p>
     <h2>O que nunca sai do aparelho</h2>
     <p>Ajustes de lembretes, a marca de que a apresentação inicial já foi vista, as inspirações já vistas e lidas, a preferência de bloqueio por biometria e o cache de miniaturas das fotos.</p>
     <p>Nada disso é enviado para lugar nenhum. Sai do aparelho quando você sai da conta ou desinstala o aplicativo.</p>
@@ -141,6 +147,7 @@ footer {
       <li>Firebase Authentication, para manter a sessão.</li>
       <li>Cloud Firestore, para guardar o índice.</li>
       <li>Google Drive, para guardar os seus arquivos, na sua conta.</li>
+      <li>Google Play, para cobrar a assinatura Premium e responder se ela está ativa, para quem assinar.</li>
     </ul>
     <p>Não há nenhum outro destinatário. Não usamos rede de anúncios, corretor de dados nem serviço de análise.</p>
     <p>O tratamento pelo Google é regido pelos termos dele, em policies.google.com/privacy</p>
@@ -149,6 +156,7 @@ footer {
       <li>Cadastro, índice e envio de arquivos: execução do contrato, Art. 6(1)(b) do GDPR. Sem esses dados o aplicativo não funciona.</li>
       <li>Autenticação: execução do contrato, Art. 6(1)(b).</li>
       <li>Notificações de lembrete: consentimento, Art. 6(1)(a), revogável a qualquer momento nas Configurações.</li>
+      <li>Registro do plano contratado: execução do contrato, Art. 6(1)(b). Sem ele não há como saber o que a assinatura liberou.</li>
     </ul>
     <p>Não usamos interesse legítimo como base para nada, e não há tratamento que você não consiga interromper apagando a conta.</p>
     <h2>Dados de uma criança</h2>

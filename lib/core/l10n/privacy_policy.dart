@@ -12,7 +12,7 @@
 library;
 
 /// Data da última revisão do texto.
-const String privacyPolicyDate = '9 de agosto de 2026';
+const String privacyPolicyDate = '18 de agosto de 2026';
 
 /// Responsável pelo tratamento, no sentido do Art. 4(7) do GDPR.
 ///
@@ -41,6 +41,8 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       'O aplicativo guarda em servidor apenas um índice de texto, que é o '
           'que faz a linha do tempo e a busca funcionarem.',
       'Não há publicidade, rastreamento, perfilamento nem venda de dados.',
+      'A assinatura Premium é cobrada pelo Google Play. Nenhum dado de '
+          'pagamento passa por nós.',
       'Você apaga tudo isso a qualquer momento, dentro do aplicativo, sem '
           'precisar pedir a ninguém.',
     ],
@@ -86,6 +88,8 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       '• Do cadastro: nome da criança, data de nascimento, sexo informado, '
           'peso e altura de nascimento, nome do hospital se preenchido, e o '
           'identificador da pasta raiz no seu Drive.',
+      '• Do plano: um único valor, sim ou não, dizendo se a conta tem a '
+          'assinatura Premium. Nada mais sobre pagamento passa por aqui.',
       '• De cada memória: tipo, data, idade em dias, título, descrição e, no '
           'caso das cartas, o texto integral da carta; peso e altura dos '
           'registros de crescimento; a data de abertura, quando a memória é '
@@ -100,6 +104,21 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
           'impedem que qualquer conta leia ou escreva os dados de outra, e '
           'essas regras são verificadas por testes automatizados a cada '
           'alteração do aplicativo.',
+    ],
+  ),
+  PrivacySection(
+    title: 'O pagamento da assinatura',
+    body: <String>[
+      'Quem cobra a assinatura Premium é o Google Play, e não nós. Cartão, '
+          'endereço de cobrança, nota fiscal e histórico de compras ficam com '
+          'ele, sob a política de privacidade dele.',
+      'Nós não recebemos, não vemos e não guardamos nenhum dado de pagamento. '
+          'Do lado de cá fica só o valor de sim ou não descrito acima, no '
+          'índice daquela conta, que é o que faz o aplicativo saber se libera '
+          'guardar carta, desenho, documento e crescimento.',
+      'Como a assinatura vale por conta, e cada criança tem a própria conta '
+          'do Google, esse valor nunca é comparado entre contas nem usado '
+          'para ligar uma conta à outra.',
     ],
   ),
   PrivacySection(
@@ -141,6 +160,8 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       '• Firebase Authentication, para manter a sessão.',
       '• Cloud Firestore, para guardar o índice.',
       '• Google Drive, para guardar os seus arquivos, na sua conta.',
+      '• Google Play, para cobrar a assinatura Premium e responder se ela '
+          'está ativa, para quem assinar.',
       'Não há nenhum outro destinatário. Não usamos rede de anúncios, '
           'corretor de dados nem serviço de análise.',
       'O tratamento pelo Google é regido pelos termos dele, em '
@@ -155,6 +176,8 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       '• Autenticação: execução do contrato, Art. 6(1)(b).',
       '• Notificações de lembrete: consentimento, Art. 6(1)(a), revogável a '
           'qualquer momento nas Configurações.',
+      '• Registro do plano contratado: execução do contrato, Art. 6(1)(b). '
+          'Sem ele não há como saber o que a assinatura liberou.',
       'Não usamos interesse legítimo como base para nada, e não há '
           'tratamento que você não consiga interromper apagando a conta.',
     ],

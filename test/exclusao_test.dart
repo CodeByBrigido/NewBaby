@@ -144,6 +144,39 @@ void main() {
     });
   });
 
+  group('a assinatura', () {
+    test('avisa que apagar a conta não a cancela', () {
+      // Sem esse aviso, a cápsula some e a cobrança anual continua. É o
+      // caminho mais curto entre um aplicativo bem-intencionado e uma
+      // reclamação no Procon.
+      expect(texto, contains('apagar a conta não cancela a assinatura'));
+    });
+
+    test('ensina onde cancelar, e não só que existe', () {
+      expect(texto, contains('Pagamentos e assinaturas'));
+      expect(texto, contains('Cancelar assinatura'));
+    });
+
+    test('diz que não conseguimos cancelar por quem pede', () {
+      expect(texto, contains('não conseguimos cancelar por você'));
+    });
+
+    test('o aviso também está no texto em inglês', () {
+      // A loja lê a seção em inglês, e ela precisa dizer o mesmo.
+      final String ingles = accountDeletionPage
+          .firstWhere((PrivacySection s) => s.title.contains('English'))
+          .body
+          .join(' ');
+      expect(ingles, contains('does '));
+      expect(ingles, contains('cancel the subscription'));
+      expect(ingles, contains('Google Play'));
+    });
+
+    test('a assinatura por conta segue a conta por criança', () {
+      expect(texto, contains('assinatura Premium também é por conta'));
+    });
+  });
+
   group('a versão pública é a mesma que está no código', () {
     test('o arquivo no repositório está em dia', () {
       final File arquivo = File('EXCLUSAO-DE-CONTA.md');

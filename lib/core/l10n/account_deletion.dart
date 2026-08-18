@@ -14,7 +14,7 @@ library;
 import 'privacy_policy.dart';
 
 /// Data da última revisão do texto.
-const String deletionPageDate = '11 de agosto de 2026';
+const String deletionPageDate = '18 de agosto de 2026';
 
 /// Prazo máximo para atender um pedido que chega por email.
 ///
@@ -119,6 +119,25 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
     ],
   ),
   PrivacySection(
+    title: 'A assinatura Premium não é cancelada aqui',
+    body: <String>[
+      'Se você assina o plano Premium, **apagar a conta não cancela a '
+          'assinatura**. São duas coisas em lugares diferentes: a conta é '
+          'nossa, a assinatura é da Google Play.',
+      'Sem cancelar lá, a cobrança anual continua acontecendo mesmo depois de '
+          'a cápsula ter sido apagada. Nós não temos acesso à sua forma de '
+          'pagamento e não conseguimos cancelar por você.',
+      'Cancele antes de apagar a conta, e leva poucos toques:',
+      '• Abra a Google Play Store',
+      '• Toque na sua foto, no alto à direita',
+      '• Vá em "Pagamentos e assinaturas" e depois em "Assinaturas"',
+      '• Escolha Meu Bebê: Cápsula do Tempo e toque em "Cancelar assinatura"',
+      'Cancelando, o Premium continua valendo até o fim do período já pago. '
+          'Se você apagar a conta antes disso, esse tempo restante se perde, '
+          'e não há devolução proporcional por ele.',
+    ],
+  ),
+  PrivacySection(
     title: 'Apagar só uma parte',
     body: <String>[
       'Você não precisa apagar a conta inteira para apagar alguma coisa.',
@@ -138,6 +157,9 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
       'Isso quer dizer que apagar uma conta apaga a cápsula daquela criança, '
           'e só dela. Se você usa mais de uma conta, o pedido precisa ser '
           'feito uma vez para cada, a partir do email de cada uma.',
+      'A assinatura Premium também é por conta. Apagar a cápsula de uma '
+          'criança não mexe na assinatura das outras, e cada uma segue '
+          'valendo, ou sendo cancelada, por si.',
     ],
   ),
   PrivacySection(
@@ -164,6 +186,11 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
           'account. Deletion is immediate and irreversible; no backups are '
           'kept. Email requests are honoured within $deletionDeadlineDays '
           'days.',
+      'If you subscribe to the Premium plan, deleting your account does '
+          '**not** cancel the subscription: billing is handled by Google '
+          'Play, not by us. Cancel it in the Play Store under "Payments and '
+          'subscriptions" before deleting your account, otherwise the yearly '
+          'charge continues.',
       'Your photos and videos are stored in your own Google Drive and are '
           'never deleted by us, because we never had a copy: the app uses the '
           'https://www.googleapis.com/auth/drive.file scope, which reaches '

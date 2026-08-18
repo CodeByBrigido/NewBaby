@@ -5,6 +5,8 @@ import 'package:meu_bebe/core/l10n/pagina_web.dart';
 import 'package:meu_bebe/core/l10n/privacy_policy.dart';
 import 'package:meu_bebe/core/l10n/terms_of_use.dart';
 import 'package:meu_bebe/core/router/app_router.dart';
+import 'package:meu_bebe/features/premium/porta_do_premium.dart';
+import 'package:meu_bebe/models/entry.dart';
 import 'package:meu_bebe/services/auth_service.dart';
 
 /// Os termos de uso.
@@ -44,6 +46,65 @@ void main() {
     test('a idade mínima aparece escrita, e não só na constante', () {
       expect(idadeMinima, greaterThanOrEqualTo(18));
       expect(texto, contains('$idadeMinima'));
+    });
+  });
+
+  group('os planos', () {
+    test('o que o texto chama de pago é o que o portão barra', () {
+      // O laço é o ponto. Mudar `exigeLicenca` sem mexer nos termos passa a
+      // derrubar este teste, que é o único jeito de o documento não virar
+      // promessa velha depois de a primeira pessoa ter pago.
+      const Map<EntryType, String> comoOTextoChama = <EntryType, String>{
+        EntryType.letter: 'cartas',
+        EntryType.drawing: 'desenhos',
+        EntryType.document: 'documentos',
+        EntryType.growth: 'registros de crescimento',
+      };
+
+      for (final EntryType tipo in EntryType.values) {
+        if (!exigeLicenca(tipo)) continue;
+        expect(
+          comoOTextoChama[tipo],
+          isNotNull,
+          reason: 'O portão barra ${tipo.id} e os termos não dizem qual é.',
+        );
+        expect(texto, contains(comoOTextoChama[tipo]!), reason: tipo.id);
+      }
+    });
+
+    test('foto e vídeo estão escritos como livres', () {
+      expect(exigeLicenca(EntryType.photo), isFalse);
+      expect(exigeLicenca(EntryType.video), isFalse);
+      expect(texto, contains('continua guardando fotos e vídeos'));
+    });
+
+    test('que ler nunca depende de pagar', () {
+      // É a linha que separa um convite de um resgate, e ela precisa estar
+      // no documento, e não só na nossa intenção.
+      expect(texto, contains('nunca fecha nada que já é seu'));
+      expect(texto, contains('continuam à vista'));
+    });
+
+    test('que a assinatura é por conta, e não por família', () {
+      expect(texto, contains('cada conta precisa da própria assinatura'));
+    });
+
+    test('quem cobra, com que periodicidade e como cancelar', () {
+      expect(texto, contains('Google Play'));
+      expect(texto, contains('anual'));
+      expect(texto, contains('renova sozinha'));
+      expect(texto, contains('Pagamentos e assinaturas'));
+    });
+
+    test('que apagar a conta não cancela a assinatura', () {
+      // O esquecimento mais caro que existe neste desenho: a cápsula some e
+      // a cobrança continua.
+      expect(texto, contains('não cancela a assinatura'));
+    });
+
+    test('não sobrou nenhuma promessa de que não há assinatura', () {
+      expect(texto, isNot(contains('Não há compra dentro do aplicativo')));
+      expect(texto, isNot(contains('O uso é gratuito')));
     });
   });
 

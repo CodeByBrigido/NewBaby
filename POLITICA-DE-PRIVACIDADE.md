@@ -2,7 +2,7 @@
 
 **Meu Bebê: Cápsula do Tempo**
 
-_Última atualização: 9 de agosto de 2026_
+_Última atualização: 18 de agosto de 2026_
 
 > Este arquivo é gerado de `lib/core/l10n/privacy_policy.dart`, que é o mesmo texto exibido dentro do aplicativo. Não edite aqui: edite lá e rode `dart run tool/gerar_politica.dart`.
 
@@ -13,6 +13,8 @@ As fotos, os vídeos e os documentos nunca passam por servidor nosso: vão diret
 O aplicativo guarda em servidor apenas um índice de texto, que é o que faz a linha do tempo e a busca funcionarem.
 
 Não há publicidade, rastreamento, perfilamento nem venda de dados.
+
+A assinatura Premium é cobrada pelo Google Play. Nenhum dado de pagamento passa por nós.
 
 Você apaga tudo isso a qualquer momento, dentro do aplicativo, sem precisar pedir a ninguém.
 
@@ -45,6 +47,8 @@ O índice fica no Cloud Firestore, serviço do Google Cloud. Esta é a lista com
 
 - Do cadastro: nome da criança, data de nascimento, sexo informado, peso e altura de nascimento, nome do hospital se preenchido, e o identificador da pasta raiz no seu Drive.
 
+- Do plano: um único valor, sim ou não, dizendo se a conta tem a assinatura Premium. Nada mais sobre pagamento passa por aqui.
+
 - De cada memória: tipo, data, idade em dias, título, descrição e, no caso das cartas, o texto integral da carta; peso e altura dos registros de crescimento; a data de abertura, quando a memória é lacrada; e o identificador, nome, tipo e tamanho de cada arquivo no seu Drive.
 
 - De apoio: o cache dos identificadores das pastas criadas no Drive e o progresso das sugestões que você marcou.
@@ -52,6 +56,15 @@ O índice fica no Cloud Firestore, serviço do Google Cloud. Esta é a lista com
 - Da autenticação: o Firebase Authentication guarda seu identificador de usuário, seu email, seu nome e o endereço da sua foto de perfil do Google.
 
 Cada índice é isolado por conta. Regras de segurança no servidor impedem que qualquer conta leia ou escreva os dados de outra, e essas regras são verificadas por testes automatizados a cada alteração do aplicativo.
+
+
+## O pagamento da assinatura
+
+Quem cobra a assinatura Premium é o Google Play, e não nós. Cartão, endereço de cobrança, nota fiscal e histórico de compras ficam com ele, sob a política de privacidade dele.
+
+Nós não recebemos, não vemos e não guardamos nenhum dado de pagamento. Do lado de cá fica só o valor de sim ou não descrito acima, no índice daquela conta, que é o que faz o aplicativo saber se libera guardar carta, desenho, documento e crescimento.
+
+Como a assinatura vale por conta, e cada criança tem a própria conta do Google, esse valor nunca é comparado entre contas nem usado para ligar uma conta à outra.
 
 
 ## O que nunca sai do aparelho
@@ -92,6 +105,8 @@ Apenas com o Google, que atua como operador (processador, nos termos do Art. 28 
 
 - Google Drive, para guardar os seus arquivos, na sua conta.
 
+- Google Play, para cobrar a assinatura Premium e responder se ela está ativa, para quem assinar.
+
 Não há nenhum outro destinatário. Não usamos rede de anúncios, corretor de dados nem serviço de análise.
 
 O tratamento pelo Google é regido pelos termos dele, em policies.google.com/privacy
@@ -104,6 +119,8 @@ O tratamento pelo Google é regido pelos termos dele, em policies.google.com/pri
 - Autenticação: execução do contrato, Art. 6(1)(b).
 
 - Notificações de lembrete: consentimento, Art. 6(1)(a), revogável a qualquer momento nas Configurações.
+
+- Registro do plano contratado: execução do contrato, Art. 6(1)(b). Sem ele não há como saber o que a assinatura liberou.
 
 Não usamos interesse legítimo como base para nada, e não há tratamento que você não consiga interromper apagando a conta.
 

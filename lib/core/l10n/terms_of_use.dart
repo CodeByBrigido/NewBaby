@@ -30,9 +30,13 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
   PrivacySection(
     title: 'Em resumo',
     body: <String>[
-      'O aplicativo é gratuito e serve para registrar a infância de uma '
-          'criança. Ele guarda os arquivos no Google Drive da conta que você '
-          'usar, e não em servidor nosso.',
+      'O aplicativo serve para registrar a infância de uma criança. Ele '
+          'guarda os arquivos no Google Drive da conta que você usar, e não '
+          'em servidor nosso.',
+      'Há dois planos. No Básico, que é gratuito, você lê tudo o que já '
+          'guardou e continua guardando fotos e vídeos. O Premium, que é uma '
+          'assinatura anual, acrescenta guardar cartas, desenhos, documentos '
+          'e registros de crescimento.',
       'O conteúdo é seu. Nós não olhamos, não usamos e não vendemos nada do '
           'que você guarda.',
       'Você precisa ser maior de $idadeMinima anos e responsável pela '
@@ -49,12 +53,54 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
           'vídeos, cartas, desenhos, documentos e registros de crescimento '
           'pela idade da criança, para que um dia ela mesma possa abrir e '
           'reviver a própria infância.',
-      'O uso é gratuito. Não há compra dentro do aplicativo, assinatura nem '
-          'anúncio. Se um dia isso mudar, o que já estiver guardado continua '
-          'seu e acessível.',
+      'Não há anúncio, e nunca houve. O que existe é uma assinatura opcional, '
+          'descrita na seção seguinte, que amplia o que dá para guardar.',
       'Ele é um organizador, e não um serviço de armazenamento: o espaço '
           'usado é o da conta do Google, e as regras de espaço e de cobrança '
           'são as do Google, não as nossas.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Os planos Básico e Premium',
+    body: <String>[
+      'O plano Básico é gratuito e não tem prazo. Com ele você entra, '
+          'percorre a linha do tempo inteira, abre e lê tudo o que já está '
+          'guardado, e continua guardando fotos e vídeos.',
+      'O plano Premium é uma assinatura anual. Ele acrescenta guardar cartas, '
+          'desenhos, documentos e registros de crescimento, que são as partes '
+          'em que a cápsula deixa de ser um álbum.',
+      'A assinatura vale para a conta que entra no aplicativo, e não para o '
+          'aparelho nem para quem pagou. Se você registra mais de uma criança, '
+          'cada uma tem a própria conta do Google, e cada conta precisa da '
+          'própria assinatura.',
+      'Ficar sem a assinatura nunca fecha nada que já é seu. Ao fim do '
+          'período pago, o aplicativo volta ao Básico: as cartas, os desenhos, '
+          'os documentos e as medições que você já guardou continuam à vista, '
+          'e os arquivos continuam no Google Drive da criança. O que para é '
+          'guardar coisa nova desses quatro tipos.',
+    ],
+  ),
+  PrivacySection(
+    title: 'A assinatura, o pagamento e o cancelamento',
+    body: <String>[
+      'A cobrança é feita pelo Google Play, e não por nós. O preço aparece na '
+          'moeda do seu país, dentro da própria loja, antes de você confirmar.',
+      'A assinatura é anual e se renova sozinha, pela conta do Google Play que '
+          'fez a compra, até que você a cancele.',
+      'Cancelar, mudar a forma de pagamento ou pedir reembolso é feito na '
+          'Google Play, em Pagamentos e assinaturas. Nós não temos acesso à '
+          'sua forma de pagamento e não conseguimos cobrar, cancelar nem '
+          'devolver valores em seu nome.',
+      'Cancelando, o acesso ao Premium continua até o fim do período já pago. '
+          'Não há devolução proporcional pelos dias não usados, e as regras de '
+          'reembolso são as do Google Play, além dos direitos que a lei '
+          'brasileira garante e que ninguém pode afastar.',
+      'Se o preço mudar, a mudança vale para as renovações seguintes, e o '
+          'Google Play avisa antes, pelo caminho que ele usa para isso. Você '
+          'pode cancelar antes de a renovação acontecer.',
+      'Apagar a conta dentro do aplicativo não cancela a assinatura. São '
+          'coisas separadas: uma é nossa, a outra é da Google Play. Cancele '
+          'também na loja, senão a cobrança continua.',
     ],
   ),
   PrivacySection(
@@ -148,6 +194,8 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
           'dados a qualquer momento, sem precisar dar explicação e sem custo.',
       'O caminho está descrito na página de exclusão de conta, e ele funciona '
           'mesmo para quem já desinstalou o aplicativo.',
+      'Se você tiver o Premium, lembre de cancelar a assinatura também na '
+          'Google Play. Apagar a conta aqui não a cancela lá.',
       'Podemos encerrar o serviço ou a sua conta em caso de uso ilegal, ou se '
           'um dia o aplicativo deixar de existir. Nesse caso avisaremos com a '
           'antecedência que der, e os seus arquivos continuam no seu Google '

@@ -97,6 +97,38 @@ void main() {
     });
   });
 
+  group('o pagamento', () {
+    test('diz que quem cobra é o Google Play', () {
+      expect(texto, contains('Google Play'));
+    });
+
+    test('diz que nenhum dado de pagamento passa por nós', () {
+      // A frase mais importante desta seção, e a que a loja lê.
+      expect(texto, contains('Nenhum dado de pagamento passa por nós'));
+      expect(
+        texto,
+        contains('não recebemos, não vemos e não guardamos nenhum dado'),
+      );
+    });
+
+    test('a licença aparece na lista fechada do que o índice guarda', () {
+      // A lista se diz completa. Um campo novo que não estivesse nela faria
+      // a palavra "completa" virar mentira.
+      expect(texto, contains('assinatura Premium'));
+      expect(texto, contains('Do plano'));
+    });
+
+    test('o Google Play está entre os destinatários', () {
+      // A seção diz "não há nenhum outro destinatário". Cobrar por fora dela
+      // sem citá-la seria contradizer a própria frase.
+      expect(texto, contains('Não há nenhum outro destinatário'));
+      final int listado = texto.indexOf('para cobrar a assinatura Premium');
+      final int fecho = texto.indexOf('Não há nenhum outro destinatário');
+      expect(listado, greaterThan(0));
+      expect(listado, lessThan(fecho));
+    });
+  });
+
   group('o documento está completo', () {
     test('todas as seções que a lei exige estão lá', () {
       // GDPR Arts. 13 e 14, e LGPD Art. 9: identidade do controlador, o que

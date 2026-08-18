@@ -2,7 +2,7 @@
 
 **Meu Bebê: Cápsula do Tempo**
 
-_Última atualização: 11 de agosto de 2026_
+_Última atualização: 18 de agosto de 2026_
 
 > Este arquivo é gerado de `lib/core/l10n/account_deletion.dart`. Não edite aqui: edite lá e rode `dart run tool/gerar_exclusao.dart`.
 
@@ -79,6 +79,25 @@ Se você também quiser apagar os arquivos, faça direto no Drive, e leva dois t
 Se preferir apagar a pasta pelo aplicativo, faça isso **antes** de excluir a conta, na mesma tela de exclusão: ali há a opção de mandar a pasta para a lixeira do Drive.
 
 
+## A assinatura Premium não é cancelada aqui
+
+Se você assina o plano Premium, **apagar a conta não cancela a assinatura**. São duas coisas em lugares diferentes: a conta é nossa, a assinatura é da Google Play.
+
+Sem cancelar lá, a cobrança anual continua acontecendo mesmo depois de a cápsula ter sido apagada. Nós não temos acesso à sua forma de pagamento e não conseguimos cancelar por você.
+
+Cancele antes de apagar a conta, e leva poucos toques:
+
+- Abra a Google Play Store
+
+- Toque na sua foto, no alto à direita
+
+- Vá em "Pagamentos e assinaturas" e depois em "Assinaturas"
+
+- Escolha Meu Bebê: Cápsula do Tempo e toque em "Cancelar assinatura"
+
+Cancelando, o Premium continua valendo até o fim do período já pago. Se você apagar a conta antes disso, esse tempo restante se perde, e não há devolução proporcional por ele.
+
+
 ## Apagar só uma parte
 
 Você não precisa apagar a conta inteira para apagar alguma coisa.
@@ -94,6 +113,8 @@ O aplicativo usa uma conta do Google por criança, para que um dia cada uma rece
 
 Isso quer dizer que apagar uma conta apaga a cápsula daquela criança, e só dela. Se você usa mais de uma conta, o pedido precisa ser feito uma vez para cada, a partir do email de cada uma.
 
+A assinatura Premium também é por conta. Apagar a cápsula de uma criança não mexe na assinatura das outras, e cada uma segue valendo, ou sendo cancelada, por si.
+
 
 ## Registros técnicos
 
@@ -107,5 +128,7 @@ Esses registros não contêm o conteúdo das suas memórias, e nós não os cons
 To delete your Meu Bebê: Cápsula do Tempo account and all associated data, either use Profile > "Apagar minha conta e meus dados" inside the app, or email mybabytimecapsule@gmail.com from the Google account address you signed in with.
 
 We delete the entire server-side index (child profile, timeline metadata, letter text, folder identifiers) and your authentication account. Deletion is immediate and irreversible; no backups are kept. Email requests are honoured within 30 days.
+
+If you subscribe to the Premium plan, deleting your account does **not** cancel the subscription: billing is handled by Google Play, not by us. Cancel it in the Play Store under "Payments and subscriptions" before deleting your account, otherwise the yearly charge continues.
 
 Your photos and videos are stored in your own Google Drive and are never deleted by us, because we never had a copy: the app uses the https://www.googleapis.com/auth/drive.file scope, which reaches only files the app itself created, and that access is revoked on deletion. You can delete the folder "Meu Bebê - Cápsula do Tempo" yourself at drive.google.com.
