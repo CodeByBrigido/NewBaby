@@ -37,3 +37,39 @@ Future<void> carregarFonteDeVerdade() async {
     await carregador.load();
   }
 }
+
+/// Carrega a fonte dos ícones do Material.
+///
+/// Só as imagens de prévia precisam disto. Sem ela todo `Icon` sai como um
+/// quadrado vazio, o que não atrapalha teste de medida nenhum mas estraga
+/// uma imagem feita justamente para alguém olhar e decidir.
+///
+/// O arquivo vem do próprio Flutter instalado na máquina, e não do projeto.
+/// Quando não estiver lá, sai calada: uma prévia com quadrados no lugar dos
+/// ícones ainda serve, e derrubar o teste por causa disso não serviria a
+/// ninguém.
+Future<void> carregarIconesDoMaterial() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  final String? raiz = Platform.environment['FLUTTER_ROOT'] ?? _raizDoFlutter();
+  if (raiz == null) return;
+
+  final File arquivo = File(
+    '$raiz/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf',
+  );
+  if (!arquivo.existsSync()) return;
+
+  final FontLoader carregador = FontLoader('MaterialIcons')
+    ..addFont(
+      Future<ByteData>.value(ByteData.sublistView(arquivo.readAsBytesSync())),
+    );
+  await carregador.load();
+}
+
+/// Onde o Flutter está, deduzido do executável que está rodando o teste.
+String? _raizDoFlutter() {
+  for (final String caminho in <String>['/opt/flutter', '/usr/local/flutter']) {
+    if (Directory(caminho).existsSync()) return caminho;
+  }
+  return null;
+}

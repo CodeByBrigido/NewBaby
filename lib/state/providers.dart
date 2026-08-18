@@ -181,6 +181,21 @@ final StreamProvider<BabyProfile?> profileProvider =
 // -------------------------------------------------------------- entradas
 
 /// Todas as memórias ativas, já ordenadas da mais recente para a mais antiga.
+/// Um número sorteado uma vez por abertura do aplicativo.
+///
+/// Existe para o carrossel da tela inicial começar numa ideia diferente a
+/// cada vez que alguém abre o aplicativo, sem gravar nada e sem repetir
+/// dentro da mesma sessão. Um `Provider` é criado uma vez por `ProviderScope`
+/// e vive enquanto o aplicativo viver, então este valor é estável durante o
+/// uso e novo na abertura seguinte.
+///
+/// Sorteio, e não um contador guardado no aparelho: o que se quer é variedade
+/// ao abrir, e guardar posição custaria uma escrita em disco para decidir
+/// qual cartão mostrar.
+final Provider<int> sementeDaAberturaProvider = Provider<int>(
+  (Ref ref) => DateTime.now().microsecondsSinceEpoch,
+);
+
 /// De onde vem o conteúdo das inspirações.
 ///
 /// Sobrescreva este provider para trocar o arquivo local por uma chamada de

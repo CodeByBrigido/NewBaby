@@ -26,6 +26,7 @@ class CapsulePulse {
     required this.birthdayYears,
     required this.daysToBirthday,
     required this.lastByType,
+    required this.nextMilestone,
   });
 
   factory CapsulePulse.from({
@@ -54,6 +55,7 @@ class CapsulePulse {
       birthdayYears: next.year - birth.year,
       daysToBirthday: next.difference(today).inDays,
       lastByType: Map<EntryType, DateTime>.unmodifiable(last),
+      nextMilestone: proximoMarcoDe(birth, today),
     );
   }
 
@@ -77,6 +79,12 @@ class CapsulePulse {
   final int daysToBirthday;
 
   final Map<EntryType, DateTime> lastByType;
+
+  /// O próximo marco de idade, ou o de hoje quando hoje é um.
+  ///
+  /// `null` só antes do nascimento, e no caso improvável de a regra deixar
+  /// de produzir marcos.
+  final ProximoMarco? nextMilestone;
 
   bool get isBirthday => daysToBirthday == 0;
 
@@ -124,6 +132,31 @@ class CapsulePulse {
     return null;
   }
 
+  /// O próximo marco de idade, contado a partir de [dia] e incluindo ele.
+  ///
+  /// Marco aqui é a mesma coisa que [dataRedondaEm] chama de data redonda: os
+  /// meses e os anos a vida inteira, e as semanas nos três primeiros meses.
+  /// A busca é feita **perguntando a ela**, dia a dia, em vez de recalcular a
+  /// regra por fora. Duas contas separadas para a mesma pergunta divergiriam
+  /// no primeiro caso de borda, e aí o cartão anunciaria um marco que a linha
+  /// do tempo não marcaria quando chegasse o dia.
+  ///
+  /// Varrer dia a dia é barato: o maior intervalo entre dois marcos é o de um
+  /// mês para o outro, então a resposta aparece em no máximo trinta e poucas
+  /// voltas. O teto existe só para a função não girar para sempre se um dia
+  /// alguém mudar a regra e deixar de haver marco algum.
+  static ProximoMarco? proximoMarcoDe(DateTime birth, DateTime dia) {
+    final DateTime hoje = AgeCalculator.dayOf(dia);
+    for (int adiante = 0; adiante <= 400; adiante++) {
+      final DateTime quando = hoje.add(Duration(days: adiante));
+      final String? rotulo = dataRedondaEm(birth, quando);
+      if (rotulo != null) {
+        return ProximoMarco(rotulo: rotulo, quando: quando, diasAte: adiante);
+      }
+    }
+    return null;
+  }
+
   /// O próximo aniversário a partir de [today], incluindo hoje.
   static DateTime _nextBirthday(DateTime birth, DateTime today) {
     final DateTime esteAno = _anniversaryIn(birth, today.year);
@@ -143,4 +176,24 @@ class CapsulePulse {
       birth.day < ultimoDia ? birth.day : ultimoDia,
     );
   }
+}
+
+/// Um marco de idade que ainda vai acontecer, e quando.
+@immutable
+class ProximoMarco {
+  const ProximoMarco({
+    required this.rotulo,
+    required this.quando,
+    required this.diasAte,
+  });
+
+  /// Como o marco se chama: `1 ano`, `8 meses`, `3 semanas`.
+  final String rotulo;
+
+  final DateTime quando;
+
+  /// Zero quando é hoje.
+  final int diasAte;
+
+  bool get ehHoje => diasAte == 0;
 }

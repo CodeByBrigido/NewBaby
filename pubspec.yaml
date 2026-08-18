@@ -108,6 +108,10 @@ flutter:
     # linhas próprias. Declarar a pasta, e não cada arquivo, é o que permite
     # trocar a arte sem mexer aqui.
     - assets/images/onboarding/
+    # A arte do bolo do cartão "Próximo marco". A pasta é declarada mesmo
+    # sem os PNG dentro: o cartão desenha um bolo em código enquanto eles
+    # não chegam, e passa a usar os arquivos assim que alguém os soltar ali.
+    - assets/marcos/
     - assets/images/icon/icon.png
     # O blog inteiro: uma postagem é um `<id>.json` com a capa `<id>.webp`
     # ao lado. Esta linha declara a pasta uma vez e nunca mais muda, porque
