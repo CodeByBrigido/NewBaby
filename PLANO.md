@@ -560,46 +560,107 @@ ouviu falar deste aplicativo.
 
 ### Fase 13 - Plano Premium
 
-Assinatura mensal, com o básico livre e o resto pago.
+Assinatura **anual**, de 3 euros, com o básico livre e o resto pago.
 
-**Livre:** linha do tempo inteira, enviar fotos e vídeos, aba Inspirações,
-perfil. Dá para viver no aplicativo sem pagar nada.
+**Livre:** ler a cápsula inteira, sempre; enviar fotos e vídeos; aba
+Inspirações; perfil. Dá para viver no aplicativo sem pagar nada.
 
-**Pago:** crescimento (peso e altura), desenhos, voz, documentos. A pessoa
-entra na seção, vê o conteúdo desfocado e recebe o convite para assinar.
+**Pago:** criar cartas, desenhos, documentos e registros de crescimento. Quem
+está no plano básico vê a opção, toca, e recebe o convite para assinar em vez
+do formulário.
 
-#### O que muda em relação ao que você descreveu
+#### A assinatura é por conta, não por família
 
-**Você não precisa calcular moeda nenhuma.** A Play Store faz isso: define-se
-o preço em euro e o Google converte para cada país, já arredondando pelo
-padrão local de preço. Um euro vira o valor local que parece preço, não
-resultado de conversão. Não há código de câmbio a escrever.
+**Decisão do dono do produto, registrada em 18 de agosto de 2026.** Cada
+conta de criança tem a própria assinatura. Um pai com dois filhos, e portanto
+com duas contas do Google, paga duas vezes. Não existe plano de família nem
+assinatura que cubra uma árvore de pais e filhos.
+
+Isso é coerente com o resto do desenho: a conta é da criança desde o primeiro
+dia, a cápsula é dela, e um dia ela recebe a conta inteira. Uma assinatura
+que morasse na conta do pai seria mais uma coisa a transferir vinte anos
+depois.
+
+#### O atrito entre essa decisão e o Google Play
+
+Vale escrever antes de alguém descobrir no meio da implementação: **o Google
+Play não cobra por conta de aplicativo, cobra por conta da Play Store do
+aparelho.** Quem compra é a conta logada na loja, que é a do pai, enquanto o
+aplicativo está logado como a criança. E uma mesma conta da Play não consegue
+manter duas compras ativas do mesmo produto de assinatura: a segunda tentativa
+volta como item já adquirido.
+
+O que fecha essa distância, sem servidor:
+
+1. Ao abrir a compra, mandar o `uid` da criança ativa como
+   `obfuscatedAccountId`, que é o campo que o Play oferece justamente para
+   prender uma compra a um perfil dentro do aplicativo.
+2. Ao confirmar, gravar `premium` no documento **daquela** criança no
+   Firestore.
+3. O aplicativo lê o `premium` da criança aberta, e não o que a biblioteca de
+   faturamento devolve. É o que faz a assinatura ser por conta de verdade: o
+   filho pago libera, o filho não pago continua no básico, no mesmo aparelho
+   e na mesma conta da Play.
+
+Fica um caso sem saída limpa: **o segundo filho na mesma conta da Play.** O
+passo 3 sabe que ele não pagou, mas o passo 1 não consegue cobrar, porque a
+loja recusa a segunda compra do mesmo produto. As saídas são criar produtos
+de assinatura distintos por vaga, o que não escala, ou exigir outra conta da
+Play, o que é pedir demais. Precisa ser conferido no Play Console antes de
+implementar, e a decisão de qual caminho seguir fica para essa hora.
+
+#### O que o Google resolve por nós
+
+**Não há moeda a calcular.** Define-se o preço em euro e o Google converte
+para cada país, já arredondando pelo padrão local de preço. Não há código de
+câmbio a escrever.
 
 **A cobrança tem que ser do Google.** Vender funcionalidade dentro de um
 aplicativo Android por fora do faturamento da Play Store é violação de
 política e tira o aplicativo do ar. Então é o Google Play Billing, com o
 produto de assinatura criado no Play Console.
 
-**A verificação não é por email.** O direito de uso fica preso à conta Google
-que comprou, e quem responde é a biblioteca de faturamento no próprio
-aparelho, não uma consulta nossa por endereço.
+**O teste grátis é configuração, não código.** Sete ou catorze dias na oferta
+do Play Console. Com as cartas do lado pago, sem período de teste quem instala
+hoje nunca chega a experimentar a coisa que justifica pagar.
 
 #### A limitação, dita antes de ser descoberta
 
-Conferir a assinatura só no aparelho é burlável por quem sabe mexer. Fechar
-isso de verdade exige servidor conversando com a API do Google, o que
-significa Cloud Functions, plano Blaze e custo recorrente. Para uma
-assinatura de um euro, o aperto não paga o preço. Fica registrado como
-escolha consciente, não como descuido.
+Conferir a assinatura só no aparelho é burlável por quem sabe mexer, e o
+`premium` no Firestore é escrito pelo próprio aplicativo, então também é.
+Fechar isso de verdade exige servidor conversando com a API do Google, o que
+significa Cloud Functions, plano Blaze e custo recorrente. Para uma assinatura
+de três euros ao ano, o aperto não paga o preço. Fica registrado como escolha
+consciente, não como descuido.
 
 #### A linha que eu não cruzaria
 
-**Pagar libera criar, nunca libera ver o que já é seu.** Se alguém registrar
-o peso do filho durante três meses pagos e parar de pagar, esses registros
-têm que continuar visíveis. Este aplicativo promete que a criança abre a
-cápsula daqui a vinte anos; um aplicativo que esconde memória já guardada
-por falta de pagamento quebrou a própria promessa e vira problema de suporte
-e de reputação.
+**Pagar libera criar, nunca libera ver o que já é seu.** Se alguém escrever
+quarenta cartas durante um ano pago e parar de pagar, as quarenta continuam
+abertas. Este aplicativo promete que a criança abre a cápsula daqui a vinte
+anos; um aplicativo que esconde memória já guardada por falta de pagamento
+quebrou a própria promessa e vira problema de suporte e de reputação.
+
+Vale lembrar que as cartas são `.txt` no Drive da própria criança. Escondê-las
+no aplicativo não esconderia nada de ninguém: só faria o aplicativo parecer
+pior do que é.
+
+#### Os documentos mudam junto com o código, não antes
+
+Os termos de uso hoje dizem, em `terms_of_use.dart`, que "não há compra dentro
+do aplicativo, assinatura nem anúncio", e essa frase está publicada em
+`docs/termos.html`. Ela deixa de ser verdade no dia em que a assinatura
+entrar, e trocá-la antes disso a torna falsa ao contrário. As duas mudanças
+saem na mesma versão:
+
+- **Termos de uso:** seção de planos, com o que é livre, o que é pago, preço
+  mostrado pela Play na moeda local, renovação anual automática, cancelamento
+  só pela Play, e o que acontece ao vencer.
+- **Política de privacidade:** não recebemos nem guardamos dado de pagamento;
+  de nós fica só um sim ou não.
+- **Exclusão de conta:** apagar a conta **não** cancela a assinatura, que
+  precisa ser cancelada na Play, senão continua renovando.
+- **Ficha da Play:** marcar compras no aplicativo e declarar o produto.
 
 Também recomendo **lançar de graça e trazer a assinatura na primeira
 atualização**. Faturamento é a parte mais fácil de errar de um aplicativo, e
