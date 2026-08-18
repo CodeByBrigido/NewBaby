@@ -17,6 +17,7 @@ import '../timeline/upload_banner.dart';
 import 'carrossel_de_inspiracao.dart';
 import 'faz_um_tempo.dart';
 import 'painel_do_bebe.dart';
+import 'proximo_marco.dart';
 import 'pulse_cards.dart';
 
 /// Início: um resumo caloroso, com as últimas memórias e os atalhos.
@@ -95,6 +96,8 @@ class HomeScreen extends ConsumerWidget {
           const CarrosselDeInspiracao(),
           const SizedBox(height: Space.x24),
           FazUmTempo(pulse: pulse),
+          const SizedBox(height: Space.x16),
+          CartaoDoProximoMarco(pulse: pulse, genero: profile.gender),
           const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
             SectionHeader(

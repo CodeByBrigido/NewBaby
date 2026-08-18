@@ -12,6 +12,8 @@ import 'package:meu_bebe/core/utils/age_calculator.dart';
 import 'package:meu_bebe/core/utils/formatters.dart';
 import 'package:meu_bebe/features/common/widgets.dart';
 import 'package:meu_bebe/features/home/painel_do_bebe.dart';
+import 'package:meu_bebe/features/home/proximo_marco.dart';
+import 'package:meu_bebe/models/capsule_pulse.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
 import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/models/entry.dart';
@@ -103,6 +105,15 @@ class _Tela extends StatelessWidget {
           const _Ideia(),
           const SizedBox(height: Space.x24),
           const _FazUmTempo(),
+          const SizedBox(height: Space.x16),
+          CartaoDoProximoMarco(
+            genero: perfil.gender,
+            pulse: CapsulePulse.from(
+              profile: perfil,
+              entries: const <Entry>[],
+              now: DateTime(2028, 8, 21),
+            ),
+          ),
           const SizedBox(height: Space.x24),
           SectionHeader(
             title: 'Fotos recentes',
