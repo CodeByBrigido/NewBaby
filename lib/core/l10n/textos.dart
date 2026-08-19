@@ -854,4 +854,66 @@ abstract interface class Textos {
   String get kindOuting;
 
   String get kindPhoto;
+
+  String get reminderRoundLabel;
+
+  String get reminderRoundDesc;
+
+  String get reminderBirthdayLabel;
+
+  String get reminderBirthdayDesc;
+
+  String get reminderSpecialLabel;
+
+  String get reminderSpecialDesc;
+
+  String get reminderInspirationLabel;
+
+  String get reminderInspirationDesc;
+
+  String get reminderAbsenceLabel;
+
+  String get reminderAbsenceDesc;
+
+  String get reminderInactiveLabel;
+
+  String get reminderInactiveDesc;
+
+  String get notifWeekLeftTitle;
+
+  String get notifBirthdayTodayGeneric;
+
+  String get notifMomentTitle;
+
+  String get notifInactiveTitle;
+
+  String get notifPhotoWorthIt;
+
+  String get notifAbsenceGeneric;
+
+  String get notifInactiveGeneric;
+
+  String get theChild;
+
+  String notifFirstBirthdaySoon(String quem);
+
+  String notifBirthdaySoon(String quem, int anos);
+
+  String notifBirthdayTitle(int anos);
+
+  String notifBirthdayToday(String deQuem);
+
+  String notifMonthsTitle(int meses);
+
+  String notifMonthsBody(String nome, int meses);
+
+  String notifFirstHolidayTitle(String data);
+
+  String notifFirstHolidayBody(String data, String deQuem);
+
+  String notifFirstHolidayBodyGeneric(String data);
+
+  String notifAbsenceBody(String deQuem);
+
+  String notifInactiveBody(String deQuem);
 }

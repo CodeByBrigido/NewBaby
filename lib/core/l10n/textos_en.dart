@@ -1295,4 +1295,117 @@ class TextosEn implements Textos {
 
   @override
   String get kindPhoto => 'Photo idea';
+
+  @override
+  String get reminderRoundLabel => 'Round dates';
+
+  @override
+  String get reminderRoundDesc => 'Monthly milestones and each year turning';
+
+  @override
+  String get reminderBirthdayLabel => 'Birthday';
+
+  @override
+  String get reminderBirthdayDesc => 'A week before, and on the day';
+
+  @override
+  String get reminderSpecialLabel => 'Firsts of the year';
+
+  @override
+  String get reminderSpecialDesc => 'Christmas, Easter, Mother\'s Day';
+
+  @override
+  String get reminderInspirationLabel => 'Ideas at the right time';
+
+  @override
+  String get reminderInspirationDesc => 'When an idea is only good now';
+
+  @override
+  String get reminderAbsenceLabel => 'A gentle nudge';
+
+  @override
+  String get reminderAbsenceDesc =>
+      'When it has been a long time without keeping anything';
+
+  @override
+  String get reminderInactiveLabel => 'The Google account';
+
+  @override
+  String get reminderInactiveDesc =>
+      'One warning a year, so the capsule is not lost';
+
+  @override
+  String get notifWeekLeftTitle => 'One week to go';
+
+  @override
+  String get notifBirthdayTodayGeneric =>
+      'It is today. Keep something from this day.';
+
+  @override
+  String get notifMomentTitle => 'A moment from today';
+
+  @override
+  String get notifInactiveTitle => 'The capsule needs a minute of your time';
+
+  @override
+  String get notifPhotoWorthIt =>
+      'A photo from today will mean a lot twenty years from now.';
+
+  @override
+  String get notifAbsenceGeneric =>
+      'It has been a while since the last memory. Any photo at all, however the day looks, is enough.';
+
+  @override
+  String get notifInactiveGeneric =>
+      'It has been almost a year since you opened the app. Google deletes accounts left unused for two years, and that is where the memories live. Opening it now and then is enough.';
+
+  @override
+  String get theChild => 'the child';
+
+  @override
+  String notifFirstBirthdaySoon(String quem) =>
+      '$quem first birthday is seven days away. A good time to pick the photos '
+      'from the first year.';
+
+  @override
+  String notifBirthdaySoon(String quem, int anos) =>
+      '$quem turns $anos in seven days.';
+
+  @override
+  String notifBirthdayTitle(int anos) =>
+      anos == 1 ? 'One year today' : '$anos years today';
+
+  @override
+  String notifBirthdayToday(String deQuem) =>
+      'Today is $deQuem day. Keep something from this day.';
+
+  @override
+  String notifMonthsTitle(int meses) => '$meses months today';
+
+  @override
+  String notifMonthsBody(String nome, int meses) =>
+      '$nome turns ${contarMeses(meses)} today. A photo from today will '
+      'mean a lot twenty years from now.';
+
+  @override
+  String notifFirstHolidayTitle(String data) => 'The first $data';
+
+  @override
+  String notifFirstHolidayBody(String data, String deQuem) =>
+      'In three days it is $deQuem first $data. Worth a photo.';
+
+  @override
+  String notifFirstHolidayBodyGeneric(String data) =>
+      'In three days it is the first $data. Worth a photo.';
+
+  @override
+  String notifAbsenceBody(String deQuem) =>
+      'It has been a while since $deQuem last memory. Any photo at all, however '
+      'the day looks, is enough.';
+
+  @override
+  String notifInactiveBody(String deQuem) =>
+      'It has been almost a year since you opened the app. Google deletes '
+      'accounts left unused for two years, and that is where $deQuem memories '
+      'live. Opening it now and then is enough.';
 }

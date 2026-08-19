@@ -1295,4 +1295,117 @@ class TextosPt implements Textos {
 
   @override
   String get kindPhoto => 'Ideia de foto';
+
+  @override
+  String get reminderRoundLabel => 'Datas redondas';
+
+  @override
+  String get reminderRoundDesc => 'Mensiversários e a virada de cada ano';
+
+  @override
+  String get reminderBirthdayLabel => 'Aniversário';
+
+  @override
+  String get reminderBirthdayDesc => 'Uma semana antes, e no dia';
+
+  @override
+  String get reminderSpecialLabel => 'Primeiras vezes do ano';
+
+  @override
+  String get reminderSpecialDesc => 'Natal, Páscoa, Dia das Mães';
+
+  @override
+  String get reminderInspirationLabel => 'Ideias na hora certa';
+
+  @override
+  String get reminderInspirationDesc => 'Quando uma ideia só serve agora';
+
+  @override
+  String get reminderAbsenceLabel => 'Lembrete gentil';
+
+  @override
+  String get reminderAbsenceDesc => 'Quando faz muito tempo sem registrar nada';
+
+  @override
+  String get reminderInactiveLabel => 'A conta do Google';
+
+  @override
+  String get reminderInactiveDesc =>
+      'Um aviso por ano, para a cápsula não se perder';
+
+  @override
+  String get notifWeekLeftTitle => 'Falta uma semana';
+
+  @override
+  String get notifBirthdayTodayGeneric =>
+      'É hoje. Guarde alguma coisa deste dia.';
+
+  @override
+  String get notifMomentTitle => 'Um instante de hoje';
+
+  @override
+  String get notifInactiveTitle => 'A cápsula precisa de você por um minuto';
+
+  @override
+  String get notifPhotoWorthIt =>
+      'Uma foto de hoje vai valer muito daqui a vinte anos.';
+
+  @override
+  String get notifAbsenceGeneric =>
+      'Faz um tempo desde a última memória. Uma foto qualquer, do jeito que o dia estiver, já basta.';
+
+  @override
+  String get notifInactiveGeneric =>
+      'Faz quase um ano que você não abre. O Google apaga contas sem uso por dois anos, e é numa delas que as memórias moram. Abrir de vez em quando já basta.';
+
+  @override
+  String get theChild => 'a criança';
+
+  @override
+  String notifFirstBirthdaySoon(String quem) =>
+      'O primeiro aniversário $quem é daqui a sete dias. Boa hora para '
+      'escolher as fotos do primeiro ano.';
+
+  @override
+  String notifBirthdaySoon(String quem, int anos) =>
+      '$quem faz $anos anos daqui a sete dias.';
+
+  @override
+  String notifBirthdayTitle(int anos) =>
+      anos == 1 ? 'Um ano hoje' : '$anos anos hoje';
+
+  @override
+  String notifBirthdayToday(String deQuem) =>
+      'Hoje é o dia $deQuem. Guarde alguma coisa deste dia.';
+
+  @override
+  String notifMonthsTitle(int meses) =>
+      meses == 1 ? 'Hoje é 1 mês' : 'Hoje são $meses meses';
+
+  @override
+  String notifMonthsBody(String nome, int meses) =>
+      '$nome completa ${contarMeses(meses)} hoje. Uma foto de hoje vai '
+      'valer muito daqui a vinte anos.';
+
+  @override
+  String notifFirstHolidayTitle(String data) => 'O primeiro $data';
+
+  @override
+  String notifFirstHolidayBody(String data, String deQuem) =>
+      'Daqui a três dias é o primeiro $data $deQuem. Vale uma foto.';
+
+  @override
+  String notifFirstHolidayBodyGeneric(String data) =>
+      'Daqui a três dias é o primeiro $data. Vale uma foto.';
+
+  @override
+  String notifAbsenceBody(String deQuem) =>
+      'Faz um tempo desde a última memória $deQuem. Uma foto qualquer, do '
+      'jeito que o dia estiver, já basta.';
+
+  @override
+  String notifInactiveBody(String deQuem) =>
+      'Faz quase um ano que você não abre. O Google apaga contas sem uso por '
+      'dois anos, e é numa delas que as memórias $deQuem moram. Abrir de vez '
+      'em quando já basta.';
 }

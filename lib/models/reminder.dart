@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../core/l10n/copy.dart';
+import '../core/l10n/strings.dart';
 import '../core/utils/age_calculator.dart';
 import 'baby_profile.dart';
 import 'capsule_pulse.dart';
@@ -16,30 +17,46 @@ import 'special_date.dart';
 /// em "desliguei tudo", e aí a pessoa perde também o que gostaria de saber.
 enum ReminderKind {
   /// "Hoje ela faz 8 meses."
-  dataRedonda('Datas redondas', 'Mensiversários e a virada de cada ano'),
+  dataRedonda,
 
   /// A contagem do aniversário.
-  aniversario('Aniversário', 'Uma semana antes, e no dia'),
+  aniversario,
 
   /// Primeiro Natal, primeira Páscoa.
-  dataEspecial('Primeiras vezes do ano', 'Natal, Páscoa, Dia das Mães'),
+  dataEspecial,
 
   /// Uma leitura com prazo, da aba Inspirações.
-  inspiracao('Ideias na hora certa', 'Quando uma ideia só serve agora'),
+  inspiracao,
 
   /// "Faz um tempo desde a última foto."
-  ausencia('Lembrete gentil', 'Quando faz muito tempo sem registrar nada'),
+  ausencia,
 
   /// O único que protege a cápsula, e não a memória de alimentá-la.
-  contaInativa(
-    'A conta do Google',
-    'Um aviso por ano, para a cápsula não se perder',
-  );
+  contaInativa;
 
-  const ReminderKind(this.label, this.description);
+  const ReminderKind();
 
-  final String label;
-  final String description;
+  /// O nome e a explicação, na língua ativa.
+  ///
+  /// Eram valores fixos no próprio enum, o que congelava o português na
+  /// construção. Como getters, acompanham a escolha de idioma.
+  String get label => switch (this) {
+    ReminderKind.dataRedonda => S.reminderRoundLabel,
+    ReminderKind.aniversario => S.reminderBirthdayLabel,
+    ReminderKind.dataEspecial => S.reminderSpecialLabel,
+    ReminderKind.inspiracao => S.reminderInspirationLabel,
+    ReminderKind.ausencia => S.reminderAbsenceLabel,
+    ReminderKind.contaInativa => S.reminderInactiveLabel,
+  };
+
+  String get description => switch (this) {
+    ReminderKind.dataRedonda => S.reminderRoundDesc,
+    ReminderKind.aniversario => S.reminderBirthdayDesc,
+    ReminderKind.dataEspecial => S.reminderSpecialDesc,
+    ReminderKind.inspiracao => S.reminderInspirationDesc,
+    ReminderKind.ausencia => S.reminderAbsenceDesc,
+    ReminderKind.contaInativa => S.reminderInactiveDesc,
+  };
 
   /// Quem ganha o dia quando dois lembretes caem na mesma data.
   ///
@@ -247,28 +264,27 @@ Iterable<ScheduledReminder> _aniversario(
 
   final DateTime data = pulse.nextBirthday;
   final int anos = pulse.birthdayYears;
-  final String quem = copy.hasName ? copy.theName : 'a criança';
+  final String quem = copy.hasName ? copy.theName : S.theChild;
 
   // Uma semana antes: dá tempo de organizar sem virar cobrança.
   yield _lembrete(
     ReminderKind.aniversario,
     data.subtract(const Duration(days: 7)),
     settings,
-    titulo: 'Falta uma semana',
+    titulo: S.notifWeekLeftTitle,
     corpo: anos == 1
-        ? 'O primeiro aniversário $quem é daqui a sete dias. Boa hora para '
-              'escolher as fotos do primeiro ano.'
-        : '$quem faz $anos anos daqui a sete dias.',
+        ? S.notifFirstBirthdaySoon(quem)
+        : S.notifBirthdaySoon(quem, anos),
   );
 
   yield _lembrete(
     ReminderKind.aniversario,
     data,
     settings,
-    titulo: anos == 1 ? 'Um ano hoje' : '$anos anos hoje',
+    titulo: S.notifBirthdayTitle(anos),
     corpo: copy.hasName
-        ? 'Hoje é o dia ${copy.ofName}. Guarde alguma coisa deste dia.'
-        : 'É hoje. Guarde alguma coisa deste dia.',
+        ? S.notifBirthdayToday(copy.ofName)
+        : S.notifBirthdayTodayGeneric,
   );
 }
 
@@ -297,11 +313,10 @@ Iterable<ScheduledReminder> _datasRedondas(
       ReminderKind.dataRedonda,
       dia,
       settings,
-      titulo: 'Hoje são $meses ${meses == 1 ? 'mês' : 'meses'}',
+      titulo: S.notifMonthsTitle(meses),
       corpo: copy.hasName
-          ? '${copy.theName} completa $meses ${meses == 1 ? 'mês' : 'meses'} '
-                'hoje. Uma foto de hoje vai valer muito daqui a vinte anos.'
-          : 'Uma foto de hoje vai valer muito daqui a vinte anos.',
+          ? S.notifMonthsBody(copy.theName, meses)
+          : S.notifPhotoWorthIt,
     );
   }
 }
@@ -331,11 +346,10 @@ Iterable<ScheduledReminder> _datasEspeciais(
       ReminderKind.dataEspecial,
       dia,
       settings,
-      titulo: 'O primeiro ${data.label}',
+      titulo: S.notifFirstHolidayTitle(data.label),
       corpo: copy.hasName
-          ? 'Daqui a três dias é o primeiro ${data.label} ${copy.ofName}. '
-                'Vale uma foto.'
-          : 'Daqui a três dias é o primeiro ${data.label}. Vale uma foto.',
+          ? S.notifFirstHolidayBody(data.label, copy.ofName)
+          : S.notifFirstHolidayBodyGeneric(data.label),
     );
   }
 }
@@ -407,12 +421,10 @@ Iterable<ScheduledReminder> _ausencia(
     ReminderKind.ausencia,
     dia,
     settings,
-    titulo: 'Um instante de hoje',
+    titulo: S.notifMomentTitle,
     corpo: copy.hasName
-        ? 'Faz um tempo desde a última memória ${copy.ofName}. Uma foto '
-              'qualquer, do jeito que o dia estiver, já basta.'
-        : 'Faz um tempo desde a última memória. Uma foto qualquer, do jeito '
-              'que o dia estiver, já basta.',
+        ? S.notifAbsenceBody(copy.ofName)
+        : S.notifAbsenceGeneric,
   );
 }
 
@@ -437,14 +449,10 @@ Iterable<ScheduledReminder> _contaInativa(
     ReminderKind.contaInativa,
     hoje.add(const Duration(days: inactivityWarningDays)),
     settings,
-    titulo: 'A cápsula precisa de você por um minuto',
+    titulo: S.notifInactiveTitle,
     corpo: copy.hasName
-        ? 'Faz quase um ano que você não abre. O Google apaga contas sem uso '
-              'por dois anos, e é numa delas que as memórias ${copy.ofName} '
-              'moram. Abrir de vez em quando já basta.'
-        : 'Faz quase um ano que você não abre. O Google apaga contas sem uso '
-              'por dois anos, e é numa delas que as memórias moram. Abrir de '
-              'vez em quando já basta.',
+        ? S.notifInactiveBody(copy.ofName)
+        : S.notifInactiveGeneric,
   );
 }
 
