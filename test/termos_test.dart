@@ -79,7 +79,9 @@ void main() {
         expect(texto, contains('requisitos de localização de dados'));
         expect(
           texto,
-          contains('armazenamento exclusivamente dentro de determinada jurisdição'),
+          contains(
+            'armazenamento exclusivamente dentro de determinada jurisdição',
+          ),
         );
       },
     );
