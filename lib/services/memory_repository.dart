@@ -1,3 +1,4 @@
+import '../core/l10n/strings.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -458,9 +459,7 @@ class MemoryRepository {
       // Os originais estão em outro aparelho - não há como reenviar daqui.
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
         'uploadStatus': UploadStatus.failed.id,
-        'erro':
-            'Os arquivos originais não estão neste aparelho. '
-            'Reenvie a partir do celular onde eles foram escolhidos.',
+        'erro': S.errOriginalsMissingFull,
       });
       return;
     }
@@ -474,9 +473,7 @@ class MemoryRepository {
       if (!File(item.path).existsSync()) {
         await firestore.patchEntry(uid, entry.id, <String, Object?>{
           'uploadStatus': UploadStatus.failed.id,
-          'erro':
-              'O arquivo saiu deste aparelho antes de o envio terminar. '
-              'Escolha a foto de novo para guardá-la.',
+          'erro': S.errFileGoneFull,
         });
         return;
       }

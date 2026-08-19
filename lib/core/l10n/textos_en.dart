@@ -1197,4 +1197,102 @@ class TextosEn implements Textos {
   @override
   String remindersSummaryFull(int marcados, int total, int hora) =>
       '$marcados of $total types, at $hora:00';
+
+  @override
+  String contarSemanas(int n) => n == 1 ? '1 week' : '$n weeks';
+
+  @override
+  String semanaNumero(int n) => 'Week $n';
+
+  @override
+  String mesNumero(int n) => 'Month $n';
+
+  @override
+  String uploadWithDate(String oQue, String data) => '$oQue dated $data.';
+
+  @override
+  String uploadBornThatDay(String nome) => 'That was the day $nome was born.';
+
+  @override
+  String uploadBornThatDayGeneric() => 'That was the day of the birth.';
+
+  @override
+  String uploadAgeThen(String nome, String idade) =>
+      'On that date $nome was $idade.';
+
+  @override
+  String uploadAgeThenGeneric(String idade) => 'Age on that date: $idade.';
+
+  @override
+  String uploadWhereInDrive(String caminho) => 'In Drive, it goes to $caminho.';
+
+  @override
+  String get holidayNewYear => 'New Year';
+
+  @override
+  String get holidayCarnival => 'Carnival';
+
+  @override
+  String get holidayEaster => 'Easter';
+
+  @override
+  String get holidayMothers => 'Mother\'s Day';
+
+  @override
+  String get holidayFathers => 'Father\'s Day';
+
+  @override
+  String get holidayChristmas => 'Christmas';
+
+  @override
+  String get kindLetter => 'Letter idea';
+
+  @override
+  String get kindReading => 'Reading';
+
+  @override
+  String get kindPrep => 'Getting ready';
+
+  @override
+  String get kindRoutine => 'Routine and organisation';
+
+  @override
+  String get kindEveryday => 'Everyday life';
+
+  @override
+  String get kindPlay => 'Play';
+
+  @override
+  String get notifChannelName => 'Capsule reminders';
+
+  @override
+  String get notifChannelDescription =>
+      'Round dates, birthdays and nudges to keep a memory.';
+
+  @override
+  String get errPhotoCompress => 'Could not compress this photo.';
+
+  @override
+  String get errVideoConvert => 'Could not convert this video.';
+
+  @override
+  String get errOriginalsMissing =>
+      'The original files are not on this device.';
+
+  @override
+  String get errPickPhotoAgain => 'Pick the photo again to keep it.';
+
+  @override
+  String get errOriginalsMissingFull =>
+      'The original files are not on this device. Send them again from the phone where they were picked.';
+
+  @override
+  String get errFileGoneFull =>
+      'The file left this device before the upload finished. Pick the photo again to keep it.';
+
+  @override
+  String get kindOuting => 'Outings and fresh air';
+
+  @override
+  String get kindPhoto => 'Photo idea';
 }

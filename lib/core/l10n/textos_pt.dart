@@ -1195,4 +1195,104 @@ class TextosPt implements Textos {
   @override
   String remindersSummaryFull(int marcados, int total, int hora) =>
       '$marcados de $total tipos, às ${hora}h';
+
+  @override
+  String contarSemanas(int n) => n == 1 ? '1 semana' : '$n semanas';
+
+  @override
+  String semanaNumero(int n) => 'Semana $n';
+
+  @override
+  String mesNumero(int n) => 'Mês $n';
+
+  @override
+  String uploadWithDate(String oQue, String data) =>
+      '$oQue com a data de $data.';
+
+  @override
+  String uploadBornThatDay(String nome) => 'Foi o dia em que $nome nasceu.';
+
+  @override
+  String uploadBornThatDayGeneric() => 'Foi o dia do nascimento.';
+
+  @override
+  String uploadAgeThen(String nome, String idade) =>
+      'Nessa data $nome tinha $idade.';
+
+  @override
+  String uploadAgeThenGeneric(String idade) => 'Idade nessa data: $idade.';
+
+  @override
+  String uploadWhereInDrive(String caminho) =>
+      'No Drive, vai ficar em $caminho.';
+
+  @override
+  String get holidayNewYear => 'Ano Novo';
+
+  @override
+  String get holidayCarnival => 'Carnaval';
+
+  @override
+  String get holidayEaster => 'Páscoa';
+
+  @override
+  String get holidayMothers => 'Dia das Mães';
+
+  @override
+  String get holidayFathers => 'Dia dos Pais';
+
+  @override
+  String get holidayChristmas => 'Natal';
+
+  @override
+  String get kindLetter => 'Ideia de carta';
+
+  @override
+  String get kindReading => 'Leitura';
+
+  @override
+  String get kindPrep => 'Preparativo';
+
+  @override
+  String get kindRoutine => 'Rotina e organização';
+
+  @override
+  String get kindEveryday => 'Do dia a dia';
+
+  @override
+  String get kindPlay => 'Brincadeira';
+
+  @override
+  String get notifChannelName => 'Lembretes da cápsula';
+
+  @override
+  String get notifChannelDescription =>
+      'Datas redondas, aniversários e lembretes de guardar uma memória.';
+
+  @override
+  String get errPhotoCompress => 'Não foi possível comprimir esta foto.';
+
+  @override
+  String get errVideoConvert => 'Não foi possível converter este vídeo.';
+
+  @override
+  String get errOriginalsMissing =>
+      'Os arquivos originais não estão neste aparelho.';
+
+  @override
+  String get errPickPhotoAgain => 'Escolha a foto de novo para guardá-la.';
+
+  @override
+  String get errOriginalsMissingFull =>
+      'Os arquivos originais não estão neste aparelho. Reenvie a partir do celular onde eles foram escolhidos.';
+
+  @override
+  String get errFileGoneFull =>
+      'O arquivo saiu deste aparelho antes de o envio terminar. Escolha a foto de novo para guardá-la.';
+
+  @override
+  String get kindOuting => 'Passeio e ar livre';
+
+  @override
+  String get kindPhoto => 'Ideia de foto';
 }

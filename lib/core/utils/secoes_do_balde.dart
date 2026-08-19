@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter/foundation.dart';
 
+import '../l10n/strings.dart';
 import 'age_calculator.dart';
 
 /// Um pedaço de uma pasta de idade, com o que caiu dentro dele.
@@ -62,7 +63,9 @@ List<SecaoDoBalde<T>> secoesDoBalde<T>({
   return <SecaoDoBalde<T>>[
     for (final int i in indices)
       SecaoDoBalde<T>(
-        titulo: balde.unit == AgeBucketUnit.month ? 'Semana $i' : 'Mês $i',
+        titulo: balde.unit == AgeBucketUnit.month
+            ? S.semanaNumero(i)
+            : S.mesNumero(i),
         itens: porIndice[i]!,
       ),
   ];

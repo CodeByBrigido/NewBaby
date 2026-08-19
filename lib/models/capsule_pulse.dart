@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../core/l10n/strings.dart';
 import '../core/utils/age_calculator.dart';
 import 'baby_profile.dart';
 import 'entry.dart';
@@ -117,16 +118,12 @@ class CapsulePulse {
     if (AgeCalculator.dayOf(AgeCalculator.addMonths(birth, age.months)) ==
             today &&
         age.months > 0) {
-      if (age.months % 12 == 0) {
-        final int anos = age.months ~/ 12;
-        return anos == 1 ? '1 ano' : '$anos anos';
-      }
-      return age.months == 1 ? '1 mês' : '${age.months} meses';
+      if (age.months % 12 == 0) return S.contarAnos(age.months ~/ 12);
+      return S.contarMeses(age.months);
     }
 
     if (age.totalDays < 90 && age.totalDays % 7 == 0) {
-      final int semanas = age.totalDays ~/ 7;
-      return semanas == 1 ? '1 semana' : '$semanas semanas';
+      return S.contarSemanas(age.totalDays ~/ 7);
     }
 
     return null;
@@ -196,10 +193,9 @@ class CapsulePulse {
   @visibleForTesting
   static String rotuloDoMarco(int meses) {
     if (meses % _mesesDoPrimeiroAno == 0) {
-      final int anos = meses ~/ _mesesDoPrimeiroAno;
-      return anos == 1 ? '1 ano' : '$anos anos';
+      return S.contarAnos(meses ~/ _mesesDoPrimeiroAno);
     }
-    return meses == 1 ? '1 mês' : '$meses meses';
+    return S.contarMeses(meses);
   }
 
   /// O próximo aniversário a partir de [today], incluindo hoje.

@@ -60,7 +60,7 @@ class TelaDeDocumento extends StatelessWidget {
           Space.x40,
         ),
         children: <Widget>[
-          Text('Meu Bebê: Cápsula do Tempo', style: text.headlineSmall),
+          Text(S.appFullName, style: text.headlineSmall),
           const SizedBox(height: Space.x4),
           Text(
             S.lastUpdated(data),

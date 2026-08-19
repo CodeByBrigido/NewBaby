@@ -1,22 +1,36 @@
 import 'package:meta/meta.dart';
 
+import '../core/l10n/strings.dart';
 import 'baby_profile.dart';
 import 'entry.dart';
 import 'special_date.dart';
 
 /// O que uma inspiração convida a fazer.
 enum InspirationKind {
-  brincadeira('Brincadeira'),
-  passeio('Passeio e ar livre'),
-  foto('Ideia de foto'),
-  carta('Ideia de carta'),
-  leitura('Leitura'),
-  preparo('Preparativo'),
-  rotina('Rotina e organização'),
-  cuidado('Do dia a dia');
+  brincadeira,
+  passeio,
+  foto,
+  carta,
+  leitura,
+  preparo,
+  rotina,
+  cuidado;
 
-  const InspirationKind(this.label);
-  final String label;
+  const InspirationKind();
+
+  /// O nome da categoria, na língua ativa.
+  ///
+  /// Era um valor fixo no próprio enum, o que congelava o português.
+  String get label => switch (this) {
+    InspirationKind.brincadeira => S.kindPlay,
+    InspirationKind.passeio => S.kindOuting,
+    InspirationKind.foto => S.kindPhoto,
+    InspirationKind.carta => S.kindLetter,
+    InspirationKind.leitura => S.kindReading,
+    InspirationKind.preparo => S.kindPrep,
+    InspirationKind.rotina => S.kindRoutine,
+    InspirationKind.cuidado => S.kindEveryday,
+  };
 
   static InspirationKind fromId(String? id) => values.firstWhere(
     (InspirationKind k) => k.name == id,

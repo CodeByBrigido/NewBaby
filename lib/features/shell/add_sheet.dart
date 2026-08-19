@@ -189,17 +189,17 @@ List<String> resumoDoEnvio({
   final Age idade = profile.ageAt(quando);
 
   final String oQue = quantosItens(type, quantidade);
-  final String comData = '$oQue com a data de ${Fmt.longDate(quando)}.';
+  final String comData = S.uploadWithDate(oQue, Fmt.longDate(quando));
 
   // No dia zero `detailedLabel` devolve "No nascimento", que não encaixa em
   // "tinha ...". A frase muda inteira, em vez de virar remendo.
   final String comIdade = idade.totalDays == 0
       ? (g.hasName
-            ? 'Foi o dia em que ${g.theName} nasceu.'
-            : 'Foi o dia do nascimento.')
+            ? S.uploadBornThatDay(g.theName)
+            : S.uploadBornThatDayGeneric())
       : (g.hasName
-            ? 'Nessa data ${g.theName} tinha ${idade.detailedLabel()}.'
-            : 'Idade nessa data: ${idade.detailedLabel()}.');
+            ? S.uploadAgeThen(g.theName, idade.detailedLabel())
+            : S.uploadAgeThenGeneric(idade.detailedLabel()));
 
   return <String>[
     comData,
@@ -207,7 +207,7 @@ List<String> resumoDoEnvio({
     // Só os tipos agrupados por idade têm um lugar por idade para citar.
     // Documento não entra em pasta de idade nenhuma.
     if (type.bucketsByAge)
-      'No Drive, vai ficar em ${ondeNoDrive(profile, type, quando)}.',
+      S.uploadWhereInDrive(ondeNoDrive(profile, type, quando)),
   ];
 }
 
@@ -238,13 +238,12 @@ String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
 @visibleForTesting
 String origemDaData(DataDoLote lote, EntryType type) {
   if (!lote.lida) {
-    return 'Não achamos a data dentro ${type == EntryType.document ? 'do arquivo' : 'da mídia'}, '
-        'então vale a de hoje. Toque para trocar.';
+    return type == EntryType.document
+        ? S.dateNotFoundFile
+        : S.dateNotFoundMedia;
   }
   if (lote.variosDias) {
-    return 'Atenção: o que você escolheu é de ${lote.diasDiferentes} dias '
-        'diferentes, e tudo vai ser guardado com esta data. Para separar, '
-        'envie um dia de cada vez.';
+    return S.batchManyDays(lote.diasDiferentes);
   }
   return S.dateFromFile;
 }

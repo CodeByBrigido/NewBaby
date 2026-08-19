@@ -792,4 +792,66 @@ abstract interface class Textos {
   String daysLeftWithDate(int dias, String data);
 
   String remindersSummaryFull(int marcados, int total, int hora);
+
+  String contarSemanas(int n);
+
+  String semanaNumero(int n);
+
+  String mesNumero(int n);
+
+  String uploadWithDate(String oQue, String data);
+
+  String uploadBornThatDay(String nome);
+
+  String uploadBornThatDayGeneric();
+
+  String uploadAgeThen(String nome, String idade);
+
+  String uploadAgeThenGeneric(String idade);
+
+  String uploadWhereInDrive(String caminho);
+
+  String get holidayNewYear;
+
+  String get holidayCarnival;
+
+  String get holidayEaster;
+
+  String get holidayMothers;
+
+  String get holidayFathers;
+
+  String get holidayChristmas;
+
+  String get kindLetter;
+
+  String get kindReading;
+
+  String get kindPrep;
+
+  String get kindRoutine;
+
+  String get kindEveryday;
+
+  String get kindPlay;
+
+  String get notifChannelName;
+
+  String get notifChannelDescription;
+
+  String get errPhotoCompress;
+
+  String get errVideoConvert;
+
+  String get errOriginalsMissing;
+
+  String get errPickPhotoAgain;
+
+  String get errOriginalsMissingFull;
+
+  String get errFileGoneFull;
+
+  String get kindOuting;
+
+  String get kindPhoto;
 }

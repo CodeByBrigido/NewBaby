@@ -1,3 +1,4 @@
+import '../core/l10n/strings.dart';
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -104,9 +105,11 @@ class NotificationService implements ReminderScheduler {
   bool _pronto = false;
 
   static const String _canalId = 'lembretes';
-  static const String _canalNome = 'Lembretes da cápsula';
-  static const String _canalDescricao =
-      'Datas redondas, aniversários e lembretes de guardar uma memória.';
+
+  /// Getters, e não constantes: o nome do canal aparece nos ajustes do
+  /// Android, e ali ele precisa estar na língua de quem lê.
+  static String get _canalNome => S.notifChannelName;
+  static String get _canalDescricao => S.notifChannelDescription;
 
   @override
   Future<void> prepare() async {
@@ -130,7 +133,7 @@ class NotificationService implements ReminderScheduler {
     );
 
     await _android?.createNotificationChannel(
-      const AndroidNotificationChannel(
+      AndroidNotificationChannel(
         _canalId,
         _canalNome,
         description: _canalDescricao,
@@ -185,7 +188,7 @@ class NotificationService implements ReminderScheduler {
         title: r.title,
         body: r.body,
         scheduledDate: quando,
-        notificationDetails: const NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             _canalId,
             _canalNome,
