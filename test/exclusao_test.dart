@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/core/l10n/account_deletion.dart';
 import 'package:meu_bebe/core/l10n/pagina_web.dart';
+import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/l10n/privacy_policy.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/services/auth_service.dart';
@@ -31,10 +32,45 @@ void main() {
 
   group('o texto e o código dizem a mesma coisa', () {
     test('o caminho dentro do aplicativo existe como está descrito', () {
-      // A página manda tocar em Perfil e depois no botão de apagar. Se
-      // alguém renomear esse botão, a instrução vira uma caça ao tesouro.
+      // A instrução tinha um passo a menos que o aplicativo: mandava tocar
+      // em Perfil e depois direto no botão vermelho, que não está no Perfil.
+      // Entre os dois há a página de leitura, que existe justamente para
+      // ninguém apagar sem ler.
+      //
+      // Os rótulos vêm de `S`, e não copiados à mão: renomear um botão passa
+      // a derrubar este teste em vez de deixar a página mandando a pessoa
+      // procurar um controle que mudou de nome.
       expect(texto, contains('Perfil'));
-      expect(texto, contains('Apagar minha conta e meus dados'));
+      for (final String rotulo in <String>[
+        S.accountDeletionTitle,
+        S.goToDeleteAccount,
+        S.deleteAccount,
+      ]) {
+        expect(texto, contains(rotulo), reason: rotulo);
+      }
+    });
+
+    test('os passos aparecem na ordem em que a pessoa vai encontrá-los', () {
+      // Ordem errada num passo a passo é pior que passo faltando: manda
+      // procurar no lugar errado com a confiança de quem está seguindo
+      // instrução.
+      expect(
+        texto.indexOf(S.accountDeletionTitle),
+        lessThan(texto.indexOf(S.goToDeleteAccount)),
+      );
+      expect(
+        texto.indexOf(S.goToDeleteAccount),
+        lessThan(texto.indexOf(S.deleteAccount)),
+      );
+    });
+
+    test('a escolha sobre a pasta do Drive vem antes do botão', () {
+      // Ela é oferecida na tela do botão vermelho, e é irreversível junto
+      // com ele. Descobrir depois seria descobrir tarde.
+      expect(
+        texto.indexOf('Escolha o que fazer com a pasta'),
+        lessThan(texto.indexOf(S.deleteAccount)),
+      );
     });
 
     test('a pasta citada é a pasta que o aplicativo cria', () {

@@ -41,6 +41,12 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
       'Ela existe para funcionar mesmo que você já tenha desinstalado o '
           'aplicativo. Você não precisa instalar nada, criar cadastro nem '
           'entrar em lugar nenhum para usar o que está aqui.',
+      'O direito de apagar existe com nomes diferentes em lugares '
+          'diferentes: apagamento no GDPR (Art. 17) e no UK GDPR, eliminação '
+          'na LGPD (Art. 18), exclusão na CCPA da Califórnia, e equivalentes '
+          'no Canadá, na Austrália, na Suíça e em vários outros países. Aqui '
+          'o caminho é o mesmo para todo mundo, e não perguntamos onde você '
+          'mora antes de apagar.',
       'Responsável pelo tratamento: $privacyController. '
           'Contato: $privacyEmail',
     ],
@@ -52,12 +58,17 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
           'esperar por ninguém:',
       '• Abra o aplicativo e entre com a conta que quer apagar',
       '• Toque em Perfil',
-      '• Toque em "Apagar minha conta e meus dados"',
-      '• Confirme',
-      'A exclusão acontece imediatamente e não pode ser desfeita.',
-      'Nessa tela você também escolhe o que fazer com a pasta do Google '
-          'Drive: mantê-la (o padrão, porque os arquivos são seus) ou mandá-la '
-          'para a lixeira do seu Drive.',
+      '• Toque em "Exclusão de conta e de dados"',
+      '• Leia a página, que é esta mesma, e toque em "Ir para a exclusão da '
+          'conta", no fim dela',
+      '• Escolha o que fazer com a pasta do Google Drive',
+      '• Toque em "Apagar minha conta e meus dados" e confirme',
+      'A leitura vem antes do botão de propósito. Apagar é imediato e não '
+          'pode ser desfeito, e ninguém deveria chegar ao botão sem saber o '
+          'que fica e o que some.',
+      'Sobre a pasta do Drive, são duas opções: mantê-la, que é o padrão, '
+          'porque os arquivos são seus e nunca tivemos cópia deles; ou '
+          'mandá-la para a lixeira do seu Drive.',
     ],
   ),
   PrivacySection(
@@ -178,9 +189,17 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
     title: 'Account deletion (English)',
     body: <String>[
       'To delete your Meu Bebê: Cápsula do Tempo account and all associated '
-          'data, either use Profile > "Apagar minha conta e meus dados" '
-          'inside the app, or email $privacyEmail from the Google account '
-          'address you signed in with.',
+          'data, open the app and go to Profile > "Exclusão de conta e de '
+          'dados" (Account and data deletion), then tap "Ir para a exclusão '
+          'da conta" (Go to account deletion) at the bottom of that page, '
+          'choose what to do with your Google Drive folder, and confirm with '
+          '"Apagar minha conta e meus dados" (Delete my account and my data). '
+          'You can also email $privacyEmail from the Google account address '
+          'you signed in with.',
+      'This works the same wherever you live. Deletion is offered to '
+          'everyone under the same terms, whether or not your country has a '
+          'law requiring it (GDPR Art. 17, UK GDPR, LGPD Art. 18, CCPA, and '
+          'equivalents elsewhere).',
       'We delete the entire server-side index (child profile, timeline '
           'metadata, letter text, folder identifiers) and your authentication '
           'account. Deletion is immediate and irreversible; no backups are '

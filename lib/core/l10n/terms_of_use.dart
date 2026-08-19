@@ -39,8 +39,9 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
           'e registros de crescimento.',
       'O conteúdo é seu. Nós não olhamos, não usamos e não vendemos nada do '
           'que você guarda.',
-      'Você precisa ser maior de $idadeMinima anos e responsável pela '
-          'criança para criar a conta.',
+      'Você precisa ter pelo menos $idadeMinima anos, ou a maioridade do '
+          'lugar onde mora se ela for maior, e ser responsável pela criança '
+          'para criar a conta.',
       'O aplicativo não substitui um backup, e nem conselho médico ou '
           'jurídico.',
     ],
@@ -98,6 +99,11 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
       'Se o preço mudar, a mudança vale para as renovações seguintes, e o '
           'Google Play avisa antes, pelo caminho que ele usa para isso. Você '
           'pode cancelar antes de a renovação acontecer.',
+      'Onde a lei do seu país dá um prazo para desistir de uma compra feita '
+          'a distância, esse prazo vale, e vale acima do que estiver escrito '
+          'aqui. São catorze dias na União Europeia e no Reino Unido, sete '
+          'dias no Brasil, e prazos próprios em vários outros lugares. O '
+          'pedido é feito na Google Play, que é quem recebeu o pagamento.',
       'Apagar a conta dentro do aplicativo não cancela a assinatura. São '
           'coisas separadas: uma é nossa, a outra é da Google Play. Cancele '
           'também na loja, senão a cobrança continua.',
@@ -107,11 +113,14 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
     title: 'Quem pode usar',
     body: <String>[
       'Para criar uma conta você declara que tem pelo menos $idadeMinima '
-          'anos e que é mãe, pai ou responsável legal pela criança cujos '
-          'dados vai registrar, ou que tem autorização de quem é.',
-      'Isto não é formalidade. Os dados de uma criança são tratados com '
-          'cuidado reforçado pela Lei Geral de Proteção de Dados, e quem '
-          'autoriza o registro precisa ser quem responde por ela.',
+          'anos, ou a maioridade do país onde mora se ela for maior, e que é '
+          'mãe, pai ou responsável legal pela criança cujos dados vai '
+          'registrar, ou que tem autorização de quem é.',
+      'Isto não é formalidade. Dado de criança recebe cuidado reforçado em '
+          'praticamente toda lei de proteção de dados do mundo, entre elas a '
+          'LGPD no Brasil, o GDPR na União Europeia, o UK GDPR no Reino Unido '
+          'e a COPPA nos Estados Unidos. Em todas elas, quem autoriza o '
+          'registro precisa ser quem responde legalmente pela criança.',
       'O aplicativo não é para a própria criança usar enquanto for criança. '
           'Ele é escrito para quem registra hoje, e feito para ser entregue a '
           'ela quando ela for adulta.',
@@ -182,9 +191,12 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
       'Na medida do que a lei permitir, não respondemos por perda de '
           'conteúdo, lucro cessante ou dano indireto decorrente do uso do '
           'aplicativo.',
-      'Isto não afasta as responsabilidades que a lei brasileira não deixa '
-          'afastar, inclusive as do Código de Defesa do Consumidor, quando ele '
-          'se aplicar.',
+      'Isto não afasta nada que a lei não deixe afastar, onde quer que você '
+          'more. Em nenhum lugar limitamos responsabilidade por dolo, por '
+          'culpa grave, por morte ou lesão, nem por direito que a sua lei de '
+          'consumo declare irrenunciável. Onde a sua lei não admitir o limite '
+          'escrito acima, ele simplesmente não se aplica a você, e o resto '
+          'destes termos continua valendo.',
     ],
   ),
   PrivacySection(
@@ -215,11 +227,42 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
     ],
   ),
   PrivacySection(
-    title: 'Lei aplicável',
+    title: 'Onde o aplicativo é oferecido',
     body: <String>[
-      'Estes termos são regidos pela lei brasileira.',
-      'Fica eleito o foro do domicílio do usuário para resolver qualquer '
-          'questão, como manda o Código de Defesa do Consumidor.',
+      'O aplicativo é distribuído pela Google Play e pode ser usado em '
+          'qualquer país onde a loja o ofereça. A interface e estes '
+          'documentos existem em português e em inglês.',
+      'Quem publica é uma pessoa física estabelecida no Brasil, e não uma '
+          'empresa com sede em cada país. Isso não reduz os seus direitos: a '
+          'lei do lugar onde você mora continua valendo para você, e é a '
+          'seção seguinte que explica como as duas coisas convivem.',
+      'Não oferecemos o aplicativo em países sob sanção que impeçam a '
+          'prestação do serviço, e o Google Play controla essa distribuição.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Lei aplicável e onde reclamar',
+    body: <String>[
+      'Estes termos são regidos pela lei brasileira, que é a do lugar de '
+          'onde o aplicativo é publicado.',
+      'Isso **não** afasta a proteção obrigatória que a lei do seu país de '
+          'residência der a você como consumidor. Se você mora na União '
+          'Europeia, no Reino Unido, nos Estados Unidos, no Canadá, na '
+          'Austrália ou em qualquer lugar cuja lei de consumo não possa ser '
+          'afastada por contrato, ela continua valendo, e prevalece sobre '
+          'qualquer cláusula daqui que a contrarie.',
+      'Você pode acionar a Justiça do lugar onde mora. No Brasil isso é o '
+          'foro do domicílio do consumidor, garantido pelo Código de Defesa '
+          'do Consumidor; na União Europeia é o tribunal do seu país de '
+          'residência, garantido pelo Regulamento 1215/2012; e regra '
+          'equivalente existe em boa parte do mundo.',
+      'Consumidores da União Europeia podem também usar a plataforma de '
+          'resolução de litígios em linha da Comissão Europeia, em '
+          'ec.europa.eu/consumers/odr',
+      'Nada aqui obriga você a arbitragem, e não há renúncia a ação '
+          'coletiva. Se preferir simplesmente falar com a gente antes de '
+          'qualquer disso, o endereço está na última seção, e a resposta sai '
+          'em até 30 dias.',
     ],
   ),
   PrivacySection(

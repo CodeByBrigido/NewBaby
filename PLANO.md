@@ -81,6 +81,34 @@ Não são preferências. Cada uma tem consequência fora do código.
 
 ## Defeitos conhecidos e pendências
 
+### 0. O representante na União Europeia, que texto nenhum resolve
+
+**Aberto, e é decisão sua, não minha.** Os três documentos foram escritos
+para valer no mundo inteiro, mas há uma exigência do GDPR que não se cumpre
+escrevendo: o Art. 27 obriga quem trata dados de residentes da União Europeia
+sem estar estabelecido lá a **nomear um representante** dentro do bloco, e a
+publicar quem é. O Reino Unido tem regra igual no UK GDPR.
+
+O responsável aqui é pessoa física no Brasil, então a obrigação se aplica. A
+isenção do Art. 27(2) é para tratamento ocasional, e um aplicativo que a
+pessoa usa toda semana não é ocasional.
+
+**Não escrevi nada sobre isso nos documentos, de propósito.** Dizer que há um
+representante seria falso, e dizer que não há seria publicar a própria falha.
+As saídas são três:
+
+1. **Contratar um serviço de representante**, que é o caminho normal. Custa
+   entre duzentos e quinhentos euros por ano, e o nome e o endereço dele
+   passam a constar da política de privacidade.
+2. **Não distribuir na União Europeia e no Reino Unido**, o que se faz na
+   ficha da Play Store escolhendo os países. Some a obrigação e some o
+   mercado.
+3. **Publicar sem representante**, correndo o risco. Registro aqui que é
+   risco assumido, e não desconhecimento.
+
+Isso precisa ser decidido antes de a ficha da loja escolher os países, e não
+depois.
+
 ### 1. O envio que trava, e ainda não foi resolvido
 
 **O único defeito aberto de comportamento.** Relatado no aparelho: um envio

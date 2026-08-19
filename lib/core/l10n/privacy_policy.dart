@@ -220,26 +220,67 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
     ],
   ),
   PrivacySection(
-    title: 'Seus direitos',
+    title: 'Seus direitos, onde quer que você more',
     body: <String>[
-      'Sob o GDPR (Arts. 15 a 22) e a LGPD (Art. 18), você tem direito a '
-          'acesso, correção, exclusão, portabilidade, restrição de '
-          'tratamento, oposição e revogação do consentimento.',
+      'O nome da lei muda de país para país. Os direitos, na prática, são os '
+          'mesmos, e nós damos todos eles a todo mundo, sem perguntar onde '
+          'você mora: acesso, correção, exclusão, portabilidade, restrição, '
+          'oposição e revogação do consentimento.',
+      '• União Europeia e Espaço Econômico Europeu: GDPR, Arts. 15 a 22.',
+      '• Reino Unido: UK GDPR e Data Protection Act 2018, com os mesmos '
+          'artigos.',
+      '• Brasil: LGPD, Art. 18.',
+      '• Califórnia: CCPA e CPRA, com os direitos de saber, apagar, corrigir '
+          'e recusar venda ou compartilhamento. Ver a seção seguinte.',
+      '• Suíça: nLPD. Canadá: PIPEDA. Austrália: Privacy Act e os Australian '
+          'Privacy Principles. África do Sul: POPIA. Japão: APPI.',
+      '• Em qualquer outro lugar: os mesmos direitos, pela nossa política, '
+          'mesmo onde a lei local ainda não os exija.',
       'Na prática, quase todos se exercem sem falar conosco: os dados estão '
           'visíveis no aplicativo, editáveis no aplicativo e apagáveis no '
           'aplicativo. Para qualquer coisa que o aplicativo não resolva, '
           'escreva para $privacyEmail',
-      'Você não precisa justificar o pedido, e exercer um direito nunca '
-          'custa nada.',
+      'Você não precisa justificar o pedido, exercer um direito nunca custa '
+          'nada, e nunca reduzimos o serviço de quem exerce um.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Se você mora na Califórnia',
+    body: <String>[
+      'A CCPA, alterada pela CPRA, pede que algumas frases sejam ditas com '
+          'todas as letras, e todas elas são verdade aqui:',
+      '• **Não vendemos** informação pessoal, e nunca vendemos.',
+      '• **Não compartilhamos** informação pessoal para publicidade '
+          'comportamental entre sites ou aplicativos. Não há publicidade '
+          'nenhuma neste aplicativo.',
+      '• Não usamos nem divulgamos informação pessoal sensível para nada '
+          'além de prestar o serviço que você pediu.',
+      '• Não oferecemos incentivo financeiro em troca de dados.',
+      '• Não discriminamos quem exerce um direito: o aplicativo funciona '
+          'igual antes e depois.',
+      'Como não vendemos nem compartilhamos nada, não existe botão de "Do '
+          'Not Sell or Share My Personal Information", porque não haveria o '
+          'que desligar.',
+      'As categorias que coletamos, por que, e com quem são compartilhadas '
+          'estão nas seções acima, e aquela lista é fechada.',
     ],
   ),
   PrivacySection(
     title: 'Transferência internacional',
     body: <String>[
-      'A infraestrutura do Google pode tratar dados fora do Espaço '
-          'Econômico Europeu. Essas transferências são cobertas pelas '
-          'Cláusulas Contratuais Padrão aprovadas pela Comissão Europeia, '
-          'adotadas pelo Google nos termos do Art. 46 do GDPR.',
+      'Os seus arquivos ficam no Google Drive da sua própria conta, e a '
+          'localização deles é a que o Google dá à sua conta, não uma escolha '
+          'nossa. O índice fica na infraestrutura do Cloud Firestore, que '
+          'pode tratar dados fora do seu país.',
+      'Essas transferências são cobertas pelas Cláusulas Contratuais Padrão '
+          'aprovadas pela Comissão Europeia, adotadas pelo Google nos termos '
+          'do Art. 46 do GDPR, e pelo adendo do Reino Unido a essas mesmas '
+          'cláusulas. O Google Cloud também é certificado no Data Privacy '
+          'Framework entre a União Europeia e os Estados Unidos.',
+      'Para quem está no Brasil, a transferência se apoia no Art. 33 da '
+          'LGPD, pelas mesmas cláusulas contratuais.',
+      'Nós não movemos dados para lugar nenhum por conta própria: não temos '
+          'servidor, não fazemos cópia e não exportamos nada.',
     ],
   ),
   PrivacySection(
@@ -257,10 +298,25 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
     ],
   ),
   PrivacySection(
-    title: 'Menores de idade',
+    title: 'Crianças, e por que este aplicativo é diferente',
     body: <String>[
-      'O aplicativo não se destina a menores de 18 anos e não deve ser '
-          'usado por eles.',
+      'Este aplicativo guarda dados **sobre** uma criança, e não é usado '
+          '**por** ela. Quem instala, entra e registra é o pai, a mãe ou '
+          'quem responde legalmente por ela, e precisa ser maior de idade.',
+      'Por isso o aplicativo não é dirigido a crianças no sentido da COPPA, '
+          'a lei americana, nem se enquadra no programa de Famílias da Google '
+          'Play: não há conteúdo feito para a criança usar, nem publicidade, '
+          'nem coleta de dados de quem quer que seja menor de idade '
+          'navegando por conta própria.',
+      'Os dados da criança que existem aqui foram digitados pelo responsável '
+          'dela, com o propósito único de montar a cápsula que um dia será '
+          'entregue à própria criança. Sob o GDPR isso é tratamento de dado '
+          'de criança feito por quem tem a responsabilidade parental, Art. '
+          '8; sob a LGPD, Art. 14; sob a COPPA, tratamento com consentimento '
+          'verificável do responsável.',
+      'Quando a criança crescer e assumir a conta, ela passa a ser a titular '
+          'desses dados e a exercer todos os direitos da seção acima '
+          'diretamente, sem precisar de nós para nada.',
     ],
   ),
   PrivacySection(
@@ -276,9 +332,18 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
     title: 'Reclamação',
     body: <String>[
       'Se você acreditar que o tratamento dos seus dados viola a lei, pode '
-          'reclamar à autoridade de controle do seu país. No Brasil, a '
-          'ANPD. Na União Europeia, a autoridade do seu Estado-membro de '
-          'residência.',
+          'reclamar à autoridade do lugar onde mora, e não precisa falar '
+          'conosco antes.',
+      '• Brasil: ANPD, gov.br/anpd',
+      '• União Europeia: a autoridade de proteção de dados do seu '
+          'Estado-membro de residência. A lista está em edpb.europa.eu',
+      '• Reino Unido: ICO, ico.org.uk',
+      '• Suíça: PFPDT. Canadá: OPC. Austrália: OAIC.',
+      '• Califórnia: California Privacy Protection Agency, cppa.ca.gov, ou o '
+          'Procurador-Geral do estado.',
+      'Se preferir tentar conosco primeiro, escreva para $privacyEmail. '
+          'Respondemos em até 30 dias, e uma resposta nossa nunca é '
+          'condição para você procurar a autoridade.',
     ],
   ),
 ];

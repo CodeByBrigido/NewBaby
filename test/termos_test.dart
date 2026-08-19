@@ -126,12 +126,43 @@ void main() {
 
     test('que quem cria a conta responde pela criança', () {
       expect(texto, contains('responsável legal'));
-      expect(texto, contains('Lei Geral de Proteção de Dados'));
+      // As quatro molduras que alcançam quase todo mercado da loja. Citar
+      // só a brasileira era o que estava errado para um lançamento mundial.
+      for (final String lei in <String>['LGPD', 'GDPR', 'UK GDPR', 'COPPA']) {
+        expect(texto, contains(lei), reason: lei);
+      }
     });
 
-    test('a lei e o foro', () {
+    test('a idade mínima cede à maioridade local, quando ela for maior', () {
+      expect(texto, contains('maioridade'));
+    });
+
+    test('a lei, o foro e o que nenhum contrato pode tirar', () {
+      // A regência é brasileira porque é de onde o aplicativo é publicado.
+      // O que não pode faltar é a ressalva: quem mora fora não perde a
+      // própria lei de consumo por causa de uma cláusula nossa.
       expect(texto, contains('lei brasileira'));
-      expect(texto, contains('domicílio do usuário'));
+      expect(texto, contains('foro do domicílio do consumidor'));
+      expect(texto, contains('não possa ser afastada por contrato'));
+      expect(texto, contains('acionar a Justiça do lugar onde mora'));
+    });
+
+    test('nada obriga a arbitragem nem renuncia a ação coletiva', () {
+      // As duas cláusulas que costumam aparecer em termos americanos e que
+      // são nulas em boa parte do mundo. Não tê-las é escolha, e escolha
+      // vale a pena escrever.
+      expect(texto, contains('Nada aqui obriga você a arbitragem'));
+      expect(texto, contains('não há renúncia a ação coletiva'));
+    });
+
+    test('o prazo de arrependimento de cada lugar é reconhecido', () {
+      expect(texto, contains('catorze dias'));
+      expect(texto, contains('sete dias'));
+    });
+
+    test('o limite de responsabilidade cede à lei local', () {
+      expect(texto, contains('onde quer que você more'));
+      expect(texto, contains('não se aplica a você'));
     });
 
     test('nenhuma seção está vazia, e nenhuma usa travessão', () {

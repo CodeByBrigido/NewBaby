@@ -12,6 +12,8 @@ Esta página explica como pedir a exclusão da sua conta do aplicativo Meu Bebê
 
 Ela existe para funcionar mesmo que você já tenha desinstalado o aplicativo. Você não precisa instalar nada, criar cadastro nem entrar em lugar nenhum para usar o que está aqui.
 
+O direito de apagar existe com nomes diferentes em lugares diferentes: apagamento no GDPR (Art. 17) e no UK GDPR, eliminação na LGPD (Art. 18), exclusão na CCPA da Califórnia, e equivalentes no Canadá, na Austrália, na Suíça e em vários outros países. Aqui o caminho é o mesmo para todo mundo, e não perguntamos onde você mora antes de apagar.
+
 Responsável pelo tratamento: Rodrigo Andrade Brigido. Contato: mybabytimecapsule@gmail.com
 
 
@@ -23,13 +25,17 @@ Este é o caminho mais rápido, e o único que apaga tudo na hora, sem esperar p
 
 - Toque em Perfil
 
-- Toque em "Apagar minha conta e meus dados"
+- Toque em "Exclusão de conta e de dados"
 
-- Confirme
+- Leia a página, que é esta mesma, e toque em "Ir para a exclusão da conta", no fim dela
 
-A exclusão acontece imediatamente e não pode ser desfeita.
+- Escolha o que fazer com a pasta do Google Drive
 
-Nessa tela você também escolhe o que fazer com a pasta do Google Drive: mantê-la (o padrão, porque os arquivos são seus) ou mandá-la para a lixeira do seu Drive.
+- Toque em "Apagar minha conta e meus dados" e confirme
+
+A leitura vem antes do botão de propósito. Apagar é imediato e não pode ser desfeito, e ninguém deveria chegar ao botão sem saber o que fica e o que some.
+
+Sobre a pasta do Drive, são duas opções: mantê-la, que é o padrão, porque os arquivos são seus e nunca tivemos cópia deles; ou mandá-la para a lixeira do seu Drive.
 
 
 ## Se você não tem mais o aplicativo
@@ -125,7 +131,9 @@ Esses registros não contêm o conteúdo das suas memórias, e nós não os cons
 
 ## Account deletion (English)
 
-To delete your Meu Bebê: Cápsula do Tempo account and all associated data, either use Profile > "Apagar minha conta e meus dados" inside the app, or email mybabytimecapsule@gmail.com from the Google account address you signed in with.
+To delete your Meu Bebê: Cápsula do Tempo account and all associated data, open the app and go to Profile > "Exclusão de conta e de dados" (Account and data deletion), then tap "Ir para a exclusão da conta" (Go to account deletion) at the bottom of that page, choose what to do with your Google Drive folder, and confirm with "Apagar minha conta e meus dados" (Delete my account and my data). You can also email mybabytimecapsule@gmail.com from the Google account address you signed in with.
+
+This works the same wherever you live. Deletion is offered to everyone under the same terms, whether or not your country has a law requiring it (GDPR Art. 17, UK GDPR, LGPD Art. 18, CCPA, and equivalents elsewhere).
 
 We delete the entire server-side index (child profile, timeline metadata, letter text, folder identifiers) and your authentication account. Deletion is immediate and irreversible; no backups are kept. Email requests are honoured within 30 days.
 
