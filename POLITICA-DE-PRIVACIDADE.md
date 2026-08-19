@@ -21,11 +21,22 @@ Você apaga tudo isso a qualquer momento, dentro do aplicativo, sem precisar ped
 
 ## Quem é o responsável
 
-Responsável pelo tratamento dos dados pessoais (controlador, nos termos do Art. 4(7) do GDPR): Rodrigo Andrade Brigido, pessoa física, desenvolvedor individual.
+Responsável pelo tratamento dos dados pessoais (controlador, nos termos do Art. 4(7) do GDPR): Rodrigo Andrade Brigido, pessoa física, desenvolvedor individual, estabelecido na Irlanda.
+
+Estar estabelecido dentro da União Europeia tem duas consequências boas para você. A primeira é que o GDPR se aplica na origem, e não por extensão: não há discussão sobre alcance. A segunda é que a autoridade principal é a Comissão de Proteção de Dados da Irlanda, pelo mecanismo de balcão único do Art. 56 do GDPR, e você pode reclamar tanto a ela quanto à autoridade do seu próprio país.
 
 Contato: mybabytimecapsule@gmail.com
 
 Todo pedido relativo a dados pessoais deve ser enviado a esse endereço. Respondemos em até 30 dias, que é o prazo do Art. 12(3) do GDPR.
+
+
+## Seu papel e o nosso
+
+Registrar a própria família é, na linguagem do GDPR, uma "atividade exclusivamente pessoal ou doméstica" (Art. 2(2)(c)). Isso quer dizer que, ao guardar a memória do seu filho, **você não se torna controlador de dados pessoais perante a lei**, e não assume nenhuma das obrigações que a lei impõe a uma empresa. Você continua sendo só o pai, a mãe ou o responsável, registrando a própria criança.
+
+O aplicativo é para esse uso: pessoal e familiar, sem fim comercial. Usá-lo para registrar crianças que não são suas nem estão sob sua responsabilidade legal, ou para oferecer este serviço a terceiros, foge do que os planos cobrem.
+
+Nós temos dois papéis diferentes, e eles não se misturam. Para o índice (o cadastro, a linha do tempo, o texto das cartas), somos controlador, no sentido do Art. 4(7) do GDPR: decidimos como esse índice é tratado, e respondemos por ele. Para os seus arquivos no Google Drive, não somos nada: eles vão do seu aparelho direto para a sua própria conta do Google, por uma autorização que você dá diretamente a ela, e nós nunca recebemos cópia, nunca vemos e não temos como acessá-los. Ali, a sua relação é com o Google, e a nossa função é só a de um programa que opera com a sua permissão.
 
 
 ## O que fica no seu Google Drive
@@ -111,6 +122,8 @@ Não há nenhum outro destinatário. Não usamos rede de anúncios, corretor de 
 
 O tratamento pelo Google é regido pelos termos dele, em policies.google.com/privacy
 
+O GDPR exige, no Art. 28, um contrato por escrito entre controlador e operador antes de qualquer tratamento. Esse contrato existe: é o Cloud Data Processing Addendum do Google, aceito ao usar o Google Cloud e o Firebase, e cobre exatamente os serviços listados acima.
+
 
 ## Base legal de cada tratamento
 
@@ -157,9 +170,9 @@ O nome da lei muda de país para país. Os direitos, na prática, são os mesmos
 
 - Brasil: LGPD, Art. 18.
 
-- Califórnia: CCPA e CPRA, com os direitos de saber, apagar, corrigir e recusar venda ou compartilhamento. Ver a seção seguinte.
+- Estados Unidos: a Califórnia tem a lei mais exigente (CCPA e CPRA, ver a seção seguinte), e uma lista crescente de outros estados como Virgínia, Colorado, Connecticut e Utah tem leis parecidas, com os mesmos direitos de saber, apagar, corrigir, portar e recusar venda ou compartilhamento. Como não vendemos nem compartilhamos dado nenhum em circunstância alguma, esse último direito já vem exercido por padrão, em todo estado, tenha ele lei específica ou não.
 
-- Suíça: nLPD. Canadá: PIPEDA. Austrália: Privacy Act e os Australian Privacy Principles. África do Sul: POPIA. Japão: APPI.
+- Suíça: nLPD. Canadá: PIPEDA. Austrália: Privacy Act e os Australian Privacy Principles. África do Sul: POPIA. Japão: APPI. Índia: DPDPA, a partir da entrada em vigor de cada dispositivo.
 
 - Em qualquer outro lugar: os mesmos direitos, pela nossa política, mesmo onde a lei local ainda não os exija.
 
@@ -186,6 +199,8 @@ Como não vendemos nem compartilhamos nada, não existe botão de "Do Not Sell o
 
 As categorias que coletamos, por que, e com quem são compartilhadas estão nas seções acima, e aquela lista é fechada.
 
+Se você mora em outro estado americano com lei de privacidade própria, as mesmas seis frases acima valem para você também: elas descrevem como o aplicativo funciona, não uma exceção pensada só para quem mora na Califórnia.
+
 
 ## Transferência internacional
 
@@ -204,6 +219,8 @@ Todo tráfego é cifrado em trânsito, e os dados em repouso são cifrados pela 
 
 Nenhum sistema é totalmente seguro, e não prometemos o contrário. O que reduz o risco de forma estrutural aqui é o desenho: as fotos e os vídeos não estão em servidor nosso, então não existe uma base de mídia nossa para ser vazada.
 
+Se acontecer uma violação de dados que afete o índice, notificamos a Comissão de Proteção de Dados da Irlanda em até 72 horas depois de sabermos, como manda o Art. 33 do GDPR, e avisamos você diretamente quando o risco for alto para os seus direitos, como manda o Art. 34. Onde outra lei do seu país impuser prazo ou destinatário diferente, como a LGPD (Art. 48) ou a CCPA, cumprimos os dois.
+
 
 ## Crianças, e por que este aplicativo é diferente
 
@@ -215,6 +232,8 @@ Os dados da criança que existem aqui foram digitados pelo responsável dela, co
 
 Quando a criança crescer e assumir a conta, ela passa a ser a titular desses dados e a exercer todos os direitos da seção acima diretamente, sem precisar de nós para nada.
 
+Vários países vêm criando um código de proteção específico para produtos que uma criança pode vir a acessar, como o Children’s Code do Reino Unido. Nós não formalizamos certificação nenhuma nesse sentido, mas o desenho do aplicativo já segue os mesmos princípios: nenhuma publicidade, nenhum perfilamento, nenhuma notificação pensada para prender atenção, nenhum jogo, nenhuma recompensa por engajamento e nenhum compartilhamento público por padrão. Uma memória pode ainda ser lacrada, para só abrir numa data futura escolhida por quem a guardou, o oposto de um desenho pensado para maximizar uso.
+
 
 ## Mudanças nesta política
 
@@ -225,9 +244,11 @@ Alterações relevantes são anunciadas dentro do aplicativo antes de entrarem e
 
 Se você acreditar que o tratamento dos seus dados viola a lei, pode reclamar à autoridade do lugar onde mora, e não precisa falar conosco antes.
 
-- Brasil: ANPD, gov.br/anpd
+- Autoridade principal, para qualquer pessoa: Data Protection Commission da Irlanda, dataprotection.ie, que é a do lugar onde o responsável está estabelecido.
 
-- União Europeia: a autoridade de proteção de dados do seu Estado-membro de residência. A lista está em edpb.europa.eu
+- União Europeia: você pode preferir a autoridade do seu próprio Estado-membro, e ela encaminha. A lista está em edpb.europa.eu
+
+- Brasil: ANPD, gov.br/anpd
 
 - Reino Unido: ICO, ico.org.uk
 

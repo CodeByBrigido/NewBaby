@@ -81,33 +81,94 @@ Não são preferências. Cada uma tem consequência fora do código.
 
 ## Defeitos conhecidos e pendências
 
-### 0. O representante na União Europeia, que texto nenhum resolve
+### 0. O representante no Reino Unido
 
-**Aberto, e é decisão sua, não minha.** Os três documentos foram escritos
-para valer no mundo inteiro, mas há uma exigência do GDPR que não se cumpre
-escrevendo: o Art. 27 obriga quem trata dados de residentes da União Europeia
-sem estar estabelecido lá a **nomear um representante** dentro do bloco, e a
-publicar quem é. O Reino Unido tem regra igual no UK GDPR.
+**Aberto, e é decisão sua.** Esta pendência já foi maior: enquanto eu achava
+que o responsável estava no Brasil, o Art. 27 do GDPR obrigava a nomear um
+representante dentro da União Europeia. **Com o responsável estabelecido na
+Irlanda, isso deixa de existir**, e o que era a maior exigência da lista virou
+a melhor posição possível: o GDPR se aplica na origem, e a autoridade
+principal passa a ser a Comissão de Proteção de Dados da Irlanda, pelo balcão
+único do Art. 56.
 
-O responsável aqui é pessoa física no Brasil, então a obrigação se aplica. A
-isenção do Art. 27(2) é para tratamento ocasional, e um aplicativo que a
-pessoa usa toda semana não é ocasional.
+Sobra a metade britânica. O Reino Unido saiu do bloco, então a Irlanda é
+"fora do Reino Unido" para efeito do UK GDPR, e o Art. 27 de lá pede um
+representante no Reino Unido para quem oferece serviço a residentes de lá.
+As saídas são as mesmas de antes, em escala menor:
 
-**Não escrevi nada sobre isso nos documentos, de propósito.** Dizer que há um
-representante seria falso, e dizer que não há seria publicar a própria falha.
-As saídas são três:
+1. **Contratar um serviço de representante no Reino Unido**, na casa de
+   uma ou duas centenas de libras por ano, com o nome dele entrando na
+   política de privacidade.
+2. **Não distribuir no Reino Unido**, o que se escolhe na ficha da Play
+   Store. Some a obrigação e some um mercado que fala inglês.
+3. **Publicar sem representante**, correndo o risco, registrado aqui como
+   risco assumido e não como esquecimento.
 
-1. **Contratar um serviço de representante**, que é o caminho normal. Custa
-   entre duzentos e quinhentos euros por ano, e o nome e o endereço dele
-   passam a constar da política de privacidade.
-2. **Não distribuir na União Europeia e no Reino Unido**, o que se faz na
-   ficha da Play Store escolhendo os países. Some a obrigação e some o
-   mercado.
-3. **Publicar sem representante**, correndo o risco. Registro aqui que é
-   risco assumido, e não desconhecimento.
+Precisa ser decidido antes de a ficha da loja escolher os países.
 
-Isso precisa ser decidido antes de a ficha da loja escolher os países, e não
-depois.
+### 0.1. A conta da Play Store precisa concordar com os documentos
+
+Os três documentos agora dizem que o responsável está estabelecido na
+Irlanda. **Confira em que país a conta de desenvolvedor da Play Store está
+registrada**, porque ela mostra publicamente o endereço do desenvolvedor, e
+uma conta registrada no Brasil dizendo uma coisa enquanto a política diz
+outra é o tipo de contradição que a revisão da loja pega.
+
+Se a conta ainda não existir, abra-a na Irlanda. Se já existir registrada no
+Brasil, trocar o país de uma conta de desenvolvedor não é trivial, e nesse
+caso é melhor descobrir isso agora do que depois de a assinatura estar
+faturando.
+
+### 0.2. Cinco coisas que os documentos não resolvem sozinhos
+
+O texto foi escrito para cobrir o máximo possível sem operação nenhuma por
+trás, mas cinco pontos exigem uma ação real, não uma frase. Nenhum bloqueia
+uma publicação pequena; todos valem a pena resolver antes de o número de
+contas crescer.
+
+1. **Região do Firestore.** Hoje não há região escolhida por escrito em
+   lugar nenhum do repositório. Um projeto novo do Firebase pergunta a
+   região na criação, e escolher uma multirregião europeia (`eur3`) para
+   quem está estabelecido na Irlanda simplifica a análise de transferência
+   internacional do próprio índice, porque deixa de haver transferência para
+   fora do Espaço Econômico Europeu nessa parte. Se o projeto já existe
+   noutra região, mudar depois não é simples: geralmente exige recriar o
+   banco. Vale conferir antes do projeto crescer.
+
+2. **Registro de operações de tratamento (ROPA), Art. 30 do GDPR.** Formalmente
+   dispensado para quem tem menos de 250 funcionários, a menos que o
+   tratamento seja regular (o nosso é, é o uso normal do aplicativo) ou
+   envolva categoria especial de dado ou risco a direitos e liberdades. Dado
+   de criança pesa nessa segunda conta. Um ROPA aqui é simples: uma tabela
+   com o que já está escrito na seção "O que fica no nosso índice" da
+   política, mais a finalidade e a base legal de cada linha, que também já
+   está escrita. É trabalho de organizar o que já existe, não de descobrir
+   algo novo.
+
+3. **Triagem de DPIA, Art. 35 do GDPR.** Uma avaliação de impacto é
+   obrigatória quando o tratamento tem probabilidade de gerar risco alto, e
+   as diretrizes do antigo Grupo do Art. 29 (hoje EDPB) listam critérios como
+   "dado de titular vulnerável" (criança conta) e "uso de nova tecnologia".
+   Cumprir dois critérios costuma disparar a obrigação. Isso não quer dizer
+   que dê positivo aqui: o volume é pequeno, o risco por desenho é baixo (sem
+   perfilamento, sem publicidade, isolamento por conta) e não há decisão
+   automatizada sobre ninguém. Mas a **triagem em si**, documentando por que
+   a conclusão foi "não precisa", é o que a lei pede, e ainda não foi feita
+   por escrito.
+
+4. **Um roteiro de resposta a incidente.** A política agora promete 72 horas
+   para a Irlanda. Prometer um prazo sem ter, mesmo que informalmente, uma
+   lista de "o que eu faço no minuto em que descubro" é prometer um número
+   que na hora H vira pânico. Não precisa ser elaborado: um documento curto
+   dizendo onde entrar para desligar o quê, e para quem escrever, já cumpre
+   o papel.
+
+5. **Se um dia for para a App Store, o rótulo de privacidade é outro
+   documento.** A Apple exige o preenchimento de um formulário próprio
+   (App Privacy) dentro do App Store Connect, e ele não se preenche sozinho a
+   partir desta política. Não é urgente: a Fase 9 é só Play Store. Fica
+   registrado para não ser esquecido se um dia a distribuição também for por
+   lá.
 
 ### 1. O envio que trava, e ainda não foi resolvido
 

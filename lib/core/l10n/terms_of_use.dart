@@ -156,6 +156,11 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
   PrivacySection(
     title: 'O que não se pode fazer',
     body: <String>[
+      'Usar o aplicativo para fim comercial, para prestar este serviço a '
+          'terceiros ou para registrar uma criança que não é sua nem está '
+          'sob sua responsabilidade legal. O aplicativo é para uso pessoal e '
+          'familiar, e é esse uso restrito que dispensa você, quem registra, '
+          'de qualquer obrigação de controlador de dados perante a lei.',
       'Usar o aplicativo para guardar ou distribuir conteúdo ilegal, em '
           'especial qualquer material de abuso ou exploração de crianças.',
       'Usar o aplicativo para violar a privacidade de terceiros ou guardar '
@@ -232,33 +237,43 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
       'O aplicativo é distribuído pela Google Play e pode ser usado em '
           'qualquer país onde a loja o ofereça. A interface e estes '
           'documentos existem em português e em inglês.',
-      'Quem publica é uma pessoa física estabelecida no Brasil, e não uma '
+      'Quem publica é uma pessoa física estabelecida na Irlanda, e não uma '
           'empresa com sede em cada país. Isso não reduz os seus direitos: a '
           'lei do lugar onde você mora continua valendo para você, e é a '
           'seção seguinte que explica como as duas coisas convivem.',
       'Não oferecemos o aplicativo em países sob sanção que impeçam a '
           'prestação do serviço, e o Google Play controla essa distribuição.',
+      'Também não o oferecemos onde a lei local exigir que os dados fiquem '
+          'guardados fisicamente dentro do país, como acontece hoje na China '
+          'e na Rússia, entre outros. A nossa arquitetura depende da nuvem '
+          'global do Google, e cumprir uma exigência dessas exigiria uma '
+          'infraestrutura própria dentro daquele país, o que este projeto '
+          'não tem. Preferimos dizer isso com clareza a fingir que '
+          'cumprimos uma regra que não cumprimos.',
     ],
   ),
   PrivacySection(
     title: 'Lei aplicável e onde reclamar',
     body: <String>[
-      'Estes termos são regidos pela lei brasileira, que é a do lugar de '
-          'onde o aplicativo é publicado.',
+      'Estes termos são regidos pela lei irlandesa e pelo direito da União '
+          'Europeia, que é o do lugar de onde o aplicativo é operado.',
       'Isso **não** afasta a proteção obrigatória que a lei do seu país de '
           'residência der a você como consumidor. Se você mora na União '
-          'Europeia, no Reino Unido, nos Estados Unidos, no Canadá, na '
-          'Austrália ou em qualquer lugar cuja lei de consumo não possa ser '
-          'afastada por contrato, ela continua valendo, e prevalece sobre '
-          'qualquer cláusula daqui que a contrarie.',
-      'Você pode acionar a Justiça do lugar onde mora. No Brasil isso é o '
-          'foro do domicílio do consumidor, garantido pelo Código de Defesa '
-          'do Consumidor; na União Europeia é o tribunal do seu país de '
-          'residência, garantido pelo Regulamento 1215/2012; e regra '
-          'equivalente existe em boa parte do mundo.',
-      'Consumidores da União Europeia podem também usar a plataforma de '
-          'resolução de litígios em linha da Comissão Europeia, em '
-          'ec.europa.eu/consumers/odr',
+          'Europeia, no Reino Unido, no Brasil, nos Estados Unidos, no '
+          'Canadá, na Austrália ou em qualquer lugar cuja lei de consumo não '
+          'possa ser afastada por contrato, ela continua valendo, e prevalece '
+          'sobre qualquer cláusula daqui que a contrarie.',
+      'Você pode acionar a Justiça do lugar onde mora. Na União Europeia isso '
+          'é o tribunal do seu país de residência, garantido pelo Regulamento '
+          '1215/2012; no Brasil é o foro do domicílio do consumidor, '
+          'garantido pelo Código de Defesa do Consumidor; e regra equivalente '
+          'existe em boa parte do mundo.',
+      'Consumidores da União Europeia podem procurar uma entidade de '
+          'resolução alternativa de litígios do próprio país, previstas na '
+          'Diretiva 2013/11/UE, ou o Centro Europeu do Consumidor da sua '
+          'região, em eccnet.eu. A antiga plataforma de litígios em linha da '
+          'Comissão Europeia foi encerrada em julho de 2025 e não substitui '
+          'esses caminhos.',
       'Nada aqui obriga você a arbitragem, e não há renúncia a ação '
           'coletiva. Se preferir simplesmente falar com a gente antes de '
           'qualquer disso, o endereço está na última seção, e a resposta sai '

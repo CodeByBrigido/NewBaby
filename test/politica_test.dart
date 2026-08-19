@@ -97,6 +97,78 @@ void main() {
     });
   });
 
+  group('a Irlanda', () {
+    test('o responsável está estabelecido lá, e a autoridade é a dela', () {
+      expect(texto, contains('estabelecido na Irlanda'));
+      expect(texto, contains('Data Protection Commission da Irlanda'));
+      expect(texto, contains('balcão único'));
+    });
+  });
+
+  group('os dois papéis', () {
+    test('a isenção doméstica do GDPR está escrita, não só aplicada', () {
+      // Sem esta frase, um pai que lê a política não tem como saber que
+      // registrar o próprio filho não o transforma em controlador de dados.
+      expect(texto, contains('atividade exclusivamente pessoal ou doméstica'));
+      expect(texto, contains('você não se torna controlador'));
+    });
+
+    test('para o Drive, o texto admite que não somos nada', () {
+      // É a frase mais fácil de querer suavizar, e a mais importante de não
+      // suavizar: dizer que não somos controlador nem operador dos arquivos
+      // é o que torna a promessa de "não temos cópia" juridicamente exata,
+      // e não só uma frase de efeito.
+      expect(texto, contains('não somos nada'));
+    });
+  });
+
+  group('a violação de dados', () {
+    test(
+      'promete os dois prazos do GDPR, e cede a prazo diferente alhures',
+      () {
+        expect(texto, contains('72 horas'));
+        expect(texto, contains('Art. 33'));
+        expect(texto, contains('Art. 34'));
+        expect(texto, contains('LGPD (Art. 48)'));
+      },
+    );
+  });
+
+  group('o contrato com o Google', () {
+    test('cita o Art. 28 e o instrumento que o cumpre', () {
+      expect(texto, contains('Art. 28'));
+      expect(texto, contains('Data Processing Addendum'));
+    });
+  });
+
+  group('os Estados Unidos além da Califórnia', () {
+    test('outros estados aparecem nomeados, não só a Califórnia', () {
+      expect(texto, contains('Virgínia'));
+      expect(texto, contains('Colorado'));
+    });
+
+    test('a seção da Califórnia diz que o mesmo vale para outros estados', () {
+      expect(texto, contains('as mesmas seis frases acima valem para você'));
+    });
+
+    test('a Índia aparece na lista de direitos', () {
+      expect(texto, contains('DPDPA'));
+    });
+  });
+
+  group('crianças, por desenho', () {
+    test('cita o código do Reino Unido e o lacre como exemplo concreto', () {
+      expect(texto, contains('Children’s'));
+      expect(texto, contains('lacrada'));
+    });
+
+    test('não afirma certificação que não existe', () {
+      // Afirmar conformidade formal sem auditoria seria pior que não
+      // mencionar o código nenhum.
+      expect(texto, contains('não formalizamos certificação'));
+    });
+  });
+
   group('o pagamento', () {
     test('diz que quem cobra é o Google Play', () {
       expect(texto, contains('Google Play'));

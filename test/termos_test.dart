@@ -49,6 +49,29 @@ void main() {
     });
   });
 
+  group('uso pessoal e familiar', () {
+    test('está escrito, e não só implícito', () {
+      // É a frase que ancora a isenção doméstica do GDPR para quem lê os
+      // termos. Sem ela, "uso pessoal" seria só a nossa intenção, não uma
+      // condição do contrato.
+      expect(texto, contains('uso pessoal e familiar'));
+      expect(texto, contains('controlador de dados'));
+    });
+  });
+
+  group('onde o aplicativo não é oferecido', () {
+    test(
+      'localização de dados é motivo de exclusão, dito com todas as letras',
+      () {
+        // O ponto não é fingir cumprir uma lei que a arquitetura não cumpre.
+        // É excluir o mercado e dizer por quê.
+        expect(texto, contains('guardados fisicamente dentro do país'));
+        expect(texto, contains('China'));
+        expect(texto, contains('Rússia'));
+      },
+    );
+  });
+
   group('os planos', () {
     test('o que o texto chama de pago é o que o portão barra', () {
       // O laço é o ponto. Mudar `exigeLicenca` sem mexer nos termos passa a
