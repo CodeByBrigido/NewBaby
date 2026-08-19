@@ -15,11 +15,20 @@ import 'package:meu_bebe/core/l10n/pagina_web.dart';
 void main() {
   final Directory pasta = Directory('docs')..createSync(recursive: true);
 
+  // A versão inglesa mora num nível abaixo. Quem revisa o aplicativo na loja
+  // raramente lê português, e uma política que o revisor não consegue ler é
+  // uma política que não cumpre a exigência.
+  Directory('${pasta.path}/en').createSync(recursive: true);
+
   final Map<String, String> paginas = <String, String>{
     'index.html': indiceEmHtml(),
     'privacidade.html': privacidadeEmHtml(),
     'termos.html': termosEmHtml(),
     'exclusao.html': exclusaoEmHtml(),
+    'en/index.html': indiceEmHtmlIngles(),
+    'en/privacy.html': privacidadeEmHtmlIngles(),
+    'en/terms.html': termosEmHtmlIngles(),
+    'en/deletion.html': exclusaoEmHtmlIngles(),
   };
 
   paginas.forEach((String nome, String conteudo) {

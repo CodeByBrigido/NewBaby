@@ -4,6 +4,12 @@ import 'privacy_policy.dart';
 ///
 /// Mesma ordem de seções da portuguesa: o teste que cobra as seções exigidas
 /// por lei vale para as duas.
+/// The date shown at the top of the public page.
+///
+/// Written out rather than formatted: this file is plain Dart, read by a
+/// command line tool that runs without Flutter or `intl` around.
+const String privacyPolicyDateEn = '18 August 2026';
+
 const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
   PrivacySection(
     title: 'In short',

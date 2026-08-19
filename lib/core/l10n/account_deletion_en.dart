@@ -5,6 +5,12 @@ import 'privacy_policy.dart';
 /// Mesma estrutura da portuguesa, seção por seção: o teste que confere a
 /// ordem das seções vale para as duas, e o revisor da Play Store precisa
 /// encontrar as mesmas coisas nos mesmos lugares.
+/// The date shown at the top of the public page.
+///
+/// Written out rather than formatted: this file is plain Dart, read by a
+/// command line tool that runs without Flutter or `intl` around.
+const String deletionPageDateEn = '18 August 2026';
+
 const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
   PrivacySection(
     title: 'What this page is',

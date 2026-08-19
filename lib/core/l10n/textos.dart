@@ -461,6 +461,13 @@ abstract interface class Textos {
 
   String get nextMilestone;
 
+  /// Quanto falta para o marco, com a contagem já dentro.
+  ///
+  /// A frase inteira vive aqui, e não só a contagem, porque em português o
+  /// "Daqui a" vem antes e em inglês o "from now" vem depois. Montá-la no
+  /// ponto de uso deixava o cartão dizendo "Daqui a 73 days".
+  String faltamDias(int dias);
+
   String get seeInspiration;
 
   String get forYou;

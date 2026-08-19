@@ -5,6 +5,12 @@ import 'terms_of_use.dart';
 ///
 /// Mesma ordem de seções da portuguesa. **Isto não é parecer jurídico**, e a
 /// ressalva vale igual nas duas línguas.
+/// The date shown at the top of the public page.
+///
+/// Written out rather than formatted: this file is plain Dart, read by a
+/// command line tool that runs without Flutter or `intl` around.
+const String termsOfUseDateEn = '18 August 2026';
+
 const List<PrivacySection> termsOfUseEn = <PrivacySection>[
   PrivacySection(
     title: 'In short',

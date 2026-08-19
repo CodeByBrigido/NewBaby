@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/core/l10n/account_deletion.dart';
+import 'package:meu_bebe/core/l10n/account_deletion_en.dart';
 import 'package:meu_bebe/core/l10n/pagina_web.dart';
 import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/l10n/privacy_policy.dart';
+import 'package:meu_bebe/core/l10n/privacy_policy_en.dart';
+import 'package:meu_bebe/core/l10n/terms_of_use_en.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/services/auth_service.dart';
 import 'package:meu_bebe/services/drive_service.dart';
@@ -294,8 +297,16 @@ void main() {
       // Sem CSS remoto, sem fonte remota, sem script: uma página que
       // depende de terceiro é uma página que um dia abre em branco para o
       // revisor da loja.
+      //
+      // O que se proíbe é buscar recurso, e não toda etiqueta `<link>`: a
+      // `rel="alternate" hreflang` que aponta para a outra língua é
+      // metadado, não download, e continua valendo mesmo offline.
       expect(html, isNot(contains('<script')));
-      expect(html, isNot(contains('<link')));
+      expect(html, isNot(contains('rel="stylesheet"')));
+      expect(html, isNot(contains('<img')));
+      expect(html, isNot(contains('<iframe')));
+      expect(html, isNot(contains('@import')));
+      expect(html, isNot(contains('url(')));
       expect(html, isNot(contains('src=')));
       expect(html, contains('<style>'));
     });
@@ -325,6 +336,134 @@ void main() {
         'textSecondary': hex(p.textSecondary),
         'border': hex(p.border),
       });
+    });
+  });
+
+  group('o site em inglês', () {
+    // A Play Store pede um endereço de política que qualquer pessoa abra e
+    // leia. Quem revisa raramente lê português, e uma política ilegível para
+    // o revisor é uma exigência cumprida só no papel.
+    final Map<String, String> paginas = <String, String>{
+      'docs/en/index.html': indiceEmHtmlIngles(),
+      'docs/en/privacy.html': privacidadeEmHtmlIngles(),
+      'docs/en/terms.html': termosEmHtmlIngles(),
+      'docs/en/deletion.html': exclusaoEmHtmlIngles(),
+    };
+
+    test('as quatro páginas existem e estão em dia', () {
+      paginas.forEach((String caminho, String conteudo) {
+        final File arquivo = File(caminho);
+        expect(
+          arquivo.existsSync(),
+          isTrue,
+          reason: '$caminho: rode dart run tool/gerar_site.dart',
+        );
+        expect(
+          arquivo.readAsStringSync(),
+          conteudo,
+          reason: '$caminho mudou. Rode: dart run tool/gerar_site.dart',
+        );
+      });
+    });
+
+    test('estão marcadas como inglês, e não como português', () {
+      // O atributo `lang` é o que faz o leitor de tela pronunciar a página na
+      // língua certa. Herdar o `pt-BR` do modelo deixaria a versão inglesa
+      // sendo lida em voz alta com sotaque de outro idioma.
+      for (final String html in paginas.values) {
+        expect(html, contains('<html lang="en">'));
+        expect(html, isNot(contains('<html lang="pt-BR">')));
+      }
+
+      // A data só existe nos três documentos. A porta de entrada não tem
+      // versão, e carimbá-la com uma seria inventar uma data que não muda
+      // quando nada mudou.
+      for (final String nome in <String>['privacy', 'terms', 'deletion']) {
+        final String html = paginas['docs/en/$nome.html']!;
+        expect(html, contains('Last updated'), reason: nome);
+        expect(html, isNot(contains('Última atualização')), reason: nome);
+      }
+    });
+
+    test('o link para o português é marcado como português', () {
+      // O `lang` no próprio link é o que faz o leitor de tela pronunciar
+      // "Português" em português, no meio de uma página inglesa. Some com
+      // ele e a palavra sai lida com fonemas ingleses.
+      for (final String html in paginas.values) {
+        expect(html, contains('lang="pt-BR">Português</a>'));
+        expect(html, contains('hreflang="pt-BR"'));
+      }
+    });
+
+    test('o texto é o inglês dos documentos, e não o português', () {
+      expect(
+        paginas['docs/en/privacy.html'],
+        contains(privacyPolicyEn.first.title),
+      );
+      expect(paginas['docs/en/terms.html'], contains(termsOfUseEn.first.title));
+      expect(
+        paginas['docs/en/deletion.html'],
+        contains(accountDeletionPageEn.first.title),
+      );
+    });
+
+    test('cada página leva à gêmea, e à do mesmo assunto', () {
+      // Cair na porta de entrada da outra língua é perder o lugar onde a
+      // pessoa estava, e numa política longa isso é perder a resposta que ela
+      // tinha vindo procurar.
+      const Map<String, String> daEnParaPt = <String, String>{
+        'docs/en/index.html': '../index.html',
+        'docs/en/privacy.html': '../privacidade.html',
+        'docs/en/terms.html': '../termos.html',
+        'docs/en/deletion.html': '../exclusao.html',
+      };
+      daEnParaPt.forEach((String caminho, String destino) {
+        expect(paginas[caminho], contains('href="$destino"'), reason: caminho);
+        expect(paginas[caminho], contains('Português'), reason: caminho);
+      });
+    });
+
+    test('e as portuguesas levam de volta às inglesas', () {
+      const Map<String, String> daPtParaEn = <String, String>{
+        'en/index.html': 'indice',
+        'en/privacy.html': 'privacidade',
+        'en/terms.html': 'termos',
+        'en/deletion.html': 'exclusao',
+      };
+      final Map<String, String> portuguesas = <String, String>{
+        'en/index.html': indiceEmHtml(),
+        'en/privacy.html': privacidadeEmHtml(),
+        'en/terms.html': termosEmHtml(),
+        'en/deletion.html': exclusaoEmHtml(),
+      };
+      daPtParaEn.forEach((String destino, String qual) {
+        expect(portuguesas[destino], contains('href="$destino"'), reason: qual);
+      });
+      for (final String html in portuguesas.values) {
+        expect(html, contains('English'));
+      }
+    });
+
+    test('não buscam nada de fora, como as portuguesas', () {
+      for (final String html in paginas.values) {
+        expect(html, isNot(contains('<script')));
+        expect(html, isNot(contains('rel="stylesheet"')));
+        expect(html, isNot(contains('src=')));
+        expect(html, contains('<style>'));
+      }
+    });
+
+    test('não sobrou marcação de Markdown à vista', () {
+      for (final String html in paginas.values) {
+        expect(html, isNot(contains('**')));
+      }
+    });
+
+    test('o email e o responsável continuam iguais', () {
+      for (final String html in paginas.values) {
+        expect(html, contains('href="mailto:$privacyEmail"'));
+        expect(html, contains(privacyController));
+      }
     });
   });
 }

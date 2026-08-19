@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/features/home/proximo_marco.dart';
@@ -92,6 +93,33 @@ void main() {
       expect(find.text('2 anos'), findsOneWidget);
       expect(find.text('É hoje!'), findsOneWidget);
       expect(find.textContaining('Daqui'), findsNothing);
+    });
+  });
+
+  group('a contagem fala a língua do aplicativo', () {
+    tearDown(() => definirTextos(textosPt));
+
+    testWidgets('em inglês o "Daqui a" não sobra', (WidgetTester tester) async {
+      // A frase inteira vive na tabela de idioma, e não só a contagem, porque
+      // o português põe o "Daqui a" antes e o inglês põe o "from now" depois.
+      // Montá-la no ponto de uso deixava o cartão dizendo "Daqui a 73 days".
+      definirTextos(textosEn);
+      await montar(
+        tester,
+        nascimento: DateTime(2026, 11, 2),
+        hoje: DateTime(2028, 8, 21),
+      );
+
+      expect(find.text('NEXT MILESTONE'), findsOneWidget);
+      expect(find.textContaining('Daqui'), findsNothing);
+      expect(find.textContaining('from now'), findsOneWidget);
+    });
+
+    test('cada língua monta a frase na ordem dela', () {
+      expect(textosPt.faltamDias(73), 'Daqui a 73 dias');
+      expect(textosEn.faltamDias(73), '73 days from now');
+      expect(textosPt.faltamDias(1), 'Daqui a 1 dia');
+      expect(textosEn.faltamDias(1), '1 day from now');
     });
   });
 

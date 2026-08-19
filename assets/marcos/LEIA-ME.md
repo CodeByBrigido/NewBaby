@@ -12,13 +12,18 @@ reduz na tela, então maior que isso só pesa o pacote.
 
 ## Como subir, sem terminal
 
-1. Abra `assets/marcos/` no GitHub, nesta mesma branch
-2. **Add file > Upload files**
-3. Arraste os dois PNG, confira que os nomes são exatamente os da tabela
+**Link direto para a pasta certa, na branch certa:**
+
+https://github.com/CodeByBrigido/NewBaby/upload/claude/meu-bebe-app-rsqz0a/assets/marcos
+
+1. Abra o link acima
+2. Arraste os dois PNG para a área de upload
+3. Confira que os nomes são exatamente os da tabela, incluindo o hífen e o
+   acento que não existe: `bolo-menina.png` e `bolo-menino.png`
 4. **Commit changes**
 
 Só isso. Nenhuma mudança de código é necessária: o cartão já procura por
-esses dois caminhos.
+esses dois caminhos, e passa a usá-los sozinho assim que eles existirem.
 
 ## O que muda quando eles chegam
 
@@ -38,7 +43,10 @@ para acrescentarem a linha correspondente no código.
 
 ## Por que os arquivos não entram por aqui
 
-Imagens enviadas na conversa com o assistente **não podem ser gravadas no
-repositório por ele**: elas ficam no histórico da conversa, e ele não tem
-como transformá-las em arquivo dentro do projeto. Por isso o passo de subir
-os PNG é sempre manual, e por isso o desenho de reserva existe.
+Uma imagem enviada na conversa com o assistente chega até ele como imagem
+para olhar, e não como arquivo no disco do projeto. Ele consegue descrever o
+que está vendo, mas não consegue devolver os bytes originais do PNG para
+dentro do repositório, e redesenhar a arte à mão daria outro bolo, não o seu.
+
+Por isso este passo é sempre manual, e por isso o desenho de reserva existe:
+para o cartão nunca ficar com um buraco enquanto os arquivos não chegam.

@@ -638,6 +638,9 @@ class TextosPt implements Textos {
   String get nextMilestone => 'Próximo marco';
 
   @override
+  String faltamDias(int dias) => 'Daqui a ${contarDias(dias)}';
+
+  @override
   String get seeInspiration => 'Ver inspiração';
 
   @override

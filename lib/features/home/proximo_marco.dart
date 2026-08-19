@@ -61,9 +61,7 @@ class CartaoDoProximoMarco extends StatelessWidget {
                 Text(
                   // No próprio dia a contagem não faz sentido, e o que a
                   // pessoa quer ler é que chegou.
-                  marco.ehHoje
-                      ? S.isTodayBang
-                      : 'Daqui a ${S.contarDias(marco.diasAte)}',
+                  marco.ehHoje ? S.isTodayBang : S.faltamDias(marco.diasAte),
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.textSecondary,
                   ),

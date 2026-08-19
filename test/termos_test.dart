@@ -297,8 +297,20 @@ void main() {
 
     test('a página é um arquivo só, sem buscar nada de fora', () {
       final String html = termosEmHtml();
+      // Sem CSS remoto, sem fonte remota, sem script: uma página que
+      // depende de terceiro é uma página que um dia abre em branco para o
+      // revisor da loja.
+      //
+      // O que se proíbe é buscar recurso, e não toda etiqueta `<link>`: a
+      // `rel="alternate" hreflang` que aponta para a outra língua é
+      // metadado, não download, e continua valendo mesmo offline.
       expect(html, isNot(contains('<script')));
-      expect(html, isNot(contains('<link')));
+      expect(html, isNot(contains('rel="stylesheet"')));
+      expect(html, isNot(contains('<img')));
+      expect(html, isNot(contains('<iframe')));
+      expect(html, isNot(contains('@import')));
+      expect(html, isNot(contains('url(')));
+      expect(html, isNot(contains('src=')));
       expect(html, contains('<style>'));
     });
 

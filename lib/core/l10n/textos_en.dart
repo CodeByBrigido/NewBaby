@@ -646,6 +646,9 @@ class TextosEn implements Textos {
   String get nextMilestone => 'Next milestone';
 
   @override
+  String faltamDias(int dias) => '${contarDias(dias)} from now';
+
+  @override
   String get seeInspiration => 'Read more';
 
   @override
