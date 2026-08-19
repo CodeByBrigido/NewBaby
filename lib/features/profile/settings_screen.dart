@@ -71,14 +71,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 Divider(height: 24),
                 _Fixed(
                   icon: Icons.videocam_outlined,
-                  title: 'Vídeos',
-                  value: '540p com bitrate otimizado',
+                  title: S.videosLabel,
+                  value: S.videoOptimizedShort,
                 ),
                 Divider(height: 24),
                 _Fixed(
                   icon: Icons.phone_iphone,
-                  title: 'Arquivos originais',
-                  value: 'Continuam no celular, intactos',
+                  title: S.originalFiles,
+                  value: S.originalFilesNote,
                 ),
               ],
             ),
@@ -89,12 +89,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           SectionHeader(title: S.languageSection),
           const _IdiomaTile(),
           const SizedBox(height: Space.x12),
-          const InfoNote(
-            message:
-                'A escolha já fica guardada, mas a tradução ainda está sendo '
-                'feita: por enquanto o aplicativo continua em português.',
-            icon: Icons.translate,
-          ),
+          InfoNote(message: S.languageNote, icon: Icons.translate),
           const SizedBox(height: Space.block),
           SectionHeader(title: S.remindersSection),
           const _RemindersTile(),

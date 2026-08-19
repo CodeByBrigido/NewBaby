@@ -568,4 +568,143 @@ abstract interface class Textos {
   String get sealedEmptyBody;
 
   String get growthChartHint;
+
+  String get introBody1;
+
+  String get introTitle4b;
+
+  String get introBody3;
+
+  String get introBody4;
+
+  String get introBody5;
+
+  String get premiumInviteLetters;
+
+  String get premiumInviteDrawings;
+
+  String get premiumInviteDocuments;
+
+  String get premiumInviteGrowth;
+
+  String get premiumInviteGeneric;
+
+  String get premiumInvitePrice;
+
+  String get premiumInviteKeeps;
+
+  String get documentNameQuestion;
+
+  String get videosLabel;
+
+  String get sendMemory;
+
+  String get languageNote;
+
+  String get videoOptimizedShort;
+
+  String get originalFiles;
+
+  String get originalFilesNote;
+
+  String get loginCapsuleHint;
+
+  String get startupFirebaseHint;
+
+  String get sentToDrive;
+
+  String get dateNotFoundMedia;
+
+  String get dateNotFoundFile;
+
+  // Textos com um valor no meio.
+  //
+  // São funções, e não frases com um espaço para preencher, porque a
+  // posição do valor muda de língua: o português diz "às 21h" e o inglês
+  // "at 21:00", e um deles põe o número antes do que o outro põe depois.
+
+  String inspirationsSubtitle(String nome);
+
+  String suggestionsGrowNote(String nome);
+
+  String remindersIntroNamed(String nome);
+
+  String remindersHourNote(int hora);
+
+  String remindersSummary(int marcados, int total, int hora);
+
+  String birthdayOrdinal(int anos);
+
+  String todayWithDate(String data);
+
+  String tomorrowWithDate(String data);
+
+  String searchNoResults(String termo);
+
+  String growthFromBirth(String data);
+
+  String savedInDrive(String dono);
+
+  String lastUpdated(String data);
+
+  String batchManyDays(int dias);
+
+  String get inspirationsSubtitleGeneric;
+
+  String willBeSavedIn(String dono);
+
+  String get remindersIntroGeneric;
+
+  String get sealedEmptyIntro;
+
+  String get aboutPhotosNote;
+
+  String get profilePhotoEmpty;
+
+  String remindersHourRange(int inicio, int fim);
+
+  String get typeOneBirth;
+
+  String get typeOnePhoto;
+
+  String get typeOneLetter;
+
+  String get typeOneDrawing;
+
+  String get typeOneDocument;
+
+  String get typeManyBirths;
+
+  String get typeManyPhotos;
+
+  String get typeManyVideos;
+
+  String get typeManyLetters;
+
+  String get typeManyDrawings;
+
+  String get typeManyDocuments;
+
+  String get typeManyGrowth;
+
+  String get theGrowth;
+
+  String get documentNameQuestionFull;
+
+  String get loginCreateAccountHint;
+
+  String get aboutInactivity;
+
+  String get profilePhotoFromMemories;
+
+  String premiumInviteWhat(String tipos, String deQuem, String outros);
+
+  String profilePhotoEmptyOf(String deQuem);
+
+  /// `os desenhos` / `drawings`.
+  ///
+  /// O artigo é da língua: o português o exige numa lista, o inglês o
+  /// dispensa. Sem isto, tirar o artigo para o inglês funcionar deixava o
+  /// português dizendo "junto com desenhos, documentos".
+  String comArtigo(String plural);
 }

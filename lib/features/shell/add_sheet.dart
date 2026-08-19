@@ -171,7 +171,7 @@ DateTime comHoraDoRelogio(DateTime dia, DateTime agora) => DateTime(
 
 /// `1 foto`, `5 fotos`, `3 vídeos`.
 String quantosItens(EntryType type, int quantidade) =>
-    quantidade == 1 ? '1 ${type.one}' : '$quantidade ${type.one}s';
+    quantidade == 1 ? '1 ${type.one}' : '$quantidade ${type.many}';
 
 /// O que a confirmação diz antes de o envio começar.
 ///
@@ -246,7 +246,7 @@ String origemDaData(DataDoLote lote, EntryType type) {
         'diferentes, e tudo vai ser guardado com esta data. Para separar, '
         'envie um dia de cada vez.';
   }
-  return 'Data lida do próprio arquivo. Toque para trocar.';
+  return S.dateFromFile;
 }
 
 /// Confirmação depois de escolher os arquivos, antes de qualquer envio.
@@ -722,7 +722,7 @@ Future<Entry?> _send(
     return entry;
   } on Exception catch (e) {
     if (raiz.mounted) {
-      showMessage(raiz.context, userMessage(e, context: 'Enviar memória'));
+      showMessage(raiz.context, userMessage(e, context: S.sendMemory));
     }
     return null;
   }

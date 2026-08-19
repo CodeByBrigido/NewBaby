@@ -769,7 +769,8 @@ class TextosEn implements Textos {
 
   @override
   String get aboutPhotos =>
-      'No photo passes through a server of ours: they go straight from your device to the Google Drive of your account.';
+      'No photo passes through a server of ours: they go straight from your '
+      'phone to Google Drive.';
 
   @override
   String get aboutScope =>
@@ -777,7 +778,10 @@ class TextosEn implements Textos {
 
   @override
   String get aboutIndex =>
-      'What stays on our server is the index: name, date of birth, weight, length, dates and the text of the letters. It is what makes the timeline and the search work. You can delete all of it whenever you want.';
+      'What stays on our server is the index: name, date of birth, weight, '
+      'length, dates and the text of the letters. It is what makes the '
+      'timeline and the search work. You can delete all of it at any time, in '
+      'your profile.';
 
   @override
   String get aboutLastingTitle => 'For the capsule to last';
@@ -823,4 +827,234 @@ class TextosEn implements Textos {
   @override
   String get growthChartHint =>
       'From two records on, the chart starts telling the story.';
+
+  @override
+  String get introBody1 =>
+      'Keep the small moments before they become only memories.';
+
+  @override
+  String get introTitle4b => 'A gift for the future.';
+
+  @override
+  String get introBody3 =>
+      'We organise everything by the age it happened, making a real timeline of childhood.';
+
+  @override
+  String get introBody4 =>
+      'One day, this capsule can be opened by the person who matters most: your child.';
+
+  @override
+  String get introBody5 =>
+      'We recommend using a dedicated Google account to keep all these memories for many years.';
+
+  @override
+  String get premiumInviteLetters => 'Letters are part of Premium';
+
+  @override
+  String get premiumInviteDrawings => 'Drawings are part of Premium';
+
+  @override
+  String get premiumInviteDocuments => 'Documents are part of Premium';
+
+  @override
+  String get premiumInviteGrowth => 'Growth is part of Premium';
+
+  @override
+  String get premiumInviteGeneric => 'This is part of Premium';
+
+  @override
+  String get premiumInvitePrice =>
+      'It is a yearly subscription, billed and managed by Google Play, which shows the price in your country’s currency.';
+
+  @override
+  String get premiumInviteKeeps =>
+      'Without it nothing disappears: photos and videos stay free, and everything already kept stays open forever.';
+
+  @override
+  String get documentNameQuestion => 'What would you like to call';
+
+  @override
+  String get videosLabel => 'Videos';
+
+  @override
+  String get sendMemory => 'Save memory';
+
+  @override
+  String get languageNote =>
+      'Your choice is already saved. The app is fully translated: switching here changes every screen.';
+
+  @override
+  String get videoOptimizedShort => '540p with optimised bitrate';
+
+  @override
+  String get originalFiles => 'Original files';
+
+  @override
+  String get originalFilesNote => 'Stay on your phone, untouched';
+
+  @override
+  String get loginCapsuleHint =>
+      'To create the capsule account: tap below, and on the Google screen choose Add another account.';
+
+  @override
+  String get startupFirebaseHint =>
+      'This is almost always Firebase configuration: google-services.json and '
+      'firebase_options.dart must come from the same project, and Firestore '
+      'and Google sign-in must be enabled in the console.';
+
+  @override
+  String get sentToDrive => 'It is saved';
+
+  @override
+  String get dateNotFoundMedia =>
+      'We could not find the date inside the media, so today applies. Tap to change.';
+
+  @override
+  String get dateNotFoundFile =>
+      'We could not find the date inside the file, so today applies. Tap to change.';
+
+  @override
+  String inspirationsSubtitle(String nome) =>
+      'Ideas for the stage $nome is living through right now.';
+
+  @override
+  String suggestionsGrowNote(String nome) =>
+      'Suggestions come back as $nome grows and the dates get closer.';
+
+  @override
+  String remindersIntroNamed(String nome) =>
+      'Reminders come switched on because a time capsule only keeps its '
+      'promise if someone comes back to it. There are few of them, and '
+      'they exist so you do not miss the day $nome turns another month.';
+
+  @override
+  String remindersHourNote(int hora) =>
+      'Always between 8am and $hora:00. The app does not wake anyone in the '
+      'middle of the night.';
+
+  @override
+  String remindersSummary(int marcados, int total, int hora) =>
+      '$marcados of $total types, at $hora:00';
+
+  @override
+  String birthdayOrdinal(int anos) => 'For the ${ordinal(anos)} birthday';
+
+  @override
+  String todayWithDate(String data) => 'Today, $data';
+
+  @override
+  String tomorrowWithDate(String data) => 'Tomorrow, $data';
+
+  @override
+  String searchNoResults(String termo) => 'We found no post matching "$termo".';
+
+  @override
+  String growthFromBirth(String data) => 'From birth to $data';
+
+  @override
+  String savedInDrive(String dono) => 'It is saved in $dono Drive.';
+
+  @override
+  String lastUpdated(String data) => 'Last updated: $data';
+
+  @override
+  String batchManyDays(int dias) =>
+      'Careful: what you picked spans $dias different days, and all of it will '
+      'be saved with this one date. To keep them apart, send one day at a '
+      'time.';
+
+  @override
+  String get inspirationsSubtitleGeneric => 'Ideas for the stage right now.';
+
+  @override
+  String willBeSavedIn(String dono) => 'It will be saved in $dono Drive.';
+
+  @override
+  String get remindersIntroGeneric =>
+      'Reminders come switched on because a time capsule only keeps its promise if someone comes back to it. There are few of them, and they exist for dates that slip by unnoticed.';
+
+  @override
+  String get sealedEmptyIntro =>
+      'When you keep a letter or a video, you can choose an opening date: '
+      'turning 15, turning 18, or any other. It waits here until then.';
+
+  @override
+  String get aboutPhotosNote =>
+      'No photo passes through a server of ours: they go straight from your device to the Google Drive of your account.';
+
+  @override
+  String get profilePhotoEmpty =>
+      'The profile photo comes from the memories already kept. Add a photo to be able to choose one.';
+
+  @override
+  String remindersHourRange(int inicio, int fim) =>
+      'Between $inicio:00 and $fim:00. The app does not wake anyone in the '
+      'middle of the night.';
+
+  @override
+  String get typeOneBirth => 'birth';
+
+  @override
+  String get typeOnePhoto => 'photo';
+
+  @override
+  String get typeOneLetter => 'letter';
+
+  @override
+  String get typeOneDrawing => 'drawing';
+
+  @override
+  String get typeOneDocument => 'document';
+
+  @override
+  String get typeManyBirths => 'births';
+
+  @override
+  String get typeManyPhotos => 'photos';
+
+  @override
+  String get typeManyVideos => 'videos';
+
+  @override
+  String get typeManyLetters => 'letters';
+
+  @override
+  String get typeManyDrawings => 'drawings';
+
+  @override
+  String get typeManyDocuments => 'documents';
+
+  @override
+  String get typeManyGrowth => 'measurements';
+
+  @override
+  String get theGrowth => 'growth';
+
+  @override
+  String get documentNameQuestionFull => 'What would you like to call it';
+
+  @override
+  String get loginCreateAccountHint =>
+      'To create the capsule account: tap below, and in the Google box choose "Add another account" and then "Create account".';
+
+  @override
+  String get aboutInactivity =>
+      'Google deletes accounts left unused for two years, and whatever is in their Drive goes with them. That matters most for anyone who created an account just for the capsule.\n\nOpening this app now and then already counts as use, so there is nothing else to do. Even so, if you go almost a year without showing up, the app warns you once, and that warning can be switched off in Settings.';
+
+  @override
+  String get profilePhotoFromMemories =>
+      'The profile photo comes from the memories already kept. Add a photo and it shows up here.';
+
+  @override
+  String premiumInviteWhat(String tipos, String deQuem, String outros) =>
+      'Keeping $tipos in$deQuem capsule is part of Premium, along with '
+      '$outros.';
+
+  @override
+  String profilePhotoEmptyOf(String deQuem) =>
+      'The profile photo comes from the memories already kept. Add a photo of '
+      '$deQuem and it shows up here.';
+
+  @override
+  String comArtigo(String plural) => plural;
 }

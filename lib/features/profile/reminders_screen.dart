@@ -41,13 +41,8 @@ class RemindersScreen extends ConsumerWidget {
         children: <Widget>[
           Text(
             copy.hasName
-                ? 'Os lembretes vêm ligados porque uma cápsula do tempo só '
-                      'cumpre a promessa se alguém voltar a ela. São poucos, '
-                      'e existem para você não perder o dia em que '
-                      '${copy.theName} completa mais um mês.'
-                : 'Os lembretes vêm ligados porque uma cápsula do tempo só '
-                      'cumpre a promessa se alguém voltar a ela. São poucos, '
-                      'e existem para datas que passam sem ninguém perceber.',
+                ? S.remindersIntroNamed(copy.theName)
+                : S.remindersIntroGeneric,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: context.cores.textSecondary,
               height: 1.5,
@@ -118,10 +113,10 @@ class RemindersScreen extends ConsumerWidget {
             ),
             const SizedBox(height: Space.x12),
             InfoNote(
-              message:
-                  'Entre ${ReminderSettings.earliestHour}h e '
-                  '${ReminderSettings.latestHour}h. O aplicativo não acorda '
-                  'ninguém de madrugada.',
+              message: S.remindersHourRange(
+                ReminderSettings.earliestHour,
+                ReminderSettings.latestHour,
+              ),
               icon: Icons.bedtime_outlined,
             ),
 
@@ -165,14 +160,7 @@ class RemindersScreen extends ConsumerWidget {
           ],
 
           const SizedBox(height: Space.x24),
-          const InfoNote(
-            message:
-                'Os lembretes são calculados dentro do seu celular, a partir '
-                'do que já está aqui. Nada é enviado para nenhum servidor '
-                'para isso acontecer, e nenhum aviso cita o que você '
-                'escreveu.',
-            icon: Icons.phone_iphone,
-          ),
+          InfoNote(message: S.remindersPrivacy, icon: Icons.phone_iphone),
         ],
       ),
     );

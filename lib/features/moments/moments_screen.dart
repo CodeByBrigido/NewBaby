@@ -34,8 +34,7 @@ class MomentsScreen extends ConsumerWidget {
               title: 'Nada pendente por aqui',
               message: profile == null
                   ? S.suggestionsByAge
-                  : 'As sugestões voltam conforme ${copy.theName} cresce e as '
-                        'datas do ano se aproximam.',
+                  : S.suggestionsGrowNote(copy.theName),
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(

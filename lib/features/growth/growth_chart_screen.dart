@@ -203,7 +203,7 @@ class _ChartCard extends StatelessWidget {
           ),
           const SizedBox(height: Space.x12),
           Text(
-            'Do nascimento até ${Fmt.date(records.last.date)}',
+            S.growthFromBirth(Fmt.date(records.last.date)),
             style: text.labelSmall,
           ),
         ],

@@ -90,7 +90,7 @@ class _DialogoState extends State<_Dialogo> {
         textInputAction: TextInputAction.done,
         onSubmitted: (_) => _confirmar(),
         decoration: InputDecoration(
-          labelText: 'Como você quer chamar',
+          labelText: S.documentNameQuestionFull,
           hintText: S.documentNameSuggestion,
         ),
       ),

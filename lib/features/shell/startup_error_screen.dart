@@ -44,11 +44,8 @@ class StartupErrorApp extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: Space.x12),
-                const Text(
-                  'Isso quase sempre é configuração do Firebase: o '
-                  'google-services.json e o firebase_options.dart precisam ser '
-                  'do mesmo projeto, e o Firestore e o login com Google '
-                  'precisam estar ativados no console.',
+                Text(
+                  S.startupFirebaseHint,
                   style: TextStyle(fontSize: 14, color: Color(0xFF8A7C81)),
                 ),
                 const SizedBox(height: Space.x24),

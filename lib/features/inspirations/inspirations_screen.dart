@@ -135,8 +135,8 @@ class _Intro extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: Space.x4),
       child: Text(
         copy.hasName
-            ? 'Ideias para a fase que ${copy.theName} está vivendo agora.'
-            : 'Ideias para a fase de agora.',
+            ? S.inspirationsSubtitle(copy.theName)
+            : S.inspirationsSubtitleGeneric,
         style: Theme.of(
           context,
         ).textTheme.bodyMedium?.copyWith(color: context.cores.textSecondary),

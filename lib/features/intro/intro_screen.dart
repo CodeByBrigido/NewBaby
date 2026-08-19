@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -29,41 +30,35 @@ class IntroSlide {
 /// que este aplicativo é, e por que vale a pena criar uma conta só para a
 /// cápsula. Depois do login ninguém mais lê isso, e a decisão da conta já
 /// terá sido tomada.
-const List<IntroSlide> introSlides = <IntroSlide>[
+/// Um getter, e não uma constante.
+///
+/// A lista lia frases fixas em português. Como getter, ela é montada de novo
+/// a cada leitura, na língua ativa.
+List<IntroSlide> get introSlides => <IntroSlide>[
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_1.webp',
-    title: 'A infância passa depressa.',
-    body:
-        'Guarde os pequenos momentos antes que eles se tornem apenas '
-        'lembranças.',
+    title: S.introTitle1,
+    body: S.introBody1,
   ),
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_2.webp',
-    title: 'Toda lembrança tem seu lugar.',
-    body:
-        'Fotos, vídeos, cartas, desenhos, documentos e registros de '
-        'crescimento. Tudo reunido em um único lugar.',
+    title: S.introTitle2,
+    body: S.introBody2,
   ),
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_3.webp',
-    title: 'Cada memória no seu tempo.',
-    body:
-        'Organizamos tudo pela idade em que aconteceu, formando uma '
-        'verdadeira linha do tempo da infância.',
+    title: S.introTitle3,
+    body: S.introBody3,
   ),
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_4.webp',
-    title: 'Um presente para o futuro.',
-    body:
-        'Um dia, essa cápsula poderá ser aberta por quem mais importa: seu '
-        'filho.',
+    title: S.introTitle4b,
+    body: S.introBody4,
   ),
   IntroSlide(
     image: 'assets/images/onboarding/onboarding_5.webp',
-    title: 'Vamos criar essa cápsula?',
-    body:
-        'Recomendamos usar uma conta Google exclusiva para guardar todas '
-        'essas lembranças por muitos anos.',
+    title: S.introTitle4,
+    body: S.introBody5,
   ),
 ];
 

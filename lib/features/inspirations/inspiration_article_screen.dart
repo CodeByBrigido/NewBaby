@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -152,9 +153,9 @@ class _Countdown extends StatelessWidget {
           Flexible(
             child: Text(
               dias == 0
-                  ? 'É hoje, ${Fmt.dayMonth(data)}'
+                  ? S.todayWithDate(Fmt.dayMonth(data))
                   : dias == 1
-                  ? 'Amanhã, ${Fmt.dayMonth(data)}'
+                  ? S.tomorrowWithDate(Fmt.dayMonth(data))
                   : 'Faltam $dias dias, ${Fmt.dayMonth(data)}',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: context.cores.primaryDark,

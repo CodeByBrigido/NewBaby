@@ -186,7 +186,7 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
     // Documento não entra em pasta de idade, então citar um mês seria
     // mentira.
     if (!_tipo.bucketsByAge || profile == null) {
-      return pronto ? 'Está guardado $conta.' : 'Vai ser guardado $conta.';
+      return pronto ? S.savedInDrive(conta) : S.willBeSavedIn(conta);
     }
 
     // O caminho de verdade, e não o nome da semana que a galeria usa aqui

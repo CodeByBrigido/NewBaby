@@ -65,12 +65,7 @@ class AboutScreen extends ConsumerWidget {
           const SizedBox(height: Space.x32),
           SoftCard(child: Text(g.aboutStorage)),
           const SizedBox(height: Space.x20),
-          const InfoNote(
-            message:
-                'Nenhuma foto passa por servidor nosso: elas vão direto do '
-                'celular para o Google Drive.',
-            icon: Icons.lock_outline,
-          ),
+          InfoNote(message: S.aboutPhotos, icon: Icons.lock_outline),
           const SizedBox(height: Space.x12),
           InfoNote(message: S.aboutScope, icon: Icons.folder_off_outlined),
           const SizedBox(height: Space.x12),
@@ -78,14 +73,7 @@ class AboutScreen extends ConsumerWidget {
           // tudo. Vale para os arquivos - e só. O índice fica num servidor
           // nosso, e quem confia o registro de um filho a um aplicativo tem o
           // direito de saber disso sem precisar procurar.
-          const InfoNote(
-            message:
-                'O que fica no nosso servidor é o índice: nome, data de '
-                'nascimento, peso, altura, datas e o texto das cartas. É o '
-                'que faz a linha do tempo e a busca funcionarem. Você pode '
-                'apagar tudo isso a qualquer momento, no seu perfil.',
-            icon: Icons.storage_outlined,
-          ),
+          InfoNote(message: S.aboutIndex, icon: Icons.storage_outlined),
 
           const SizedBox(height: Space.x20),
           SoftCard(
@@ -122,17 +110,7 @@ class AboutScreen extends ConsumerWidget {
           // por desuso é um risco real, e quem corre esse risco tem o direito
           // de saber por quem fez a promessa - não por um email genérico do
           // Google, dois anos depois.
-          const SoftCard(
-            child: Text(
-              'O Google apaga contas que ficam dois anos sem uso, e junto vai '
-              'o que estiver no Drive delas. Isso vale principalmente para '
-              'quem criou uma conta só para a cápsula.\n\n'
-              'Abrir este aplicativo de vez em quando já conta como uso, '
-              'então não é preciso fazer nada além disso. Mesmo assim, se '
-              'você passar quase um ano sem aparecer, o aplicativo avisa uma '
-              'vez, e esse aviso pode ser desligado em Configurações.',
-            ),
-          ),
+          SoftCard(child: Text(S.aboutInactivity)),
         ],
       ),
     );

@@ -40,11 +40,11 @@ bool podeCriar(BabyProfile? profile, EntryType type) =>
 
 /// O título do convite, na palavra do próprio tipo.
 String tituloDoConvite(EntryType type) => switch (type) {
-  EntryType.letter => 'As cartas são do plano Premium',
-  EntryType.drawing => 'Os desenhos são do plano Premium',
-  EntryType.document => 'Os documentos são do plano Premium',
-  EntryType.growth => 'O crescimento é do plano Premium',
-  _ => 'Isto é do plano Premium',
+  EntryType.letter => S.premiumInviteLetters,
+  EntryType.drawing => S.premiumInviteDrawings,
+  EntryType.document => S.premiumInviteDocuments,
+  EntryType.growth => S.premiumInviteGrowth,
+  _ => S.premiumInviteGeneric,
 };
 
 /// O corpo do convite.
@@ -55,12 +55,9 @@ String tituloDoConvite(EntryType type) => switch (type) {
 List<String> corpoDoConvite(EntryType type, Copy g) {
   final String deQuem = g.hasName ? ' ${g.ofName}' : '';
   return <String>[
-    'Guardar ${type.many} na cápsula$deQuem faz parte do Premium, junto com '
-        '${osOutrosDoPlano(type)}.',
-    'É uma assinatura anual, cobrada e gerenciada pelo Google Play, que mostra '
-        'o preço na moeda do seu país.',
-    'Sem ela nada some: as fotos e os vídeos continuam livres, e tudo o que já '
-        'está guardado continua aberto para sempre.',
+    S.premiumInviteWhat(type.many, deQuem, osOutrosDoPlano(type)),
+    S.premiumInvitePrice,
+    S.premiumInviteKeeps,
   ];
 }
 
@@ -80,7 +77,7 @@ String osOutrosDoPlano(EntryType type) {
       EntryType.document,
       EntryType.growth,
     ])
-      if (t != type) t == EntryType.growth ? 'o crescimento' : 'os ${t.many}',
+      if (t != type) t == EntryType.growth ? S.theGrowth : S.comArtigo(t.many),
   ];
   return '${outros.take(outros.length - 1).join(', ')} e ${outros.last}';
 }

@@ -129,9 +129,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         borderRadius: Radii.fieldR,
                       ),
                       child: Text(
-                        'Para criar a conta da cápsula: toque abaixo, e na '
-                        'caixa do Google escolha "Adicionar outra conta" e '
-                        'depois "Criar conta".',
+                        S.loginCreateAccountHint,
                         textAlign: TextAlign.center,
                         style: text.bodySmall?.copyWith(color: Colors.white),
                       ),

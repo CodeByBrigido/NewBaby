@@ -61,17 +61,17 @@ extension EntryTypeVisuals on EntryType {
   String get singular => switch (this) {
     EntryType.birth => 'nascimento',
     EntryType.photo => 'foto',
-    EntryType.video => 'vídeo',
+    EntryType.video => S.oneVideo,
     EntryType.letter => 'carta',
     EntryType.drawing => 'desenho',
     EntryType.document => 'documento',
-    EntryType.growth => 'medição',
+    EntryType.growth => S.oneGrowth,
   };
 
   String get label => switch (this) {
     EntryType.birth => 'Nascimento',
     EntryType.photo => 'Fotos',
-    EntryType.video => 'Vídeos',
+    EntryType.video => S.videosLabel,
     EntryType.letter => 'Cartas',
     EntryType.drawing => 'Desenhos',
     EntryType.document => 'Documentos',

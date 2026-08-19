@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/privacy_policy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
@@ -62,7 +63,7 @@ class TelaDeDocumento extends StatelessWidget {
           Text('Meu Bebê: Cápsula do Tempo', style: text.headlineSmall),
           const SizedBox(height: Space.x4),
           Text(
-            'Última atualização: $data',
+            S.lastUpdated(data),
             style: text.bodySmall?.copyWith(color: context.cores.muted),
           ),
           const SizedBox(height: Space.x32),

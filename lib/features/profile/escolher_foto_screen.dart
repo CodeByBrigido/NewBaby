@@ -90,9 +90,7 @@ class _EscolherFotoScreenState extends ConsumerState<EscolherFotoScreen> {
           ? EmptyState(
               icon: Icons.photo_camera_outlined,
               title: 'Nenhuma foto ainda',
-              message:
-                  'A foto de perfil sai das memórias já guardadas. Acrescente '
-                  'uma foto ${Copy.of(profile).ofName} e ela aparece aqui.',
+              message: S.profilePhotoEmptyOf(Copy.of(profile).ofName),
             )
           : GridView.builder(
               padding: const EdgeInsets.fromLTRB(

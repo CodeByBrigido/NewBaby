@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -36,10 +37,7 @@ class SealedScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.lock_clock,
               title: 'Nada lacrado ainda',
-              message:
-                  'Ao guardar uma carta ou um vídeo, você pode '
-                  'escolher uma data de abertura: os 15 anos, os 18, ou '
-                  'qualquer outra. Fica esperando aqui até lá.',
+              message: S.sealedEmptyIntro,
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(

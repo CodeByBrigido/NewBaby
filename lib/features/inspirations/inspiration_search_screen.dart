@@ -84,8 +84,7 @@ class _InspirationSearchScreenState
           ? EmptyState(
               icon: Icons.search_off,
               title: 'Nada sobre isso ainda',
-              message:
-                  'Não achamos nenhuma postagem com "${_termo.text.trim()}".',
+              message: S.searchNoResults(_termo.text.trim()),
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(
