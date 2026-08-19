@@ -1408,4 +1408,51 @@ class TextosPt implements Textos {
       'Faz quase um ano que você não abre. O Google apaga contas sem uso por '
       'dois anos, e é numa delas que as memórias $deQuem moram. Abrir de vez '
       'em quando já basta.';
+
+  @override
+  String tituloDaSugestao(String id) => switch (id) {
+    'primeiro-natal' => 'O primeiro Natal',
+    'primeiro-ano-novo' => 'O primeiro Ano Novo',
+    'primeiro-carnaval' => 'O primeiro Carnaval',
+    'primeira-pascoa' => 'A primeira Páscoa',
+    'primeiro-dia-das-maes' => 'O primeiro Dia das Mães',
+    'primeiro-dia-dos-pais' => 'O primeiro Dia dos Pais',
+    'primeiro-aniversario' => 'Preparando o primeiro aniversário',
+    'primeiro-sorriso' => 'O primeiro sorriso',
+    'primeiro-dentinho' => 'O primeiro dentinho',
+    'primeira-palavra' => 'A primeira palavra',
+    'primeiros-passos' => 'Os primeiros passos',
+    'primeiro-corte-cabelo' => 'O primeiro corte de cabelo',
+    'primeira-viagem' => 'A primeira viagem',
+    'primeira-praia' => 'A primeira praia',
+    'primeira-escola' => 'O primeiro dia de escola',
+    'primeira-bicicleta' => 'A primeira bicicleta',
+    _ => id,
+  };
+
+  @override
+  String? notaDaSugestao(String id) => switch (id) {
+    'primeiro-natal' => 'O primeiro Natal {nome} está chegando.',
+    'primeiro-ano-novo' => 'A primeira virada de ano {nome}.',
+    'primeiro-carnaval' => 'Uma fantasia, uma foto, e pronto.',
+    'primeiro-dia-das-maes' =>
+      'Que tal uma carta para {nome} ler daqui a muitos anos?',
+    'primeiro-aniversario' => 'O primeiro ano {nome} está chegando.',
+    'primeiro-sorriso' => 'Costuma aparecer por volta das seis semanas.',
+    'primeira-palavra' =>
+      'Grave a voz {nome}. Daqui a vinte anos, isso não tem preço.',
+    'primeiros-passos' => 'Vale mais em vídeo que em foto.',
+    'primeiro-corte-cabelo' => 'Antes e depois, se der.',
+    _ => null,
+  };
+
+  @override
+  List<String> checklistDoAniversario() => <String>[
+    'Escolher o tema',
+    'Definir os convidados',
+    'Escolher o bolo',
+    'Comprar a roupa',
+    'Gravar um vídeo',
+    'Escrever uma carta para o futuro',
+  ];
 }

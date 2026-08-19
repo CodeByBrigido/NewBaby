@@ -916,4 +916,16 @@ abstract interface class Textos {
   String notifAbsenceBody(String deQuem);
 
   String notifInactiveBody(String deQuem);
+
+  // --------------------------------------------- catálogo de sugestões
+  //
+  // O catálogo em si é só dado: id, gatilho e tipo sugerido. O texto vem
+  // daqui, por id, para o mesmo catálogo servir as duas línguas.
+
+  String tituloDaSugestao(String id);
+
+  /// `null` quando a sugestão não tem nota: o título já diz tudo.
+  String? notaDaSugestao(String id);
+
+  List<String> checklistDoAniversario();
 }

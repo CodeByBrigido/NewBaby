@@ -31,10 +31,10 @@ void main() {
   setUpAll(carregarFonteDeVerdade);
 
   Widget montar({required bool compact}) {
+    // O id é o do catálogo de verdade: o texto vem da tabela de idiomas,
+    // por id, então um id inventado deixaria o cartão sem título.
     const Suggestion s = Suggestion(
-      id: 'corte-de-cabelo',
-      title: 'O primeiro corte de cabelo',
-      note: 'Antes e depois, se der.',
+      id: 'primeiro-corte-cabelo',
       trigger: AgeWindow(365, 900),
     );
 

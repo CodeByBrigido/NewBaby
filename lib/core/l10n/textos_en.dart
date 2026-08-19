@@ -1408,4 +1408,51 @@ class TextosEn implements Textos {
       'It has been almost a year since you opened the app. Google deletes '
       'accounts left unused for two years, and that is where $deQuem memories '
       'live. Opening it now and then is enough.';
+
+  @override
+  String tituloDaSugestao(String id) => switch (id) {
+    'primeiro-natal' => 'The first Christmas',
+    'primeiro-ano-novo' => 'The first New Year',
+    'primeiro-carnaval' => 'The first Carnival',
+    'primeira-pascoa' => 'The first Easter',
+    'primeiro-dia-das-maes' => 'The first Mother\'s Day',
+    'primeiro-dia-dos-pais' => 'The first Father\'s Day',
+    'primeiro-aniversario' => 'Getting ready for the first birthday',
+    'primeiro-sorriso' => 'The first smile',
+    'primeiro-dentinho' => 'The first tooth',
+    'primeira-palavra' => 'The first word',
+    'primeiros-passos' => 'The first steps',
+    'primeiro-corte-cabelo' => 'The first haircut',
+    'primeira-viagem' => 'The first trip',
+    'primeira-praia' => 'The first time at the beach',
+    'primeira-escola' => 'The first day of school',
+    'primeira-bicicleta' => 'The first bicycle',
+    _ => id,
+  };
+
+  @override
+  String? notaDaSugestao(String id) => switch (id) {
+    'primeiro-natal' => '{nome} first Christmas is coming.',
+    'primeiro-ano-novo' => '{nome} first turn of the year.',
+    'primeiro-carnaval' => 'A costume, a photo, and done.',
+    'primeiro-dia-das-maes' =>
+      'How about a letter for {nome} to read many years from now?',
+    'primeiro-aniversario' => '{nome} first year is coming.',
+    'primeiro-sorriso' => 'It usually shows up around six weeks.',
+    'primeira-palavra' =>
+      'Record {nome} voice. Twenty years from now, that is priceless.',
+    'primeiros-passos' => 'Worth more on video than in a photo.',
+    'primeiro-corte-cabelo' => 'Before and after, if you can.',
+    _ => null,
+  };
+
+  @override
+  List<String> checklistDoAniversario() => <String>[
+    'Choose the theme',
+    'Decide the guest list',
+    'Choose the cake',
+    'Buy the outfit',
+    'Record a video',
+    'Write a letter for the future',
+  ];
 }

@@ -6,6 +6,7 @@ import 'package:meu_bebe/core/l10n/copy.dart';
 import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/utils/formatters.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
+import 'package:meu_bebe/models/suggestion.dart';
 
 /// O aplicativo em duas línguas.
 ///
@@ -202,6 +203,55 @@ void main() {
 
       definirTextos(textosEn);
       expect(Copy.generic.onboardingSubtitle, contains('remembered'));
+    });
+  });
+
+  group('o catálogo de sugestões', () {
+    test('toda sugestão tem título nas duas línguas', () {
+      // O catálogo é só dado, e o texto vem por id. Um id sem entrada na
+      // tabela devolve o próprio id, que apareceria na tela como
+      // "primeiro-natal". Este laço é o que impede isso de chegar longe.
+      for (final Textos lingua in <Textos>[textosPt, textosEn]) {
+        for (final Suggestion s in Suggestions.all) {
+          final String titulo = lingua.tituloDaSugestao(s.id);
+          expect(titulo, isNotEmpty, reason: s.id);
+          expect(
+            titulo,
+            isNot(s.id),
+            reason: 'Sugestão sem título em ${lingua.codigoIntl}: ${s.id}',
+          );
+        }
+      }
+    });
+
+    test('a nota existe ou não existe igual nas duas', () {
+      // Uma língua com nota e a outra sem seria a mesma tela contando duas
+      // histórias diferentes.
+      for (final Suggestion s in Suggestions.all) {
+        expect(
+          textosPt.notaDaSugestao(s.id) == null,
+          textosEn.notaDaSugestao(s.id) == null,
+          reason: s.id,
+        );
+      }
+    });
+
+    test('o marcador do nome sobrevive à tradução', () {
+      // `{nome}` é trocado pelo nome da criança na hora de mostrar. Perder a
+      // chave na tradução deixa a frase falando de ninguém.
+      for (final Suggestion s in Suggestions.all) {
+        final String? pt = textosPt.notaDaSugestao(s.id);
+        final String? en = textosEn.notaDaSugestao(s.id);
+        if (pt == null || en == null) continue;
+        expect(pt.contains('{nome}'), en.contains('{nome}'), reason: s.id);
+      }
+    });
+
+    test('a lista do aniversário tem o mesmo tamanho nas duas', () {
+      expect(
+        textosEn.checklistDoAniversario(),
+        hasLength(textosPt.checklistDoAniversario().length),
+      );
     });
   });
 

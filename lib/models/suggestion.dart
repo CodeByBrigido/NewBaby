@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../core/l10n/strings.dart';
 import '../core/utils/age_calculator.dart';
 import 'baby_profile.dart';
 import 'entry.dart';
@@ -52,30 +53,38 @@ class BeforeBirthday extends Trigger {
 class Suggestion {
   const Suggestion({
     required this.id,
-    required this.title,
     required this.trigger,
-    this.note,
     this.suggests,
-    this.checklist = const <String>[],
+    this.temChecklist = false,
   });
 
   /// Estável para sempre: é a chave gravada quando a pessoa marca como feita
   /// ou dispensa. Mudar um id aqui ressuscita sugestões já resolvidas.
   final String id;
 
-  final String title;
+  /// O título, na língua ativa, procurado por [id].
+  ///
+  /// O catálogo abaixo é só dado: id, gatilho e tipo sugerido. O texto mora
+  /// na tabela de idiomas, para o mesmo catálogo servir as duas línguas sem
+  /// duplicar a lista inteira.
+  String get title => S.tituloDaSugestao(id);
 
-  /// Uma frase curta. `{nome}` vira o nome da criança.
-  final String? note;
+  /// Uma frase curta. `{nome}` vira o nome da criança. `null` quando o
+  /// título já diz tudo.
+  String? get note => S.notaDaSugestao(id);
 
   final Trigger trigger;
 
   /// O tipo de memória que a sugestão convida a registrar.
   final EntryType? suggests;
 
-  final List<String> checklist;
+  /// Se esta sugestão tem lista de preparativos.
+  final bool temChecklist;
 
-  bool get hasChecklist => checklist.isNotEmpty;
+  List<String> get checklist =>
+      temChecklist ? S.checklistDoAniversario() : const <String>[];
+
+  bool get hasChecklist => temChecklist;
 
   String noteFor(String name) => note?.replaceAll('{nome}', name) ?? '';
 }
@@ -112,41 +121,31 @@ abstract final class Suggestions {
     // ------------------------------------------------- datas do calendário
     Suggestion(
       id: 'primeiro-natal',
-      title: 'O primeiro Natal',
-      note: 'O primeiro Natal {nome} está chegando.',
       trigger: FirstSpecialDate(SpecialDate.natal),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeiro-ano-novo',
-      title: 'O primeiro Ano Novo',
-      note: 'A primeira virada de ano {nome}.',
       trigger: FirstSpecialDate(SpecialDate.anoNovo),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeiro-carnaval',
-      title: 'O primeiro Carnaval',
-      note: 'Uma fantasia, uma foto, e pronto.',
       trigger: FirstSpecialDate(SpecialDate.carnaval),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-pascoa',
-      title: 'A primeira Páscoa',
       trigger: FirstSpecialDate(SpecialDate.pascoa),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeiro-dia-das-maes',
-      title: 'O primeiro Dia das Mães',
-      note: 'Que tal uma carta para {nome} ler daqui a muitos anos?',
       trigger: FirstSpecialDate(SpecialDate.diaDasMaes),
       suggests: EntryType.letter,
     ),
     Suggestion(
       id: 'primeiro-dia-dos-pais',
-      title: 'O primeiro Dia dos Pais',
       trigger: FirstSpecialDate(SpecialDate.diaDosPais),
       suggests: EntryType.letter,
     ),
@@ -154,18 +153,9 @@ abstract final class Suggestions {
     // ---------------------------------------------------------- checklists
     Suggestion(
       id: 'primeiro-aniversario',
-      title: 'Preparando o primeiro aniversário',
-      note: 'O primeiro ano {nome} está chegando.',
       trigger: BeforeBirthday(1, daysBefore: 45),
       suggests: EntryType.photo,
-      checklist: <String>[
-        'Escolher o tema',
-        'Definir os convidados',
-        'Escolher o bolo',
-        'Comprar a roupa',
-        'Gravar um vídeo',
-        'Escrever uma carta para o futuro',
-      ],
+      temChecklist: true,
     ),
 
     // ------------------------------------------------ momentos importantes
@@ -174,59 +164,46 @@ abstract final class Suggestions {
     // aconteceu, e inventar a memória de alguém seria pior que não sugerir.
     Suggestion(
       id: 'primeiro-sorriso',
-      title: 'O primeiro sorriso',
-      note: 'Costuma aparecer por volta das seis semanas.',
       trigger: AgeWindow(21, 150),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeiro-dentinho',
-      title: 'O primeiro dentinho',
       trigger: AgeWindow(100, 400),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-palavra',
-      title: 'A primeira palavra',
-      note: 'Grave a voz {nome}. Daqui a vinte anos, isso não tem preço.',
       trigger: AgeWindow(210, 540),
       suggests: EntryType.video,
     ),
     Suggestion(
       id: 'primeiros-passos',
-      title: 'Os primeiros passos',
-      note: 'Vale mais em vídeo que em foto.',
       trigger: AgeWindow(240, 550),
       suggests: EntryType.video,
     ),
     Suggestion(
       id: 'primeiro-corte-cabelo',
-      title: 'O primeiro corte de cabelo',
-      note: 'Antes e depois, se der.',
       trigger: AgeWindow(150, 730),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-viagem',
-      title: 'A primeira viagem',
       trigger: AgeWindow(60, 2000),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-praia',
-      title: 'A primeira praia',
       trigger: AgeWindow(90, 2000),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-escola',
-      title: 'O primeiro dia de escola',
       trigger: AgeWindow(540, 1825),
       suggests: EntryType.photo,
     ),
     Suggestion(
       id: 'primeira-bicicleta',
-      title: 'A primeira bicicleta',
       trigger: AgeWindow(730, 2200),
       suggests: EntryType.video,
     ),
