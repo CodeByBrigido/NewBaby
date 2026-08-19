@@ -67,7 +67,7 @@ class _EscolherFotoScreenState extends ConsumerState<EscolherFotoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Foto de perfil'),
+        title: Text(S.profilePhoto),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: _salvando

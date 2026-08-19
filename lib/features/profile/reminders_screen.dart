@@ -30,7 +30,7 @@ class RemindersScreen extends ConsumerWidget {
     final List<ScheduledReminder> agenda = ref.watch(plannedRemindersProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Lembretes')),
+      appBar: AppBar(title: Text(S.remindersSection)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
           Space.x16,
@@ -53,7 +53,7 @@ class RemindersScreen extends ConsumerWidget {
           SoftCard(
             child: SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Receber lembretes'),
+              title: Text(S.receiveReminders),
               subtitle: Text(
                 ajuste.enabled ? S.remindersFrequency : S.remindersOffNote,
               ),
@@ -94,7 +94,7 @@ class RemindersScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: Space.x24),
-            const SectionHeader(title: 'A que horas'),
+            SectionHeader(title: S.atWhatTime),
             SoftCard(
               onTap: () => _escolherHora(context, notifier, ajuste),
               child: Row(

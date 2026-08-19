@@ -196,14 +196,14 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
               ),
               const SizedBox(height: Space.x16),
               SegmentedButton<BabyGender>(
-                segments: const <ButtonSegment<BabyGender>>[
+                segments: <ButtonSegment<BabyGender>>[
                   ButtonSegment<BabyGender>(
                     value: BabyGender.girl,
-                    label: Text('Menina'),
+                    label: Text(S.girl),
                   ),
                   ButtonSegment<BabyGender>(
                     value: BabyGender.boy,
-                    label: Text('Menino'),
+                    label: Text(S.boy),
                   ),
                 ],
                 selected: <BabyGender>{?_genero},
@@ -245,7 +245,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
               TextFormField(
                 controller: _hospital,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(labelText: 'Hospital'),
+                decoration: InputDecoration(labelText: S.hospital),
               ),
               if (_erro case final String erro) ...<Widget>[
                 const SizedBox(height: Space.x16),

@@ -27,7 +27,7 @@ class MomentsScreen extends ConsumerWidget {
     final Copy copy = Copy.of(profile);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Momentos importantes')),
+      appBar: AppBar(title: Text(S.importantMoments)),
       body: ativas.isEmpty
           ? EmptyState(
               icon: Icons.auto_awesome_outlined,
@@ -202,7 +202,7 @@ class SuggestionCard extends ConsumerWidget {
                     minimumSize: const Size.fromHeight(Sizes.buttonCompact),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  child: const Text('Registrar'),
+                  child: Text(S.record),
                 ),
               ),
             ],

@@ -179,5 +179,5 @@ String etiquetaDe(ActiveInspiration ativa, Copy g) {
   final String? daPostagem = ativa.inspiration.label;
   if (daPostagem != null) return daPostagem;
   if (ativa.hasDeadline) return S.forYou;
-  return g.hasName ? 'Para ${g.name}, agora' : 'Para viver agora';
+  return g.hasName ? S.forNameNow(g.name) : S.toLiveNow;
 }

@@ -286,7 +286,7 @@ Future<DateTime?> confirmarEnvio(
           }
 
           return AlertDialog(
-            title: const Text('Confere a data?'),
+            title: Text(S.checkTheDate),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +339,7 @@ Future<DateTime?> confirmarEnvio(
                     child: FilledButton(
                       onPressed: () =>
                           Navigator.of(dialogContext).pop(escolhida),
-                      child: const Text('Guardar'),
+                      child: Text(S.keep),
                     ),
                   ),
                 ],
@@ -506,7 +506,7 @@ Future<void> _addDrawings(BuildContext context, WidgetRef ref) async {
     files: picked
         .map((XFile f) => PendingFile(path: f.path, kind: EntryType.drawing))
         .toList(),
-    message: 'Guardando o desenho...',
+    message: S.savingDrawing,
   );
 }
 
@@ -537,7 +537,7 @@ Future<void> _addVideos(BuildContext context, WidgetRef ref) async {
               PendingFile(path: f.path!, kind: EntryType.video, name: f.name),
         )
         .toList(),
-    message: 'Convertendo para 540p e enviando...',
+    message: S.convertingAndSending,
   );
 }
 
@@ -582,8 +582,8 @@ Future<void> _addDocuments(BuildContext context, WidgetRef ref) async {
       context,
       sugestao: _titleFromFileName(file.name),
       titulo: files.length == 1
-          ? 'Nome do documento'
-          : 'Nome do documento ${nomes.length + 1} de ${files.length}',
+          ? S.documentName
+          : S.documentNameOf(nomes.length + 1, files.length),
     );
     // Desistir de um nome desiste do envio inteiro. Mandar os anteriores e
     // parar no meio deixaria metade guardada sem nenhum aviso de qual metade.

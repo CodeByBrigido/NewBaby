@@ -122,7 +122,7 @@ class _InspirationArticleScreenState
           : FloatingActionButton.extended(
               onPressed: () => showAddSheet(context),
               icon: const Icon(Icons.add),
-              label: const Text('Registrar'),
+              label: Text(S.record),
             ),
     );
   }

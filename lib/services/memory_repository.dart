@@ -185,7 +185,10 @@ class MemoryRepository {
             PendingFile(path: birthPhoto.path, kind: EntryType.photo),
           ],
           date: saved.birth,
-          title: 'Primeira foto',
+          // Semeado na língua escolhida no cadastro. Vira conteúdo do
+          // acervo a partir daí, como um título que a pessoa tivesse
+          // digitado: não se retraduz depois.
+          title: S.milestoneSuggestions.first,
         );
         // Aqui não adianta gravar `photoDriveId`: `addFiles` volta antes de
         // o envio terminar, então o id ainda é vazio. O avatar é derivado
@@ -215,7 +218,7 @@ class MemoryRepository {
         ageDays: 0,
         bucketKey: bucket.key,
         bucketName: bucket.folderName,
-        title: 'Nascimento',
+        title: S.birth,
         description: profile.hospital,
         growth:
             profile.birthWeightGrams != null && profile.birthHeightCm != null

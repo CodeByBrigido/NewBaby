@@ -1,5 +1,7 @@
-import '../l10n/nomes_de_pasta.dart';
 import 'package:meta/meta.dart';
+
+import '../l10n/nomes_de_pasta.dart';
+import '../l10n/strings.dart';
 
 /// Em que unidade a pasta do Drive agrupa o conteúdo.
 enum AgeBucketUnit { week, month, year }
@@ -26,12 +28,23 @@ class AgeBucket {
   /// Último dia coberto pelo balde (inclusive).
   final DateTime end;
 
-  /// Nome da pasta no Google Drive, exatamente como aparece para o usuário.
+  /// O rótulo do balde, na língua da interface: `Semana 07`, `Mês 14`,
+  /// `Ano 3`.
+  ///
+  /// **Não é o nome da pasta no Google Drive**, apesar de já ter sido. O
+  /// Drive hoje agrupa por `Ano N / Mês MM`, montado em `caminhoNoDrive` a
+  /// partir de `NomesDePasta`, e aquele segue a língua da **cápsula**. Este
+  /// aqui é só agrupamento de tela, então segue a língua de quem está
+  /// olhando, e muda junto quando a pessoa troca o idioma.
   String get folderName => switch (unit) {
-    AgeBucketUnit.week => 'Semana ${index.toString().padLeft(2, '0')}',
-    AgeBucketUnit.month => 'Mês ${index.toString().padLeft(2, '0')}',
-    AgeBucketUnit.year => 'Ano $index',
+    AgeBucketUnit.week => S.semanaNumero(_duasCasas),
+    AgeBucketUnit.month => S.mesNumero(_duasCasas),
+    AgeBucketUnit.year => S.anoNumero('$index'),
   };
+
+  /// O índice com zero à esquerda, para os rótulos ficarem alinhados numa
+  /// lista: `Semana 07` embaixo de `Semana 12`.
+  String get _duasCasas => index.toString().padLeft(2, '0');
 
   /// Chave estável usada no Firestore e para ordenar os baldes.
   /// Ordena corretamente porque semana < mês < ano na comparação de texto.
@@ -82,15 +95,12 @@ class Age {
   /// livre de concordância, e o texto com gênero mora só na camada de
   /// interface, onde o cadastro está disponível.
   String get shortLabel {
-    if (totalDays == 0) return 'No nascimento';
-    if (totalDays < 7) return _plural(totalDays, 'dia', 'dias');
-    if (totalDays < 84) {
-      return _plural(totalWeeks, 'semana', 'semanas');
-    }
-    if (months < 12) return _plural(months, 'mês', 'meses');
-    if (monthsInYear == 0) return _plural(years, 'ano', 'anos');
-    return '${_plural(years, 'ano', 'anos')} e '
-        '${_plural(monthsInYear, 'mês', 'meses')}';
+    if (totalDays == 0) return S.atBirth;
+    if (totalDays < 7) return S.contarDias(totalDays);
+    if (totalDays < 84) return S.contarSemanas(totalWeeks);
+    if (months < 12) return S.contarMeses(months);
+    if (monthsInYear == 0) return S.contarAnos(years);
+    return _juntar(<String>[S.contarAnos(years), S.contarMeses(monthsInYear)]);
   }
 
   /// Rótulo detalhado usado na linha do tempo, como no mockup:
@@ -100,7 +110,7 @@ class Age {
   /// e do menu lateral (`3 meses e 0 dias`).
   String detailedLabel({bool alwaysShowDays = false}) {
     final List<String> partes = _partes(alwaysShowDays: alwaysShowDays);
-    if (partes.isEmpty) return 'No nascimento';
+    if (partes.isEmpty) return S.atBirth;
     return _juntar(partes);
   }
 
@@ -126,46 +136,47 @@ class Age {
   /// `1 ano e 9 meses e 14 dias`, que é exatamente o erro que saiu daqui.
   List<String> detailedLines({bool alwaysShowDays = false}) {
     final List<String> partes = _partes(alwaysShowDays: alwaysShowDays);
-    if (partes.isEmpty) return const <String>['No nascimento'];
+    if (partes.isEmpty) return <String>[S.atBirth];
     if (partes.length < 3) return <String>[_juntar(partes)];
     return <String>[
       partes.sublist(0, partes.length - 1).join(', '),
-      'e ${partes.last}',
+      '${S.conjuncaoE} ${partes.last}',
     ];
   }
 
   /// As parcelas da idade, já sem as que não valem a pena mostrar.
   List<String> _partes({required bool alwaysShowDays}) {
     if (totalDays == 0) return const <String>[];
-    if (months == 0) return <String>[_plural(totalDays, 'dia', 'dias')];
+    if (months == 0) return <String>[S.contarDias(totalDays)];
 
     final List<String> partes = <String>[
-      if (months >= 12) _plural(years, 'ano', 'anos'),
+      if (months >= 12) S.contarAnos(years),
       if (months < 12 || monthsInYear > 0)
-        _plural(months < 12 ? months : monthsInYear, 'mês', 'meses'),
+        S.contarMeses(months < 12 ? months : monthsInYear),
     ];
 
     // A partir de um ano os dias poluem a leitura, então só aparecem
     // quando explicitamente pedidos.
     final bool comDias = alwaysShowDays || (months < 12 && daysInMonth != 0);
-    if (comDias) partes.add(_plural(daysInMonth, 'dia', 'dias'));
+    if (comDias) partes.add(S.contarDias(daysInMonth));
     return partes;
   }
 
-  /// Junta as parcelas como se escreve em português.
+  /// Junta as parcelas: vírgula entre as primeiras, conjunção antes da
+  /// última.
   ///
   /// Só a última leva "e"; as anteriores se separam por vírgula. Aqui isso
   /// não é preciosismo: com três parcelas, juntar tudo com "e" produzia
   /// `1 ano e 9 meses e 14 dias`, que é a frase que aparecia na tela inicial
   /// e que se lê como erro de digitação.
+  ///
+  /// A montagem é a mesma nas seis línguas; só a conjunção muda, e ela vem
+  /// da tabela de idioma.
   static String _juntar(List<String> partes) {
     if (partes.length == 1) return partes.single;
     final String inicio = partes.sublist(0, partes.length - 1).join(', ');
-    return '$inicio e ${partes.last}';
+    return '$inicio ${S.conjuncaoE} ${partes.last}';
   }
-
-  static String _plural(int value, String one, String many) =>
-      '$value ${value == 1 ? one : many}';
 
   @override
   bool operator ==(Object other) =>

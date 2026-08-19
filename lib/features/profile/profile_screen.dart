@@ -289,7 +289,7 @@ class _FotoDePerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Trocar a foto de perfil',
+      label: S.changeProfilePhoto,
       child: InkWell(
         onTap: onTap,
         customBorder: const CircleBorder(),

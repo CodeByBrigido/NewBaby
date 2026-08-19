@@ -68,12 +68,12 @@ class AppDrawer extends ConsumerWidget {
                   ),
                   _Item(
                     icon: Icons.auto_awesome_outlined,
-                    label: 'Momentos importantes',
+                    label: S.importantMoments,
                     route: Routes.moments,
                   ),
                   _Item(
                     icon: Icons.lock_clock,
-                    label: 'Guardado para o futuro',
+                    label: S.savedForFuture,
                     route: Routes.sealed,
                   ),
                   _Item(

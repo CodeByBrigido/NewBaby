@@ -58,7 +58,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           // usado, e o ícone marcado conta qual lente está valendo.
           PopupMenuButton<Periodo>(
             icon: const Icon(Icons.calendar_view_month_outlined),
-            tooltip: 'Agrupar por',
+            tooltip: S.groupBy,
             initialValue: _periodo,
             onSelected: (Periodo p) => setState(() => _periodo = p),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<Periodo>>[

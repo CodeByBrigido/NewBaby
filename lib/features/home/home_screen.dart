@@ -101,10 +101,10 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: Space.x24),
           if (recentPhotos.isNotEmpty) ...<Widget>[
             SectionHeader(
-              title: 'Fotos recentes',
+              title: S.recentPhotos,
               trailing: TextButton(
                 onPressed: () => context.push(Routes.photos),
-                child: const Text('Ver todas'),
+                child: Text(S.seeAll),
               ),
             ),
             _RecentGrid(entries: recentPhotos),

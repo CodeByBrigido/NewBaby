@@ -24,7 +24,7 @@ class BabyInfoScreen extends ConsumerWidget {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.edit_outlined),
-            tooltip: 'Editar',
+            tooltip: S.edit,
             onPressed: () => context.push(Routes.babyInfoEdit),
           ),
         ],
@@ -72,7 +72,7 @@ class BabyInfoScreen extends ConsumerWidget {
                       ],
                       if (profile.hospital != null) ...<Widget>[
                         const Divider(height: 26),
-                        _Row(label: 'Hospital', value: profile.hospital!),
+                        _Row(label: S.hospital, value: profile.hospital!),
                       ],
                       const Divider(height: 26),
                       // Completa e numa linha só.

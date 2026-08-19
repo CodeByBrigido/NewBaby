@@ -57,8 +57,8 @@ class _InspirationSearchScreenState
           controller: _termo,
           autofocus: true,
           textInputAction: TextInputAction.search,
-          decoration: const InputDecoration(
-            hintText: 'Buscar nas postagens...',
+          decoration: InputDecoration(
+            hintText: S.searchPostsHint,
             border: InputBorder.none,
           ),
           onChanged: (_) => setState(() {}),
@@ -67,7 +67,7 @@ class _InspirationSearchScreenState
           if (procurando)
             IconButton(
               icon: const Icon(Icons.close),
-              tooltip: 'Limpar',
+              tooltip: S.clearLabel,
               onPressed: () => setState(_termo.clear),
             ),
         ],

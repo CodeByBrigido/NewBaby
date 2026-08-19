@@ -1290,10 +1290,13 @@ class TextosIt implements Textos {
   String contarSemanas(int n) => n == 1 ? '1 settimana' : '$n settimane';
 
   @override
-  String semanaNumero(int n) => 'Settimana $n';
+  String semanaNumero(String n) => 'Settimana $n';
 
   @override
-  String mesNumero(int n) => 'Mese $n';
+  String mesNumero(String n) => 'Mese $n';
+
+  @override
+  String anoNumero(String n) => 'Anno $n';
 
   @override
   String uploadWithDate(String oQue, String data) =>
@@ -1561,4 +1564,196 @@ class TextosIt implements Textos {
       'Vale per tutta l\'app e per i nomi delle cartelle su Google '
       'Drive. Le cartelle mantengono per sempre la lingua di adesso, '
       'anche se cambi quella dell\'app in seguito.';
+
+  @override
+  String get closeLabel => 'Chiudi';
+
+  @override
+  String get skip => 'Salta';
+
+  @override
+  String get createRecommendedAccount => 'Crea l\'account consigliato';
+
+  @override
+  String get useCurrentAccount => 'Usa il mio account attuale';
+
+  @override
+  String get exactlyToday => 'Oggi sono esattamente';
+
+  @override
+  String get beenAWhile => 'È passato un po\'';
+
+  @override
+  String get toLiveNow => 'Da vivere adesso';
+
+  @override
+  String forNameNow(String nome) => 'Per $nome, adesso';
+
+  @override
+  String get readThePost => 'Leggi il post';
+
+  @override
+  String get inspirationsChangeNote =>
+      'Le idee cambiano con l\'età. Torna presto.';
+
+  @override
+  String get savingEllipsis => 'Salvataggio...';
+
+  @override
+  String get viewFolder => 'Vedi la cartella';
+
+  @override
+  String get viewDrawing => 'Vedi il disegno';
+
+  @override
+  String get documentName => 'Nome del documento';
+
+  @override
+  String documentNameOf(int atual, int total) =>
+      'Nome del documento $atual di $total';
+
+  @override
+  String get keep => 'Conserva';
+
+  @override
+  String get keepForFuture => 'Conserva per il futuro';
+
+  @override
+  String get savedForFuture => 'Conservato per il futuro';
+
+  @override
+  String get opensToday => 'Si apre oggi';
+
+  @override
+  String opensOn(String data) => 'Si apre il $data';
+
+  @override
+  String sealedUntilNotice(String data) =>
+      'Conservato per essere aperto il $data.';
+
+  @override
+  String whenTurns(int anos) => 'Quando compie $anos anni';
+
+  @override
+  String opensInYearsAtAge(int anos, int idade) =>
+      'Tra ${contarAnos(anos)}, a $idade anni';
+
+  @override
+  String get writeSomethingFirst => 'Scrivi qualcosa prima di salvare.';
+
+  @override
+  String get noAppForFile => 'Nessuna app può aprire questo file.';
+
+  @override
+  String get drawingsEmptyBody =>
+      'Fotografa un disegno e resterà conservato per sempre.';
+
+  @override
+  String birthdayAgeOf(int anos, String deQuem) =>
+      '${contarAnos(anos)} $deQuem';
+
+  @override
+  String get atBirth => 'Alla nascita';
+
+  @override
+  String get conjuncaoE => 'e';
+
+  @override
+  String savedInFolder(String pasta, String conta) =>
+      'È salvato in $pasta, $conta.';
+
+  @override
+  String willBeSavedInFolder(String pasta) => 'Verrà salvato in $pasta.';
+
+  @override
+  String get renameDocument => 'Rinomina documento';
+
+  @override
+  String get rename => 'Rinomina';
+
+  @override
+  String get addedOn => 'Aggiunto il';
+
+  @override
+  String get sizeLabel => 'Dimensione';
+
+  @override
+  String get fewRecords => 'Pochi dati';
+
+  @override
+  String get recentPhotos => 'Foto recenti';
+
+  @override
+  String get seeAll => 'Vedi tutte';
+
+  @override
+  String get record => 'Registra';
+
+  @override
+  String get searchPosts => 'Cerca nei post';
+
+  @override
+  String get searchPostsHint => 'Cerca nei post...';
+
+  @override
+  String get clearLabel => 'Cancella';
+
+  @override
+  String get tryAgainShortly => 'Riprova ad aprirlo tra poco.';
+
+  @override
+  String get write => 'Scrivi';
+
+  @override
+  String get importantMoments => 'Momenti importanti';
+
+  @override
+  String get hospital => 'Ospedale';
+
+  @override
+  String get girl => 'Bambina';
+
+  @override
+  String get boy => 'Bambino';
+
+  @override
+  String get profilePhoto => 'Foto del profilo';
+
+  @override
+  String get changeProfilePhoto => 'Cambia la foto del profilo';
+
+  @override
+  String get receiveReminders => 'Ricevere promemoria';
+
+  @override
+  String get atWhatTime => 'A che ora';
+
+  @override
+  String get chooseAnotherDate => 'Scegli un\'altra data';
+
+  @override
+  String get removeSeal => 'Togli il sigillo';
+
+  @override
+  String get checkTheDate => 'La data è giusta?';
+
+  @override
+  String get savingDrawing => 'Salvataggio del disegno...';
+
+  @override
+  String get convertingAndSending => 'Conversione in 540p e invio...';
+
+  @override
+  String get viewDocument => 'Vedi il documento';
+
+  @override
+  String get viewDocuments => 'Vedi i documenti';
+
+  @override
+  String get groupBy => 'Raggruppa per';
+
+  @override
+  String umDoTipo(String tipo) => 'Un $tipo';
+  @override
+  String get titleHintExample => 'Primo sorriso';
 }
