@@ -265,6 +265,24 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       '• Reino Unido: UK GDPR e Data Protection Act 2018, com os mesmos '
           'artigos.',
       '• Brasil: LGPD, Art. 18.',
+      '• Argentina: Ley 25.326, com uma reforma em andamento. Argentina é '
+          'um dos poucos países fora da Europa com decisão de adequação da '
+          'União Europeia, o que diz bastante sobre o nível de proteção que '
+          'a lei de lá já exige.',
+      '• Uruguai: Ley 18.331, também com adequação da União Europeia.',
+      '• Chile: Ley 19.628, sendo substituída pela Ley 21.719, aprovada em '
+          'dezembro de 2024 e inspirada no GDPR, com entrada em vigor '
+          'progressiva.',
+      '• Colômbia: Ley 1581 de 2012 (Habeas Data), com regra própria e mais '
+          'exigente para dado de criança: o tratamento precisa respeitar o '
+          'melhor interesse dela, e não só o consentimento do responsável. É '
+          'um padrão mais alto que o nosso desenho já atende, porque o único '
+          'propósito aqui é a própria cápsula da criança, sem exposição a '
+          'terceiro nenhum.',
+      '• Peru: Ley 29733. Equador: Lei Orgânica de Proteção de Dados '
+          'Pessoais (LOPDP), de 2021.',
+      '• Nos demais países da América do Sul, sem lei abrangente própria '
+          'ainda: os mesmos direitos, pela nossa política.',
       '• Estados Unidos: a Califórnia tem a lei mais exigente (CCPA e CPRA, '
           'ver a seção seguinte), e uma lista crescente de outros estados '
           'como Virgínia, Colorado, Connecticut e Utah tem leis parecidas, '
@@ -363,10 +381,10 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
           'navegando por conta própria.',
       'Os dados da criança que existem aqui foram digitados pelo responsável '
           'dela, com o propósito único de montar a cápsula que um dia será '
-          'entregue à própria criança. Sob o GDPR isso é tratamento de dado '
-          'de criança feito por quem tem a responsabilidade parental, Art. '
-          '8; sob a LGPD, Art. 14; sob a COPPA, tratamento com consentimento '
-          'verificável do responsável.',
+          'entregue à própria criança, sob a isenção de uso pessoal ou '
+          'doméstico descrita na seção "Seu papel e o nosso". Sob a LGPD, '
+          'essa mesma ideia está no Art. 14; sob a COPPA, é tratamento com '
+          'consentimento verificável do responsável.',
       'Quando a criança crescer e assumir a conta, ela passa a ser a titular '
           'desses dados e a exercer todos os direitos da seção acima '
           'diretamente, sem precisar de nós para nada.',
@@ -403,6 +421,12 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
       '• União Europeia: você pode preferir a autoridade do seu próprio '
           'Estado-membro, e ela encaminha. A lista está em edpb.europa.eu',
       '• Brasil: ANPD, gov.br/anpd',
+      '• Argentina: Agencia de Acceso a la Información Pública (AAIP).',
+      '• Uruguai: Unidad Reguladora y de Control de Datos Personales '
+          '(URCDP).',
+      '• Chile: a nova Agencia de Protección de Datos Personales, à medida '
+          'que a Ley 21.719 entrar em vigor.',
+      '• Colômbia: Superintendencia de Industria y Comercio (SIC).',
       '• Reino Unido: ICO, ico.org.uk',
       '• Suíça: PFPDT. Canadá: OPC. Austrália: OAIC.',
       '• Califórnia: California Privacy Protection Agency, cppa.ca.gov, ou o '

@@ -169,6 +169,48 @@ void main() {
     });
   });
 
+  group('a América do Sul além do Brasil', () {
+    test(
+      'Argentina, Uruguai, Chile, Colômbia, Peru e Equador aparecem nomeados',
+      () {
+        // Antes só o Brasil estava nomeado, e "cobrir a América do Sul" com um
+        // continente inteiro escondido atrás de "em qualquer outro lugar" não
+        // é a mesma coisa que nomear a lei e a autoridade de cada país.
+        for (final String pais in <String>[
+          'Argentina',
+          'Uruguai',
+          'Chile',
+          'Colômbia',
+          'Peru',
+          'Equador',
+        ]) {
+          expect(texto, contains(pais), reason: pais);
+        }
+      },
+    );
+
+    test('cada lei citada existe de verdade, pelo nome', () {
+      expect(texto, contains('Ley 25.326'));
+      expect(texto, contains('Ley 18.331'));
+      expect(texto, contains('Ley 21.719'));
+      expect(texto, contains('Ley 1581'));
+      expect(texto, contains('Ley 29733'));
+    });
+
+    test('a autoridade de cada um está na seção de reclamação', () {
+      expect(texto, contains('AAIP'));
+      expect(texto, contains('URCDP'));
+      expect(texto, contains('SIC'));
+    });
+
+    test('a exigência mais rígida da região, a colombiana, é admitida', () {
+      // A Colômbia exige mais que consentimento: exige que o tratamento
+      // respeite o melhor interesse da criança. Não é uma brecha para
+      // esconder, é um padrão para admitir e mostrar que já é cumprido.
+      expect(texto, contains('melhor interesse dela'));
+    });
+  });
+
   group('o pagamento', () {
     test('diz que quem cobra é o Google Play', () {
       expect(texto, contains('Google Play'));
