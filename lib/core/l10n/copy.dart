@@ -1,6 +1,10 @@
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
+import 'copy_de.dart';
 import 'copy_en.dart';
+import 'copy_es.dart';
+import 'copy_fr.dart';
+import 'copy_it.dart';
 import 'copy_pt.dart';
 import 'strings.dart';
 
@@ -22,8 +26,9 @@ import 'strings.dart';
 /// A base comum: quem é a criança, e nada mais.
 ///
 /// As frases moram nas subclasses, uma por língua, porque a diferença entre
-/// elas não é vocabulário: o português concorda em gênero e o inglês não, e
-/// isso muda a **forma** da frase, não só as palavras dela.
+/// elas não é vocabulário: são seis gramáticas diferentes de concordância,
+/// artigo e posse, e isso muda a **forma** da frase, não só as palavras
+/// dela.
 abstract class Copy {
   const Copy(this._name, this._gender);
 
@@ -32,8 +37,14 @@ abstract class Copy {
       Copy.para(profile?.firstName, profile?.gender);
 
   /// A mesma coisa, a partir das partes soltas. Os testes usam isto.
-  factory Copy.para(String? nome, BabyGender? sexo) =>
-      emIngles ? CopyEn(nome, sexo) : CopyPt(nome, sexo);
+  factory Copy.para(String? nome, BabyGender? sexo) => switch (codigoAtivo) {
+    'en' => CopyEn(nome, sexo),
+    'es' => CopyEs(nome, sexo),
+    'fr' => CopyFr(nome, sexo),
+    'de' => CopyDe(nome, sexo),
+    'it' => CopyIt(nome, sexo),
+    _ => CopyPt(nome, sexo),
+  };
 
   /// Antes de o cadastro existir.
   ///
@@ -53,10 +64,11 @@ abstract class Copy {
 
   // ------------------------------------------------------------ concordância
 
-  /// `a Maria` / `o Pedro` / `Maria` / `Maria` em inglês.
+  /// `a Maria` / `o Pedro` / `Maria` nas línguas que não antepõem artigo a
+  /// nome próprio.
   String get theName;
 
-  /// `da Maria` / `do Pedro` / `Maria's`
+  /// `da Maria` / `do Pedro` / `Maria's` / `de María`
   String get ofName;
 
   /// `para a Maria` / `for Maria`
@@ -92,6 +104,15 @@ abstract class Copy {
   String get driveOwner;
 
   String get ofTheChild;
+
+  /// A frase inteira "no Google Drive da sua filha" / "in your daughter's
+  /// Google Drive". Existe porque a ordem muda de língua para língua: o
+  /// português põe "no Google Drive" antes do dono, e o inglês põe o dono
+  /// antes do "Google Drive". Compor isso fora daqui, concatenando um
+  /// prefixo traduzido com [ofTheChild], funcionava por acaso em português e
+  /// quebrava em qualquer língua que inverte a ordem - inclusive o inglês,
+  /// que já estava assim.
+  String get childsGoogleDrive;
 
   String get deleteConfirmTitle;
 

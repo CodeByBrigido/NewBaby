@@ -89,6 +89,9 @@ class CopyPt extends Copy {
   };
 
   @override
+  String get childsGoogleDrive => 'no Google Drive $ofTheChild';
+
+  @override
   String get deleteConfirmTitle =>
       hasName ? 'Apagar a cápsula $ofName?' : 'Apagar a conta?';
 

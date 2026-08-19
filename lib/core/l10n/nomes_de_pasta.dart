@@ -75,6 +75,60 @@ class NomesDePasta {
     mes: 'Month',
   );
 
+  static const NomesDePasta es = NomesDePasta(
+    codigo: 'es',
+    raiz: 'Mi Bebé - Cápsula del Tiempo',
+    fotos: 'Fotos',
+    videos: 'Videos',
+    cartas: 'Cartas',
+    desenhos: 'Dibujos',
+    documentos: 'Documentos',
+    crescimento: 'Crecimiento',
+    ano: 'Año',
+    mes: 'Mes',
+  );
+
+  static const NomesDePasta fr = NomesDePasta(
+    codigo: 'fr',
+    raiz: 'Mon Bébé - Capsule Temporelle',
+    fotos: 'Photos',
+    videos: 'Vidéos',
+    cartas: 'Lettres',
+    desenhos: 'Dessins',
+    documentos: 'Documents',
+    crescimento: 'Croissance',
+    ano: 'Année',
+    mes: 'Mois',
+  );
+
+  /// Nomeado por extenso, e não `de`, porque esse nome colidiria com o
+  /// método `de(codigo)` logo abaixo - os dois vivem na mesma classe.
+  static const NomesDePasta alemao = NomesDePasta(
+    codigo: 'de',
+    raiz: 'Mein Baby - Zeitkapsel',
+    fotos: 'Fotos',
+    videos: 'Videos',
+    cartas: 'Briefe',
+    desenhos: 'Zeichnungen',
+    documentos: 'Dokumente',
+    crescimento: 'Wachstum',
+    ano: 'Jahr',
+    mes: 'Monat',
+  );
+
+  static const NomesDePasta it = NomesDePasta(
+    codigo: 'it',
+    raiz: 'Mio Bebè - Capsula del Tempo',
+    fotos: 'Foto',
+    videos: 'Video',
+    cartas: 'Lettere',
+    desenhos: 'Disegni',
+    documentos: 'Documenti',
+    crescimento: 'Crescita',
+    ano: 'Anno',
+    mes: 'Mese',
+  );
+
   /// Todas as convenções que já existiram.
   ///
   /// A busca de emergência percorre esta lista inteira, e é por isso que ela
@@ -82,7 +136,14 @@ class NomesDePasta {
   /// aplicativo aberto em português. Uma língua nova entra aqui **e nunca
   /// sai**, mesmo que deixe de ser oferecida, porque as pastas criadas com
   /// ela continuam no Drive de alguém.
-  static const List<NomesDePasta> todas = <NomesDePasta>[pt, en];
+  static const List<NomesDePasta> todas = <NomesDePasta>[
+    pt,
+    en,
+    es,
+    fr,
+    alemao,
+    it,
+  ];
 
   /// A convenção de um código guardado, com o português como piso.
   ///

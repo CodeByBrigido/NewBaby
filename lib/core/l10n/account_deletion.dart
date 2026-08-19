@@ -11,7 +11,11 @@
 /// com base nela.
 library;
 
+import 'account_deletion_de.dart';
 import 'account_deletion_en.dart';
+import 'account_deletion_es.dart';
+import 'account_deletion_fr.dart';
+import 'account_deletion_it.dart';
 import 'strings.dart';
 
 import 'privacy_policy.dart';
@@ -265,8 +269,14 @@ const List<PrivacySection> accountDeletionPagePt = <PrivacySection>[
 /// O nome de antes vira este getter, para as telas continuarem escrevendo
 /// `accountDeletionPage` sem saber que agora há duas versões. Deixou de ser `const`
 /// porque a escolha é feita em tempo de execução.
-List<PrivacySection> get accountDeletionPage =>
-    emIngles ? accountDeletionPageEn : accountDeletionPagePt;
+List<PrivacySection> get accountDeletionPage => switch (codigoAtivo) {
+  'en' => accountDeletionPageEn,
+  'es' => accountDeletionPageEs,
+  'fr' => accountDeletionPageFr,
+  'de' => accountDeletionPageDe,
+  'it' => accountDeletionPageIt,
+  _ => accountDeletionPagePt,
+};
 
 /// O arquivo público, gerado deste mesmo texto.
 String exclusaoEmMarkdown() {

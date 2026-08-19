@@ -15,10 +15,13 @@ import 'package:meu_bebe/core/l10n/pagina_web.dart';
 void main() {
   final Directory pasta = Directory('docs')..createSync(recursive: true);
 
-  // A versão inglesa mora num nível abaixo. Quem revisa o aplicativo na loja
-  // raramente lê português, e uma política que o revisor não consegue ler é
-  // uma política que não cumpre a exigência.
-  Directory('${pasta.path}/en').createSync(recursive: true);
+  // As outras cinco línguas moram um nível abaixo, cada uma na própria
+  // pasta. Quem revisa o aplicativo na loja raramente lê português, e uma
+  // política que o revisor não consegue ler é uma política que não cumpre a
+  // exigência.
+  for (final String lingua in <String>['en', 'es', 'fr', 'de', 'it']) {
+    Directory('${pasta.path}/$lingua').createSync(recursive: true);
+  }
 
   final Map<String, String> paginas = <String, String>{
     'index.html': indiceEmHtml(),
@@ -29,6 +32,22 @@ void main() {
     'en/privacy.html': privacidadeEmHtmlIngles(),
     'en/terms.html': termosEmHtmlIngles(),
     'en/deletion.html': exclusaoEmHtmlIngles(),
+    'es/index.html': indiceEmHtmlEspanhol(),
+    'es/privacidad.html': privacidadeEmHtmlEspanhol(),
+    'es/terminos.html': termosEmHtmlEspanhol(),
+    'es/eliminacion.html': exclusaoEmHtmlEspanhol(),
+    'fr/index.html': indiceEmHtmlFrances(),
+    'fr/confidentialite.html': privacidadeEmHtmlFrances(),
+    'fr/conditions.html': termosEmHtmlFrances(),
+    'fr/suppression.html': exclusaoEmHtmlFrances(),
+    'de/index.html': indiceEmHtmlAlemao(),
+    'de/datenschutz.html': privacidadeEmHtmlAlemao(),
+    'de/nutzungsbedingungen.html': termosEmHtmlAlemao(),
+    'de/kontoloeschung.html': exclusaoEmHtmlAlemao(),
+    'it/index.html': indiceEmHtmlItaliano(),
+    'it/privacy.html': privacidadeEmHtmlItaliano(),
+    'it/termini.html': termosEmHtmlItaliano(),
+    'it/eliminazione.html': exclusaoEmHtmlItaliano(),
   };
 
   paginas.forEach((String nome, String conteudo) {

@@ -155,7 +155,7 @@ class MemoryRepository {
     // criou em inglês continua com pastas em inglês mesmo lendo o aplicativo
     // em português.
     final NomesDePasta nomes = NomesDePasta.de(
-      profile.idiomaDasPastas ?? (emIngles ? 'en' : 'pt'),
+      profile.idiomaDasPastas ?? codigoAtivo,
     );
     final String rootId = await drive.ensureRootStructure(
       knownRootId: profile.rootFolderId,

@@ -8,12 +8,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Os idiomas que o aplicativo oferece.
 ///
-/// A lista é curta de propósito. Cada idioma novo é um documento jurídico a
-/// mais para manter em dia (termos, política e exclusão), e um texto legal
-/// desatualizado é pior que um idioma a menos.
+/// A ordem aqui **é** a ordem do seletor: as telas de configurações e de
+/// cadastro percorrem `Idioma.values` direto, sem lista própria. Trocar a
+/// ordem declarada troca a ordem que a pessoa vê, e é por isso que ela segue
+/// exatamente o pedido: inglês, português, espanhol, francês, alemão,
+/// italiano.
+///
+/// Cada idioma novo é um documento jurídico a mais para manter em dia
+/// (termos, política e exclusão) em cada uma das seis línguas, e um texto
+/// legal desatualizado é pior que um idioma a menos. A garantia de que
+/// nenhuma fica pela metade é o compilador: `TextosEs implements Textos` não
+/// compila com um texto faltando.
 enum Idioma {
+  ingles('en', 'English', 'English'),
   portugues('pt', 'Português', 'Português (Brasil)'),
-  ingles('en', 'English', 'English');
+  espanhol('es', 'Español', 'Español'),
+  frances('fr', 'Français', 'Français'),
+  alemao('de', 'Deutsch', 'Deutsch'),
+  italiano('it', 'Italiano', 'Italiano');
 
   const Idioma(this.codigo, this.nome, this.descricao);
 
@@ -35,6 +47,10 @@ enum Idioma {
   Locale get localidade => switch (this) {
     Idioma.portugues => const Locale('pt', 'BR'),
     Idioma.ingles => const Locale('en'),
+    Idioma.espanhol => const Locale('es'),
+    Idioma.frances => const Locale('fr'),
+    Idioma.alemao => const Locale('de'),
+    Idioma.italiano => const Locale('it'),
   };
 
   static Idioma deCodigo(String? codigo) => values.firstWhere(
@@ -47,11 +63,6 @@ enum Idioma {
 ///
 /// Fica no aparelho e não na conta, como as demais preferências de interface:
 /// é a língua de quem está segurando o telefone, e não um dado da criança.
-///
-/// **Hoje ele só guarda a escolha.** A interface e os documentos continuam em
-/// português enquanto a tradução não existir, e a tela diz isso com todas as
-/// letras. Guardar desde já é o que faz a tradução, quando chegar, encontrar
-/// a preferência de cada pessoa já respondida em vez de perguntar de novo.
 final NotifierProvider<IdiomaNotifier, Idioma> idiomaProvider =
     NotifierProvider<IdiomaNotifier, Idioma>(IdiomaNotifier.new);
 

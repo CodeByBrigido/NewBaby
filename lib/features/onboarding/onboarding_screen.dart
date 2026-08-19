@@ -534,27 +534,43 @@ class _EscolhaDeIdioma extends ConsumerWidget {
     final Idioma atual = ref.watch(idiomaProvider);
     final TextTheme text = Theme.of(context).textTheme;
 
+    // Uma linha só, com seis pílulas espremidas, ficava ilegível: cabia bem
+    // com duas línguas, mas não com seis. Duas colunas mantêm cada botão
+    // largo o bastante para o nome da língua, e o número de linhas cresce
+    // sozinho se um dia houver uma sétima.
+    final List<List<Idioma>> linhas = <List<Idioma>>[
+      for (int i = 0; i < Idioma.values.length; i += 2)
+        Idioma.values.skip(i).take(2).toList(),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(S.languageStepTitle, style: text.titleSmall),
         const SizedBox(height: Space.x12),
-        Row(
-          children: <Widget>[
-            for (final Idioma idioma in Idioma.values) ...<Widget>[
-              if (idioma != Idioma.values.first)
-                const SizedBox(width: Space.x8),
-              Expanded(
-                child: _BotaoDeIdioma(
-                  idioma: idioma,
-                  escolhido: idioma == atual,
-                  onTap: () =>
-                      ref.read(idiomaProvider.notifier).escolher(idioma),
+        for (final List<Idioma> linha in linhas) ...<Widget>[
+          if (linha != linhas.first) const SizedBox(height: Space.x8),
+          Row(
+            children: <Widget>[
+              for (final Idioma idioma in linha) ...<Widget>[
+                if (idioma != linha.first) const SizedBox(width: Space.x8),
+                Expanded(
+                  child: _BotaoDeIdioma(
+                    idioma: idioma,
+                    escolhido: idioma == atual,
+                    onTap: () =>
+                        ref.read(idiomaProvider.notifier).escolher(idioma),
+                  ),
                 ),
-              ),
+              ],
+              // A última linha, se tiver um idioma só, mantém a largura da
+              // própria pílula em vez de esticar até a borda: uma pílula só
+              // ocupando a fileira inteira pareceria um botão diferente dos
+              // outros, maior sem motivo.
+              if (linha.length == 1) const Spacer(),
             ],
-          ],
-        ),
+          ),
+        ],
         const SizedBox(height: Space.x12),
         Text(
           S.languageStepNote,

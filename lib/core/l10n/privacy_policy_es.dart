@@ -1,0 +1,474 @@
+import 'privacy_policy.dart';
+
+/// La política de privacidad, en español.
+///
+/// Traducida de manera fiel a partir del portugués, sección por sección y
+/// párrafo por párrafo, para que ningún compromiso quede dicho con menos
+/// fuerza en una lengua que en otra. Donde el portugués citaba una ley
+/// brasileña específica, el español mantiene la misma referencia: el
+/// derecho descrito es el mismo en todo el mundo, solo cambia el nombre de
+/// la ley local.
+/// La fecha mostrada en la página pública.
+const String privacyPolicyDateEs = '18 de agosto de 2026';
+
+const List<PrivacySection> privacyPolicyEs = <PrivacySection>[
+  PrivacySection(
+    title: 'En resumen',
+    body: <String>[
+      'Las fotos, los videos y los documentos nunca pasan por un servidor '
+          'nuestro: van directo de tu dispositivo al Google Drive de tu '
+          'propia cuenta.',
+      'El aplicativo guarda en el servidor solo un índice de texto, que '
+          'es lo que hace funcionar la línea de tiempo y la búsqueda.',
+      'No hay publicidad, rastreo, perfilamiento ni venta de datos.',
+      'La suscripción Premium la cobra Google Play. Ningún dato de pago '
+          'pasa por nosotros.',
+      'Puedes borrar todo esto en cualquier momento, dentro del '
+          'aplicativo, sin tener que pedírselo a nadie.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Quién es el responsable',
+    body: <String>[
+      'Responsable del tratamiento de los datos personales (controlador, '
+          'en los términos del Art. 4(7) del RGPD): $privacyController, '
+          'persona física, desarrollador individual, establecido en Irlanda.',
+      'Como el responsable del aplicativo está establecido en Irlanda, el '
+          'RGPD se aplica a los tratamientos comprendidos en su ámbito de '
+          'aplicación. Cuando sea aplicable el mecanismo de ventanilla única '
+          'para tratamientos transfronterizos, la autoridad de control '
+          'principal se determinará conforme al Art. 56 del RGPD. También '
+          'puedes presentar una reclamación ante la autoridad de protección '
+          'de datos del país donde resides o trabajas, o del lugar donde '
+          'ocurrió la presunta infracción.',
+      'Contacto: $privacyEmail',
+      'Toda solicitud relativa a datos personales puede enviarse a esa '
+          'dirección. Respondemos sin demora indebida y, por regla general, '
+          'en el plazo de un mes, conforme al Art. 12(3) del RGPD. Cuando la '
+          'legislación permita una prórroga de ese plazo, te informaremos '
+          'dentro del primer mes y explicaremos los motivos.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Tu papel y el nuestro',
+    body: <String>[
+      'Cuando una persona utiliza el aplicativo exclusivamente para '
+          'registrar y conservar recuerdos de su propia familia, ese uso '
+          'puede encuadrarse en la excepción de actividad exclusivamente '
+          'personal o doméstica prevista en el Art. 2(2)(c) del RGPD. Esa '
+          'excepción se refiere a la aplicación del RGPD al tratamiento '
+          'realizado por la propia persona y no modifica las '
+          'responsabilidades que puedan corresponder al aplicativo respecto '
+          'de los datos personales que él mismo trata.',
+      'El aplicativo está pensado para ese uso: personal y familiar, sin '
+          'fin comercial. Usarlo para registrar niños que no son tuyos ni '
+          'están bajo tu responsabilidad legal, o para ofrecer este servicio '
+          'a terceros, se sale de lo que cubren los planes.',
+      'Tenemos responsabilidades distintas según el dato y el servicio '
+          'involucrado. Para el índice que mantenemos para operar el '
+          'aplicativo, como el registro, la línea de tiempo y el texto de '
+          'las cartas, somos responsables de definir las finalidades y los '
+          'medios esenciales de ese tratamiento y, cuando el RGPD sea '
+          'aplicable, actuamos como responsable de esos datos. Para los '
+          'archivos enviados directamente a la cuenta de Google Drive del '
+          'usuario, el aplicativo no recibe una copia de esos archivos ni '
+          'los almacena en servidores propios. El uso de Google Drive '
+          'también está sujeto a los términos y a la política de privacidad '
+          'de Google. Nuestro aplicativo actúa solo dentro de los permisos '
+          'concedidos por el usuario.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Qué queda en tu Google Drive',
+    body: <String>[
+      'Al iniciar sesión, autorizas al aplicativo a usar el Google Drive '
+          'de tu cuenta con el alcance drive.file. Ese alcance da acceso '
+          'solo a los archivos que el propio aplicativo crea. No permite '
+          'leer, listar ni modificar ningún otro archivo de tu Drive, y esa '
+          'limitación la impone Google, no nosotros.',
+      'Quedan en tu Drive, dentro de la carpeta "Meu Bebê - Cápsula do '
+          'Tempo": las fotos, los videos, los dibujos y los documentos que '
+          'envíes.',
+      'También quedan dos archivos de texto, escritos por el aplicativo: '
+          'uno con el registro y las mediciones de crecimiento, y uno por '
+          'cada carta que escribas. Existen para que esta colección siga '
+          'teniendo sentido sin el aplicativo: una foto se explica sola en '
+          'una carpeta, una carta y un registro de peso no.',
+      'Esos archivos son tuyos. No tenemos copia de ellos, no podemos '
+          'verlos y no tenemos ningún medio técnico de acceder a ellos fuera '
+          'del aplicativo en uso en tu sesión.',
+      'Las coordenadas GPS se eliminan de toda foto antes del envío.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Qué queda en nuestro índice',
+    body: <String>[
+      'El índice queda en Cloud Firestore, servicio de Google Cloud. '
+          'Esta es la lista completa de lo que guarda:',
+      '• Del registro: nombre del niño o la niña, fecha de nacimiento, '
+          'sexo indicado, peso y altura al nacer, nombre del hospital si se '
+          'completó, y el identificador de la carpeta raíz en tu Drive.',
+      '• Del plan: un único valor, sí o no, que dice si la cuenta tiene '
+          'la suscripción Premium. Nada más sobre el pago pasa por aquí.',
+      '• De cada recuerdo: tipo, fecha, edad en días, título, descripción '
+          'y, en el caso de las cartas, el texto íntegro de la carta; peso y '
+          'altura de los registros de crecimiento; la fecha de apertura, '
+          'cuando el recuerdo está precintado; y el identificador, nombre, '
+          'tipo y tamaño de cada archivo en tu Drive.',
+      '• De apoyo: la caché de los identificadores de las carpetas '
+          'creadas en el Drive y el progreso de las sugerencias que '
+          'marcaste.',
+      '• De la autenticación: Firebase Authentication guarda tu '
+          'identificador de usuario, tu email, tu nombre y la dirección de '
+          'tu foto de perfil de Google.',
+      'Cada índice está aislado por cuenta. Reglas de seguridad en el '
+          'servidor impiden que cualquier cuenta lea o escriba los datos de '
+          'otra, y esas reglas se verifican con pruebas automatizadas en '
+          'cada cambio del aplicativo.',
+    ],
+  ),
+  PrivacySection(
+    title: 'El pago de la suscripción',
+    body: <String>[
+      'Quien cobra la suscripción Premium es Google Play, y no nosotros. '
+          'La tarjeta, la dirección de facturación, el comprobante y el '
+          'historial de compras quedan con ellos, bajo su política de '
+          'privacidad.',
+      'Nosotros no recibimos, no vemos y no guardamos ningún dato de '
+          'pago. De este lado queda solo el valor de sí o no descrito '
+          'arriba, en el índice de esa cuenta, que es lo que le dice al '
+          'aplicativo si debe permitir guardar cartas, dibujos, documentos y '
+          'registros de crecimiento.',
+      'Como la suscripción vale por cuenta, y cada niño tiene su propia '
+          'cuenta de Google, ese valor nunca se compara entre cuentas ni se '
+          'usa para vincular una cuenta con otra.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Lo que nunca sale del dispositivo',
+    body: <String>[
+      'Los ajustes de recordatorios, la marca de que la presentación '
+          'inicial ya se vio, las inspiraciones ya vistas y leídas, la '
+          'preferencia de bloqueo por biometría y la caché de miniaturas de '
+          'las fotos.',
+      'Nada de esto se envía a ningún lugar. Sale del dispositivo cuando '
+          'cierras sesión o desinstalas el aplicativo.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Lo que no se recopila',
+    body: <String>[
+      'Esta es una lista cerrada:',
+      '• Ningún dato de uso, estadística ni analítica. El aplicativo no '
+          'tiene Google Analytics, Firebase Analytics, Crashlytics ni '
+          'ninguna herramienta equivalente.',
+      '• Ninguna publicidad ni identificador de anuncios.',
+      '• Ningún perfilamiento ni ninguna decisión automatizada sobre ti.',
+      '• Ninguna ubicación, contactos, agenda, micrófono en segundo plano '
+          'ni historial de navegación.',
+      '• Ninguna venta, alquiler ni intercambio de datos con terceros, en '
+          'ninguna circunstancia.',
+      '• Ninguna notificación proveniente de un servidor. Los '
+          'recordatorios se calculan y programan dentro del propio '
+          'dispositivo.',
+      'Si esto cambia en alguna versión futura, esta política cambia '
+          'antes, y el aviso aparece en el aplicativo.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Con quién se comparten los datos',
+    body: <String>[
+      'Los datos se comparten o procesan por servicios de Google '
+          'necesarios para determinadas funciones del aplicativo:',
+      '• Google Sign-In, para iniciar sesión en tu cuenta.',
+      '• Firebase Authentication, para mantener la sesión.',
+      '• Cloud Firestore, para guardar el índice.',
+      '• Google Drive, para guardar tus archivos en tu propia cuenta.',
+      '• Google Play, para cobrar la suscripción Premium e informar si '
+          'está activa, para quien se suscriba.',
+      'No hay ningún otro destinatario elegido por nosotros. No usamos '
+          'redes de anuncios, corredores de datos ni servicios de análisis.',
+      'La relación jurídica aplicable a cada servicio de Google depende '
+          'del producto utilizado, de la configuración de la cuenta y de los '
+          'términos contractuales correspondientes. Cuando Google actúe como '
+          'encargado (processor) respecto del tratamiento que realizamos, '
+          'ese tratamiento se regirá por el instrumento contractual '
+          'aplicable, incluidos los términos de protección de datos de '
+          'Google Cloud/Firebase. En los servicios donde Google actúe en '
+          'nombre propio o directamente frente al usuario, se aplican '
+          'también los términos y la política de privacidad de Google.',
+      'El tratamiento por parte de Google se describe en su política de '
+          'privacidad: policies.google.com/privacy',
+    ],
+  ),
+  PrivacySection(
+    title: 'Base legal de cada tratamiento',
+    body: <String>[
+      '• Registro, índice, autenticación y funcionamiento esencial de la '
+          'cuenta: ejecución del contrato, Art. 6(1)(b) del RGPD, cuando ese '
+          'tratamiento sea necesario para prestar la funcionalidad '
+          'solicitada.',
+      '• Notificaciones de recordatorio: consentimiento, Art. 6(1)(a), '
+          'revocable en cualquier momento en Configuración.',
+      '• Registro del plan contratado: ejecución del contrato, Art. '
+          '6(1)(b), en la medida necesaria para administrar la suscripción y '
+          'habilitar las funciones correspondientes.',
+      '• Envío y almacenamiento de archivos en Google Drive: operación '
+          'solicitada por el usuario y realizada mediante la autorización '
+          'concedida a Google Drive, sin que el aplicativo mantenga una '
+          'copia propia de esos archivos.',
+      'No usamos el interés legítimo como base para los tratamientos '
+          'descritos en esta política. Si una obligación legal exige '
+          'conservar determinados datos después de eliminar la cuenta, esos '
+          'datos podrán mantenerse por el período exigido por la ley.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Datos de un niño o una niña',
+    body: <String>[
+      'El aplicativo guarda datos sobre un niño o una niña, pero no está '
+          'dirigido a menores ni es usado por ellos. Quien instala, registra '
+          'y envía contenido es la madre, el padre o el responsable legal, '
+          'mayor de 18 años.',
+      'Al registrar a un niño o una niña, declaras ser su responsable '
+          'legal y tener autoridad para proporcionar esos datos.',
+      'No hay registro público, perfil visible, red social, comentarios, '
+          'mensajes entre usuarios ni ninguna forma de exposición del '
+          'contenido a terceros. La cápsula es privada por diseño: los '
+          'archivos están en el Drive de quien los envió y el índice está '
+          'aislado por cuenta.',
+      'Cuando el niño o la niña alcance la mayoría de edad, podrá ejercer '
+          'directamente los derechos aplicables a sus datos personales, '
+          'conforme a la legislación vigente. El aplicativo está diseñado '
+          'para facilitar esa continuidad: los archivos quedan en la cuenta '
+          'de Google utilizada por la familia y pueden ponerse a '
+          'disposición de la propia persona, sin depender de una '
+          'transferencia de archivos almacenados en nuestros servidores.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Por cuánto tiempo, y cómo borrar',
+    body: <String>[
+      'Los datos permanecen mientras la cuenta exista. No hay un plazo '
+          'automático de descarte mientras la cuenta siga activa, porque la '
+          'finalidad del producto es precisamente la conservación a largo '
+          'plazo. Cuando exista una obligación legal de retención u otra '
+          'base jurídica que exija conservar un dato determinado, podrá '
+          'mantenerse por el período necesario.',
+      'En Perfil, "Eliminar mi cuenta y mis datos", borras todo el índice '
+          'en nuestro servidor, recorriendo cada colección, con '
+          'confirmación en el servidor y no en la caché local; tu cuenta de '
+          'autenticación; y todos los datos guardados en el dispositivo.',
+      'En la misma pantalla eliges qué hacer con la carpeta de Google '
+          'Drive. Por defecto se mantiene, porque los archivos se almacenan '
+          'directamente en tu cuenta y el aplicativo no conserva una copia '
+          'propia de ellos. Si el permiso y las API de Google disponibles en '
+          'ese momento lo permiten, puedes solicitar que el aplicativo mueva '
+          'la carpeta a la papelera de tu Drive. La eliminación definitiva '
+          'de los archivos dentro de Google Drive depende también de las '
+          'reglas y los mecanismos de eliminación del propio Google.',
+      'La eliminación del índice se inicia de inmediato y, una vez '
+          'completada, no puede deshacerse desde el aplicativo. No '
+          'mantenemos copia de seguridad operativa del índice para '
+          'restaurar una cuenta eliminada. Los datos que deban conservarse '
+          'por obligación legal podrán permanecer por el período exigido y '
+          'estarán protegidos frente a usos incompatibles con esa '
+          'finalidad.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Tus derechos, dondequiera que vivas',
+    body: <String>[
+      'El nombre de la ley cambia de país a país. Los derechos, en la '
+          'práctica, son los mismos, y te los damos todos a ti y a cualquier '
+          'persona, sin preguntar dónde vives: acceso, rectificación, '
+          'supresión, portabilidad, limitación, oposición y revocación del '
+          'consentimiento.',
+      '• Unión Europea y Espacio Económico Europeo: RGPD, Arts. 15 a 22.',
+      '• Reino Unido: UK GDPR y Data Protection Act 2018, con los mismos '
+          'artículos.',
+      '• Brasil: LGPD, Art. 18.',
+      '• Argentina: Ley 25.326, con una reforma en curso. Argentina es '
+          'uno de los pocos países fuera de Europa con decisión de adecuación '
+          'de la Unión Europea, lo que dice bastante sobre el nivel de '
+          'protección que ya exige su ley.',
+      '• Uruguay: Ley 18.331, también con adecuación de la Unión Europea.',
+      '• Chile: Ley 19.628, siendo sustituida por la Ley 21.719, aprobada '
+          'en diciembre de 2024 e inspirada en el RGPD, con entrada en vigor '
+          'progresiva.',
+      '• Colombia: Ley 1581 de 2012 (Habeas Data), con una regla propia y '
+          'más exigente para datos de menores: el tratamiento debe respetar '
+          'su interés superior, y no solo el consentimiento del responsable. '
+          'Es un estándar más alto que nuestro diseño ya cumple, porque el '
+          'único propósito aquí es la propia cápsula del niño o la niña, sin '
+          'exposición a terceros.',
+      '• Perú: Ley 29733. Ecuador: Ley Orgánica de Protección de Datos '
+          'Personales (LOPDP), de 2021.',
+      '• En los demás países de Sudamérica, sin ley integral propia '
+          'todavía: los mismos derechos, por nuestra política.',
+      '• Estados Unidos: California tiene la ley más exigente (CCPA y '
+          'CPRA, ver la siguiente sección), y una lista creciente de otros '
+          'estados como Virginia, Colorado, Connecticut y Utah tiene leyes '
+          'parecidas, con los mismos derechos de saber, borrar, corregir, '
+          'portar y rechazar la venta o el intercambio de datos. Como no '
+          'vendemos ni compartimos ningún dato bajo ninguna circunstancia, '
+          'ese último derecho ya viene ejercido por defecto, en todos los '
+          'estados, tengan o no una ley específica.',
+      '• Suiza: nLPD. Canadá: PIPEDA. Australia: Privacy Act y los '
+          'Australian Privacy Principles. Sudáfrica: POPIA. Japón: APPI. '
+          'India: DPDPA, a medida que entre en vigor cada disposición.',
+      '• En cualquier otro lugar: los mismos derechos, por nuestra '
+          'política, aun donde la ley local todavía no los exija.',
+      'En la práctica, casi todos se ejercen sin hablar con nosotros: los '
+          'datos están visibles en el aplicativo, editables en el aplicativo '
+          'y se pueden borrar en el aplicativo. Para cualquier cosa que el '
+          'aplicativo no resuelva, escribe a $privacyEmail',
+      'No necesitas justificar la solicitud, ejercer un derecho nunca '
+          'cuesta nada, y nunca reducimos el servicio a quien ejerce uno.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Si vives en California',
+    body: <String>[
+      'La CCPA, modificada por la CPRA, pide que algunas frases se digan '
+          'con todas las letras, y todas ellas son verdad aquí:',
+      '• **No vendemos** información personal, y nunca la vendemos.',
+      '• **No compartimos** información personal para publicidad '
+          'conductual entre sitios o aplicativos. No hay ninguna publicidad '
+          'en este aplicativo.',
+      '• No usamos ni divulgamos información personal sensible para nada '
+          'que no sea prestar el servicio que solicitaste.',
+      '• No ofrecemos incentivo financiero a cambio de datos.',
+      '• No discriminamos a quien ejerce un derecho: el aplicativo '
+          'funciona igual antes y después.',
+      'Como no vendemos ni compartimos nada, no existe un botón de "Do '
+          'Not Sell or Share My Personal Information", porque no habría nada '
+          'que desactivar.',
+      'Las categorías que recopilamos, por qué, y con quién se comparten '
+          'están en las secciones anteriores, y esa lista es cerrada.',
+      'Si vives en otro estado de Estados Unidos con su propia ley de '
+          'privacidad, las mismas seis frases anteriores valen también para '
+          'ti: describen cómo funciona el aplicativo, no una excepción '
+          'pensada solo para quien vive en California.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Transferencia internacional',
+    body: <String>[
+      'Tus archivos quedan en el Google Drive de tu propia cuenta, y su '
+          'ubicación es la que Google le da a tu cuenta, no una elección '
+          'nuestra. El índice queda en la infraestructura de Cloud '
+          'Firestore, que puede tratar datos fuera de tu país.',
+      'Esas transferencias están cubiertas por las Cláusulas '
+          'Contractuales Tipo aprobadas por la Comisión Europea, adoptadas '
+          'por Google conforme al Art. 46 del RGPD, y por el anexo del Reino '
+          'Unido a esas mismas cláusulas. Google Cloud también está '
+          'certificado en el Data Privacy Framework entre la Unión Europea '
+          'y Estados Unidos.',
+      'Para quien está en Brasil, la transferencia se apoya en el Art. 33 '
+          'de la LGPD, mediante las mismas cláusulas contractuales.',
+      'Nosotros no realizamos transferencias internacionales por '
+          'iniciativa propia además del procesamiento necesario para operar '
+          'los servicios de infraestructura descritos en esta política. El '
+          'índice puede procesarse en la infraestructura de Google Cloud, '
+          'incluso en ubicaciones fuera del país del usuario, conforme a la '
+          'configuración y los términos de los servicios utilizados. Los '
+          'archivos de Google Drive permanecen sujetos a la infraestructura '
+          'y a la configuración de la cuenta de Google del propio usuario.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Seguridad',
+    body: <String>[
+      'Todo el tráfico está cifrado en tránsito, y los datos en reposo '
+          'están cifrados por la infraestructura de Google. El acceso al '
+          'índice está controlado por reglas de seguridad en el servidor '
+          'que exigen autenticación y restringen cada cuenta a sus propios '
+          'datos. El aplicativo ofrece bloqueo por biometría o por '
+          'contraseña del dispositivo.',
+      'Ningún sistema es totalmente seguro, y no prometemos lo '
+          'contrario. Lo que reduce el riesgo de forma estructural aquí es '
+          'el diseño: las fotos y los videos no están en un servidor '
+          'nuestro, así que no existe una base de datos de medios nuestra '
+          'que pueda filtrarse.',
+      'Si ocurre una brecha de datos que afecte al índice, notificamos a '
+          'la Comisión de Protección de Datos de Irlanda dentro de las 72 '
+          'horas siguientes a conocerla, como exige el Art. 33 del RGPD, y '
+          'te avisamos directamente cuando el riesgo sea alto para tus '
+          'derechos, como exige el Art. 34. Donde otra ley de tu país '
+          'imponga un plazo o destinatario distinto, como la LGPD (Art. 48) '
+          'o la CCPA, cumplimos ambos.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Niños, niñas, y por qué este aplicativo es diferente',
+    body: <String>[
+      'Este aplicativo guarda datos **sobre** un niño o una niña, y no lo '
+          'usa **él o ella**. Quien instala, inicia sesión y registra es la '
+          'madre, el padre o quien responde legalmente por él o ella, y debe '
+          'ser mayor de edad.',
+      'Por eso el aplicativo no está dirigido a menores y no fue '
+          'concebido para que menores creen o utilicen cuentas por su '
+          'cuenta. Quien instala, inicia sesión y registra información debe '
+          'ser un adulto responsable. No hay publicidad, perfil público, '
+          'interacción entre usuarios ni funciones pensadas para incentivar '
+          'el uso autónomo por parte de menores.',
+      'Los datos sobre el niño o la niña los proporciona el adulto '
+          'responsable con la finalidad de crear y conservar la cápsula del '
+          'tiempo. El tratamiento de datos de niños, niñas y adolescentes '
+          'observará la legislación aplicable y, cuando corresponda, los '
+          'principios de protección integral e interés superior del menor.',
+      'Cuando el niño o la niña crezca y asuma la cuenta, pasará a ser el '
+          'titular de esos datos y a ejercer directamente todos los derechos '
+          'de la sección anterior, sin necesitarnos para nada.',
+      'Varios países vienen creando un código de protección específico '
+          'para productos a los que un menor puede llegar a acceder, como el '
+          'Children\'s Code del Reino Unido. Nosotros no tenemos ninguna '
+          'certificación formal en ese sentido, pero el diseño del '
+          'aplicativo ya sigue los mismos principios: ninguna publicidad, '
+          'ningún perfilamiento, ninguna notificación pensada para captar la '
+          'atención, ningún juego, ninguna recompensa por interacción y '
+          'ningún compartimiento público por defecto. Un recuerdo incluso '
+          'puede precintarse, para abrirse solo en una fecha futura elegida '
+          'por quien lo guardó, lo opuesto a un diseño pensado para '
+          'maximizar el uso.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Cambios en esta política',
+    body: <String>[
+      'Los cambios relevantes se anuncian dentro del aplicativo antes de '
+          'entrar en vigor. La fecha en la parte superior indica la versión '
+          'vigente, y las versiones anteriores quedan disponibles en el '
+          'historial público del repositorio.',
+    ],
+  ),
+  PrivacySection(
+    title: 'Reclamación',
+    body: <String>[
+      'Si crees que el tratamiento de tus datos infringe la ley, puedes '
+          'reclamar ante la autoridad del lugar donde vives, y no necesitas '
+          'hablar con nosotros antes.',
+      '• Irlanda: Data Protection Commission (DPC), especialmente cuando '
+          'la DPC sea la autoridad de control competente o principal '
+          'conforme al RGPD.',
+      '• Unión Europea: puedes preferir la autoridad de tu propio Estado '
+          'miembro, y ella lo reenviará. La lista está en edpb.europa.eu',
+      '• Brasil: ANPD, gov.br/anpd',
+      '• Argentina: Agencia de Acceso a la Información Pública (AAIP).',
+      '• Uruguay: Unidad Reguladora y de Control de Datos Personales '
+          '(URCDP).',
+      '• Chile: la nueva Agencia de Protección de Datos Personales, a '
+          'medida que la Ley 21.719 entre en vigor.',
+      '• Colombia: Superintendencia de Industria y Comercio (SIC).',
+      '• Reino Unido: ICO, ico.org.uk',
+      '• Suiza: PFPDT. Canadá: OPC. Australia: OAIC.',
+      '• California: California Privacy Protection Agency, cppa.ca.gov, '
+          'o el Fiscal General del estado.',
+      'Si prefieres intentarlo primero con nosotros, escribe a '
+          '$privacyEmail. Respondemos en un plazo máximo de 30 días, y una '
+          'respuesta nuestra nunca es condición para que acudas a la '
+          'autoridad.',
+    ],
+  ),
+];

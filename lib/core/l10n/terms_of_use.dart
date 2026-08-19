@@ -14,7 +14,11 @@
 /// publicar na loja, vale passar por alguém da área.
 library;
 
+import 'terms_of_use_de.dart';
 import 'terms_of_use_en.dart';
+import 'terms_of_use_es.dart';
+import 'terms_of_use_fr.dart';
+import 'terms_of_use_it.dart';
 import 'strings.dart';
 
 import 'privacy_policy.dart';
@@ -277,7 +281,8 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
     body: <String>[
       'O aplicativo é distribuído pela Google Play e pode ser usado em '
           'qualquer país onde a loja o ofereça. A interface e estes '
-          'documentos existem em português e em inglês.',
+          'documentos existem em português, inglês, espanhol, francês, '
+          'alemão e italiano.',
       'Quem publica é uma pessoa física estabelecida na Irlanda, e não '
           'uma empresa constituída em cada país onde o aplicativo possa estar '
           'disponível. Isso não pretende reduzir direitos obrigatórios do '
@@ -344,7 +349,14 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
 /// O nome de antes vira este getter, para as telas continuarem escrevendo
 /// `termsOfUse` sem saber que agora há duas versões. Deixou de ser `const`
 /// porque a escolha é feita em tempo de execução.
-List<PrivacySection> get termsOfUse => emIngles ? termsOfUseEn : termsOfUsePt;
+List<PrivacySection> get termsOfUse => switch (codigoAtivo) {
+  'en' => termsOfUseEn,
+  'es' => termsOfUseEs,
+  'fr' => termsOfUseFr,
+  'de' => termsOfUseDe,
+  'it' => termsOfUseIt,
+  _ => termsOfUsePt,
+};
 
 /// Os termos em Markdown, para o arquivo público do repositório.
 ///

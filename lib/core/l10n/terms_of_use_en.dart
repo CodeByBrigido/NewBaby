@@ -253,7 +253,8 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
     body: <String>[
       'The app is distributed through Google Play and can be used in any '
           'country where the store offers it. The interface and these '
-          'documents exist in Portuguese and in English.',
+          'documents exist in Portuguese, English, Spanish, French, German '
+          'and Italian.',
       'The publisher is an individual established in Ireland, not a '
           'company incorporated in every country where the app may be '
           'available. This does not purport to reduce mandatory consumer or '

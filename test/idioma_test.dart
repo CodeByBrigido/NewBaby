@@ -17,10 +17,17 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues(<String, Object>{}));
 
   group('os idiomas oferecidos', () {
-    test('são dois, e o código é o que o Flutter usa em Locale', () {
-      expect(Idioma.values, hasLength(2));
-      expect(Idioma.portugues.codigo, 'pt');
-      expect(Idioma.ingles.codigo, 'en');
+    test('são seis, na ordem do seletor, e o código é o que o Flutter usa '
+        'em Locale', () {
+      expect(Idioma.values, hasLength(6));
+      expect(Idioma.values.map((Idioma i) => i.codigo).toList(), <String>[
+        'en',
+        'pt',
+        'es',
+        'fr',
+        'de',
+        'it',
+      ]);
     });
 
     test('cada nome está escrito na própria língua', () {
@@ -28,13 +35,26 @@ void main() {
       // não lê português procura por "English", não por "Inglês".
       expect(Idioma.portugues.nome, 'Português');
       expect(Idioma.ingles.nome, 'English');
+      expect(Idioma.espanhol.nome, 'Español');
+      expect(Idioma.frances.nome, 'Français');
+      expect(Idioma.alemao.nome, 'Deutsch');
+      expect(Idioma.italiano.nome, 'Italiano');
     });
 
     test('código desconhecido cai no português, e não quebra', () {
       // Preferência gravada por uma versão futura, lida por uma antiga.
-      expect(Idioma.deCodigo('de'), Idioma.portugues);
+      expect(Idioma.deCodigo('ja'), Idioma.portugues);
       expect(Idioma.deCodigo(null), Idioma.portugues);
       expect(Idioma.deCodigo(''), Idioma.portugues);
+    });
+
+    test('cada uma tem a própria localidade do Flutter', () {
+      expect(Idioma.portugues.localidade, const Locale('pt', 'BR'));
+      expect(Idioma.ingles.localidade, const Locale('en'));
+      expect(Idioma.espanhol.localidade, const Locale('es'));
+      expect(Idioma.frances.localidade, const Locale('fr'));
+      expect(Idioma.alemao.localidade, const Locale('de'));
+      expect(Idioma.italiano.localidade, const Locale('it'));
     });
   });
 
@@ -52,8 +72,15 @@ void main() {
     test('língua que não oferecemos cai no português', () {
       // O português é o texto original do produto, e é dele que as outras
       // línguas saem.
-      expect(IdiomaNotifier.doAparelho(const Locale('de')), Idioma.portugues);
       expect(IdiomaNotifier.doAparelho(const Locale('ja')), Idioma.portugues);
+      expect(IdiomaNotifier.doAparelho(const Locale('nl')), Idioma.portugues);
+    });
+
+    test('as quatro línguas novas também respondem ao aparelho', () {
+      expect(IdiomaNotifier.doAparelho(const Locale('es')), Idioma.espanhol);
+      expect(IdiomaNotifier.doAparelho(const Locale('fr')), Idioma.frances);
+      expect(IdiomaNotifier.doAparelho(const Locale('de')), Idioma.alemao);
+      expect(IdiomaNotifier.doAparelho(const Locale('it')), Idioma.italiano);
     });
 
     test('a escolha guardada manda mais que o aparelho', () async {

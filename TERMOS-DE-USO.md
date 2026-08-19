@@ -136,7 +136,7 @@ Quando uma alteração material exigir novo consentimento ou aviso específico p
 
 ## Onde o aplicativo é oferecido
 
-O aplicativo é distribuído pela Google Play e pode ser usado em qualquer país onde a loja o ofereça. A interface e estes documentos existem em português e em inglês.
+O aplicativo é distribuído pela Google Play e pode ser usado em qualquer país onde a loja o ofereça. A interface e estes documentos existem em português, inglês, espanhol, francês, alemão e italiano.
 
 Quem publica é uma pessoa física estabelecida na Irlanda, e não uma empresa constituída em cada país onde o aplicativo possa estar disponível. Isso não pretende reduzir direitos obrigatórios do consumidor ou de proteção de dados. A legislação aplicável à relação poderá depender do país de residência do consumidor e das regras de conflito de leis.
 

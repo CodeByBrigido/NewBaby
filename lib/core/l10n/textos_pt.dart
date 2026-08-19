@@ -9,6 +9,9 @@ class TextosPt implements Textos {
   const TextosPt();
 
   @override
+  String get codigo => 'pt';
+
+  @override
   String get appName => 'Meu Bebê';
 
   @override
@@ -667,6 +670,9 @@ class TextosPt implements Textos {
 
   @override
   String get savedTitle => 'Está guardado';
+
+  @override
+  String get willBeSaved => 'Vai ficar guardado';
 
   @override
   String get sendMemoryError => 'Enviar memória';

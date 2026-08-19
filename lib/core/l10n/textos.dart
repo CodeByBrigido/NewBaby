@@ -8,6 +8,14 @@
 /// Os textos que dependem de quem é a criança não estão aqui: eles moram em
 /// `Copy`, porque precisam do nome e do sexo para concordar.
 abstract interface class Textos {
+  /// O código ISO 639-1 da língua: `pt`, `en`, `es`, `fr`, `de` ou `it`.
+  ///
+  /// É o que deixa qualquer trecho do código perguntar qual língua está
+  /// ativa sem comparar texto traduzido nem testar `is TextosEn`. `Copy` usa
+  /// isto para escolher a concordância certa, e os documentos públicos usam
+  /// para escolher qual versão gerar.
+  String get codigo;
+
   /// Nome curto, para o ícone e as barras de título.
   ///
   /// O Android corta o rótulo embaixo do ícone por volta do 11º caractere.
@@ -485,6 +493,14 @@ abstract interface class Textos {
   String get notNow;
 
   String get savedTitle;
+
+  /// A mesma frase, no futuro: o envio ainda não terminou.
+  ///
+  /// Existe separada de [savedTitle] porque as duas aparecem no mesmo
+  /// lugar, uma enquanto a outra ainda não é verdade: dizer que já está
+  /// guardado antes de o envio terminar seria mentira, mesmo que por um
+  /// instante.
+  String get willBeSaved;
 
   String get sendMemoryError;
 

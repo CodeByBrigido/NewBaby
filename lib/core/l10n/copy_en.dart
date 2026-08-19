@@ -80,6 +80,15 @@ class CopyEn extends Copy {
     null => 'the child',
   };
 
+  /// English puts the owner before "Google Drive", the opposite order from
+  /// Portuguese - this is the one place that word order actually depends on.
+  @override
+  String get childsGoogleDrive => switch (gender) {
+    BabyGender.girl => "in your daughter's Google Drive",
+    BabyGender.boy => "in your son's Google Drive",
+    null => "in the child's Google Drive",
+  };
+
   @override
   String get deleteConfirmTitle =>
       hasName ? "Delete $ofName capsule?" : 'Delete the account?';

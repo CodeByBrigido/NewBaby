@@ -137,11 +137,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 }
 
-/// As duas línguas, lado a lado.
+/// As línguas, uma abaixo da outra.
 ///
-/// Escolha visível em vez de uma linha que abre outra tela: são só duas
-/// opções, e esconder duas opções atrás de um toque é um toque a mais para
-/// nada.
+/// Escolha visível em vez de uma linha que abre outra tela: mesmo com seis
+/// opções, é uma lista curta, e esconder uma lista curta atrás de um toque é
+/// um toque a mais para nada.
 class _IdiomaTile extends ConsumerWidget {
   const _IdiomaTile();
 

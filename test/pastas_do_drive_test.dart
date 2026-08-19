@@ -222,18 +222,29 @@ void main() {
   });
 
   group('a escolha feita no cadastro', () {
-    test('em inglês, a cápsula nasce com pastas em inglês', () {
+    test('cada uma das seis línguas nasce com as próprias pastas', () {
       // É o caminho que o cadastro segue: a língua ativa no momento de criar
       // vira o `idiomaDasPastas` do perfil, e é ele que nomeia as pastas.
+      // O laço cobre as seis, e não só português e inglês, porque a mesma
+      // armadilha vale para qualquer uma: usar `codigoAtivo` errado aqui
+      // nasceria a cápsula na língua errada, e ela nunca mais troca.
+      for (final Textos textos in todasAsTextos) {
+        definirTextos(textos);
+        final NomesDePasta nomes = NomesDePasta.de(codigoAtivo);
+        expect(nomes.codigo, textos.codigo, reason: textos.codigo);
+      }
+    });
+
+    test('em inglês, a cápsula nasce com pastas em inglês', () {
       definirTextos(textosEn);
-      final NomesDePasta nomes = NomesDePasta.de(emIngles ? 'en' : 'pt');
+      final NomesDePasta nomes = NomesDePasta.de(codigoAtivo);
       expect(nomes.raiz, 'My Baby - Time Capsule');
       expect(DriveService.pastasDeTopo(nomes), contains('Letters'));
     });
 
     test('em português, nasce com pastas em português', () {
       definirTextos(textosPt);
-      final NomesDePasta nomes = NomesDePasta.de(emIngles ? 'en' : 'pt');
+      final NomesDePasta nomes = NomesDePasta.de(codigoAtivo);
       expect(nomes.raiz, 'Meu Bebê - Cápsula do Tempo');
       expect(DriveService.pastasDeTopo(nomes), contains('Cartas'));
     });
@@ -310,7 +321,7 @@ void main() {
 
     test('código desconhecido também cai no português', () {
       // Perfil gravado por uma versão futura, lido por uma antiga.
-      expect(NomesDePasta.de('de').codigo, 'pt');
+      expect(NomesDePasta.de('ja').codigo, 'pt');
     });
 
     test('o nome que os documentos públicos citam continua o mesmo', () {

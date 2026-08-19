@@ -115,7 +115,7 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
     // até alguém navegar para outro lugar. Com o idioma observado na raiz, a
     // árvore inteira se refaz na troca, e todo `S` é lido de novo.
     final Idioma idioma = ref.watch(idiomaProvider);
-    definirTextos(idioma == Idioma.ingles ? textosEn : textosPt);
+    definirTextos(textosPara(idioma.codigo));
 
     return MaterialApp.router(
       title: S.appName,

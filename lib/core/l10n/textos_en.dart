@@ -15,6 +15,9 @@ class TextosEn implements Textos {
   const TextosEn();
 
   @override
+  String get codigo => 'en';
+
+  @override
   String get appName => 'My Baby';
 
   @override
@@ -675,6 +678,9 @@ class TextosEn implements Textos {
 
   @override
   String get savedTitle => 'It is saved';
+
+  @override
+  String get willBeSaved => 'It will be saved';
 
   @override
   String get sendMemoryError => 'Save memory';
