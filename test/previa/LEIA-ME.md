@@ -16,6 +16,7 @@ Imagens geradas em teste, para olhar o desenho sem instalar o APK.
 | `convite-premium-menina/menino.png` | o popup que o toque numa opção trancada abre |
 | `marco-desenvolvimento.png` | o cartão do próximo marco, com a regra nova |
 | `idioma.png` | a escolha de idioma, nas Configurações |
+| `idioma-no-cadastro-portugues/ingles.png` | a mesma escolha no cadastro, onde ela também decide a língua das pastas do Drive |
 
 Regeneradas com:
 
@@ -27,6 +28,7 @@ flutter test --run-skipped --update-goldens test/previa_do_painel_test.dart
 flutter test --run-skipped --update-goldens test/previa_da_home_nova_test.dart
 flutter test --run-skipped --update-goldens test/previa_do_convite_test.dart
 flutter test --run-skipped --update-goldens test/previa_do_idioma_test.dart
+flutter test --run-skipped --update-goldens test/previa_do_idioma_no_cadastro_test.dart
 ```
 
 **Nem toda imagem aqui desenha uma tela que existe.** As `home-1` a `home-6`

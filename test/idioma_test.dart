@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/state/idioma_providers.dart';
@@ -38,9 +39,31 @@ void main() {
   });
 
   group('a escolha', () {
-    test('começa em português', () async {
+    test('sem escolha guardada, segue o aparelho', () async {
+      // Quem tem o celular em inglês via a apresentação e a tela de entrada
+      // em português, e só conseguia trocar depois de já ter criado a conta.
+      expect(IdiomaNotifier.doAparelho(const Locale('en')), Idioma.ingles);
+      expect(
+        IdiomaNotifier.doAparelho(const Locale('pt', 'BR')),
+        Idioma.portugues,
+      );
+    });
+
+    test('língua que não oferecemos cai no português', () {
+      // O português é o texto original do produto, e é dele que as outras
+      // línguas saem.
+      expect(IdiomaNotifier.doAparelho(const Locale('de')), Idioma.portugues);
+      expect(IdiomaNotifier.doAparelho(const Locale('ja')), Idioma.portugues);
+    });
+
+    test('a escolha guardada manda mais que o aparelho', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{
+        IdiomaNotifier.chave: 'pt',
+      });
       final ProviderContainer c = ProviderContainer();
       addTearDown(c.dispose);
+      c.read(idiomaProvider);
+      await Future<void>.delayed(Duration.zero);
       expect(c.read(idiomaProvider), Idioma.portugues);
     });
 
@@ -74,19 +97,21 @@ void main() {
       expect(outra.read(idiomaProvider), Idioma.ingles);
     });
 
-    test('preferência ilegível não derruba nada, e fica no padrão', () async {
+    test('preferência ilegível não derruba nada', () async {
       // A leitura roda solta, sem ninguém esperando por ela. Uma exceção aqui
       // não teria quem a pegasse, e derrubaria o quadro inteiro por causa de
-      // uma preferência de idioma.
+      // uma preferência de idioma. Sem escolha legível, fica o que o aparelho
+      // sugeriu.
       SharedPreferences.setMockInitialValues(<String, Object>{
         IdiomaNotifier.chave: 42,
       });
 
       final ProviderContainer c = ProviderContainer();
       addTearDown(c.dispose);
-      expect(c.read(idiomaProvider), Idioma.portugues);
+      final Idioma doAparelho = IdiomaNotifier.doAparelho();
+      expect(c.read(idiomaProvider), doAparelho);
       await Future<void>.delayed(Duration.zero);
-      expect(c.read(idiomaProvider), Idioma.portugues);
+      expect(c.read(idiomaProvider), doAparelho);
     });
 
     test('trocar de volta também é guardado', () async {

@@ -1455,4 +1455,11 @@ class TextosEn implements Textos {
     'Record a video',
     'Write a letter for the future',
   ];
+
+  @override
+  String get languageStepTitle => 'Which language?';
+
+  @override
+  String get languageStepNote =>
+      'This applies to the whole app and to the folder names in Google Drive. The folders keep this language forever, even if you change the app language later.';
 }

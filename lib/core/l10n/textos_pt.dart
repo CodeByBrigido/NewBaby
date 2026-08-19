@@ -1455,4 +1455,11 @@ class TextosPt implements Textos {
     'Gravar um vídeo',
     'Escrever uma carta para o futuro',
   ];
+
+  @override
+  String get languageStepTitle => 'Em que idioma?';
+
+  @override
+  String get languageStepNote =>
+      'Vale para o aplicativo inteiro e para os nomes das pastas no Google Drive. As pastas ficam com o idioma de agora para sempre, mesmo que você troque o do aplicativo depois.';
 }

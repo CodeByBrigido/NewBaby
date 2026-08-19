@@ -928,4 +928,8 @@ abstract interface class Textos {
   String? notaDaSugestao(String id);
 
   List<String> checklistDoAniversario();
+
+  String get languageStepTitle;
+
+  String get languageStepNote;
 }

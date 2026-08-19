@@ -104,6 +104,46 @@ void main() {
     });
   });
 
+  group('a escolha feita no cadastro', () {
+    test('em inglês, a cápsula nasce com pastas em inglês', () {
+      // É o caminho que o cadastro segue: a língua ativa no momento de criar
+      // vira o `idiomaDasPastas` do perfil, e é ele que nomeia as pastas.
+      definirTextos(textosEn);
+      final NomesDePasta nomes = NomesDePasta.de(emIngles ? 'en' : 'pt');
+      expect(nomes.raiz, 'My Baby - Time Capsule');
+      expect(DriveService.pastasDeTopo(nomes), contains('Letters'));
+    });
+
+    test('em português, nasce com pastas em português', () {
+      definirTextos(textosPt);
+      final NomesDePasta nomes = NomesDePasta.de(emIngles ? 'en' : 'pt');
+      expect(nomes.raiz, 'Meu Bebê - Cápsula do Tempo');
+      expect(DriveService.pastasDeTopo(nomes), contains('Cartas'));
+    });
+
+    test('o perfil guarda a escolha, e ela sobrevive ao copyWith', () {
+      // Guardar é o que impede a língua das pastas de mudar depois. Perder
+      // isso num copyWith faria uma edição de cadastro trocar a convenção.
+      final BabyProfile p = BabyProfile(
+        name: 'Maria',
+        birth: DateTime(2026, 11, 2),
+        idiomaDasPastas: 'en',
+      ).copyWith(name: 'Maria Souza');
+      expect(p.idiomaDasPastas, 'en');
+    });
+
+    test('e sobrevive à ida e volta do Firestore', () {
+      final BabyProfile p = BabyProfile.fromMap(
+        BabyProfile(
+          name: 'Maria',
+          birth: DateTime(2026, 11, 2),
+          idiomaDasPastas: 'en',
+        ).toMap(),
+      );
+      expect(p.idiomaDasPastas, 'en');
+    });
+  });
+
   group('as cápsulas que já existem', () {
     test('sem o campo, a convenção é a portuguesa', () {
       // Todas as cápsulas criadas antes de haver mais de uma língua são

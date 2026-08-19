@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,7 +61,28 @@ class IdiomaNotifier extends Notifier<Idioma> {
   @override
   Idioma build() {
     unawaited(_carregar());
-    return Idioma.portugues;
+    return doAparelho();
+  }
+
+  /// A língua do próprio aparelho, quando ninguém escolheu ainda.
+  ///
+  /// Sem isto, quem tem o celular em inglês via a apresentação e a tela de
+  /// entrada em português, e só conseguia trocar depois de já ter criado a
+  /// conta. Uma tela de boas-vindas que a pessoa não lê é a pior primeira
+  /// impressão possível.
+  ///
+  /// Qualquer língua que não seja uma das oferecidas cai no português, que é
+  /// o texto original do produto.
+  @visibleForTesting
+  static Idioma doAparelho([Locale? locale]) {
+    final Locale l =
+        locale ??
+        PlatformDispatcher.instance.locales.firstOrNull ??
+        const Locale('pt');
+    return Idioma.values.firstWhere(
+      (Idioma i) => i.codigo == l.languageCode,
+      orElse: () => Idioma.portugues,
+    );
   }
 
   /// Lê a escolha do disco, e desiste em silêncio se não conseguir.
@@ -71,9 +94,13 @@ class IdiomaNotifier extends Notifier<Idioma> {
   Future<void> _carregar() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      state = Idioma.deCodigo(prefs.getString(chave));
+      final String? guardado = prefs.getString(chave);
+      // Só sobrescreve quando **há** escolha guardada. Sem esta guarda, o
+      // disco responder vazio jogaria de volta para o português quem tem o
+      // aparelho em inglês e ainda não escolheu nada.
+      if (guardado != null) state = Idioma.deCodigo(guardado);
     } on Object {
-      // Fica no padrão.
+      // Fica no que o aparelho sugeriu.
     }
   }
 

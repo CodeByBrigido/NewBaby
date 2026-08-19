@@ -14,6 +14,7 @@ import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
 import '../../services/lock_service.dart';
+import '../../state/idioma_providers.dart';
 import '../../state/providers.dart';
 import '../../core/utils/error_text.dart';
 
@@ -168,6 +169,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     color: context.cores.textSecondary,
                   ),
                 ),
+                const SizedBox(height: Space.block),
+                // O idioma vem antes de tudo, e é a única coisa nesta tela
+                // que muda a tela enquanto ela está aberta.
+                //
+                // Está aqui, e não só em Configurações, por causa do Drive:
+                // as pastas nascem no fim deste cadastro, e elas guardam a
+                // língua com que nasceram para sempre. Escolher depois
+                // deixaria uma família inglesa com pastas em português, ou
+                // pior, com a interface numa língua e o Drive em outra.
+                const _EscolhaDeIdioma(),
                 const SizedBox(height: Space.block),
                 Center(
                   child: _PhotoPicker(photo: _photo, onTap: _pickPhoto),
@@ -507,6 +518,90 @@ class _ComErro extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// A escolha de idioma, na primeira tela em que ela ainda muda alguma coisa
+/// além da interface.
+///
+/// Depois daqui as pastas do Drive já existem, e elas não se renomeiam.
+class _EscolhaDeIdioma extends ConsumerWidget {
+  const _EscolhaDeIdioma();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Idioma atual = ref.watch(idiomaProvider);
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(S.languageStepTitle, style: text.titleSmall),
+        const SizedBox(height: Space.x12),
+        Row(
+          children: <Widget>[
+            for (final Idioma idioma in Idioma.values) ...<Widget>[
+              if (idioma != Idioma.values.first)
+                const SizedBox(width: Space.x8),
+              Expanded(
+                child: _BotaoDeIdioma(
+                  idioma: idioma,
+                  escolhido: idioma == atual,
+                  onTap: () =>
+                      ref.read(idiomaProvider.notifier).escolher(idioma),
+                ),
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: Space.x12),
+        Text(
+          S.languageStepNote,
+          style: text.bodySmall?.copyWith(color: context.cores.textSecondary),
+        ),
+      ],
+    );
+  }
+}
+
+class _BotaoDeIdioma extends StatelessWidget {
+  const _BotaoDeIdioma({
+    required this.idioma,
+    required this.escolhido,
+    required this.onTap,
+  });
+
+  final Idioma idioma;
+  final bool escolhido;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Material(
+      color: escolhido ? context.cores.primarySoft : context.cores.surfaceMuted,
+      borderRadius: Radii.buttonR,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: Radii.buttonR,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Space.x16),
+          child: Center(
+            child: Text(
+              // O nome de cada língua na própria língua: quem não lê
+              // português precisa reconhecer "English" nesta tela.
+              idioma.nome,
+              style: text.titleSmall?.copyWith(
+                color: escolhido
+                    ? context.cores.primaryDark
+                    : context.cores.textPrimary,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
