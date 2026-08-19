@@ -19,6 +19,7 @@ class BabyProfile {
     this.rootFolderId,
     this.infoFileId,
     this.premium = false,
+    this.idiomaDasPastas,
   });
 
   /// Nome completo, usado em toda a interface.
@@ -72,6 +73,18 @@ class BabyProfile {
   /// gravado, e salvar o cadastro não apaga a licença de ninguém.
   final bool premium;
 
+  /// A língua em que as pastas do Drive foram criadas.
+  ///
+  /// **Não é a língua da interface.** Essa a pessoa troca quando quiser, e
+  /// nada acontece. Esta aqui é decidida uma vez, quando a cápsula nasce, e
+  /// não muda nunca: as pastas já existem, já têm arquivos dentro, e
+  /// renomeá-las porque alguém mexeu num ajuste seria mexer no acervo de
+  /// alguém sem pedir.
+  ///
+  /// `null` nas cápsulas criadas antes de existir mais de uma língua, e
+  /// todas elas são portuguesas: era a única que havia.
+  final String? idiomaDasPastas;
+
   /// Primeiro nome - o que aparece nos cabeçalhos.
   String get firstName => name.trim().split(RegExp(r'\s+')).first;
 
@@ -96,6 +109,7 @@ class BabyProfile {
     String? rootFolderId,
     String? infoFileId,
     bool? premium,
+    String? idiomaDasPastas,
     // Apagar um campo opcional precisa ser dito, porque passar `null` num
     // `copyWith` quer dizer "não mexe". Sem estes, quem apagasse o peso na
     // tela de editar veria o valor antigo voltar sozinho ao salvar.
@@ -116,6 +130,7 @@ class BabyProfile {
       rootFolderId: rootFolderId ?? this.rootFolderId,
       infoFileId: infoFileId ?? this.infoFileId,
       premium: premium ?? this.premium,
+      idiomaDasPastas: idiomaDasPastas ?? this.idiomaDasPastas,
     );
   }
 
@@ -129,6 +144,7 @@ class BabyProfile {
     'fotoDriveId': photoDriveId,
     'pastaRaizId': rootFolderId,
     'arquivoInfoId': infoFileId,
+    'idiomaDasPastas': idiomaDasPastas,
   };
 
   static BabyProfile fromMap(Map<String, Object?> map) {
@@ -143,6 +159,7 @@ class BabyProfile {
       rootFolderId: map['pastaRaizId'] as String?,
       infoFileId: map['arquivoInfoId'] as String?,
       premium: map['premium'] == true,
+      idiomaDasPastas: map['idiomaDasPastas'] as String?,
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/models/entry.dart';
+import 'package:meu_bebe/core/l10n/nomes_de_pasta.dart';
 import 'package:meu_bebe/services/drive_service.dart';
 import 'package:meu_bebe/services/firestore_service.dart';
 import 'package:meu_bebe/services/media_optimizer.dart';
@@ -271,7 +272,10 @@ class _DriveFalso implements DriveService {
       'pasta';
 
   @override
-  Future<String> ensureRootStructure({String? knownRootId}) async => 'raiz';
+  Future<String> ensureRootStructure({
+    String? knownRootId,
+    NomesDePasta nomes = NomesDePasta.pt,
+  }) async => 'raiz';
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

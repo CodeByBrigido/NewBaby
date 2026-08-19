@@ -196,11 +196,8 @@ void main() {
       final int corpo = fonte.indexOf('Future<String> _ensureRootFolder');
       expect(corpo, greaterThan(-1));
 
-      final int procura = fonte.indexOf('_procurarRaiz(api)', corpo);
-      final int cria = fonte.indexOf(
-        '_createFolder(api, rootFolderName',
-        corpo,
-      );
+      final int procura = fonte.indexOf('_procurarRaiz(api,', corpo);
+      final int cria = fonte.indexOf('_createFolder(api, nomes.raiz', corpo);
 
       expect(procura, greaterThan(-1), reason: 'A busca pelo nome sumiu');
       expect(
@@ -209,6 +206,15 @@ void main() {
         reason:
             'Criar antes de procurar é o que enche o Drive de pastas '
             'repetidas a cada reinstalação',
+      );
+
+      // E procura por **todos** os nomes que a cápsula pode ter. Procurar só
+      // pelo nome da língua de agora não acha a cápsula de quem criou em
+      // outra, e não achar é o que cria a segunda pasta.
+      expect(
+        fonte.indexOf('NomesDePasta.todas', corpo),
+        greaterThan(-1),
+        reason: 'A busca precisa percorrer todas as convenções de nome',
       );
     });
   });

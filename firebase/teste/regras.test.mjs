@@ -131,6 +131,25 @@ checar('com a licença gravada, salvar o cadastro continua passando',
       { nome: 'Alice Souza' }, { merge: true }));
   });
 
+
+// --- a lingua das pastas do Drive ---
+//
+// Gravada uma vez, no cadastro, e nunca mais. Precisa estar no hasOnly pelo
+// mesmo motivo do premium: o merge valida o documento resultante.
+checar('a língua das pastas cabe no perfil',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+    { ...cadastro, idiomaDasPastas: 'en' })));
+checar('com a língua gravada, salvar o cadastro continua passando',
+  async () => {
+    await setDoc(doc(ana, 'users/ana/perfil/pastas'),
+      { ...cadastro, idiomaDasPastas: 'en' });
+    await assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+      { nome: 'Alice Souza' }, { merge: true }));
+  });
+checar('língua absurdamente longa é recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+    { ...cadastro, idiomaDasPastas: 'x'.repeat(50) })));
+
 checar('subcoleção desconhecida é recusada',
   () => assertFails(setDoc(doc(ana, 'users/ana/qualquer/coisa'), { a: 1 })));
 checar('não dá para criar o documento raiz do usuário',

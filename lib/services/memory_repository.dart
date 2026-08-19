@@ -1,3 +1,4 @@
+import '../core/l10n/nomes_de_pasta.dart';
 import '../core/l10n/strings.dart';
 import 'dart:async';
 import 'dart:io';
@@ -149,10 +150,21 @@ class MemoryRepository {
     required BabyProfile profile,
     File? birthPhoto,
   }) async {
+    // A língua das pastas é decidida **aqui**, uma vez, e gravada no perfil.
+    // Daqui em diante ela não olha mais para o idioma da interface: quem
+    // criou em inglês continua com pastas em inglês mesmo lendo o aplicativo
+    // em português.
+    final NomesDePasta nomes = NomesDePasta.de(
+      profile.idiomaDasPastas ?? (emIngles ? 'en' : 'pt'),
+    );
     final String rootId = await drive.ensureRootStructure(
       knownRootId: profile.rootFolderId,
+      nomes: nomes,
     );
-    BabyProfile saved = profile.copyWith(rootFolderId: rootId);
+    BabyProfile saved = profile.copyWith(
+      rootFolderId: rootId,
+      idiomaDasPastas: nomes.codigo,
+    );
     await firestore.saveProfile(uid, saved);
 
     // O nascimento é o primeiro item da linha do tempo, sempre.
@@ -525,10 +537,28 @@ class MemoryRepository {
     required DateTime birth,
     required EntryType type,
     required DateTime quando,
+    NomesDePasta nomes = NomesDePasta.pt,
   }) => <String>[
-    type.folder,
-    if (type.bucketsByAge) ...AgeCalculator.caminhoNoDrive(birth, quando),
+    pastaDoTipo(type, nomes),
+    if (type.bucketsByAge)
+      ...AgeCalculator.caminhoNoDrive(birth, quando, nomes),
   ];
+
+  /// A pasta de primeiro nível de cada tipo, na convenção da cápsula.
+  ///
+  /// Fica aqui, e não como propriedade do `EntryType`, porque depende da
+  /// cápsula: o mesmo tipo mora em `Cartas` numa conta e em `Letters` noutra,
+  /// e um enum não tem como saber de qual conta se está falando.
+  static String pastaDoTipo(EntryType type, NomesDePasta nomes) =>
+      switch (type) {
+        EntryType.birth => nomes.raiz,
+        EntryType.photo => nomes.fotos,
+        EntryType.video => nomes.videos,
+        EntryType.letter => nomes.cartas,
+        EntryType.drawing => nomes.desenhos,
+        EntryType.document => nomes.documentos,
+        EntryType.growth => nomes.crescimento,
+      };
 
   /// Se esta chave do cache aponta para a organização antiga do Drive.
   ///

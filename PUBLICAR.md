@@ -484,9 +484,11 @@ onde está, mesmo salvando o cadastro de novo.
 - [ ] Regras do Firestore publicadas pelo fluxo *Publicar as regras do
       Firestore* (passo 5.1.1) e conferidas no console - não as do
       "modo de teste". Os campos `arquivoInfoId` e `premium` têm que aparecer
-      lá. Sem `premium` na lista, virar a licença de uma conta faz **toda**
-      edição de cadastro dela passar a ser recusada, porque a regra valida o
-      documento resultante do `merge`, e não só o que foi enviado
+      lá, e `idiomaDasPastas` também. Sem `premium` na lista, virar a
+      licença de uma conta faz **toda** edição de cadastro dela passar a ser
+      recusada, porque a regra valida o documento resultante do `merge`, e
+      não só o que foi enviado. O mesmo vale para `idiomaDasPastas`, que é
+      gravado no cadastro de toda conta nova
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity

@@ -1,3 +1,4 @@
+import '../core/l10n/nomes_de_pasta.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -57,18 +58,27 @@ class DriveService {
   /// O nome é distintivo de propósito: nada do aplicativo é criado fora
   /// daqui, e quem abrir o Drive precisa reconhecer de imediato o que é da
   /// cápsula e o que é dele.
+  /// O nome da pasta em português, que é o da esmagadora maioria das
+  /// cápsulas e o que os documentos públicos citam.
+  ///
+  /// **Não use isto para criar pasta nenhuma.** Quem cria passa a convenção
+  /// da própria cápsula, que pode ser outra. Isto existe para os textos que
+  /// precisam citar um nome, e para os testes.
   static const String rootFolderName = 'Meu Bebê - Cápsula do Tempo';
   static const String _folderMime = 'application/vnd.google-apps.folder';
 
   /// Pastas de primeiro nível criadas no primeiro acesso.
-  static const List<String> topLevelFolders = <String>[
-    'Fotos',
-    'Vídeos',
-    'Cartas',
-    'Desenhos',
-    'Documentos',
-    'Crescimento',
+  static List<String> pastasDeTopo(NomesDePasta nomes) => <String>[
+    nomes.fotos,
+    nomes.videos,
+    nomes.cartas,
+    nomes.desenhos,
+    nomes.documentos,
+    nomes.crescimento,
   ];
+
+  /// As de topo em português, para os testes e para quem só precisa da lista.
+  static List<String> get topLevelFolders => pastasDeTopo(NomesDePasta.pt);
 
   Future<T> _withApi<T>(Future<T> Function(drive.DriveApi api) action) async {
     final gapis.AuthClient client = await _auth.driveClient();
@@ -84,11 +94,16 @@ class DriveService {
   /// As pastas de idade - `Semana 07`, `Mês 14` - **não** são criadas aqui:
   /// seriam mais de cem chamadas no primeiro acesso. Elas nascem sob demanda
   /// em [ensureAgeFolder], no primeiro conteúdo daquela idade.
-  Future<String> ensureRootStructure({String? knownRootId}) async {
+  Future<String> ensureRootStructure({
+    String? knownRootId,
+    NomesDePasta nomes = NomesDePasta.pt,
+  }) async {
     return _withApi((drive.DriveApi api) async {
-      final String rootId = await _ensureRootFolder(api, knownRootId);
+      final String rootId = await _ensureRootFolder(api, knownRootId, nomes);
       await Future.wait(
-        topLevelFolders.map((String name) => _ensureFolder(api, name, rootId)),
+        pastasDeTopo(
+          nomes,
+        ).map((String name) => _ensureFolder(api, name, rootId)),
       );
       return rootId;
     });
@@ -114,7 +129,11 @@ class DriveService {
   /// criou: uma pasta com este nome feita por outra pessoa, ou pelo próprio
   /// dono à mão, é invisível para ela. A restrição é do servidor do Google,
   /// não uma promessa nossa.
-  Future<String> _ensureRootFolder(drive.DriveApi api, String? knownId) async {
+  Future<String> _ensureRootFolder(
+    drive.DriveApi api,
+    String? knownId,
+    NomesDePasta nomes,
+  ) async {
     if (knownId != null && knownId.isNotEmpty) {
       try {
         final drive.File existing =
@@ -129,10 +148,16 @@ class DriveService {
       }
     }
 
-    final String? encontrada = await _procurarRaiz(api);
-    if (encontrada != null) return encontrada;
+    // Procura por **todos** os nomes que a cápsula pode ter, e não só pelo
+    // da língua desta cápsula. Quem criou em inglês e reinstalou lendo em
+    // português precisa reencontrar a mesma pasta; procurar só pelo nome de
+    // agora criaria uma segunda cápsula ao lado da primeira.
+    for (final NomesDePasta convencao in NomesDePasta.todas) {
+      final String? encontrada = await _procurarRaiz(api, convencao.raiz);
+      if (encontrada != null) return encontrada;
+    }
 
-    return _createFolder(api, rootFolderName, null);
+    return _createFolder(api, nomes.raiz, null);
   }
 
   /// A cápsula que já existe nesta conta, se existir.
@@ -143,10 +168,8 @@ class DriveService {
   ///
   /// Entre várias, a mais antiga. É a que tem mais chance de guardar o
   /// acervo de verdade; as outras nasceram das tentativas seguintes.
-  Future<String?> _procurarRaiz(drive.DriveApi api) async {
-    final String escaped = rootFolderName
-        .replaceAll(r'\', r'\\')
-        .replaceAll("'", r"\'");
+  Future<String?> _procurarRaiz(drive.DriveApi api, String nome) async {
+    final String escaped = nome.replaceAll(r'\', r'\\').replaceAll("'", r"\'");
 
     final drive.FileList found = await api.files.list(
       q:
