@@ -94,7 +94,7 @@ class CartaoDoProximoMarco extends StatelessWidget {
 /// arquivo, e escolher um dos dois seria atribuir à criança um sexo que
 /// ninguém informou.
 class BoloDeAniversario extends StatelessWidget {
-  const BoloDeAniversario({required this.genero, super.key, this.tamanho = 84});
+  const BoloDeAniversario({required this.genero, super.key, this.tamanho = 96});
 
   final BabyGender? genero;
 
@@ -110,32 +110,43 @@ class BoloDeAniversario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? arte = arteDe(genero);
-    // O bolo vem sobre um fundo suave, e não solto no cartão branco.
-    //
-    // Dois andares dele são creme, e creme sobre branco não existe: sem esta
-    // base o desenho perdia metade da silhueta e sobravam duas faixas
-    // coloridas flutuando. É também o mesmo tratamento que a arte das
-    // inspirações recebe, então os dois cartões da tela se parecem.
-    return Container(
+
+    if (arte == null) return _comFundo(context, _desenho(context));
+
+    return Image.asset(
+      arte,
       width: tamanho,
       height: tamanho,
-      padding: const EdgeInsets.all(Space.x8),
-      decoration: BoxDecoration(
-        color: context.cores.accentSoft,
-        borderRadius: Radii.fieldR,
-      ),
-      child: arte == null
-          ? CustomPaint(painter: _Bolo(cores: context.cores))
-          : Image.asset(
-              arte,
-              fit: BoxFit.contain,
-              // Sem o arquivo, o desenho entra no lugar. É o que permite
-              // declarar a pasta vazia e ainda assim compilar e rodar.
-              errorBuilder: (_, _, _) =>
-                  CustomPaint(painter: _Bolo(cores: context.cores)),
-            ),
+      fit: BoxFit.contain,
+      // Sem o arquivo, o desenho entra no lugar. É o que permite declarar a
+      // pasta vazia e ainda assim compilar e rodar.
+      errorBuilder: (_, _, _) => _comFundo(context, _desenho(context)),
     );
   }
+
+  Widget _desenho(BuildContext context) =>
+      CustomPaint(painter: _Bolo(cores: context.cores));
+
+  /// A base suave atrás do bolo, **só para o desenho de reserva**.
+  ///
+  /// Dois andares do desenho são creme, e creme sobre branco não existe: sem
+  /// esta base ele perdia metade da silhueta e sobravam duas faixas
+  /// coloridas flutuando.
+  ///
+  /// A arte de verdade não passa por aqui, e é de propósito: ela vem com
+  /// sombra e volume próprios, e é assim, solta no cartão, que ela aparece no
+  /// modelo. Uma caixa colorida atrás dela seria uma moldura que o desenho
+  /// não pediu, resolvendo um problema que só o bolo em código tem.
+  Widget _comFundo(BuildContext context, Widget filho) => Container(
+    width: tamanho,
+    height: tamanho,
+    padding: const EdgeInsets.all(Space.x8),
+    decoration: BoxDecoration(
+      color: context.cores.accentSoft,
+      borderRadius: Radii.fieldR,
+    ),
+    child: filho,
+  );
 }
 
 class _Bolo extends CustomPainter {

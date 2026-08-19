@@ -135,6 +135,55 @@ void main() {
       // informou.
       expect(BoloDeAniversario.arteDe(null), isNull);
     });
+
+    testWidgets('com arte, o bolo aparece solto, sem caixa atrás', (
+      WidgetTester tester,
+    ) async {
+      // É assim que o modelo enviado mostra: o bolo pousado no cartão, sem
+      // moldura. A caixa colorida existe só para o desenho de reserva, cujos
+      // andares creme sumiriam no branco.
+      await montar(
+        tester,
+        nascimento: DateTime(2026, 11, 2),
+        hoje: DateTime(2028, 8, 21),
+      );
+
+      // O `Image.asset` é a raiz quando há arte declarada. Sem arquivo na
+      // pasta ele cai no `errorBuilder`, e aí sim aparece o Container.
+      expect(
+        find.descendant(
+          of: find.byType(BoloDeAniversario),
+          matching: find.byType(Image),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('sem sexo, o desenho de reserva vem com a base suave', (
+      WidgetTester tester,
+    ) async {
+      await montar(
+        tester,
+        nascimento: DateTime(2026, 11, 2),
+        hoje: DateTime(2028, 8, 21),
+        sexo: null,
+      );
+
+      expect(
+        find.descendant(
+          of: find.byType(BoloDeAniversario),
+          matching: find.byType(CustomPaint),
+        ),
+        findsWidgets,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(BoloDeAniversario),
+          matching: find.byType(Image),
+        ),
+        findsNothing,
+      );
+    });
   });
 
   group('as bordas', () {
@@ -150,17 +199,33 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('recém-nascido tem marco, e ele é de semana', (
+    testWidgets('recém-nascido já aponta para os três meses', (
       WidgetTester tester,
     ) async {
-      // O primeiro marco da vida chega em uma semana, e não daqui a um mês.
+      // O primeiro marco da vida é o dos três meses. As semanas continuam na
+      // linha do tempo, onde uma semana ainda é muita coisa, mas anunciá-las
+      // aqui enchia o cartão de aviso a cada seis dias.
       await montar(
         tester,
         nascimento: DateTime(2028, 8, 20),
         hoje: DateTime(2028, 8, 21),
       );
-      expect(find.text('1 semana'), findsOneWidget);
-      expect(find.text('Daqui a 6 dias'), findsOneWidget);
+      expect(find.text('3 meses'), findsOneWidget);
+      expect(find.textContaining('Daqui a'), findsOneWidget);
+    });
+
+    testWidgets('depois do primeiro ano, nenhum mês avulso aparece', (
+      WidgetTester tester,
+    ) async {
+      // O defeito relatado, preso na tela: aos 21 meses e meio o cartão
+      // dizia "22 meses, daqui a 12 dias". Agora aponta para os dois anos.
+      await montar(
+        tester,
+        nascimento: DateTime(2026, 11, 2),
+        hoje: DateTime(2028, 8, 21),
+      );
+      expect(find.text('2 anos'), findsOneWidget);
+      expect(find.textContaining('meses'), findsNothing);
     });
   });
 }

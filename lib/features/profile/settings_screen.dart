@@ -7,6 +7,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/reminder.dart';
+import '../../state/idioma_providers.dart';
 import '../../state/lock_providers.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -89,6 +90,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 'que mantém o acervo leve por muitos anos.',
           ),
           const SizedBox(height: Space.block),
+          const SectionHeader(title: 'Idioma'),
+          const _IdiomaTile(),
+          const SizedBox(height: Space.x12),
+          const InfoNote(
+            message:
+                'A escolha já fica guardada, mas a tradução ainda está sendo '
+                'feita: por enquanto o aplicativo continua em português.',
+            icon: Icons.translate,
+          ),
+          const SizedBox(height: Space.block),
           const SectionHeader(title: 'Lembretes'),
           const _RemindersTile(),
           const SizedBox(height: Space.block),
@@ -131,6 +142,71 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// As duas línguas, lado a lado.
+///
+/// Escolha visível em vez de uma linha que abre outra tela: são só duas
+/// opções, e esconder duas opções atrás de um toque é um toque a mais para
+/// nada.
+class _IdiomaTile extends ConsumerWidget {
+  const _IdiomaTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Idioma atual = ref.watch(idiomaProvider);
+
+    return SoftCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          for (final Idioma idioma in Idioma.values) ...<Widget>[
+            if (idioma != Idioma.values.first) const Divider(height: 24),
+            _OpcaoDeIdioma(
+              idioma: idioma,
+              escolhido: idioma == atual,
+              onTap: () => ref.read(idiomaProvider.notifier).escolher(idioma),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _OpcaoDeIdioma extends StatelessWidget {
+  const _OpcaoDeIdioma({
+    required this.idioma,
+    required this.escolhido,
+    required this.onTap,
+  });
+
+  final Idioma idioma;
+  final bool escolhido;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              // O nome de cada língua na própria língua: quem procura inglês
+              // procura por "English", em qualquer tela.
+              idioma.nome,
+              style: text.titleSmall,
+            ),
+          ),
+          if (escolhido)
+            Icon(Icons.check, size: 20, color: context.cores.primaryDark),
         ],
       ),
     );

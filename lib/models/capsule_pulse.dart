@@ -132,29 +132,74 @@ class CapsulePulse {
     return null;
   }
 
-  /// O próximo marco de idade, contado a partir de [dia] e incluindo ele.
+  /// Os marcos de desenvolvimento, em meses de vida.
   ///
-  /// Marco aqui é a mesma coisa que [dataRedondaEm] chama de data redonda: os
-  /// meses e os anos a vida inteira, e as semanas nos três primeiros meses.
-  /// A busca é feita **perguntando a ela**, dia a dia, em vez de recalcular a
-  /// regra por fora. Duas contas separadas para a mesma pergunta divergiriam
-  /// no primeiro caso de borda, e aí o cartão anunciaria um marco que a linha
-  /// do tempo não marcaria quando chegasse o dia.
+  /// **Não é toda data redonda.** A linha do tempo marca todo mês, e faz
+  /// sentido que marque: rolando o histórico, ver "22 meses" ao lado das
+  /// fotos daquele mês ajuda a se situar. Mas um cartão que olha para a
+  /// frente e anuncia "22 meses, daqui a 12 dias" não anuncia nada: todo mês
+  /// vira marco, e o que acontece todo mês deixa de ser marco.
   ///
-  /// Varrer dia a dia é barato: o maior intervalo entre dois marcos é o de um
-  /// mês para o outro, então a resposta aparece em no máximo trinta e poucas
-  /// voltas. O teto existe só para a função não girar para sempre se um dia
-  /// alguém mudar a regra e deixar de haver marco algum.
+  /// A lista é a que os pais de fato usam para falar da criança: os três e os
+  /// seis meses, o primeiro aniversário, e daí em diante ano a ano. Entre os
+  /// seis meses e o primeiro ano não há nada de propósito, porque a próxima
+  /// coisa que a família espera depois do meio ano é o aniversário.
+  static const List<int> marcosEmMeses = <int>[3, 6];
+
+  /// Até que idade a lista acima vale antes de virar contagem de anos.
+  static const int _mesesDoPrimeiroAno = 12;
+
+  /// O próximo marco de desenvolvimento, contado a partir de [dia] e
+  /// incluindo ele.
+  ///
+  /// A data de cada marco vem de [AgeCalculator.addMonths], que é a mesma
+  /// função que a linha do tempo usa para saber quando a criança completa
+  /// meses. É isso que garante que o cartão nunca anuncie um dia que o
+  /// histórico depois não celebre: todo marco daqui é também uma data redonda
+  /// de lá, só que o contrário não vale.
+  ///
+  /// O nascimento não é marco: no dia zero o cartão apontaria para o próprio
+  /// dia, e "é hoje" para alguém que acabou de nascer não acrescenta nada a
+  /// quem está com a criança no colo.
   static ProximoMarco? proximoMarcoDe(DateTime birth, DateTime dia) {
     final DateTime hoje = AgeCalculator.dayOf(dia);
-    for (int adiante = 0; adiante <= 400; adiante++) {
-      final DateTime quando = hoje.add(Duration(days: adiante));
-      final String? rotulo = dataRedondaEm(birth, quando);
-      if (rotulo != null) {
-        return ProximoMarco(rotulo: rotulo, quando: quando, diasAte: adiante);
-      }
+    final DateTime nascimento = AgeCalculator.dayOf(birth);
+
+    for (final int meses in _mesesDosMarcos()) {
+      final DateTime quando = AgeCalculator.dayOf(
+        AgeCalculator.addMonths(nascimento, meses),
+      );
+      if (quando.isBefore(hoje)) continue;
+
+      return ProximoMarco(
+        rotulo: rotuloDoMarco(meses),
+        quando: quando,
+        diasAte: quando.difference(hoje).inDays,
+      );
     }
     return null;
+  }
+
+  /// A sequência de marcos, do primeiro em diante.
+  ///
+  /// Preguiçosa porque é infinita por natureza: a criança vira adulta e os
+  /// aniversários continuam. O teto de cem anos existe só para a busca acabar
+  /// caso alguém passe uma data de nascimento absurda.
+  static Iterable<int> _mesesDosMarcos() sync* {
+    yield* marcosEmMeses;
+    for (int ano = 1; ano <= 100; ano++) {
+      yield ano * _mesesDoPrimeiroAno;
+    }
+  }
+
+  /// `3 meses`, `1 ano`, `2 anos`.
+  @visibleForTesting
+  static String rotuloDoMarco(int meses) {
+    if (meses % _mesesDoPrimeiroAno == 0) {
+      final int anos = meses ~/ _mesesDoPrimeiroAno;
+      return anos == 1 ? '1 ano' : '$anos anos';
+    }
+    return meses == 1 ? '1 mês' : '$meses meses';
   }
 
   /// O próximo aniversário a partir de [today], incluindo hoje.

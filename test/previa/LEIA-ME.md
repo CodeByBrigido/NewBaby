@@ -14,6 +14,8 @@ Imagens geradas em teste, para olhar o desenho sem instalar o APK.
 | `home-nova-menina/menino.png` | a tela inicial com o painel novo e o Acervo como está |
 | `folha-trancada-menina/menino.png` | a folha de adicionar com os cadeados do Premium |
 | `convite-premium-menina/menino.png` | o popup que o toque numa opção trancada abre |
+| `marco-desenvolvimento.png` | o cartão do próximo marco, com a regra nova |
+| `idioma.png` | a escolha de idioma, nas Configurações |
 
 Regeneradas com:
 
@@ -24,6 +26,7 @@ flutter test --run-skipped --update-goldens test/previa_da_home_test.dart
 flutter test --run-skipped --update-goldens test/previa_do_painel_test.dart
 flutter test --run-skipped --update-goldens test/previa_da_home_nova_test.dart
 flutter test --run-skipped --update-goldens test/previa_do_convite_test.dart
+flutter test --run-skipped --update-goldens test/previa_do_idioma_test.dart
 ```
 
 **Nem toda imagem aqui desenha uma tela que existe.** As `home-1` a `home-6`
