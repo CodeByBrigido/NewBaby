@@ -30,6 +30,12 @@ Textos _ativo = const TextosPt();
 /// que já estava lá.
 void definirTextos(Textos textos) => _ativo = textos;
 
+/// Se a língua ativa é o inglês.
+///
+/// Existe para o `Copy`, que precisa escolher entre duas construções de frase
+/// e não pode fazer isso comparando texto traduzido.
+bool get emIngles => _ativo is TextosEn;
+
 /// As duas implementações, para quem precisa de uma delas sem trocar a ativa.
 ///
 /// Os testes usam isto para comparar as duas línguas lado a lado, que é o

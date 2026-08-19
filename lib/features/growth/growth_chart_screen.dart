@@ -36,12 +36,10 @@ class GrowthChartScreen extends ConsumerWidget {
         ),
       ),
       body: records.length < 2 || profile == null
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.show_chart,
               title: 'Poucos registros',
-              message:
-                  'A partir de dois registros o gráfico começa a contar a '
-                  'história.',
+              message: S.growthChartHint,
             )
           : ListView(
               padding: const EdgeInsets.fromLTRB(

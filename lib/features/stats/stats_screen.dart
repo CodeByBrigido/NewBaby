@@ -79,7 +79,7 @@ class StatsScreen extends ConsumerWidget {
                     const SizedBox(width: Space.x12),
                     Expanded(
                       child: Text(
-                        'Não foi possível ler o espaço do Google Drive.',
+                        S.driveSpaceFailed,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),

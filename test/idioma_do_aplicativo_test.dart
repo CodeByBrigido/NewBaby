@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:meu_bebe/core/l10n/copy.dart';
 import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/utils/formatters.dart';
+import 'package:meu_bebe/models/baby_gender.dart';
 
 /// O aplicativo em duas línguas.
 ///
@@ -140,6 +142,66 @@ void main() {
       expect(Fmt.ordinal(22), '22nd');
       expect(Fmt.ordinal(23), '23rd');
       expect(Fmt.ordinal(112), '112th');
+    });
+  });
+
+  group('as frases sobre a criança', () {
+    test('o português concorda em gênero, o inglês usa possessivo', () {
+      definirTextos(textosPt);
+      expect(Copy.para('Maria', BabyGender.girl).ofName, 'da Maria');
+      expect(Copy.para('Pedro', BabyGender.boy).ofName, 'do Pedro');
+
+      definirTextos(textosEn);
+      expect(Copy.para('Maria', BabyGender.girl).ofName, "Maria's");
+      expect(Copy.para('Pedro', BabyGender.boy).ofName, "Pedro's");
+    });
+
+    test('nome terminado em s leva só o apóstrofo', () {
+      definirTextos(textosEn);
+      expect(Copy.para('Lucas', BabyGender.boy).ofName, "Lucas'");
+    });
+
+    test('a ordem da frase muda junto, e não só as palavras', () {
+      // 'Adicionar fotos da Maria' não vira 'Add photos of Maria': o
+      // possessivo inglês vem antes do substantivo.
+      definirTextos(textosPt);
+      expect(
+        Copy.para('Maria', BabyGender.girl).addPhotoHint,
+        'Adicionar fotos da Maria',
+      );
+
+      definirTextos(textosEn);
+      expect(
+        Copy.para('Maria', BabyGender.girl).addPhotoHint,
+        "Add Maria's photos",
+      );
+    });
+
+    test('sem sexo informado, o inglês tem uma saída melhor', () {
+      // O português cai em 'da criança'; o inglês usa o their singular.
+      definirTextos(textosEn);
+      expect(Copy.para('Alex', null).theirs, 'theirs');
+
+      definirTextos(textosPt);
+      expect(Copy.para('Alex', null).theirs, 'da criança');
+    });
+
+    test('sem nome, a frase é outra e não uma versão pior', () {
+      definirTextos(textosEn);
+      final Copy g = Copy.para(null, null);
+      expect(g.hasName, isFalse);
+      expect(g.addPhotoHint, 'Add photos');
+      expect(g.letterHint, contains('the future'));
+    });
+
+    test('a genérica não congela a língua', () {
+      // Ela era `const`, e uma constante teria travado a primeira língua que
+      // aparecesse para o resto da execução.
+      definirTextos(textosPt);
+      expect(Copy.generic.onboardingSubtitle, contains('lembrado'));
+
+      definirTextos(textosEn);
+      expect(Copy.generic.onboardingSubtitle, contains('remembered'));
     });
   });
 

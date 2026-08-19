@@ -571,4 +571,248 @@ class TextosPt implements Textos {
 
   @override
   String contarVideos(int n) => n == 1 ? '1 vídeo' : '$n vídeos';
+
+  @override
+  String get lastBirth => 'Último nascimento';
+
+  @override
+  String get lastPhoto => 'Última foto';
+
+  @override
+  String get lastVideo => 'Último vídeo';
+
+  @override
+  String get lastLetter => 'Última carta';
+
+  @override
+  String get lastDrawing => 'Último desenho';
+
+  @override
+  String get lastDocument => 'Último documento';
+
+  @override
+  String get lastGrowth => 'Última medição';
+
+  @override
+  String get oneVideo => 'vídeo';
+
+  @override
+  String get oneGrowth => 'medição';
+
+  @override
+  String get imageOpenFailed => 'Não foi possível abrir esta imagem.';
+
+  @override
+  String get videoOpenFailed => 'Não foi possível abrir este vídeo.';
+
+  @override
+  String get documentNotFound => 'Documento não encontrado';
+
+  @override
+  String get letterNotFound => 'Carta não encontrada';
+
+  @override
+  String get entryNotFound => 'Memória não encontrada';
+
+  @override
+  String get driveSpaceFailed =>
+      'Não foi possível ler o espaço do Google Drive.';
+
+  @override
+  String get firstVideoHint => 'Toque no + para adicionar o primeiro vídeo.';
+
+  @override
+  String get documentsEmptyBody =>
+      'Certidão, carteira de vacinação, passaporte - tudo em um lugar só.';
+
+  @override
+  String get isToday => 'É hoje';
+
+  @override
+  String get isTodayBang => 'É hoje!';
+
+  @override
+  String get tomorrow => 'Amanhã';
+
+  @override
+  String get nextMilestone => 'Próximo marco';
+
+  @override
+  String get seeInspiration => 'Ver inspiração';
+
+  @override
+  String get forYou => 'Para você';
+
+  @override
+  String get notYet => 'ainda não';
+
+  @override
+  String get inspirations => 'Inspirações';
+
+  @override
+  String get inspirationsLoadFailed => 'Não deu para carregar as ideias';
+
+  @override
+  String get inspirationSearchHint => 'O que você quer saber?';
+
+  @override
+  String get suggestionsByAge =>
+      'As sugestões aparecem conforme a idade e o calendário.';
+
+  @override
+  String get notNow => 'Agora não';
+
+  @override
+  String get savedTitle => 'Está guardado';
+
+  @override
+  String get sendMemoryError => 'Enviar memória';
+
+  @override
+  String get dateFromFile => 'Data lida do próprio arquivo. Toque para trocar.';
+
+  @override
+  String get deletedOn => 'Excluído em ';
+
+  @override
+  String get itemDeleted => 'Item excluído.';
+
+  @override
+  String get documentNameSuggestion => 'Certidão de nascimento';
+
+  @override
+  String get saveInfo => 'Salvar informações';
+
+  @override
+  String get editInfo => 'Editar informações';
+
+  @override
+  String get notProvided => 'Não informada';
+
+  @override
+  String get automatic => 'Automática';
+
+  @override
+  String get reviewIntro => 'Rever a apresentação';
+
+  @override
+  String get lastUpdatedLabel => 'Última atualização';
+
+  @override
+  String get optimization => 'Otimização';
+
+  @override
+  String get photoMaxSide => 'Até 960 px no lado maior';
+
+  @override
+  String get optimizationNote =>
+      'A otimização é automática e não pode ser desligada - é o que mantém o acervo leve por muitos anos.';
+
+  @override
+  String get languageSection => 'Idioma';
+
+  @override
+  String get clearCacheBody =>
+      'Apaga miniaturas, arquivos temporários e os documentos já baixados. Nada é perdido: tudo continua no Google Drive.';
+
+  @override
+  String get cacheCleared => 'Cache limpo.';
+
+  @override
+  String get clearCache => 'Limpar cache';
+
+  @override
+  String get storageOnDevice => 'Armazenamento no aparelho';
+
+  @override
+  String get remindersSection => 'Lembretes';
+
+  @override
+  String get remindersOff => 'Desligados';
+
+  @override
+  String get startupFailedTitle => 'O aplicativo não conseguiu iniciar';
+
+  @override
+  String get technicalDetail => 'Detalhe técnico';
+
+  @override
+  String get premiumInviteAction => 'Entendi';
+
+  @override
+  String get introTitle1 => 'A infância passa depressa.';
+
+  @override
+  String get introTitle2 => 'Toda lembrança tem seu lugar.';
+
+  @override
+  String get introBody2 =>
+      'Fotos, vídeos, cartas, desenhos, documentos e registros de crescimento. Tudo reunido em um único lugar.';
+
+  @override
+  String get introTitle3 => 'Cada memória no seu tempo.';
+
+  @override
+  String get introTitle4 => 'Vamos criar essa cápsula?';
+
+  @override
+  String get sealBody =>
+      'Isto fica fechado até a data que você escolher. O conteúdo continua no seu Drive, e você pode abrir antes se quiser: é um lacre, como o da cápsula enterrada no quintal, não um cofre.';
+
+  @override
+  String get aboutPhotos =>
+      'Nenhuma foto passa por servidor nosso: elas vão direto do seu aparelho para o Google Drive da sua conta.';
+
+  @override
+  String get aboutScope =>
+      'O aplicativo não enxerga o resto do seu Drive. A permissão que você concede dá acesso apenas aos arquivos que ele mesmo cria, todos dentro da pasta "Meu Bebê - Cápsula do Tempo". Suas outras pastas são invisíveis para ele.';
+
+  @override
+  String get aboutIndex =>
+      'O que fica no nosso servidor é o índice: nome, data de nascimento, peso, altura, datas e o texto das cartas. É o que faz a linha do tempo e a busca funcionarem. Você pode apagar tudo isso quando quiser.';
+
+  @override
+  String get aboutLastingTitle => 'Para a cápsula durar';
+
+  @override
+  String get deleteDriveNote =>
+      'Mesmo mandando para a lixeira, os arquivos são seus e estão no seu Drive: o aplicativo nunca teve uma cópia deles.';
+
+  @override
+  String get profilePhotoNote =>
+      'A foto de perfil sai das memórias já guardadas. Acrescente uma foto para poder escolher.';
+
+  @override
+  String get remindersHowTitle => 'Sobre o quê';
+
+  @override
+  String get remindersMarkedTitle => 'O que está marcado';
+
+  @override
+  String get remindersFrequency =>
+      'No máximo dois por semana, nunca dois no mesmo dia.';
+
+  @override
+  String get remindersOffNote =>
+      'Desligado. Nada é enviado. Se o celular tiver negado as notificações, libere em Ajustes, Aplicativos, Meu Bebê.';
+
+  @override
+  String get remindersNothingSoon =>
+      'Nada nas próximas semanas. Isso é normal: os lembretes aparecem quando há de fato uma data por perto.';
+
+  @override
+  String get remindersPrivacy =>
+      'Os lembretes são calculados dentro do seu celular, a partir do que já está aqui. Nada é enviado para nenhum servidor para isso acontecer, e nenhum aviso cita o que você guardou.';
+
+  @override
+  String get remindersDenied =>
+      'O Android não autorizou as notificações. Você pode liberar nos ajustes do celular, em Aplicativos, Meu Bebê.';
+
+  @override
+  String get sealedEmptyBody =>
+      'Ao guardar uma carta ou um vídeo, você pode escolher uma data para ele abrir: um aniversário, a maioridade, ou qualquer outra. Fica esperando aqui até lá.';
+
+  @override
+  String get growthChartHint =>
+      'A partir de dois registros o gráfico começa a contar a história.';
 }

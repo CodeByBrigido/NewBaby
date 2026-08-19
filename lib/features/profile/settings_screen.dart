@@ -29,10 +29,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await ref.read(mediaOptimizerProvider).clearCaches();
       await ref.read(thumbnailServiceProvider).clear();
       await ref.read(memoryRepositoryProvider).clearDownloads();
-      if (mounted) showMessage(context, 'Cache limpo.');
+      if (mounted) showMessage(context, S.cacheCleared);
     } on Exception catch (e) {
       if (mounted) {
-        showMessage(context, userMessage(e, context: 'Limpar cache'));
+        showMessage(context, userMessage(e, context: S.clearCache));
       }
     } finally {
       if (mounted) setState(() => _clearing = false);
@@ -58,15 +58,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Space.x32,
         ),
         children: <Widget>[
-          const SectionHeader(title: 'Otimização'),
-          const SoftCard(
+          SectionHeader(title: S.optimization),
+          SoftCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Fixed(
                   icon: Icons.photo_outlined,
                   title: 'Fotos',
-                  value: 'Até 960 px no lado maior',
+                  value: S.photoMaxSide,
                 ),
                 Divider(height: 24),
                 _Fixed(
@@ -84,13 +84,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
           const SizedBox(height: Space.x12),
-          const InfoNote(
-            message:
-                'A otimização é automática e não pode ser desligada - é o '
-                'que mantém o acervo leve por muitos anos.',
-          ),
+          InfoNote(message: S.optimizationNote),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: 'Idioma'),
+          SectionHeader(title: S.languageSection),
           const _IdiomaTile(),
           const SizedBox(height: Space.x12),
           const InfoNote(
@@ -100,7 +96,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: Icons.translate,
           ),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: 'Lembretes'),
+          SectionHeader(title: S.remindersSection),
           const _RemindersTile(),
           const SizedBox(height: Space.block),
           SectionHeader(title: S.lockSection),
@@ -108,7 +104,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: Space.x12),
           InfoNote(message: S.lockNote, icon: Icons.lock_outline),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: 'Armazenamento no aparelho'),
+          SectionHeader(title: S.storageOnDevice),
           SoftCard(
             onTap: _clearing ? null : _clearCaches,
             child: Row(
@@ -120,14 +116,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Limpar cache',
+                        S.clearCache,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       const SizedBox(height: Space.x4),
                       Text(
-                        'Apaga miniaturas, arquivos temporários e os '
-                        'documentos já baixados. Nada é perdido: tudo '
-                        'continua no Google Drive.',
+                        S.clearCacheBody,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -239,7 +233,7 @@ class _RemindersTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Lembretes',
+                  S.remindersSection,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 const SizedBox(height: Space.x4),
@@ -247,7 +241,7 @@ class _RemindersTile extends ConsumerWidget {
                   ajuste.enabled
                       ? '${ajuste.kinds.length} de ${ReminderKind.values.length} '
                             'tipos, às ${ajuste.safeHour}h'
-                      : 'Desligados',
+                      : S.remindersOff,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: context.cores.textSecondary,
                   ),

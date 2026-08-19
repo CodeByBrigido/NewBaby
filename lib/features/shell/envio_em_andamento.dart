@@ -176,7 +176,7 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
   String _onde({required bool pronto}) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final Copy g = Copy.of(profile);
-    final String verbo = pronto ? 'Está guardado' : 'Vai ficar guardado';
+    final String verbo = pronto ? S.savedTitle : 'Vai ficar guardado';
 
     // "no Google Drive da sua filha", e não "na sua conta do Google Drive".
     // A conta é da criança desde o primeiro dia, e esta é a frase que a

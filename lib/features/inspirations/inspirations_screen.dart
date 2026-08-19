@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -67,7 +68,7 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !widget.embedded,
-        title: const Text('Inspirações'),
+        title: Text(S.inspirations),
         actions: <Widget>[
           // A lupa daqui busca **dentro do blog**, e não no acervo do
           // Drive. Eram duas coisas sem relação: quem está lendo sobre a
@@ -85,9 +86,9 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
       ),
       body: feed.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (Object e, _) => const EmptyState(
+        error: (Object e, _) => EmptyState(
           icon: Icons.lightbulb_outline,
-          title: 'Não deu para carregar as ideias',
+          title: S.inspirationsLoadFailed,
           message: 'Tente abrir de novo daqui a pouco.',
         ),
         data: (List<ActiveInspiration> itens) {
@@ -200,9 +201,9 @@ class _Card extends StatelessWidget {
                 const SizedBox(height: Space.x12),
                 Text(
                   dias == 0
-                      ? 'É hoje'
+                      ? S.isToday
                       : dias == 1
-                      ? 'Amanhã'
+                      ? S.tomorrow
                       : 'Faltam $dias dias',
                   style: text.labelMedium?.copyWith(
                     color: context.cores.primaryDark,

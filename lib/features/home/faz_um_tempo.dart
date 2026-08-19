@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -96,7 +97,7 @@ class _Linha extends StatelessWidget {
     // passado, e coisas opostas sobre o futuro: uma fecha a porta e a outra
     // é um convite, que é o que esta lista existe para ser.
     final String tempo = quando == null
-        ? 'ainda não'
+        ? S.notYet
         : Fmt.tempoDesde(quando!, agora: hoje);
 
     return InkWell(

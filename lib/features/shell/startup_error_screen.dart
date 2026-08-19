@@ -1,3 +1,4 @@
+import '../../core/l10n/strings.dart';
 import '../../core/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
@@ -34,8 +35,8 @@ class StartupErrorApp extends StatelessWidget {
                   color: Color(0xFFD1585B),
                 ),
                 const SizedBox(height: Space.x20),
-                const Text(
-                  'O aplicativo não conseguiu iniciar',
+                Text(
+                  S.startupFailedTitle,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -51,8 +52,8 @@ class StartupErrorApp extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: Color(0xFF8A7C81)),
                 ),
                 const SizedBox(height: Space.x24),
-                const Text(
-                  'Detalhe técnico',
+                Text(
+                  S.technicalDetail,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

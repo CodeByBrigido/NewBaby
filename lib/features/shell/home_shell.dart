@@ -128,7 +128,7 @@ class _BottomBar extends StatelessWidget {
           _BarItem(
             icon: Icons.lightbulb_outline,
             selectedIcon: Icons.lightbulb,
-            label: 'Inspirações',
+            label: S.inspirations,
             selected: index == 3,
             badge: novidades,
             onTap: () => onSelected(3),

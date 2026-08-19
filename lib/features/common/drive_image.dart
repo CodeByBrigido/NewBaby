@@ -1,3 +1,4 @@
+import '../../core/l10n/strings.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -160,7 +161,7 @@ class _DriveFullImageState extends ConsumerState<DriveFullImage> {
             child: Padding(
               padding: const EdgeInsets.all(Space.x24),
               child: Text(
-                'Não foi possível abrir esta imagem.',
+                S.imageOpenFailed,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(color: Colors.white70),

@@ -40,10 +40,7 @@ class EntryDetailScreen extends ConsumerWidget {
                 context.canPop() ? context.pop() : context.go(Routes.timeline),
           ),
         ),
-        body: const EmptyState(
-          icon: Icons.image_outlined,
-          title: 'Memória não encontrada',
-        ),
+        body: EmptyState(icon: Icons.image_outlined, title: S.entryNotFound),
       );
     }
 

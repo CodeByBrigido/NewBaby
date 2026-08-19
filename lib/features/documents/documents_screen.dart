@@ -50,12 +50,10 @@ class DocumentsScreen extends ConsumerWidget {
         ),
       ),
       body: documents.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.description_outlined,
               title: 'Nenhum documento ainda',
-              message:
-                  'Certidão, carteira de vacinação, passaporte - tudo em um '
-                  'lugar só.',
+              message: S.documentsEmptyBody,
             )
           // Arrastável, porque documento não tem ordem natural.
           //

@@ -49,7 +49,7 @@ class CartaoDoProximoMarco extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Sobrancelha('Próximo marco'),
+                Sobrancelha(S.nextMilestone),
                 const SizedBox(height: Space.x12),
                 Text(
                   marco.rotulo,
@@ -62,7 +62,7 @@ class CartaoDoProximoMarco extends StatelessWidget {
                   // No próprio dia a contagem não faz sentido, e o que a
                   // pessoa quer ler é que chegou.
                   marco.ehHoje
-                      ? 'É hoje!'
+                      ? S.isTodayBang
                       : 'Daqui a ${S.contarDias(marco.diasAte)}',
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.textSecondary,

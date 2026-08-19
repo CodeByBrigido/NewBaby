@@ -122,7 +122,7 @@ class AtalhoDeInspiracao extends ConsumerWidget {
                       const SizedBox(height: Space.x8),
                       Text(
                         faltam == 0
-                            ? 'É hoje'
+                            ? S.isToday
                             : 'Faltam ${S.contarDias(faltam)}',
                         style: text.labelSmall?.copyWith(
                           color: context.cores.primaryDark,
@@ -134,7 +134,7 @@ class AtalhoDeInspiracao extends ConsumerWidget {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Ver inspiração',
+                          S.seeInspiration,
                           style: text.labelLarge?.copyWith(
                             color: context.cores.primary,
                           ),
@@ -178,6 +178,6 @@ class AtalhoDeInspiracao extends ConsumerWidget {
 String etiquetaDe(ActiveInspiration ativa, Copy g) {
   final String? daPostagem = ativa.inspiration.label;
   if (daPostagem != null) return daPostagem;
-  if (ativa.hasDeadline) return 'Para você';
+  if (ativa.hasDeadline) return S.forYou;
   return g.hasName ? 'Para ${g.name}, agora' : 'Para viver agora';
 }

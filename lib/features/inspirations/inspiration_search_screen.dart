@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/inspiration.dart';
@@ -72,9 +73,9 @@ class _InspirationSearchScreenState
         ],
       ),
       body: !procurando
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.search,
-              title: 'O que você quer saber?',
+              title: S.inspirationSearchHint,
               message:
                   'Procure por um assunto: sono, creche, viagem, festa, '
                   'carta, comida.',

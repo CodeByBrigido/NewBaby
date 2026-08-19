@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -44,7 +45,7 @@ class _SealSheet extends StatelessWidget {
     /// Aniversários redondos são as datas que alguém de fato escolhe.
     List<(String, DateTime)> opcoes() {
       final BabyProfile? p = profile;
-      if (p == null) return const <(String, DateTime)>[];
+      if (p == null) return <(String, DateTime)>[];
       return <(String, DateTime)>[
         for (final int anos in <int>[15, 18, 21, 25, 30])
           (
@@ -56,7 +57,7 @@ class _SealSheet extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
+        padding: EdgeInsets.fromLTRB(
           Space.x20,
           Space.x20,
           Space.x20,
@@ -67,14 +68,8 @@ class _SealSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('Guardar para o futuro', style: text.titleMedium),
-            const SizedBox(height: Space.x8),
-            Text(
-              'Isto fica fechado até a data que você escolher. O conteúdo '
-              'continua no seu Drive, e você pode abrir antes se quiser: é '
-              'um lacre, como o da cápsula enterrada no quintal, não um '
-              'cofre.',
-              style: text.bodySmall,
-            ),
+            SizedBox(height: Space.x8),
+            Text(S.sealBody, style: text.bodySmall),
             const SizedBox(height: Space.x20),
 
             for (final (String rotulo, DateTime data) in opcoes())

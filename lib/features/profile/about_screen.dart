@@ -72,14 +72,7 @@ class AboutScreen extends ConsumerWidget {
             icon: Icons.lock_outline,
           ),
           const SizedBox(height: Space.x12),
-          const InfoNote(
-            message:
-                'O aplicativo não enxerga o resto do seu Drive. A permissão '
-                'que você concede dá acesso apenas aos arquivos que ele '
-                'mesmo cria, todos dentro da pasta "Meu Bebê - Cápsula do '
-                'Tempo". Suas outras pastas são invisíveis para ele.',
-            icon: Icons.folder_off_outlined,
-          ),
+          InfoNote(message: S.aboutScope, icon: Icons.folder_off_outlined),
           const SizedBox(height: Space.x12),
           // A frase acima é verdadeira e é fácil de ler como se valesse para
           // tudo. Vale para os arquivos - e só. O índice fica num servidor
@@ -101,7 +94,7 @@ class AboutScreen extends ConsumerWidget {
               children: <Widget>[
                 Icon(Icons.shield_outlined, color: context.cores.textSecondary),
                 const SizedBox(width: Space.x16),
-                const Expanded(child: Text('Política de privacidade')),
+                Expanded(child: Text(S.privacyPolicy)),
                 Icon(Icons.chevron_right, color: context.cores.textSecondary),
               ],
             ),
@@ -116,14 +109,14 @@ class AboutScreen extends ConsumerWidget {
                   color: context.cores.textSecondary,
                 ),
                 const SizedBox(width: Space.x16),
-                const Expanded(child: Text('Rever a apresentação')),
+                Expanded(child: Text(S.reviewIntro)),
                 Icon(Icons.chevron_right, color: context.cores.textSecondary),
               ],
             ),
           ),
 
           const SizedBox(height: Space.x32),
-          const SectionHeader(title: 'Para a cápsula durar'),
+          SectionHeader(title: S.aboutLastingTitle),
           // O aviso que quase nenhum aplicativo dá, e que este precisa dar:
           // guardar vinte anos de memórias numa conta que pode ser apagada
           // por desuso é um risco real, e quem corre esse risco tem o direito

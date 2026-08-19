@@ -36,10 +36,7 @@ class LetterScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
         ),
-        body: const EmptyState(
-          icon: Icons.mail_outline,
-          title: 'Carta não encontrada',
-        ),
+        body: EmptyState(icon: Icons.mail_outline, title: S.letterNotFound),
       );
     }
 

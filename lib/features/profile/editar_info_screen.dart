@@ -138,7 +138,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
       if (mounted) {
         setState(() {
           _salvando = false;
-          _erro = userMessage(e, context: 'Salvar informações');
+          _erro = userMessage(e, context: S.saveInfo);
         });
       }
     }
@@ -154,7 +154,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar informações'),
+        title: Text(S.editInfo),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -191,7 +191,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
               _Escolha(
                 label: S.birthTime,
                 valor: _hora?.format(context),
-                vazio: 'Não informada',
+                vazio: S.notProvided,
                 onTap: _escolherHora,
               ),
               const SizedBox(height: Space.x16),

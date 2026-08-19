@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/tokens.dart';
@@ -47,13 +48,13 @@ extension EntryTypeVisuals on EntryType {
   /// No singular, já com o artigo de "último", porque em português a
   /// concordância muda com a palavra: última foto, último vídeo.
   String get lastLabel => switch (this) {
-    EntryType.birth => 'Último nascimento',
-    EntryType.photo => 'Última foto',
-    EntryType.video => 'Último vídeo',
-    EntryType.letter => 'Última carta',
-    EntryType.drawing => 'Último desenho',
-    EntryType.document => 'Último documento',
-    EntryType.growth => 'Última medição',
+    EntryType.birth => S.lastBirth,
+    EntryType.photo => S.lastPhoto,
+    EntryType.video => S.lastVideo,
+    EntryType.letter => S.lastLetter,
+    EntryType.drawing => S.lastDrawing,
+    EntryType.document => S.lastDocument,
+    EntryType.growth => S.lastGrowth,
   };
 
   /// No singular, para frases como "nenhuma foto ainda".

@@ -1,5 +1,8 @@
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
+import 'copy_en.dart';
+import 'copy_pt.dart';
+import 'strings.dart';
 
 /// Os textos que dependem de quem é a criança.
 ///
@@ -16,15 +19,27 @@ import '../../models/baby_profile.dart';
 /// Quando não há nome (login, primeira etapa do cadastro), a frase é
 /// reescrita para não precisar de referente nenhum, em vez de cair numa
 /// forma genérica desajeitada.
-class Copy {
-  const Copy._(this._name, this._gender);
+/// A base comum: quem é a criança, e nada mais.
+///
+/// As frases moram nas subclasses, uma por língua, porque a diferença entre
+/// elas não é vocabulário: o português concorda em gênero e o inglês não, e
+/// isso muda a **forma** da frase, não só as palavras dela.
+abstract class Copy {
+  const Copy(this._name, this._gender);
 
-  /// Textos para uma criança já cadastrada.
+  /// Textos para uma criança já cadastrada, na língua ativa.
   factory Copy.of(BabyProfile? profile) =>
-      Copy._(profile?.firstName, profile?.gender);
+      Copy.para(profile?.firstName, profile?.gender);
+
+  /// A mesma coisa, a partir das partes soltas. Os testes usam isto.
+  factory Copy.para(String? nome, BabyGender? sexo) =>
+      emIngles ? CopyEn(nome, sexo) : CopyPt(nome, sexo);
 
   /// Antes de o cadastro existir.
-  static const Copy generic = Copy._(null, null);
+  ///
+  /// Deixou de ser `const`: a língua é escolhida em tempo de execução, e uma
+  /// constante teria congelado a primeira que aparecesse.
+  static Copy get generic => Copy.para(null, null);
 
   final String? _name;
   final BabyGender? _gender;
@@ -34,144 +49,55 @@ class Copy {
 
   String get name => _name?.trim() ?? '';
 
+  BabyGender? get gender => _gender;
+
   // ------------------------------------------------------------ concordância
 
-  /// `a` / `o`, para concordar com o nome próprio.
-  ///
-  /// Cadastro sem sexo informado devolve vazio: "de Maria" é correto em
-  /// português e é melhor que arriscar "do Maria".
-  String get _article => switch (_gender) {
-    BabyGender.girl => 'a',
-    BabyGender.boy => 'o',
-    null => '',
-  };
+  /// `a Maria` / `o Pedro` / `Maria` / `Maria` em inglês.
+  String get theName;
 
-  /// `a Maria` / `o Pedro` / `Maria`
-  String get theName => _article.isEmpty ? name : '$_article $name';
+  /// `da Maria` / `do Pedro` / `Maria's`
+  String get ofName;
 
-  /// `da Maria` / `do Pedro` / `de Maria`
-  String get ofName => _article.isEmpty ? 'de $name' : 'd$_article $name';
+  /// `para a Maria` / `for Maria`
+  String get forName;
 
-  /// `para a Maria` / `para o Pedro` / `para Maria`
-  String get forName =>
-      _article.isEmpty ? 'para $name' : 'para $_article $name';
-
-  /// `dela` / `dele` - só para quando repetir o nome ficaria pesado.
-  String get theirs => switch (_gender) {
-    BabyGender.girl => 'dela',
-    BabyGender.boy => 'dele',
-    null => 'da criança',
-  };
+  /// `dela` / `dele` / `hers` / `his`
+  String get theirs;
 
   // ----------------------------------------------------------------- frases
   //
-  // Cada uma tem duas formas. A com nome é a que a pessoa vê em 99% do uso.
-  // A sem nome não é uma versão pior da mesma frase: é outra frase, escrita
-  // para não precisar do referente.
+  // Cada língua escreve as suas. O que o português resolve com artigo, o
+  // inglês resolve com possessivo, e algumas frases precisam ser
+  // reescritas inteiras em vez de traduzidas.
 
-  /// Subtítulo do cadastro. Nunca tem nome: é onde o nome está sendo digitado.
-  ///
-  /// A quebra de linha é escrita à mão porque as duas frases são duas ideias,
-  /// e deixar o texto quebrar sozinho poria "Vamos começar" no fim da
-  /// primeira linha em alguns aparelhos e não em outros.
-  String get onboardingSubtitle =>
-      'Cada momento merece ser lembrado.\n'
-      'Vamos começar a guardar essa história?';
+  String get onboardingSubtitle;
 
-  String get addPhotoHint =>
-      hasName ? 'Adicionar fotos $ofName' : 'Adicionar fotos';
+  String get addPhotoHint;
 
-  String get addVideoHint =>
-      hasName ? 'Adicionar vídeos $ofName' : 'Adicionar vídeos';
+  String get addVideoHint;
 
-  String get addLetterHint =>
-      hasName ? 'Escrever uma carta $forName' : 'Escrever uma carta';
+  String get addLetterHint;
 
-  String get timelineEmptyBody => hasName
-      ? 'Toque no + para guardar a primeira memória $ofName.'
-      : 'Toque no + para guardar a primeira memória.';
+  String get timelineEmptyBody;
 
-  /// Título da tela de cadastro da criança.
-  ///
-  /// Com nome, o problema de concordância que existia aqui simplesmente
-  /// desaparece: "Informações da Maria" não precisa escolher entre
-  /// "da bebê" e "do bebê".
-  String get babyInfo => hasName ? 'Informações $ofName' : 'Informações';
+  String get babyInfo;
 
-  String get lettersEmptyBody => hasName
-      ? 'Escreva a primeira mensagem para $theName ler um dia.'
-      : 'Escreva a primeira mensagem para ser lida um dia.';
+  String get lettersEmptyBody;
 
-  String get letterHint => hasName ? 'Para $theName 💜' : 'Para o futuro 💜';
+  String get letterHint;
 
-  /// O que fica escrito embaixo do campo, enquanto a carta está sendo
-  /// escrita.
-  ///
-  /// É a promessa do produto inteiro dita no único lugar em que ela é
-  /// literal. Foto e vídeo se explicam sozinhos; uma carta não, porque
-  /// quem escreve precisa saber que existe alguém do outro lado e que a
-  /// espera vale a pena. Sem isso, escrever para o futuro parece falar
-  /// sozinho.
-  String get letterKeepsafe => hasName
-      ? 'Esta carta fica guardada no Drive $ofName. Um dia, quando a conta '
-            'for $theirs, ela vai estar lá esperando.'
-      : 'Esta carta fica guardada no Drive da criança. Um dia, quando a '
-            'conta for dela, ela vai estar lá esperando.';
+  String get letterKeepsafe;
 
-  /// Rodapé do menu lateral, depois de "Guardado com amor no Drive de".
-  String get driveOwner => hasName ? name : 'você';
+  String get driveOwner;
 
-  /// De quem é o Google Drive onde a memória acabou de ser guardada.
-  ///
-  /// `do seu filho` / `da sua filha` / `da criança`.
-  ///
-  /// A janela do envio dizia "na sua conta do Google Drive", e o "sua" ali
-  /// estava simplesmente errado sobre o produto. A conta é da criança desde o
-  /// primeiro dia, e um dia ela recebe a conta inteira: dizer que o acervo
-  /// está no Drive de quem está segurando o celular contradiz a promessa no
-  /// exato momento em que ela está sendo cumprida.
-  ///
-  /// Fica com `filho`/`filha` em vez do nome porque é o que descreve a
-  /// relação. `no Google Drive da Maria` diz de quem é a conta; `da sua
-  /// filha` diz também por que ela é dela.
-  String get ofTheChild => switch (_gender) {
-    BabyGender.girl => 'da sua filha',
-    BabyGender.boy => 'do seu filho',
-    null => 'da criança',
-  };
+  String get ofTheChild;
 
-  // ------------------------------------------------- a última pergunta feita
+  String get deleteConfirmTitle;
 
-  /// A pergunta do aviso que aparece antes de apagar a conta.
-  ///
-  /// Com o nome, e não "a conta": é o que separa uma confirmação de rotina
-  /// de uma pergunta que a pessoa lê de verdade. Ninguém pula um aviso que
-  /// diz o nome do próprio filho.
-  String get deleteConfirmTitle =>
-      hasName ? 'Apagar a cápsula $ofName?' : 'Apagar a conta?';
+  String get deleteConfirmBody;
 
-  /// O corpo do aviso.
-  ///
-  /// Escrito para o aviso, e não copiado do cartão que está logo acima na
-  /// tela: um aviso que repete o que a pessoa acabou de ler é um aviso que
-  /// ela pula. E a frase que mais importa vem primeiro, não no fim.
-  String get deleteConfirmBody =>
-      'Isto não pode ser desfeito. Não guardamos backup, e não há como '
-      'recuperar depois.\n\n'
-      '${hasName ? "Some agora tudo o que guardamos sobre $theName" : "Some agora tudo o que guardamos sobre a criança"}: '
-      'o cadastro, a linha do tempo inteira e o texto das cartas.\n\n'
-      'As fotos e os vídeos continuam no Google Drive, porque são seus.';
+  String get deleteConfirmAction;
 
-  /// O botão que confirma.
-  ///
-  /// Diz o que acontece ao ser tocado. "Sim" e "Confirmar" servem para
-  /// qualquer coisa, e é justamente por isso que são tocados no automático.
-  String get deleteConfirmAction => 'Apagar para sempre';
-
-  String get aboutStorage =>
-      'As fotos, os vídeos e os documentos ficam guardados no Google Drive '
-      'da sua própria conta, em pastas organizadas por idade. O aplicativo é '
-      'só a maneira bonita de folhear tudo isso.\n\n'
-      'Mesmo daqui a muitos anos, sem este aplicativo, o acervo continua '
-      'lá: legível, organizado e ${hasName ? theirs : "de quem é de direito"}.';
+  String get aboutStorage;
 }

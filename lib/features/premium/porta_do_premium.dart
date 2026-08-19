@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -164,7 +165,7 @@ class ConvitePremium extends StatelessWidget {
           width: double.infinity,
           child: FilledButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Entendi'),
+            child: Text(S.premiumInviteAction),
           ),
         ),
       ],

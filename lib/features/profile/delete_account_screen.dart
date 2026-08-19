@@ -132,12 +132,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
             ),
           ),
           const SizedBox(height: Space.x16),
-          const InfoNote(
-            message:
-                'Mesmo mandando para a lixeira, os arquivos são seus e estão '
-                'no seu Drive: o aplicativo nunca teve uma cópia deles.',
-            icon: Icons.lock_outline,
-          ),
+          InfoNote(message: S.deleteDriveNote, icon: Icons.lock_outline),
           const SizedBox(height: Space.x32),
           FilledButton(
             onPressed: _working ? null : () => _delete(profile),

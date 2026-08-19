@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/tokens.dart';
 
 /// Limite do campo `titulo` nas regras do Firestore.
@@ -88,9 +89,9 @@ class _DialogoState extends State<_Dialogo> {
         textCapitalization: TextCapitalization.sentences,
         textInputAction: TextInputAction.done,
         onSubmitted: (_) => _confirmar(),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           labelText: 'Como você quer chamar',
-          hintText: 'Certidão de nascimento',
+          hintText: S.documentNameSuggestion,
         ),
       ),
       actionsPadding: const EdgeInsets.fromLTRB(

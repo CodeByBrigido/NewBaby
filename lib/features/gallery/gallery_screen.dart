@@ -192,7 +192,7 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen>
                           title: S.noItemsYet,
                           message: widget.type == EntryType.photo
                               ? 'Toque no + para adicionar as primeiras fotos.'
-                              : 'Toque no + para adicionar o primeiro vídeo.',
+                              : S.firstVideoHint,
                         )
                       : TabBarView(
                           controller: _abas,

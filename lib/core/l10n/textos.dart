@@ -413,4 +413,159 @@ abstract interface class Textos {
   String contarItens(int n);
   String contarFotos(int n);
   String contarVideos(int n);
+
+  // ------------------------------------------- recolhidos das telas
+  //
+  // Estavam escritos direto dentro dos widgets. Enquanto estivessem lá,
+  // trocar o idioma deixaria metade de cada tela em português.
+
+  String get lastBirth;
+
+  String get lastPhoto;
+
+  String get lastVideo;
+
+  String get lastLetter;
+
+  String get lastDrawing;
+
+  String get lastDocument;
+
+  String get lastGrowth;
+
+  String get oneVideo;
+
+  String get oneGrowth;
+
+  String get imageOpenFailed;
+
+  String get videoOpenFailed;
+
+  String get documentNotFound;
+
+  String get letterNotFound;
+
+  String get entryNotFound;
+
+  String get driveSpaceFailed;
+
+  String get firstVideoHint;
+
+  String get documentsEmptyBody;
+
+  String get isToday;
+
+  String get isTodayBang;
+
+  String get tomorrow;
+
+  String get nextMilestone;
+
+  String get seeInspiration;
+
+  String get forYou;
+
+  String get notYet;
+
+  String get inspirations;
+
+  String get inspirationsLoadFailed;
+
+  String get inspirationSearchHint;
+
+  String get suggestionsByAge;
+
+  String get notNow;
+
+  String get savedTitle;
+
+  String get sendMemoryError;
+
+  String get dateFromFile;
+
+  String get deletedOn;
+
+  String get itemDeleted;
+
+  String get documentNameSuggestion;
+
+  String get saveInfo;
+
+  String get editInfo;
+
+  String get notProvided;
+
+  String get automatic;
+
+  String get reviewIntro;
+
+  String get lastUpdatedLabel;
+
+  String get optimization;
+
+  String get photoMaxSide;
+
+  String get optimizationNote;
+
+  String get languageSection;
+
+  String get clearCacheBody;
+
+  String get cacheCleared;
+
+  String get clearCache;
+
+  String get storageOnDevice;
+
+  String get remindersSection;
+
+  String get remindersOff;
+
+  String get startupFailedTitle;
+
+  String get technicalDetail;
+
+  String get premiumInviteAction;
+
+  String get introTitle1;
+
+  String get introTitle2;
+
+  String get introBody2;
+
+  String get introTitle3;
+
+  String get introTitle4;
+
+  String get sealBody;
+
+  String get aboutPhotos;
+
+  String get aboutScope;
+
+  String get aboutIndex;
+
+  String get aboutLastingTitle;
+
+  String get deleteDriveNote;
+
+  String get profilePhotoNote;
+
+  String get remindersHowTitle;
+
+  String get remindersMarkedTitle;
+
+  String get remindersFrequency;
+
+  String get remindersOffNote;
+
+  String get remindersNothingSoon;
+
+  String get remindersPrivacy;
+
+  String get remindersDenied;
+
+  String get sealedEmptyBody;
+
+  String get growthChartHint;
 }
