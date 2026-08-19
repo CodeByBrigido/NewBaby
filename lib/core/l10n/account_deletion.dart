@@ -11,6 +11,9 @@
 /// com base nela.
 library;
 
+import 'account_deletion_en.dart';
+import 'strings.dart';
+
 import 'privacy_policy.dart';
 
 /// Data da última revisão do texto.
@@ -32,7 +35,7 @@ const int deletionDeadlineDays = 30;
 /// A cópia à mão não fica solta: o `exclusao_test.dart` compara as duas
 /// frases com os valores reais do código e quebra se alguém mudar um sem
 /// mudar o outro.
-const List<PrivacySection> accountDeletionPage = <PrivacySection>[
+const List<PrivacySection> accountDeletionPagePt = <PrivacySection>[
   PrivacySection(
     title: 'O que esta página é',
     body: <String>[
@@ -220,6 +223,14 @@ const List<PrivacySection> accountDeletionPage = <PrivacySection>[
     ],
   ),
 ];
+
+/// A página de exclusão na língua ativa.
+///
+/// O nome de antes vira este getter, para as telas continuarem escrevendo
+/// `accountDeletionPage` sem saber que agora há duas versões. Deixou de ser `const`
+/// porque a escolha é feita em tempo de execução.
+List<PrivacySection> get accountDeletionPage =>
+    emIngles ? accountDeletionPageEn : accountDeletionPagePt;
 
 /// O arquivo público, gerado deste mesmo texto.
 String exclusaoEmMarkdown() {

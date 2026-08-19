@@ -14,6 +14,9 @@
 /// publicar na loja, vale passar por alguém da área.
 library;
 
+import 'terms_of_use_en.dart';
+import 'strings.dart';
+
 import 'privacy_policy.dart';
 
 /// Data da última revisão do texto.
@@ -26,7 +29,7 @@ const String termsOfUseDate = '18 de agosto de 2026';
 /// consentimento tem que vir de quem responde legalmente por ela.
 const int idadeMinima = 18;
 
-const List<PrivacySection> termsOfUse = <PrivacySection>[
+const List<PrivacySection> termsOfUsePt = <PrivacySection>[
   PrivacySection(
     title: 'Em resumo',
     body: <String>[
@@ -288,6 +291,13 @@ const List<PrivacySection> termsOfUse = <PrivacySection>[
     ],
   ),
 ];
+
+/// Os termos de uso na língua ativa.
+///
+/// O nome de antes vira este getter, para as telas continuarem escrevendo
+/// `termsOfUse` sem saber que agora há duas versões. Deixou de ser `const`
+/// porque a escolha é feita em tempo de execução.
+List<PrivacySection> get termsOfUse => emIngles ? termsOfUseEn : termsOfUsePt;
 
 /// Os termos em Markdown, para o arquivo público do repositório.
 ///

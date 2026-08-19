@@ -2,7 +2,13 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:meu_bebe/core/l10n/account_deletion.dart';
+import 'package:meu_bebe/core/l10n/account_deletion_en.dart';
 import 'package:meu_bebe/core/l10n/copy.dart';
+import 'package:meu_bebe/core/l10n/privacy_policy.dart';
+import 'package:meu_bebe/core/l10n/privacy_policy_en.dart';
+import 'package:meu_bebe/core/l10n/terms_of_use.dart';
+import 'package:meu_bebe/core/l10n/terms_of_use_en.dart';
 import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/utils/formatters.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
@@ -252,6 +258,92 @@ void main() {
         textosEn.checklistDoAniversario(),
         hasLength(textosPt.checklistDoAniversario().length),
       );
+    });
+  });
+
+  group('os documentos jurídicos', () {
+    test('trocam junto com o resto', () {
+      definirTextos(textosPt);
+      expect(privacyPolicy.first.title, 'Em resumo');
+      expect(termsOfUse.first.title, 'Em resumo');
+      expect(accountDeletionPage.first.title, 'O que esta página é');
+
+      definirTextos(textosEn);
+      expect(privacyPolicy.first.title, 'In short');
+      expect(termsOfUse.first.title, 'In short');
+      expect(accountDeletionPage.first.title, 'What this page is');
+    });
+
+    test('as duas versões têm o mesmo número de seções', () {
+      // Uma seção a menos em inglês é uma obrigação legal que só existe para
+      // quem lê português.
+      expect(privacyPolicyEn, hasLength(privacyPolicyPt.length));
+      expect(termsOfUseEn, hasLength(termsOfUsePt.length));
+      // A de exclusão tem uma seção a menos em inglês, e é de propósito: a
+      // portuguesa termina com um apêndice em inglês, para o revisor da Play
+      // Store, que lê a página pública e raramente lê português. Num
+      // documento que já é inglês inteiro, esse apêndice seria a mesma coisa
+      // dita duas vezes.
+      expect(
+        accountDeletionPageEn,
+        hasLength(accountDeletionPagePt.length - 1),
+      );
+      expect(accountDeletionPagePt.last.title, contains('English'));
+      expect(accountDeletionPageEn.last.title, isNot(contains('English')));
+    });
+
+    test('nenhuma seção inglesa está vazia', () {
+      for (final List<PrivacySection> doc in <List<PrivacySection>>[
+        privacyPolicyEn,
+        termsOfUseEn,
+        accountDeletionPageEn,
+      ]) {
+        for (final PrivacySection s in doc) {
+          expect(s.title.trim(), isNotEmpty);
+          expect(s.body, isNotEmpty, reason: s.title);
+          for (final String p in s.body) {
+            expect(p.trim(), isNotEmpty, reason: s.title);
+          }
+        }
+      }
+    });
+
+    test('e nenhuma usa travessão', () {
+      for (final List<PrivacySection> doc in <List<PrivacySection>>[
+        privacyPolicyEn,
+        termsOfUseEn,
+        accountDeletionPageEn,
+      ]) {
+        for (final PrivacySection s in doc) {
+          for (final String p in s.body) {
+            expect(p, isNot(contains('—')), reason: s.title);
+          }
+        }
+      }
+    });
+
+    test('o inglês diz as mesmas coisas obrigatórias', () {
+      final String texto = privacyPolicyEn
+          .map((PrivacySection s) => '${s.title}\n${s.body.join("\n")}')
+          .join('\n');
+
+      // As mesmas frases que o teste da política portuguesa cobra, na versão
+      // inglesa: se uma delas cair na tradução, cai a conformidade junto.
+      expect(texto, contains('drive.file'));
+      expect(texto, contains('do not sell'));
+      expect(texto, contains('72 hours'));
+      expect(texto, contains('Data Protection Commission of Ireland'));
+      expect(texto, contains(privacyEmail));
+      expect(texto, contains(privacyController));
+    });
+
+    test('a exclusão em inglês ensina o caminho e o cancelamento', () {
+      final String texto = accountDeletionPageEn
+          .map((PrivacySection s) => s.body.join('\n'))
+          .join('\n');
+      expect(texto, contains('does not cancel'));
+      expect(texto, contains('Payments and subscriptions'));
+      expect(texto, contains(privacyEmail));
     });
   });
 

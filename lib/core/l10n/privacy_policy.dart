@@ -11,6 +11,9 @@
 /// mesmo conteúdo, e um teste confere que os dois não se separam.
 library;
 
+import 'privacy_policy_en.dart';
+import 'strings.dart';
+
 /// Data da última revisão do texto.
 const String privacyPolicyDate = '18 de agosto de 2026';
 
@@ -31,7 +34,7 @@ class PrivacySection {
   final List<String> body;
 }
 
-const List<PrivacySection> privacyPolicy = <PrivacySection>[
+const List<PrivacySection> privacyPolicyPt = <PrivacySection>[
   PrivacySection(
     title: 'Em resumo',
     body: <String>[
@@ -437,6 +440,14 @@ const List<PrivacySection> privacyPolicy = <PrivacySection>[
     ],
   ),
 ];
+
+/// A política de privacidade na língua ativa.
+///
+/// O nome de antes vira este getter, para as telas continuarem escrevendo
+/// `privacyPolicy` sem saber que agora há duas versões. Deixou de ser `const`
+/// porque a escolha é feita em tempo de execução.
+List<PrivacySection> get privacyPolicy =>
+    emIngles ? privacyPolicyEn : privacyPolicyPt;
 
 /// O mesmo conteúdo, em Markdown, para o arquivo público do repositório.
 ///
