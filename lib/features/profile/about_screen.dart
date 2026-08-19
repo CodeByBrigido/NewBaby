@@ -20,7 +20,7 @@ class AboutScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.about),
+        title: Text(S.about),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

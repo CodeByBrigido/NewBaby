@@ -14,7 +14,7 @@ class TermsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TelaDeDocumento(
+    return TelaDeDocumento(
       titulo: S.termsOfUse,
       data: termsOfUseDate,
       secoes: termsOfUse,

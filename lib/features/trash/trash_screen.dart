@@ -24,7 +24,7 @@ class TrashScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.trash),
+        title: Text(S.trash),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -42,12 +42,12 @@ class TrashScreen extends ConsumerWidget {
           // do outro lado quer ver agora, não daqui a um minuto.
           action: TextButton(
             onPressed: () => ref.invalidate(trashProvider),
-            child: const Text(S.retry),
+            child: Text(S.retry),
           ),
         ),
         data: (List<Entry> entries) {
           if (entries.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.delete_outline,
               title: S.trashEmptyTitle,
               message: S.trashEmptyBody,
@@ -56,7 +56,7 @@ class TrashScreen extends ConsumerWidget {
 
           return Column(
             children: <Widget>[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(
                   Space.x16,
                   0,

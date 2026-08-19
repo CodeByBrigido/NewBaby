@@ -42,7 +42,7 @@ class DocumentsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.documents),
+        title: Text(S.documents),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

@@ -154,7 +154,7 @@ class EntryDetailScreen extends ConsumerWidget {
             const SizedBox(height: Space.x12),
             FilledButton.tonal(
               onPressed: () => _retry(context, ref, entry),
-              child: const Text(S.retry),
+              child: Text(S.retry),
             ),
           ] else if (entry.uploadStatus.isBusy) ...<Widget>[
             const SizedBox(height: Space.x20),
@@ -165,7 +165,7 @@ class EntryDetailScreen extends ConsumerWidget {
           ],
           if (entry.type == EntryType.video) ...<Widget>[
             const SizedBox(height: Space.x20),
-            const InfoNote(message: S.videoOptimizedNote),
+            InfoNote(message: S.videoOptimizedNote),
           ],
         ],
       ),

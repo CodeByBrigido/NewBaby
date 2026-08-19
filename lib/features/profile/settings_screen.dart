@@ -43,7 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.settings),
+        title: Text(S.settings),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -103,10 +103,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SectionHeader(title: 'Lembretes'),
           const _RemindersTile(),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: S.lockSection),
+          SectionHeader(title: S.lockSection),
           const _LockTile(),
           const SizedBox(height: Space.x12),
-          const InfoNote(message: S.lockNote, icon: Icons.lock_outline),
+          InfoNote(message: S.lockNote, icon: Icons.lock_outline),
           const SizedBox(height: Space.block),
           const SectionHeader(title: 'Armazenamento no aparelho'),
           SoftCard(

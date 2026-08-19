@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,13 @@ enum Idioma {
   final String nome;
 
   final String descricao;
+
+  /// A localidade que o Flutter usa para os textos dele: o calendário, o
+  /// menu de recortar e colar, o leitor de tela.
+  Locale get localidade => switch (this) {
+    Idioma.portugues => const Locale('pt', 'BR'),
+    Idioma.ingles => const Locale('en'),
+  };
 
   static Idioma deCodigo(String? codigo) => values.firstWhere(
     (Idioma i) => i.codigo == codigo,

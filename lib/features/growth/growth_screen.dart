@@ -26,7 +26,7 @@ class GrowthScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.growth),
+        title: Text(S.growth),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -50,7 +50,7 @@ class GrowthScreen extends ConsumerWidget {
               message: S.growthEmptyBody,
               action: FilledButton(
                 onPressed: () => _medir(context, profile),
-                child: const Text(S.addGrowth),
+                child: Text(S.addGrowth),
               ),
             )
           : Column(
@@ -86,7 +86,7 @@ class GrowthScreen extends ConsumerWidget {
                         minimumSize: const Size.fromHeight(48),
                       ),
                       icon: const Icon(Icons.show_chart, size: 20),
-                      label: const Text(S.viewChart),
+                      label: Text(S.viewChart),
                     ),
                   ),
               ],

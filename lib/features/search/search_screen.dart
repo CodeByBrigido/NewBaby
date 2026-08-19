@@ -48,7 +48,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.search),
+        title: Text(S.search),
         automaticallyImplyLeading: false,
         leading: widget.embedded
             ? null
@@ -118,7 +118,7 @@ class _Suggestions extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(Space.x16, 0, Space.x16, Space.x24),
       children: <Widget>[
-        const SectionHeader(title: S.searchByCategory),
+        SectionHeader(title: S.searchByCategory),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -138,7 +138,7 @@ class _Suggestions extends ConsumerWidget {
             title: S.recentSearches,
             trailing: TextButton(
               onPressed: ref.read(recentSearchesProvider.notifier).clear,
-              child: const Text(S.clearHistory),
+              child: Text(S.clearHistory),
             ),
           ),
           for (final String term in recent)
@@ -207,10 +207,7 @@ class _Results extends ConsumerWidget {
     final TextTheme text = Theme.of(context).textTheme;
 
     if (results.isEmpty) {
-      return const EmptyState(
-        icon: Icons.search_off_outlined,
-        title: S.searchEmpty,
-      );
+      return EmptyState(icon: Icons.search_off_outlined, title: S.searchEmpty);
     }
 
     return ListView.separated(

@@ -28,7 +28,7 @@ class GrowthChartScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.growthChart),
+        title: Text(S.growthChart),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

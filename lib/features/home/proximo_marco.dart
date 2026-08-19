@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
 import '../../models/capsule_pulse.dart';
 import '../common/widgets.dart';
@@ -63,7 +63,7 @@ class CartaoDoProximoMarco extends StatelessWidget {
                   // pessoa quer ler é que chegou.
                   marco.ehHoje
                       ? 'É hoje!'
-                      : 'Daqui a ${Fmt.count(marco.diasAte, "dia", "dias")}',
+                      : 'Daqui a ${S.contarDias(marco.diasAte)}',
                   style: text.bodyMedium?.copyWith(
                     color: context.cores.textSecondary,
                   ),

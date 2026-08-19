@@ -32,7 +32,7 @@ class DrawingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.drawings),
+        title: Text(S.drawings),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

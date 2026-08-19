@@ -327,7 +327,7 @@ Future<DateTime?> confirmarEnvio(
                   Expanded(
                     child: TextButton(
                       onPressed: () => Navigator.of(dialogContext).pop(),
-                      child: const Text(S.cancel),
+                      child: Text(S.cancel),
                     ),
                   ),
                   const SizedBox(width: Space.x12),

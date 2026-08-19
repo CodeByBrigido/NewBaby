@@ -51,7 +51,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.appName),
+        title: Text(S.appName),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () =>

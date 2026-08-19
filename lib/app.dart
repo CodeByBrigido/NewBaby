@@ -14,6 +14,7 @@ import 'models/baby_gender.dart';
 import 'models/baby_profile.dart';
 import 'models/entry.dart';
 import 'models/reminder.dart';
+import 'state/idioma_providers.dart';
 import 'state/providers.dart';
 
 class MeuBebeApp extends ConsumerStatefulWidget {
@@ -106,6 +107,16 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
     final BabyGender? genero =
         profile?.gender ?? ref.watch(generoEscolhidoProvider);
 
+    // A língua escolhida, observada aqui na raiz.
+    //
+    // Observar **aqui** é o que faz a troca aparecer na tela. `S` lê de uma
+    // variável global, e uma global trocada no meio do caminho não avisa
+    // widget nenhum: a tela continuaria com o texto que já estava desenhado
+    // até alguém navegar para outro lugar. Com o idioma observado na raiz, a
+    // árvore inteira se refaz na troca, e todo `S` é lido de novo.
+    final Idioma idioma = ref.watch(idiomaProvider);
+    definirTextos(idioma == Idioma.ingles ? textosEn : textosPt);
+
     return MaterialApp.router(
       title: S.appName,
       debugShowCheckedModeBanner: false,
@@ -119,10 +130,13 @@ class _MeuBebeAppState extends ConsumerState<MeuBebeApp> {
       builder: (BuildContext context, Widget? child) => SplashGate(
         child: AppLockGate(child: child ?? const SizedBox.shrink()),
       ),
-      // Aplicativo de idioma único: tudo, inclusive os seletores de data
-      // do Material, aparece em português do Brasil.
-      locale: const Locale('pt', 'BR'),
-      supportedLocales: const <Locale>[Locale('pt', 'BR')],
+      // Os seletores de data e os menus de recortar e colar do próprio
+      // Material acompanham a escolha: um calendário em português dentro de
+      // uma tela em inglês denuncia a tradução pela metade.
+      locale: idioma.localidade,
+      supportedLocales: Idioma.values
+          .map((Idioma i) => i.localidade)
+          .toList(growable: false),
       localizationsDelegates: const <LocalizationsDelegate<Object>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

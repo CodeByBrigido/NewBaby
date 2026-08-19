@@ -177,7 +177,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
                   maxLength: Limits.babyName,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.fullName,
                     // O contador atrapalha mais do que ajuda num campo que
                     // ninguém chega perto de encher.
@@ -248,7 +248,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     decimal: true,
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.birthWeightOptional,
                     suffixText: 'kg',
                   ),
@@ -265,7 +265,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     decimal: true,
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.birthHeightOptional,
                     suffixText: 'cm',
                   ),
@@ -279,7 +279,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   controller: _hospital,
                   textCapitalization: TextCapitalization.words,
                   maxLength: Limits.hospital,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.hospitalOptional,
                     counterText: '',
                   ),
@@ -296,7 +296,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text(S.continueLabel),
+                      : Text(S.continueLabel),
                 ),
                 if (_saving) ...<Widget>[
                   const SizedBox(height: Space.x16),

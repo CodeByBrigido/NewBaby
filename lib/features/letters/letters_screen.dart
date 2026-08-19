@@ -27,7 +27,7 @@ class LettersScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.letters),
+        title: Text(S.letters),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

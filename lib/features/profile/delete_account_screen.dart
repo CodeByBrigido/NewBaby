@@ -76,7 +76,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.deleteAccount),
+        title: Text(S.deleteAccount),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: _working
@@ -105,11 +105,11 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
               onPressed: _working
                   ? null
                   : () => context.push(Routes.accountDeletion),
-              child: const Text(S.accountDeletionTitle),
+              child: Text(S.accountDeletionTitle),
             ),
           ),
           const SizedBox(height: Space.x12),
-          const SectionHeader(title: S.deleteAccountDriveQuestion),
+          SectionHeader(title: S.deleteAccountDriveQuestion),
           SoftCard(
             child: Column(
               children: <Widget>[

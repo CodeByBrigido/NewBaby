@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/copy.dart';
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/utils/formatters.dart';
 import '../../models/inspiration.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -123,7 +123,7 @@ class AtalhoDeInspiracao extends ConsumerWidget {
                       Text(
                         faltam == 0
                             ? 'É hoje'
-                            : 'Faltam ${Fmt.count(faltam, "dia", "dias")}',
+                            : 'Faltam ${S.contarDias(faltam)}',
                         style: text.labelSmall?.copyWith(
                           color: context.cores.primaryDark,
                           fontWeight: FontWeight.w700,
