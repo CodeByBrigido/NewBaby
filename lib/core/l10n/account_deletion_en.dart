@@ -1,4 +1,3 @@
-import 'account_deletion.dart';
 import 'privacy_policy.dart';
 
 /// The account deletion page, in English.
@@ -10,17 +9,17 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
   PrivacySection(
     title: 'What this page is',
     body: <String>[
-      'This page explains how to request deletion of your Meu Bebê: Cápsula '
-          'do Tempo account and all the data attached to it.',
+      'This page explains how to request deletion of your Meu Bebê: '
+          'Cápsula do Tempo account and all the data attached to it.',
       'It exists so that it works even if you have already uninstalled the '
           'app. You do not need to install anything, create an account or '
           'sign in anywhere to use what is here.',
-      'The right to erasure has different names in different places: erasure '
-          'under the GDPR (Art. 17) and the UK GDPR, elimination under '
-          "Brazil's LGPD (Art. 18), deletion under California's CCPA, and "
-          'equivalents in Canada, Australia, Switzerland and many other '
-          'countries. Here the path is the same for everyone, and we do not '
-          'ask where you live before deleting.',
+      'The right to erasure has different names in different places: '
+          'erasure under the GDPR (Art. 17) and the UK GDPR, elimination '
+          'under the LGPD (Art. 18), deletion under California\'s CCPA, and '
+          'equivalent rights in several other jurisdictions. Here the path is '
+          'the same for everyone, and we do not make the request conditional '
+          'on telling us where you live.',
       'Controller: $privacyController. Contact: $privacyEmail',
     ],
   ),
@@ -52,14 +51,17 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
           '(Delete my account).',
       'The request must come from the email address of the Google account '
           'you used to sign in. It is the only way for us to know the request '
-          'is yours: without that check, anyone could delete someone else\'s '
-          'archive by sending an email.',
-      'We reply to that same address confirming the deletion. If the request '
-          'arrives from another address, we will ask for it to be sent again '
-          'from the account address, and we will not delete anything until '
-          'that happens.',
-      'The maximum is $deletionDeadlineDays days, and in practice it takes a '
-          'few. You do not need to justify the request, and it costs nothing.',
+          'is yours: without that check, anyone could delete someone '
+          'else\'s archive by sending an email.',
+      'We reply to that same address confirming the deletion. If the '
+          'request arrives from another address, we will ask for it to be '
+          'sent again from the account address, and we will not delete '
+          'anything until that happens.',
+      'The request is handled without undue delay and, where the GDPR '
+          'applies, as a rule within one month. Where other applicable law '
+          'sets a different deadline, we observe that legal deadline. You do '
+          'not need to justify the request, and we do not charge for a '
+          'deletion request.',
     ],
   ),
   PrivacySection(
@@ -72,11 +74,17 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
           'and the type of every memory',
       '• The full text of the letters, which is the only content of yours '
           'that lives in our index',
-      '• The Drive folder identifiers and the progress of the suggestions',
-      '• Your authentication account, with the email and name from Google',
-      'Deletion is immediate and irreversible. We keep no backup of your '
-          'data afterwards, and there is no grace period in which it could be '
-          'recovered.',
+      '• The Drive folder identifiers and the progress of the '
+          'suggestions',
+      '• Your authentication account, with the email and name from '
+          'Google',
+      'Deletion of the index data and of the authentication account starts '
+          'immediately after confirmation and, once complete, cannot be '
+          'undone by the app. We keep no operational backup of the index to '
+          'restore a deleted account. Data that must be kept under a legal '
+          'obligation, or technical records held by Google\'s '
+          'infrastructure, may remain for the applicable period, without '
+          'being used for incompatible purposes.',
     ],
   ),
   PrivacySection(
@@ -87,22 +95,27 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
       'They live in a folder in the Google Drive of your own account. The '
           'app never had a copy of them on any server: they go from your '
           'device straight to your Drive.',
-      'Once the account is deleted, we lose any access to that folder. The '
-          'permission the app asks Google for is the narrowest that exists '
-          '(https://www.googleapis.com/auth/drive.file), it reaches only '
-          'files the app itself created, and it is revoked on deletion. It is '
-          'not a choice of ours: after that there is no way to delete them '
-          'even if you ask.',
-      'If you also want to delete the files, do it directly in Drive, and it '
-          'takes two taps:',
+      'After the account is deleted, the app revokes the authorisation it '
+          'used to access the files it created in Google Drive. The scope '
+          'used is https://www.googleapis.com/auth/drive.file, which limits '
+          'access to files created or opened by the app within the '
+          'permissions granted by Google. After revocation, the app no longer '
+          'has authorisation to operate on those files. The files therefore '
+          'remain under the control of your Google account, unless you choose '
+          'to delete them directly in Drive or, where available, ask the app '
+          'to send them to the trash before the account is deleted.',
+      'If you also want to delete the files, do it directly in Drive, and '
+          'it takes two taps:',
       '• Open drive.google.com with the same account',
       '• Find the capsule folder, named "Meu Bebê - Cápsula do Tempo" or '
           '"My Baby - Time Capsule" depending on the language the capsule was '
           'created in',
       '• Right-click and choose "Remove"',
-      'If you prefer to delete the folder from the app, do it **before** '
-          'deleting the account, on the same deletion screen: there is an '
-          'option there to move the folder to the Drive trash.',
+      'If you would rather ask the app to send the folder to the Drive '
+          'trash, do it **before** completing the account deletion, on the '
+          'same deletion screen. Availability and the final outcome of the '
+          'operation depend on the permissions granted and on Google Drive\'s '
+          'mechanisms.',
     ],
   ),
   PrivacySection(
@@ -119,9 +132,12 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
       '• Tap your photo, top right',
       '• Go to "Payments and subscriptions" and then "Subscriptions"',
       '• Choose Meu Bebê: Cápsula do Tempo and tap "Cancel subscription"',
-      'Once cancelled, Premium stays valid until the end of the period you '
-          'already paid for. If you delete the account before that, the '
-          'remaining time is lost, and there is no pro rata refund for it.',
+      'Once cancelled, Premium normally stays valid until the end of the '
+          'period already paid for. If you delete the account before that, '
+          'the Premium access tied to that account ends when the account is '
+          'deleted. We do not offer a pro rata refund on our own initiative, '
+          'except where required by applicable law or by Google Play refund '
+          'policies.',
     ],
   ),
   PrivacySection(
@@ -152,12 +168,17 @@ const List<PrivacySection> accountDeletionPageEn = <PrivacySection>[
   PrivacySection(
     title: 'Technical logs',
     body: <String>[
-      'The infrastructure hosting the index is Firebase, from Google. Like '
-          'any cloud service, it keeps operational access logs, subject to '
-          "Google's own retention policy.",
-      'Those logs do not contain the content of your memories, and we neither '
-          'consult nor export them. We say this here because promising '
-          '"nothing remains anywhere" would be a promise outside our control.',
+      'The infrastructure hosting the index uses Firebase and Google Cloud '
+          'services. Like any cloud service, those services may keep '
+          'technical and operational records needed for security, operation, '
+          'abuse prevention and auditing, subject to Google\'s applicable '
+          'retention policies.',
+      'Those infrastructure records are not part of the index we keep to '
+          'run your capsule, and we do not use them to reconstruct deleted '
+          'content. Some technical records may remain for periods determined '
+          'by Google or by applicable legal obligations. For that reason, we '
+          'do not promise that absolutely no technical record can exist in '
+          'every infrastructure system after deletion.',
     ],
   ),
 ];

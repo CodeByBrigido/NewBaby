@@ -29,7 +29,11 @@ void main() {
       // frase falsa, e é a frase que a loja lê.
       expect(AuthService.driveScopes, hasLength(1));
       expect(AuthService.driveScopes.single, contains('drive.file'));
-      expect(texto, contains('apenas para os arquivos que ele mesmo cria'));
+      expect(texto, contains('destinado aos arquivos que ele próprio cria'));
+      expect(
+        texto,
+        contains('não solicita acesso geral aos arquivos preexistentes'),
+      );
     });
 
     test('o caminho de sair descrito existe', () {
@@ -54,8 +58,12 @@ void main() {
       // É a frase que ancora a isenção doméstica do GDPR para quem lê os
       // termos. Sem ela, "uso pessoal" seria só a nossa intenção, não uma
       // condição do contrato.
+      //
+      // O texto não afirma que quem usa está isento: ele diz que o
+      // enquadramento depende da lei de cada lugar. Prometer a isenção em
+      // nome de quem lê seria prometer o que não é nosso para prometer.
       expect(texto, contains('uso pessoal e familiar'));
-      expect(texto, contains('controlador de dados'));
+      expect(texto, contains('obrigação legal de proteção de dados'));
     });
   });
 
@@ -64,10 +72,15 @@ void main() {
       'localização de dados é motivo de exclusão, dito com todas as letras',
       () {
         // O ponto não é fingir cumprir uma lei que a arquitetura não cumpre.
-        // É excluir o mercado e dizer por quê.
-        expect(texto, contains('guardados fisicamente dentro do país'));
-        expect(texto, contains('China'));
-        expect(texto, contains('Rússia'));
+        // É dizer, por escrito, qual é o limite: a infraestrutura é global,
+        // e onde a lei exigir que os dados fiquem dentro do país o
+        // aplicativo pode não ser oferecido. O texto descreve o motivo em
+        // vez de listar países, porque a lista envelhece e o motivo não.
+        expect(texto, contains('requisitos de localização de dados'));
+        expect(
+          texto,
+          contains('armazenamento exclusivamente dentro de determinada jurisdição'),
+        );
       },
     );
   });
@@ -109,7 +122,14 @@ void main() {
     });
 
     test('que a assinatura é por conta, e não por família', () {
-      expect(texto, contains('cada conta precisa da própria assinatura'));
+      expect(
+        texto,
+        contains('A assinatura vale para a conta que entra no aplicativo'),
+      );
+      expect(
+        texto,
+        contains('a disponibilidade do Premium será determinada pela conta'),
+      );
     });
 
     test('quem cobra, com que periodicidade e como cancelar', () {
@@ -148,7 +168,8 @@ void main() {
     });
 
     test('que quem cria a conta responde pela criança', () {
-      expect(texto, contains('responsável legal'));
+      expect(texto, contains('responsável pela criança'));
+      expect(texto, contains('autoridade adequada'));
       // As quatro molduras que alcançam quase todo mercado da loja. Citar
       // só a brasileira era o que estava errado para um lançamento mundial.
       for (final String lei in <String>['LGPD', 'GDPR', 'UK GDPR', 'COPPA']) {
@@ -161,31 +182,36 @@ void main() {
     });
 
     test('a lei, o foro e o que nenhum contrato pode tirar', () {
-      // A regência é brasileira porque é de onde o aplicativo é publicado.
-      // O que não pode faltar é a ressalva: quem mora fora não perde a
-      // própria lei de consumo por causa de uma cláusula nossa.
-      expect(texto, contains('lei brasileira'));
-      expect(texto, contains('foro do domicílio do consumidor'));
-      expect(texto, contains('não possa ser afastada por contrato'));
-      expect(texto, contains('acionar a Justiça do lugar onde mora'));
+      // A regência é irlandesa porque é de onde o aplicativo é operado. O
+      // que não pode faltar é a ressalva: quem mora fora não perde a própria
+      // lei de consumo por causa de uma cláusula nossa, e continua podendo
+      // acionar a Justiça de casa.
+      expect(texto, contains('lei irlandesa'));
+      expect(texto, contains('normas obrigatórias de proteção do consumidor'));
+      expect(texto, contains('não possam ser afastados por contrato'));
+      expect(texto, contains('tribunais de seu país ou local de residência'));
+      expect(texto, contains('foro do consumidor'));
     });
 
-    test('nada obriga a arbitragem nem renuncia a ação coletiva', () {
-      // As duas cláusulas que costumam aparecer em termos americanos e que
-      // são nulas em boa parte do mundo. Não tê-las é escolha, e escolha
-      // vale a pena escrever.
+    test('nada obriga a arbitragem nem impede direito processual', () {
+      // A cláusula que costuma aparecer em termos americanos e que é nula em
+      // boa parte do mundo. Não tê-la é escolha, e escolha vale a pena
+      // escrever.
       expect(texto, contains('Nada aqui obriga você a arbitragem'));
-      expect(texto, contains('não há renúncia a ação coletiva'));
+      expect(texto, contains('impedir o exercício de direitos processuais'));
     });
 
     test('o prazo de arrependimento de cada lugar é reconhecido', () {
-      expect(texto, contains('catorze dias'));
-      expect(texto, contains('sete dias'));
+      expect(texto, contains('14 dias'));
+      expect(texto, contains('7 dias'));
     });
 
     test('o limite de responsabilidade cede à lei local', () {
-      expect(texto, contains('onde quer que você more'));
-      expect(texto, contains('não se aplica a você'));
+      expect(
+        texto,
+        contains('Na medida máxima permitida pela legislação aplicável'),
+      );
+      expect(texto, contains('não for válida em sua jurisdição'));
     });
 
     test('nenhuma seção está vazia, e nenhuma usa travessão', () {

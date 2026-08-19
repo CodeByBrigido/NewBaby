@@ -34,34 +34,36 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
     title: 'Em resumo',
     body: <String>[
       'O aplicativo serve para registrar a infância de uma criança. Ele '
-          'guarda os arquivos no Google Drive da conta que você usar, e não '
-          'em servidor nosso.',
+          'guarda os arquivos de mídia e documentos diretamente no Google '
+          'Drive da conta que você autorizar, e não em um servidor próprio '
+          'nosso.',
       'Há dois planos. No Básico, que é gratuito, você lê tudo o que já '
           'guardou e continua guardando fotos e vídeos. O Premium, que é uma '
           'assinatura anual, acrescenta guardar cartas, desenhos, documentos '
           'e registros de crescimento.',
-      'O conteúdo é seu. Nós não olhamos, não usamos e não vendemos nada do '
-          'que você guarda.',
+      'O conteúdo é seu. Nós não olhamos, não usamos e não vendemos nada '
+          'do que você guarda.',
       'Você precisa ter pelo menos $idadeMinima anos, ou a maioridade do '
           'lugar onde mora se ela for maior, e ser responsável pela criança '
           'para criar a conta.',
-      'O aplicativo não substitui um backup, e nem conselho médico ou '
-          'jurídico.',
+      'O aplicativo não substitui um backup independente nem orientação '
+          'médica, psicológica ou jurídica.',
     ],
   ),
   PrivacySection(
     title: 'O que este aplicativo é',
     body: <String>[
       'O Meu Bebê: Cápsula do Tempo é uma cápsula do tempo digital. Ele '
-          'organiza fotos, '
-          'vídeos, cartas, desenhos, documentos e registros de crescimento '
-          'pela idade da criança, para que um dia ela mesma possa abrir e '
-          'reviver a própria infância.',
-      'Não há anúncio, e nunca houve. O que existe é uma assinatura opcional, '
-          'descrita na seção seguinte, que amplia o que dá para guardar.',
-      'Ele é um organizador, e não um serviço de armazenamento: o espaço '
-          'usado é o da conta do Google, e as regras de espaço e de cobrança '
-          'são as do Google, não as nossas.',
+          'organiza fotos, vídeos, cartas, desenhos, documentos e registros '
+          'de crescimento pela idade da criança, para que um dia ela mesma '
+          'possa abrir e reviver a própria infância.',
+      'Não há anúncio, e nunca houve. O que existe é uma assinatura '
+          'opcional, descrita na seção seguinte, que amplia o que dá para '
+          'guardar.',
+      'Ele é um organizador, e não um serviço de armazenamento próprio: o '
+          'espaço utilizado é o da conta Google que você autorizar. As regras '
+          'de armazenamento, limites de espaço e cobrança aplicáveis ao '
+          'Google Drive são as do Google.',
     ],
   ),
   PrivacySection(
@@ -70,43 +72,54 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
       'O plano Básico é gratuito e não tem prazo. Com ele você entra, '
           'percorre a linha do tempo inteira, abre e lê tudo o que já está '
           'guardado, e continua guardando fotos e vídeos.',
-      'O plano Premium é uma assinatura anual. Ele acrescenta guardar cartas, '
-          'desenhos, documentos e registros de crescimento, que são as partes '
-          'em que a cápsula deixa de ser um álbum.',
-      'A assinatura vale para a conta que entra no aplicativo, e não para o '
-          'aparelho nem para quem pagou. Se você registra mais de uma criança, '
-          'cada uma tem a própria conta do Google, e cada conta precisa da '
-          'própria assinatura.',
+      'O plano Premium é uma assinatura anual. Ele acrescenta guardar '
+          'cartas, desenhos, documentos e registros de crescimento, que são '
+          'as partes em que a cápsula deixa de ser um álbum.',
+      'A assinatura vale para a conta que entra no aplicativo, e não para '
+          'o aparelho nem para a pessoa que realizou o pagamento. Se o '
+          'aplicativo utilizar contas separadas para diferentes crianças, a '
+          'disponibilidade do Premium será determinada pela conta e pela '
+          'assinatura correspondente, conforme a configuração vigente do '
+          'serviço.',
       'Ficar sem a assinatura nunca fecha nada que já é seu. Ao fim do '
-          'período pago, o aplicativo volta ao Básico: as cartas, os desenhos, '
-          'os documentos e as medições que você já guardou continuam à vista, '
-          'e os arquivos continuam no Google Drive da criança. O que para é '
-          'guardar coisa nova desses quatro tipos.',
+          'período pago, o aplicativo volta ao Básico: as cartas, os '
+          'desenhos, os documentos e as medições que você já guardou '
+          'continuam à vista, e os arquivos continuam no Google Drive da '
+          'criança. O que para é guardar coisa nova desses quatro tipos.',
     ],
   ),
   PrivacySection(
     title: 'A assinatura, o pagamento e o cancelamento',
     body: <String>[
-      'A cobrança é feita pelo Google Play, e não por nós. O preço aparece na '
-          'moeda do seu país, dentro da própria loja, antes de você confirmar.',
-      'A assinatura é anual e se renova sozinha, pela conta do Google Play que '
-          'fez a compra, até que você a cancele.',
-      'Cancelar, mudar a forma de pagamento ou pedir reembolso é feito na '
-          'Google Play, em Pagamentos e assinaturas. Nós não temos acesso à '
-          'sua forma de pagamento e não conseguimos cobrar, cancelar nem '
-          'devolver valores em seu nome.',
-      'Cancelando, o acesso ao Premium continua até o fim do período já pago. '
-          'Não há devolução proporcional pelos dias não usados, e as regras de '
-          'reembolso são as do Google Play, além dos direitos que a lei '
-          'brasileira garante e que ninguém pode afastar.',
+      'A compra da assinatura é processada pelo Google Play, e não pelo '
+          'aplicativo. O preço e as condições aplicáveis aparecem no Google '
+          'Play antes da confirmação da compra.',
+      'A assinatura é anual e se renova sozinha, pela conta do Google '
+          'Play que fez a compra, até que você a cancele.',
+      'Cancelar ou alterar a assinatura é feito no Google Play, em '
+          'Pagamentos e assinaturas. O pedido de reembolso também segue os '
+          'mecanismos e as políticas aplicáveis do Google Play. Nós não temos '
+          'acesso aos dados do seu meio de pagamento e não conseguimos '
+          'alterar uma cobrança diretamente em seu nome.',
+      'Ao cancelar, o acesso ao Premium normalmente continua até o fim do '
+          'período já pago. Não oferecemos devolução proporcional por '
+          'iniciativa própria, salvo quando exigida pela legislação aplicável '
+          'ou pelas políticas de reembolso do Google Play. Os direitos '
+          'obrigatórios do consumidor não são afastados por estes Termos.',
       'Se o preço mudar, a mudança vale para as renovações seguintes, e o '
           'Google Play avisa antes, pelo caminho que ele usa para isso. Você '
           'pode cancelar antes de a renovação acontecer.',
-      'Onde a lei do seu país dá um prazo para desistir de uma compra feita '
-          'a distância, esse prazo vale, e vale acima do que estiver escrito '
-          'aqui. São catorze dias na União Europeia e no Reino Unido, sete '
-          'dias no Brasil, e prazos próprios em vários outros lugares. O '
-          'pedido é feito na Google Play, que é quem recebeu o pagamento.',
+      'Onde a legislação aplicável conceder ao consumidor um direito de '
+          'desistência ou arrependimento, esse direito prevalece sobre '
+          'qualquer disposição destes Termos. Na União Europeia e no Reino '
+          'Unido, o prazo legal geral para contratos à distância é de 14 '
+          'dias, sujeito às regras e exceções aplicáveis ao tipo de serviço '
+          'ou conteúdo digital contratado. No Brasil, o Código de Defesa do '
+          'Consumidor prevê, em regra, 7 dias para contratações realizadas '
+          'fora do estabelecimento comercial. Outros países podem estabelecer '
+          'prazos e condições próprios. O pedido de cancelamento ou reembolso '
+          'deve seguir o canal aplicável indicado pelo Google Play, sem '
+          'prejuízo dos direitos legais do consumidor.',
       'Apagar a conta dentro do aplicativo não cancela a assinatura. São '
           'coisas separadas: uma é nossa, a outra é da Google Play. Cancele '
           'também na loja, senão a cobrança continua.',
@@ -116,62 +129,69 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
     title: 'Quem pode usar',
     body: <String>[
       'Para criar uma conta você declara que tem pelo menos $idadeMinima '
-          'anos, ou a maioridade do país onde mora se ela for maior, e que é '
-          'mãe, pai ou responsável legal pela criança cujos dados vai '
-          'registrar, ou que tem autorização de quem é.',
-      'Isto não é formalidade. Dado de criança recebe cuidado reforçado em '
-          'praticamente toda lei de proteção de dados do mundo, entre elas a '
+          'anos, ou a idade mínima legal aplicável no país onde mora, se esta '
+          'for superior, e que é mãe, pai ou responsável pela criança cujos '
+          'dados vai registrar, ou que possui autorização adequada para '
+          'fazê-lo.',
+      'Isto não é mera formalidade. Dados relacionados a crianças podem '
+          'receber proteção reforçada em diferentes legislações, entre elas a '
           'LGPD no Brasil, o GDPR na União Europeia, o UK GDPR no Reino Unido '
-          'e a COPPA nos Estados Unidos. Em todas elas, quem autoriza o '
-          'registro precisa ser quem responde legalmente pela criança.',
-      'O aplicativo não é para a própria criança usar enquanto for criança. '
-          'Ele é escrito para quem registra hoje, e feito para ser entregue a '
-          'ela quando ela for adulta.',
+          'e, em determinadas situações, a COPPA nos Estados Unidos. O '
+          'usuário deve ter autoridade adequada para fornecer os dados da '
+          'criança e utilizar o aplicativo para essa finalidade.',
+      'O aplicativo não é para a própria criança usar enquanto for '
+          'criança. Ele é escrito para quem registra hoje, e feito para ser '
+          'entregue a ela quando ela for adulta.',
     ],
   ),
   PrivacySection(
     title: 'A conta e o acesso',
     body: <String>[
       'A entrada é feita com uma conta do Google. Você é responsável por '
-          'manter essa conta segura, e por quem tem acesso ao aparelho onde o '
-          'aplicativo está instalado.',
-      'O aplicativo pede permissão de acesso ao Google Drive apenas para os '
-          'arquivos que ele mesmo cria. Ele não enxerga, não lista e não '
-          'alcança nada que já estivesse na sua conta.',
-      'Você pode revogar essa permissão a qualquer momento, pela sua conta do '
-          'Google. Revogando, o aplicativo deixa de conseguir guardar coisas '
-          'novas, e os arquivos já enviados continuam no seu Drive.',
+          'manter essa conta segura e por controlar quem tem acesso ao '
+          'aparelho onde o aplicativo está instalado.',
+      'O aplicativo solicita o escopo de acesso ao Google Drive destinado '
+          'aos arquivos que ele próprio cria. Dentro desse escopo, ele não '
+          'solicita acesso geral aos arquivos preexistentes da sua conta.',
+      'Você pode revogar essa permissão a qualquer momento, pela sua '
+          'conta do Google. Revogando, o aplicativo deixa de conseguir '
+          'guardar coisas novas, e os arquivos já enviados continuam no seu '
+          'Drive.',
     ],
   ),
   PrivacySection(
     title: 'O conteúdo é seu',
     body: <String>[
-      'Tudo o que você guarda continua sendo seu. Nós não adquirimos direito '
-          'nenhum sobre as suas fotos, os seus vídeos ou os textos que você '
-          'escreve.',
-      'Nós não pedimos licença de uso, não publicamos nada em lugar nenhum e '
-          'não usamos o seu conteúdo para treinar sistema algum.',
+      'Tudo o que você guarda continua sendo seu. Nós não adquirimos '
+          'direito nenhum sobre as suas fotos, os seus vídeos ou os textos '
+          'que você escreve.',
+      'Nós não pedimos licença de uso, não publicamos nada em lugar '
+          'nenhum e não usamos o seu conteúdo para treinar sistema algum.',
       'Você é responsável pelo que guarda, inclusive por ter o direito de '
-          'guardar aquilo. Fotografar a filha de outra pessoa e guardar aqui é '
-          'uma decisão sua, e as consequências dela também.',
+          'guardar aquilo. Fotografar a filha de outra pessoa e guardar aqui '
+          'é uma decisão sua, e as consequências dela também.',
     ],
   ),
   PrivacySection(
     title: 'O que não se pode fazer',
     body: <String>[
-      'Usar o aplicativo para fim comercial, para prestar este serviço a '
-          'terceiros ou para registrar uma criança que não é sua nem está '
-          'sob sua responsabilidade legal. O aplicativo é para uso pessoal e '
-          'familiar, e é esse uso restrito que dispensa você, quem registra, '
-          'de qualquer obrigação de controlador de dados perante a lei.',
-      'Usar o aplicativo para guardar ou distribuir conteúdo ilegal, em '
-          'especial qualquer material de abuso ou exploração de crianças.',
-      'Usar o aplicativo para violar a privacidade de terceiros ou guardar '
-          'conteúdo sobre pessoas que não autorizaram.',
+      'Usar o aplicativo para finalidade comercial, para prestar o '
+          'serviço a terceiros sem autorização, ou para registrar dados de '
+          'uma criança sem possuir autoridade adequada para isso. O '
+          'aplicativo é destinado a uso pessoal e familiar. O enquadramento '
+          'jurídico das atividades realizadas pelo usuário depende da '
+          'legislação aplicável; estes Termos não pretendem declarar que o '
+          'usuário esteja automaticamente isento de qualquer obrigação legal '
+          'de proteção de dados.',
+      'Usar o aplicativo para guardar, solicitar, produzir ou distribuir '
+          'conteúdo ilegal, especialmente material de abuso ou exploração '
+          'sexual de crianças e adolescentes.',
+      'Usar o aplicativo para violar a privacidade de terceiros ou '
+          'guardar conteúdo sobre pessoas que não autorizaram.',
       'Tentar burlar as proteções do aplicativo, acessar dados de outras '
           'contas ou interferir no funcionamento do serviço.',
-      'Descobrindo qualquer uma dessas coisas, podemos encerrar o acesso ao '
-          'aplicativo. Não temos como apagar o que está no Drive de outra '
+      'Descobrindo qualquer uma dessas coisas, podemos encerrar o acesso '
+          'ao aplicativo. Não temos como apagar o que está no Drive de outra '
           'pessoa, e denúncias de crime vão para as autoridades.',
     ],
   ),
@@ -179,13 +199,14 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
     title: 'O que não prometemos',
     body: <String>[
       'O aplicativo é oferecido como está. Não garantimos que ele estará '
-          'sempre disponível, livre de falhas ou compatível com todo aparelho.',
-      'Não somos um serviço de backup. Um arquivo enviado fica no seu Google '
-          'Drive, e a preservação dele depende da sua conta do Google '
+          'sempre disponível, livre de falhas ou compatível com todo '
+          'aparelho.',
+      'Não somos um serviço de backup. Um arquivo enviado fica no seu '
+          'Google Drive, e a preservação dele depende da sua conta do Google '
           'continuar existindo e com espaço. Guarde cópias do que for '
           'insubstituível.',
-      'Dependemos de serviços do Google para entrar e para guardar. Se eles '
-          'mudarem de regra, de preço ou saírem do ar, isso afeta o '
+      'Dependemos de serviços do Google para entrar e para guardar. Se '
+          'eles mudarem de regra, de preço ou saírem do ar, isso afeta o '
           'aplicativo, e não está sob nosso controle.',
       'As inspirações e as sugestões dentro do aplicativo são conteúdo '
           'editorial, escrito para acompanhar a fase da criança. Não são '
@@ -196,30 +217,41 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
   PrivacySection(
     title: 'Limite da nossa responsabilidade',
     body: <String>[
-      'Na medida do que a lei permitir, não respondemos por perda de '
-          'conteúdo, lucro cessante ou dano indireto decorrente do uso do '
-          'aplicativo.',
-      'Isto não afasta nada que a lei não deixe afastar, onde quer que você '
-          'more. Em nenhum lugar limitamos responsabilidade por dolo, por '
-          'culpa grave, por morte ou lesão, nem por direito que a sua lei de '
-          'consumo declare irrenunciável. Onde a sua lei não admitir o limite '
-          'escrito acima, ele simplesmente não se aplica a você, e o resto '
-          'destes termos continua valendo.',
+      'Na medida máxima permitida pela legislação aplicável, não seremos '
+          'responsáveis por lucros cessantes, danos indiretos ou '
+          'consequenciais decorrentes do uso ou da impossibilidade de uso do '
+          'aplicativo. Isso não limita responsabilidades que não possam ser '
+          'legalmente excluídas ou limitadas.',
+      'Nada nesta seção exclui ou limita responsabilidade quando essa '
+          'exclusão ou limitação for proibida pela legislação aplicável. Em '
+          'particular, estes Termos não pretendem excluir responsabilidades '
+          'por morte ou lesão corporal quando a lei não permitir, nem '
+          'direitos do consumidor ou outros direitos que sejam legalmente '
+          'irrenunciáveis. Se determinada limitação não for válida em sua '
+          'jurisdição, ela será aplicada somente na extensão permitida, e as '
+          'demais disposições destes Termos continuarão vigentes.',
     ],
   ),
   PrivacySection(
     title: 'Se você quiser parar',
     body: <String>[
-      'Você pode sair do aplicativo, desinstalá-lo ou apagar a conta e os '
-          'dados a qualquer momento, sem precisar dar explicação e sem custo.',
-      'O caminho está descrito na página de exclusão de conta, e ele funciona '
-          'mesmo para quem já desinstalou o aplicativo.',
+      'Você pode sair do aplicativo, desinstalá-lo ou solicitar a '
+          'exclusão da conta e dos dados a qualquer momento, sem precisar '
+          'apresentar justificativa e sem cobrança por essa solicitação, '
+          'ressalvadas eventuais obrigações legais de retenção.',
+      'O caminho está descrito na página de exclusão de conta, e ele '
+          'funciona mesmo para quem já desinstalou o aplicativo.',
       'Se você tiver o Premium, lembre de cancelar a assinatura também na '
           'Google Play. Apagar a conta aqui não a cancela lá.',
-      'Podemos encerrar o serviço ou a sua conta em caso de uso ilegal, ou se '
-          'um dia o aplicativo deixar de existir. Nesse caso avisaremos com a '
-          'antecedência que der, e os seus arquivos continuam no seu Google '
-          'Drive, organizados em pastas legíveis, mesmo sem o aplicativo.',
+      'Podemos suspender ou encerrar o acesso à conta quando houver '
+          'violação material destes Termos, uso ilegal, risco de segurança ou '
+          'quando o serviço deixar de ser oferecido. Quando o encerramento '
+          'decorrer de uma decisão planejada de descontinuação do serviço, '
+          'procuraremos avisar com antecedência razoável, quando possível. '
+          'Como os arquivos são armazenados no seu Google Drive, eles não são '
+          'automaticamente apagados pelo encerramento do aplicativo, embora '
+          'determinadas funções de organização ou leitura possam deixar de '
+          'funcionar.',
     ],
   ),
   PrivacySection(
@@ -230,8 +262,14 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
       'Cada versão do aplicativo carrega dentro dela os termos daquela '
           'versão, então o texto que você leu ao instalar continua ali, mesmo '
           'que o que esteja no ar seja outro.',
-      'Continuar usando depois de uma mudança significa concordar com ela. '
-          'Se não concordar, você pode apagar a conta pelo caminho acima.',
+      'Quando uma alteração material exigir novo consentimento ou aviso '
+          'específico pela legislação aplicável, ela será apresentada de '
+          'forma adequada antes de produzir efeitos. Nas demais alterações, a '
+          'continuação do uso após a publicação da nova versão poderá '
+          'significar aceitação dos Termos atualizados. Se não concordar com '
+          'uma alteração aplicável, você poderá deixar de usar o aplicativo e '
+          'solicitar a exclusão da conta, observados os direitos legais que '
+          'se apliquem.',
     ],
   ),
   PrivacySection(
@@ -240,53 +278,62 @@ const List<PrivacySection> termsOfUsePt = <PrivacySection>[
       'O aplicativo é distribuído pela Google Play e pode ser usado em '
           'qualquer país onde a loja o ofereça. A interface e estes '
           'documentos existem em português e em inglês.',
-      'Quem publica é uma pessoa física estabelecida na Irlanda, e não uma '
-          'empresa com sede em cada país. Isso não reduz os seus direitos: a '
-          'lei do lugar onde você mora continua valendo para você, e é a '
-          'seção seguinte que explica como as duas coisas convivem.',
-      'Não oferecemos o aplicativo em países sob sanção que impeçam a '
-          'prestação do serviço, e o Google Play controla essa distribuição.',
-      'Também não o oferecemos onde a lei local exigir que os dados fiquem '
-          'guardados fisicamente dentro do país, como acontece hoje na China '
-          'e na Rússia, entre outros. A nossa arquitetura depende da nuvem '
-          'global do Google, e cumprir uma exigência dessas exigiria uma '
-          'infraestrutura própria dentro daquele país, o que este projeto '
-          'não tem. Preferimos dizer isso com clareza a fingir que '
-          'cumprimos uma regra que não cumprimos.',
+      'Quem publica é uma pessoa física estabelecida na Irlanda, e não '
+          'uma empresa constituída em cada país onde o aplicativo possa estar '
+          'disponível. Isso não pretende reduzir direitos obrigatórios do '
+          'consumidor ou de proteção de dados. A legislação aplicável à '
+          'relação poderá depender do país de residência do consumidor e das '
+          'regras de conflito de leis.',
+      'A disponibilidade do aplicativo pode variar de acordo com as leis '
+          'aplicáveis, sanções, políticas do Google Play e restrições de '
+          'distribuição.',
+      'O aplicativo pode não ser disponibilizado em determinados países '
+          'ou regiões quando a legislação local, os requisitos de localização '
+          'de dados, as sanções ou as condições técnicas dos serviços de '
+          'nuvem utilizados impedirem legitimamente sua operação. A '
+          'arquitetura do aplicativo depende da infraestrutura global do '
+          'Google e pode não atender a requisitos locais que exijam '
+          'armazenamento exclusivamente dentro de determinada jurisdição.',
     ],
   ),
   PrivacySection(
     title: 'Lei aplicável e onde reclamar',
     body: <String>[
-      'Estes termos são regidos pela lei irlandesa e pelo direito da União '
-          'Europeia, que é o do lugar de onde o aplicativo é operado.',
-      'Isso **não** afasta a proteção obrigatória que a lei do seu país de '
-          'residência der a você como consumidor. Se você mora na União '
-          'Europeia, no Reino Unido, no Brasil, nos Estados Unidos, no '
-          'Canadá, na Austrália ou em qualquer lugar cuja lei de consumo não '
-          'possa ser afastada por contrato, ela continua valendo, e prevalece '
-          'sobre qualquer cláusula daqui que a contrarie.',
-      'Você pode acionar a Justiça do lugar onde mora. Na União Europeia isso '
-          'é o tribunal do seu país de residência, garantido pelo Regulamento '
-          '1215/2012; no Brasil é o foro do domicílio do consumidor, '
-          'garantido pelo Código de Defesa do Consumidor; e regra equivalente '
-          'existe em boa parte do mundo.',
-      'Consumidores da União Europeia podem procurar uma entidade de '
-          'resolução alternativa de litígios do próprio país, previstas na '
-          'Diretiva 2013/11/UE, ou o Centro Europeu do Consumidor da sua '
-          'região, em eccnet.eu. A antiga plataforma de litígios em linha da '
-          'Comissão Europeia foi encerrada em julho de 2025 e não substitui '
-          'esses caminhos.',
-      'Nada aqui obriga você a arbitragem, e não há renúncia a ação '
-          'coletiva. Se preferir simplesmente falar com a gente antes de '
-          'qualquer disso, o endereço está na última seção, e a resposta sai '
-          'em até 30 dias.',
+      'Estes Termos são regidos pela lei irlandesa, sem prejuízo das '
+          'normas obrigatórias de proteção do consumidor e de outras normas '
+          'imperativas que sejam aplicáveis à sua relação com o aplicativo.',
+      'Quando a legislação de conflito de leis determinar que a lei do '
+          'país de residência habitual do consumidor se aplica, ou quando '
+          'houver direitos obrigatórios que não possam ser afastados por '
+          'contrato, esses direitos prevalecerão sobre qualquer disposição '
+          'destes Termos que seja incompatível com eles.',
+      'Quando a legislação aplicável conceder ao consumidor o direito de '
+          'ajuizar ação perante os tribunais de seu país ou local de '
+          'residência, esse direito permanece preservado. Na União Europeia, '
+          'regras específicas de competência jurisdicional protegem '
+          'consumidores em determinadas circunstâncias. No Brasil, o Código '
+          'de Defesa do Consumidor também prevê proteção quanto ao foro do '
+          'consumidor, conforme aplicável ao caso.',
+      'Consumidores da União Europeia podem, quando disponível e '
+          'aplicável ao tipo de disputa, recorrer aos mecanismos nacionais de '
+          'resolução alternativa de litígios previstos pela legislação de seu '
+          'país ou procurar o Centro Europeu do Consumidor competente. A '
+          'antiga plataforma europeia de resolução de litígios em linha foi '
+          'encerrada e não é indicada como canal de atendimento.',
+      'Nada aqui obriga você a arbitragem nem pretende impedir o '
+          'exercício de direitos processuais que a legislação aplicável '
+          'assegure. Se preferir falar conosco antes de qualquer outra '
+          'medida, o endereço está na última seção. Procuraremos responder '
+          'sem demora indevida e, quando o pedido envolver direitos de '
+          'proteção de dados, observaremos os prazos previstos na legislação '
+          'aplicável.',
     ],
   ),
   PrivacySection(
     title: 'Como falar com a gente',
     body: <String>[
-      'Dúvida, reclamação ou pedido sobre os seus dados: $privacyEmail.',
+      'Dúvida, reclamação ou pedido sobre o aplicativo ou sobre os seus '
+          'dados: $privacyEmail.',
       'Responsável: $privacyController.',
     ],
   ),

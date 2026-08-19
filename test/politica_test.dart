@@ -98,27 +98,48 @@ void main() {
   });
 
   group('a Irlanda', () {
-    test('o responsável está estabelecido lá, e a autoridade é a dela', () {
+    test('o responsável está estabelecido lá, e o balcão único é citado', () {
+      // O texto ficou mais cauteloso: em vez de afirmar que a autoridade
+      // líder é a irlandesa, ele diz que ela será determinada pelo Art. 56
+      // quando o mecanismo se aplicar. É mais exato, e continua apontando a
+      // DPC como caminho.
       expect(texto, contains('estabelecido na Irlanda'));
-      expect(texto, contains('Data Protection Commission da Irlanda'));
       expect(texto, contains('balcão único'));
+      expect(texto, contains('Art. 56'));
+      expect(texto, contains('Data Protection Commission'));
+    });
+
+    test('e não fecha a porta da autoridade do próprio país', () {
+      // Quem mora longe da Irlanda precisa saber que pode reclamar em casa.
+      expect(
+        texto,
+        contains('autoridade de proteção de dados do país em que reside'),
+      );
     });
   });
 
   group('os dois papéis', () {
     test('a isenção doméstica do GDPR está escrita, não só aplicada', () {
       // Sem esta frase, um pai que lê a política não tem como saber que
-      // registrar o próprio filho não o transforma em controlador de dados.
+      // registrar o próprio filho pode não o transformar em controlador.
+      //
+      // O texto ficou mais cauteloso do que era: em vez de afirmar a isenção
+      // como certa, ele diz que o uso **pode** se enquadrar nela, e separa
+      // isso das obrigações do próprio aplicativo. É mais exato, e o que o
+      // teste cobra é que a explicação continue lá.
       expect(texto, contains('atividade exclusivamente pessoal ou doméstica'));
-      expect(texto, contains('você não se torna controlador'));
+      expect(texto, contains('Art. 2(2)(c)'));
     });
 
-    test('para o Drive, o texto admite que não somos nada', () {
-      // É a frase mais fácil de querer suavizar, e a mais importante de não
-      // suavizar: dizer que não somos controlador nem operador dos arquivos
-      // é o que torna a promessa de "não temos cópia" juridicamente exata,
-      // e não só uma frase de efeito.
-      expect(texto, contains('não somos nada'));
+    test('para o Drive, o texto separa o que é nosso do que não é', () {
+      // A frase antiga dizia "não somos nada" para os arquivos. A nova diz a
+      // mesma coisa com mais cuidado jurídico: não recebemos cópia, não
+      // armazenamos em servidor próprio, e o uso do Drive é regido pelo
+      // Google. O que não pode sumir é essa separação, porque é ela que
+      // sustenta a promessa de "não temos cópia".
+      expect(texto, contains('não recebe uma cópia desses arquivos'));
+      expect(texto, contains('nem os armazena em servidores próprios'));
+      expect(texto, contains('atua apenas dentro das permissões'));
     });
   });
 
@@ -135,10 +156,17 @@ void main() {
   });
 
   group('o contrato com o Google', () {
-    test('cita o Art. 28 e o instrumento que o cumpre', () {
-      expect(texto, contains('Art. 28'));
-      expect(texto, contains('Data Processing Addendum'));
-    });
+    test(
+      'diz que o papel do Google depende do serviço, e cita o instrumento',
+      () {
+        // A versão anterior afirmava que o Google era operador em tudo, no
+        // sentido do Art. 28. O texto novo é mais exato: o papel muda conforme
+        // o produto, e o instrumento contratual é nomeado sem prometer um
+        // enquadramento único.
+        expect(texto, contains('operador (processor)'));
+        expect(texto, contains('termos de proteção de dados do Google'));
+      },
+    );
   });
 
   group('os Estados Unidos além da Califórnia', () {

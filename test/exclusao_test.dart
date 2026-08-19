@@ -134,8 +134,12 @@ void main() {
     });
 
     test('promete um prazo, e ele é o do GDPR', () {
+      // O texto deixou de citar o número de dias e passou a citar a regra:
+      // sem demora indevida, em regra um mês. É o prazo do Art. 12(3), dito
+      // como a lei o diz, e a constante continua valendo como teto interno.
       expect(deletionDeadlineDays, lessThanOrEqualTo(30));
-      expect(texto, contains('$deletionDeadlineDays dias'));
+      expect(texto, contains('sem demora indevida'));
+      expect(texto, contains('prazo de um mês'));
     });
 
     test('diz o que não é apagado, e não esconde isso no fim', () {
@@ -165,8 +169,14 @@ void main() {
       // de revisão inteiro, e o revisor raramente lê português.
       final PrivacySection ingles = accountDeletionPage.last;
       expect(ingles.title, contains('English'));
-      expect(ingles.body.join(' '), contains('delete your'));
-      expect(ingles.body.join(' '), contains('irreversible'));
+      final String corpo = ingles.body.join(' ');
+      expect(corpo, contains('delete your'));
+      expect(corpo, contains('cannot be undone'));
+      // O que a loja precisa achar ali: o caminho dentro do aplicativo, o
+      // email alternativo, e o aviso da assinatura.
+      expect(corpo, contains('Profile'));
+      expect(corpo, contains(privacyEmail));
+      expect(corpo, contains('cancel the subscription'));
     });
 
     test('nenhuma seção está vazia, e nenhuma usa travessão', () {

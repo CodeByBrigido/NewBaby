@@ -9,19 +9,20 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
   PrivacySection(
     title: 'In short',
     body: <String>[
-      'The app is for keeping a record of a child\'s early years. It stores '
-          'the files in the Google Drive of whichever account you use, not on '
-          'a server of ours.',
-      'There are two plans. On Basic, which is free, you read everything you '
-          'have already kept and carry on keeping photos and videos. Premium, '
-          'a yearly subscription, adds keeping letters, drawings, documents '
-          'and growth records.',
-      'The content is yours. We do not look at it, use it or sell any of what '
-          'you keep.',
+      'The app is for keeping a record of a child\'s early years. It '
+          'stores media files and documents directly in the Google Drive of '
+          'the account you authorise, and not on a server of our own.',
+      'There are two plans. On Basic, which is free, you read everything '
+          'you have already kept and carry on keeping photos and videos. '
+          'Premium, a yearly subscription, adds keeping letters, drawings, '
+          'documents and growth records.',
+      'The content is yours. We do not look at it, use it or sell any of '
+          'what you keep.',
       'You must be at least $idadeMinima, or the age of majority where you '
           'live if that is higher, and be responsible for the child to create '
           'the account.',
-      'The app is not a backup, and it is not medical or legal advice.',
+      'The app does not replace an independent backup, nor medical, '
+          'psychological or legal advice.',
     ],
   ),
   PrivacySection(
@@ -34,9 +35,10 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
       'There is no advertising, and never was. What exists is an optional '
           'subscription, described in the next section, that widens what you '
           'can keep.',
-      'It is an organiser, not a storage service: the space used is that of '
-          'your Google account, and the rules about space and charges are '
-          "Google's, not ours.",
+      'It is an organiser, not a storage service of its own: the space '
+          'used is that of the Google account you authorise. The storage '
+          'rules, space limits and charges that apply to Google Drive are '
+          'Google\'s.',
     ],
   ),
   PrivacySection(
@@ -48,60 +50,71 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
       'The Premium plan is a yearly subscription. It adds keeping letters, '
           'drawings, documents and growth records, which are the parts where '
           'the capsule stops being an album.',
-      'The subscription belongs to the account that signs in, not to the '
-          'device nor to whoever paid. If you record more than one child, '
-          'each has their own Google account, and each account needs its own '
-          'subscription.',
-      'Going without the subscription never closes anything that is already '
-          'yours. At the end of the paid period the app returns to Basic: the '
-          'letters, drawings, documents and measurements you already kept '
-          'stay in plain view, and the files stay in the child\'s Google '
-          'Drive. What stops is keeping new things of those four kinds.',
+      'The subscription applies to the account that signs in to the app, '
+          'not to the device nor to the person who made the payment. If the '
+          'app uses separate accounts for different children, the '
+          'availability of Premium is determined by the account and its '
+          'corresponding subscription, according to the service configuration '
+          'in force.',
+      'Going without the subscription never closes anything that is '
+          'already yours. At the end of the paid period the app returns to '
+          'Basic: the letters, drawings, documents and measurements you '
+          'already kept stay in plain view, and the files stay in the '
+          'child\'s Google Drive. What stops is keeping new things of those '
+          'four kinds.',
     ],
   ),
   PrivacySection(
     title: 'The subscription, the payment and cancelling',
     body: <String>[
-      'Billing is done by Google Play, not by us. The price appears in your '
-          "country's currency, inside the store itself, before you confirm.",
-      'The subscription is yearly and renews on its own, through the Google '
-          'Play account that made the purchase, until you cancel it.',
-      'Cancelling, changing the payment method or asking for a refund is done '
-          'in Google Play, under Payments and subscriptions. We have no '
-          'access to your payment method and cannot charge, cancel or refund '
-          'on your behalf.',
-      'Once cancelled, access to Premium continues until the end of the '
-          'period already paid for. There is no pro rata refund for unused '
-          'days, and the refund rules are Google Play\'s, alongside the rights '
-          'your law guarantees and that nobody can waive.',
-      'If the price changes, the change applies to later renewals, and Google '
-          'Play gives notice beforehand, by the route it uses for that. You '
-          'can cancel before the renewal happens.',
-      'Where the law of your country gives you a window to withdraw from a '
-          'distance purchase, that window applies, and it applies above '
-          'anything written here. It is fourteen days in the European Union '
-          'and the United Kingdom, seven days in Brazil, and other periods in '
-          'many other places. The request is made in Google Play, which is '
-          'who received the payment.',
-      'Deleting the account inside the app does not cancel the subscription. '
-          'They are separate things: one is ours, the other is Google '
-          "Play's. Cancel there too, or the billing continues.",
+      'The subscription purchase is processed by Google Play, not by the '
+          'app. The price and the conditions that apply appear in Google Play '
+          'before the purchase is confirmed.',
+      'The subscription is yearly and renews on its own, through the '
+          'Google Play account that made the purchase, until you cancel it.',
+      'Cancelling or changing the subscription is done in Google Play, '
+          'under Payments and subscriptions. A refund request also follows '
+          'the applicable Google Play mechanisms and policies. We have no '
+          'access to your payment method details and cannot change a charge '
+          'directly on your behalf.',
+      'On cancelling, access to Premium normally continues until the end '
+          'of the period already paid for. We do not offer a pro rata refund '
+          'on our own initiative, except where required by applicable law or '
+          'by Google Play refund policies. Mandatory consumer rights are not '
+          'set aside by these Terms.',
+      'If the price changes, the change applies to later renewals, and '
+          'Google Play gives notice beforehand, by the route it uses for '
+          'that. You can cancel before the renewal happens.',
+      'Where applicable law gives the consumer a right of withdrawal or '
+          'cancellation, that right prevails over any provision of these '
+          'Terms. In the European Union and the United Kingdom the general '
+          'statutory period for distance contracts is 14 days, subject to the '
+          'rules and exceptions applicable to the type of service or digital '
+          'content contracted. In Brazil, the Consumer Protection Code '
+          'provides, as a rule, 7 days for contracts entered into away from '
+          'business premises. Other countries may set their own periods and '
+          'conditions. A cancellation or refund request should follow the '
+          'applicable channel indicated by Google Play, without prejudice to '
+          'the consumer\'s legal rights.',
+      'Deleting the account inside the app does not cancel the '
+          'subscription. They are separate things: one is ours, the other is '
+          'Google Play\'s. Cancel there too, or the billing continues.',
     ],
   ),
   PrivacySection(
     title: 'Who can use it',
     body: <String>[
-      'To create an account you declare that you are at least $idadeMinima, '
-          'or the age of majority in the country where you live if that is '
-          'higher, and that you are the mother, father or legal guardian of '
-          'the child whose data you are going to record, or that you have '
-          'authorisation from whoever is.',
-      'This is not a formality. Children\'s data receives heightened care in '
-          'practically every data protection law in the world, among them the '
-          'LGPD in Brazil, the GDPR in the European Union, the UK GDPR in the '
-          'United Kingdom and COPPA in the United States. In all of them, '
-          'whoever authorises the recording has to be whoever is legally '
-          'responsible for the child.',
+      'To create an account you declare that you are at least '
+          '$idadeMinima, or the minimum legal age applicable in the country '
+          'where you live if that is higher, and that you are the mother, '
+          'father or guardian of the child whose data you are going to '
+          'record, or that you hold adequate authorisation to do so.',
+      'This is not a mere formality. Data relating to children may receive '
+          'heightened protection under different laws, among them the LGPD in '
+          'Brazil, the GDPR in the European Union, the UK GDPR in the United '
+          'Kingdom and, in certain situations, COPPA in the United States. '
+          'The user must have adequate authority to provide the child\'s data '
+          'and to use the app for that purpose.',
       'The app is not for the child to use while she is a child. It is '
           'written for whoever is recording today, and made to be handed to '
           'her when she is an adult.',
@@ -111,11 +124,11 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
     title: 'The account and access',
     body: <String>[
       'You sign in with a Google account. You are responsible for keeping '
-          'that account secure, and for who has access to the device where '
-          'the app is installed.',
-      'The app asks for permission to your Google Drive only for the files it '
-          'creates itself. It cannot see, list or reach anything that was '
-          'already in your account.',
+          'that account secure and for controlling who has access to the '
+          'device where the app is installed.',
+      'The app requests the Google Drive access scope intended for the '
+          'files it creates itself. Within that scope, it does not request '
+          'general access to the pre-existing files in your account.',
       'You can revoke that permission at any time, through your Google '
           'account. Once revoked, the app can no longer keep new things, and '
           'the files already sent stay in your Drive.',
@@ -136,20 +149,23 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
   PrivacySection(
     title: 'What you may not do',
     body: <String>[
-      'Use the app for commercial purposes, to provide this service to third '
-          'parties, or to record a child who is neither yours nor under your '
-          'legal responsibility. The app is for personal and family use, and '
-          'it is that restricted use that frees you, the person recording, '
-          'from any data controller obligation under the law.',
-      'Use the app to keep or distribute illegal content, in particular any '
-          'material of child abuse or exploitation.',
-      'Use the app to violate the privacy of third parties or to keep content '
-          'about people who did not consent.',
+      'Use the app for commercial purposes, to provide the service to '
+          'third parties without authorisation, or to record a child\'s data '
+          'without holding adequate authority to do so. The app is intended '
+          'for personal and family use. The legal characterisation of the '
+          'activities carried out by the user depends on applicable law; '
+          'these Terms do not purport to declare that the user is '
+          'automatically exempt from any legal data protection obligation.',
+      'Use the app to keep, solicit, produce or distribute illegal '
+          'content, especially material of sexual abuse or exploitation of '
+          'children and adolescents.',
+      'Use the app to violate the privacy of third parties or to keep '
+          'content about people who did not consent.',
       'Try to get around the app\'s protections, access data from other '
           'accounts, or interfere with the running of the service.',
       'On discovering any of these, we may terminate access to the app. We '
-          "have no way to delete what is in someone else's Drive, and reports "
-          'of crime go to the authorities.',
+          'have no way to delete what is in someone else\'s Drive, and '
+          'reports of crime go to the authorities.',
     ],
   ),
   PrivacySection(
@@ -173,29 +189,40 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
   PrivacySection(
     title: 'The limit of our liability',
     body: <String>[
-      'To the extent the law allows, we are not liable for loss of content, '
-          'lost profits or indirect damage arising from use of the app.',
-      'This does not set aside anything the law does not allow to be set '
-          'aside, wherever you live. Nowhere do we limit liability for wilful '
-          'misconduct, gross negligence, death or injury, or for any right '
-          'your consumer law declares non-waivable. Where your law does not '
-          'admit the limit written above, it simply does not apply to you, '
-          'and the rest of these terms stands.',
+      'To the maximum extent permitted by applicable law, we will not be '
+          'liable for lost profits, indirect or consequential damages arising '
+          'from the use of or inability to use the app. This does not limit '
+          'liabilities that cannot legally be excluded or limited.',
+      'Nothing in this section excludes or limits liability where such '
+          'exclusion or limitation is prohibited by applicable law. In '
+          'particular, these Terms do not purport to exclude liability for '
+          'death or personal injury where the law does not allow it, nor '
+          'consumer rights or other rights that are legally non-waivable. If '
+          'a given limitation is not valid in your jurisdiction, it applies '
+          'only to the extent permitted, and the remaining provisions of '
+          'these Terms remain in force.',
     ],
   ),
   PrivacySection(
     title: 'If you want to stop',
     body: <String>[
-      'You can sign out, uninstall the app or delete the account and the data '
-          'at any time, without giving a reason and at no cost.',
-      'The path is described on the account deletion page, and it works even '
-          'for someone who has already uninstalled the app.',
+      'You can sign out, uninstall the app or request deletion of the '
+          'account and the data at any time, without giving a reason and at '
+          'no charge for that request, save for any legal retention '
+          'obligations.',
+      'The path is described on the account deletion page, and it works '
+          'even for someone who has already uninstalled the app.',
       'If you have Premium, remember to cancel the subscription in Google '
-          'Play as well. Deleting the account here does not cancel it there.',
-      'We may terminate the service or your account in case of illegal use, '
-          'or if one day the app ceases to exist. In that case we will give as '
-          'much notice as we can, and your files stay in your Google Drive, '
-          'organised in readable folders, even without the app.',
+          'Play as well. Deleting the account here does not cancel it '
+          'there.',
+      'We may suspend or terminate access to the account where there is a '
+          'material breach of these Terms, illegal use, a security risk, or '
+          'where the service ceases to be offered. Where termination follows '
+          'a planned decision to discontinue the service, we will try to give '
+          'reasonable notice where possible. Because the files are stored in '
+          'your Google Drive, they are not automatically deleted when the app '
+          'ends, although certain organising or reading features may stop '
+          'working.',
     ],
   ),
   PrivacySection(
@@ -203,11 +230,16 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
     body: <String>[
       'These terms may change when the app changes. The date at the top of '
           'this page says which version you are reading.',
-      'Every version of the app carries the terms of that version inside it, '
-          'so the text you read when you installed is still there, even if '
-          'what is published is now different.',
-      'Continuing to use it after a change means agreeing with it. If you do '
-          'not agree, you can delete the account by the path above.',
+      'Every version of the app carries the terms of that version inside '
+          'it, so the text you read when you installed is still there, even '
+          'if what is published is now different.',
+      'Where a material change requires fresh consent or a specific notice '
+          'under applicable law, it will be presented appropriately before it '
+          'takes effect. For other changes, continuing to use the app after '
+          'the new version is published may mean acceptance of the updated '
+          'Terms. If you do not agree with a change that applies to you, you '
+          'may stop using the app and request deletion of the account, '
+          'subject to any legal rights that apply.',
     ],
   ),
   PrivacySection(
@@ -216,54 +248,61 @@ const List<PrivacySection> termsOfUseEn = <PrivacySection>[
       'The app is distributed through Google Play and can be used in any '
           'country where the store offers it. The interface and these '
           'documents exist in Portuguese and in English.',
-      'The publisher is an individual established in Ireland, not a company '
-          'with an office in each country. That does not reduce your rights: '
-          'the law of the place where you live still applies to you, and the '
-          'next section explains how the two live together.',
-      'We do not offer the app in countries under sanctions that prevent '
-          'providing the service, and Google Play controls that distribution.',
-      'We also do not offer it where local law requires data to be stored '
-          'physically inside the country, as is the case today in China and '
-          'Russia, among others. Our architecture depends on Google\'s global '
-          'cloud, and meeting such a requirement would demand our own '
-          'infrastructure inside that country, which this project does not '
-          'have. We would rather say so plainly than pretend to comply with a '
-          'rule we do not.',
+      'The publisher is an individual established in Ireland, not a '
+          'company incorporated in every country where the app may be '
+          'available. This does not purport to reduce mandatory consumer or '
+          'data protection rights. The law applicable to the relationship may '
+          'depend on the consumer\'s country of residence and on '
+          'conflict-of-laws rules.',
+      'Availability of the app may vary according to applicable laws, '
+          'sanctions, Google Play policies and distribution restrictions.',
+      'The app may not be made available in certain countries or regions '
+          'where local law, data localisation requirements, sanctions or the '
+          'technical conditions of the cloud services used legitimately '
+          'prevent its operation. The architecture of the app depends on '
+          'Google\'s global infrastructure and may not meet local '
+          'requirements demanding storage exclusively inside a given '
+          'jurisdiction.',
     ],
   ),
   PrivacySection(
     title: 'Applicable law and where to complain',
     body: <String>[
-      'These terms are governed by Irish law and European Union law, which is '
-          'the law of the place from which the app is operated.',
-      'That does **not** set aside the mandatory protection your country of '
-          'residence gives you as a consumer. If you live in the European '
-          'Union, the United Kingdom, Brazil, the United States, Canada, '
-          'Australia or anywhere whose consumer law cannot be set aside by '
-          'contract, it still applies, and it prevails over any clause here '
-          'that contradicts it.',
-      'You can go to the courts of the place where you live. In the European '
-          'Union that is the court of your country of residence, guaranteed '
-          'by Regulation 1215/2012; in Brazil it is the court of the '
-          "consumer's domicile, guaranteed by the Consumer Protection Code; "
-          'and an equivalent rule exists in much of the world.',
-      'Consumers in the European Union may also approach an alternative '
-          'dispute resolution body in their own country, provided for by '
-          'Directive 2013/11/EU, or the European Consumer Centre for their '
-          'region, at eccnet.eu. The European Commission\'s former online '
-          'dispute resolution platform was shut down in July 2025 and does '
-          'not replace those routes.',
-      'Nothing here forces you into arbitration, and there is no waiver of '
-          'class action. If you would rather simply talk to us before any of '
-          'that, the address is in the last section, and the answer comes '
-          'within 30 days.',
+      'These Terms are governed by Irish law, without prejudice to '
+          'mandatory consumer protection rules and other mandatory rules that '
+          'apply to your relationship with the app.',
+      'Where conflict-of-laws rules determine that the law of the '
+          'consumer\'s country of habitual residence applies, or where there '
+          'are mandatory rights that cannot be set aside by contract, those '
+          'rights prevail over any provision of these Terms that is '
+          'incompatible with them.',
+      'Where applicable law gives the consumer the right to bring '
+          'proceedings before the courts of their country or place of '
+          'residence, that right is preserved. In the European Union, '
+          'specific rules of jurisdiction protect consumers in certain '
+          'circumstances. In Brazil, the Consumer Protection Code also '
+          'provides protection as to the consumer\'s forum, as applicable to '
+          'the case.',
+      'Consumers in the European Union may, where available and applicable '
+          'to the type of dispute, use the national alternative dispute '
+          'resolution mechanisms provided for by the law of their country, or '
+          'approach the competent European Consumer Centre. The former '
+          'European online dispute resolution platform has been shut down and '
+          'is not indicated as a channel.',
+      'Nothing here forces you into arbitration or purports to prevent the '
+          'exercise of procedural rights guaranteed by applicable law. If you '
+          'would rather talk to us before taking any other step, the address '
+          'is in the last section. We will try to reply without undue delay '
+          'and, where the request concerns data protection rights, we will '
+          'observe the deadlines set by applicable law.',
     ],
   ),
   PrivacySection(
     title: 'How to reach us',
     body: <String>[
-      'Questions, complaints or requests about your data: $privacyEmail.',
-      'Controller: $privacyController.',
+      'Questions, complaints or requests about the app or about your data: '
+          '$privacyEmail.',
+      'Responsible: $privacyController.',
     ],
   ),
 ];

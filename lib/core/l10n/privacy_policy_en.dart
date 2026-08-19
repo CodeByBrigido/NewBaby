@@ -26,40 +26,46 @@ const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
       'Controller of the personal data, in the sense of Art. 4(7) of the '
           'GDPR: $privacyController, an individual, sole developer, '
           'established in Ireland.',
-      'Being established inside the European Union has two good consequences '
-          'for you. The first is that the GDPR applies at the source, not by '
-          'extension: there is no argument about reach. The second is that '
-          'the lead authority is the Data Protection Commission of Ireland, '
-          'through the one-stop-shop mechanism of Art. 56 of the GDPR, and '
-          'you may complain either to it or to the authority of your own '
-          'country.',
+      'Because the person responsible for the app is established in '
+          'Ireland, the GDPR applies to the processing that falls within its '
+          'scope. Where the one-stop-shop mechanism applies to cross-border '
+          'processing, the lead supervisory authority is determined in '
+          'accordance with Art. 56 of the GDPR. You may also lodge a '
+          'complaint with the data protection authority of the country where '
+          'you live or work, or of the place where the alleged infringement '
+          'took place.',
       'Contact: $privacyEmail',
-      'Every request about personal data should be sent to that address. We '
-          'reply within 30 days, the deadline of Art. 12(3) of the GDPR.',
+      'Any request about personal data may be sent to that address. We '
+          'reply without undue delay and, as a rule, within one month, under '
+          'Art. 12(3) of the GDPR. Where the law allows an extension of that '
+          'deadline, we will tell you within the first month and explain '
+          'why.',
     ],
   ),
   PrivacySection(
     title: 'Your role and ours',
     body: <String>[
-      'Recording your own family is, in the language of the GDPR, a "purely '
-          'personal or household activity" (Art. 2(2)(c)). That means that, '
-          'in keeping your child\'s memories, **you do not become a '
-          'controller of personal data before the law**, and you take on none '
-          'of the obligations the law places on a company. You remain simply '
-          'the parent or guardian, recording your own child.',
+      'When someone uses the app solely to record and keep memories of '
+          'their own family, that use may fall within the purely personal or '
+          'household activity exception in Art. 2(2)(c) of the GDPR. That '
+          'exception concerns whether the GDPR applies to the processing '
+          'carried out by the person themselves, and it does not change the '
+          'responsibilities that may fall to the app for the personal data '
+          'the app itself processes.',
       'The app is for that use: personal and family, with no commercial '
           'purpose. Using it to record children who are not yours and not '
           'under your legal responsibility, or to offer this service to third '
           'parties, falls outside what the plans cover.',
-      'We have two different roles, and they do not mix. For the index (the '
-          'profile, the timeline, the text of the letters), we are the '
-          'controller, in the sense of Art. 4(7) of the GDPR: we decide how '
-          'that index is processed, and we answer for it. For your files in '
-          'Google Drive, we are nothing: they go from your device straight to '
-          'your own Google account, under a permission you grant directly to '
-          'it, and we never receive a copy, never see them and have no way to '
-          'access them. There, your relationship is with Google, and our role '
-          'is only that of a program operating with your permission.',
+      'We have different responsibilities depending on the data and the '
+          'service involved. For the index we keep in order to run the app, '
+          'such as the profile, the timeline and the text of the letters, we '
+          'are responsible for deciding the purposes and the essential means '
+          'of that processing and, where the GDPR applies, we act as the '
+          'controller of that data. For files sent directly to the user\'s '
+          'Google Drive account, the app does not receive a copy of those '
+          'files and does not store them on servers of its own. Use of Google '
+          'Drive is also subject to Google\'s terms and privacy policy. Our '
+          'app acts only within the permissions granted by the user.',
     ],
   ),
   PrivacySection(
@@ -154,75 +160,98 @@ const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
   PrivacySection(
     title: 'Who the data is shared with',
     body: <String>[
-      'Only with Google, acting as processor in the terms of Art. 28 of the '
-          'GDPR, for the services the app depends on:',
+      'Data is shared with or processed by Google services that are '
+          'necessary for certain functions of the app:',
       '• Google Sign-In, to sign in to your account.',
       '• Firebase Authentication, to keep the session.',
       '• Cloud Firestore, to hold the index.',
-      '• Google Drive, to hold your files, in your account.',
-      '• Google Play, to bill the Premium subscription and answer whether it '
-          'is active, for anyone who subscribes.',
-      'There is no other recipient. We use no ad network, data broker or '
-          'analytics service.',
-      'Processing by Google is governed by their terms, at '
+      '• Google Drive, to hold your files in your own account.',
+      '• Google Play, to bill the Premium subscription and report whether '
+          'it is active, for anyone who subscribes.',
+      'There is no other recipient chosen by us. We use no ad network, '
+          'data broker or analytics service.',
+      'The legal relationship applying to each Google service depends on '
+          'the product used, the account configuration and the corresponding '
+          'contractual terms. Where Google acts as a processor in relation to '
+          'processing carried out by us, that processing is governed by the '
+          'applicable contractual instrument, including the Google '
+          'Cloud/Firebase data protection terms. For services where Google '
+          'acts in its own name or directly towards the user, Google\'s terms '
+          'and privacy policy also apply.',
+      'Processing by Google is described in its privacy policy: '
           'policies.google.com/privacy',
-      'The GDPR requires, in Art. 28, a written contract between controller '
-          'and processor before any processing. That contract exists: it is '
-          "Google's Cloud Data Processing Addendum, accepted by using Google "
-          'Cloud and Firebase, and it covers exactly the services listed '
-          'above.',
     ],
   ),
   PrivacySection(
     title: 'Legal basis for each processing',
     body: <String>[
-      '• Profile, index and file upload: performance of the contract, Art. '
-          '6(1)(b) of the GDPR. Without that data the app does not work.',
-      '• Authentication: performance of the contract, Art. 6(1)(b).',
-      '• Reminder notifications: consent, Art. 6(1)(a), revocable at any time '
-          'in Settings.',
+      '• Profile, index, authentication and the essential running of the '
+          'account: performance of the contract, Art. 6(1)(b) of the GDPR, '
+          'where that processing is necessary to provide the functionality '
+          'requested.',
+      '• Reminder notifications: consent, Art. 6(1)(a), revocable at any '
+          'time in Settings.',
       '• Record of the plan contracted: performance of the contract, Art. '
-          '6(1)(b). Without it there is no way to know what the subscription '
-          'unlocked.',
-      'We do not use legitimate interest as a basis for anything, and there '
-          'is no processing you cannot stop by deleting the account.',
+          '6(1)(b), to the extent necessary to administer the subscription '
+          'and unlock the corresponding features.',
+      '• Sending and storing files in Google Drive: an operation requested '
+          'by the user and carried out through the authorisation granted to '
+          'Google Drive, without the app keeping a copy of those files of its '
+          'own.',
+      'We do not use legitimate interest as a basis for the processing '
+          'described in this policy. If a legal obligation requires certain '
+          'data to be kept after the account is deleted, that data may be '
+          'retained for the period required by law.',
     ],
   ),
   PrivacySection(
     title: "A child's data",
     body: <String>[
-      'The app holds data about a child, but is not intended for children and '
-          'is not used by them. Whoever installs, registers and sends content '
-          'is the parent or legal guardian, over 18.',
-      'By registering a child, you declare that you are their legal guardian '
-          'and have authority to provide that data.',
-      'There is no public listing, visible profile, social network, comments, '
-          'messages between users or any form of exposing the content to '
-          'third parties. The capsule is private by construction: the files '
-          'are in the Drive of whoever sent them and the index is isolated '
-          'per account.',
-      'When the child comes of age, the data becomes theirs. The app was '
-          'designed so that this does not depend on us: the Google account '
-          'where everything lives can be handed over directly.',
+      'The app holds data about a child, but is not intended for children '
+          'and is not used by them. Whoever installs, registers and sends '
+          'content is the parent or legal guardian, over 18.',
+      'By registering a child, you declare that you are their legal '
+          'guardian and have authority to provide that data.',
+      'There is no public listing, visible profile, social network, '
+          'comments, messages between users or any form of exposing the '
+          'content to third parties. The capsule is private by construction: '
+          'the files are in the Drive of whoever sent them and the index is '
+          'isolated per account.',
+      'When the child comes of age, they may directly exercise the rights '
+          'applicable to their personal data, subject to the law in force. '
+          'The app was designed to make that continuity easier: the files '
+          'live in the Google account used by the family and can be made '
+          'available to the person themselves, without depending on a '
+          'transfer of files stored on our servers.',
     ],
   ),
   PrivacySection(
     title: 'For how long, and how to delete',
     body: <String>[
       'The data stays as long as the account exists. There is no automatic '
-          'disposal period, because the purpose of the product is precisely '
-          'long-term keeping.',
-      'In Profile, "Apagar minha conta e meus dados" (Delete my account and '
-          'my data), you delete the entire index on our server, sweeping '
+          'disposal period while the account remains active, because the '
+          'purpose of the product is precisely long-term keeping. Where there '
+          'is a legal retention obligation or another legal basis requiring '
+          'certain data to be kept, it may be retained for the necessary '
+          'period.',
+      'In Profile, "Apagar minha conta e meus dados" (Delete my account '
+          'and my data), you delete the entire index on our server, sweeping '
           'every collection, with confirmation on the server and not in the '
           'local cache; your authentication account; and all data held on the '
           'device.',
-      'On the same screen you choose what to do with the Google Drive folder. '
-          'By default it is kept, because the files are yours and the app '
-          'never had a copy of them. If you ask, it moves the folder to your '
-          'Drive trash.',
-      'Deleting the index is immediate and irreversible. We keep no backup of '
-          'your data after deletion.',
+      'On the same screen you choose what to do with the Google Drive '
+          'folder. By default it is kept, because the files are stored '
+          'directly in your account and the app does not keep a copy of its '
+          'own. If the permission and the Google APIs available at that '
+          'moment allow the operation, you may ask the app to move the folder '
+          'to your Drive trash. Permanently deleting the files inside Google '
+          'Drive also depends on Google\'s own rules and deletion '
+          'mechanisms.',
+      'Deleting the index starts immediately and, once complete, cannot be '
+          'undone by the app. We keep no operational backup of the index to '
+          'restore a deleted account. Data that must be kept under a legal '
+          'obligation may remain for the required period and will be '
+          'protected against use incompatible with that purpose.',
     ],
   ),
   PrivacySection(
@@ -310,10 +339,15 @@ const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
           '46 of the GDPR, and by the United Kingdom addendum to those same '
           'clauses. Google Cloud is also certified under the EU-US Data '
           'Privacy Framework.',
-      'For anyone in Brazil, the transfer rests on Art. 33 of the LGPD, under '
-          'the same contractual clauses.',
-      'We move data nowhere of our own accord: we have no server, we make no '
-          'copy and we export nothing.',
+      'For anyone in Brazil, the transfer rests on Art. 33 of the LGPD, '
+          'under the same contractual clauses.',
+      'We do not carry out international transfers on our own initiative '
+          'beyond the processing needed to run the infrastructure services '
+          'described in this policy. The index may be processed on Google '
+          'Cloud infrastructure, including in locations outside the user\'s '
+          'country, according to the configuration and terms of the services '
+          'used. Google Drive files remain subject to the infrastructure and '
+          'settings of the user\'s own Google account.',
     ],
   ),
   PrivacySection(
@@ -342,29 +376,29 @@ const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
       'This app holds data **about** a child, and is not used **by** her. '
           'Whoever installs, signs in and records is the parent or whoever is '
           'legally responsible for her, and must be of age.',
-      'That is why the app is not directed to children in the sense of COPPA, '
-          'the American law, nor does it fall under the Google Play Families '
-          'programme: there is no content made for the child to use, no '
-          'advertising, and no collection of data from anyone underage '
-          'browsing on their own.',
-      'The child\'s data that exists here was typed in by her guardian, for '
-          'the single purpose of building the capsule that one day will be '
-          'handed to the child herself, under the household exemption '
-          'described in "Your role and ours". Under the LGPD, that same idea '
-          'is in Art. 14; under COPPA, it is processing with verifiable '
-          'guardian consent.',
+      'That is why the app is not directed to children and was not '
+          'designed for minors to create or use accounts on their own. '
+          'Whoever installs, signs in and enters information must be a '
+          'responsible adult. There is no advertising, public profile, '
+          'interaction between users or any feature meant to encourage '
+          'independent use by children.',
+      'The data about the child is provided by the responsible adult for '
+          'the purpose of creating and keeping the time capsule. Processing '
+          'of data about children and adolescents follows the applicable law '
+          'and, where relevant, the principles of full protection and the '
+          'best interest of the child.',
       'When the child grows up and takes over the account, she becomes the '
           'data subject and exercises all the rights in the section above '
           'directly, without needing us for anything.',
-      'Several countries are creating a specific protection code for products '
-          'a child might come to access, such as the United Kingdom\'s '
-          'Children\'s Code. We claim no certification in that direction, but '
-          'the design of the app already follows the same principles: no '
-          'advertising, no profiling, no notification designed to hold '
-          'attention, no games, no engagement rewards and no public sharing '
-          'by default. A memory can even be sealed, to open only on a future '
-          'date chosen by whoever kept it, the opposite of a design meant to '
-          'maximise use.',
+      "Several countries are creating a specific protection code for "
+          "products a child might come to access, such as the United "
+          "Kingdom's Children's Code. We claim no certification in that "
+          "direction, but the design of the app already follows the same "
+          "principles: no advertising, no profiling, no notification designed "
+          "to hold attention, no games, no engagement rewards and no public "
+          "sharing by default. A memory can even be sealed, to open only on a "
+          "future date chosen by whoever kept it, the opposite of a design "
+          "meant to maximise use.",
     ],
   ),
   PrivacySection(
@@ -381,14 +415,15 @@ const List<PrivacySection> privacyPolicyEn = <PrivacySection>[
       'If you believe the processing of your data breaks the law, you can '
           'complain to the authority of the place where you live, and you do '
           'not need to talk to us first.',
-      '• Lead authority, for anyone: Data Protection Commission of Ireland, '
-          'dataprotection.ie, which is the one where the controller is '
-          'established.',
+      '• Ireland: Data Protection Commission (DPC), especially where the '
+          'DPC is the competent or lead supervisory authority under the '
+          'GDPR.',
       '• European Union: you may prefer the authority of your own Member '
           'State, and it forwards. The list is at edpb.europa.eu',
       '• Brazil: ANPD, gov.br/anpd',
       '• Argentina: Agencia de Acceso a la Información Pública (AAIP).',
-      '• Uruguay: Unidad Reguladora y de Control de Datos Personales (URCDP).',
+      '• Uruguay: Unidad Reguladora y de Control de Datos Personales '
+          '(URCDP).',
       '• Chile: the new Agencia de Protección de Datos Personales, as Ley '
           '21.719 comes into force.',
       '• Colombia: Superintendencia de Industria y Comercio (SIC).',
