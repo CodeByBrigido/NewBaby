@@ -118,9 +118,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
             onPressed: () => context.pop(),
           ),
         ),
-        body: const EmptyState(
+        body: EmptyState(
           icon: Icons.description_outlined,
-          title: 'Documento não encontrado',
+          title: S.documentNotFound,
         ),
       );
     }

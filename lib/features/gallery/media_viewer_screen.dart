@@ -292,11 +292,11 @@ class _DriveVideoPlayerState extends ConsumerState<DriveVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     if (_error != null) {
-      return const Center(
+      return Center(
         child: Padding(
           padding: EdgeInsets.all(Space.x24),
           child: Text(
-            'Não foi possível abrir este vídeo.',
+            S.videoOpenFailed,
             style: TextStyle(color: Colors.white70),
             textAlign: TextAlign.center,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -40,13 +41,8 @@ class RemindersScreen extends ConsumerWidget {
         children: <Widget>[
           Text(
             copy.hasName
-                ? 'Os lembretes vêm ligados porque uma cápsula do tempo só '
-                      'cumpre a promessa se alguém voltar a ela. São poucos, '
-                      'e existem para você não perder o dia em que '
-                      '${copy.theName} completa mais um mês.'
-                : 'Os lembretes vêm ligados porque uma cápsula do tempo só '
-                      'cumpre a promessa se alguém voltar a ela. São poucos, '
-                      'e existem para datas que passam sem ninguém perceber.',
+                ? S.remindersIntroNamed(copy.theName)
+                : S.remindersIntroGeneric,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: context.cores.textSecondary,
               height: 1.5,
@@ -59,11 +55,7 @@ class RemindersScreen extends ConsumerWidget {
               contentPadding: EdgeInsets.zero,
               title: const Text('Receber lembretes'),
               subtitle: Text(
-                ajuste.enabled
-                    ? 'No máximo dois por semana, nunca dois no mesmo dia.'
-                    : 'Desligado. Nada é enviado. Se o celular tiver negado '
-                          'as notificações, libere em Ajustes, Aplicativos, '
-                          'Meu Bebê.',
+                ajuste.enabled ? S.remindersFrequency : S.remindersOffNote,
               ),
               value: ajuste.enabled,
               onChanged: (bool ligar) => _alternar(context, notifier, ligar),
@@ -72,7 +64,7 @@ class RemindersScreen extends ConsumerWidget {
 
           if (ajuste.enabled) ...<Widget>[
             const SizedBox(height: Space.x24),
-            const SectionHeader(title: 'Sobre o quê'),
+            SectionHeader(title: S.remindersHowTitle),
             SoftCard(
               child: Column(
                 children: <Widget>[
@@ -121,21 +113,17 @@ class RemindersScreen extends ConsumerWidget {
             ),
             const SizedBox(height: Space.x12),
             InfoNote(
-              message:
-                  'Entre ${ReminderSettings.earliestHour}h e '
-                  '${ReminderSettings.latestHour}h. O aplicativo não acorda '
-                  'ninguém de madrugada.',
+              message: S.remindersHourRange(
+                ReminderSettings.earliestHour,
+                ReminderSettings.latestHour,
+              ),
               icon: Icons.bedtime_outlined,
             ),
 
             const SizedBox(height: Space.x24),
-            const SectionHeader(title: 'O que está marcado'),
+            SectionHeader(title: S.remindersMarkedTitle),
             if (agenda.isEmpty)
-              const InfoNote(
-                message:
-                    'Nada nas próximas semanas. Isso é normal: os lembretes '
-                    'aparecem quando há de fato uma data por perto.',
-              )
+              InfoNote(message: S.remindersNothingSoon)
             else
               SoftCard(
                 child: Column(
@@ -172,14 +160,7 @@ class RemindersScreen extends ConsumerWidget {
           ],
 
           const SizedBox(height: Space.x24),
-          const InfoNote(
-            message:
-                'Os lembretes são calculados dentro do seu celular, a partir '
-                'do que já está aqui. Nada é enviado para nenhum servidor '
-                'para isso acontecer, e nenhum aviso cita o que você '
-                'escreveu.',
-            icon: Icons.phone_iphone,
-          ),
+          InfoNote(message: S.remindersPrivacy, icon: Icons.phone_iphone),
         ],
       ),
     );
@@ -199,14 +180,9 @@ class RemindersScreen extends ConsumerWidget {
 
     // A chave não pode ficar ligada enquanto o sistema diz não: seria uma
     // promessa que nunca toca, e ninguém iria procurar o defeito.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'O Android não autorizou as notificações. Você pode liberar nos '
-          'ajustes do celular, em Aplicativos, Meu Bebê.',
-        ),
-      ),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(S.remindersDenied)));
   }
 
   Future<void> _escolherHora(

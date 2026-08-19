@@ -21,6 +21,7 @@ import '../../state/providers.dart';
 import '../common/widgets.dart';
 import '../../core/utils/error_text.dart';
 import '../growth/growth_editor_sheet.dart';
+import '../premium/porta_do_premium.dart';
 import '../documents/nome_do_documento.dart';
 import 'envio_em_andamento.dart';
 
@@ -44,9 +45,31 @@ class _AddSheet extends ConsumerStatefulWidget {
 }
 
 class _AddSheetState extends ConsumerState<_AddSheet> {
+  /// Fecha a folha e, se a licença faltar, abre o convite no lugar da ação.
+  ///
+  /// A folha fecha **antes** do convite, e não depois. Duas coisas modais
+  /// disputando a mesma pilha de navegação é o que já fez a janela do envio
+  /// não aparecer neste mesmo arquivo; o contexto da raiz sobrevive ao
+  /// fechamento porque não é ele que está sendo fechado.
+  Future<void> _seLiberado(
+    BabyProfile? profile,
+    EntryType type,
+    void Function() seguir,
+  ) async {
+    if (podeCriar(profile, type)) {
+      seguir();
+      return;
+    }
+    final NavigatorState raiz = Navigator.of(context, rootNavigator: true);
+    Navigator.of(context).pop();
+    if (!raiz.mounted) return;
+    await liberadoParaCriar(raiz.context, profile, type);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Copy g = Copy.of(ref.watch(profileProvider).value);
+    final BabyProfile? profile = ref.watch(profileProvider).value;
+    final Copy g = Copy.of(profile);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -85,31 +108,43 @@ class _AddSheetState extends ConsumerState<_AddSheet> {
               type: EntryType.letter,
               title: S.addLetter,
               subtitle: g.addLetterHint,
-              onTap: () {
+              trancada: !podeCriar(profile, EntryType.letter),
+              onTap: () => _seLiberado(profile, EntryType.letter, () {
                 Navigator.of(context).pop();
                 context.push(Routes.newLetter);
-              },
+              }),
             ),
             _Option(
               type: EntryType.drawing,
               title: S.addDrawing,
               subtitle: S.addDrawingHint,
-              onTap: () => _addDrawings(context, ref),
+              trancada: !podeCriar(profile, EntryType.drawing),
+              onTap: () => _seLiberado(
+                profile,
+                EntryType.drawing,
+                () => _addDrawings(context, ref),
+              ),
             ),
             _Option(
               type: EntryType.document,
               title: S.addDocument,
               subtitle: S.addDocumentHint,
-              onTap: () => _addDocuments(context, ref),
+              trancada: !podeCriar(profile, EntryType.document),
+              onTap: () => _seLiberado(
+                profile,
+                EntryType.document,
+                () => _addDocuments(context, ref),
+              ),
             ),
             _Option(
               type: EntryType.growth,
               title: S.addGrowth,
               subtitle: S.addGrowthHint,
-              onTap: () {
+              trancada: !podeCriar(profile, EntryType.growth),
+              onTap: () => _seLiberado(profile, EntryType.growth, () {
                 Navigator.of(context).pop();
                 showGrowthEditor(context);
-              },
+              }),
             ),
           ],
         ),
@@ -136,7 +171,7 @@ DateTime comHoraDoRelogio(DateTime dia, DateTime agora) => DateTime(
 
 /// `1 foto`, `5 fotos`, `3 vídeos`.
 String quantosItens(EntryType type, int quantidade) =>
-    quantidade == 1 ? '1 ${type.one}' : '$quantidade ${type.one}s';
+    quantidade == 1 ? '1 ${type.one}' : '$quantidade ${type.many}';
 
 /// O que a confirmação diz antes de o envio começar.
 ///
@@ -154,17 +189,17 @@ List<String> resumoDoEnvio({
   final Age idade = profile.ageAt(quando);
 
   final String oQue = quantosItens(type, quantidade);
-  final String comData = '$oQue com a data de ${Fmt.longDate(quando)}.';
+  final String comData = S.uploadWithDate(oQue, Fmt.longDate(quando));
 
   // No dia zero `detailedLabel` devolve "No nascimento", que não encaixa em
   // "tinha ...". A frase muda inteira, em vez de virar remendo.
   final String comIdade = idade.totalDays == 0
       ? (g.hasName
-            ? 'Foi o dia em que ${g.theName} nasceu.'
-            : 'Foi o dia do nascimento.')
+            ? S.uploadBornThatDay(g.theName)
+            : S.uploadBornThatDayGeneric())
       : (g.hasName
-            ? 'Nessa data ${g.theName} tinha ${idade.detailedLabel()}.'
-            : 'Idade nessa data: ${idade.detailedLabel()}.');
+            ? S.uploadAgeThen(g.theName, idade.detailedLabel())
+            : S.uploadAgeThenGeneric(idade.detailedLabel()));
 
   return <String>[
     comData,
@@ -172,7 +207,7 @@ List<String> resumoDoEnvio({
     // Só os tipos agrupados por idade têm um lugar por idade para citar.
     // Documento não entra em pasta de idade nenhuma.
     if (type.bucketsByAge)
-      'No Drive, vai ficar em ${ondeNoDrive(profile, type, quando)}.',
+      S.uploadWhereInDrive(ondeNoDrive(profile, type, quando)),
   ];
 }
 
@@ -193,6 +228,10 @@ String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
       birth: profile.birth,
       type: type,
       quando: quando,
+      // A convenção da cápsula, e não a da interface: esta frase manda a
+      // pessoa procurar uma pasta no Drive, e a pasta tem o nome com que
+      // nasceu.
+      nomes: MemoryRepository.nomesDe(profile),
     ).join(' / ');
 
 /// O que a tela diz sobre a origem da data, antes de a pessoa confirmar.
@@ -203,15 +242,14 @@ String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
 @visibleForTesting
 String origemDaData(DataDoLote lote, EntryType type) {
   if (!lote.lida) {
-    return 'Não achamos a data dentro ${type == EntryType.document ? 'do arquivo' : 'da mídia'}, '
-        'então vale a de hoje. Toque para trocar.';
+    return type == EntryType.document
+        ? S.dateNotFoundFile
+        : S.dateNotFoundMedia;
   }
   if (lote.variosDias) {
-    return 'Atenção: o que você escolheu é de ${lote.diasDiferentes} dias '
-        'diferentes, e tudo vai ser guardado com esta data. Para separar, '
-        'envie um dia de cada vez.';
+    return S.batchManyDays(lote.diasDiferentes);
   }
-  return 'Data lida do próprio arquivo. Toque para trocar.';
+  return S.dateFromFile;
 }
 
 /// Confirmação depois de escolher os arquivos, antes de qualquer envio.
@@ -292,7 +330,7 @@ Future<DateTime?> confirmarEnvio(
                   Expanded(
                     child: TextButton(
                       onPressed: () => Navigator.of(dialogContext).pop(),
-                      child: const Text(S.cancel),
+                      child: Text(S.cancel),
                     ),
                   ),
                   const SizedBox(width: Space.x12),
@@ -687,7 +725,7 @@ Future<Entry?> _send(
     return entry;
   } on Exception catch (e) {
     if (raiz.mounted) {
-      showMessage(raiz.context, userMessage(e, context: 'Enviar memória'));
+      showMessage(raiz.context, userMessage(e, context: S.sendMemory));
     }
     return null;
   }
@@ -699,12 +737,20 @@ class _Option extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.trancada = false,
   });
 
   final EntryType type;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+
+  /// Mostra o cadeado à direita, para quem ainda não tem a licença.
+  ///
+  /// A opção continua tocável de propósito: quem toca recebe o convite, que
+  /// explica o plano. Desativar o botão esconderia a explicação justamente de
+  /// quem precisa dela, e deixaria a pessoa achando que o aplicativo quebrou.
+  final bool trancada;
 
   @override
   Widget build(BuildContext context) {
@@ -742,6 +788,12 @@ class _Option extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (trancada)
+                  Icon(
+                    Icons.lock_outline,
+                    size: 20,
+                    color: context.cores.textSecondary,
+                  ),
               ],
             ),
           ),

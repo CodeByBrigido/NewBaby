@@ -1,3 +1,4 @@
+import '../l10n/nomes_de_pasta.dart';
 import 'package:meta/meta.dart';
 
 /// Em que unidade a pasta do Drive agrupa o conteúdo.
@@ -304,11 +305,15 @@ abstract final class AgeCalculator {
   ///
   /// Dois níveis, e não um só com tudo dentro: o ano é a gaveta que alguém
   /// abre primeiro, e a criança de cinco anos tem sessenta meses de acervo.
-  static List<String> caminhoNoDrive(DateTime birth, DateTime date) {
+  static List<String> caminhoNoDrive(
+    DateTime birth,
+    DateTime date, [
+    NomesDePasta nomes = NomesDePasta.pt,
+  ]) {
     final Age idade = ageAt(birth, date);
     return <String>[
-      'Ano ${idade.years}',
-      'Mês ${(idade.months % 12).toString().padLeft(2, '0')}',
+      nomes.anoNumero(idade.years),
+      nomes.mesNumero(idade.months % 12),
     ];
   }
 }

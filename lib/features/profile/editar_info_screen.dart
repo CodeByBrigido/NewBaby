@@ -138,7 +138,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
       if (mounted) {
         setState(() {
           _salvando = false;
-          _erro = userMessage(e, context: 'Salvar informações');
+          _erro = userMessage(e, context: S.saveInfo);
         });
       }
     }
@@ -154,7 +154,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar informações'),
+        title: Text(S.editInfo),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -176,7 +176,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
               TextFormField(
                 controller: _nome,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(labelText: S.fullName),
+                decoration: InputDecoration(labelText: S.fullName),
                 validator: (String? v) =>
                     (v ?? '').trim().isEmpty ? 'Escreva o nome' : null,
               ),
@@ -191,7 +191,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
               _Escolha(
                 label: S.birthTime,
                 valor: _hora?.format(context),
-                vazio: 'Não informada',
+                vazio: S.notProvided,
                 onTap: _escolherHora,
               ),
               const SizedBox(height: Space.x16),
@@ -220,7 +220,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                 ],
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: S.birthWeight,
                   hintText: '3,250',
                   suffixText: 'kg',
@@ -235,7 +235,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                 ],
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: S.birthHeight,
                   hintText: '49',
                   suffixText: 'cm',
@@ -263,7 +263,7 @@ class _EditarInfoScreenState extends ConsumerState<EditarInfoScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: _salvando ? null : () => context.pop(),
-                      child: const Text(S.cancel),
+                      child: Text(S.cancel),
                     ),
                   ),
                   const SizedBox(width: Space.x12),

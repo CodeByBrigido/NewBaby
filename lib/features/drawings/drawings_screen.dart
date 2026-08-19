@@ -32,7 +32,7 @@ class DrawingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.drawings),
+        title: Text(S.drawings),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -40,9 +40,9 @@ class DrawingsScreen extends ConsumerWidget {
         ),
       ),
       body: tiles.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.brush_outlined,
-              title: 'Nenhum desenho ainda',
+              title: S.emptyDrawings,
               message: 'Fotografe um desenho e ele fica guardado para sempre.',
             )
           : GridView.builder(

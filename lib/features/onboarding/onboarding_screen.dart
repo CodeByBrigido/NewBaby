@@ -14,6 +14,7 @@ import '../../core/utils/formatters.dart';
 import '../../models/baby_gender.dart';
 import '../../models/baby_profile.dart';
 import '../../services/lock_service.dart';
+import '../../state/idioma_providers.dart';
 import '../../state/providers.dart';
 import '../../core/utils/error_text.dart';
 
@@ -169,6 +170,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                 ),
                 const SizedBox(height: Space.block),
+                // O idioma vem antes de tudo, e é a única coisa nesta tela
+                // que muda a tela enquanto ela está aberta.
+                //
+                // Está aqui, e não só em Configurações, por causa do Drive:
+                // as pastas nascem no fim deste cadastro, e elas guardam a
+                // língua com que nasceram para sempre. Escolher depois
+                // deixaria uma família inglesa com pastas em português, ou
+                // pior, com a interface numa língua e o Drive em outra.
+                const _EscolhaDeIdioma(),
+                const SizedBox(height: Space.block),
                 Center(
                   child: _PhotoPicker(photo: _photo, onTap: _pickPhoto),
                 ),
@@ -177,7 +188,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
                   maxLength: Limits.babyName,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.fullName,
                     // O contador atrapalha mais do que ajuda num campo que
                     // ninguém chega perto de encher.
@@ -248,7 +259,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     decimal: true,
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.birthWeightOptional,
                     suffixText: 'kg',
                   ),
@@ -265,7 +276,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     decimal: true,
                   ),
                   inputFormatters: <TextInputFormatter>[_decimalFormatter],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.birthHeightOptional,
                     suffixText: 'cm',
                   ),
@@ -279,7 +290,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   controller: _hospital,
                   textCapitalization: TextCapitalization.words,
                   maxLength: Limits.hospital,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.hospitalOptional,
                     counterText: '',
                   ),
@@ -296,7 +307,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text(S.continueLabel),
+                      : Text(S.continueLabel),
                 ),
                 if (_saving) ...<Widget>[
                   const SizedBox(height: Space.x16),
@@ -507,6 +518,106 @@ class _ComErro extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// A escolha de idioma, na primeira tela em que ela ainda muda alguma coisa
+/// além da interface.
+///
+/// Depois daqui as pastas do Drive já existem, e elas não se renomeiam.
+class _EscolhaDeIdioma extends ConsumerWidget {
+  const _EscolhaDeIdioma();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Idioma atual = ref.watch(idiomaProvider);
+    final TextTheme text = Theme.of(context).textTheme;
+
+    // Uma linha só, com seis pílulas espremidas, ficava ilegível: cabia bem
+    // com duas línguas, mas não com seis. Duas colunas mantêm cada botão
+    // largo o bastante para o nome da língua, e o número de linhas cresce
+    // sozinho se um dia houver uma sétima.
+    final List<List<Idioma>> linhas = <List<Idioma>>[
+      for (int i = 0; i < Idioma.values.length; i += 2)
+        Idioma.values.skip(i).take(2).toList(),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(S.languageStepTitle, style: text.titleSmall),
+        const SizedBox(height: Space.x12),
+        for (final List<Idioma> linha in linhas) ...<Widget>[
+          if (linha != linhas.first) const SizedBox(height: Space.x8),
+          Row(
+            children: <Widget>[
+              for (final Idioma idioma in linha) ...<Widget>[
+                if (idioma != linha.first) const SizedBox(width: Space.x8),
+                Expanded(
+                  child: _BotaoDeIdioma(
+                    idioma: idioma,
+                    escolhido: idioma == atual,
+                    onTap: () =>
+                        ref.read(idiomaProvider.notifier).escolher(idioma),
+                  ),
+                ),
+              ],
+              // A última linha, se tiver um idioma só, mantém a largura da
+              // própria pílula em vez de esticar até a borda: uma pílula só
+              // ocupando a fileira inteira pareceria um botão diferente dos
+              // outros, maior sem motivo.
+              if (linha.length == 1) const Spacer(),
+            ],
+          ),
+        ],
+        const SizedBox(height: Space.x12),
+        Text(
+          S.languageStepNote,
+          style: text.bodySmall?.copyWith(color: context.cores.textSecondary),
+        ),
+      ],
+    );
+  }
+}
+
+class _BotaoDeIdioma extends StatelessWidget {
+  const _BotaoDeIdioma({
+    required this.idioma,
+    required this.escolhido,
+    required this.onTap,
+  });
+
+  final Idioma idioma;
+  final bool escolhido;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Material(
+      color: escolhido ? context.cores.primarySoft : context.cores.surfaceMuted,
+      borderRadius: Radii.buttonR,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: Radii.buttonR,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Space.x16),
+          child: Center(
+            child: Text(
+              // O nome de cada língua na própria língua: quem não lê
+              // português precisa reconhecer "English" nesta tela.
+              idioma.nome,
+              style: text.titleSmall?.copyWith(
+                color: escolhido
+                    ? context.cores.primaryDark
+                    : context.cores.textPrimary,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

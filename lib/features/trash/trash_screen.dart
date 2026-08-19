@@ -24,7 +24,7 @@ class TrashScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.trash),
+        title: Text(S.trash),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -42,12 +42,12 @@ class TrashScreen extends ConsumerWidget {
           // do outro lado quer ver agora, não daqui a um minuto.
           action: TextButton(
             onPressed: () => ref.invalidate(trashProvider),
-            child: const Text(S.retry),
+            child: Text(S.retry),
           ),
         ),
         data: (List<Entry> entries) {
           if (entries.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.delete_outline,
               title: S.trashEmptyTitle,
               message: S.trashEmptyBody,
@@ -56,7 +56,7 @@ class TrashScreen extends ConsumerWidget {
 
           return Column(
             children: <Widget>[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(
                   Space.x16,
                   0,
@@ -78,7 +78,7 @@ class TrashScreen extends ConsumerWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final Entry entry = entries[index];
                     return SoftCard(
-                      padding: const EdgeInsets.all(Space.x12),
+                      padding: EdgeInsets.all(Space.x12),
                       child: Row(
                         children: <Widget>[
                           SizedBox(
@@ -91,7 +91,7 @@ class TrashScreen extends ConsumerWidget {
                                   )
                                 : CategoryBadge(type: entry.type, size: 48),
                           ),
-                          const SizedBox(width: Space.x12),
+                          SizedBox(width: Space.x12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,9 +102,9 @@ class TrashScreen extends ConsumerWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: Space.x4),
+                                SizedBox(height: Space.x4),
                                 Text(
-                                  'Excluído em '
+                                  '${S.deletedOn}'
                                   '${Fmt.date(entry.deletedAt ?? entry.date)}',
                                   style: text.labelSmall,
                                 ),
@@ -163,6 +163,6 @@ class TrashScreen extends ConsumerWidget {
     final String? uid = ref.read(uidProvider);
     if (uid == null) return;
     await ref.read(memoryRepositoryProvider).deleteForever(uid, entry);
-    if (context.mounted) showMessage(context, 'Item excluído.');
+    if (context.mounted) showMessage(context, S.itemDeleted);
   }
 }

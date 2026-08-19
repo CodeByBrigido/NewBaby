@@ -153,7 +153,7 @@ class _Ideia extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Sobrancelha('Para Maria, agora'),
+                    const Sobrancelha('Um momento para guardar'),
                     const SizedBox(height: Space.x8),
                     Text(
                       'Os primeiros anos passam rápido',
@@ -201,22 +201,6 @@ class _Ideia extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: Space.x12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: Space.x4,
-          children: <Widget>[
-            for (int i = 0; i < 5; i++)
-              Container(
-                width: i == 0 ? 18 : 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: i == 0 ? context.cores.primary : context.cores.border,
-                  borderRadius: Radii.pillR,
-                ),
-              ),
-          ],
         ),
       ],
     );

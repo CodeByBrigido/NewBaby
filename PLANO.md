@@ -81,6 +81,95 @@ Não são preferências. Cada uma tem consequência fora do código.
 
 ## Defeitos conhecidos e pendências
 
+### 0. O representante no Reino Unido
+
+**Aberto, e é decisão sua.** Esta pendência já foi maior: enquanto eu achava
+que o responsável estava no Brasil, o Art. 27 do GDPR obrigava a nomear um
+representante dentro da União Europeia. **Com o responsável estabelecido na
+Irlanda, isso deixa de existir**, e o que era a maior exigência da lista virou
+a melhor posição possível: o GDPR se aplica na origem, e a autoridade
+principal passa a ser a Comissão de Proteção de Dados da Irlanda, pelo balcão
+único do Art. 56.
+
+Sobra a metade britânica. O Reino Unido saiu do bloco, então a Irlanda é
+"fora do Reino Unido" para efeito do UK GDPR, e o Art. 27 de lá pede um
+representante no Reino Unido para quem oferece serviço a residentes de lá.
+As saídas são as mesmas de antes, em escala menor:
+
+1. **Contratar um serviço de representante no Reino Unido**, na casa de
+   uma ou duas centenas de libras por ano, com o nome dele entrando na
+   política de privacidade.
+2. **Não distribuir no Reino Unido**, o que se escolhe na ficha da Play
+   Store. Some a obrigação e some um mercado que fala inglês.
+3. **Publicar sem representante**, correndo o risco, registrado aqui como
+   risco assumido e não como esquecimento.
+
+Precisa ser decidido antes de a ficha da loja escolher os países.
+
+### 0.1. A conta da Play Store precisa concordar com os documentos
+
+Os três documentos agora dizem que o responsável está estabelecido na
+Irlanda. **Confira em que país a conta de desenvolvedor da Play Store está
+registrada**, porque ela mostra publicamente o endereço do desenvolvedor, e
+uma conta registrada no Brasil dizendo uma coisa enquanto a política diz
+outra é o tipo de contradição que a revisão da loja pega.
+
+Se a conta ainda não existir, abra-a na Irlanda. Se já existir registrada no
+Brasil, trocar o país de uma conta de desenvolvedor não é trivial, e nesse
+caso é melhor descobrir isso agora do que depois de a assinatura estar
+faturando.
+
+### 0.2. Cinco coisas que os documentos não resolvem sozinhos
+
+O texto foi escrito para cobrir o máximo possível sem operação nenhuma por
+trás, mas cinco pontos exigem uma ação real, não uma frase. Nenhum bloqueia
+uma publicação pequena; todos valem a pena resolver antes de o número de
+contas crescer.
+
+1. **Região do Firestore.** Hoje não há região escolhida por escrito em
+   lugar nenhum do repositório. Um projeto novo do Firebase pergunta a
+   região na criação, e escolher uma multirregião europeia (`eur3`) para
+   quem está estabelecido na Irlanda simplifica a análise de transferência
+   internacional do próprio índice, porque deixa de haver transferência para
+   fora do Espaço Econômico Europeu nessa parte. Se o projeto já existe
+   noutra região, mudar depois não é simples: geralmente exige recriar o
+   banco. Vale conferir antes do projeto crescer.
+
+2. **Registro de operações de tratamento (ROPA), Art. 30 do GDPR.** Formalmente
+   dispensado para quem tem menos de 250 funcionários, a menos que o
+   tratamento seja regular (o nosso é, é o uso normal do aplicativo) ou
+   envolva categoria especial de dado ou risco a direitos e liberdades. Dado
+   de criança pesa nessa segunda conta. Um ROPA aqui é simples: uma tabela
+   com o que já está escrito na seção "O que fica no nosso índice" da
+   política, mais a finalidade e a base legal de cada linha, que também já
+   está escrita. É trabalho de organizar o que já existe, não de descobrir
+   algo novo.
+
+3. **Triagem de DPIA, Art. 35 do GDPR.** Uma avaliação de impacto é
+   obrigatória quando o tratamento tem probabilidade de gerar risco alto, e
+   as diretrizes do antigo Grupo do Art. 29 (hoje EDPB) listam critérios como
+   "dado de titular vulnerável" (criança conta) e "uso de nova tecnologia".
+   Cumprir dois critérios costuma disparar a obrigação. Isso não quer dizer
+   que dê positivo aqui: o volume é pequeno, o risco por desenho é baixo (sem
+   perfilamento, sem publicidade, isolamento por conta) e não há decisão
+   automatizada sobre ninguém. Mas a **triagem em si**, documentando por que
+   a conclusão foi "não precisa", é o que a lei pede, e ainda não foi feita
+   por escrito.
+
+4. **Um roteiro de resposta a incidente.** A política agora promete 72 horas
+   para a Irlanda. Prometer um prazo sem ter, mesmo que informalmente, uma
+   lista de "o que eu faço no minuto em que descubro" é prometer um número
+   que na hora H vira pânico. Não precisa ser elaborado: um documento curto
+   dizendo onde entrar para desligar o quê, e para quem escrever, já cumpre
+   o papel.
+
+5. **Se um dia for para a App Store, o rótulo de privacidade é outro
+   documento.** A Apple exige o preenchimento de um formulário próprio
+   (App Privacy) dentro do App Store Connect, e ele não se preenche sozinho a
+   partir desta política. Não é urgente: a Fase 9 é só Play Store. Fica
+   registrado para não ser esquecido se um dia a distribuição também for por
+   lá.
+
 ### 1. O envio que trava, e ainda não foi resolvido
 
 **O único defeito aberto de comportamento.** Relatado no aparelho: um envio
@@ -163,13 +252,22 @@ pegou e tendo com que trabalhar no envio travado.
 As fases 1 a 8, 10 e 11 saíram. O compartilhamento familiar ficou para depois
 (seção "Adiado", abaixo). **Sobram três**, e nenhuma está em andamento:
 
+**Antes do `.aab`:** a **13a**, o portão do Premium. Decisão sua, de
+18/08/2026: o bloqueio por licença entra antes da publicação, e não numa
+atualização depois. Ele não depende da loja, porque o aplicativo lê a licença
+do Firestore, então dá para construí-lo e experimentá-lo inteiro hoje.
+
 **Quando você der o comando de publicar:** a 9 inteira. Ela é o que bloqueia
 a submissão, e ficou para depois por escolha sua: assinar o pacote definitivo
 só faz sentido quando o aplicativo estiver do jeito que você quer. Dentro
 dela, a 9b já está escrita e só falta ligar o GitHub Pages.
 
-**Depois do lançamento:** a 12 (exportação) e a 13 (assinatura). As duas são
-grandes, e nenhuma família perde nada por esperar por elas.
+**Depois do primeiro envio à loja:** a **13b**, o faturamento. Não é ordem
+que eu escolhi: testar compra exige o AAB já numa faixa da Play, então ela
+não tem como vir antes da 9.
+
+**Depois do lançamento:** a 12 (exportação). É grande, e nenhuma família
+perde nada por esperar por ela.
 
 O trabalho de hoje não é de fase: é acerto de tela e de defeito, vindo do uso
 no aparelho. Está em [Defeitos conhecidos](#defeitos-conhecidos-e-pendências)
@@ -560,51 +658,138 @@ ouviu falar deste aplicativo.
 
 ### Fase 13 - Plano Premium
 
-Assinatura mensal, com o básico livre e o resto pago.
+Assinatura **anual**, de 3 euros, com o básico livre e o resto pago.
 
-**Livre:** linha do tempo inteira, enviar fotos e vídeos, aba Inspirações,
-perfil. Dá para viver no aplicativo sem pagar nada.
+A fase é feita em duas metades, e elas não são contíguas no calendário:
 
-**Pago:** crescimento (peso e altura), desenhos, voz, documentos. A pessoa
-entra na seção, vê o conteúdo desfocado e recebe o convite para assinar.
+- **13a, o portão.** O campo da licença, o popup do convite e o bloqueio dos
+  quatro caminhos de criação. **Vem antes do `.aab`.** Não depende da Play
+  Store para nada: o aplicativo lê a licença do Firestore, então dá para virar
+  o valor à mão no Firebase Console e experimentar os dois estados no aparelho
+  hoje mesmo.
+- **13b, o faturamento.** A compra de verdade, pelo Google Play Billing.
+  **Vem depois do primeiro envio à loja**, e isso não é escolha: testar
+  faturamento exige o AAB assinado já numa faixa de teste interno, com o
+  produto criado no Play Console e a conta na lista de testadores de licença.
+  Não existe atalho fora da loja para assinatura, nem sequer os IDs de teste
+  do Google, que só valem para compra avulsa.
 
-#### O que muda em relação ao que você descreveu
+Fazer nessa ordem também protege o portão: quando o faturamento chegar, ele
+não vai inventar regra nenhuma, só escrever o mesmo campo que já estará
+testado.
 
-**Você não precisa calcular moeda nenhuma.** A Play Store faz isso: define-se
-o preço em euro e o Google converte para cada país, já arredondando pelo
-padrão local de preço. Um euro vira o valor local que parece preço, não
-resultado de conversão. Não há código de câmbio a escrever.
+**Livre:** ler a cápsula inteira, sempre; enviar fotos e vídeos; aba
+Inspirações; perfil. Dá para viver no aplicativo sem pagar nada.
+
+**Pago:** criar cartas, desenhos, documentos e registros de crescimento. Quem
+está no plano básico vê a opção, toca, e recebe o convite para assinar em vez
+do formulário.
+
+#### A assinatura é por conta, não por família
+
+**Decisão do dono do produto, registrada em 18 de agosto de 2026.** Cada
+conta de criança tem a própria assinatura. Um pai com dois filhos, e portanto
+com duas contas do Google, paga duas vezes. Não existe plano de família nem
+assinatura que cubra uma árvore de pais e filhos.
+
+Isso é coerente com o resto do desenho: a conta é da criança desde o primeiro
+dia, a cápsula é dela, e um dia ela recebe a conta inteira. Uma assinatura
+que morasse na conta do pai seria mais uma coisa a transferir vinte anos
+depois.
+
+#### A regra, dita sem rodeio
+
+**A licença é da conta que faz login no aplicativo.** Não importa por onde o
+aplicativo foi baixado, nem de quem é o aparelho, nem quem passou o cartão. O
+que decide se as cartas, os desenhos, os documentos e o crescimento estão
+abertos é a conta que está logada naquele momento.
+
+Três filhos que entram no mesmo celular são três contas, e as três precisam
+pagar para ter o aplicativo inteiro. Não é efeito colateral da implementação:
+é a regra.
+
+O que não paga também não perde nada do que já é seu. Entrar, ler a cápsula
+inteira e mandar foto e vídeo continua livre para sempre, em qualquer conta.
+
+#### Como isso se prende ao Google Play
+
+A licença mora com o login, então ela mora no Firestore, no documento daquela
+criança. É de lá que o aplicativo lê, e não da biblioteca de faturamento:
+
+1. Ao abrir a compra, mandar o `uid` da criança logada como
+   `obfuscatedAccountId`, que é o campo que o Play oferece justamente para
+   prender uma compra a um perfil dentro do aplicativo.
+2. Ao confirmar, gravar `premium` no documento **daquela** criança.
+3. O aplicativo lê o `premium` da criança logada. É isso que faz a licença ser
+   da conta: no mesmo aparelho, o filho que pagou tem tudo aberto e o filho que
+   não pagou continua no básico.
+
+Um detalhe de implementação a conferir no Play Console antes de codar: uma
+mesma conta da Play Store não mantém duas compras ativas do mesmo produto de
+assinatura, e quem compra é a conta da loja, não a do aplicativo. Então o pai
+que quer pagar pelo segundo filho na mesma loja precisa de um caminho, seja um
+segundo produto de assinatura, seja outra forma de compra. **Isso não muda a
+regra acima**, que já está decidida: muda só por qual porta o dinheiro entra.
+
+#### O que o Google resolve por nós
+
+**Não há moeda a calcular.** Define-se o preço em euro e o Google converte
+para cada país, já arredondando pelo padrão local de preço. Não há código de
+câmbio a escrever.
 
 **A cobrança tem que ser do Google.** Vender funcionalidade dentro de um
 aplicativo Android por fora do faturamento da Play Store é violação de
 política e tira o aplicativo do ar. Então é o Google Play Billing, com o
 produto de assinatura criado no Play Console.
 
-**A verificação não é por email.** O direito de uso fica preso à conta Google
-que comprou, e quem responde é a biblioteca de faturamento no próprio
-aparelho, não uma consulta nossa por endereço.
+**O teste grátis é configuração, não código.** Sete ou catorze dias na oferta
+do Play Console. Com as cartas do lado pago, sem período de teste quem instala
+hoje nunca chega a experimentar a coisa que justifica pagar.
 
 #### A limitação, dita antes de ser descoberta
 
-Conferir a assinatura só no aparelho é burlável por quem sabe mexer. Fechar
-isso de verdade exige servidor conversando com a API do Google, o que
-significa Cloud Functions, plano Blaze e custo recorrente. Para uma
-assinatura de um euro, o aperto não paga o preço. Fica registrado como
-escolha consciente, não como descuido.
+Conferir a assinatura só no aparelho é burlável por quem sabe mexer, e o
+`premium` no Firestore é escrito pelo próprio aplicativo, então também é.
+Fechar isso de verdade exige servidor conversando com a API do Google, o que
+significa Cloud Functions, plano Blaze e custo recorrente. Para uma assinatura
+de três euros ao ano, o aperto não paga o preço. Fica registrado como escolha
+consciente, não como descuido.
 
 #### A linha que eu não cruzaria
 
-**Pagar libera criar, nunca libera ver o que já é seu.** Se alguém registrar
-o peso do filho durante três meses pagos e parar de pagar, esses registros
-têm que continuar visíveis. Este aplicativo promete que a criança abre a
-cápsula daqui a vinte anos; um aplicativo que esconde memória já guardada
-por falta de pagamento quebrou a própria promessa e vira problema de suporte
-e de reputação.
+**Pagar libera criar, nunca libera ver o que já é seu.** Se alguém escrever
+quarenta cartas durante um ano pago e parar de pagar, as quarenta continuam
+abertas. Este aplicativo promete que a criança abre a cápsula daqui a vinte
+anos; um aplicativo que esconde memória já guardada por falta de pagamento
+quebrou a própria promessa e vira problema de suporte e de reputação.
 
-Também recomendo **lançar de graça e trazer a assinatura na primeira
-atualização**. Faturamento é a parte mais fácil de errar de um aplicativo, e
-errar nela com a loja em revisão é atrasar o lançamento inteiro. Com zero
-usuários, não existe o desgaste de "era grátis e agora cobram".
+Vale lembrar que as cartas são `.txt` no Drive da própria criança. Escondê-las
+no aplicativo não esconderia nada de ninguém: só faria o aplicativo parecer
+pior do que é.
+
+#### Os documentos mudam junto com o código, não antes
+
+Os termos de uso hoje dizem, em `terms_of_use.dart`, que "não há compra dentro
+do aplicativo, assinatura nem anúncio", e essa frase está publicada em
+`docs/termos.html`. Ela deixa de ser verdade no dia em que a assinatura
+entrar, e trocá-la antes disso a torna falsa ao contrário. As duas mudanças
+saem na mesma versão:
+
+- **Termos de uso:** seção de planos, com o que é livre, o que é pago, preço
+  mostrado pela Play na moeda local, renovação anual automática, cancelamento
+  só pela Play, e o que acontece ao vencer.
+- **Política de privacidade:** não recebemos nem guardamos dado de pagamento;
+  de nós fica só um sim ou não.
+- **Exclusão de conta:** apagar a conta **não** cancela a assinatura, que
+  precisa ser cancelada na Play, senão continua renovando.
+- **Ficha da Play:** marcar compras no aplicativo e declarar o produto.
+
+Eu tinha recomendado lançar de graça e trazer a assinatura inteira na
+primeira atualização, e **a decisão de 18/08/2026 foi outra**: o portão entra
+antes da publicação. A separação em 13a e 13b atende as duas coisas. O que
+sai no primeiro `.aab` é o bloqueio, que é o que dá para testar sem loja; o
+faturamento, que é a parte mais fácil de errar e a que mais atrasa uma
+revisão, chega depois, sem segurar o lançamento.
 
 ---
 

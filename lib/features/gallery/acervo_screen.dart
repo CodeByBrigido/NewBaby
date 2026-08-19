@@ -107,8 +107,8 @@ class _AcervoScreenState extends ConsumerState<AcervoScreen> {
               icon: widget.type.icon,
               title: S.noItemsYet,
               message: widget.type == EntryType.photo
-                  ? 'Toque no + para adicionar as primeiras fotos.'
-                  : 'Toque no + para adicionar o primeiro vídeo.',
+                  ? S.firstPhotosHint
+                  : S.firstVideoHint,
             )
           : LayoutBuilder(
               builder: (BuildContext context, BoxConstraints vaga) {

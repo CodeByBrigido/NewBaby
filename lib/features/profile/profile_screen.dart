@@ -46,7 +46,7 @@ class ProfileScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.profile),
+        title: Text(S.profile),
         automaticallyImplyLeading: false,
         leading: embedded
             ? null
@@ -188,7 +188,7 @@ class ProfileScreen extends ConsumerWidget {
                     foregroundColor: AppPalette.danger,
                     minimumSize: const Size.fromHeight(48),
                   ),
-                  child: const Text(S.signOut),
+                  child: Text(S.signOut),
                 ),
               ],
             ),

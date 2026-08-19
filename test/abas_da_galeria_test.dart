@@ -28,7 +28,7 @@ void main() {
         children: <Widget>[
           TabBar(
             controller: abas,
-            tabs: const <Widget>[
+            tabs: <Widget>[
               Tab(text: S.years),
               Tab(text: S.months),
               Tab(text: S.weeks),
@@ -54,7 +54,7 @@ void main() {
       // A ordem em que se procura uma memória antiga: primeiro o ano, depois
       // o mês, depois a semana. É a ordem pedida, e ela é o oposto da que
       // havia antes.
-      const List<String> ordem = <String>[S.years, S.months, S.weeks];
+      List<String> ordem = <String>[S.years, S.months, S.weeks];
       expect(ordem, <String>['Anos', 'Meses', 'Semanas']);
     });
   });

@@ -28,23 +28,23 @@ enum EntryType {
   /// Fica no modelo, e não junto dos ícones, porque é palavra e não desenho:
   /// o resumo de um dia precisa disto sem depender de nada de tela.
   String get one => switch (this) {
-    EntryType.birth => 'nascimento',
-    EntryType.photo => 'foto',
-    EntryType.video => 'vídeo',
-    EntryType.letter => 'carta',
-    EntryType.drawing => 'desenho',
-    EntryType.document => 'documento',
-    EntryType.growth => 'medição',
+    EntryType.birth => S.typeOneBirth,
+    EntryType.photo => S.typeOnePhoto,
+    EntryType.video => S.oneVideo,
+    EntryType.letter => S.typeOneLetter,
+    EntryType.drawing => S.typeOneDrawing,
+    EntryType.document => S.typeOneDocument,
+    EntryType.growth => S.oneGrowth,
   };
 
   String get many => switch (this) {
-    EntryType.birth => 'nascimentos',
-    EntryType.photo => 'fotos',
-    EntryType.video => 'vídeos',
-    EntryType.letter => 'cartas',
-    EntryType.drawing => 'desenhos',
-    EntryType.document => 'documentos',
-    EntryType.growth => 'medições',
+    EntryType.birth => S.typeManyBirths,
+    EntryType.photo => S.typeManyPhotos,
+    EntryType.video => S.typeManyVideos,
+    EntryType.letter => S.typeManyLetters,
+    EntryType.drawing => S.typeManyDrawings,
+    EntryType.document => S.typeManyDocuments,
+    EntryType.growth => S.typeManyGrowth,
   };
 
   /// Se o conteúdo é organizado em subpastas por idade (`Semana 07`).

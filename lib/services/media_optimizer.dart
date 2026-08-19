@@ -1,3 +1,4 @@
+import '../core/l10n/strings.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -156,9 +157,7 @@ class MediaOptimizer {
     );
 
     if (result == null) {
-      throw const MediaOptimizationException(
-        'Não foi possível comprimir esta foto.',
-      );
+      throw MediaOptimizationException(S.errPhotoCompress);
     }
 
     final File compressed = File(result.path);
@@ -200,9 +199,7 @@ class MediaOptimizer {
 
     final String? path = info?.path;
     if (path == null) {
-      throw const MediaOptimizationException(
-        'Não foi possível converter este vídeo.',
-      );
+      throw MediaOptimizationException(S.errVideoConvert);
     }
 
     File? thumb;

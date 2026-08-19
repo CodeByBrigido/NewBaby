@@ -7,6 +7,7 @@ import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../models/reminder.dart';
+import '../../state/idioma_providers.dart';
 import '../../state/lock_providers.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
@@ -28,10 +29,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await ref.read(mediaOptimizerProvider).clearCaches();
       await ref.read(thumbnailServiceProvider).clear();
       await ref.read(memoryRepositoryProvider).clearDownloads();
-      if (mounted) showMessage(context, 'Cache limpo.');
+      if (mounted) showMessage(context, S.cacheCleared);
     } on Exception catch (e) {
       if (mounted) {
-        showMessage(context, userMessage(e, context: 'Limpar cache'));
+        showMessage(context, userMessage(e, context: S.clearCache));
       }
     } finally {
       if (mounted) setState(() => _clearing = false);
@@ -42,7 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.settings),
+        title: Text(S.settings),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -57,47 +58,48 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Space.x32,
         ),
         children: <Widget>[
-          const SectionHeader(title: 'Otimização'),
-          const SoftCard(
+          SectionHeader(title: S.optimization),
+          SoftCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Fixed(
                   icon: Icons.photo_outlined,
                   title: 'Fotos',
-                  value: 'Até 960 px no lado maior',
+                  value: S.photoMaxSide,
                 ),
                 Divider(height: 24),
                 _Fixed(
                   icon: Icons.videocam_outlined,
-                  title: 'Vídeos',
-                  value: '540p com bitrate otimizado',
+                  title: S.videosLabel,
+                  value: S.videoOptimizedShort,
                 ),
                 Divider(height: 24),
                 _Fixed(
                   icon: Icons.phone_iphone,
-                  title: 'Arquivos originais',
-                  value: 'Continuam no celular, intactos',
+                  title: S.originalFiles,
+                  value: S.originalFilesNote,
                 ),
               ],
             ),
           ),
           const SizedBox(height: Space.x12),
-          const InfoNote(
-            message:
-                'A otimização é automática e não pode ser desligada - é o '
-                'que mantém o acervo leve por muitos anos.',
-          ),
+          InfoNote(message: S.optimizationNote),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: 'Lembretes'),
+          SectionHeader(title: S.languageSection),
+          const _IdiomaTile(),
+          const SizedBox(height: Space.x12),
+          InfoNote(message: S.languageNote, icon: Icons.translate),
+          const SizedBox(height: Space.block),
+          SectionHeader(title: S.remindersSection),
           const _RemindersTile(),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: S.lockSection),
+          SectionHeader(title: S.lockSection),
           const _LockTile(),
           const SizedBox(height: Space.x12),
-          const InfoNote(message: S.lockNote, icon: Icons.lock_outline),
+          InfoNote(message: S.lockNote, icon: Icons.lock_outline),
           const SizedBox(height: Space.block),
-          const SectionHeader(title: 'Armazenamento no aparelho'),
+          SectionHeader(title: S.storageOnDevice),
           SoftCard(
             onTap: _clearing ? null : _clearCaches,
             child: Row(
@@ -109,14 +111,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Limpar cache',
+                        S.clearCache,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       const SizedBox(height: Space.x4),
                       Text(
-                        'Apaga miniaturas, arquivos temporários e os '
-                        'documentos já baixados. Nada é perdido: tudo '
-                        'continua no Google Drive.',
+                        S.clearCacheBody,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -131,6 +131,71 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// As línguas, uma abaixo da outra.
+///
+/// Escolha visível em vez de uma linha que abre outra tela: mesmo com seis
+/// opções, é uma lista curta, e esconder uma lista curta atrás de um toque é
+/// um toque a mais para nada.
+class _IdiomaTile extends ConsumerWidget {
+  const _IdiomaTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Idioma atual = ref.watch(idiomaProvider);
+
+    return SoftCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          for (final Idioma idioma in Idioma.values) ...<Widget>[
+            if (idioma != Idioma.values.first) const Divider(height: 24),
+            _OpcaoDeIdioma(
+              idioma: idioma,
+              escolhido: idioma == atual,
+              onTap: () => ref.read(idiomaProvider.notifier).escolher(idioma),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _OpcaoDeIdioma extends StatelessWidget {
+  const _OpcaoDeIdioma({
+    required this.idioma,
+    required this.escolhido,
+    required this.onTap,
+  });
+
+  final Idioma idioma;
+  final bool escolhido;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              // O nome de cada língua na própria língua: quem procura inglês
+              // procura por "English", em qualquer tela.
+              idioma.nome,
+              style: text.titleSmall,
+            ),
+          ),
+          if (escolhido)
+            Icon(Icons.check, size: 20, color: context.cores.primaryDark),
         ],
       ),
     );
@@ -163,15 +228,18 @@ class _RemindersTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Lembretes',
+                  S.remindersSection,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 const SizedBox(height: Space.x4),
                 Text(
                   ajuste.enabled
-                      ? '${ajuste.kinds.length} de ${ReminderKind.values.length} '
-                            'tipos, às ${ajuste.safeHour}h'
-                      : 'Desligados',
+                      ? S.remindersSummaryFull(
+                          ajuste.kinds.length,
+                          ReminderKind.values.length,
+                          ajuste.safeHour,
+                        )
+                      : S.remindersOff,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: context.cores.textSecondary,
                   ),

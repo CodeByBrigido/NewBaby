@@ -189,10 +189,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
               context.canPop() ? context.pop() : context.go(Routes.letters),
         ),
         actions: <Widget>[
-          TextButton(
-            onPressed: _saving ? null : _save,
-            child: const Text(S.save),
-          ),
+          TextButton(onPressed: _saving ? null : _save, child: Text(S.save)),
         ],
       ),
       body: ListView(
@@ -223,7 +220,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
             style: Theme.of(
               context,
             ).textTheme.bodyLarge?.copyWith(height: _entrelinhaDaCarta),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               counterText: '',
               labelText: S.messageField,
               alignLabelWithHint: true,

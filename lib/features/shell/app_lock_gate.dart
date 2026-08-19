@@ -145,7 +145,7 @@ class _LockScreen extends StatelessWidget {
                 FilledButton.icon(
                   onPressed: onUnlock,
                   icon: const Icon(Icons.fingerprint),
-                  label: const Text(S.unlock),
+                  label: Text(S.unlock),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                   ),

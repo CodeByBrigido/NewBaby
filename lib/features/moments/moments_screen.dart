@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -30,11 +31,10 @@ class MomentsScreen extends ConsumerWidget {
       body: ativas.isEmpty
           ? EmptyState(
               icon: Icons.auto_awesome_outlined,
-              title: 'Nada pendente por aqui',
+              title: S.emptyMoments,
               message: profile == null
-                  ? 'As sugestões aparecem conforme a idade e o calendário.'
-                  : 'As sugestões voltam conforme ${copy.theName} cresce e as '
-                        'datas do ano se aproximam.',
+                  ? S.suggestionsByAge
+                  : S.suggestionsGrowNote(copy.theName),
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(
@@ -125,10 +125,10 @@ class SuggestionCard extends ConsumerWidget {
                       const SizedBox(height: Space.x4),
                       Text(
                         dias == 0
-                            ? 'É hoje'
+                            ? S.isToday
                             : dias == 1
                             ? 'Falta 1 dia'
-                            : 'Faltam $dias dias',
+                            : S.daysLeft(dias),
                         style: text.labelMedium?.copyWith(
                           color: context.cores.primaryDark,
                         ),
@@ -190,7 +190,7 @@ class SuggestionCard extends ConsumerWidget {
                     minimumSize: const Size.fromHeight(Sizes.buttonCompact),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  child: const Text('Agora não'),
+                  child: Text(S.notNow),
                 ),
               ),
               const SizedBox(width: Space.x12),

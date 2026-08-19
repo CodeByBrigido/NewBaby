@@ -120,7 +120,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
             TextField(
               controller: _title,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: S.titleField,
                 hintText: 'Primeiro sorriso',
               ),
@@ -153,7 +153,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
               textCapitalization: TextCapitalization.sentences,
               maxLength: Limits.description,
               maxLines: 3,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 counterText: '',
                 labelText: S.descriptionOptional,
                 alignLabelWithHint: true,
@@ -183,7 +183,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                     onPressed: _saving
                         ? null
                         : () => Navigator.of(context).pop(),
-                    child: const Text(S.cancel),
+                    child: Text(S.cancel),
                   ),
                 ),
                 const SizedBox(width: Space.x12),
@@ -199,7 +199,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text(S.save),
+                        : Text(S.save),
                   ),
                 ),
               ],

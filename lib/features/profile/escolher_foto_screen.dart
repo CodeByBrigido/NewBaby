@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_palette.dart';
@@ -79,7 +80,7 @@ class _EscolherFotoScreenState extends ConsumerState<EscolherFotoScreen> {
           if (profile?.photoDriveId?.isNotEmpty ?? false)
             TextButton(
               onPressed: _salvando ? null : () => _escolher(profile!, null),
-              child: const Text('Automática'),
+              child: Text(S.automatic),
             ),
         ],
       ),
@@ -88,10 +89,8 @@ class _EscolherFotoScreenState extends ConsumerState<EscolherFotoScreen> {
           : fotos.isEmpty
           ? EmptyState(
               icon: Icons.photo_camera_outlined,
-              title: 'Nenhuma foto ainda',
-              message:
-                  'A foto de perfil sai das memórias já guardadas. Acrescente '
-                  'uma foto ${Copy.of(profile).ofName} e ela aparece aqui.',
+              title: S.emptyPhotos,
+              message: S.profilePhotoEmptyOf(Copy.of(profile).ofName),
             )
           : GridView.builder(
               padding: const EdgeInsets.fromLTRB(

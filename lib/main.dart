@@ -31,8 +31,20 @@ Future<void> main() async {
       DeviceOrientation.portraitUp,
     ]);
 
-    // Datas por extenso em português dependem destes dados.
-    await initializeDateFormatting('pt_BR');
+    // Datas por extenso em qualquer língua que não seja o inglês dependem
+    // destes dados. O inglês funciona sem, porque o `intl` já embute os
+    // símbolos de `en_US` por padrão; carregá-lo aqui também não custa nada
+    // e evita depender desse detalhe de implementação.
+    for (final String locale in <String>[
+      'pt_BR',
+      'en',
+      'es',
+      'fr',
+      'de',
+      'it',
+    ]) {
+      await initializeDateFormatting(locale);
+    }
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

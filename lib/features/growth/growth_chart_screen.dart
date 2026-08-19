@@ -28,7 +28,7 @@ class GrowthChartScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.growthChart),
+        title: Text(S.growthChart),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -36,12 +36,10 @@ class GrowthChartScreen extends ConsumerWidget {
         ),
       ),
       body: records.length < 2 || profile == null
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.show_chart,
               title: 'Poucos registros',
-              message:
-                  'A partir de dois registros o gráfico começa a contar a '
-                  'história.',
+              message: S.growthChartHint,
             )
           : ListView(
               padding: const EdgeInsets.fromLTRB(
@@ -205,7 +203,7 @@ class _ChartCard extends StatelessWidget {
           ),
           const SizedBox(height: Space.x12),
           Text(
-            'Do nascimento até ${Fmt.date(records.last.date)}',
+            S.growthFromBirth(Fmt.date(records.last.date)),
             style: text.labelSmall,
           ),
         ],

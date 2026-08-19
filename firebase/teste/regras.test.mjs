@@ -104,6 +104,52 @@ checar('perfil com campo estranho é recusado',
 checar('o id do Informacoes.txt cabe no perfil',
   () => assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/bebe'),
     { nome: 'Alice', nascimento: new Date(), genero: 'menina', pastaRaizId: 'abc', arquivoInfoId: 'info-1' })));
+
+// --- a licença do plano Premium ---
+//
+// O campo é virado à mão no Firebase Console enquanto o faturamento não
+// existe, e depois pela confirmação da compra. O aplicativo nunca o envia.
+const cadastro = {
+  nome: 'Alice', nascimento: new Date(), genero: 'menina', pastaRaizId: 'abc',
+};
+checar('a licença cabe no perfil',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/licenca'),
+    { ...cadastro, premium: true })));
+checar('licença que não é booleana é recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/perfil/licenca'),
+    { ...cadastro, premium: 'sim' })));
+// O teste que justifica a linha nas regras. Com a licença já gravada, o
+// documento resultante de qualquer merge carrega o campo, mesmo que a
+// escrita não o mencione. Se `premium` não estivesse no `hasOnly`, virar a
+// licença no console travaria toda edição de cadastro daquela conta, e o
+// erro apareceria numa tela que não tem nada a ver com assinatura.
+checar('com a licença gravada, salvar o cadastro continua passando',
+  async () => {
+    await setDoc(doc(ana, 'users/ana/perfil/licenca'),
+      { ...cadastro, premium: true });
+    await assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/licenca'),
+      { nome: 'Alice Souza' }, { merge: true }));
+  });
+
+
+// --- a lingua das pastas do Drive ---
+//
+// Gravada uma vez, no cadastro, e nunca mais. Precisa estar no hasOnly pelo
+// mesmo motivo do premium: o merge valida o documento resultante.
+checar('a língua das pastas cabe no perfil',
+  () => assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+    { ...cadastro, idiomaDasPastas: 'en' })));
+checar('com a língua gravada, salvar o cadastro continua passando',
+  async () => {
+    await setDoc(doc(ana, 'users/ana/perfil/pastas'),
+      { ...cadastro, idiomaDasPastas: 'en' });
+    await assertSucceeds(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+      { nome: 'Alice Souza' }, { merge: true }));
+  });
+checar('língua absurdamente longa é recusada',
+  () => assertFails(setDoc(doc(ana, 'users/ana/perfil/pastas'),
+    { ...cadastro, idiomaDasPastas: 'x'.repeat(50) })));
+
 checar('subcoleção desconhecida é recusada',
   () => assertFails(setDoc(doc(ana, 'users/ana/qualquer/coisa'), { a: 1 })));
 checar('não dá para criar o documento raiz do usuário',

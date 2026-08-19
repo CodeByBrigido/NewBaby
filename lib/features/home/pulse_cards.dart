@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/utils/formatters.dart';
 import '../../models/capsule_pulse.dart';
 
 /// Os cartões de ocasião: hoje é aniversário, hoje faz exatamente, e a
@@ -53,7 +53,7 @@ class PulseCards extends StatelessWidget {
         if (pulse.daysToBirthday <= 45)
           _PulseCard(
             icon: Icons.cake_outlined,
-            label: 'Para o ${Fmt.ordinal(pulse.birthdayYears)} aniversário',
+            label: S.birthdayOrdinal(pulse.birthdayYears),
             value: pulse.daysToBirthday == 1
                 ? 'falta 1 dia'
                 : 'faltam ${pulse.daysToBirthday} dias',

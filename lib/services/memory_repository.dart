@@ -1,3 +1,5 @@
+import '../core/l10n/nomes_de_pasta.dart';
+import '../core/l10n/strings.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -148,10 +150,21 @@ class MemoryRepository {
     required BabyProfile profile,
     File? birthPhoto,
   }) async {
+    // A língua das pastas é decidida **aqui**, uma vez, e gravada no perfil.
+    // Daqui em diante ela não olha mais para o idioma da interface: quem
+    // criou em inglês continua com pastas em inglês mesmo lendo o aplicativo
+    // em português.
+    final NomesDePasta nomes = NomesDePasta.de(
+      profile.idiomaDasPastas ?? codigoAtivo,
+    );
     final String rootId = await drive.ensureRootStructure(
       knownRootId: profile.rootFolderId,
+      nomes: nomes,
     );
-    BabyProfile saved = profile.copyWith(rootFolderId: rootId);
+    BabyProfile saved = profile.copyWith(
+      rootFolderId: rootId,
+      idiomaDasPastas: nomes.codigo,
+    );
     await firestore.saveProfile(uid, saved);
 
     // O nascimento é o primeiro item da linha do tempo, sempre.
@@ -458,9 +471,7 @@ class MemoryRepository {
       // Os originais estão em outro aparelho - não há como reenviar daqui.
       await firestore.patchEntry(uid, entry.id, <String, Object?>{
         'uploadStatus': UploadStatus.failed.id,
-        'erro':
-            'Os arquivos originais não estão neste aparelho. '
-            'Reenvie a partir do celular onde eles foram escolhidos.',
+        'erro': S.errOriginalsMissingFull,
       });
       return;
     }
@@ -474,9 +485,7 @@ class MemoryRepository {
       if (!File(item.path).existsSync()) {
         await firestore.patchEntry(uid, entry.id, <String, Object?>{
           'uploadStatus': UploadStatus.failed.id,
-          'erro':
-              'O arquivo saiu deste aparelho antes de o envio terminar. '
-              'Escolha a foto de novo para guardá-la.',
+          'erro': S.errFileGoneFull,
         });
         return;
       }
@@ -524,14 +533,40 @@ class MemoryRepository {
   ///
   /// Documento e crescimento ficam direto na pasta da categoria: uma
   /// certidão não pertence a uma idade, ela vale a vida inteira.
+  /// A convenção de nomes desta cápsula.
+  ///
+  /// **Sempre a da criação, nunca a da interface.** Uma cápsula criada em
+  /// português continua em português mesmo com o aplicativo em inglês, e
+  /// vice-versa: as pastas já existem e não se renomeiam.
+  static NomesDePasta nomesDe(BabyProfile profile) =>
+      NomesDePasta.de(profile.idiomaDasPastas);
+
   static List<String> caminhoDaPasta({
     required DateTime birth,
     required EntryType type,
     required DateTime quando,
+    NomesDePasta nomes = NomesDePasta.pt,
   }) => <String>[
-    type.folder,
-    if (type.bucketsByAge) ...AgeCalculator.caminhoNoDrive(birth, quando),
+    pastaDoTipo(type, nomes),
+    if (type.bucketsByAge)
+      ...AgeCalculator.caminhoNoDrive(birth, quando, nomes),
   ];
+
+  /// A pasta de primeiro nível de cada tipo, na convenção da cápsula.
+  ///
+  /// Fica aqui, e não como propriedade do `EntryType`, porque depende da
+  /// cápsula: o mesmo tipo mora em `Cartas` numa conta e em `Letters` noutra,
+  /// e um enum não tem como saber de qual conta se está falando.
+  static String pastaDoTipo(EntryType type, NomesDePasta nomes) =>
+      switch (type) {
+        EntryType.birth => nomes.raiz,
+        EntryType.photo => nomes.fotos,
+        EntryType.video => nomes.videos,
+        EntryType.letter => nomes.cartas,
+        EntryType.drawing => nomes.desenhos,
+        EntryType.document => nomes.documentos,
+        EntryType.growth => nomes.crescimento,
+      };
 
   /// Se esta chave do cache aponta para a organização antiga do Drive.
   ///
@@ -552,14 +587,20 @@ class MemoryRepository {
     required EntryType type,
     required DateTime quando,
   }) async {
+    final NomesDePasta nomes = nomesDe(profile);
+
     final String rootId =
         profile.rootFolderId ??
-        await drive.ensureRootStructure(knownRootId: profile.rootFolderId);
+        await drive.ensureRootStructure(
+          knownRootId: profile.rootFolderId,
+          nomes: nomes,
+        );
 
     final List<String> caminho = caminhoDaPasta(
       birth: profile.birth,
       type: type,
       quando: quando,
+      nomes: nomes,
     );
 
     final String? cached = await firestore.folderId(uid, caminho.join('/'));
@@ -894,6 +935,7 @@ class MemoryRepository {
       birth: profile.birth,
       type: entry.type,
       quando: entry.date,
+      nomes: nomesDe(profile),
     );
 
     for (int n = caminho.length; n > 1; n--) {

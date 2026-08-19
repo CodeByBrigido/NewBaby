@@ -124,7 +124,7 @@ class _FailedBanner extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () => _retryAll(context, ref),
-            child: const Text(S.retry),
+            child: Text(S.retry),
           ),
         ],
       ),

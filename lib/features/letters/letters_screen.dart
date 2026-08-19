@@ -12,6 +12,7 @@ import '../../models/baby_profile.dart';
 import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/widgets.dart';
+import '../premium/porta_do_premium.dart';
 
 class LettersScreen extends ConsumerWidget {
   const LettersScreen({super.key});
@@ -26,7 +27,7 @@ class LettersScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.letters),
+        title: Text(S.letters),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -34,16 +35,25 @@ class LettersScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push(Routes.newLetter),
+        onPressed: () async {
+          if (await liberadoParaCriar(context, profile, EntryType.letter) &&
+              context.mounted) {
+            context.push(Routes.newLetter);
+          }
+        },
         backgroundColor: context.cores.primaryStrong,
         foregroundColor: Colors.white,
-        icon: const Icon(Icons.edit_outlined),
+        icon: Icon(
+          podeCriar(profile, EntryType.letter)
+              ? Icons.edit_outlined
+              : Icons.lock_outline,
+        ),
         label: const Text('Escrever'),
       ),
       body: letters.isEmpty
           ? EmptyState(
               icon: Icons.mail_outline,
-              title: 'Nenhuma carta ainda',
+              title: S.emptyLetters,
               message: Copy.of(profile).lettersEmptyBody,
             )
           : ListView.separated(

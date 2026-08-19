@@ -176,17 +176,21 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
   String _onde({required bool pronto}) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final Copy g = Copy.of(profile);
-    final String verbo = pronto ? 'Está guardado' : 'Vai ficar guardado';
+    final String verbo = pronto ? S.savedTitle : S.willBeSaved;
 
     // "no Google Drive da sua filha", e não "na sua conta do Google Drive".
     // A conta é da criança desde o primeiro dia, e esta é a frase que a
     // pessoa lê no instante em que a memória vai para lá.
-    final String conta = 'no Google Drive ${g.ofTheChild}';
+    //
+    // A frase inteira vem de `Copy`, e não só o dono: a ordem das palavras
+    // muda de língua para língua, e concatenar um "no Google Drive" fixo
+    // aqui deixava toda língua que não fosse português com o prefixo errado.
+    final String conta = g.childsGoogleDrive;
 
     // Documento não entra em pasta de idade, então citar um mês seria
     // mentira.
     if (!_tipo.bucketsByAge || profile == null) {
-      return pronto ? 'Está guardado $conta.' : 'Vai ser guardado $conta.';
+      return pronto ? S.savedInDrive(conta) : S.willBeSavedIn(conta);
     }
 
     // O caminho de verdade, e não o nome da semana que a galeria usa aqui

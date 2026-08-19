@@ -12,6 +12,7 @@ import '../../models/entry.dart';
 import '../../state/providers.dart';
 import '../common/drive_image.dart';
 import '../common/widgets.dart';
+import '../premium/porta_do_premium.dart';
 import 'growth_editor_sheet.dart';
 
 /// Histórico de peso e altura, do mais recente ao nascimento.
@@ -25,7 +26,7 @@ class GrowthScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.growth),
+        title: Text(S.growth),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -33,8 +34,12 @@ class GrowthScreen extends ConsumerWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => showGrowthEditor(context),
+            icon: Icon(
+              podeCriar(profile, EntryType.growth)
+                  ? Icons.add
+                  : Icons.lock_outline,
+            ),
+            onPressed: () => _medir(context, profile),
           ),
         ],
       ),
@@ -44,8 +49,8 @@ class GrowthScreen extends ConsumerWidget {
               title: S.growthEmptyTitle,
               message: S.growthEmptyBody,
               action: FilledButton(
-                onPressed: () => showGrowthEditor(context),
-                child: const Text(S.addGrowth),
+                onPressed: () => _medir(context, profile),
+                child: Text(S.addGrowth),
               ),
             )
           : Column(
@@ -81,7 +86,7 @@ class GrowthScreen extends ConsumerWidget {
                         minimumSize: const Size.fromHeight(48),
                       ),
                       icon: const Icon(Icons.show_chart, size: 20),
-                      label: const Text(S.viewChart),
+                      label: Text(S.viewChart),
                     ),
                   ),
               ],
@@ -187,5 +192,13 @@ class _Measure extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+/// Abre a medição, ou o convite do plano.
+Future<void> _medir(BuildContext context, BabyProfile? profile) async {
+  if (await liberadoParaCriar(context, profile, EntryType.growth) &&
+      context.mounted) {
+    await showGrowthEditor(context);
   }
 }

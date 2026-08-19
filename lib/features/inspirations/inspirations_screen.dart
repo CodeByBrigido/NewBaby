@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/l10n/copy.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
@@ -67,7 +68,7 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !widget.embedded,
-        title: const Text('Inspirações'),
+        title: Text(S.inspirations),
         actions: <Widget>[
           // A lupa daqui busca **dentro do blog**, e não no acervo do
           // Drive. Eram duas coisas sem relação: quem está lendo sobre a
@@ -85,17 +86,17 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
       ),
       body: feed.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (Object e, _) => const EmptyState(
+        error: (Object e, _) => EmptyState(
           icon: Icons.lightbulb_outline,
-          title: 'Não deu para carregar as ideias',
+          title: S.inspirationsLoadFailed,
           message: 'Tente abrir de novo daqui a pouco.',
         ),
         data: (List<ActiveInspiration> itens) {
           _anotarVisita(itens);
           if (itens.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.lightbulb_outline,
-              title: 'Nada por aqui agora',
+              title: S.emptyInspirations,
               message: 'As ideias mudam conforme a idade. Volte em breve.',
             );
           }
@@ -134,8 +135,8 @@ class _Intro extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: Space.x4),
       child: Text(
         copy.hasName
-            ? 'Ideias para a fase que ${copy.theName} está vivendo agora.'
-            : 'Ideias para a fase de agora.',
+            ? S.inspirationsSubtitle(copy.theName)
+            : S.inspirationsSubtitleGeneric,
         style: Theme.of(
           context,
         ).textTheme.bodyMedium?.copyWith(color: context.cores.textSecondary),
@@ -200,10 +201,10 @@ class _Card extends StatelessWidget {
                 const SizedBox(height: Space.x12),
                 Text(
                   dias == 0
-                      ? 'É hoje'
+                      ? S.isToday
                       : dias == 1
-                      ? 'Amanhã'
-                      : 'Faltam $dias dias',
+                      ? S.tomorrow
+                      : S.daysLeft(dias),
                   style: text.labelMedium?.copyWith(
                     color: context.cores.primaryDark,
                   ),

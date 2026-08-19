@@ -267,10 +267,10 @@ Desde 2023 o Google Play exige, para todo aplicativo com criação de conta:
   conta e meus dados*;
 - uma **URL pública** onde a exclusão possa ser pedida sem instalar o app.
 
-As duas páginas já estão escritas e estão em `docs/`. Falta só ligar o
-GitHub Pages, que é de graça.
+As páginas já estão escritas e estão em `docs/`, nas seis línguas do
+aplicativo. Falta só ligar o GitHub Pages, que é de graça.
 
-### Como pôr as duas páginas no ar
+### Como pôr as páginas no ar
 
 As páginas são geradas do mesmo texto que o aplicativo mostra:
 
@@ -279,11 +279,15 @@ dart run tool/gerar_site.dart
 ```
 
 Isso escreve `docs/index.html`, `docs/privacidade.html` e
-`docs/exclusao.html`. **Não edite esses arquivos à mão**: edite
-`lib/core/l10n/privacy_policy.dart` ou `lib/core/l10n/account_deletion.dart`
-e rode o comando de novo. O `exclusao_test.dart` compara os arquivos com o
-que a ferramenta geraria, então esquecer de rodar quebra a suíte em vez de
-deixar no ar uma página que descreve outro aplicativo.
+`docs/exclusao.html` em português na raiz, e o mesmo conjunto em inglês,
+espanhol, francês, alemão e italiano dentro de `docs/en/`, `docs/es/`,
+`docs/fr/`, `docs/de/` e `docs/it/`. **Não edite esses arquivos à mão**:
+edite `lib/core/l10n/privacy_policy.dart`,
+`lib/core/l10n/account_deletion.dart` ou os arquivos irmãos de cada língua
+(`privacy_policy_en.dart`, `privacy_policy_es.dart` e por aí vai) e rode o
+comando de novo. O `exclusao_test.dart` compara os arquivos com o que a
+ferramenta geraria, então esquecer de rodar quebra a suíte em vez de deixar
+no ar uma página que descreve outro aplicativo.
 
 Para publicar, uma vez só:
 
@@ -295,20 +299,28 @@ Para publicar, uma vez só:
 4. Branch `main`, pasta **`/docs`**, e *Save*
 5. Em um ou dois minutos os endereços ficam de pé:
 
-| Página | Endereço |
-|---|---|
-| Política de privacidade | `https://codebybrigido.github.io/NewBaby/privacidade.html` |
-| Exclusão de conta | `https://codebybrigido.github.io/NewBaby/exclusao.html` |
+| Página | Endereço em português | Endereço em inglês |
+|---|---|---|
+| Política de privacidade | `https://codebybrigido.github.io/NewBaby/privacidade.html` | `https://codebybrigido.github.io/NewBaby/en/privacy.html` |
+| Exclusão de conta | `https://codebybrigido.github.io/NewBaby/exclusao.html` | `https://codebybrigido.github.io/NewBaby/en/deletion.html` |
 
-Confira os dois numa aba anônima, **sem estar logado no GitHub**: é assim
-que o revisor da loja vai abrir.
+As outras quatro línguas seguem o mesmo padrão, trocando `en/` por `es/`,
+`fr/`, `de/` ou `it/` e o nome do arquivo pelo da língua (veja a tabela
+completa em `lib/core/l10n/pagina_web.dart`). Para o Play Console, o
+endereço em **inglês** é o que importa: é o que o revisor da loja consegue
+ler sem depender de tradução automática, e é para ele que os campos abaixo
+devem apontar.
+
+Confira as páginas numa aba anônima, **sem estar logado no GitHub**: é
+assim que o revisor da loja vai abrir.
 
 ### Onde informar cada um no Play Console
 
-- *Política → Conteúdo do app → Política de privacidade*: o endereço da
-  política
+- *Política → Conteúdo do app → Política de privacidade*: o endereço em
+  inglês da política (`en/privacy.html`)
 - *Política → Segurança dos dados*, no fim do formulário, em **"URL de
-  solicitação de exclusão de conta"**: o endereço da exclusão
+  solicitação de exclusão de conta"**: o endereço em inglês da exclusão
+  (`en/deletion.html`)
 - *Ficha da loja*, no campo de política de privacidade: o mesmo da política
 
 O campo da exclusão é o que costuma reprovar a revisão quando fica vazio, e
@@ -449,6 +461,30 @@ Comece por **teste interno** (libera em minutos, até 100 pessoas) para você
 e a família validarem o login e o envio de verdade. Depois promova para
 produção.
 
+### 6.1 - Experimentar o portão do Premium sem loja nenhuma
+
+O aplicativo lê a licença do Firestore, e não da biblioteca de faturamento.
+Isso é de propósito: a licença é da conta que faz login, e a biblioteca
+responde pela conta da Play Store do aparelho, que costuma ser de outra
+pessoa. O efeito colateral bom é que dá para experimentar os dois estados sem
+faturamento nenhum, com o APK comum instalado:
+
+1. Firebase Console > **Firestore Database**
+2. Abra `users` > o seu `uid` > `perfil` > `bebe`
+3. **Adicionar campo**: nome `premium`, tipo `booleano`, valor `false`
+4. Volte ao aplicativo e toque em "+" > **Carta**. Tem que aparecer o cadeado
+   na opção e, ao tocar, o popup do convite
+5. Mude o campo para `true`, volte e toque de novo. Tem que entrar direto,
+   sem popup e sem cadeado
+
+O aplicativo **nunca escreve** esse campo, então o valor que você puser fica
+onde está, mesmo salvando o cadastro de novo.
+
+> **Antes de promover para produção**, o faturamento precisa existir (fase
+> 13b). Em teste interno o portão sem caixa é o que se quer, porque a licença
+> se vira à mão; aberto ao público, seria bloquear quatro dos seis caminhos
+> sem oferecer como sair do bloqueio.
+
 ---
 
 ## Antes de apertar publicar
@@ -459,7 +495,12 @@ produção.
 - [ ] `android/key.properties` fora do repositório, com cópia da chave guardada
 - [ ] Regras do Firestore publicadas pelo fluxo *Publicar as regras do
       Firestore* (passo 5.1.1) e conferidas no console - não as do
-      "modo de teste". O campo `arquivoInfoId` tem que aparecer lá
+      "modo de teste". Os campos `arquivoInfoId` e `premium` têm que aparecer
+      lá, e `idiomaDasPastas` também. Sem `premium` na lista, virar a
+      licença de uma conta faz **toda** edição de cadastro dela passar a ser
+      recusada, porque a regra valida o documento resultante do `merge`, e
+      não só o que foi enviado. O mesmo vale para `idiomaDasPastas`, que é
+      gravado no cadastro de toda conta nova
 - [ ] `cd firebase/teste && npm test` passando
 - [ ] Alerta de orçamento configurado no Google Cloud
 - [ ] App Check ativado com Play Integrity

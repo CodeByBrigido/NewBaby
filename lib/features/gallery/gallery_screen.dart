@@ -191,8 +191,8 @@ class _GalleryScreenState extends ConsumerState<GalleryScreen>
                           icon: widget.type.icon,
                           title: S.noItemsYet,
                           message: widget.type == EntryType.photo
-                              ? 'Toque no + para adicionar as primeiras fotos.'
-                              : 'Toque no + para adicionar o primeiro vídeo.',
+                              ? S.firstPhotosHint
+                              : S.firstVideoHint,
                         )
                       : TabBarView(
                           controller: _abas,
@@ -242,7 +242,12 @@ class _UnitTabs extends StatelessWidget {
   final TabController controller;
   final List<AgeBucketUnit> unidades;
 
-  static const Map<AgeBucketUnit, String> _rotulos = <AgeBucketUnit, String>{
+  /// Um getter, e **não** um campo estático.
+  ///
+  /// Campo estático se inicializa uma vez e nunca mais: as abas ficariam com
+  /// a língua que estava ativa quando esta tela abriu pela primeira vez, e
+  /// continuariam nela mesmo depois de alguém trocar o idioma.
+  static Map<AgeBucketUnit, String> get _rotulos => <AgeBucketUnit, String>{
     AgeBucketUnit.week: S.weeks,
     AgeBucketUnit.month: S.months,
     AgeBucketUnit.year: S.years,
@@ -421,8 +426,8 @@ class _BucketList extends StatelessWidget {
                     const SizedBox(height: Space.x4),
                     Text(
                       type == EntryType.photo
-                          ? Fmt.count(summary.fileCount, 'foto', 'fotos')
-                          : Fmt.count(summary.fileCount, 'vídeo', 'vídeos'),
+                          ? S.contarFotos(summary.fileCount)
+                          : S.contarVideos(summary.fileCount),
                       style: text.labelSmall?.copyWith(
                         color: context.cores.textSecondary,
                       ),

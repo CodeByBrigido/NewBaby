@@ -42,7 +42,7 @@ class DocumentsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.documents),
+        title: Text(S.documents),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -50,12 +50,10 @@ class DocumentsScreen extends ConsumerWidget {
         ),
       ),
       body: documents.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.description_outlined,
-              title: 'Nenhum documento ainda',
-              message:
-                  'Certidão, carteira de vacinação, passaporte - tudo em um '
-                  'lugar só.',
+              title: S.emptyDocuments,
+              message: S.documentsEmptyBody,
             )
           // Arrastável, porque documento não tem ordem natural.
           //

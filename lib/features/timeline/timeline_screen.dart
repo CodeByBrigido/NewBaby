@@ -44,7 +44,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.timeline),
+        title: Text(S.timeline),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () =>
@@ -107,7 +107,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           // do outro lado quer ver agora, não daqui a um minuto.
           action: TextButton(
             onPressed: () => ref.invalidate(entriesProvider),
-            child: const Text(S.retry),
+            child: Text(S.retry),
           ),
         ),
         data: (List<Entry> all) {
@@ -152,7 +152,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             const SizedBox(height: Space.x8),
             ListTile(
               leading: const Icon(Icons.all_inclusive),
-              title: const Text(S.filterAll),
+              title: Text(S.filterAll),
               selected: _filter == null,
               onTap: () => Navigator.of(context).pop(),
             ),
@@ -319,7 +319,7 @@ class _Fatia extends StatelessWidget {
                       ),
                       const SizedBox(width: Space.x8),
                       Text(
-                        Fmt.count(quantos, 'item', 'itens'),
+                        S.contarItens(quantos),
                         style: text.labelSmall?.copyWith(
                           color: context.cores.textSecondary,
                         ),

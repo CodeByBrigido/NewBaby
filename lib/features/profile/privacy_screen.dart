@@ -14,7 +14,7 @@ class PrivacyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TelaDeDocumento(
+    return TelaDeDocumento(
       titulo: S.privacyPolicy,
       data: privacyPolicyDate,
       secoes: privacyPolicy,

@@ -148,7 +148,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: S.weightField,
                       suffixText: 'kg',
                     ),
@@ -164,7 +164,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: S.heightField,
                       suffixText: 'cm',
                     ),
@@ -218,7 +218,7 @@ class _GrowthEditorState extends ConsumerState<_GrowthEditor> {
                         color: Colors.white,
                       ),
                     )
-                  : const Text(S.save),
+                  : Text(S.save),
             ),
           ],
         ),

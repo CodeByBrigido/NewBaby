@@ -1,17 +1,31 @@
 import 'package:intl/intl.dart';
 
+import '../l10n/strings.dart';
 import 'age_calculator.dart';
 
-/// Formatação em português do Brasil para datas, medidas e tamanhos.
+/// Formatação de datas, medidas e tamanhos, no idioma ativo.
+///
+/// **Nada aqui é guardado em variável estática.** Os `DateFormat` eram
+/// `static final`, criados uma vez com `pt_BR` gravado dentro: a primeira
+/// chamada decidia a língua das datas para o resto da execução, e trocar o
+/// idioma deixava a linha do tempo em `10/04/2027` numa tela em inglês. São
+/// construídos a cada chamada, que custa muito pouco perto de estar errado.
 abstract final class Fmt {
-  static const String locale = 'pt_BR';
+  /// O código do `intl` para a língua ativa.
+  static String get locale => S.codigoIntl;
 
-  static final DateFormat _short = DateFormat('dd/MM/yyyy', locale);
-  static final DateFormat _dayMonth = DateFormat('dd/MM', locale);
-  static final DateFormat _long = DateFormat("dd 'de' MMMM 'de' yyyy", locale);
-  static final DateFormat _monthYear = DateFormat("MMMM 'de' yyyy", locale);
-  static final DateFormat _time = DateFormat('HH:mm', locale);
-  static final DateFormat _fileStamp = DateFormat('yyyy-MM-dd_HHmmss', locale);
+  static DateFormat get _short => DateFormat(S.padraoData, locale);
+  static DateFormat get _dayMonth => DateFormat(S.padraoDiaMes, locale);
+  static DateFormat get _long => DateFormat(S.padraoDataLonga, locale);
+  static DateFormat get _monthYear => DateFormat(S.padraoMesAno, locale);
+  static DateFormat get _time => DateFormat(S.padraoHora, locale);
+
+  /// Este continua fixo, e é o único que continua.
+  ///
+  /// Ele nomeia arquivo no Google Drive, e nome de arquivo não é texto de
+  /// interface: se a língua mudasse o padrão, a mesma pasta acabaria com
+  /// dois jeitos de ordenar e a ordem por nome deixaria de valer.
+  static final DateFormat _fileStamp = DateFormat('yyyy-MM-dd_HHmmss');
 
   /// `22/01/2027`
   static String date(DateTime d) => _short.format(d);
@@ -40,9 +54,12 @@ abstract final class Fmt {
   /// ano, porque aí um ano só no fim seria mentira sobre a primeira data.
   static String dateRange(DateTime start, DateTime end) {
     if (start.year == end.year) {
-      return '${dayMonth(start)} a ${dayMonth(end)} de ${start.year}';
+      final String ano = S.codigoIntl.startsWith('pt')
+          ? 'de ${start.year}'
+          : '${start.year}';
+      return '${dayMonth(start)} ${S.entreDatas} ${dayMonth(end)} $ano';
     }
-    return '${date(start)} a ${date(end)}';
+    return '${date(start)} ${S.entreDatas} ${date(end)}';
   }
 
   /// Prefixo do nome do arquivo enviado ao Drive: `2027-01-22_143500`.
@@ -53,8 +70,8 @@ abstract final class Fmt {
     final DateTime today = _dayOnly(now ?? DateTime.now());
     final DateTime target = _dayOnly(day);
     final int diff = today.difference(target).inDays;
-    if (diff == 0) return 'Hoje';
-    if (diff == 1) return 'Ontem';
+    if (diff == 0) return S.hoje;
+    if (diff == 1) return S.ontem;
     return date(target);
   }
 
@@ -131,31 +148,13 @@ abstract final class Fmt {
 
   /// `1 foto` / `15 fotos`.
   /// Saudação pela hora do dia.
-  static String greeting(DateTime now) {
-    if (now.hour < 12) return 'Bom dia';
-    if (now.hour < 18) return 'Boa tarde';
-    return 'Boa noite';
-  }
+  static String greeting(DateTime now) => S.saudacao(now.hour);
 
   /// Há quanto tempo, em palavras.
   ///
   /// A unidade cresce com a distância: "há 40 dias" obriga a pessoa a fazer
   /// a conta de cabeça, "há 1 mês" já diz o que ela queria saber.
-  static String ago(int days) {
-    if (days <= 0) return 'hoje';
-    if (days == 1) return 'ontem';
-    if (days < 14) return 'há $days dias';
-    if (days < 60) {
-      final int semanas = days ~/ 7;
-      return semanas == 1 ? 'há 1 semana' : 'há $semanas semanas';
-    }
-    if (days < 365) {
-      final int meses = days ~/ 30;
-      return meses == 1 ? 'há 1 mês' : 'há $meses meses';
-    }
-    final int anos = days ~/ 365;
-    return anos == 1 ? 'há 1 ano' : 'há $anos anos';
-  }
+  static String ago(int days) => S.haTempo(days);
 
   /// Quanto tempo faz, na unidade que a pessoa usaria em voz alta.
   ///
@@ -177,8 +176,8 @@ abstract final class Fmt {
     final DateTime dia = AgeCalculator.dayOf(quando);
     final int dias = hoje.difference(dia).inDays;
 
-    if (dias <= 0) return 'hoje';
-    if (dias <= 30) return count(dias, 'dia', 'dias');
+    if (dias <= 0) return S.hoje.toLowerCase();
+    if (dias <= 30) return S.contarDias(dias);
 
     int meses = (hoje.year - dia.year) * 12 + (hoje.month - dia.month);
     if (meses > 0 && AgeCalculator.addMonths(dia, meses).isAfter(hoje)) {
@@ -190,25 +189,13 @@ abstract final class Fmt {
     // "0 meses" logo depois de "30 dias".
     if (meses < 1) meses = 1;
 
-    if (meses < 12) return count(meses, 'mês', 'meses');
-    return count(meses ~/ 12, 'ano', 'anos');
+    if (meses < 12) return S.contarMeses(meses);
+    return S.contarAnos(meses ~/ 12);
   }
 
   /// `primeiro`, `segundo`, ... e a partir de onde a palavra fica pior que
   /// o número, o número.
-  static String ordinal(int n) => switch (n) {
-    1 => 'primeiro',
-    2 => 'segundo',
-    3 => 'terceiro',
-    4 => 'quarto',
-    5 => 'quinto',
-    6 => 'sexto',
-    7 => 'sétimo',
-    8 => 'oitavo',
-    9 => 'nono',
-    10 => 'décimo',
-    _ => '$nº',
-  };
+  static String ordinal(int n) => S.ordinal(n);
 
   static String count(int value, String singular, String plural) =>
       '$value ${value == 1 ? singular : plural}';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../core/theme/app_palette.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -35,11 +36,8 @@ class SealedScreen extends ConsumerWidget {
       body: lacradas.isEmpty
           ? EmptyState(
               icon: Icons.lock_clock,
-              title: 'Nada lacrado ainda',
-              message:
-                  'Ao guardar uma carta ou um vídeo, você pode '
-                  'escolher uma data de abertura: os 15 anos, os 18, ou '
-                  'qualquer outra. Fica esperando aqui até lá.',
+              title: S.emptySealed,
+              message: S.sealedEmptyIntro,
             )
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(
@@ -113,7 +111,7 @@ class _SealedTile extends StatelessWidget {
   /// Quanto falta, e com que idade a criança vai abrir.
   String _espera(int dias) {
     final BabyProfile? p = profile;
-    if (p == null) return 'Faltam $dias dias';
+    if (p == null) return S.daysLeft(dias);
 
     final int anos = entry.sealedUntil!.year - p.birth.year;
     final bool jaFezAniversario =
@@ -127,9 +125,7 @@ class _SealedTile extends StatelessWidget {
       return 'Daqui a ${anosFaltando == 1 ? "1 ano" : "$anosFaltando anos"}, '
           'quando tiver $idade';
     }
-    return dias == 0
-        ? 'Abre hoje'
-        : 'Faltam ${dias == 1 ? "1 dia" : "$dias dias"}';
+    return dias == 0 ? 'Abre hoje' : S.daysLeft(dias);
   }
 }
 

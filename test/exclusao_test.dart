@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/core/l10n/account_deletion.dart';
+import 'package:meu_bebe/core/l10n/account_deletion_en.dart';
 import 'package:meu_bebe/core/l10n/pagina_web.dart';
+import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/core/l10n/privacy_policy.dart';
+import 'package:meu_bebe/core/l10n/privacy_policy_en.dart';
+import 'package:meu_bebe/core/l10n/terms_of_use_en.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/services/auth_service.dart';
 import 'package:meu_bebe/services/drive_service.dart';
@@ -31,10 +35,45 @@ void main() {
 
   group('o texto e o código dizem a mesma coisa', () {
     test('o caminho dentro do aplicativo existe como está descrito', () {
-      // A página manda tocar em Perfil e depois no botão de apagar. Se
-      // alguém renomear esse botão, a instrução vira uma caça ao tesouro.
+      // A instrução tinha um passo a menos que o aplicativo: mandava tocar
+      // em Perfil e depois direto no botão vermelho, que não está no Perfil.
+      // Entre os dois há a página de leitura, que existe justamente para
+      // ninguém apagar sem ler.
+      //
+      // Os rótulos vêm de `S`, e não copiados à mão: renomear um botão passa
+      // a derrubar este teste em vez de deixar a página mandando a pessoa
+      // procurar um controle que mudou de nome.
       expect(texto, contains('Perfil'));
-      expect(texto, contains('Apagar minha conta e meus dados'));
+      for (final String rotulo in <String>[
+        S.accountDeletionTitle,
+        S.goToDeleteAccount,
+        S.deleteAccount,
+      ]) {
+        expect(texto, contains(rotulo), reason: rotulo);
+      }
+    });
+
+    test('os passos aparecem na ordem em que a pessoa vai encontrá-los', () {
+      // Ordem errada num passo a passo é pior que passo faltando: manda
+      // procurar no lugar errado com a confiança de quem está seguindo
+      // instrução.
+      expect(
+        texto.indexOf(S.accountDeletionTitle),
+        lessThan(texto.indexOf(S.goToDeleteAccount)),
+      );
+      expect(
+        texto.indexOf(S.goToDeleteAccount),
+        lessThan(texto.indexOf(S.deleteAccount)),
+      );
+    });
+
+    test('a escolha sobre a pasta do Drive vem antes do botão', () {
+      // Ela é oferecida na tela do botão vermelho, e é irreversível junto
+      // com ele. Descobrir depois seria descobrir tarde.
+      expect(
+        texto.indexOf('Escolha o que fazer com a pasta'),
+        lessThan(texto.indexOf(S.deleteAccount)),
+      );
     });
 
     test('a pasta citada é a pasta que o aplicativo cria', () {
@@ -98,8 +137,12 @@ void main() {
     });
 
     test('promete um prazo, e ele é o do GDPR', () {
+      // O texto deixou de citar o número de dias e passou a citar a regra:
+      // sem demora indevida, em regra um mês. É o prazo do Art. 12(3), dito
+      // como a lei o diz, e a constante continua valendo como teto interno.
       expect(deletionDeadlineDays, lessThanOrEqualTo(30));
-      expect(texto, contains('$deletionDeadlineDays dias'));
+      expect(texto, contains('sem demora indevida'));
+      expect(texto, contains('prazo de um mês'));
     });
 
     test('diz o que não é apagado, e não esconde isso no fim', () {
@@ -129,8 +172,14 @@ void main() {
       // de revisão inteiro, e o revisor raramente lê português.
       final PrivacySection ingles = accountDeletionPage.last;
       expect(ingles.title, contains('English'));
-      expect(ingles.body.join(' '), contains('delete your'));
-      expect(ingles.body.join(' '), contains('irreversible'));
+      final String corpo = ingles.body.join(' ');
+      expect(corpo, contains('delete your'));
+      expect(corpo, contains('cannot be undone'));
+      // O que a loja precisa achar ali: o caminho dentro do aplicativo, o
+      // email alternativo, e o aviso da assinatura.
+      expect(corpo, contains('Profile'));
+      expect(corpo, contains(privacyEmail));
+      expect(corpo, contains('cancel the subscription'));
     });
 
     test('nenhuma seção está vazia, e nenhuma usa travessão', () {
@@ -141,6 +190,39 @@ void main() {
           expect(p, isNot(contains('—')), reason: s.title);
         }
       }
+    });
+  });
+
+  group('a assinatura', () {
+    test('avisa que apagar a conta não a cancela', () {
+      // Sem esse aviso, a cápsula some e a cobrança anual continua. É o
+      // caminho mais curto entre um aplicativo bem-intencionado e uma
+      // reclamação no Procon.
+      expect(texto, contains('apagar a conta não cancela a assinatura'));
+    });
+
+    test('ensina onde cancelar, e não só que existe', () {
+      expect(texto, contains('Pagamentos e assinaturas'));
+      expect(texto, contains('Cancelar assinatura'));
+    });
+
+    test('diz que não conseguimos cancelar por quem pede', () {
+      expect(texto, contains('não conseguimos cancelar por você'));
+    });
+
+    test('o aviso também está no texto em inglês', () {
+      // A loja lê a seção em inglês, e ela precisa dizer o mesmo.
+      final String ingles = accountDeletionPage
+          .firstWhere((PrivacySection s) => s.title.contains('English'))
+          .body
+          .join(' ');
+      expect(ingles, contains('does '));
+      expect(ingles, contains('cancel the subscription'));
+      expect(ingles, contains('Google Play'));
+    });
+
+    test('a assinatura por conta segue a conta por criança', () {
+      expect(texto, contains('assinatura Premium também é por conta'));
     });
   });
 
@@ -215,8 +297,16 @@ void main() {
       // Sem CSS remoto, sem fonte remota, sem script: uma página que
       // depende de terceiro é uma página que um dia abre em branco para o
       // revisor da loja.
+      //
+      // O que se proíbe é buscar recurso, e não toda etiqueta `<link>`: a
+      // `rel="alternate" hreflang` que aponta para a outra língua é
+      // metadado, não download, e continua valendo mesmo offline.
       expect(html, isNot(contains('<script')));
-      expect(html, isNot(contains('<link')));
+      expect(html, isNot(contains('rel="stylesheet"')));
+      expect(html, isNot(contains('<img')));
+      expect(html, isNot(contains('<iframe')));
+      expect(html, isNot(contains('@import')));
+      expect(html, isNot(contains('url(')));
       expect(html, isNot(contains('src=')));
       expect(html, contains('<style>'));
     });
@@ -246,6 +336,134 @@ void main() {
         'textSecondary': hex(p.textSecondary),
         'border': hex(p.border),
       });
+    });
+  });
+
+  group('o site em inglês', () {
+    // A Play Store pede um endereço de política que qualquer pessoa abra e
+    // leia. Quem revisa raramente lê português, e uma política ilegível para
+    // o revisor é uma exigência cumprida só no papel.
+    final Map<String, String> paginas = <String, String>{
+      'docs/en/index.html': indiceEmHtmlIngles(),
+      'docs/en/privacy.html': privacidadeEmHtmlIngles(),
+      'docs/en/terms.html': termosEmHtmlIngles(),
+      'docs/en/deletion.html': exclusaoEmHtmlIngles(),
+    };
+
+    test('as quatro páginas existem e estão em dia', () {
+      paginas.forEach((String caminho, String conteudo) {
+        final File arquivo = File(caminho);
+        expect(
+          arquivo.existsSync(),
+          isTrue,
+          reason: '$caminho: rode dart run tool/gerar_site.dart',
+        );
+        expect(
+          arquivo.readAsStringSync(),
+          conteudo,
+          reason: '$caminho mudou. Rode: dart run tool/gerar_site.dart',
+        );
+      });
+    });
+
+    test('estão marcadas como inglês, e não como português', () {
+      // O atributo `lang` é o que faz o leitor de tela pronunciar a página na
+      // língua certa. Herdar o `pt-BR` do modelo deixaria a versão inglesa
+      // sendo lida em voz alta com sotaque de outro idioma.
+      for (final String html in paginas.values) {
+        expect(html, contains('<html lang="en">'));
+        expect(html, isNot(contains('<html lang="pt-BR">')));
+      }
+
+      // A data só existe nos três documentos. A porta de entrada não tem
+      // versão, e carimbá-la com uma seria inventar uma data que não muda
+      // quando nada mudou.
+      for (final String nome in <String>['privacy', 'terms', 'deletion']) {
+        final String html = paginas['docs/en/$nome.html']!;
+        expect(html, contains('Last updated'), reason: nome);
+        expect(html, isNot(contains('Última atualização')), reason: nome);
+      }
+    });
+
+    test('o link para o português é marcado como português', () {
+      // O `lang` no próprio link é o que faz o leitor de tela pronunciar
+      // "Português" em português, no meio de uma página inglesa. Some com
+      // ele e a palavra sai lida com fonemas ingleses.
+      for (final String html in paginas.values) {
+        expect(html, contains('lang="pt-BR">Português</a>'));
+        expect(html, contains('hreflang="pt-BR"'));
+      }
+    });
+
+    test('o texto é o inglês dos documentos, e não o português', () {
+      expect(
+        paginas['docs/en/privacy.html'],
+        contains(privacyPolicyEn.first.title),
+      );
+      expect(paginas['docs/en/terms.html'], contains(termsOfUseEn.first.title));
+      expect(
+        paginas['docs/en/deletion.html'],
+        contains(accountDeletionPageEn.first.title),
+      );
+    });
+
+    test('cada página leva à gêmea, e à do mesmo assunto', () {
+      // Cair na porta de entrada da outra língua é perder o lugar onde a
+      // pessoa estava, e numa política longa isso é perder a resposta que ela
+      // tinha vindo procurar.
+      const Map<String, String> daEnParaPt = <String, String>{
+        'docs/en/index.html': '../index.html',
+        'docs/en/privacy.html': '../privacidade.html',
+        'docs/en/terms.html': '../termos.html',
+        'docs/en/deletion.html': '../exclusao.html',
+      };
+      daEnParaPt.forEach((String caminho, String destino) {
+        expect(paginas[caminho], contains('href="$destino"'), reason: caminho);
+        expect(paginas[caminho], contains('Português'), reason: caminho);
+      });
+    });
+
+    test('e as portuguesas levam de volta às inglesas', () {
+      const Map<String, String> daPtParaEn = <String, String>{
+        'en/index.html': 'indice',
+        'en/privacy.html': 'privacidade',
+        'en/terms.html': 'termos',
+        'en/deletion.html': 'exclusao',
+      };
+      final Map<String, String> portuguesas = <String, String>{
+        'en/index.html': indiceEmHtml(),
+        'en/privacy.html': privacidadeEmHtml(),
+        'en/terms.html': termosEmHtml(),
+        'en/deletion.html': exclusaoEmHtml(),
+      };
+      daPtParaEn.forEach((String destino, String qual) {
+        expect(portuguesas[destino], contains('href="$destino"'), reason: qual);
+      });
+      for (final String html in portuguesas.values) {
+        expect(html, contains('English'));
+      }
+    });
+
+    test('não buscam nada de fora, como as portuguesas', () {
+      for (final String html in paginas.values) {
+        expect(html, isNot(contains('<script')));
+        expect(html, isNot(contains('rel="stylesheet"')));
+        expect(html, isNot(contains('src=')));
+        expect(html, contains('<style>'));
+      }
+    });
+
+    test('não sobrou marcação de Markdown à vista', () {
+      for (final String html in paginas.values) {
+        expect(html, isNot(contains('**')));
+      }
+    });
+
+    test('o email e o responsável continuam iguais', () {
+      for (final String html in paginas.values) {
+        expect(html, contains('href="mailto:$privacyEmail"'));
+        expect(html, contains(privacyController));
+      }
     });
   });
 }

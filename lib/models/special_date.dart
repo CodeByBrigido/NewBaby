@@ -1,3 +1,5 @@
+import '../core/l10n/strings.dart';
+
 /// As datas do ano que valem uma memória.
 ///
 /// Metade delas se move: a Páscoa cai num domingo calculado a partir da lua
@@ -7,17 +9,28 @@
 /// data errada é pior que data nenhuma: quebra a confiança em tudo o mais
 /// que ele diz.
 enum SpecialDate {
-  anoNovo('Ano Novo'),
-  carnaval('Carnaval'),
-  pascoa('Páscoa'),
-  diaDasMaes('Dia das Mães'),
-  diaDosPais('Dia dos Pais'),
-  natal('Natal');
+  anoNovo,
+  carnaval,
+  pascoa,
+  diaDasMaes,
+  diaDosPais,
+  natal;
 
-  const SpecialDate(this.label);
+  const SpecialDate();
 
   /// Como aparece na tela, já no formato de "primeiro Natal".
-  final String label;
+  /// O nome da data, na língua ativa.
+  ///
+  /// Era um valor fixo no próprio enum, o que congelava o português. Como
+  /// getter, ele acompanha a escolha de idioma.
+  String get label => switch (this) {
+    SpecialDate.anoNovo => S.holidayNewYear,
+    SpecialDate.carnaval => S.holidayCarnival,
+    SpecialDate.pascoa => S.holidayEaster,
+    SpecialDate.diaDasMaes => S.holidayMothers,
+    SpecialDate.diaDosPais => S.holidayFathers,
+    SpecialDate.natal => S.holidayChristmas,
+  };
 
   /// Quando esta data cai em [year].
   DateTime inYear(int year) => switch (this) {

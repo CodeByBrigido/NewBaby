@@ -14,7 +14,7 @@ import '../common/drive_image.dart';
 import '../common/widgets.dart';
 import '../moments/moments_screen.dart';
 import '../timeline/upload_banner.dart';
-import 'carrossel_de_inspiracao.dart';
+import 'atalho_de_inspiracao.dart';
 import 'faz_um_tempo.dart';
 import 'painel_do_bebe.dart';
 import 'proximo_marco.dart';
@@ -51,7 +51,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.appName),
+        title: Text(S.appName),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () =>
@@ -93,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
           // No lugar da grade do Acervo, que era um terceiro caminho para as
           // mesmas pastas que o menu lateral já lista e a linha do tempo já
           // percorre melhor.
-          const CarrosselDeInspiracao(),
+          const AtalhoDeInspiracao(),
           const SizedBox(height: Space.x24),
           FazUmTempo(pulse: pulse),
           const SizedBox(height: Space.x16),

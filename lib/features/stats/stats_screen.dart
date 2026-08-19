@@ -32,7 +32,7 @@ class StatsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(S.stats),
+        title: Text(S.stats),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -79,7 +79,7 @@ class StatsScreen extends ConsumerWidget {
                     const SizedBox(width: Space.x12),
                     Expanded(
                       child: Text(
-                        'Não foi possível ler o espaço do Google Drive.',
+                        S.driveSpaceFailed,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
@@ -90,7 +90,7 @@ class StatsScreen extends ConsumerWidget {
                   _StorageCard(quota: data, capsuleBytes: stats.totalBytes),
             ),
             const SizedBox(height: Space.x16),
-            const InfoNote(
+            InfoNote(
               message: S.allFilesOptimizedNote,
               icon: Icons.cloud_done_outlined,
             ),
