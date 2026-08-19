@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meu_bebe/core/l10n/nomes_de_pasta.dart';
 import 'package:meu_bebe/core/l10n/strings.dart';
@@ -63,6 +65,121 @@ void main() {
           nomes: NomesDePasta.pt,
         ),
         <String>['Cartas', 'Ano 0', 'Mês 07'],
+      );
+    });
+  });
+
+  group('os dois cenários, letra por letra', () {
+    // Cada um percorre a vida inteira da cápsula: criar, guardar coisa nova
+    // meses depois, e trocar o idioma no meio.
+    void cenario({
+      required String criouEm,
+      required Textos lendoDepoisEm,
+      required List<String> esperado,
+    }) {
+      final BabyProfile perfil = BabyProfile(
+        name: 'Bebê',
+        birth: DateTime(2026, 11, 2),
+        idiomaDasPastas: criouEm,
+      );
+
+      // Meses depois, com a interface noutra língua.
+      definirTextos(lendoDepoisEm);
+
+      expect(
+        MemoryRepository.caminhoDaPasta(
+          birth: perfil.birth,
+          type: EntryType.photo,
+          quando: DateTime(2027, 6, 10),
+          nomes: MemoryRepository.nomesDe(perfil),
+        ),
+        esperado,
+      );
+    }
+
+    test('Alberto criou em português e trocou para inglês', () {
+      // A pasta continua sendo lida em português, porque foi assim que
+      // nasceu. A interface dele está em inglês, e isso não muda nada aqui.
+      cenario(
+        criouEm: 'pt',
+        lendoDepoisEm: textosEn,
+        esperado: <String>['Fotos', 'Ano 0', 'Mês 07'],
+      );
+    });
+
+    test('Glen criou em inglês e trocou para português', () {
+      // O espelho do anterior, e o que estava quebrado: a pasta de topo
+      // nascia em inglês no cadastro, mas a primeira foto ia para uma
+      // `Fotos` nova, criada em português ao lado da `Photos`.
+      cenario(
+        criouEm: 'en',
+        lendoDepoisEm: textosPt,
+        esperado: <String>['Photos', 'Year 0', 'Month 07'],
+      );
+    });
+
+    test('e trocar de idioma quantas vezes for não move a pasta', () {
+      final BabyProfile perfil = BabyProfile(
+        name: 'Bebê',
+        birth: DateTime(2026, 11, 2),
+        idiomaDasPastas: 'en',
+      );
+
+      // Guardados como texto: um `Set` de listas compara por identidade, e
+      // quatro listas iguais mas distintas passariam por quatro respostas
+      // diferentes.
+      final List<String> caminhos = <String>[];
+      for (final Textos lingua in <Textos>[
+        textosPt,
+        textosEn,
+        textosPt,
+        textosEn,
+      ]) {
+        definirTextos(lingua);
+        caminhos.add(
+          MemoryRepository.caminhoDaPasta(
+            birth: perfil.birth,
+            type: EntryType.letter,
+            quando: DateTime(2028, 3, 5),
+            nomes: MemoryRepository.nomesDe(perfil),
+          ).join('/'),
+        );
+      }
+
+      expect(caminhos.toSet(), hasLength(1));
+      expect(caminhos.first, 'Letters/Year 1/Month 04');
+    });
+
+    test('a convenção sai do perfil, e o perfil não muda sozinho', () {
+      // É o que garante que "todas as chamadas são baseadas na criação":
+      // nomesDe lê o perfil, e nada na troca de idioma escreve nele.
+      final BabyProfile perfil = BabyProfile(
+        name: 'Bebê',
+        birth: DateTime(2026, 11, 2),
+        idiomaDasPastas: 'en',
+      );
+
+      definirTextos(textosPt);
+      expect(MemoryRepository.nomesDe(perfil).codigo, 'en');
+      definirTextos(textosEn);
+      expect(MemoryRepository.nomesDe(perfil).codigo, 'en');
+    });
+
+    test('cápsula antiga, sem o campo, é lida como portuguesa', () {
+      final BabyProfile perfil = BabyProfile(
+        name: 'Bebê',
+        birth: DateTime(2026, 11, 2),
+      );
+      definirTextos(textosEn);
+      expect(MemoryRepository.nomesDe(perfil).codigo, 'pt');
+      expect(
+        MemoryRepository.caminhoDaPasta(
+          birth: perfil.birth,
+          type: EntryType.photo,
+          quando: DateTime(2027, 6, 10),
+          nomes: MemoryRepository.nomesDe(perfil),
+        ),
+        <String>['Fotos', 'Ano 0', 'Mês 07'],
       );
     });
   });
@@ -141,6 +258,44 @@ void main() {
         ).toMap(),
       );
       expect(p.idiomaDasPastas, 'en');
+    });
+  });
+
+  group('nenhum caminho é construído sem a convenção', () {
+    test('toda chamada de caminhoDaPasta passa nomes', () {
+      // Este é o teste que teria pegado o defeito de verdade. O parâmetro
+      // `nomes` tem valor padrão, e o padrão é o português: qualquer chamada
+      // que o esqueça compila, roda, e cria pastas portuguesas dentro de uma
+      // cápsula inglesa, ao lado das certas.
+      //
+      // A varredura é do texto, e não de tipo, porque o compilador não tem
+      // como cobrar um parâmetro que tem padrão.
+      for (final String caminho in <String>[
+        'lib/services/memory_repository.dart',
+        'lib/features/shell/add_sheet.dart',
+      ]) {
+        final String fonte = File(caminho).readAsStringSync();
+        int de = 0;
+        while (true) {
+          final int i = fonte.indexOf('caminhoDaPasta(', de);
+          if (i < 0) break;
+          de = i + 1;
+          // A declaração não é chamada.
+          if (fonte.startsWith('static List<String> caminhoDaPasta(', i - 20)) {
+            continue;
+          }
+          final int fecha = fonte.indexOf(');', i);
+          final String chamada = fonte.substring(i, fecha);
+          expect(
+            chamada,
+            contains('nomes:'),
+            reason:
+                'Chamada sem `nomes:` em $caminho, perto do caractere $i. '
+                'Sem ele o caminho sai em português dentro de uma cápsula '
+                'que pode ter nascido em outra língua.',
+          );
+        }
+      }
     });
   });
 

@@ -228,6 +228,10 @@ String ondeNoDrive(BabyProfile profile, EntryType type, DateTime quando) =>
       birth: profile.birth,
       type: type,
       quando: quando,
+      // A convenção da cápsula, e não a da interface: esta frase manda a
+      // pessoa procurar uma pasta no Drive, e a pasta tem o nome com que
+      // nasceu.
+      nomes: MemoryRepository.nomesDe(profile),
     ).join(' / ');
 
 /// O que a tela diz sobre a origem da data, antes de a pessoa confirmar.

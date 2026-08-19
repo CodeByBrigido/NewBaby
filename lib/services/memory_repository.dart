@@ -533,6 +533,14 @@ class MemoryRepository {
   ///
   /// Documento e crescimento ficam direto na pasta da categoria: uma
   /// certidão não pertence a uma idade, ela vale a vida inteira.
+  /// A convenção de nomes desta cápsula.
+  ///
+  /// **Sempre a da criação, nunca a da interface.** Uma cápsula criada em
+  /// português continua em português mesmo com o aplicativo em inglês, e
+  /// vice-versa: as pastas já existem e não se renomeiam.
+  static NomesDePasta nomesDe(BabyProfile profile) =>
+      NomesDePasta.de(profile.idiomaDasPastas);
+
   static List<String> caminhoDaPasta({
     required DateTime birth,
     required EntryType type,
@@ -579,14 +587,20 @@ class MemoryRepository {
     required EntryType type,
     required DateTime quando,
   }) async {
+    final NomesDePasta nomes = nomesDe(profile);
+
     final String rootId =
         profile.rootFolderId ??
-        await drive.ensureRootStructure(knownRootId: profile.rootFolderId);
+        await drive.ensureRootStructure(
+          knownRootId: profile.rootFolderId,
+          nomes: nomes,
+        );
 
     final List<String> caminho = caminhoDaPasta(
       birth: profile.birth,
       type: type,
       quando: quando,
+      nomes: nomes,
     );
 
     final String? cached = await firestore.folderId(uid, caminho.join('/'));
@@ -921,6 +935,7 @@ class MemoryRepository {
       birth: profile.birth,
       type: entry.type,
       quando: entry.date,
+      nomes: nomesDe(profile),
     );
 
     for (int n = caminho.length; n > 1; n--) {
