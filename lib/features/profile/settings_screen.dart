@@ -234,8 +234,11 @@ class _RemindersTile extends ConsumerWidget {
                 const SizedBox(height: Space.x4),
                 Text(
                   ajuste.enabled
-                      ? '${ajuste.kinds.length} de ${ReminderKind.values.length} '
-                            'tipos, às ${ajuste.safeHour}h'
+                      ? S.remindersSummaryFull(
+                          ajuste.kinds.length,
+                          ReminderKind.values.length,
+                          ajuste.safeHour,
+                        )
                       : S.remindersOff,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: context.cores.textSecondary,

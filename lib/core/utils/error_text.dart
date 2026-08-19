@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:googleapis/drive/v3.dart' show DetailedApiRequestError;
 
+import '../l10n/strings.dart';
 import '../../services/auth_service.dart';
 import '../../services/media_optimizer.dart';
 
@@ -24,10 +25,9 @@ String userMessage(Object error, {String? context}) {
     AuthFailure(:final String message) => message,
     MediaOptimizationException(:final String message) => message,
 
-    SocketException() ||
-    HttpException() => 'Sem conexão com a internet. Tente de novo.',
+    SocketException() || HttpException() => S.errNoConnection,
 
-    FileSystemException() => 'Não foi possível ler o arquivo no aparelho.',
+    FileSystemException() => S.errFileRead,
 
     DetailedApiRequestError() => _drive(error),
 
@@ -41,26 +41,19 @@ String userMessage(Object error, {String? context}) {
       // aplicativo o único sintoma que apontaria para as regras. A frase
       // cobre as duas, e a segunda metade tira o peso das costas de quem
       // está tentando cadastrar um filho.
-      'permission-denied' =>
-        'O servidor recusou a gravação. Saia da conta e entre de novo; se '
-            'continuar, é uma configuração do aplicativo, e não sua.',
-      'unauthenticated' => 'Sua sessão expirou. Entre de novo para continuar.',
+      'permission-denied' => S.errPermissionDenied,
+      'unauthenticated' => S.errSessionExpired,
       // Falta um índice no Firestore. Nada foi perdido: as memórias estão
       // gravadas, é a consulta que ordena a lista que não consegue rodar.
       // Dizer isso importa, porque a tela fica vazia e vazia parece
       // "sumiu tudo".
-      'failed-precondition' =>
-        'As suas memórias estão salvas, mas o servidor ainda não consegue '
-            'organizá-las para mostrar aqui. É uma configuração do '
-            'aplicativo, e não sua.',
-      'unavailable' || 'deadline-exceeded' =>
-        'O servidor não respondeu. Tente de novo em instantes.',
-      'requires-recent-login' =>
-        'Por segurança, entre de novo antes de continuar.',
-      _ => 'Não foi possível concluir. Tente de novo.',
+      'failed-precondition' => S.errMissingIndex,
+      'unavailable' || 'deadline-exceeded' => S.errServerQuiet,
+      'requires-recent-login' => S.errRecentLogin,
+      _ => S.errGeneric,
     },
 
-    _ => 'Não foi possível concluir. Tente de novo.',
+    _ => S.errGeneric,
   };
 }
 
@@ -82,34 +75,21 @@ String _drive(DetailedApiRequestError error) {
   // `status` é anulável na biblioteca, e um erro sem código HTTP não é
   // nenhum dos casos abaixo: cai no genérico do Drive.
   return switch (error.status ?? 0) {
-    401 =>
-      'O acesso ao Google Drive expirou. Saia da conta e entre de novo '
-          'para renovar a permissão.',
+    401 => S.errDriveExpired,
 
     // O 403 é o que mais aparece, e são causas bem diferentes uma da outra.
     403
         when diz('has not been used in project') ||
             diz('accessnotconfigured') =>
-      'O Google Drive ainda não está liberado para este aplicativo. É uma '
-          'configuração nossa, não sua: nada do que você preencheu se perdeu.',
-    403 when diz('storagequotaexceeded') =>
-      'O seu Google Drive está sem espaço. Libere espaço na conta e tente '
-          'de novo.',
-    403 when diz('ratelimit') || diz('userratelimit') =>
-      'O Google Drive pediu para esperar um pouco. Tente de novo em '
-          'instantes.',
-    403 =>
-      'O Google Drive recusou o acesso. Saia da conta e entre de novo para '
-          'autorizar a pasta da cápsula.',
+      S.errDriveNotEnabled,
+    403 when diz('storagequotaexceeded') => S.errDriveFull,
+    403 when diz('ratelimit') || diz('userratelimit') => S.errDriveRateLimit,
+    403 => S.errDriveForbidden,
 
-    404 => 'A pasta da cápsula não foi encontrada no seu Google Drive.',
-    429 =>
-      'O Google Drive pediu para esperar um pouco. Tente de novo em '
-          'instantes.',
-    >= 500 =>
-      'O Google Drive não respondeu. Tente de novo em instantes; nada do que '
-          'você preencheu se perdeu.',
+    404 => S.errDriveFolderMissing,
+    429 => S.errDriveRateLimit,
+    >= 500 => S.errDriveQuiet,
 
-    _ => 'Não foi possível falar com o Google Drive. Tente de novo.',
+    _ => S.errDriveGeneric,
   };
 }

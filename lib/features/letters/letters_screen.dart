@@ -53,7 +53,7 @@ class LettersScreen extends ConsumerWidget {
       body: letters.isEmpty
           ? EmptyState(
               icon: Icons.mail_outline,
-              title: 'Nenhuma carta ainda',
+              title: S.emptyLetters,
               message: Copy.of(profile).lettersEmptyBody,
             )
           : ListView.separated(

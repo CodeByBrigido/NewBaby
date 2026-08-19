@@ -31,7 +31,7 @@ class MomentsScreen extends ConsumerWidget {
       body: ativas.isEmpty
           ? EmptyState(
               icon: Icons.auto_awesome_outlined,
-              title: 'Nada pendente por aqui',
+              title: S.emptyMoments,
               message: profile == null
                   ? S.suggestionsByAge
                   : S.suggestionsGrowNote(copy.theName),
@@ -128,7 +128,7 @@ class SuggestionCard extends ConsumerWidget {
                             ? S.isToday
                             : dias == 1
                             ? 'Falta 1 dia'
-                            : 'Faltam $dias dias',
+                            : S.daysLeft(dias),
                         style: text.labelMedium?.copyWith(
                           color: context.cores.primaryDark,
                         ),

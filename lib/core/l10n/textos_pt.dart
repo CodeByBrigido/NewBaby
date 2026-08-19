@@ -1050,4 +1050,149 @@ class TextosPt implements Textos {
 
   @override
   String comArtigo(String plural) => 'os $plural';
+
+  @override
+  String get errNoConnection => 'Sem conexão com a internet. Tente de novo.';
+
+  @override
+  String get errFileRead => 'Não foi possível ler o arquivo no aparelho.';
+
+  @override
+  String get errPermissionDenied =>
+      'O servidor recusou a gravação. Saia da conta e entre de novo; se continuar, é uma configuração do aplicativo, e não sua.';
+
+  @override
+  String get errSessionExpired =>
+      'Sua sessão expirou. Entre de novo para continuar.';
+
+  @override
+  String get errMissingIndex =>
+      'As suas memórias estão salvas, mas o servidor ainda não consegue organizá-las para mostrar aqui. É uma configuração do aplicativo, e não sua.';
+
+  @override
+  String get errServerQuiet =>
+      'O servidor não respondeu. Tente de novo em instantes.';
+
+  @override
+  String get errRecentLogin =>
+      'Por segurança, entre de novo antes de continuar.';
+
+  @override
+  String get errGeneric => 'Não foi possível concluir. Tente de novo.';
+
+  @override
+  String get errDriveExpired =>
+      'O acesso ao Google Drive expirou. Saia da conta e entre de novo para renovar a permissão.';
+
+  @override
+  String get errDriveNotEnabled =>
+      'O Google Drive ainda não está liberado para este aplicativo. É uma configuração nossa, não sua: nada do que você preencheu se perdeu.';
+
+  @override
+  String get errDriveFull =>
+      'O seu Google Drive está sem espaço. Libere espaço na conta e tente de novo.';
+
+  @override
+  String get errDriveRateLimit =>
+      'O Google Drive pediu para esperar um pouco. Tente de novo em instantes.';
+
+  @override
+  String get errDriveForbidden =>
+      'O Google Drive recusou o acesso. Saia da conta e entre de novo para autorizar a pasta da cápsula.';
+
+  @override
+  String get errDriveFolderMissing =>
+      'A pasta da cápsula não foi encontrada no seu Google Drive.';
+
+  @override
+  String get errDriveQuiet =>
+      'O Google Drive não respondeu. Tente de novo em instantes; nada do que você preencheu se perdeu.';
+
+  @override
+  String get errDriveGeneric =>
+      'Não foi possível falar com o Google Drive. Tente de novo.';
+
+  @override
+  String get authSlow =>
+      'O login com Google está demorando para responder. Confira a conexão e tente de novo.';
+
+  @override
+  String get authUnsupported =>
+      'Este dispositivo não oferece o login com Google.';
+
+  @override
+  String get authNoIdentifier =>
+      'Não recebemos o identificador da conta. Confira a configuração do login com Google e tente de novo.';
+
+  @override
+  String get authOtherAccount =>
+      'A permissão guardada é de outra conta do Google. Entre de novo para continuar guardando nesta cápsula.';
+
+  @override
+  String get authRenewDrive =>
+      'Precisamos renovar a permissão do Google Drive.';
+
+  @override
+  String get authSignInToContinue => 'Entre com a conta Google para continuar.';
+
+  @override
+  String get authDriveRefused =>
+      'Você não autorizou o acesso ao Google Drive. É lá que as memórias ficam guardadas, na sua própria conta.';
+
+  @override
+  String get authReloginToDelete =>
+      'Para apagar a conta, entre de novo e repita a operação.';
+
+  @override
+  String get authScreenFailed =>
+      'Não foi possível abrir a tela do Google. Tente de novo.';
+
+  @override
+  String get authConfigIncomplete =>
+      'A configuração do login com Google está incompleta.';
+
+  @override
+  String get authServicesUnavailable =>
+      'Serviços do Google indisponíveis neste dispositivo.';
+
+  @override
+  String get authWrongAccount =>
+      'A conta escolhida é diferente da conta em uso.';
+
+  @override
+  String get emptyDocuments => 'Nenhum documento ainda';
+
+  @override
+  String get emptyDrawings => 'Nenhum desenho ainda';
+
+  @override
+  String get emptyLetters => 'Nenhuma carta ainda';
+
+  @override
+  String get emptyPhotos => 'Nenhuma foto ainda';
+
+  @override
+  String get emptySealed => 'Nada lacrado ainda';
+
+  @override
+  String get emptyMoments => 'Nada pendente por aqui';
+
+  @override
+  String get emptyInspirations => 'Nada por aqui agora';
+
+  @override
+  String get emptySearchTopic => 'Nada sobre isso ainda';
+
+  @override
+  String get firstPhotosHint => 'Toque no + para adicionar as primeiras fotos.';
+
+  @override
+  String daysLeft(int dias) => dias == 1 ? 'Falta 1 dia' : 'Faltam $dias dias';
+
+  @override
+  String daysLeftWithDate(int dias, String data) => 'Faltam $dias dias, $data';
+
+  @override
+  String remindersSummaryFull(int marcados, int total, int hora) =>
+      '$marcados de $total tipos, às ${hora}h';
 }

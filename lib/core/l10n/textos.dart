@@ -707,4 +707,89 @@ abstract interface class Textos {
   /// dispensa. Sem isto, tirar o artigo para o inglês funcionar deixava o
   /// português dizendo "junto com desenhos, documentos".
   String comArtigo(String plural);
+
+  // ------------------------------------------------------- erros
+  //
+  // Texto que a pessoa lê num momento ruim. Um erro na língua errada é
+  // um erro que ela não consegue nem contar para pedir ajuda.
+
+  String get errNoConnection;
+
+  String get errFileRead;
+
+  String get errPermissionDenied;
+
+  String get errSessionExpired;
+
+  String get errMissingIndex;
+
+  String get errServerQuiet;
+
+  String get errRecentLogin;
+
+  String get errGeneric;
+
+  String get errDriveExpired;
+
+  String get errDriveNotEnabled;
+
+  String get errDriveFull;
+
+  String get errDriveRateLimit;
+
+  String get errDriveForbidden;
+
+  String get errDriveFolderMissing;
+
+  String get errDriveQuiet;
+
+  String get errDriveGeneric;
+
+  String get authSlow;
+
+  String get authUnsupported;
+
+  String get authNoIdentifier;
+
+  String get authOtherAccount;
+
+  String get authRenewDrive;
+
+  String get authSignInToContinue;
+
+  String get authDriveRefused;
+
+  String get authReloginToDelete;
+
+  String get authScreenFailed;
+
+  String get authConfigIncomplete;
+
+  String get authServicesUnavailable;
+
+  String get authWrongAccount;
+
+  String get emptyDocuments;
+
+  String get emptyDrawings;
+
+  String get emptyLetters;
+
+  String get emptyPhotos;
+
+  String get emptySealed;
+
+  String get emptyMoments;
+
+  String get emptyInspirations;
+
+  String get emptySearchTopic;
+
+  String get firstPhotosHint;
+
+  String daysLeft(int dias);
+
+  String daysLeftWithDate(int dias, String data);
+
+  String remindersSummaryFull(int marcados, int total, int hora);
 }

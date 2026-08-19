@@ -156,7 +156,7 @@ class _Countdown extends StatelessWidget {
                   ? S.todayWithDate(Fmt.dayMonth(data))
                   : dias == 1
                   ? S.tomorrowWithDate(Fmt.dayMonth(data))
-                  : 'Faltam $dias dias, ${Fmt.dayMonth(data)}',
+                  : S.daysLeftWithDate(dias, Fmt.dayMonth(data)),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: context.cores.primaryDark,
               ),

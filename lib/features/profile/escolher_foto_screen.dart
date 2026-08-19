@@ -89,7 +89,7 @@ class _EscolherFotoScreenState extends ConsumerState<EscolherFotoScreen> {
           : fotos.isEmpty
           ? EmptyState(
               icon: Icons.photo_camera_outlined,
-              title: 'Nenhuma foto ainda',
+              title: S.emptyPhotos,
               message: S.profilePhotoEmptyOf(Copy.of(profile).ofName),
             )
           : GridView.builder(

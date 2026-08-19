@@ -1057,4 +1057,144 @@ class TextosEn implements Textos {
 
   @override
   String comArtigo(String plural) => plural;
+
+  @override
+  String get errNoConnection => 'No internet connection. Try again.';
+
+  @override
+  String get errFileRead => 'Could not read the file on this device.';
+
+  @override
+  String get errPermissionDenied =>
+      'The server refused the write. Sign out and back in; if it keeps happening, it is a setting in the app, not yours.';
+
+  @override
+  String get errSessionExpired =>
+      'Your session has expired. Sign in again to continue.';
+
+  @override
+  String get errMissingIndex =>
+      'Your memories are saved, but the server cannot organise them for display yet. It is a setting in the app, not yours.';
+
+  @override
+  String get errServerQuiet =>
+      'The server did not answer. Try again in a moment.';
+
+  @override
+  String get errRecentLogin => 'For security, sign in again before continuing.';
+
+  @override
+  String get errGeneric => 'Could not finish. Try again.';
+
+  @override
+  String get errDriveExpired =>
+      'Access to Google Drive has expired. Sign out and back in to renew the permission.';
+
+  @override
+  String get errDriveNotEnabled =>
+      'Google Drive is not enabled for this app yet. That is a setting on our side, not yours: nothing you filled in was lost.';
+
+  @override
+  String get errDriveFull =>
+      'Your Google Drive is out of space. Free some space on the account and try again.';
+
+  @override
+  String get errDriveRateLimit =>
+      'Google Drive asked us to wait a moment. Try again shortly.';
+
+  @override
+  String get errDriveForbidden =>
+      'Google Drive refused access. Sign out and back in to authorise the capsule folder.';
+
+  @override
+  String get errDriveFolderMissing =>
+      'The capsule folder was not found in your Google Drive.';
+
+  @override
+  String get errDriveQuiet =>
+      'Google Drive did not answer. Try again shortly; nothing you filled in was lost.';
+
+  @override
+  String get errDriveGeneric => 'Could not reach Google Drive. Try again.';
+
+  @override
+  String get authSlow =>
+      'Google sign-in is taking too long to answer. Check your connection and try again.';
+
+  @override
+  String get authUnsupported => 'This device does not support Google sign-in.';
+
+  @override
+  String get authNoIdentifier =>
+      'We did not receive the account identifier. Check the Google sign-in setup and try again.';
+
+  @override
+  String get authOtherAccount =>
+      'The stored permission belongs to a different Google account. Sign in again to keep saving into this capsule.';
+
+  @override
+  String get authRenewDrive => 'We need to renew the Google Drive permission.';
+
+  @override
+  String get authSignInToContinue =>
+      'Sign in with your Google account to continue.';
+
+  @override
+  String get authDriveRefused =>
+      'You did not authorise access to Google Drive. That is where the memories are kept, in your own account.';
+
+  @override
+  String get authReloginToDelete =>
+      'To delete the account, sign in again and repeat the operation.';
+
+  @override
+  String get authScreenFailed => 'Could not open the Google screen. Try again.';
+
+  @override
+  String get authConfigIncomplete => 'The Google sign-in setup is incomplete.';
+
+  @override
+  String get authServicesUnavailable =>
+      'Google services are unavailable on this device.';
+
+  @override
+  String get authWrongAccount =>
+      'The account you picked is different from the one in use.';
+
+  @override
+  String get emptyDocuments => 'No documents yet';
+
+  @override
+  String get emptyDrawings => 'No drawings yet';
+
+  @override
+  String get emptyLetters => 'No letters yet';
+
+  @override
+  String get emptyPhotos => 'No photos yet';
+
+  @override
+  String get emptySealed => 'Nothing sealed yet';
+
+  @override
+  String get emptyMoments => 'Nothing pending here';
+
+  @override
+  String get emptyInspirations => 'Nothing here right now';
+
+  @override
+  String get emptySearchTopic => 'Nothing on that yet';
+
+  @override
+  String get firstPhotosHint => 'Tap + to add the first photos.';
+
+  @override
+  String daysLeft(int dias) => dias == 1 ? '1 day to go' : '$dias days to go';
+
+  @override
+  String daysLeftWithDate(int dias, String data) => '$dias days to go, $data';
+
+  @override
+  String remindersSummaryFull(int marcados, int total, int hora) =>
+      '$marcados of $total types, at $hora:00';
 }

@@ -36,7 +36,7 @@ class SealedScreen extends ConsumerWidget {
       body: lacradas.isEmpty
           ? EmptyState(
               icon: Icons.lock_clock,
-              title: 'Nada lacrado ainda',
+              title: S.emptySealed,
               message: S.sealedEmptyIntro,
             )
           : ListView.separated(
@@ -111,7 +111,7 @@ class _SealedTile extends StatelessWidget {
   /// Quanto falta, e com que idade a criança vai abrir.
   String _espera(int dias) {
     final BabyProfile? p = profile;
-    if (p == null) return 'Faltam $dias dias';
+    if (p == null) return S.daysLeft(dias);
 
     final int anos = entry.sealedUntil!.year - p.birth.year;
     final bool jaFezAniversario =
@@ -125,9 +125,7 @@ class _SealedTile extends StatelessWidget {
       return 'Daqui a ${anosFaltando == 1 ? "1 ano" : "$anosFaltando anos"}, '
           'quando tiver $idade';
     }
-    return dias == 0
-        ? 'Abre hoje'
-        : 'Faltam ${dias == 1 ? "1 dia" : "$dias dias"}';
+    return dias == 0 ? 'Abre hoje' : S.daysLeft(dias);
   }
 }
 

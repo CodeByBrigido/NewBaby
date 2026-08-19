@@ -94,9 +94,9 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
         data: (List<ActiveInspiration> itens) {
           _anotarVisita(itens);
           if (itens.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.lightbulb_outline,
-              title: 'Nada por aqui agora',
+              title: S.emptyInspirations,
               message: 'As ideias mudam conforme a idade. Volte em breve.',
             );
           }
@@ -204,7 +204,7 @@ class _Card extends StatelessWidget {
                       ? S.isToday
                       : dias == 1
                       ? S.tomorrow
-                      : 'Faltam $dias dias',
+                      : S.daysLeft(dias),
                   style: text.labelMedium?.copyWith(
                     color: context.cores.primaryDark,
                   ),

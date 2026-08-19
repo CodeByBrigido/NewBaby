@@ -1,3 +1,4 @@
+import '../core/l10n/strings.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -171,18 +172,13 @@ class AuthService {
       try {
         await initialize(clientId: _clientId, serverClientId: _serverClientId);
       } on TimeoutException {
-        throw const AuthFailure(
-          'O login com Google está demorando para responder. '
-          'Confira a conexão e tente de novo.',
-        );
+        throw AuthFailure(S.authSlow);
       } on GoogleSignInException catch (e) {
         throw AuthFailure(_messageFor(e));
       }
     }
     if (!_googleSignIn.supportsAuthenticate()) {
-      throw const AuthFailure(
-        'Este dispositivo não oferece o login com Google.',
-      );
+      throw AuthFailure(S.authUnsupported);
     }
 
     late final GoogleSignInAccount account;
@@ -199,10 +195,7 @@ class AuthService {
 
     final String? idToken = account.authentication.idToken;
     if (idToken == null) {
-      throw const AuthFailure(
-        'Não recebemos o identificador da conta. Confira a configuração '
-        'do OAuth (serverClientId) e tente de novo.',
-      );
+      throw AuthFailure(S.authNoIdentifier);
     }
 
     await _firebaseAuth.signInWithCredential(
@@ -269,11 +262,7 @@ class AuthService {
       // próximo pedido passar pelo caminho interativo, na conta certa.
       _account = null;
       _donoConferido = null;
-      throw const AuthFailure(
-        'A permissão guardada é de outra conta do Google. Entre de novo '
-        'para continuar guardando nesta cápsula.',
-        needsPermission: true,
-      );
+      throw AuthFailure(S.authOtherAccount, needsPermission: true);
     }
     _donoConferido = esperado;
   }
@@ -350,16 +339,13 @@ class AuthService {
       // 3. Não há consentimento guardado. Agora a interface é inevitável, e
       //    só quem chamou sabe se é hora de mostrá-la.
       if (!interactive) {
-        throw const AuthFailure(
-          'Precisamos renovar a permissão do Google Drive.',
-          needsPermission: true,
-        );
+        throw AuthFailure(S.authRenewDrive, needsPermission: true);
       }
 
       final GoogleSignInAccount? recuperada =
           _account ?? await _restoreAccount();
       if (recuperada == null) {
-        throw const AuthFailure('Entre com a conta Google para continuar.');
+        throw AuthFailure(S.authSignInToContinue);
       }
       return await recuperada.authorizationClient.authorizeScopes(driveScopes);
     } on GoogleSignInException catch (e) {
@@ -369,9 +355,7 @@ class AuthService {
           // Aqui a conta já foi escolhida; o que foi recusado é a permissão
           // do Drive. Dizer "Login cancelado." mandaria a pessoa refazer a
           // parte que já tinha dado certo.
-          canceled:
-              'Você não autorizou o acesso ao Google Drive. É lá que as '
-              'memórias ficam guardadas, na sua própria conta.',
+          canceled: S.authDriveRefused,
         ),
         needsPermission: true,
       );
@@ -416,9 +400,7 @@ class AuthService {
 
       final String? idToken = await _reauthenticationToken();
       if (idToken == null) {
-        throw const AuthFailure(
-          'Para apagar a conta, entre de novo e repita a operação.',
-        );
+        throw AuthFailure(S.authReloginToDelete);
       }
       await user.reauthenticateWithCredential(
         GoogleAuthProvider.credential(idToken: idToken),
@@ -448,15 +430,12 @@ class AuthService {
   }) => switch (e.code) {
     GoogleSignInExceptionCode.canceled => canceled,
     GoogleSignInExceptionCode.interrupted ||
-    GoogleSignInExceptionCode.uiUnavailable =>
-      'Não foi possível abrir a tela do Google. Tente de novo.',
+    GoogleSignInExceptionCode.uiUnavailable => S.authScreenFailed,
     GoogleSignInExceptionCode.clientConfigurationError =>
-      'A configuração do login com Google está incompleta. '
-          'Confira o SETUP.md do projeto.',
+      S.authConfigIncomplete,
     GoogleSignInExceptionCode.providerConfigurationError =>
-      'Serviços do Google indisponíveis neste dispositivo.',
-    GoogleSignInExceptionCode.userMismatch =>
-      'A conta escolhida é diferente da conta em uso.',
+      S.authServicesUnavailable,
+    GoogleSignInExceptionCode.userMismatch => S.authWrongAccount,
     _ => 'Algo deu errado no login.',
   };
 }

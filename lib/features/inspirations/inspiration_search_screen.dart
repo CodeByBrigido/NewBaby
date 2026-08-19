@@ -83,7 +83,7 @@ class _InspirationSearchScreenState
           : achadas.isEmpty
           ? EmptyState(
               icon: Icons.search_off,
-              title: 'Nada sobre isso ainda',
+              title: S.emptySearchTopic,
               message: S.searchNoResults(_termo.text.trim()),
             )
           : ListView.separated(

@@ -52,7 +52,7 @@ class DocumentsScreen extends ConsumerWidget {
       body: documents.isEmpty
           ? EmptyState(
               icon: Icons.description_outlined,
-              title: 'Nenhum documento ainda',
+              title: S.emptyDocuments,
               message: S.documentsEmptyBody,
             )
           // Arrastável, porque documento não tem ordem natural.
