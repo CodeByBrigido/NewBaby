@@ -137,68 +137,99 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 }
 
-/// As línguas, uma abaixo da outra.
+/// A escolha de idioma, num menu suspenso.
 ///
-/// Escolha visível em vez de uma linha que abre outra tela: mesmo com seis
-/// opções, é uma lista curta, e esconder uma lista curta atrás de um toque é
-/// um toque a mais para nada.
+/// As seis línguas ficavam abertas, uma abaixo da outra. Custavam meia tela
+/// de Configurações para uma escolha que se faz uma vez e quase nunca se
+/// muda, e empurravam lembretes, trava e armazenamento para fora da primeira
+/// dobra. O menu deixa à vista só a língua que está valendo.
+///
+/// Quem abre o menu é o **cartão inteiro**, com `showMenu`, e não um
+/// `PopupMenuButton` envolvendo o cartão. A diferença aparece no toque: o
+/// `PopupMenuButton` põe o próprio `InkWell` por fora, e o respingo dele
+/// nasce atrás do cartão, que o cobre. Abrindo daqui, o cartão acende
+/// sozinho, e o menu nasce com a largura dele, alinhado às duas bordas,
+/// como um campo de formulário.
 class _IdiomaTile extends ConsumerWidget {
   const _IdiomaTile();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Idioma atual = ref.watch(idiomaProvider);
-
-    return SoftCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          for (final Idioma idioma in Idioma.values) ...<Widget>[
-            if (idioma != Idioma.values.first) const Divider(height: 24),
-            _OpcaoDeIdioma(
-              idioma: idioma,
-              escolhido: idioma == atual,
-              onTap: () => ref.read(idiomaProvider.notifier).escolher(idioma),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _OpcaoDeIdioma extends StatelessWidget {
-  const _OpcaoDeIdioma({
-    required this.idioma,
-    required this.escolhido,
-    required this.onTap,
-  });
-
-  final Idioma idioma;
-  final bool escolhido;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
     final TextTheme text = Theme.of(context).textTheme;
 
-    return InkWell(
-      onTap: onTap,
+    return SoftCard(
+      onTap: () => _abrir(context, ref, atual),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Text(
               // O nome de cada língua na própria língua: quem procura inglês
               // procura por "English", em qualquer tela.
-              idioma.nome,
+              atual.nome,
               style: text.titleSmall,
             ),
           ),
-          if (escolhido)
-            Icon(Icons.check, size: 20, color: context.cores.primaryDark),
+          Icon(Icons.expand_more, color: context.cores.textSecondary),
         ],
       ),
     );
+  }
+
+  /// Abre a lista sob o cartão, com a largura dele.
+  Future<void> _abrir(BuildContext context, WidgetRef ref, Idioma atual) async {
+    final RenderBox cartao = context.findRenderObject()! as RenderBox;
+    final RenderBox tela =
+        Overlay.of(context).context.findRenderObject()! as RenderBox;
+    final Offset canto = cartao.localToGlobal(Offset.zero, ancestor: tela);
+
+    final Idioma? escolhido = await showMenu<Idioma>(
+      context: context,
+      initialValue: atual,
+      // Alinhado às duas bordas do cartão, e logo abaixo dele. O `0` de
+      // baixo deixa o menu crescer para cima quando o cartão está perto do
+      // rodapé, em vez de ficar espremido contra ele.
+      position: RelativeRect.fromLTRB(
+        canto.dx,
+        canto.dy + cartao.size.height,
+        tela.size.width - canto.dx - cartao.size.width,
+        0,
+      ),
+      constraints: BoxConstraints(
+        minWidth: cartao.size.width,
+        maxWidth: cartao.size.width,
+      ),
+      items: <PopupMenuEntry<Idioma>>[
+        for (final Idioma idioma in Idioma.values)
+          PopupMenuItem<Idioma>(
+            value: idioma,
+            child: Row(
+              children: <Widget>[
+                // O mesmo par de ícones do menu de período da linha do
+                // tempo: num menu, o círculo marcado diz "escolha uma
+                // destas", que é o que está acontecendo aqui.
+                Icon(
+                  idioma == atual
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_unchecked,
+                  size: 18,
+                  color: idioma == atual
+                      ? context.cores.primary
+                      : context.cores.muted,
+                ),
+                const SizedBox(width: Space.x12),
+                Text(idioma.nome),
+              ],
+            ),
+          ),
+      ],
+    );
+
+    // `context.mounted` porque entre abrir e escolher passa o tempo que a
+    // pessoa levar: dá para sair da tela com o menu aberto.
+    if (escolhido != null && context.mounted) {
+      await ref.read(idiomaProvider.notifier).escolher(escolhido);
+    }
   }
 }
 

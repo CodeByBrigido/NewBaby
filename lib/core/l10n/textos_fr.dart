@@ -932,8 +932,9 @@ class TextosFr implements Textos {
 
   @override
   String get languageNote =>
-      'Le choix est déjà enregistré, mais la traduction est encore en '
-      'cours : pour l\'instant, l\'application reste en portugais.';
+      'Le choix est enregistré sur cet appareil et vaut pour tous les '
+      'écrans. Les dossiers déjà créés dans Google Drive gardent les noms '
+      "qu'ils ont reçus.";
 
   @override
   String get videoOptimizedShort => '540p avec débit optimisé';

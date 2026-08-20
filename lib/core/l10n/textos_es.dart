@@ -914,8 +914,9 @@ class TextosEs implements Textos {
 
   @override
   String get languageNote =>
-      'La elección ya queda guardada, pero la traducción todavía se está '
-      'haciendo: por ahora el aplicativo sigue en portugués.';
+      'La elección queda guardada en este dispositivo y vale para todas las '
+      'pantallas. Las carpetas ya creadas en Google Drive conservan los '
+      'nombres que recibieron.';
 
   @override
   String get videoOptimizedShort => '540p con bitrate optimizado';

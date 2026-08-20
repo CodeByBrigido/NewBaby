@@ -890,7 +890,9 @@ class TextosEn implements Textos {
 
   @override
   String get languageNote =>
-      'Your choice is already saved. The app is fully translated: switching here changes every screen.';
+      'Your choice is saved on this device and applies to every screen. '
+      'Folders already created in Google Drive keep the names they were '
+      'given.';
 
   @override
   String get videoOptimizedShort => '540p with optimised bitrate';

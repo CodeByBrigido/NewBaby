@@ -882,7 +882,9 @@ class TextosPt implements Textos {
 
   @override
   String get languageNote =>
-      'A escolha já fica guardada, mas a tradução ainda está sendo feita: por enquanto o aplicativo continua em português.';
+      'A escolha fica guardada neste aparelho e vale para todas as telas. '
+      'As pastas já criadas no Google Drive continuam com os nomes que '
+      'receberam.';
 
   @override
   String get videoOptimizedShort => '540p com bitrate otimizado';

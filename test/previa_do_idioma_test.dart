@@ -8,7 +8,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:meu_bebe/core/theme/app_palette.dart';
 import 'package:meu_bebe/core/theme/app_theme.dart';
 import 'package:meu_bebe/core/theme/tokens.dart';
+import 'package:meu_bebe/core/l10n/strings.dart';
 import 'package:meu_bebe/features/home/proximo_marco.dart';
+import 'package:meu_bebe/features/profile/settings_screen.dart';
 import 'package:meu_bebe/models/baby_gender.dart';
 import 'package:meu_bebe/models/baby_profile.dart';
 import 'package:meu_bebe/models/capsule_pulse.dart';
@@ -77,94 +79,69 @@ void main() {
   });
 
   testWidgets('previa da escolha de idioma', (WidgetTester tester) async {
-    tester.view.physicalSize = const Size(1080, 700);
+    tester.view.physicalSize = const Size(1080, 1400);
     tester.view.devicePixelRatio = 3.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MaterialApp(
-          theme: AppTheme.build(AppPalette.girl),
-          home: Scaffold(
-            backgroundColor: AppPalette.girl.background,
-            body: const Padding(
-              padding: EdgeInsets.all(Space.x16),
-              child: _AmostraDeIdioma(),
-            ),
-          ),
-        ),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: _Raiz()));
     await tester.pumpAndSettle();
+    await _rolarAteOIdioma(tester);
 
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('previa/idioma.png'),
     );
   });
+
+  testWidgets('previa do menu de idioma aberto', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1080, 1400);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(const ProviderScope(child: _Raiz()));
+    await tester.pumpAndSettle();
+    await _rolarAteOIdioma(tester);
+
+    await tester.tap(find.byIcon(Icons.expand_more));
+    await tester.pumpAndSettle();
+
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('previa/idioma-aberto.png'),
+    );
+  });
 }
 
-/// A seção como ela aparece nas Configurações.
+/// Leva a seção de idioma para o alto da tela.
 ///
-/// Redesenhada aqui em vez de montar a tela inteira porque a tela de
-/// Configurações depende de serviços de aparelho (biometria, notificações)
-/// que não existem no teste.
-class _AmostraDeIdioma extends ConsumerWidget {
-  const _AmostraDeIdioma();
+/// A seção é a terceira da lista, e sem rolar a prévia sairia mostrando
+/// otimização de fotos. Rola até o cabeçalho e recua um pouco, para o título
+/// da seção aparecer junto com o cartão.
+Future<void> _rolarAteOIdioma(WidgetTester tester) async {
+  await tester.scrollUntilVisible(find.byIcon(Icons.translate), 200);
+  await tester.pumpAndSettle();
+  await tester.drag(find.byType(ListView), const Offset(0, 120));
+  await tester.pumpAndSettle();
+}
+
+/// A tela de Configurações de verdade, com a ligação do idioma da raiz.
+///
+/// A prévia antiga redesenhava a seção à mão, por medo de a tela depender de
+/// biometria e notificações. Ela não depende: os provedores desses serviços
+/// falham em silêncio no teste e a tela desenha assim mesmo. Desenhar a tela
+/// real é o que impede a prévia de virar retrato de uma versão que não
+/// existe mais, que foi exatamente o que aconteceu com a anterior.
+class _Raiz extends ConsumerWidget {
+  const _Raiz();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Idioma atual = ref.watch(idiomaProvider);
-    final TextTheme text = Theme.of(context).textTheme;
+    final Idioma idioma = ref.watch(idiomaProvider);
+    definirTextos(textosPara(idioma.codigo));
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('Idioma', style: text.titleMedium),
-        const SizedBox(height: Space.x12),
-        Container(
-          padding: const EdgeInsets.all(Space.x16),
-          decoration: BoxDecoration(
-            color: context.cores.surface,
-            borderRadius: Radii.cardR,
-          ),
-          child: Column(
-            children: <Widget>[
-              for (final Idioma idioma in Idioma.values) ...<Widget>[
-                if (idioma != Idioma.values.first) const Divider(height: 24),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text(idioma.nome, style: text.titleSmall)),
-                    if (idioma == atual)
-                      Icon(
-                        Icons.check,
-                        size: 20,
-                        color: context.cores.primaryDark,
-                      ),
-                  ],
-                ),
-              ],
-            ],
-          ),
-        ),
-        const SizedBox(height: Space.x12),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Icon(Icons.translate, size: 18, color: context.cores.textSecondary),
-            const SizedBox(width: Space.x12),
-            Expanded(
-              child: Text(
-                'A escolha já fica guardada, mas a tradução ainda está sendo '
-                'feita: por enquanto o aplicativo continua em português.',
-                style: text.bodySmall?.copyWith(
-                  color: context.cores.textSecondary,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+    return MaterialApp(
+      theme: AppTheme.build(AppPalette.girl),
+      home: const SettingsScreen(),
     );
   }
 }
