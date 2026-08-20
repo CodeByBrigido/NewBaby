@@ -13,11 +13,16 @@ import 'package:meu_bebe/features/profile/documento.dart';
 /// chega tarde para a única decisão que ele deveria informar.
 void main() {
   group('os dois abrem sem sessão', () {
-    test('a política e a exclusão estão na lista de telas públicas', () {
+    test('os três documentos estão na lista de telas públicas', () {
       // É o que faz os links do rodapé da tela de entrada funcionarem. Sem
       // isto o roteador devolve a pessoa para o login no meio da leitura.
       expect(Routes.semSessao, contains(Routes.privacy));
       expect(Routes.semSessao, contains(Routes.accountDeletion));
+      // Os termos faltavam aqui, e o link existia na tela de entrada desde
+      // que ele trocou de destino. Tocar nele empurrava a rota e o
+      // redirecionamento a devolvia no mesmo instante: sem erro, sem
+      // mensagem, só um tremor, como se o toque não tivesse pegado.
+      expect(Routes.semSessao, contains(Routes.terms));
     });
 
     test('nada além dos documentos e da entrada abre sem sessão', () {
@@ -29,6 +34,7 @@ void main() {
           Routes.login,
           Routes.intro,
           Routes.privacy,
+          Routes.terms,
           Routes.accountDeletion,
         ],
         reason:

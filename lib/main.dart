@@ -11,6 +11,7 @@ import 'app.dart';
 import 'features/shell/startup_error_screen.dart';
 import 'firebase_options.dart';
 import 'services/session_service.dart';
+import 'state/idioma_providers.dart';
 import 'state/providers.dart';
 
 /// Nada aqui pode terminar sem chamar `runApp`.
@@ -49,6 +50,13 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    // A língua escolhida, lida antes de o primeiro quadro existir.
+    //
+    // O provedor do idioma nasce síncrono e o disco não é: sem esta leitura
+    // aqui, o aplicativo abre na língua do aparelho e vira para a escolhida
+    // um quadro depois, à vista de quem está olhando.
+    await IdiomaNotifier.semearDoDisco();
 
     final ProviderContainer container = ProviderContainer();
 

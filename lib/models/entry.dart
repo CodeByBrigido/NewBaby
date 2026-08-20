@@ -303,10 +303,30 @@ class Entry {
   int get totalBytes =>
       files.fold(0, (int sum, EntryFile f) => sum + f.sizeBytes);
 
+  /// Se o título guardado é o rótulo que o próprio aplicativo escreveu.
+  ///
+  /// O cadastro gravava "Nascimento" na língua daquele momento, e título
+  /// guardado vence rótulo calculado: a cápsula criada em português mostrava
+  /// "Nascimento" na linha do tempo para sempre, mesmo lida em alemão.
+  /// Ninguém digitou aquilo. O aplicativo é que escreveu, então não é
+  /// conteúdo do acervo e não tem por que sobreviver à troca de idioma.
+  ///
+  /// A comparação é com as **seis** línguas porque as cápsulas já criadas
+  /// têm o texto gravado, e um teste de igualdade com a língua ativa não
+  /// alcançaria as antigas.
+  ///
+  /// Um título digitado continua vencendo. A exceção é quem tiver digitado
+  /// exatamente "Nascimento", e aí o resultado é a mesma palavra, traduzida.
+  bool get _rotuloSemeadoPeloAplicativo {
+    if (type != EntryType.birth) return false;
+    final String? t = title?.trim();
+    return t != null && todasAsTextos.any((Textos idioma) => idioma.birth == t);
+  }
+
   /// Cabeçalho do cartão na linha do tempo.
   String get headline {
     final String? t = title?.trim();
-    if (t != null && t.isNotEmpty) {
+    if (t != null && t.isNotEmpty && !_rotuloSemeadoPeloAplicativo) {
       return type == EntryType.letter ? '${S.letterPrefix} $t' : t;
     }
     return switch (type) {

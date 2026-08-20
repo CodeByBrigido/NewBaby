@@ -33,6 +33,7 @@ import '../../features/stats/stats_screen.dart';
 import '../../features/timeline/entry_detail_screen.dart';
 import '../../features/trash/trash_screen.dart';
 import '../../models/entry.dart';
+import '../../state/idioma_providers.dart';
 import '../../state/providers.dart';
 
 abstract final class Routes {
@@ -67,14 +68,22 @@ abstract final class Routes {
 
   /// As telas que abrem sem sessão.
   ///
-  /// Os dois documentos entram aqui de propósito. Ler o que o aplicativo faz
-  /// com os dados de um filho é justamente o que se faz **antes** de
-  /// entregar a conta, e um texto que só existe depois do login é um texto
-  /// que chega tarde para a única decisão que ele deveria informar.
+  /// Os documentos entram aqui de propósito. Ler o que o aplicativo faz com
+  /// os dados de um filho é justamente o que se faz **antes** de entregar a
+  /// conta, e um texto que só existe depois do login é um texto que chega
+  /// tarde para a única decisão que ele deveria informar.
+  ///
+  /// [terms] estava faltando, e o efeito era pior que uma tela indisponível:
+  /// a tela de login mostra os dois links lado a lado, e tocar em "Termos de
+  /// uso" empurrava a rota e o redirecionamento a devolvia na hora. Não dava
+  /// erro nem mensagem; dava um tremor, como se o toque não tivesse pegado.
+  /// O link foi trocado de exclusão para termos em algum momento e esta
+  /// lista não acompanhou.
   static const List<String> semSessao = <String>[
     login,
     intro,
     privacy,
+    terms,
     accountDeletion,
   ];
 
@@ -89,7 +98,36 @@ abstract final class Routes {
 /// Marca passada à tela de login pela apresentação.
 const String loginComContaNova = 'conta-nova';
 
+/// Onde a pessoa está, para o roteador novo nascer no mesmo lugar.
+///
+/// Vive fora do [routerProvider] de propósito: é justamente o que precisa
+/// sobreviver à troca de roteador. Fica no contêiner, e não numa variável de
+/// arquivo, para dois testes seguidos não herdarem a rota um do outro.
+class _Onde {
+  String rota = Routes.timeline;
+}
+
+final Provider<_Onde> _ondeProvider = Provider<_Onde>((Ref _) => _Onde());
+
 final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
+  // Trocar de idioma faz nascer um roteador novo, e é essa a correção.
+  //
+  // O go_router guarda a página já montada de cada rota e não chama o
+  // construtor dela de novo enquanto a rota não muda. Nada que venha de fora
+  // alcança essa memória: refazer a raiz, empurrar o `refreshListenable`,
+  // trocar a chave do `MaterialApp` e até um `go` para a mesma rota deixam a
+  // página exatamente como estava. Por isso `S` passava a devolver a língua
+  // nova e a tela continuava na antiga, e só fechar e abrir o aplicativo
+  // resolvia.
+  //
+  // Um roteador novo não tem essa memória, então cada tela é montada de
+  // novo, lendo `S` outra vez. O preço é a pilha de navegação: só a tela do
+  // topo é restaurada, e o caminho até ela se perde. Numa troca de idioma
+  // isso é aceitável, e é o que acontece de qualquer jeito hoje, com a
+  // diferença de que hoje é preciso fechar o aplicativo para consegui-lo.
+  ref.watch(idiomaProvider);
+  final _Onde onde = ref.read(_ondeProvider);
+
   final ValueNotifier<int> refresh = ValueNotifier<int>(0);
   // O roteador precisa reavaliar o redirecionamento sempre que a sessão ou
   // o cadastro mudarem - é o que leva o usuário de login → cadastro → app.
@@ -101,8 +139,8 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
   ref.listen(cadastroEmAndamentoProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
-  return GoRouter(
-    initialLocation: Routes.timeline,
+  final GoRouter router = GoRouter(
+    initialLocation: onde.rota,
     refreshListenable: refresh,
     redirect: (BuildContext context, GoRouterState state) {
       final AsyncValue<Object?> auth = ref.read(authStateProvider);
@@ -268,4 +306,18 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
       ),
     ],
   );
+
+  // Anota a rota atual para o próximo roteador nascer aqui.
+  //
+  // Sem isto, trocar o idioma dentro de Configurações jogaria a pessoa para
+  // a linha do tempo, e ela teria de voltar sozinha ao lugar onde estava.
+  router.routerDelegate.addListener(() {
+    onde.rota = router.routerDelegate.currentConfiguration.uri.toString();
+  });
+
+  // O roteador antigo é descartado quando o idioma troca, e ele segura
+  // ouvintes e um `Navigator`.
+  ref.onDispose(router.dispose);
+
+  return router;
 });
