@@ -8,9 +8,15 @@ import 'fonte_de_verdade.dart';
 
 /// A escolha de idioma.
 ///
-/// Hoje ela só guarda a preferência: a interface continua em português, e a
-/// tela diz isso. Guardar desde já é o que faz a tradução, quando chegar,
-/// encontrar a resposta de cada pessoa em vez de perguntar de novo.
+/// Este arquivo cuida da **escolha**: quais idiomas existem, em que ordem
+/// aparecem, qual vale quando ninguém escolheu nada, e o que sobrevive ao
+/// aplicativo fechar. Quem confere se o texto de cada língua está traduzido
+/// é o compilador, mais `idioma_do_aplicativo_test.dart` e
+/// `idiomas_novos_test.dart`.
+///
+/// A ordem é verificada aqui porque ela é a ordem que a pessoa vê: as telas
+/// de configurações e de cadastro percorrem `Idioma.values` direto, sem
+/// lista própria.
 void main() {
   setUpAll(carregarFonteDeVerdade);
 
