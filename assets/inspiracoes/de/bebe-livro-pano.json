@@ -1,0 +1,33 @@
+{
+  "titulo": "Ein Stoffbuch, angekaut und alles",
+  "resumo": "In dieser Zeit ist ein Buch ein Gegenstand, bevor es eine Geschichte ist: zum Knüllen, Beißen und Umdrehen. Gemeinsames Lesen heißt jetzt, das Buch mit dem Arm zu verbinden.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "Ein Buch ist jetzt Gegenstand, nicht Lektüre",
+      "texto": "Es wird darauf beißen, es knüllen und verkehrt herum halten. Das ist richtig so. Was hier entsteht, ist nicht das Verstehen der Geschichte, sondern die Verbindung zwischen Buch, Arm und Stimme. Ein vor Gebrauch zerstörtes Buch ist ein Buch, das funktioniert hat."
+    },
+    {
+      "titulo": "Was funktioniert",
+      "itens": [
+        "Ein Stoff- oder Badebuch, das Mund und Waschmaschine übersteht.",
+        "Ein Pappbuch mit dicken Seiten, die eine noch ungeschickte Hand umblättern kann.",
+        "Wenige Seiten. Fünf sind großartig, zwanzig sind für jetzt viel zu weit.",
+        "Große, kontrastreiche Bilder, eines pro Seite, ohne detailreichen Hintergrund."
+      ]
+    },
+    {
+      "titulo": "Wie vorlesen",
+      "texto": "Sie müssen nicht lesen, was da steht. Zeigen, benennen, den Tierlaut machen, und mittendrin aufhören, wenn es den Kopf wegdreht. Drei Minuten am Tag, immer zur selben Zeit, sind mehr wert als eine halbe Stunde am Wochenende."
+    },
+    {
+      "titulo": "Aufheben lohnt sich",
+      "texto": "Fotografieren Sie jetzt sein Lieblingsbuch, angekaut und alles. In ein paar Jahren ist dieses ramponierte Buch ein Gegenstand mit Datum, und das Foto ist mehr wert als das unversehrte Buch."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "titulo": "El primer Día del Padre",
+  "resumo": "Un audio del padre hablándole a ella a los dieciocho años vale más que cualquier regalo que pueda recibir hoy.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Registrar el cambio, no la fecha",
+      "texto": "El primer Día del Padre con la criatura en casa marca un giro de papel que no se repite. Lo que vale la pena guardar es eso: cómo era antes, cómo está ahora, y qué cambió en quien se hizo padre este año."
+    },
+    {
+      "titulo": "Ideas sencillas",
+      "itens": [
+        "La foto de las tres generaciones, cuando exista esa posibilidad.",
+        "La huella de su pie o de su mano en un papel, con la fecha.",
+        "Una carta escrita por él, para que ella la lea de adulta, sobre este primer año.",
+        "Un vídeo de los dos haciendo la cosa más tonta del día: cambiando un pañal, viendo el partido, dormidos en el sofá.",
+        "La foto de los dos dormidos, que es el clásico y es un clásico por algo."
+      ]
+    },
+    {
+      "titulo": "Quien fotografía también necesita aparecer",
+      "texto": "Vale la misma regla: pídeselo a alguien, o usa el temporizador. Un archivo sin el padre en las fotos cuenta una historia equivocada, y es el error más común de todos."
+    },
+    {
+      "titulo": "La pregunta que da juego todos los años",
+      "texto": "Graba un vídeo corto respondiendo: \"¿qué he aprendido este año?\" Cada Día del Padre, la misma pregunta. Es la entrevista anual, desde el otro lado de la cámara."
+    }
+  ]
+}

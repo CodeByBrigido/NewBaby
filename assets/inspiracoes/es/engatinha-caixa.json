@@ -1,0 +1,39 @@
+{
+  "titulo": "La caja de cartón le gana al juguete",
+  "resumo": "Una caja grande se convierte en coche, casa y escondite, y entretiene más que el juguete que venía dentro. Vale la pena registrar esa injusticia.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Por qué gana la caja",
+      "texto": "La caja no hace nada, y justamente por eso funciona: quien hace es la criatura. El juguete que suena y se ilumina entretiene tres días; la caja de cartón vuelve a ser otra cosa cada semana."
+    },
+    {
+      "titulo": "Qué hacer con una caja grande",
+      "itens": [
+        "Abrir los dos lados y convertirla en túnel.",
+        "Dejarla cerrada con una puerta recortada y convertirla en casa.",
+        "Tumbarla y convertirla en carrito, contigo tirando por el suelo liso.",
+        "Dejarle dibujar por dentro, con ceras, cuando ya sepa sujetarlas.",
+        "Llenarla de otras cajas más pequeñas, para sacar y meter. Es el juego más largo de la lista."
+      ]
+    },
+    {
+      "titulo": "Cuidados",
+      "itens": [
+        "Quita grapas, cintas y etiquetas antes.",
+        "Dobla los bordes hacia dentro o pasa cinta ancha: el cartón corta.",
+        "Nada de cajas que hayan tenido productos de limpieza dentro."
+      ]
+    },
+    {
+      "titulo": "Guarda la prueba",
+      "texto": "Fotografía la caja ya terminada, con ella dentro, y escribe en la descripción en qué se convirtió aquel día. Es el tipo de detalle que nadie recuerda y que hace reír mucho después."
+    }
+  ]
+}

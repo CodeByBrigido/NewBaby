@@ -1,0 +1,39 @@
+{
+  "titulo": "Lo scatolone batte il gioco",
+  "resumo": "Uno scatolone diventa macchina, casa e nascondiglio, e intrattiene più del gioco che c'era dentro. Vale la pena documentare questa ingiustizia.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Perché vince lo scatolone",
+      "texto": "Lo scatolone non fa niente, ed è esattamente per questo che funziona: a fare è la bambina. Il gioco che suona e si accende intrattiene per tre giorni; lo scatolone torna a essere un'altra cosa ogni settimana."
+    },
+    {
+      "titulo": "Cosa fare con uno scatolone grande",
+      "itens": [
+        "Aprire i due lati e farne un tunnel.",
+        "Lasciarlo chiuso con una porta ritagliata e farne una casa.",
+        "Coricarlo e farne un carretto, con te che tiri sul pavimento liscio.",
+        "Lasciarle disegnare dentro, con i pastelli a cera, quando riesce a tenerli.",
+        "Riempirlo di altre scatole più piccole, da tirare fuori e rimettere dentro. È il gioco più lungo della lista."
+      ]
+    },
+    {
+      "titulo": "Attenzioni",
+      "itens": [
+        "Togli prima punti metallici, nastri ed etichette.",
+        "Piega i bordi verso l'interno o passa del nastro largo: il cartone taglia.",
+        "Niente scatole che hanno contenuto detersivi."
+      ]
+    },
+    {
+      "titulo": "Conserva la prova",
+      "texto": "Fotografa lo scatolone finito, con lei dentro, e scrivi nella descrizione cos'era diventato quel giorno. È il tipo di dettaglio che nessuno ricorda e che fa ridere molto dopo."
+    }
+  ]
+}

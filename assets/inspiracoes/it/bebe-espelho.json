@@ -1,0 +1,34 @@
+{
+  "titulo": "Lo specchio",
+  "resumo": "Siediti con lei davanti a uno specchio e parla. La reazione cambia di mese in mese, e filmare la stessa scena ogni due mesi diventa una serie bellissima.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Il gioco più economico che esista",
+      "texto": "Uno specchio sicuro all'altezza del pavimento intrattiene più a lungo di quasi ogni gioco comprato, e non costa niente se ne hai già uno in casa. La reazione vale da sola: prima stupore, poi sorriso, poi il tentativo di afferrare."
+    },
+    {
+      "titulo": "Come sistemarlo",
+      "itens": [
+        "Specchio in acrilico, o uno di vetro ben fissato al muro, in orizzontale, raso terra.",
+        "Sdraiala a pancia in giù davanti allo specchio: unisce i due giochi.",
+        "Siediti con lei in braccio e parla guardando il riflesso, indicando: \"quella sei tu, quello sono io\".",
+        "Lo specchio del bagno, dopo il bagnetto, con lei avvolta nell'asciugamano, funziona uguale."
+      ]
+    },
+    {
+      "titulo": "Cosa cambia col tempo",
+      "texto": "Il rapporto con il riflesso cambia molto nel corso dei mesi, ed è proprio per questo che vale la pena tornare a questo gioco ogni tanto. La stessa scena, filmata a qualche mese di distanza, mostra il cambiamento senza bisogno di didascalie."
+    },
+    {
+      "titulo": "La foto",
+      "texto": "Fotografa di lato, prendendo la bambina e il riflesso nella stessa inquadratura. È una composizione che viene bene anche col telefono, e racconta tutto il gioco in una sola immagine."
+    }
+  ]
+}

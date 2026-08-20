@@ -1,0 +1,35 @@
+{
+  "titulo": "Un terreno diverso ogni fine settimana",
+  "resumo": "Erba, sabbia, ghiaia, foglie secche. Camminare su superfici diverse è divertimento e allenamento insieme, e il parco sotto casa basta.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Perché cambiare terreno",
+      "texto": "Chi sta imparando a camminare passa la maggior parte del tempo sullo stesso pavimento liscio di casa. Ogni superficie diversa è un problema nuovo che il corpo deve risolvere, ed è anche una gita che non costa niente: esiste già a poche strade da voi."
+    },
+    {
+      "titulo": "Una superficie per fine settimana",
+      "itens": [
+        "L'erba, che cede un po' e cambia l'equilibrio.",
+        "Sabbia asciutta e sabbia bagnata, che sono due cose completamente diverse.",
+        "La ghiaia di una piazza, con te che tieni la mano.",
+        "Le assi di legno di una pedana, con le fessure in mezzo.",
+        "Una pozzanghera bassa, con gli stivali, il giorno dopo la pioggia.",
+        "Una salita dolce, su e giù, che è un altro esercizio ancora."
+      ]
+    },
+    {
+      "titulo": "Cosa portare",
+      "texto": "Vestiti che possono sporcarsi senza che sia un problema, un cambio completo, acqua e il meno possibile di tutto il resto. Una gita con troppi bagagli stanca chi li porta e accorcia il programma."
+    },
+    {
+      "titulo": "Il documento che vale",
+      "texto": "Una foto dei suoi piedi sulla superficie del giorno, sempre dalla stessa angolazione, dall'alto. Nell'arco di un anno diventa una serie bellissima, ed è la foto più facile da fare a una bambina che non sta ferma."
+    }
+  ]
+}

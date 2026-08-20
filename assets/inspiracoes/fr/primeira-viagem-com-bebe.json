@@ -1,0 +1,39 @@
+{
+  "titulo": "Le premier voyage",
+  "resumo": "Quoi emporter, combien de trajet elle supporte, et comment ne pas rentrer sans une seule photo de vous trois.",
+  "tipo": "passeio",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 1000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Choisir la destination",
+      "itens": [
+        "Près vaut mieux que beau. Trois heures de voiture avec des pauses est une limite confortable les premiers mois.",
+        "Un logement avec une cuisine vaut mieux qu'un logement avec une piscine.",
+        "Si c'est en avion, un vol à l'heure du sommeil se passe en général mieux qu'un vol tôt le matin."
+      ]
+    },
+    {
+      "titulo": "La valise",
+      "itens": [
+        "Des vêtements pour le double de jours. Il se passe toujours quelque chose.",
+        "Les médicaments habituels, les ordonnances et le carnet de santé.",
+        "Un jouet connu et une couverture de la maison : l'odeur familière aide à dormir dans un lit étranger.",
+        "Un sac-poubelle et des lingettes partout : sac à dos, voiture, sac à main."
+      ]
+    },
+    {
+      "titulo": "Les photos qui manquent après",
+      "itens": [
+        "La photo de vous trois. Demandez-la à un inconnu, même si cela vous ennuie. De chaque voyage, on revient seulement avec les photos qu'on a prises soi-même.",
+        "La photo du paysage avec elle toute petite dans un coin, pour donner l'échelle.",
+        "Une vidéo de dix secondes par jour, sans montage. Mises bout à bout, elles font le meilleur résumé du voyage."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Un tunnel di cuscini",
+  "resumo": "I cuscini del divano, uno scatolone aperto alle due estremità, un lenzuolo su due sedie. Consuma energia, non costa niente.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Un tunnel con quello che c'è già in casa",
+      "texto": "Cuscini, il divano, uno scatolone aperto da entrambi i lati e un lenzuolo su due sedie. Un percorso corto da attraversare gattonando intrattiene più della maggior parte dei giochi, e cambia forma ogni volta che lo montate."
+    },
+    {
+      "titulo": "Come montarlo",
+      "itens": [
+        "Corto: un metro e mezzo è già un'avventura. Troppo lungo spaventa.",
+        "Sempre con le due uscite aperte e visibili. Un tunnel chiuso diventa una trappola.",
+        "Pavimento morbido sotto, tappeto o piumone piegato.",
+        "Tu dall'altra parte, che chiami. È quello che la fa attraversare la prima volta.",
+        "Un gioco alla fine, per dare un motivo."
+      ]
+    },
+    {
+      "titulo": "Sicurezza, in tre righe",
+      "texto": "Niente che possa crollare addosso, niente mobili pesanti come pareti, e tu vicina per tutto il tempo. Se si blocca a metà e protesta, smonta un pezzo invece di tirare."
+    },
+    {
+      "titulo": "Il documento",
+      "texto": "Sdraiati per terra, fuori, e filma l'uscita del tunnel. Il viso che compare è l'inquadratura. Vale più di qualsiasi foto del tunnel montato."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "titulo": "Ideas for the first birthday",
+  "resumo": "Not long now. Where to hold it, what to serve, who to invite and, above all, what to record before the day flies past.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "First of all: who is the party for",
+      "texto": "At one, a child does not understand parties, finds noise strange and usually falls asleep halfway through. The party is for you and for the people who love you, and admitting that from the start takes away half the pressure. A small party is not a lesser party."
+    },
+    {
+      "titulo": "Where to hold it",
+      "texto": "The venue decides almost everything that follows: how many people, how much it costs and how tired you end up.",
+      "itens": [
+        "At home: cheaper, more comfortable for the child to sleep, and you clean up afterwards. It works very well up to about fifteen guests.",
+        "A party venue or children's caterer: food, decoration and cleaning solved in one go. Book two to three months ahead, because Saturday afternoons go early.",
+        "The building's function room: a common and cheap middle ground. Check beforehand that it has sockets, a fridge and a toilet nearby.",
+        "A park or square: shade, grass and children running about. Bring a blanket, a shelter and a plan B for rain.",
+        "A house in the country: good when the family is large and comes from far away. Add up everyone's travel costs before deciding."
+      ]
+    },
+    {
+      "titulo": "A theme, without complicating things",
+      "texto": "A theme exists so you do not have to decide every detail from scratch. Pick one that already exists in your life.",
+      "itens": [
+        "Her favourite animal, the book she asks for every night, the fruit she loves.",
+        "Two colours and that is it: with two colours, anything you buy matches.",
+        "A baby shower in reverse: each guest brings a children's book with a dedication in it. It becomes a library signed by the family."
+      ]
+    },
+    {
+      "titulo": "Food",
+      "texto": "Remember that most of the guests are adults in a hurry and children who are hungry.",
+      "itens": [
+        "A birthday cake for the photos, and a separate little sugar-free one for her, if the paediatrician has already given the go-ahead.",
+        "Cut fruit disappears faster than sweets and makes less mess.",
+        "Finger food for the adults saves plates, cutlery and washing up."
+      ]
+    },
+    {
+      "titulo": "What to record, and what almost everyone forgets",
+      "texto": "On the day, nobody remembers anything. Agree it all beforehand.",
+      "itens": [
+        "Ask someone to be the photographer for the day. Without that, you finish the party without a single photo of yourself with her.",
+        "One photo with each group: grandparents, godparents, cousins. That is the photo the family will want twenty years from now.",
+        "A short ten second video of each guest sending her a message for her eighteenth birthday.",
+        "The noise of the party recorded as audio, messy as it is: it is the thing that hands the day back most completely afterwards.",
+        "The letter. Before you go to sleep, write down how the first year was. You will think you will remember forever. You will not."
+      ]
+    },
+    {
+      "titulo": "Two weeks before",
+      "itens": [
+        "Confirm the venue and the time",
+        "Settle the guest list and send the invitation",
+        "Order or arrange the cake",
+        "Set aside her outfit and yours",
+        "Agree who is taking the photos",
+        "Write the letter calmly, without the rush of the day"
+      ]
+    }
+  ]
+}

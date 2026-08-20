@@ -1,0 +1,39 @@
+{
+  "titulo": "Wohin mit einem kleinen Kind",
+  "resumo": "Orte, die wirklich funktionieren, nach Altersspanne, und was Sie mitnehmen, um nicht früher heimzumüssen.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Ein Baby, das noch nicht läuft",
+      "itens": [
+        "Ein Park mit Schatten und eine Decke auf dem Boden. Blätter im Wind zu betrachten beschäftigt mehr, als man denkt.",
+        "Der Wochenmarkt am Morgen: Lärm, Farbe und Gerüche, und der Wocheneinkauf ist gleich miterledigt.",
+        "Der Strand oder ein See am späten Nachmittag, wenn die Sonne schwach ist."
+      ]
+    },
+    {
+      "titulo": "Wenn es schon läuft",
+      "itens": [
+        "Ein Platz mit unebenem Boden: Gras, Sand, Kies. Ermüdet und macht Spaß zugleich.",
+        "Eine Baumschule, ein botanischer Garten oder ein Gartencenter. Meist billig oder umsonst und mit Schatten.",
+        "Ein Aquarium oder ein Schmetterlingshaus, wenn es das in der Stadt gibt.",
+        "Ein kurzer, flacher Weg mit einem Ziel am Ende: eine Brücke, ein Bach, ein großer Stein."
+      ]
+    },
+    {
+      "titulo": "Was immer fehlt",
+      "itens": [
+        "Wasser und ein Stück Obst.",
+        "Eine komplette Wechselgarnitur.",
+        "Sonnenschutz und Hut.",
+        "Vor zehn oder nach sechzehn Uhr losgehen. Mitten am Tag hält es niemand aus."
+      ]
+    }
+  ]
+}

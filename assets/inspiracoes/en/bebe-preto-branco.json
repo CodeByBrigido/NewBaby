@@ -1,0 +1,33 @@
+{
+  "titulo": "Strong contrast is entertaining",
+  "resumo": "In the first weeks high contrast draws more attention than colour. A sheet of paper with black and white stripes, moved slowly, buys minutes of fascination and wonderful faces.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Why contrast",
+      "texto": "In the first months, sight still tells strong differences of light and dark apart better than soft colours. High-contrast shapes hold attention for longer, and that is what makes the game interesting to her rather than a chore."
+    },
+    {
+      "titulo": "What you can make at home, today",
+      "itens": [
+        "Draw thick stripes, spirals and targets with a black pen on a white sheet. One sheet per drawing.",
+        "Fix a sheet to the side of the cot or on the floor, at the height she looks.",
+        "A black and white chequerboard works very well, and you can draw one in two minutes.",
+        "What already exists counts too: a striped shirt, the dark skirting board against the pale wall."
+      ]
+    },
+    {
+      "titulo": "How long",
+      "texto": "For as long as she is interested, and not a minute beyond. Turning her face away is an answer, not a refusal. One to two minutes at a time, a few times a day, is the format that works."
+    },
+    {
+      "titulo": "Worth recording",
+      "texto": "Film fifteen seconds of her eyes following the drawing, with the paper visible in the frame. It is a video that ages very well, because it shows attention being born."
+    }
+  ]
+}

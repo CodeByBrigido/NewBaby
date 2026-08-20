@@ -1,0 +1,31 @@
+{
+  "titulo": "Ideas para el segundo cumpleaños",
+  "resumo": "A los dos años ya participa. Cambia todo respecto al primero.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 2,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "La diferencia con el primero",
+      "texto": "A los dos años elige, opina y recuerda durante semanas. Déjale elegir el tema, aunque la elección sea rara. Su fiesta con su elección vale más que la fiesta perfecta con la tuya."
+    },
+    {
+      "titulo": "Qué funciona a esta edad",
+      "itens": [
+        "Pocos niños y mucho espacio para correr.",
+        "Una sola actividad: pompas de jabón, pintura lavable, un cajón de arena. Más de una se vuelve un lío.",
+        "Horario corto: con dos horas hay suficiente para todo el mundo.",
+        "Tarta sencilla. Ella quiere la cobertura, no la arquitectura."
+      ]
+    },
+    {
+      "titulo": "La entrevista",
+      "texto": "A los dos ya responde. Graba en audio tres preguntas: cuál es tu color preferido, qué es lo que más te gusta hacer, qué quieres ser de mayor. Haz las mismas tres todos los años. En diez años vas a tener la colección más impagable del archivo."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "titulo": "Il primo giorno di scuola",
+  "resumo": "La foto sulla porta, lo zaino più grande di lei, e il testo che conta: come ti sei sentito lasciandola lì.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 600,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Prima del giorno",
+      "itens": [
+        "Visitate la scuola insieme prima, se si può. Conoscere il posto toglie metà dello spavento.",
+        "Racconta in ordine cosa succederà, con frasi corte, nei giorni precedenti.",
+        "Lasciale scegliere una cosa: lo zaino, la borraccia, i vestiti. Scegliere dà controllo.",
+        "Concorda prima con la scuola come sarà il saluto, e rispetta quanto concordato.",
+        "Preparate lo zaino insieme la sera prima, e fotografa lo zaino pronto."
+      ]
+    },
+    {
+      "titulo": "Il giorno stesso",
+      "texto": "Arrivate con calma, senza corse. Saluta una volta sola, con chiarezza, e vai. Tornare per un altro abbraccio fa ricominciare il pianto e insegna che piangere ti riporta indietro. È duro, ed è quello che funziona meglio per lei."
+    },
+    {
+      "titulo": "Cosa documentare, in cinque minuti",
+      "itens": [
+        "La foto sulla porta di casa, prima di uscire, a figura intera con lo zaino.",
+        "La stessa foto all'ingresso della scuola, per confrontarla con tutti gli anni successivi.",
+        "Lo zaino aperto, con tutto quello che è andato dentro.",
+        "Un video di dieci secondi lungo la strada, con te che le chiedi come si sente.",
+        "La faccia all'uscita, che è quasi sempre il contrario della faccia all'entrata."
+      ]
+    },
+    {
+      "titulo": "Scrivi lo stesso giorno",
+      "texto": "Una lettera corta, la sera, su com'è stata per te. Quella è la parte che nessuno documenta, ed è quella che la bambina adulta vorrà leggere di più. Ripeti la stessa foto sulla porta e la stessa lettera a ogni primo giorno di scuola, per anni."
+    }
+  ]
+}

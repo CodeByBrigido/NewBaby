@@ -1,0 +1,39 @@
+{
+  "titulo": "Una scatola di consistenze",
+  "resumo": "Un ritaglio peloso, carta che si accartoccia, un cucchiaio di legno, una spugna asciutta. Niente di abbastanza piccolo da stare intero in bocca. Intrattiene più di un gioco costoso.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "Una scatola, cinque cose",
+      "texto": "Non serve comprare niente. Metti insieme cinque oggetti con superfici molto diverse in una scatola da scarpe e offrine uno alla volta, con te accanto per tutto il tempo. Il gioco è la differenza fra loro, non la quantità."
+    },
+    {
+      "titulo": "Cosa metterci",
+      "itens": [
+        "Un pezzo di lana o una sciarpa lavorata a maglia.",
+        "Una spugna pulita e asciutta, di quelle morbide.",
+        "Carta cellophane o carta velina, per il rumore.",
+        "Un cucchiaio di legno e uno di metallo, per confrontare temperatura e peso.",
+        "Un contenitore di plastica con coperchio, che serve anche per battere."
+      ]
+    },
+    {
+      "titulo": "Le regole di sicurezza, che qui non sono un dettaglio",
+      "itens": [
+        "Niente che passi dentro un rotolo di carta igienica: se passa, soffoca.",
+        "Niente con pezzi incollati, calamite, pile o spaghi lunghi.",
+        "Tutto va in bocca, quindi tutto deve poter essere lavato.",
+        "Tu resti accanto per tutto il tempo. Questo non è un gioco da lasciare da sola."
+      ]
+    },
+    {
+      "titulo": "Conservare",
+      "texto": "Fotografa la scatola preparata, con i cinque oggetti, prima di offrirla. Fra qualche anno quella foto sciocca ricorderà esattamente cosa c'era in casa vostra quell'anno."
+    }
+  ]
+}

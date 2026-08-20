@@ -1,0 +1,39 @@
+{
+  "titulo": "Der Karton schlägt das Spielzeug",
+  "resumo": "Ein großer Karton wird zu Auto, Haus und Versteck und beschäftigt besser als das Spielzeug, das darin war. Diese Ungerechtigkeit lohnt sich festzuhalten.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Warum der Karton gewinnt",
+      "texto": "Der Karton tut nichts, und genau deshalb funktioniert er: es ist das Kind, das tut. Das Spielzeug, das Musik macht und leuchtet, beschäftigt drei Tage; der Karton wird jede Woche wieder etwas anderes."
+    },
+    {
+      "titulo": "Was man mit einem großen Karton macht",
+      "itens": [
+        "Beide Seiten öffnen und einen Tunnel daraus machen.",
+        "Ihn geschlossen lassen, eine Tür ausschneiden und ein Haus daraus machen.",
+        "Ihn hinlegen und einen Wagen daraus machen, mit Ihnen als Zugkraft auf glattem Boden.",
+        "Es innen malen lassen, mit Wachsmalstiften, sobald es sie halten kann.",
+        "Ihn mit kleineren Kartons füllen, zum Herausnehmen und Hineintun. Das ist das ausdauerndste Spiel der Liste."
+      ]
+    },
+    {
+      "titulo": "Vorsicht bei",
+      "itens": [
+        "Klammern, Klebeband und Etiketten vorher entfernen.",
+        "Die Kanten nach innen falten oder breites Klebeband darüber: Pappe schneidet.",
+        "Kein Karton, in dem Putzmittel waren."
+      ]
+    },
+    {
+      "titulo": "Bewahren Sie den Beweis",
+      "texto": "Fotografieren Sie den fertigen Karton, mit dem Kind darin, und schreiben Sie in die Beschreibung, was er an jenem Tag war. Das ist die Art Detail, an die sich niemand erinnert und die später viel Gelächter bringt."
+    }
+  ]
+}

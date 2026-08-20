@@ -1,0 +1,35 @@
+{
+  "titulo": "Die Beikost vorbereiten",
+  "resumo": "Was Sie zu Hause bereitlegen und wie Sie es festhalten. Wann und was angeboten wird, sagt die Kinderärztin.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Das hier ist keine Gesundheitsberatung",
+      "texto": "Wann angefangen wird, was angeboten wird und in welcher Reihenfolge, ist ein Gespräch mit der Kinderärztin, und nur mit ihr. Was hier steht, ist der praktische Teil: was Sie zu Hause bereithalten und wie Sie die Erinnerung an diese Zeit bewahren, die kurz und sehr komisch ist."
+    },
+    {
+      "titulo": "Was das Leben leichter macht",
+      "itens": [
+        "Ein Hochstuhl, der sich vollständig abwaschen lässt, oder eine große Plastikplane darunter.",
+        "Ein Lätzchen mit langen Ärmeln. Die kleinen nützen in dieser Zeit gar nichts.",
+        "Ein Teller mit Saugnapf, der ein paar Tage gewinnt, bevor er zum Spielzeug wird.",
+        "Zwei Löffel: einer zum Festhalten für das Kind und einer für Sie."
+      ]
+    },
+    {
+      "titulo": "Die Erinnerung, die zählt",
+      "itens": [
+        "Die Grimasse zu jedem neuen Geschmack. Fotografieren Sie das Gesicht, nicht den Teller.",
+        "Ein kurzes Video vom ersten Tag im Hochstuhl.",
+        "Die Liste der Lebensmittel, die es geliebt hat, und derer, die es ausgespuckt hat. In fünfzehn Jahren ist der Vergleich mit seinem Geschmack zum Schreien."
+      ]
+    }
+  ]
+}

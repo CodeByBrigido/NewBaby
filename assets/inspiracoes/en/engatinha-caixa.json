@@ -1,0 +1,39 @@
+{
+  "titulo": "The cardboard box beats the toy",
+  "resumo": "A big box becomes a car, a house and a hiding place, and entertains better than the toy that came inside it. That injustice is worth recording.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Why the box wins",
+      "texto": "The box does nothing, and that is exactly why it works: the child does it instead. The toy that plays music and lights up entertains for three days; the cardboard box becomes something else again every week."
+    },
+    {
+      "titulo": "What to do with a big box",
+      "itens": [
+        "Open both ends and turn it into a tunnel.",
+        "Leave it closed with a door cut into it and turn it into a house.",
+        "Lay it down as a cart, with you pulling it across a smooth floor.",
+        "Let her draw inside it, with wax crayons, once she can hold one.",
+        "Fill it with other smaller boxes, to take out and put back. It is the longest-lasting game on the list."
+      ]
+    },
+    {
+      "titulo": "Take care of",
+      "itens": [
+        "Remove staples, tape and labels first.",
+        "Fold the edges inwards or run wide tape along them: cardboard cuts.",
+        "No box that has had cleaning products in it."
+      ]
+    },
+    {
+      "titulo": "Keep the evidence",
+      "texto": "Photograph the box once it is finished, with her inside it, and write in the description what it turned into that day. It is the kind of detail nobody remembers and that gets a big laugh later."
+    }
+  ]
+}

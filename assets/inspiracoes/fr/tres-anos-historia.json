@@ -1,0 +1,35 @@
+{
+  "titulo": "Laissez-la raconter l'histoire",
+  "resumo": "Prenez un livre connu et demandez-lui de vous le raconter, en regardant les images. Sa version est souvent meilleure que l'originale.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Inversez les rôles",
+      "texto": "Après des mois à écouter, elle devient capable de raconter. Demandez-lui de vous raconter l'histoire, en regardant les images d'un livre qu'elle connaît déjà. Ce qui sort n'est pas l'histoire du livre, et c'est justement cela qui vaut."
+    },
+    {
+      "titulo": "Comment l'amener",
+      "itens": [
+        "Prenez un livre qu'elle a déjà entendu de nombreuses fois, et tournez les pages.",
+        "Demandez « et alors, qu'est-ce qui s'est passé ? » au lieu de corriger ce qu'elle a dit.",
+        "Acceptez des écarts complets par rapport à l'intrigue. Sa version est le document.",
+        "Si elle se bloque, montrez une image et attendez. Attendez plus longtemps que ce qui paraît confortable.",
+        "Arrêtez avant qu'elle ne se lasse, même au milieu."
+      ]
+    },
+    {
+      "titulo": "Enregistrez, toujours",
+      "texto": "C'est une de ces choses que le texte ne garde pas. La façon de raconter, les pauses, l'intonation copiée sur la vôtre : tout cela n'existe qu'en son ou en vidéo. Une minute à la fois, quelques fois par an."
+    },
+    {
+      "titulo": "Inventez une histoire ensemble",
+      "texto": "Commencez par une phrase et laissez-la continuer, en alternant. Enregistrez. C'est le jeu qui donne le plus à cet âge et celui qui produit le matériel le plus drôle de toute la collection."
+    }
+  ]
+}

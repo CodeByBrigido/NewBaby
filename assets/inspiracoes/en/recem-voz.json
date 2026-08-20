@@ -1,0 +1,35 @@
+{
+  "titulo": "Record your voice, not hers",
+  "resumo": "Singing, reading out loud, talking about the day. Thirty years from now she will want to hear herself, but the voice she will most want to hear is yours.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "The voice that will be missed is yours",
+      "texto": "Everyone tries to record the sound the child makes. What the grown child will want to hear is your voice, talking to her back when she understood none of it. Thirty years from now, that is the file with no substitute."
+    },
+    {
+      "titulo": "What to record",
+      "itens": [
+        "The song you sing to get her to sleep, sung badly and all.",
+        "You telling how the day of the birth went, out loud, in your own words.",
+        "A silly conversation while changing a nappy. It is the everyday tone that gets lost.",
+        "Her name said by you, several times, in different situations.",
+        "The grandparents talking to her. That is the recording that becomes irreplaceable faster than you would think."
+      ]
+    },
+    {
+      "titulo": "How, without producing it",
+      "texto": "Your phone's recorder is enough. A minute will do, and nobody listens past three. Speak close, in a room with fabric and a sofa, which soaks up the echo. Do not re-record to make it pretty: the stumble and the laugh in the middle are what give the file its life."
+    },
+    {
+      "titulo": "Where to keep it",
+      "texto": "Record it, send it to the capsule and write the date and what it is in the description. Audio without a label becomes a file with no owner, and twenty years from now nobody knows whether it was a song or a microphone test."
+    }
+  ]
+}

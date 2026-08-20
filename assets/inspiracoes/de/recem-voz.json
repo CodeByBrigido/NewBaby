@@ -1,0 +1,35 @@
+{
+  "titulo": "Nehmen Sie Ihre Stimme auf, nicht seine",
+  "resumo": "Singen, vorlesen, über den Tag reden. In dreißig Jahren will es sich selbst hören, aber am liebsten hören wird es Sie.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Die Stimme, die fehlen wird, ist Ihre",
+      "texto": "Alle versuchen, den Klang des Kindes aufzunehmen. Was das erwachsene Kind hören will, ist Ihre Stimme, wie sie mit ihm sprach, als es noch nichts verstand. In dreißig Jahren ist das die Datei, für die es keinen Ersatz gibt."
+    },
+    {
+      "titulo": "Was aufnehmen",
+      "itens": [
+        "Das Lied, das Sie zum Einschlafen singen, ruhig schief gesungen.",
+        "Sie selbst, wie Sie laut erzählen, wie der Tag der Geburt war, in Ihren eigenen Worten.",
+        "Ein belangloses Gespräch beim Windelwechseln. Es ist der Ton des Alltags, der verloren geht.",
+        "Sein Name, von Ihnen gesprochen, viele Male, in verschiedenen Situationen.",
+        "Die Großeltern, wie sie mit ihm sprechen. Diese Aufnahme wird schneller unersetzlich, als man denkt."
+      ]
+    },
+    {
+      "titulo": "Wie, ohne Inszenierung",
+      "texto": "Das Aufnahmegerät im Handy reicht. Eine Minute genügt, mehr als drei hört niemand. Sprechen Sie nah, in einem Raum mit Stoffen und Sofa, das schluckt das Echo. Nehmen Sie nichts noch einmal auf, damit es schöner klingt: das Verhaspeln und das Lachen dazwischen geben der Datei ihr Leben."
+    },
+    {
+      "titulo": "Wohin damit",
+      "texto": "Aufnehmen, in die Kapsel schicken und in die Beschreibung das Datum und den Inhalt schreiben. Eine Aufnahme ohne Etikett wird zur herrenlosen Datei, und in zwanzig Jahren weiß niemand, ob es ein Lied war oder ein Mikrofontest."
+    }
+  ]
+}

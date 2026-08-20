@@ -1,0 +1,43 @@
+{
+  "titulo": "The yearly interview",
+  "resumo": "Three questions, always the same ones, every birthday. Record the audio. In ten years you will have a priceless collection.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 700,
+    "ateDias": 6000
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "The same questions, every year",
+      "texto": "A short video, on her birthday, with the same five or six questions. On its own it is nothing much. Fifteen years later, with all of them in a row, it is probably the most valuable thing in the whole capsule."
+    },
+    {
+      "titulo": "The questions",
+      "itens": [
+        "How old are you?",
+        "What is your favourite colour?",
+        "What do you want to be when you grow up?",
+        "What is your favourite food?",
+        "Who is your best friend?",
+        "What do you most like doing?",
+        "What do you want to say to yourself when you are grown up?"
+      ]
+    },
+    {
+      "titulo": "Rules that make the series work",
+      "itens": [
+        "The same questions, in the same order, every year. Changing them breaks the comparison.",
+        "Always on the same day, her birthday, so it never depends on a decision.",
+        "Do not correct her and do not push. \"I don't know\" is a great answer and ages very well.",
+        "A short video, landscape, always. A minute is enough.",
+        "At two, almost nothing will get answered. Record it anyway: it is the first of the series."
+      ]
+    },
+    {
+      "titulo": "Where to keep it",
+      "texto": "In the capsule, titled \"Interview, age X\", always the same way. The consistent name is what lets you find them all together and build the sequence later."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Peekaboo",
+  "resumo": "Hiding your face behind your hands and reappearing. The laugh that follows is short in life and forever on video.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Why this game lasts so long",
+      "texto": "Disappearing and coming back is the first joke most children understand, and it works because the anticipation and the relief happen within two seconds. It needs no equipment, no space and no preparation, and you already have everything it asks for: your face."
+    },
+    {
+      "titulo": "Variations, so it does not wear thin",
+      "itens": [
+        "Hands over the face, the classic. Start there.",
+        "Behind a light cloth she can pull off herself. The pulling part is the best bit.",
+        "Behind the door or the corner of the sofa, with your whole body.",
+        "Hiding an object under a cloth instead of yourself. A different version of the same joke.",
+        "Let her hide you. Everything changes when she is the one in control."
+      ]
+    },
+    {
+      "titulo": "The timing matters more than the variation",
+      "texto": "The fun is in the pause before you appear. Wait one second longer than feels natural, and watch: that is where the laugh is born. Too fast builds no anticipation at all."
+    },
+    {
+      "titulo": "The video worth having",
+      "texto": "Ask someone else to film you playing, rather than filming it yourself. What is being kept here is not the child laughing, it is the scene with the two of you in it. Twenty seconds is enough."
+    }
+  ]
+}

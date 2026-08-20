@@ -1,0 +1,42 @@
+{
+  "titulo": "Le premier Carnaval",
+  "resumo": "Un déguisement improvisé à la maison donne autant de photos qu'un défilé bondé, et personne ne rentre épuisé.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Le Carnaval avec un jeune enfant se passe à la maison",
+      "texto": "Un défilé, c'est de la foule, du son fort et du soleil dur, et rien de tout cela ne va avec quelqu'un de quelques mois. Le déguisement, la musique et le désordre marchent parfaitement dans le salon, et donnent les mêmes photos sans aucun des problèmes."
+    },
+    {
+      "titulo": "Si vous sortez quand même",
+      "itens": [
+        "Un casque anti-bruit pour enfant. Le son d'un défilé est bien trop fort pour de petites oreilles.",
+        "De l'ombre garantie et un horaire en dehors du pic de soleil.",
+        "Restez en bordure, jamais au milieu, et avec une sortie repérée.",
+        "Un défilé de rue pour enfants, le matin, c'est autre chose : plus petit, plus court et fait pour cela.",
+        "Convenez d'avance avec ceux qui vous accompagnent du temps que vous restez, et tenez-vous-y."
+      ]
+    },
+    {
+      "titulo": "Le déguisement",
+      "texto": "Confortable l'emporte sur joli. Tissu léger, sans élastique serré, sans capuche qui tient chaud, sans rien de collé qui pourrait aller à la bouche. Un déguisement improvisé avec ce qu'il y a à la maison donne souvent une meilleure photo que celui qu'on achète."
+    },
+    {
+      "titulo": "Quoi garder",
+      "itens": [
+        "La photo du déguisement entier, en pied, dans la meilleure lumière disponible.",
+        "Le visage, de près, avec le maquillage ou l'accessoire.",
+        "Une courte vidéo en train de danser dans vos bras.",
+        "La tête endormie de la fin, qui est toujours la meilleure photo de la journée.",
+        "Deux lignes écrites : quel était le déguisement, qui l'a choisi et pourquoi."
+      ]
+    }
+  ]
+}

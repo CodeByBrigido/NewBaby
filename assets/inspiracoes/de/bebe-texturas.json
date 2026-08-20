@@ -1,0 +1,39 @@
+{
+  "titulo": "Eine Kiste voller Oberflächen",
+  "resumo": "Ein flauschiger Stoffrest, Papier, das knistert, ein Holzlöffel, ein trockener Schwamm. Nichts, das klein genug ist, um ganz in einen Mund zu passen. Beschäftigt besser als teures Spielzeug.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "Eine Kiste, fünf Dinge",
+      "texto": "Sie müssen nichts kaufen. Sammeln Sie fünf Gegenstände mit deutlich verschiedenen Oberflächen in einem Schuhkarton und reichen Sie sie einzeln, mit Ihnen die ganze Zeit daneben. Das Spiel ist der Unterschied zwischen ihnen, nicht die Menge."
+    },
+    {
+      "titulo": "Was hinein soll",
+      "itens": [
+        "Ein Stück Wolle oder ein gestrickter Schal.",
+        "Ein sauberer, trockener Schwamm, einer von den weichen.",
+        "Zellophan oder Seidenpapier, wegen des Geräuschs.",
+        "Ein Holzlöffel und ein Metalllöffel, zum Vergleich von Temperatur und Gewicht.",
+        "Eine Plastikdose mit Deckel, die auch zum Trommeln taugt."
+      ]
+    },
+    {
+      "titulo": "Die Sicherheitsregeln, die hier keine Nebensache sind",
+      "itens": [
+        "Nichts, was durch eine Klopapierrolle passt: was hindurchpasst, kann stecken bleiben.",
+        "Nichts mit aufgeklebten Teilen, Magneten, Batterien oder langen Schnüren.",
+        "Alles wandert in den Mund, also muss sich alles waschen lassen.",
+        "Sie bleiben die ganze Zeit daneben. Das ist kein Spiel, bei dem man das Kind allein lässt."
+      ]
+    },
+    {
+      "titulo": "Aufbewahren",
+      "texto": "Fotografieren Sie die fertige Kiste mit den fünf Gegenständen, bevor Sie sie anbieten. In ein paar Jahren wird dieses banale Foto genau daran erinnern, was in jenem Jahr bei Ihnen zu Hause war."
+    }
+  ]
+}

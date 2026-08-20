@@ -1,0 +1,42 @@
+{
+  "titulo": "La primera Pascua",
+  "resumo": "Chocolate todavía no, probablemente. Pero la foto con las orejitas y la carta de Pascua duran mucho más que el huevo.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "pascoa",
+    "diasAntes": 18,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Qué se puede hacer, por edad",
+      "itens": [
+        "Antes de comer chocolate: la búsqueda puede ser de juguetes o de peluches escondidos por la casa.",
+        "Una cesta con pocas cosas, escondida en un sitio fácil. Con dos o tres hallazgos basta.",
+        "Orejas de conejo de papel, hechas en cinco minutos, que dan la mejor foto del día.",
+        "Pintar huevos cocidos con pintura lavable, con periódico debajo.",
+        "Si es la primera de todas, acepta que no va a entender nada. La fiesta es vuestra."
+      ]
+    },
+    {
+      "titulo": "Sobre el chocolate",
+      "texto": "La edad para introducir el chocolate es una conversación con quien lleva su salud, y no con internet. Mientras tanto, la búsqueda funciona igual con juguetes, y nadie echa nada de menos: lo que divierte es buscar y encontrar."
+    },
+    {
+      "titulo": "Qué registrar",
+      "itens": [
+        "La cesta montada, antes que nada.",
+        "La cara en el instante en que encuentra el primero. Ten la cámara lista y ponte por delante de ella.",
+        "La boca sucia, si hay chocolate.",
+        "Una foto de la familia entera, que casi siempre falta.",
+        "Un vídeo de quince segundos de la búsqueda, con el sonido."
+      ]
+    },
+    {
+      "titulo": "La carta",
+      "texto": "Dos líneas por la noche: qué edad tenía, quién estaba con ella, y qué hizo de más gracioso. Todos los años con el mismo formato. En diez años tienes la Pascua de la familia entera documentada."
+    }
+  ]
+}

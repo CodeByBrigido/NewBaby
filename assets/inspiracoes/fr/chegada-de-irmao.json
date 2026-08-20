@@ -1,0 +1,25 @@
+{
+  "titulo": "Quand un frère ou une sœur arrive",
+  "resumo": "Comment préparer, et quoi enregistrer avant que la maison ne change de forme pour de bon.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Le témoignage qu'on ne peut faire qu'avant",
+      "texto": "Il existe une dernière photo de vous en famille de trois, et personne ne sait que c'est la dernière au moment de la prendre. Si un deuxième enfant est en route, réservez un après-midi et faites cette photo exprès."
+    },
+    {
+      "titulo": "Aider à l'adaptation",
+      "itens": [
+        "Laissez-la aider à quelque chose de petit et de réel : choisir un vêtement, ranger les couches.",
+        "Un moment rien qu'à elle, tous les jours, même dix minutes.",
+        "Une lettre écrite pour elle, sur elle, en plein milieu de l'arrivée de l'autre. C'est ce qu'elle voudra lire plus tard, quand elle pensera que l'attention a changé de place."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Enregistrez votre voix, pas la sienne",
+  "resumo": "Chanter, lire à voix haute, raconter la journée. Dans trente ans, celle qui voudra s'entendre, c'est elle, mais celui qu'elle voudra le plus entendre, c'est vous.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "La voix qui manquera, c'est la vôtre",
+      "texto": "Tout le monde essaie d'enregistrer le son de l'enfant. Ce que l'enfant devenue adulte voudra entendre, c'est votre voix, lui parlant quand elle ne comprenait encore rien. Dans trente ans, c'est le fichier qui n'a pas de remplaçant."
+    },
+    {
+      "titulo": "Quoi enregistrer",
+      "itens": [
+        "La chanson que vous chantez pour l'endormir, mal chantée et tout.",
+        "Vous, racontant à voix haute comment s'est passé le jour de la naissance, à votre façon.",
+        "Une conversation banale pendant le change. C'est le ton du quotidien qui se perd.",
+        "Son prénom dit par vous, plusieurs fois, dans des situations différentes.",
+        "Les grands-parents lui parlant. C'est l'enregistrement qui devient irremplaçable plus vite qu'on ne l'imagine."
+      ]
+    },
+    {
+      "titulo": "Comment, sans mise en scène",
+      "texto": "Le dictaphone du téléphone suffit. Une minute suffit, et au-delà de trois personne n'écoute. Parlez près, dans une pièce avec des tissus et un canapé, qui étouffe l'écho. Ne recommencez pas pour que ce soit joli : le mot avalé et le rire au milieu sont ce qui donne vie au fichier."
+    },
+    {
+      "titulo": "Où le ranger",
+      "texto": "Enregistrez, envoyez dans la capsule et écrivez la date et la nature du fichier dans la description. Un enregistrement sans étiquette devient un fichier sans propriétaire, et dans vingt ans personne ne sait si c'était une chanson ou un test de micro."
+    }
+  ]
+}

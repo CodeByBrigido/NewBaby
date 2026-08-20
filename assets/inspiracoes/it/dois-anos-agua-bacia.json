@@ -1,0 +1,35 @@
+{
+  "titulo": "Una bacinella d'acqua in giardino",
+  "resumo": "Una bacinella, due bicchieri e un cucchiaio. Venti minuti di concentrazione assoluta per praticamente niente. Filma da lontano, senza interrompere.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Il gioco più economico dell'estate",
+      "texto": "Una bacinella con due dita d'acqua, per terra, all'ombra, e qualche contenitore. Rende più tempo di quasi qualsiasi gioco, e il materiale è già nella tua cucina."
+    },
+    {
+      "titulo": "Cosa metterci insieme",
+      "itens": [
+        "Contenitori di misure diverse, per riempire e versare.",
+        "Un colino e un bicchiere bucato, per l'effetto.",
+        "Una spugna, che assorbe e gocciola.",
+        "Un cucchiaio grande e un imbuto, se c'è.",
+        "Cose che galleggiano e cose che affondano, per confrontare."
+      ]
+    },
+    {
+      "titulo": "Sicurezza, che qui è la parte seria",
+      "texto": "Una bambina piccola annega in pochissima acqua, e in silenzio. Resta accanto per tutto il tempo, senza eccezioni e senza telefono. Quando finite, svuota subito la bacinella e capovolgila, anche se la userai di nuovo fra un'ora."
+    },
+    {
+      "titulo": "Documentare",
+      "texto": "Foto dall'alto, prendendo le mani dentro l'acqua e i contenitori. Anche il controluce di fine pomeriggio con gli schizzi rende bene, e dieci secondi di video del travaso valgono più di qualsiasi foto."
+    }
+  ]
+}

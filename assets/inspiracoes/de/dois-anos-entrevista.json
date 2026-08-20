@@ -1,0 +1,43 @@
+{
+  "titulo": "Das jährliche Interview",
+  "resumo": "Drei Fragen, immer dieselben, an jedem Geburtstag. Nehmen Sie den Ton auf. In zehn Jahren haben Sie eine unbezahlbare Sammlung.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 700,
+    "ateDias": 6000
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Dieselben Fragen, jedes Jahr",
+      "texto": "Ein kurzes Video am Geburtstag, mit denselben fünf oder sechs Fragen. Für sich allein ist es nicht viel. Fünfzehn Jahre später, alle hintereinander, ist es vermutlich das Wertvollste der ganzen Kapsel."
+    },
+    {
+      "titulo": "Die Fragen",
+      "itens": [
+        "Wie alt bist du?",
+        "Was ist deine Lieblingsfarbe?",
+        "Was willst du werden, wenn du groß bist?",
+        "Was ist dein Lieblingsessen?",
+        "Wer ist dein bester Freund?",
+        "Was machst du am liebsten?",
+        "Was willst du dir selbst sagen, wenn du groß bist?"
+      ]
+    },
+    {
+      "titulo": "Regeln, die die Reihe tragen",
+      "itens": [
+        "Dieselben Fragen, in derselben Reihenfolge, jedes Jahr. Ein Wechsel zerstört den Vergleich.",
+        "Immer am selben Tag, dem Geburtstag, damit es von keiner Entscheidung abhängt.",
+        "Nicht verbessern und nicht drängen. \"Weiß ich nicht\" ist eine großartige Antwort und altert sehr gut.",
+        "Kurzes Video und quer, immer. Eine Minute genügt.",
+        "Mit zwei Jahren wird fast nichts beantwortet. Nehmen Sie es trotzdem auf: es ist das erste der Reihe."
+      ]
+    },
+    {
+      "titulo": "Wohin damit",
+      "texto": "In die Kapsel, mit dem Titel \"Interview, X Jahre\", immer gleich. Der gleichbleibende Name ist es, der später erlaubt, sie alle zusammen zu finden und die Reihe zusammenzusetzen."
+    }
+  ]
+}

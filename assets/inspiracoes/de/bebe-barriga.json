@@ -1,0 +1,35 @@
+{
+  "titulo": "Ein Weilchen auf dem Bauch",
+  "resumo": "Wach und in Begleitung, ein paar Minuten am Tag. Es wird stärker, beschwert sich ein wenig und zieht unbezahlbare Gesichter. Halten Sie das Handy bereit.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 240
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Worum es geht",
+      "texto": "Auf dem Bauch zu liegen, wach und mit jemandem daneben, kräftigt Nacken, Schultern und Rücken. Es ist zugleich die Lage, die die meisten am Anfang hassen, und das ist zu erwarten: der ganze Körper arbeitet."
+    },
+    {
+      "titulo": "Wie es erträglich wird",
+      "itens": [
+        "Fangen Sie mit einer Minute an, mehrmals am Tag, und nicht mit zehn am Stück.",
+        "Legen Sie sich davor, das Gesicht auf gleicher Höhe. In Gesellschaft hält es länger durch.",
+        "Auf Ihrer Brust, während Sie zurückgelehnt sitzen, zählt ebenfalls und fällt am Anfang meist leichter.",
+        "Nicht direkt nach der Mahlzeit, wegen des Spuckens.",
+        "Ein Spiegel oder ein kontrastreiches Spielzeug davor kauft ein paar kostbare Sekunden."
+      ]
+    },
+    {
+      "titulo": "Wenn es weint",
+      "texto": "Nehmen Sie es hoch und versuchen Sie es später wieder. Mit Weinen darauf zu bestehen macht aus der Übung einen täglichen Streit, und die Rechnung geht nicht auf. Manche Tage laufen besser als andere, und das sagt nichts über das Kind."
+    },
+    {
+      "titulo": "Der Eintrag",
+      "texto": "Filmen Sie aus der Nähe, auf Bodenhöhe, wenn es den Kopf hebt. Es ist eines dieser Videos, in denen die Anstrengung vollständig im Gesicht steht, und es ist mehr wert als jedes gestellte Foto."
+    }
+  ]
+}

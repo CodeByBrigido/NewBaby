@@ -1,0 +1,39 @@
+{
+  "titulo": "L'eau pour la première fois",
+  "resumo": "La mer, une piscine, un ruisseau ou une bassine dans le jardin. La tête qu'elle fait quand le pied touche l'eau froide est une photo qu'on ne prend qu'une fois.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 900
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Avant de partir de la maison",
+      "itens": [
+        "Renseignez-vous auprès du professionnel qui suit sa santé sur la crème solaire et l'exposition, qui changent avec l'âge.",
+        "Allez-y tôt le matin ou en fin d'après-midi. Le soleil de midi est inconfortable et l'eau devient trop chaude.",
+        "Emportez plus de vêtements qu'il n'y paraît nécessaire : vous la changerez trois fois.",
+        "Une grande serviette à capuche, un chapeau à bords larges et de l'ombre garantie, parasol ou tente."
+      ]
+    },
+    {
+      "titulo": "La première réaction n'est en général pas un sourire",
+      "texto": "La frayeur, les pleurs et le fait de s'accrocher à votre cou sont des réactions courantes. Cela ne veut pas dire qu'elle n'aime pas l'eau ; cela veut dire que c'est une sensation nouvelle et énorme. Entrez avec elle dans les bras, lentement, en mouillant d'abord les pieds."
+    },
+    {
+      "titulo": "Enregistrer sans rater le moment",
+      "itens": [
+        "Demandez à quelqu'un de photographier. Vous aurez les deux mains prises.",
+        "La photo qui compte est celle du visage à l'instant du premier contact, et elle dure deux secondes.",
+        "Filmez quinze secondes avec le son : le bruit de l'eau avec son cri est la moitié du souvenir.",
+        "Une photo des pieds dans le sable ou dans l'eau, de dessus. Simple et toujours belle."
+      ]
+    },
+    {
+      "titulo": "Ensuite",
+      "texto": "Écrivez deux lignes le jour même : où c'était, quel âge elle avait, et comment elle a vraiment réagi. Dans dix ans, vous vous souviendrez qu'il y a eu une première fois, pas de ce que c'était."
+    }
+  ]
+}

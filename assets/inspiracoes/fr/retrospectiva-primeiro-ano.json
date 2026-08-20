@@ -1,0 +1,27 @@
+{
+  "titulo": "Monter la rétrospective de la première année",
+  "resumo": "Un déroulé pour transformer la collection de l'année en une vidéo ou un album que toute la famille voudra voir.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Le déroulé le plus simple qui marche",
+      "itens": [
+        "Une photo de chaque mois, du même endroit si vous en avez.",
+        "Trois courtes vidéos : une du début, une du milieu, une récente.",
+        "Votre voix par-dessus, racontant ce qui s'est passé ce mois-là.",
+        "Terminez avec la photo du jour de la naissance et celle d'aujourd'hui, côte à côte."
+      ]
+    },
+    {
+      "titulo": "Où les gens se bloquent",
+      "texto": "Tout le monde se bloque en essayant de choisir parmi trois cents photos. Ne choisissez pas les meilleures : choisissez-en une par mois, dans l'ordre, et continuez. Une rétrospective faite vaut infiniment plus qu'une rétrospective parfaite jamais faite."
+    }
+  ]
+}

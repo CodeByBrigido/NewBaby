@@ -1,0 +1,35 @@
+{
+  "titulo": "The photo of the hands",
+  "resumo": "Your hand next to hers, in the same photo. It is the image that most astonishes years later, because that scale never comes back.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Why this photo and not another",
+      "texto": "The hand is the part that changes most and gets photographed least. Everyone records the face. The whole hand fitting around your finger is a scale that memory erases: two years from now you will not believe she was that size, and without the photo you will have no way to check."
+    },
+    {
+      "titulo": "How to do it, in practice",
+      "itens": [
+        "Near the window, with the light coming from the side. No flash, which wipes out the pattern of the skin.",
+        "A dark, plain background: a dark shirt, the sofa, a folded blanket. A cluttered background steals attention from the hand.",
+        "Touch the back of her hand lightly and wait: the grasp reflex does the rest on its own.",
+        "Put your own hand alongside, to give scale. It is the difference between a pretty photo and a document.",
+        "Take about ten shots. A newborn's hand does not stay still, and you only find the good one afterwards."
+      ]
+    },
+    {
+      "titulo": "Repeat it",
+      "texto": "Take the same photo again at one month, at six months and on her birthday, the same way and with the same hand of yours beside it. Three photos that are lovely on their own and astonishing together."
+    },
+    {
+      "titulo": "And the feet",
+      "texto": "The same applies, and the wrinkled sole of the first days lasts even less. If you are only going to take one, take the hands; if you can take two, take both on the same day."
+    }
+  ]
+}

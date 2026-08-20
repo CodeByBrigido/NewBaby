@@ -1,0 +1,34 @@
+{
+  "titulo": "Notez les mots de travers",
+  "resumo": "Les premiers mots sortent de travers, et c'est la version de travers que la famille adopte pour toujours. Écrivez-les avant que la bonne prononciation n'efface le charme.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "L'étape la plus courte de toutes",
+      "texto": "Les mots déformés durent des mois, pas des années. Et ils disparaissent sans cérémonie : un jour l'enfant se met simplement à dire juste, et personne ne se rappelle quelle était l'ancienne version. C'est le témoignage que les familles regrettent le plus de ne pas avoir gardé."
+    },
+    {
+      "titulo": "Comment les noter",
+      "itens": [
+        "Une seule lettre, que vous complétez au fur et à mesure que de nouveaux mots apparaissent.",
+        "Le mot de travers, le mot juste, et la date. Les trois.",
+        "Notez le jour même. Noter à la fin du mois, c'est n'en noter que la moitié.",
+        "La phrase entière compte aussi, quand le charme tient à la construction et non au mot."
+      ]
+    },
+    {
+      "titulo": "Enregistrez la voix, pas seulement le texte",
+      "texto": "Le texte garde quel était le mot ; l'enregistrement garde comment il sonnait, et c'est la partie irremplaçable. Quinze secondes de conversation ordinaire, sans lui demander de répéter. Un mot sur commande sort autrement qu'un mot spontané."
+    },
+    {
+      "titulo": "Ne la corrigez pas pendant l'enregistrement",
+      "texto": "Corriger sur le moment met fin à l'étape plus vite et, surtout, met fin à la conversation. Elle arrivera à la bonne forme de toute façon. En attendant, c'est de la matière d'archive."
+    }
+  ]
+}

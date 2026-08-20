@@ -1,0 +1,35 @@
+{
+  "titulo": "Un tunnel de coussins",
+  "resumo": "Les coussins du canapé, un carton ouvert aux deux bouts, un drap sur deux chaises. Cela dépense de l'énergie et ne coûte rien.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Un tunnel avec ce qu'il y a déjà à la maison",
+      "texto": "Des coussins, le canapé, un carton ouvert des deux côtés et un drap sur deux chaises. Un parcours court qu'elle traverse à quatre pattes occupe mieux que la plupart des jouets, et change de forme à chaque montage."
+    },
+    {
+      "titulo": "Comment le monter",
+      "itens": [
+        "Court : un mètre cinquante est déjà une aventure. Trop long fait peur.",
+        "Toujours avec les deux sorties ouvertes et visibles. Un tunnel fermé devient un piège.",
+        "Un sol souple en dessous, tapis ou couette pliée.",
+        "Vous de l'autre côté, en l'appelant. C'est ce qui la fait traverser la première fois.",
+        "Un jouet au bout, pour donner une raison."
+      ]
+    },
+    {
+      "titulo": "La sécurité, en trois lignes",
+      "texto": "Rien qui puisse s'effondrer dessus, pas de meuble lourd en guise de mur, et vous à proximité tout le temps. Si elle se bloque au milieu et proteste, démontez un morceau plutôt que de tirer."
+    },
+    {
+      "titulo": "Le témoignage",
+      "texto": "Allongez-vous par terre, à l'extérieur, et filmez la sortie du tunnel. Le visage qui apparaît, c'est le plan. Cela vaut mieux que n'importe quelle photo du tunnel monté."
+    }
+  ]
+}

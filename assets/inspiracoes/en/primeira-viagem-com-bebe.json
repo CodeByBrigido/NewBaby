@@ -1,0 +1,39 @@
+{
+  "titulo": "The first trip",
+  "resumo": "What to bring, how much travelling time she can take, and how not to come home without a single photo of the three of you.",
+  "tipo": "passeio",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 1000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Choosing where to go",
+      "itens": [
+        "Near beats beautiful. Three hours in the car with stops is a comfortable limit in the first months.",
+        "A place with a kitchen is worth more than a place with a pool.",
+        "If you fly, a flight at her sleep time usually goes better than an early one."
+      ]
+    },
+    {
+      "titulo": "The suitcase",
+      "itens": [
+        "Clothes for twice as many days. Something always happens.",
+        "Regular medication, prescriptions and the vaccination record.",
+        "A familiar toy and a blanket from home: the familiar smell helps with sleeping in a strange bed.",
+        "A bin bag and wet wipes in every corner: backpack, car, handbag."
+      ]
+    },
+    {
+      "titulo": "The photos that are missing afterwards",
+      "itens": [
+        "The photo of the three of you together. Ask a stranger, even if you cannot be bothered. You come home from every trip with only the photos you took yourself.",
+        "The landscape photo with her tiny in the corner, to give scale.",
+        "A ten second video every day, unedited. Together they make the best summary of the trip."
+      ]
+    }
+  ]
+}

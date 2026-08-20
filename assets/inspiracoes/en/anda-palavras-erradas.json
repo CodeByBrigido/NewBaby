@@ -1,0 +1,34 @@
+{
+  "titulo": "Write down the wrong words",
+  "resumo": "The first words come out crooked, and the crooked version is the one the family keeps forever. Write them down before the correct pronunciation erases the joke.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "The shortest stage of them all",
+      "texto": "Mixed-up words last months, not years. And they vanish without ceremony: one day the child simply says it right, and nobody remembers what the old version was. It is the record families most regret not keeping."
+    },
+    {
+      "titulo": "How to write them down",
+      "itens": [
+        "A single letter, which you keep editing as new words turn up.",
+        "The wrong word, the right word, and the date. All three.",
+        "Write it the same day. Writing at the end of the month means writing half of it.",
+        "The whole sentence counts too, when the joke is in how it is built and not in the word."
+      ]
+    },
+    {
+      "titulo": "Record the voice, not only the text",
+      "texto": "The text keeps what the word was; the recording keeps how it sounded, which is the part nothing can replace. Fifteen seconds of ordinary conversation, without asking her to repeat anything. A word on request comes out differently from a spontaneous one."
+    },
+    {
+      "titulo": "Do not correct her while recording",
+      "texto": "Correcting on the spot ends the stage sooner and, above all, ends the conversation. She will get to the right form anyway. Until she does, it is material for the capsule."
+    }
+  ]
+}

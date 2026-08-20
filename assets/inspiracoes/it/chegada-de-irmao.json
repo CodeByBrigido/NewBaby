@@ -1,0 +1,25 @@
+{
+  "titulo": "Quando arriva un fratello",
+  "resumo": "Come prepararsi e cosa documentare prima che la casa cambi assetto per sempre.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Il documento che si può fare solo prima",
+      "texto": "Esiste un'ultima foto di voi come famiglia di tre, e nessuno sa che è l'ultima mentre la scatta. Se sta arrivando un fratello, riserva un pomeriggio e fai quella foto apposta."
+    },
+    {
+      "titulo": "Aiuto nell'adattamento",
+      "itens": [
+        "Lasciale dare una mano in qualcosa di piccolo e vero: scegliere un vestitino, mettere via i pannolini.",
+        "Un tempo solo suo, tutti i giorni, anche se sono dieci minuti.",
+        "Una lettera scritta per lei, su di lei, nel mezzo dell'arrivo dell'altro. È quello che vorrà leggere dopo, quando penserà che l'attenzione si è spostata altrove."
+      ]
+    }
+  ]
+}

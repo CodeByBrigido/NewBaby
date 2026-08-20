@@ -1,0 +1,35 @@
+{
+  "titulo": "Graba lo corriente",
+  "resumo": "El baño, la toma, el camino de casa. Nadie graba lo corriente porque parece que va a durar para siempre, y es lo corriente lo que desaparece sin avisar.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Lo que nadie graba",
+      "texto": "Grabamos cumpleaños, viajes y primeras veces. No grabamos el cambio de pañal de las siete de la mañana, la toma de madrugada, el camino hasta la guardería. Y es justamente eso lo que desaparece por completo, porque es lo que parece que va a durar para siempre."
+    },
+    {
+      "titulo": "Qué grabar esta semana",
+      "itens": [
+        "Una comida entera, de principio a fin, con el desorden y tu paciencia agotándose.",
+        "El ritual de dormir, con la canción que usáis.",
+        "Veinte segundos del baño, con la voz de quien la está bañando.",
+        "El camino de casa hasta algún sitio al que vais todas las semanas.",
+        "El rincón de la casa donde pasa más tiempo, grabado despacio, sin nadie en el encuadre."
+      ]
+    },
+    {
+      "titulo": "Cómo grabar sin producir",
+      "texto": "Vídeo corto, en horizontal, sin hablarle a la cámara. No le pidas que mire ni la llames por su nombre: la escena natural es la que tiene valor, y muere en el instante en que alguien nota que lo están grabando."
+    },
+    {
+      "titulo": "Por qué ahora",
+      "texto": "La rutina de hoy ya no existirá dentro de seis meses. No es el crecimiento lo que la borra, es la sustitución: cada etapa cambia la rutina entera, y la anterior desaparece sin que nadie haya registrado nada."
+    }
+  ]
+}

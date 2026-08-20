@@ -1,0 +1,31 @@
+{
+  "titulo": "Settling in at nursery",
+  "resumo": "What the first week usually looks like, what to agree with the school, and the record nobody keeps.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "How it usually goes",
+      "texto": "The first week is almost always short and grows a little at a time: an hour, then two, then the full session. Crying at the door is common and usually stops soon after you leave, even when it does not look that way. Every school has its own method, and it is worth asking about theirs before you start."
+    },
+    {
+      "titulo": "What to agree on beforehand",
+      "itens": [
+        "Who drops off and who picks up on each day of the week.",
+        "How the school lets you know if something happens, and how quickly.",
+        "Whether the comfort object from home can come along.",
+        "A name on everything. Absolutely everything."
+      ]
+    },
+    {
+      "titulo": "The record nobody keeps",
+      "texto": "Everyone photographs the child at the school door. Almost nobody writes down how it went for the person left outside. Write it the same day: what you felt walking back to the car on your own. Twenty years from now, that part is worth more than the photo."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "titulo": "Dasselbe Foto, jeden Monat",
+  "resumo": "Suchen Sie sich einen festen Ort und wiederholen Sie ihn jeden Monat. Einzeln sagen sie wenig. Zusammen, am Jahresende, sind sie das Schönste der Sammlung.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Die ganze Idee in einem Satz",
+      "texto": "Suchen Sie sich einen Ort in der Wohnung und fotografieren Sie das Kind dort, vom selben Punkt aus, einmal im Monat. Jedes Foto für sich ist nichts. Die zwölf zusammen sind das Eindrucksvollste, was Sie am Jahresende haben werden."
+    },
+    {
+      "titulo": "Den Ort wählen",
+      "itens": [
+        "Etwas, das sich nicht ändern wird: ein Sessel, die Sofaecke, dieselbe Wand.",
+        "Mit einem festen Gegenstand daneben, der Maßstab gibt. Ein Kissen, ein Bär, die Pflanze.",
+        "In Fensternähe, damit das Licht in allen Monaten ähnlich ist.",
+        "Meiden Sie das Gitterbett: es verschwindet auf halbem Weg aus der Szene und die Reihe bricht ab."
+      ]
+    },
+    {
+      "titulo": "Damit die Fotos zusammenpassen",
+      "itens": [
+        "Markieren Sie mit Klebeband am Boden, wo Sie stehen. Das wirkt übertrieben und ist es, was die Reihe rettet.",
+        "Immer quer oder immer hochkant. Mischen verdirbt später das Layout.",
+        "Ein fester Tag im Monat, der Monatsgeburtstag, damit es nie zur Entscheidung wird.",
+        "Ein monatlicher Wecker im Handy. Die Reihe stirbt am Vergessen, nie am Unwillen."
+      ]
+    },
+    {
+      "titulo": "Am Jahresende",
+      "texto": "Setzen Sie die zwölf zu einem Raster von vier mal drei zusammen. Das ist das Bild, das die ganze Familie haben will, und das, welches an der Wand landet. Wenn ein Monat fehlt, machen Sie trotzdem weiter: elf Fotos erzählen die Geschichte immer noch ganz."
+    }
+  ]
+}

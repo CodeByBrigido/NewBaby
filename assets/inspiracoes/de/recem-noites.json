@@ -1,0 +1,33 @@
+{
+  "titulo": "Notieren Sie eine Zeile pro schwerer Nacht",
+  "resumo": "Es klingt nach dem Letzten, was man um drei Uhr nachts tun möchte. Aber genau diese Zeit verschwindet am schnellsten aus der Erinnerung, und genau sie will man später festgehalten haben.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Das Schwere festzuhalten ist auch Festhalten",
+      "texto": "Die Kapsel neigt dazu, nur das Schöne zu bewahren, und eine Sammlung aus lauter Lächeln ist eine halbe Wahrheit. Die durchwachten Nächte der ersten Monate sind der Teil der Geschichte, den die Fotos nicht erzählen und den hinterher niemand rekonstruieren kann, weil die Müdigkeit die Erinnerung selbst löscht."
+    },
+    {
+      "titulo": "Eine Zeile, mehr nicht",
+      "texto": "Es ist kein Tagebuch. Es ist eine Zeile, im Dunkeln geschrieben, ohne Überarbeitung. \"Dritte Nacht hintereinander wach. 4:12 Uhr. Es ist auf meiner Brust eingeschlafen und ich nicht.\" Das genügt, und es ist stärker als ein gut formulierter Absatz im Monat darauf."
+    },
+    {
+      "titulo": "Wem das nützt",
+      "itens": [
+        "Ihnen, in zwei Jahren, wenn das alles zu Nebel geworden ist.",
+        "Ihm, erwachsen, wenn es versteht, was das gekostet und was es wert war.",
+        "Jemand anderem in der Familie, der gerade dasselbe durchmacht und glaubt, damit allein zu sein."
+      ]
+    },
+    {
+      "titulo": "Nichts davon ist eine Klage",
+      "texto": "Zu schreiben, dass es hart war, nimmt dem Satz die Liebe nicht. Beides passt in dieselbe Nacht, und der Eintrag wird wahrer, wenn beides darin vorkommt. Sollten Sie eines Tages finden, eine Zeile sei zu weit gegangen: sie gehört Ihnen, man kann sie löschen."
+    }
+  ]
+}

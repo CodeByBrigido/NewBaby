@@ -1,0 +1,39 @@
+{
+  "titulo": "Le visage de près, à la lumière de la fenêtre",
+  "resumo": "Un nouveau-né voit bien à une trentaine de centimètres, à peu près la distance de vos bras. Restez à cette distance, sans flash, avec la lumière de la fenêtre sur le côté.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 150
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La lumière règle presque tout",
+      "texto": "Une photo de nouveau-né n'a pas besoin de matériel, elle a besoin d'une fenêtre. La lumière du jour, diffuse, garde la vraie texture de la peau. Le flash du téléphone aplatit le visage, efface les cils et lui fait peur en prime."
+    },
+    {
+      "titulo": "Où l'installer",
+      "itens": [
+        "Allongez-la sur le côté, à un mètre de la fenêtre, la lumière arrivant sur le côté du visage.",
+        "Un jour couvert est le meilleur jour. Le soleil direct crée des ombres dures et la fait plisser les yeux.",
+        "Si la lumière est forte, suspendez un drap blanc fin devant la fenêtre. Il devient un diffuseur.",
+        "Éteignez les plafonniers : ils mélangent deux couleurs de lumière et rendent la peau verdâtre."
+      ]
+    },
+    {
+      "titulo": "Approchez-vous plus que de raison",
+      "texto": "La photo qui émeut plus tard est celle qui coupe le reste du monde : juste le visage, ou juste la bouche et le menton, ou juste une oreille. Cadrez très serré, et faites aussi un plan large pour le contexte. Les deux servent à des choses différentes."
+    },
+    {
+      "titulo": "Ce que personne ne photographie et qui manque ensuite",
+      "itens": [
+        "Le visage endormi, la bouche encore en mouvement.",
+        "L'épi de cheveux, vu de dessus.",
+        "L'oreille, qui a un dessin unique et change de forme la première année.",
+        "La tache de naissance, s'il y en a une. Elle a tendance à pâlir et à disparaître."
+      ]
+    }
+  ]
+}

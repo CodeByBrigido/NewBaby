@@ -1,0 +1,34 @@
+{
+  "titulo": "The mirror",
+  "resumo": "Sit with her facing a mirror and talk. The reaction changes from month to month, and filming the same scene every couple of months makes a beautiful sequence.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "The cheapest game there is",
+      "texto": "A safe mirror at floor level holds attention longer than almost any bought toy, and costs nothing if you already have one at home. The reaction is worth it on its own: puzzled first, then a smile, then trying to grab it."
+    },
+    {
+      "titulo": "How to set it up",
+      "itens": [
+        "An acrylic mirror, or a glass one firmly fixed to the wall, sideways on, level with the floor.",
+        "Lay her on her tummy facing the mirror: it puts two activities together.",
+        "Sit with her on your lap and talk while looking at the reflection, pointing: \"that is you, that is me\".",
+        "The bathroom mirror, after the bath, with her wrapped in a towel, works just as well."
+      ]
+    },
+    {
+      "titulo": "What changes over time",
+      "texto": "The relationship with the reflection changes a great deal over the months, and that is exactly why it is worth coming back to this game every so often. The same scene, filmed a few months apart, shows the change without needing a caption."
+    },
+    {
+      "titulo": "The photo",
+      "texto": "Shoot from the side, catching the child and the reflection in the same frame. It is a composition that comes out well even on a phone, and it tells the whole game in a single image."
+    }
+  ]
+}

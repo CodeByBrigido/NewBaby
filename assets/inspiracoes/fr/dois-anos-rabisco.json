@@ -1,0 +1,34 @@
+{
+  "titulo": "Gardez le premier gribouillage",
+  "resumo": "Photographiez le dessin avec la main qui l'a fait. Le papier jaunit, se perd, finit en emballage. La photo reste.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Le premier gribouillage a une date et il disparaît",
+      "texto": "Les dessins d'enfant s'accumulent vite et finissent à la poubelle par simple volume. Le premier, pourtant, est un document : c'est la première fois qu'elle a laissé une marque dans le monde exprès. Sans photo et sans date, il devient une feuille de plus dans la pile."
+    },
+    {
+      "titulo": "Comment bien le garder",
+      "itens": [
+        "Photographiez de dessus, avec la feuille entière dans le cadre et la lumière de la fenêtre, sans l'ombre de votre main.",
+        "Écrivez la date et l'âge dans la description, pas sur le papier, pour ne pas abîmer le dessin.",
+        "Si elle parle déjà, demandez ce que c'est et notez la réponse, mot pour mot. C'est cette phrase qui vaut plus que le dessin.",
+        "Photographiez aussi sa main tenant le crayon : cela donne l'échelle et raconte l'étape."
+      ]
+    },
+    {
+      "titulo": "Quoi lui proposer",
+      "texto": "Des craies grasses épaisses, celles qui sont trapues et qu'une main fermée peut tenir, et du grand papier, le plus grand possible. Le petit papier devient une frustration ; un rouleau de papier kraft ou le dos d'une affiche fait l'affaire."
+    },
+    {
+      "titulo": "Après le premier",
+      "texto": "Ne les gardez pas tous. Choisissez-en un par mois, photographiez-le, et laissez le reste suivre son destin naturel. Un par mois sur douze mois est une collection ; tous, c'est un placard plein que personne n'ouvre."
+    }
+  ]
+}

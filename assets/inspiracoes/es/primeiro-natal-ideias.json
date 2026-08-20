@@ -1,0 +1,36 @@
+{
+  "titulo": "La primera Navidad",
+  "resumo": "Regalos, fotos, y qué hacer con un bebé que no va a recordar nada de esto.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "El regalo que se queda",
+      "texto": "Un juguete de primera Navidad dura seis meses. Lo que dura es lo que se guardó.",
+      "itens": [
+        "Una carta de Navidad escrita por cada uno de los padres, guardada para los dieciocho años.",
+        "Un adorno de árbol con el año escrito. Cada año llega uno nuevo, y en veinte años el árbol cuenta la historia entera.",
+        "Un libro con dedicatoria y fecha."
+      ]
+    },
+    {
+      "titulo": "La foto",
+      "itens": [
+        "Las luces del árbol al fondo, la luz de la ventana en la cara. Sin flash: el flash apaga las lucecitas.",
+        "Una foto en el mismo rincón de la casa, todos los años. En cinco años se convierte en la secuencia que todo el mundo se para a mirar.",
+        "La foto de la familia entera, con trípode o temporizador. Todos los años falta alguien en las fotos, y casi siempre es quien sujetaba el móvil."
+      ]
+    },
+    {
+      "titulo": "Expectativas realistas",
+      "texto": "Un bebé en Navidad suele dormirse, extrañar el ruido o llorar en plena cena. Nada de eso es un problema, y todo eso da buenas fotos. No fuerces una sonrisa para la cámara: la cara de sueño de la primera Navidad es más graciosa dentro de veinte años que una sonrisa arrancada."
+    }
+  ]
+}

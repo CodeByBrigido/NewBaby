@@ -1,0 +1,41 @@
+{
+  "titulo": "El primer día de escuela",
+  "resumo": "La foto en la puerta, la mochila más grande que ella, y el texto que importa: cómo te sentiste al dejarla allí.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 600,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Antes del día",
+      "itens": [
+        "Visitad la escuela juntos antes, si se puede. Conocer el sitio quita la mitad del susto.",
+        "Cuéntale qué va a pasar por orden, con frases cortas, en los días previos.",
+        "Déjale elegir una cosa: la mochila, la botella, la ropa. Elegir da control.",
+        "Acuerda antes con la escuela cómo será la despedida, y cumple lo acordado.",
+        "Prepara la mochila con ella la víspera, y fotografía la mochila lista."
+      ]
+    },
+    {
+      "titulo": "El día",
+      "texto": "Llegad con tiempo, sin prisas. Despídete una sola vez, con claridad, y vete. Volver a darle un abrazo más reinicia el llanto y enseña que llorar te trae de vuelta. Es duro, y es lo que mejor funciona para ella."
+    },
+    {
+      "titulo": "Qué registrar, en cinco minutos",
+      "itens": [
+        "La foto en la puerta de casa, antes de salir, de cuerpo entero con la mochila.",
+        "La misma foto en la entrada de la escuela, para comparar con todos los años siguientes.",
+        "La mochila abierta, con todo lo que fue dentro.",
+        "Un vídeo de diez segundos por el camino, contigo preguntándole cómo se siente.",
+        "La cara a la salida, que casi siempre es la contraria de la cara de la entrada."
+      ]
+    },
+    {
+      "titulo": "Escribe el mismo día",
+      "texto": "Una carta corta, por la noche, sobre cómo fue para ti. Esa es la parte que nadie registra, y la que la criatura adulta más va a querer leer. Repite la misma foto de puerta y la misma carta cada primer día de clase, durante años."
+    }
+  ]
+}

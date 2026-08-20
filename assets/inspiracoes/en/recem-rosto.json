@@ -1,0 +1,39 @@
+{
+  "titulo": "Face up close, window light",
+  "resumo": "A newborn sees best at about thirty centimetres, roughly the distance of your arms. Stay at that distance, no flash, with window light coming from the side.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 150
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Light solves almost everything",
+      "texto": "A newborn photo does not need equipment, it needs a window. Daylight, diffused, keeps the skin's real texture. A phone flash flattens the face, erases the eyelashes and startles her on top of that."
+    },
+    {
+      "titulo": "Where to put her",
+      "itens": [
+        "Lay her on her side, a metre from the window, with the light coming across her face.",
+        "An overcast day is the best day. Direct sun makes hard shadows and makes her squint.",
+        "If the light is strong, hang a thin white sheet over the window. It becomes a diffuser.",
+        "Turn off the ceiling lights: they mix two colours of light and turn the skin greenish."
+      ]
+    },
+    {
+      "titulo": "Get closer than feels right",
+      "texto": "The photo that moves you later is the one that crops the rest of the world out: just the face, or just the mouth and chin, or just an ear. Frame in very close, and take a wide one for context too. The two are good for different things."
+    },
+    {
+      "titulo": "What nobody photographs and later misses",
+      "itens": [
+        "The face asleep, with the mouth still moving.",
+        "The swirl of hair, seen from above.",
+        "The ear, which has a pattern all its own and changes shape in the first year.",
+        "The birthmark, if there is one. They tend to fade and disappear."
+      ]
+    }
+  ]
+}

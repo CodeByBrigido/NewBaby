@@ -1,0 +1,36 @@
+{
+  "titulo": "Der erste Muttertag",
+  "resumo": "Das Foto, das es fast nie gibt, ist das der Mutter mit dem Baby, weil sie diejenige ist, die fotografiert. Bitten Sie jemanden darum. Heute ist der Tag.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDasMaes",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Der erste ist anders als alle folgenden",
+      "texto": "In diesem Jahr wechselt der Tag die Seite: wer immer gefeiert hat, wird gefeiert, oder feiert wieder, mit einer Person mehr auf dem Foto. Das ist eine Wende, die nur einmal passiert, und sie verdient es, als Wende festgehalten zu werden und nicht als weiterer Sonntag."
+    },
+    {
+      "titulo": "Ideen, die nicht vom Geld abhängen",
+      "itens": [
+        "Das Foto der drei Generationen zusammen, wenn es geht. Es ist das, was in Sammlungen am häufigsten fehlt.",
+        "Die Hand des Kindes mit abwaschbarer Farbe, auf ein Blatt gedruckt, mit dem Datum.",
+        "Ein Brief, geschrieben von der anderen erwachsenen Person im Haus, stellvertretend für das Kind, über das erste Jahr.",
+        "Eine Tonaufnahme des Kindes, auch ganz ohne Worte, mit Datum aufbewahrt.",
+        "Frühstück im Bett, mit dem Kind mitten im Durcheinander."
+      ]
+    },
+    {
+      "titulo": "Das Foto, das fast immer fehlt",
+      "texto": "Wer fotografiert, kommt selten selbst darauf vor. Bitten Sie an diesem Tag jemanden, Sie mit dem Kind zu fotografieren: nicht das gestellte Foto, sondern das von Ihnen beiden beim Tun. Ist niemand da, nehmen Sie den Selbstauslöser und stellen Sie das Handy ab."
+    },
+    {
+      "titulo": "Wiederholen Sie es jedes Jahr",
+      "texto": "Dieselbe Haltung, derselbe Ort, an jedem Muttertag. Fünf Jahre später ist diese Reihe das Geschenk."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "titulo": "A box of textures",
+  "resumo": "A fluffy offcut, paper that crumples, a wooden spoon, a dry sponge. Nothing small enough to fit whole in a mouth. More entertaining than an expensive toy.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "One box, five things",
+      "texto": "You do not need to buy anything. Gather five objects with very different surfaces in a shoebox and offer them one at a time, with you nearby the whole time. The game is the difference between them, not the quantity."
+    },
+    {
+      "titulo": "What to put in",
+      "itens": [
+        "A piece of wool or a knitted scarf.",
+        "A clean, dry sponge, one of the soft ones.",
+        "Cellophane or tissue paper, for the noise.",
+        "A wooden spoon and a metal one, to compare temperature and weight.",
+        "A plastic tub with a lid, which also works for banging."
+      ]
+    },
+    {
+      "titulo": "The safety rules, which here are not a detail",
+      "itens": [
+        "Nothing that fits through a toilet roll tube: if it fits, it chokes.",
+        "Nothing with glued-on parts, magnets, batteries or long string.",
+        "Everything goes in the mouth, so everything has to be washable.",
+        "You stay there the whole time. This is not a game to leave her alone with."
+      ]
+    },
+    {
+      "titulo": "Keeping it",
+      "texto": "Photograph the box laid out, with the five objects, before you offer it. A few years from now, that silly photo will remind you exactly what was in your house that year."
+    }
+  ]
+}

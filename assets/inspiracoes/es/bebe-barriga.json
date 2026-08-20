@@ -1,0 +1,35 @@
+{
+  "titulo": "Un ratito boca abajo",
+  "resumo": "Despierta y acompañada, unos minutos al día. Se fortalece, protesta un poco y pone unas caras impagables. Deja el móvil a mano.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 240
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Qué es",
+      "texto": "Estar boca abajo, despierta y con alguien al lado, es lo que fortalece cuello, hombros y espalda. Es también la postura que la mayoría detesta al principio, y eso se espera: el cuerpo entero está trabajando."
+    },
+    {
+      "titulo": "Cómo hacerlo llevadero",
+      "itens": [
+        "Empieza con un minuto, varias veces al día, y no con diez de golpe.",
+        "Túmbate delante de ella, con la cara a su misma altura. Con compañía, el rato cunde más.",
+        "Sobre tu pecho, contigo recostada, también cuenta y suele ser más fácil al principio.",
+        "Evítalo justo después de la toma, por las regurgitaciones.",
+        "Un espejo o un juguete de contraste delante compra unos segundos preciosos."
+      ]
+    },
+    {
+      "titulo": "Si llora",
+      "texto": "Sácala y vuelve a intentarlo más tarde. Insistir con llanto convierte el ejercicio en una pelea diaria, y las cuentas no salen. Unos días cunden más que otros, y eso no dice nada sobre ella."
+    },
+    {
+      "titulo": "El registro",
+      "texto": "Grábala de cerca, al ras del suelo, cuando levante la cabeza. Es uno de esos vídeos en los que el esfuerzo aparece entero en la cara, y vale más que cualquier foto posada."
+    }
+  ]
+}

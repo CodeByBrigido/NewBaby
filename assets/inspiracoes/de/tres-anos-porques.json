@@ -1,0 +1,34 @@
+{
+  "titulo": "Die Warum-Phase",
+  "resumo": "Notieren Sie die Fragen, auf die Sie keine Antwort wussten. Es ist das treueste Porträt seines Denkens in diesem Alter, und es verschwindet in wenigen Monaten.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Was gerade passiert",
+      "texto": "Die wiederholte Frage ist weder Sturheit noch Provokation. Es ist die Entdeckung, dass hinter den Dingen eine Ursache steht und dass Sie die Quelle sind. Die Erschöpfung ist echt und die Phase geht vorbei; solange sie dauert, ist sie das beste Rohmaterial fürs Archiv, das Sie bekommen werden."
+    },
+    {
+      "titulo": "Wie man antwortet, ohne den Verstand zu verlieren",
+      "itens": [
+        "Beantworten Sie die ersten zwei oder drei wirklich. Das lohnt sich sehr.",
+        "Danach geben Sie zurück: \"und was glaubst du?\" Seine Antwort ist meist besser als Ihre.",
+        "\"Weiß ich nicht\" ist eine legitime Antwort. Gemeinsam nachsehen ist noch besser.",
+        "Wenn Sie nicht mehr können, sagen Sie, dass Sie jetzt nicht mehr können. Geduld vorzutäuschen, die aufgebraucht ist, täuscht niemanden."
+      ]
+    },
+    {
+      "titulo": "Notieren Sie die Fragen, nicht die Antworten",
+      "texto": "Die Fragen dieser Phase sind der Eintrag. \"Warum geht die Sonne weg?\", \"Warum ist Opa alt?\", \"Warum stirbt man?\". Notieren Sie die genaue Frage und das Datum, in einem Brief, den Sie fortlaufend füttern. In sechs Monaten haben Sie ein Dokument, das mehr wert ist als ein Album."
+    },
+    {
+      "titulo": "Nehmen Sie eine Runde auf",
+      "texto": "Eine Minute Ton einer Warum-Folge, mit Ihrer antwortenden Stimme. Heute ist es komisch, und in zwanzig Jahren ist es bewegend, wenn der Fragende jemand anderes ist."
+    }
+  ]
+}

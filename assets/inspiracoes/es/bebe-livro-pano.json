@@ -1,0 +1,33 @@
+{
+  "titulo": "Un libro de tela, mordido y todo",
+  "resumo": "En esta etapa el libro es un objeto antes que una historia: para arrugar, morder y dar la vuelta. Leer juntos ahora es asociar el libro al regazo.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "Un libro en esta etapa es objeto, no lectura",
+      "texto": "Lo va a morder, arrugar y poner del revés. Está bien. Lo que se construye aquí no es la comprensión de la historia, es la asociación entre libro, regazo y voz. Un libro destruido de tanto usarlo es un libro que funcionó."
+    },
+    {
+      "titulo": "Qué funciona",
+      "itens": [
+        "Un libro de tela o de baño, que aguanta boca y lavado.",
+        "Un libro de cartón de página gruesa, que una mano todavía torpe consigue pasar.",
+        "Pocas páginas. Cinco es estupendo, veinte queda demasiado lejos por ahora.",
+        "Imágenes grandes y contrastadas, una por página, sin escenarios llenos de detalle."
+      ]
+    },
+    {
+      "titulo": "Cómo leer",
+      "texto": "No hace falta leer lo que está escrito. Señala, nombra, haz el sonido del animal, y para a la mitad si ella gira la cara. Tres minutos al día, siempre a la misma hora, valen más que media hora el fin de semana."
+    },
+    {
+      "titulo": "Vale la pena guardar",
+      "texto": "Fotografía su libro preferido ahora, mordisqueado incluido. Dentro de unos años, ese libro estropeado es un objeto con fecha, y la foto vale más que él entero."
+    }
+  ]
+}

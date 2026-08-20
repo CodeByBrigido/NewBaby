@@ -1,0 +1,35 @@
+{
+  "titulo": "Graba a los abuelos con ella",
+  "resumo": "No a la criatura sola: a los dos juntos, hablando. Es el registro que la familia más va a querer tener, y la ventana no se queda abierta para siempre.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Por qué este es el registro más urgente de la lista",
+      "texto": "Todas las demás ideas de aquí pueden hacerse el mes que viene. Esta no. La voz y la manera de ser de los abuelos es el material que la familia más lamenta no tener, y no hay forma de recuperarlo después. Si vas a hacer una sola cosa de toda esta lista, haz esta."
+    },
+    {
+      "titulo": "Qué grabar",
+      "itens": [
+        "A los dos juntos, jugando, sin hablarle a la cámara. Graba de lejos.",
+        "Al abuelo o a la abuela contando una historia de su propia infancia. Una sola, con detalle.",
+        "La receta de la familia mientras se hace, con las manos apareciendo y la explicación en voz alta.",
+        "Un mensaje de un minuto para ella a los dieciocho años.",
+        "Cómo era el mundo cuando ellos tenían la edad que ella tiene ahora."
+      ]
+    },
+    {
+      "titulo": "Cómo pedirlo sin incomodar",
+      "texto": "Mucha gente se bloquea delante de la cámara. Graba durante algo que ya esté ocurriendo, en vez de organizar una sesión. Si alguien se bloquea, deja el móvil apoyado, grabando, y hablad con normalidad: en dos minutos todo el mundo olvida que está ahí."
+    },
+    {
+      "titulo": "Guárdalo con el nombre completo",
+      "texto": "Escribe en la descripción el nombre entero, el parentesco y el año. Dentro de cincuenta años, quien lo vea quizá no sepa quién es. \"La abuela\" no identifica a nadie para un bisnieto."
+    }
+  ]
+}

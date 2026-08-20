@@ -1,0 +1,31 @@
+{
+  "titulo": "Die Eingewöhnung in der Kita",
+  "resumo": "Wie die erste Woche meist aussieht, was Sie mit der Kita absprechen sollten, und der Eintrag, den niemand macht.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Wie es meistens läuft",
+      "texto": "Fast immer ist die erste Woche kurz und wächst nach und nach: eine Stunde, dann zwei, dann der ganze Vormittag. Weinen an der Tür ist üblich und hört meist schnell auf, sobald Sie weg sind, auch wenn es nicht danach aussieht. Jede Einrichtung hat ihre eigene Methode, und es lohnt sich, vorher nach ihrer zu fragen."
+    },
+    {
+      "titulo": "Was vorher zu klären ist",
+      "itens": [
+        "Wer bringt und wer holt ab, an welchem Wochentag.",
+        "Wie die Kita Bescheid gibt, wenn etwas passiert, und wie schnell.",
+        "Ob das Kuscheltier von zu Hause mitkommen darf.",
+        "Der Name auf allem. Wirklich auf allem."
+      ]
+    },
+    {
+      "titulo": "Der Eintrag, den niemand macht",
+      "texto": "Alle fotografieren das Kind an der Kitatür. Fast niemand schreibt auf, wie es für den war, der draußen blieb. Schreiben Sie es noch am selben Tag: was Sie gefühlt haben, als Sie allein zum Auto zurückgingen. In zwanzig Jahren ist dieser Teil mehr wert als das Foto."
+    }
+  ]
+}

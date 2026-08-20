@@ -1,0 +1,34 @@
+{
+  "titulo": "Apunta las palabras mal dichas",
+  "resumo": "Las primeras palabras salen torcidas, y la versión torcida es la que la familia adopta para siempre. Escríbelas antes de que la pronunciación correcta borre la gracia.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "La etapa más corta de todas",
+      "texto": "Las palabras cambiadas duran meses, no años. Y desaparecen sin ceremonia: un día la criatura simplemente empieza a decirlo bien, y nadie recuerda cuál era la versión antigua. Es el registro que más lamentan no haber hecho las familias."
+    },
+    {
+      "titulo": "Cómo apuntarlas",
+      "itens": [
+        "Una sola carta, que vas editando conforme aparecen palabras nuevas.",
+        "La palabra mal dicha, la palabra correcta, y la fecha. Las tres cosas.",
+        "Apúntalo el mismo día. Apuntar a fin de mes significa apuntar la mitad.",
+        "Vale también la frase entera, cuando la gracia está en cómo está construida y no en la palabra."
+      ]
+    },
+    {
+      "titulo": "Graba la voz, no solo el texto",
+      "texto": "El texto guarda cuál era la palabra; el audio guarda cómo sonaba, que es la parte insustituible. Quince segundos de conversación normal, sin pedirle que repita nada. Una palabra pedida sale distinta de una espontánea."
+    },
+    {
+      "titulo": "No la corrijas durante la grabación",
+      "texto": "Corregir en el momento acaba la etapa antes y, sobre todo, acaba la conversación. Va a llegar a la forma correcta de todos modos. Mientras no llega, es material de archivo."
+    }
+  ]
+}

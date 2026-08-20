@@ -1,0 +1,35 @@
+{
+  "titulo": "A different surface every weekend",
+  "resumo": "Grass, sand, gravel, dry leaves. Walking on different surfaces is fun and practice at the same time, and the park down the road will do.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Why change the ground",
+      "texto": "A child learning to walk spends most of the time on the same smooth floor at home. Every different surface is a new problem for the body to solve, and it is also an outing that costs nothing: it already exists a few blocks from you."
+    },
+    {
+      "titulo": "One surface per weekend",
+      "itens": [
+        "Grass, which gives a little and changes the balance.",
+        "Dry sand and wet sand, which are two completely different things.",
+        "Gravel in a square, with you holding a hand.",
+        "The wooden boards of a deck, with the gaps between them.",
+        "A shallow puddle, in wellies, the day after the rain.",
+        "A gentle slope, up and down, which is another exercise altogether."
+      ]
+    },
+    {
+      "titulo": "What to bring",
+      "texto": "Clothes that can get dirty without it becoming a problem, a full change, water and as little else as possible. An outing with a lot of luggage tires whoever carries it and cuts the trip short."
+    },
+    {
+      "titulo": "The record worth making",
+      "texto": "A photo of her feet on the surface of the day, always from the same angle, from above. Over a year it becomes a wonderful series, and it is the easiest photo to take of a child who never stands still."
+    }
+  ]
+}

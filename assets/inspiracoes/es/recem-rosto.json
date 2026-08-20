@@ -1,0 +1,39 @@
+{
+  "titulo": "La cara de cerca, con luz de ventana",
+  "resumo": "Un recién nacido ve bien a unos treinta centímetros, casi la distancia de tus brazos. Quédate a esa distancia, sin flash, con la luz de la ventana de lado.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 150
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La luz resuelve casi todo",
+      "texto": "Una foto de recién nacido no necesita equipo, necesita una ventana. La luz del día, difusa, deja la piel con su textura real. El flash del móvil aplana la cara, borra las pestañas y encima la asusta."
+    },
+    {
+      "titulo": "Dónde ponerla",
+      "itens": [
+        "Acuéstala de lado, a un metro de la ventana, con la luz llegándole por el costado de la cara.",
+        "Un día nublado es el mejor día. El sol directo crea sombras duras y la hace entrecerrar los ojos.",
+        "Si la luz es fuerte, cuelga una sábana blanca fina en la ventana. Se convierte en difusor.",
+        "Apaga las luces del techo: mezclan dos colores de luz y dejan la piel verdosa."
+      ]
+    },
+    {
+      "titulo": "Acércate más de lo que parece correcto",
+      "texto": "La foto que emociona después es la que recorta el resto del mundo: solo la cara, o solo la boca y la barbilla, o solo una oreja. Encuadra muy cerca y haz también un plano abierto para el contexto. Sirven para cosas distintas."
+    },
+    {
+      "titulo": "Lo que nadie fotografía y luego se echa de menos",
+      "itens": [
+        "La cara dormida, con la boca todavía moviéndose.",
+        "El remolino del pelo, visto desde arriba.",
+        "La oreja, que tiene un dibujo único y cambia de forma en el primer año.",
+        "La marca de nacimiento, si la hay. Suele aclararse y desaparecer."
+      ]
+    }
+  ]
+}

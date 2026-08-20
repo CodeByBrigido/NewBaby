@@ -1,0 +1,31 @@
+{
+  "titulo": "Quand vous ne savez pas quoi écrire",
+  "resumo": "Cinq débuts de phrase qui règlent la page blanche.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Commencez par l'une de celles-ci",
+      "itens": [
+        "Aujourd'hui tu as fait une chose que je veux que tu saches...",
+        "Une chose que j'ai peur d'oublier, c'est...",
+        "Si je pouvais te raconter ce que c'est d'être ta mère (ou ton père) aujourd'hui, je dirais...",
+        "Quand tu liras ceci, tu auras X ans, et je voulais que tu saches...",
+        "Aujourd'hui a été une journée difficile, et malgré tout..."
+      ]
+    },
+    {
+      "titulo": "Cela n'a pas besoin d'être beau",
+      "texto": "Les lettres qui émeuvent le plus ne sont pas les mieux écrites : ce sont celles qui racontent une chose précise. « Tu as pleuré toute la nuit et j'ai pleuré avec toi à quatre heures du matin » vaut plus que n'importe quel paragraphe sur l'amour inconditionnel. Écrivez mal, écrivez court, mais écrivez concret."
+    },
+    {
+      "titulo": "Scellez",
+      "texto": "En la rangeant, choisissez une date d'ouverture : ses quinze ans, ses dix-huit ans. La lettre dont elle sait qu'elle existe et qu'elle ne peut pas encore lire est un cadeau qui dure des années avant d'être ouvert."
+    }
+  ]
+}

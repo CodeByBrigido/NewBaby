@@ -1,0 +1,33 @@
+{
+  "titulo": "Starker Kontrast macht Spaß",
+  "resumo": "In den ersten Wochen zieht hoher Kontrast mehr Aufmerksamkeit als Farbe. Ein Blatt mit schwarzen und weißen Streifen, langsam bewegt, bringt Minuten der Faszination und großartige Gesichter.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Warum Kontrast",
+      "texto": "In den ersten Monaten unterscheidet das Sehen starke Hell-Dunkel-Gegensätze noch besser als sanfte Farben. Kontrastreiche Formen halten die Aufmerksamkeit länger, und genau das macht das Spiel für das Kind interessant statt zur Aufgabe."
+    },
+    {
+      "titulo": "Was Sie heute zu Hause machen können",
+      "itens": [
+        "Zeichnen Sie dicke Streifen, Spiralen und Zielscheiben mit schwarzem Stift auf ein weißes Blatt. Ein Blatt pro Zeichnung.",
+        "Befestigen Sie ein Blatt seitlich am Bett oder legen Sie es auf den Boden, auf Blickhöhe.",
+        "Ein Schachbrettmuster in Schwarz-Weiß funktioniert sehr gut, und Sie zeichnen es in zwei Minuten.",
+        "Auch das Vorhandene zählt: ein gestreiftes Shirt, die dunkle Fußleiste vor der hellen Wand."
+      ]
+    },
+    {
+      "titulo": "Wie lange",
+      "texto": "So lange es interessiert ist, und keine Minute länger. Den Kopf wegzudrehen ist eine Antwort, keine Ablehnung. Ein bis zwei Minuten am Stück, ein paar Mal am Tag, ist das Format, das funktioniert."
+    },
+    {
+      "titulo": "Festhalten lohnt sich",
+      "texto": "Filmen Sie fünfzehn Sekunden, wie sein Blick der Zeichnung folgt, mit dem Blatt im Bild. Das ist ein Video, das sehr gut altert, weil es zeigt, wie Aufmerksamkeit entsteht."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Filma i nonni con lei",
+  "resumo": "Non la bambina da sola: i due insieme, mentre parlano. È il documento che la famiglia vorrà avere di più, e la finestra non resta aperta per sempre.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Perché questo è il documento più urgente della lista",
+      "texto": "Tutte le altre idee qui dentro si possono fare il mese prossimo. Questa no. La voce e il modo di fare dei nonni sono il materiale che le famiglie rimpiangono di più di non avere, e non c'è modo di recuperarlo dopo. Se di tutta questa lista fai una cosa sola, fai questa."
+    },
+    {
+      "titulo": "Cosa registrare",
+      "itens": [
+        "I due insieme, mentre giocano, senza parlare alla telecamera. Filma da lontano.",
+        "Il nonno o la nonna che racconta una storia della propria infanzia. Una sola, con i dettagli.",
+        "La ricetta di famiglia mentre viene fatta, con le mani nell'inquadratura e la spiegazione ad alta voce.",
+        "Un messaggio di un minuto per lei a diciotto anni.",
+        "Com'era il mondo quando loro avevano l'età che ha lei adesso."
+      ]
+    },
+    {
+      "titulo": "Come chiederlo senza mettere in imbarazzo",
+      "texto": "Molte persone si bloccano davanti a una telecamera. Filma durante qualcosa che sta già succedendo, invece di fissare una sessione. Se qualcuno si blocca, appoggia il telefono, lascialo registrare, e parlate normalmente: in due minuti tutti si dimenticano che è lì."
+    },
+    {
+      "titulo": "Conservalo con il nome completo",
+      "texto": "Scrivi nella descrizione il nome intero, il grado di parentela e l'anno. Fra cinquant'anni chi guarderà forse non saprà di chi si tratta. \"Nonna\" non identifica nessuno per un pronipote."
+    }
+  ]
+}

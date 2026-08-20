@@ -1,0 +1,34 @@
+{
+  "titulo": "Das Gesicht zum neuen Essen",
+  "resumo": "Avocado, Mango, Rote Bete. Die Grimasse beim ersten Löffel jeder Geschmacksrichtung ergibt eine Fotoreihe, die sehr gut altert.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Die vergnüglichste Reihe der Sammlung",
+      "texto": "Die Grimasse beim ersten Löffel jedes neuen Lebensmittels ist eine Reihe, die sich von selbst zusammensetzt und zehn Jahre später bei jedem Familientreffen für Gelächter sorgt. Sie verlangt kein fotografisches Können, nur Beständigkeit."
+    },
+    {
+      "titulo": "Wie es ergiebig wird",
+      "itens": [
+        "Ein Lebensmittel pro Foto, und den Namen in die Beschreibung schreiben. Ohne den Namen bleiben nur Grimassen übrig.",
+        "Fotografieren Sie in der ersten Sekunde. Die Grimasse ist schnell weg, und der zweite Löffel ist schon nicht mehr komisch.",
+        "Lassen Sie das Glas oder die Frucht im Bild, damit man erkennt, worum es ging.",
+        "Serienbild: die beste wählen Sie hinterher aus, und es ist fast nie die erste."
+      ]
+    },
+    {
+      "titulo": "Ein Foto pro Woche reicht schon",
+      "texto": "Sie müssen nicht alles festhalten. Ein neues Lebensmittel pro Woche, über ein paar Monate, ergibt bereits eine großartige Reihe und macht aus der Mahlzeit keine Fotosession."
+    },
+    {
+      "titulo": "Achten Sie auf die Stimmung am Tisch",
+      "texto": "Wenn das Handy die Mahlzeit stört, legen Sie es weg. Die Grimasse von morgen ist so gut wie die von heute, und Essen mit einer Kamera im Gesicht ermüdet jeden."
+    }
+  ]
+}

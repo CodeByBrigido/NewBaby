@@ -1,0 +1,34 @@
+{
+  "titulo": "She copies everything you do",
+  "resumo": "Sweeping, talking on the phone, stirring a pot. Give her a small version of a real object and film it: this is where your family shows up in her.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "You have become the favourite toy",
+      "texto": "Sweeping, stirring a pot, answering the phone, putting on your shoes: copying the grown-up is the most serious game of this stage, and the one that takes the least preparation of all, because the script is your own day."
+    },
+    {
+      "titulo": "How to use it instead of fighting it",
+      "itens": [
+        "Give her a small version of whatever you are using: a cloth, a brush, a spoon.",
+        "Keep a low kitchen drawer with nothing but tubs and cloths, one she is always allowed to open.",
+        "Go slowly and narrate. The narrating part is what she gets the most out of.",
+        "Accept that it will take three times as long. If you are in a hurry today, do it tomorrow."
+      ]
+    },
+    {
+      "titulo": "What not to let her copy",
+      "texto": "The cooker, sockets, cleaning products, knives and stairs. Copying does not tell danger apart, and at this stage the interest in those things is greater precisely because they are the ones you use and she cannot."
+    },
+    {
+      "titulo": "The video",
+      "texto": "Film from a distance, without calling her. The moment she notices the camera she stops copying and starts performing, and the scene loses all its charm. Twenty seconds unnoticed are worth more than two minutes on request."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "titulo": "Es macht alles nach, was Sie tun",
+  "resumo": "Fegen, telefonieren, im Topf rühren. Geben Sie ihm eine kleine Ausgabe eines echten Gegenstands und filmen Sie: hier zeigt sich Ihre Art in ihm.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Sie sind zum Lieblingsspielzeug geworden",
+      "texto": "Fegen, im Topf rühren, ans Telefon gehen, in Ihre Schuhe steigen: den Erwachsenen nachzumachen ist das ernsteste Spiel dieser Zeit, und das mit dem geringsten Aufwand von allen, denn das Drehbuch ist Ihr eigener Tag."
+    },
+    {
+      "titulo": "Wie Sie es nutzen, statt zu stören",
+      "itens": [
+        "Geben Sie ihm eine kleine Ausgabe dessen, was Sie gerade benutzen: ein Tuch, eine Bürste, einen Löffel.",
+        "Lassen Sie eine untere Küchenschublade nur mit Dosen und Tüchern, die es jederzeit öffnen darf.",
+        "Machen Sie es langsam und kommentieren Sie dabei. Vom Kommentieren hat es am meisten.",
+        "Nehmen Sie hin, dass es dreimal so lange dauert. Wenn Sie heute in Eile sind, machen Sie es morgen."
+      ]
+    },
+    {
+      "titulo": "Was es nicht nachmachen darf",
+      "texto": "Herd, Steckdosen, Putzmittel, Messer und Treppe. Das Nachmachen unterscheidet keine Gefahr, und in dieser Zeit ist das Interesse an genau diesen Dingen besonders groß, weil es die sind, die Sie benutzen und es selbst nicht darf."
+    },
+    {
+      "titulo": "Das Video",
+      "texto": "Filmen Sie aus der Ferne, ohne es zu rufen. In dem Moment, in dem es die Kamera bemerkt, hört es auf nachzumachen und fängt an vorzuspielen, und die Szene verliert ihren ganzen Reiz. Zwanzig unbemerkte Sekunden sind mehr wert als zwei Minuten auf Bestellung."
+    }
+  ]
+}

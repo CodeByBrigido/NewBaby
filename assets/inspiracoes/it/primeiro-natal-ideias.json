@@ -1,0 +1,36 @@
+{
+  "titulo": "Il primo Natale",
+  "resumo": "Regali, foto, e cosa fare con una bambina che non ricorderà niente di tutto questo.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Il regalo che resta",
+      "texto": "Un gioco del primo Natale dura sei mesi. Quello che dura è ciò che è stato conservato.",
+      "itens": [
+        "Una lettera di Natale scritta da ciascuno dei genitori, messa da parte per i diciotto anni.",
+        "Una decorazione per l'albero con l'anno scritto sopra. Ogni anno ne arriva una nuova, e in vent'anni l'albero racconta tutta la storia.",
+        "Un libro con dedica e data."
+      ]
+    },
+    {
+      "titulo": "La foto",
+      "itens": [
+        "Le luci dell'albero sullo sfondo, la luce della finestra sul viso. Senza flash: il flash cancella le lucine.",
+        "Una foto nello stesso angolo della casa, ogni anno. In cinque anni diventa la serie davanti a cui tutti si fermano.",
+        "La foto di tutta la famiglia, con treppiede o autoscatto. Ogni anno manca qualcuno nelle foto, ed è quasi sempre chi teneva il telefono."
+      ]
+    },
+    {
+      "titulo": "Aspettative realistiche",
+      "texto": "Una bambina a Natale di solito si addormenta, si stupisce del rumore o piange durante la cena. Niente di tutto questo è un problema, e tutto questo dà buone foto. Non forzare un sorriso per la telecamera: la faccia assonnata del primo Natale fra vent'anni fa più ridere di un sorriso strappato."
+    }
+  ]
+}

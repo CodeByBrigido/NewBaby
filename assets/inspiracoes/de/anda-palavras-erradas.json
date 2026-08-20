@@ -1,0 +1,34 @@
+{
+  "titulo": "Schreiben Sie die falschen Wörter auf",
+  "resumo": "Die ersten Wörter kommen schief heraus, und die schiefe Fassung übernimmt die Familie für immer. Schreiben Sie sie auf, bevor die richtige Aussprache den Witz löscht.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Die kürzeste Phase von allen",
+      "texto": "Verdrehte Wörter halten Monate, nicht Jahre. Und sie verschwinden ohne Zeremonie: eines Tages sagt das Kind es einfach richtig, und niemand erinnert sich, wie die alte Fassung lautete. Es ist der Eintrag, dessen Fehlen Familien am meisten bedauern."
+    },
+    {
+      "titulo": "Wie aufschreiben",
+      "itens": [
+        "Ein einziger Brief, den Sie ergänzen, sobald neue Wörter auftauchen.",
+        "Das falsche Wort, das richtige Wort und das Datum. Alle drei.",
+        "Am selben Tag notieren. Am Monatsende zu notieren heißt, die Hälfte zu notieren.",
+        "Auch ganze Sätze zählen, wenn der Witz im Satzbau steckt und nicht im Wort."
+      ]
+    },
+    {
+      "titulo": "Nehmen Sie die Stimme auf, nicht nur den Text",
+      "texto": "Der Text bewahrt, welches Wort es war; die Aufnahme bewahrt, wie es klang, und das ist der unersetzliche Teil. Fünfzehn Sekunden gewöhnliches Gespräch, ohne es um Wiederholung zu bitten. Ein bestelltes Wort klingt anders als ein spontanes."
+    },
+    {
+      "titulo": "Verbessern Sie nicht während der Aufnahme",
+      "texto": "Sofortiges Verbessern beendet die Phase früher und vor allem: es beendet das Gespräch. Zur richtigen Form kommt es ohnehin. Bis dahin ist es Material fürs Archiv."
+    }
+  ]
+}

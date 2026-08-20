@@ -1,0 +1,33 @@
+{
+  "titulo": "Il contrasto forte diverte",
+  "resumo": "Nelle prime settimane il contrasto alto attira più attenzione del colore. Un foglio a righe bianche e nere, mosso piano, regala minuti di fascinazione e smorfie stupende.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Perché il contrasto",
+      "texto": "Nei primi mesi la vista distingue ancora meglio le forti differenze di chiaro e scuro che i colori tenui. Le forme ad alto contrasto trattengono l'attenzione più a lungo, ed è questo a rendere il gioco interessante per lei e non un compito."
+    },
+    {
+      "titulo": "Cosa si può fare in casa, oggi",
+      "itens": [
+        "Disegna righe spesse, spirali e bersagli con un pennarello nero su un foglio bianco. Un foglio per disegno.",
+        "Fissa un foglio sul lato del lettino o mettilo a terra, all'altezza a cui guarda.",
+        "Una scacchiera bianca e nera funziona benissimo, e la disegni in due minuti.",
+        "Vale anche quello che c'è già: una maglietta a righe, il battiscopa scuro contro la parete chiara."
+      ]
+    },
+    {
+      "titulo": "Per quanto tempo",
+      "texto": "Finché è interessata, e nemmeno un minuto in più. Girare la faccia è una risposta, non un rifiuto. Uno o due minuti per volta, qualche volta al giorno, è il formato che funziona."
+    },
+    {
+      "titulo": "Vale la pena registrare",
+      "texto": "Filma quindici secondi del suo sguardo che segue il disegno, con il foglio visibile nell'inquadratura. È un video che invecchia molto bene, perché mostra l'attenzione mentre nasce."
+    }
+  ]
+}

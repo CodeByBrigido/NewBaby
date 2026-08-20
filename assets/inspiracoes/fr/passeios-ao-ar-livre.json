@@ -1,0 +1,39 @@
+{
+  "titulo": "Où aller avec un jeune enfant",
+  "resumo": "Des endroits qui marchent vraiment, par tranche d'âge, et quoi emporter pour ne pas rentrer trop tôt.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Un bébé qui ne marche pas encore",
+      "itens": [
+        "Un parc avec de l'ombre et une couverture au sol. Regarder les feuilles bouger occupe plus qu'on ne croit.",
+        "Le marché le matin : du bruit, des couleurs et des odeurs, et vous réglez les courses de la semaine au passage.",
+        "La plage ou un lac en fin d'après-midi, quand le soleil est faible."
+      ]
+    },
+    {
+      "titulo": "Quand elle marche déjà",
+      "itens": [
+        "Une place au sol irrégulier : herbe, sable, gravier. Cela fatigue et amuse à la fois.",
+        "Une pépinière, un jardin botanique ou une jardinerie. C'est souvent bon marché ou gratuit et il y a de l'ombre.",
+        "Un aquarium ou une serre à papillons, s'il y en a dans la ville.",
+        "Un sentier court et plat, avec un but au bout : un pont, un ruisseau, un gros rocher."
+      ]
+    },
+    {
+      "titulo": "Ce qui manque toujours",
+      "itens": [
+        "De l'eau et un fruit.",
+        "Une tenue de rechange complète.",
+        "De la crème solaire et un chapeau.",
+        "Partir de la maison avant dix heures ou après seize heures. En milieu de journée, personne ne tient."
+      ]
+    }
+  ]
+}

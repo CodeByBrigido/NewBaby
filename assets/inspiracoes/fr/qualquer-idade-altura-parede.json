@@ -1,0 +1,35 @@
+{
+  "titulo": "La marque sur le mur",
+  "resumo": "Un montant de porte, un crayon et la date. C'est l'enregistrement le plus analogique qui soit et celui qui émeut le plus quand la famille déménage. Photographiez-le avant de partir.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La marque sur le mur, faite pour durer",
+      "texto": "Marquer la taille sur le chambranle est une vieille tradition avec un problème connu : le mur reste dans la maison quand la famille déménage. Quelques précautions règlent cela et transforment le jeu en véritable archive."
+    },
+    {
+      "titulo": "Comment faire",
+      "itens": [
+        "Choisissez un coin qui ne sera pas repeint de sitôt, et toujours le même.",
+        "Sans chaussures, talons contre le mur, en regardant devant.",
+        "Posez un livre à plat sur le haut de la tête, à l'horizontale, pour marquer droit.",
+        "Écrivez la date à côté de la marque, toujours. Une marque sans date ne sert à rien.",
+        "Photographiez tout le mur à chaque nouvelle marque. C'est la photo qui survit au déménagement."
+      ]
+    },
+    {
+      "titulo": "Si vous ne pouvez pas marquer le mur",
+      "texto": "Une toise en tissu ou en bois fixée au mur fait l'affaire, et elle part avec vous au déménagement. Une longue bande de papier collée derrière la porte marche aussi, et peut être roulée et rangée."
+    },
+    {
+      "titulo": "À quelle fréquence",
+      "texto": "Tous les trois mois la première année et à chaque anniversaire ensuite. Marquer toutes les semaines remplit le mur sans raconter aucune histoire ; c'est la distance entre les marques qui est l'enregistrement."
+    }
+  ]
+}

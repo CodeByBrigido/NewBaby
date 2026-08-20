@@ -1,0 +1,35 @@
+{
+  "titulo": "Lascia che sia lei a raccontare la storia",
+  "resumo": "Prendi un libro conosciuto e chiedile di raccontartelo lei, guardando le figure. La sua versione di solito è meglio dell'originale.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Invertite i ruoli",
+      "texto": "Dopo mesi passati ad ascoltare, comincia a riuscire a raccontare. Chiedile di raccontarti la storia, guardando le figure di un libro che già conosce. Quello che esce non è la storia del libro, ed è proprio questo che vale."
+    },
+    {
+      "titulo": "Come tirarla fuori",
+      "itens": [
+        "Prendi un libro che ha già sentito tante volte, e gira le pagine.",
+        "Chiedi \"e poi cos'è successo?\" invece di correggere quello che ha detto.",
+        "Accetta deviazioni totali dalla trama. La sua versione è il documento.",
+        "Se si blocca, indica una figura e aspetta. Aspetta più di quanto sembri comodo.",
+        "Finisci prima che si stanchi, anche a metà."
+      ]
+    },
+    {
+      "titulo": "Registra, sempre",
+      "texto": "Questa è una di quelle cose che il testo non conserva. Il modo di raccontare, le pause, l'intonazione copiata da te: tutto questo esiste solo in audio o in video. Un minuto per volta, qualche volta all'anno."
+    },
+    {
+      "titulo": "Inventate una storia insieme",
+      "texto": "Comincia con una frase e lasciala continuare, a turno. Registra. È il gioco che rende di più a questa età e quello che produce il materiale più divertente di tutto l'archivio."
+    }
+  ]
+}

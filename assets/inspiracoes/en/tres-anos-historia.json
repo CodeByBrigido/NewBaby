@@ -1,0 +1,35 @@
+{
+  "titulo": "Let her tell the story",
+  "resumo": "Pick a familiar book and ask her to tell it to you, looking at the pictures. Her version is usually better than the original.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Swap the roles",
+      "texto": "After months of listening, she becomes able to tell. Ask her to tell you the story, looking at the pictures in a book she already knows. What comes out is not the story in the book, and that is exactly what makes it worth having."
+    },
+    {
+      "titulo": "How to draw it out",
+      "itens": [
+        "Take a book she has heard many times, and keep turning the pages.",
+        "Ask \"and then what happened?\" instead of correcting what she said.",
+        "Accept complete departures from the plot. Her version is the document.",
+        "If she freezes, point at a picture and wait. Wait longer than feels comfortable.",
+        "Stop before she tires of it, even halfway through."
+      ]
+    },
+    {
+      "titulo": "Record it, always",
+      "texto": "This is one of those things text cannot keep. The way of telling, the pauses, the intonation copied from you: all of that only exists as audio or video. A minute at a time, a few times a year."
+    },
+    {
+      "titulo": "Make up a story together",
+      "texto": "Start with one sentence and let her carry on, taking turns. Record it. It is the game that gives the most at this age and the one that produces the funniest material in the whole archive."
+    }
+  ]
+}

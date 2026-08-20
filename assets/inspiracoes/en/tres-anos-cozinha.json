@@ -1,0 +1,41 @@
+{
+  "titulo": "Cooking together, mess included",
+  "resumo": "Stirring, pouring, squashing dough. The mess is the point, not a side effect. A cloth on the floor solves it and the memory stays.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "What a three year old can genuinely do",
+      "itens": [
+        "Stir with a spoon in a large, deep bowl.",
+        "Mash banana, avocado or potato with a fork.",
+        "Tear lettuce and kale leaves with her hands.",
+        "Brush on butter, sprinkle flour, press a biscuit cutter.",
+        "Pour from a small container into a bigger one, with you holding it too.",
+        "Choose between two options you offer. Choosing is half the fun."
+      ]
+    },
+    {
+      "titulo": "The rules that make this possible",
+      "texto": "A stable step stool, everything sharp and hot out of reach and on the other side of the worktop, and expectations adjusted: the recipe will take twice as long and will not look pretty. If you need it to look pretty today, cook together tomorrow."
+    },
+    {
+      "titulo": "Recipes that survive a mess",
+      "itens": [
+        "A mug cake or a blender cake, where stirring is the entire recipe.",
+        "Cut-out butter biscuits, which are pure modelling.",
+        "Rolled cheese bread, which is edible play dough.",
+        "Fruit salad, with a plastic knife and soft fruit.",
+        "Pizza on bread, where she builds the topping herself."
+      ]
+    },
+    {
+      "titulo": "Keeping it",
+      "texto": "A photo of the hands in the dough, then one of her with the result, wonky as it is. Write the recipe and her age in the description. Years from now, that silly recipe becomes a tradition with a date of birth."
+    }
+  ]
+}

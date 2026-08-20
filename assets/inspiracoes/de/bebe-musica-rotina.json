@@ -1,0 +1,34 @@
+{
+  "titulo": "Ein Lied für jede Stunde",
+  "resumo": "Dasselbe Lied beim Baden, ein anderes beim Zubettgehen. Es wird zur Ankündigung dessen, was kommt, es beruhigt, und in zwanzig Jahren gibt dieses Lied die ganze Wohnung zurück.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Musik als Signal, nicht als Filmmusik",
+      "texto": "Ein festes Lied für jeden Moment des Tages wirkt wie ein Zeichen: bevor es Wörter versteht, versteht es, dass diese Melodie Baden bedeutet und die andere Schlafen. Und als Zugabe entsteht eine Tonsammlung mit Datum."
+    },
+    {
+      "titulo": "Auswählen",
+      "itens": [
+        "Eines zum Aufwachen, eines zum Baden, eines zum Einschlafen. Drei reichen.",
+        "Kurz, unter zwei Minuten, und so, dass Sie es tausendmal aushalten.",
+        "Es darf von Ihnen gesungen sein, ohne Instrument. Es wirkt genauso und ist später mehr wert.",
+        "Kein Wechsel jede Woche: die Wiederholung ist der ganze Sinn."
+      ]
+    },
+    {
+      "titulo": "Nehmen Sie sich beim Singen auf",
+      "texto": "Einmal, am Handy, ohne Probe. Das ist die Datei, die es als Erwachsener hören will, und die kein Musikdienst ersetzt. Legen Sie sie mit dem Titel des Liedes und dem Datum in die Kapsel."
+    },
+    {
+      "titulo": "Die Probe der Zeit",
+      "texto": "Spielen Sie in ein paar Jahren das Einschlaflied ab. Die Reaktion kommt sofort, selbst bei einem Kind, das gar nicht mehr weiß, warum. Auch dieser Tag lohnt sich zu filmen."
+    }
+  ]
+}

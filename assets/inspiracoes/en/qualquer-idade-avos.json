@@ -1,0 +1,35 @@
+{
+  "titulo": "Film the grandparents with her",
+  "resumo": "Not the child on her own: the two of them together, talking. It is the record the family will most want to have, and the window does not stay open forever.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Why this is the most urgent record on the list",
+      "texto": "Every other idea here can be done next month. Not this one. The voice and the manner of grandparents is the material families most regret not having, and there is no way to recover it later. If you do one single thing from this whole list, do this one."
+    },
+    {
+      "titulo": "What to record",
+      "itens": [
+        "The two of them together, playing, without talking to the camera. Film from a distance.",
+        "A grandparent telling a story from their own childhood. Just one, with detail.",
+        "The family recipe being made, with the hands in shot and the explanation said out loud.",
+        "A one minute message for her at eighteen.",
+        "What the world was like when they were the age she is now."
+      ]
+    },
+    {
+      "titulo": "How to ask without embarrassing anyone",
+      "texto": "A lot of people freeze in front of a camera. Film during something that is already happening, rather than arranging a session. If someone does freeze, prop the phone up, leave it recording, and talk normally: within two minutes everyone forgets it is there."
+    },
+    {
+      "titulo": "File it with full names",
+      "texto": "Write the full name, the relationship and the year in the description. Fifty years from now, whoever watches may not know who it is. \"Granny\" identifies nobody to a great-grandchild."
+    }
+  ]
+}

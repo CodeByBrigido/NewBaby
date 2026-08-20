@@ -1,0 +1,41 @@
+{
+  "titulo": "Le premier jour d'école",
+  "resumo": "La photo à la porte, le cartable plus grand qu'elle, et le texte qui compte : ce que vous avez ressenti en la laissant là-bas.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 600,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Avant le jour J",
+      "itens": [
+        "Visitez l'école avec elle avant, si possible. Connaître le lieu enlève la moitié de la peur.",
+        "Racontez ce qui va se passer, dans l'ordre, en phrases courtes, les jours précédents.",
+        "Laissez-la choisir une chose : le cartable, la gourde, la tenue. Choisir donne du contrôle.",
+        "Convenez d'avance avec l'école de la façon dont se fera la séparation, et tenez-vous-y.",
+        "Préparez le cartable avec elle la veille, et photographiez-le prêt."
+      ]
+    },
+    {
+      "titulo": "Le jour même",
+      "texto": "Arrivez en avance, sans course. Dites au revoir une seule fois, clairement, et partez. Revenir pour un câlin de plus relance les pleurs et apprend que pleurer vous fait revenir. C'est dur, et c'est ce qui marche le mieux pour elle."
+    },
+    {
+      "titulo": "Quoi enregistrer, en cinq minutes",
+      "itens": [
+        "La photo devant votre porte, avant de partir, en pied avec le cartable.",
+        "La même photo à l'entrée de l'école, pour comparer avec toutes les années suivantes.",
+        "Le cartable ouvert, avec tout ce qui est parti dedans.",
+        "Une vidéo de dix secondes sur le trajet, avec vous qui lui demandez comment elle se sent.",
+        "La tête à la sortie, qui est presque toujours l'inverse de celle de l'entrée."
+      ]
+    },
+    {
+      "titulo": "Écrivez le jour même",
+      "texto": "Une lettre courte, le soir, sur ce que cela vous a fait. C'est la partie que personne n'enregistre, et celle que l'enfant devenue adulte voudra le plus lire. Répétez la même photo de porte et la même lettre à chaque rentrée, pendant des années."
+    }
+  ]
+}

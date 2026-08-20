@@ -1,0 +1,38 @@
+{
+  "titulo": "Documenta un día corriente entero",
+  "resumo": "Elige un sábado cualquiera y fotografía cada hora, sin producir nada. Un día sin nada especial es el que más vas a querer volver a ver.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Un día entero, tal y como es",
+      "texto": "Elige un día sin nada especial y registra la rutina de punta a punta. No es el día bonito: es el día corriente, el que se repite y que, por repetirse, parece que no va a acabar nunca. Acaba, y sin avisar."
+    },
+    {
+      "titulo": "El guion",
+      "itens": [
+        "La cara de quien acaba de despertarse, antes de nada.",
+        "El desayuno, con la mesa tal y como está de verdad.",
+        "El camino a la guardería o al parque.",
+        "Lo que hace sola cuando nadie le está proponiendo nada.",
+        "La comida, desorden incluido.",
+        "La siesta, si la hay.",
+        "El baño.",
+        "El ritual de dormir, y la última escena antes de apagar la luz."
+      ]
+    },
+    {
+      "titulo": "Las reglas",
+      "texto": "Nada de recoger la casa antes, nada de cambiar la ropa para la foto, nada de pedir que mire a la cámara. El valor de este registro es ser verdadero. Con una foto por etapa ya basta, y dos o tres vídeos de diez segundos lo completan."
+    },
+    {
+      "titulo": "Repítelo una vez al año",
+      "texto": "Siempre en el mismo mes. Comparar el día corriente de un año con el del año siguiente muestra más cambio que cualquier foto de cumpleaños, porque cambian la casa, la rutina y las personas junto con ella."
+    }
+  ]
+}

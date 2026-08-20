@@ -1,0 +1,36 @@
+{
+  "titulo": "La prima Festa della Mamma",
+  "resumo": "La foto che quasi non esiste mai è quella della madre con la bambina, perché è lei a fotografare. Chiedilo a qualcuno. Oggi è il giorno giusto.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDasMaes",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La prima è diversa dalle altre",
+      "texto": "Quest'anno la data cambia lato: chi ha sempre festeggiato passa a essere festeggiata, o torna a festeggiare con una persona in più nella foto. È una svolta che accade una volta sola, e vale la pena documentarla come una svolta, e non come l'ennesima domenica."
+    },
+    {
+      "titulo": "Idee che non dipendono dai soldi",
+      "itens": [
+        "La foto delle tre generazioni insieme, se si può. È quella che manca di più negli archivi.",
+        "La sua mano dipinta con colore lavabile, stampata su un foglio con la data.",
+        "Una lettera scritta dall'altro adulto di casa, al posto della bambina, che racconta il primo anno.",
+        "Un audio della bambina, anche senza una parola, conservato con la data.",
+        "Colazione a letto, con lei in mezzo al disordine."
+      ]
+    },
+    {
+      "titulo": "La foto che quasi sempre manca",
+      "texto": "Chi scatta le foto raramente compare dentro. Chiedi, quel giorno, che qualcuno ti fotografi con lei: non la foto in posa, quella di voi due che fate qualcosa. Se non c'è nessuno, usa l'autoscatto e appoggia il telefono."
+    },
+    {
+      "titulo": "Ripetilo ogni anno",
+      "texto": "Stessa posa, stesso posto, a ogni Festa della Mamma. Cinque anni dopo, quella serie è il regalo."
+    }
+  ]
+}

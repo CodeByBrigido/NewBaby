@@ -1,0 +1,35 @@
+{
+  "titulo": "Un suelo distinto cada fin de semana",
+  "resumo": "Hierba, arena, gravilla, hojas secas. Caminar sobre superficies distintas es diversión y entrenamiento a la vez, y el parque de al lado sirve.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Por qué cambiar de suelo",
+      "texto": "Quien está aprendiendo a andar pasa la mayor parte del tiempo sobre el mismo suelo liso de casa. Cada superficie distinta es un problema nuevo que el cuerpo tiene que resolver, y es además un paseo que no cuesta nada: ya existe a pocas calles de vosotros."
+    },
+    {
+      "titulo": "Una superficie por fin de semana",
+      "itens": [
+        "Hierba, que se hunde un poco y cambia el equilibrio.",
+        "Arena seca y arena mojada, que son dos cosas completamente distintas.",
+        "Gravilla de plaza, contigo dándole la mano.",
+        "Las tablas de madera de una tarima, con las ranuras.",
+        "Un charco poco profundo, con botas, al día siguiente de la lluvia.",
+        "Una cuesta suave, subiendo y bajando, que es otro ejercicio."
+      ]
+    },
+    {
+      "titulo": "Qué llevar",
+      "texto": "Ropa que pueda ensuciarse sin que sea un problema, una muda completa, agua y lo mínimo posible de todo lo demás. Un paseo con mucho equipaje cansa a quien lo carga y acorta el plan."
+    },
+    {
+      "titulo": "El registro que vale",
+      "texto": "Una foto de sus pies sobre la superficie del día, siempre desde el mismo ángulo, desde arriba. A lo largo de un año se convierte en una serie estupenda, y es la foto más fácil de hacerle a una criatura que no para."
+    }
+  ]
+}

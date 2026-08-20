@@ -1,0 +1,35 @@
+{
+  "titulo": "La photo des mains",
+  "resumo": "Votre main à côté de la sienne, sur la même photo. C'est l'image qui impressionne le plus des années après, parce que cette échelle ne revient jamais.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Pourquoi cette photo et pas une autre",
+      "texto": "La main est la partie qui change le plus et qu'on photographie le moins. Le visage, tout le monde l'enregistre. La main entière tenant dans votre doigt est une échelle que la mémoire efface : dans deux ans vous ne croirez pas qu'elle était de cette taille, et sans la photo vous n'aurez aucun moyen de vérifier."
+    },
+    {
+      "titulo": "Comment faire, en pratique",
+      "itens": [
+        "Près de la fenêtre, avec la lumière venant de côté. Sans flash, qui efface le dessin de la peau.",
+        "Un fond sombre et uni : un tee-shirt sombre, le canapé, le plaid plié. Un fond encombré vole l'attention à la main.",
+        "Touchez légèrement le dos de sa main et attendez : le réflexe d'agripper fait le reste tout seul.",
+        "Mettez votre main à côté, pour donner l'échelle. C'est la différence entre une jolie photo et un document.",
+        "Prenez une dizaine de photos. Une main de nouveau-né ne reste pas immobile, et la bonne ne se découvre qu'ensuite."
+      ]
+    },
+    {
+      "titulo": "Recommencez",
+      "texto": "Refaites la même photo au premier mois, à six mois et à son anniversaire, de la même manière et avec la même main à vous à côté. Trois photos qui sont belles séparément et impressionnantes ensemble."
+    },
+    {
+      "titulo": "Et les pieds",
+      "texto": "La même chose vaut, et la plante ridée des premiers jours dure encore moins longtemps. Si vous n'en faites qu'une, faites celle des mains ; si vous pouvez en faire deux, faites-les le même jour."
+    }
+  ]
+}

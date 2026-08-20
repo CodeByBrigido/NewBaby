@@ -1,0 +1,41 @@
+{
+  "titulo": "Cocinar juntos, guarrada incluida",
+  "resumo": "Mezclar, verter, apretar masa. El desorden es el objetivo, no el efecto secundario. Un paño en el suelo lo resuelve y el recuerdo se queda.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "Qué puede hacer de verdad una criatura de tres años",
+      "itens": [
+        "Mezclar con una cuchara en un bol grande y hondo.",
+        "Aplastar plátano, aguacate o patata con un tenedor.",
+        "Romper hojas de lechuga y de col con las manos.",
+        "Pincelar mantequilla, espolvorear harina, apretar un cortador de galletas.",
+        "Verter de un recipiente pequeño a otro más grande, contigo sujetando también.",
+        "Elegir entre dos opciones que le ofrezcas. Elegir es la mitad de la diversión."
+      ]
+    },
+    {
+      "titulo": "Las reglas que hacen esto posible",
+      "texto": "Un taburete estable, todo lo que corta y lo que quema fuera de alcance y al otro lado de la encimera, y las expectativas ajustadas: la receta va a tardar el doble y no va a quedar bonita. Si necesitas que quede bonita hoy, cocinad juntos mañana."
+    },
+    {
+      "titulo": "Recetas que aguantan el desorden",
+      "itens": [
+        "Bizcocho en taza o de batidora, en el que mezclar es la receta entera.",
+        "Galletas de mantequilla con cortador, que es modelado puro.",
+        "Panecillos de queso enrollados, que son plastilina comestible.",
+        "Macedonia, con cuchillo de plástico y fruta blanda.",
+        "Pizza sobre pan, en la que ella monta la cobertura sola."
+      ]
+    },
+    {
+      "titulo": "Guardar",
+      "texto": "Foto de las manos en la masa, y después una de ella con el resultado, aunque salga torcido. Escribe la receta y la edad en la descripción. Dentro de unos años, esa receta tonta se convierte en una tradición con fecha de nacimiento."
+    }
+  ]
+}

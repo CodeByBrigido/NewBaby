@@ -1,0 +1,36 @@
+{
+  "titulo": "Scrivi quello che nessuno ricorderà",
+  "resumo": "L'odore della testa, il rumore che fa mentre mangia, il modo in cui stringe un dito. Sono le cose che spariscono per prime dalla memoria. Basta una frase.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Cosa sparisce per primo",
+      "texto": "La memoria conserva male proprio ciò che è costante. L'odore della sua testa, il peso esatto in braccio, il suono che fa prima di piangere davvero: niente di tutto questo diventa una foto, e sparisce senza avvisare. Non è la nascita che dimenticherai; dimenticherai com'era essere lì."
+    },
+    {
+      "titulo": "Scrivi ora, scritto male",
+      "texto": "Questa lettera non deve essere bella. Deve esistere finché l'informazione è ancora fresca. Dieci minuti, sul telefono, con una mano sola, nel cuore della notte. Il testo storto fa parte del documento.",
+      "itens": [
+        "L'odore. Prova a descriverlo, anche se viene fuori una sciocchezza.",
+        "Il peso in braccio, e come cambia quando si addormenta.",
+        "Il suono esatto del pianto, e l'altro suono, quello di prima del pianto.",
+        "Quello che senti alle tre del mattino, senza filtrarlo per farlo suonare bene.",
+        "Quello che ti spaventa. Anche questo è la verità di quel giorno."
+      ]
+    },
+    {
+      "titulo": "Non scrivere ancora a lei",
+      "texto": "La tentazione è scrivere una lettera di consigli per il futuro. Tienila per dopo. Quello che ha valore oggi è il racconto del presente, perché è quello che nessuno riesce a ricostruire vent'anni dopo. I consigli li dai di persona; l'odore dei primi giorni, no."
+    },
+    {
+      "titulo": "Una a settimana, nel primo mese",
+      "texto": "Quattro lettere corte valgono più di una lunga che non esce mai. E le quattro insieme mostrano una cosa che una sola non mostra: quanto cambia in trenta giorni, in lei e in te."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Colori lavabili e carta grande",
+  "resumo": "Carta da pacchi per terra, tempera e la mano intera. Il pasticcio è il senso della cosa. Conserva l'impronta della mano con la data.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Prima di cominciare, risolvi il pasticcio",
+      "texto": "Metà dello stress della pittura viene dall'improvvisare la pulizia dopo. Risolto quello prima, resta solo la parte bella. Fallo sul pavimento della lavanderia, in giardino, o su un telo di plastica grande, e con lei solo in pannolino: la pelle si lava più facilmente dei vestiti."
+    },
+    {
+      "titulo": "Cosa usare",
+      "itens": [
+        "Colore lavabile atossico, adatto all'età, e controlla l'etichetta.",
+        "Carta grande. La carta da pacchi in rotolo costa poco ed è il miglior investimento qui.",
+        "Un pennello grosso, una spugna, un rullino, e soprattutto le mani.",
+        "Due o tre colori al massimo. Con più di così diventa tutto marrone in due minuti e la frustrazione è sua.",
+        "Un secchio d'acqua tiepida e un asciugamano vecchio accanto, pronti prima di aprire i colori."
+      ]
+    },
+    {
+      "titulo": "Il processo conta più del risultato",
+      "texto": "Non si tratta di ottenere un disegno. Si tratta di scoprire cosa fa la mano con il colore. Non guidare, non chiedere una casa, non correggere il colore del cielo. Siediti accanto e dipingi il tuo foglio."
+    },
+    {
+      "titulo": "Cosa conservare",
+      "texto": "Fotografa le mani sporche, il foglio a metà lavoro e la faccia concentrata. Poi una foto del disegno asciutto e intero, con la data. Tre foto, e il foglio può andarsene senza sensi di colpa."
+    }
+  ]
+}

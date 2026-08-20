@@ -1,0 +1,34 @@
+{
+  "titulo": "Bewahren Sie das erste Gekritzel",
+  "resumo": "Fotografieren Sie die Zeichnung zusammen mit der Hand, die sie gemacht hat. Papier vergilbt, verschwindet, wird zu Geschenkpapier. Das Foto bleibt.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Das erste Gekritzel hat ein Datum und verschwindet",
+      "texto": "Kinderzeichnungen häufen sich schnell und landen aus reiner Menge im Müll. Die erste jedoch ist ein Dokument: es ist das erste Mal, dass das Kind absichtlich eine Spur in der Welt hinterlassen hat. Ohne Foto und ohne Datum wird sie ein Blatt mehr im Stapel."
+    },
+    {
+      "titulo": "Wie man sie richtig bewahrt",
+      "itens": [
+        "Fotografieren Sie von oben, mit dem ganzen Blatt im Bild und Fensterlicht, ohne den Schatten Ihrer Hand.",
+        "Schreiben Sie Datum und Alter in die Beschreibung, nicht aufs Blatt, um die Zeichnung nicht zu verderben.",
+        "Wenn es schon spricht, fragen Sie, was das ist, und notieren Sie die Antwort Wort für Wort. Dieser Satz ist mehr wert als die Zeichnung.",
+        "Fotografieren Sie auch seine Hand mit dem Stift: das gibt Maßstab und erzählt die Phase."
+      ]
+    },
+    {
+      "titulo": "Was anbieten",
+      "texto": "Dicke Wachsmalstifte, die gedrungenen, die eine geschlossene Faust halten kann, und großes Papier, je größer desto besser. Kleines Papier wird zur Enttäuschung; eine Rolle Packpapier oder die Rückseite eines Plakats löst das."
+    },
+    {
+      "titulo": "Nach der ersten",
+      "texto": "Heben Sie nicht alle auf. Wählen Sie eine pro Monat, fotografieren Sie sie, und lassen Sie dem Rest sein natürliches Schicksal. Eine pro Monat über zwölf Monate ist eine Sammlung; alle sind ein voller Schrank, den niemand öffnet."
+    }
+  ]
+}

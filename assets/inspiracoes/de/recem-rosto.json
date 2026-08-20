@@ -1,0 +1,39 @@
+{
+  "titulo": "Das Gesicht ganz nah, im Fensterlicht",
+  "resumo": "Ein Neugeborenes sieht auf etwa dreißig Zentimeter am besten, ungefähr die Länge Ihrer Arme. Bleiben Sie in diesem Abstand, ohne Blitz, mit dem Fensterlicht von der Seite.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 150
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Das Licht löst fast alles",
+      "texto": "Ein Foto vom Neugeborenen braucht keine Ausrüstung, es braucht ein Fenster. Tageslicht, weich gestreut, lässt der Haut ihre echte Struktur. Der Blitz des Handys macht das Gesicht flach, löscht die Wimpern und erschreckt obendrein."
+    },
+    {
+      "titulo": "Wohin damit",
+      "itens": [
+        "Legen Sie das Kind auf die Seite, einen Meter vom Fenster entfernt, das Licht seitlich aufs Gesicht.",
+        "Ein bedeckter Tag ist der beste Tag. Direkte Sonne wirft harte Schatten und lässt es die Augen zusammenkneifen.",
+        "Ist das Licht sehr hell, hängen Sie ein dünnes weißes Laken vors Fenster. Es wird zum Diffusor.",
+        "Schalten Sie die Deckenlampen aus: sie mischen zwei Lichtfarben und lassen die Haut grünlich wirken."
+      ]
+    },
+    {
+      "titulo": "Gehen Sie näher heran, als es richtig scheint",
+      "texto": "Das Foto, das später bewegt, ist das, welches den Rest der Welt wegschneidet: nur das Gesicht, oder nur Mund und Kinn, oder nur ein Ohr. Wählen Sie einen sehr engen Ausschnitt, und machen Sie zusätzlich eine weite Aufnahme für den Zusammenhang. Die beiden taugen für Verschiedenes."
+    },
+    {
+      "titulo": "Was niemand fotografiert und später fehlt",
+      "itens": [
+        "Das schlafende Gesicht, mit dem Mund noch in Bewegung.",
+        "Der Haarwirbel, von oben gesehen.",
+        "Das Ohr, das eine ganz eigene Zeichnung hat und im ersten Jahr die Form verändert.",
+        "Das Muttermal, falls vorhanden. Es wird meist heller und verschwindet."
+      ]
+    }
+  ]
+}

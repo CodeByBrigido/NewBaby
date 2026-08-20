@@ -1,0 +1,35 @@
+{
+  "titulo": "Washable paint and big paper",
+  "resumo": "Brown paper on the floor, poster paint and the whole hand. The mess is the point. Keep the handprint with the date on it.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Before you start, solve the mess",
+      "texto": "Half the stress of painting comes from improvising the clean-up afterwards. Solve that first and only the good part is left. Do it on the utility room floor, in the garden, or on a large sheet of plastic, with her in nothing but a nappy: skin washes more easily than clothes."
+    },
+    {
+      "titulo": "What to use",
+      "itens": [
+        "Washable non-toxic paint, suitable for her age, and check the label.",
+        "Large paper. A roll of brown paper is cheap and is the best investment here.",
+        "A thick brush, a sponge, a small roller, and above all hands.",
+        "Two or three colours at most. Any more and everything turns brown in two minutes, and the frustration is hers.",
+        "A bucket of warm water and an old towel beside you, ready before you open the paint."
+      ]
+    },
+    {
+      "titulo": "The process matters more than the result",
+      "texto": "The point is not to produce a drawing. It is to find out what a hand does with paint. Do not steer, do not ask for a house, do not correct the colour of the sky. Sit beside her and paint your own sheet."
+    },
+    {
+      "titulo": "What to keep",
+      "texto": "Photograph the messy hands, the paper mid-process and the face concentrating. Then one photo of the drawing dry and whole, with the date. Three photos, and the sheet can go without any guilt."
+    }
+  ]
+}

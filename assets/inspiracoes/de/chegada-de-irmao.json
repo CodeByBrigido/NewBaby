@@ -1,0 +1,25 @@
+{
+  "titulo": "Wenn ein Geschwisterkind kommt",
+  "resumo": "Wie Sie vorbereiten und was Sie festhalten sollten, bevor sich die Wohnung für immer umstellt.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Der Eintrag, den es nur vorher gibt",
+      "texto": "Es gibt ein letztes Foto von Ihnen als Familie zu dritt, und niemand weiß beim Auslösen, dass es das letzte ist. Wenn ein Geschwisterkind unterwegs ist, nehmen Sie sich einen Nachmittag und machen Sie dieses Foto absichtlich."
+    },
+    {
+      "titulo": "Hilfe beim Umstellen",
+      "itens": [
+        "Lassen Sie es bei etwas Kleinem und Echtem helfen: ein Kleidungsstück aussuchen, die Windeln wegräumen.",
+        "Eine Zeit, die nur ihm gehört, jeden Tag, und seien es zehn Minuten.",
+        "Ein Brief, geschrieben für es, über es, mitten in der Ankunft des anderen. Das ist es, was es später lesen will, wenn es denkt, die Aufmerksamkeit sei woanders hingewandert."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "titulo": "Montando la retrospectiva del primer año",
+  "resumo": "Un guion para convertir el archivo del año en un vídeo o un álbum que la familia entera va a querer ver.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "El guion más sencillo que funciona",
+      "itens": [
+        "Una foto de cada mes, del mismo sitio si la tienes.",
+        "Tres vídeos cortos: uno del principio, uno de la mitad, uno reciente.",
+        "Vuestra voz por encima, contando qué pasó aquel mes.",
+        "Termina con la foto del día del nacimiento y la de hoy, una al lado de la otra."
+      ]
+    },
+    {
+      "titulo": "Dónde se atasca la gente",
+      "texto": "Todo el mundo se atasca intentando elegir entre trescientas fotos. No elijas las mejores: elige una por mes, en orden, y sigue. Una retrospectiva hecha vale infinitamente más que una retrospectiva perfecta sin hacer."
+    }
+  ]
+}

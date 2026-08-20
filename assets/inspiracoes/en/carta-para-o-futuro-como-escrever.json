@@ -1,0 +1,31 @@
+{
+  "titulo": "When you do not know what to write",
+  "resumo": "Five opening lines that solve the blank page.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Start with one of these",
+      "itens": [
+        "Today you did something I want you to know about...",
+        "One thing I am afraid of forgetting is...",
+        "If I could tell you what it is like being your mother (or your father) today, I would say...",
+        "By the time you read this you will be X years old, and I wanted you to know...",
+        "Today was a hard day, and even so..."
+      ]
+    },
+    {
+      "titulo": "It does not have to be beautiful",
+      "texto": "The letters that move people most are not the well written ones: they are the ones that tell something specific. \"You cried all night and I cried with you at four in the morning\" is worth more than any paragraph about unconditional love. Write it badly, write it short, but write it concrete."
+    },
+    {
+      "titulo": "Seal it",
+      "texto": "When you file it away, choose an opening date: her fifteenth birthday, her eighteenth. A letter she knows exists and cannot read yet is a present that lasts years before it is opened."
+    }
+  ]
+}

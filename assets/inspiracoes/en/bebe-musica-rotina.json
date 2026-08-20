@@ -1,0 +1,34 @@
+{
+  "titulo": "One song for each hour",
+  "resumo": "The same song at bath time, another at bedtime. It becomes a signal of what comes next, it soothes, and twenty years from now that song hands the whole house back.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Music as a signal, not a soundtrack",
+      "texto": "A fixed song for each moment of the day works as a cue: before she understands words, she understands that this tune means bath, or that the other one means sleep. And as a bonus, you end up with a sound collection with dates on it."
+    },
+    {
+      "titulo": "Choosing",
+      "itens": [
+        "One for waking up, one for the bath, one for bedtime. Three is plenty.",
+        "Short ones, under two minutes, that you can bear to hear a thousand times.",
+        "It can be sung by you, with no instrument. It works just as well and is worth more later.",
+        "No swapping them every week: the repetition is the entire point."
+      ]
+    },
+    {
+      "titulo": "Record yourself singing",
+      "texto": "Once, on your phone, without rehearsing. It is the file she will want to hear as an adult, and the one no music service can replace. Keep it in the capsule with the name of the song and the date."
+    },
+    {
+      "titulo": "The test of time",
+      "texto": "A few years from now, play the sleep song. The reaction is immediate even in a child who no longer remembers why. That day is worth filming too."
+    }
+  ]
+}

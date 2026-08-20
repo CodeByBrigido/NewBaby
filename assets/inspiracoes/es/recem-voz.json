@@ -1,0 +1,35 @@
+{
+  "titulo": "Graba tu voz, no la suya",
+  "resumo": "Cantar, leer en voz alta, hablar del día. Dentro de treinta años quien va a querer escucharse es ella, pero a quien más va a querer escuchar es a ti.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "La voz que va a hacer falta es la tuya",
+      "texto": "Todo el mundo intenta grabar el sonido de la criatura. Lo que la niña adulta va a querer escuchar es tu voz, hablándole cuando ella todavía no entendía nada. Dentro de treinta años, ese es el archivo que no tiene sustituto."
+    },
+    {
+      "titulo": "Qué grabar",
+      "itens": [
+        "La canción que cantas para dormirla, cantada mal y todo.",
+        "Tú contando cómo fue el día del nacimiento, en voz alta, a tu manera.",
+        "Una conversación tonta mientras le cambias el pañal. Es el tono del día a día lo que se pierde.",
+        "Su nombre dicho por ti, muchas veces, en situaciones distintas.",
+        "Los abuelos hablándole. Esa es la grabación que se vuelve insustituible más rápido de lo que uno imagina."
+      ]
+    },
+    {
+      "titulo": "Cómo, sin producirlo",
+      "texto": "La grabadora del propio móvil basta. Un minuto es suficiente, y más de tres no lo escucha nadie. Habla cerca, en una habitación con telas y sofá, que amortigua el eco. No regrabes para que quede bonito: el tropiezo y la risa a mitad son lo que le da vida al archivo."
+    },
+    {
+      "titulo": "Dónde guardarlo",
+      "texto": "Graba, mándalo a la cápsula y escribe en la descripción la fecha y qué es. Un audio sin etiqueta se convierte en un archivo sin dueño, y dentro de veinte años nadie sabe si era una canción o una prueba de micrófono."
+    }
+  ]
+}

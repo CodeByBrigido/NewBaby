@@ -1,0 +1,34 @@
+{
+  "titulo": "The face new food makes",
+  "resumo": "Avocado, mango, beetroot. The face at the first spoonful of each flavour makes a run of photos that ages very well.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "The most entertaining series in the collection",
+      "texto": "The face at the first spoonful of each new food is a sequence that builds itself and gets a laugh at any family gathering ten years later. It takes no photographic skill at all, only consistency."
+    },
+    {
+      "titulo": "How to make it work",
+      "itens": [
+        "One food per photo, and write the name in the description. Without the name, the series is just funny faces.",
+        "Shoot in the first second. The face goes quickly and the second spoonful is already no fun.",
+        "Let the jar or the fruit show in the frame, so you can tell what it was.",
+        "Burst mode: you pick the best one afterwards, and it is almost never the first."
+      ]
+    },
+    {
+      "titulo": "One photo a week is plenty",
+      "texto": "You do not have to record everything. One new food a week, over a few months, already makes a great sequence and does not turn mealtimes into a photo shoot."
+    },
+    {
+      "titulo": "Watch the mood at the table",
+      "texto": "If the phone is getting in the way of the meal, put it away. Tomorrow's face is as good as today's, and eating with a camera in your face wears anyone down."
+    }
+  ]
+}

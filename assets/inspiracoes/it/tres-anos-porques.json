@@ -1,0 +1,34 @@
+{
+  "titulo": "La fase dei perché",
+  "resumo": "Annota le domande a cui non hai saputo rispondere. È il ritratto più fedele di come pensava a questa età, e sparisce in pochi mesi.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Cosa sta succedendo",
+      "texto": "La domanda ripetuta non è testardaggine né provocazione. È la scoperta che dietro le cose c'è una causa, e che la fonte sei tu. La stanchezza è reale e la fase passa; finché dura, è la migliore materia prima d'archivio che avrete."
+    },
+    {
+      "titulo": "Come rispondere senza impazzire",
+      "itens": [
+        "Rispondi davvero alle prime due o tre. Vale molto.",
+        "Poi restituisci la domanda: \"e tu perché pensi?\" La sua risposta di solito è meglio della tua.",
+        "\"Non lo so\" è una risposta legittima. Cercarlo insieme è ancora meglio.",
+        "Quando non ce la fai più, di' che adesso non ce la fai più. Fingere una pazienza finita non inganna nessuno."
+      ]
+    },
+    {
+      "titulo": "Annota le domande, non le risposte",
+      "texto": "Le domande di questa fase sono il documento. \"Perché il sole se ne va?\", \"Perché il nonno è vecchio?\", \"Perché si muore?\". Annota la domanda esatta e la data, in una lettera che continui ad alimentare. In sei mesi hai un documento che vale più di un album."
+    },
+    {
+      "titulo": "Registra una tornata",
+      "texto": "Un minuto di audio di una serie di perché, con la tua voce che risponde. Oggi fa ridere e fra vent'anni commuove, quando chi fa le domande sarà un'altra persona."
+    }
+  ]
+}

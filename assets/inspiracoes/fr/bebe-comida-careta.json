@@ -1,0 +1,34 @@
+{
+  "titulo": "La tête que fait un nouvel aliment",
+  "resumo": "Avocat, mangue, betterave. La grimace de la première cuillerée de chaque saveur donne une série de photos qui vieillit très bien.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La série la plus drôle de la collection",
+      "texto": "La grimace de la première cuillerée de chaque nouvel aliment est une série qui se construit toute seule et qui fait rire à n'importe quelle réunion de famille dix ans plus tard. Elle ne demande aucune compétence photographique, seulement de la régularité."
+    },
+    {
+      "titulo": "Comment la faire durer",
+      "itens": [
+        "Un aliment par photo, et notez le nom dans la description. Sans le nom, la série n'est qu'une suite de grimaces.",
+        "Photographiez à la première seconde. La grimace part vite et la deuxième cuillerée n'a déjà plus rien de drôle.",
+        "Laissez le pot ou le fruit apparaître dans le cadre, pour savoir de quoi il s'agit.",
+        "Rafale de photos : vous choisirez la meilleure ensuite, et ce n'est presque jamais la première."
+      ]
+    },
+    {
+      "titulo": "Une photo par semaine suffit",
+      "texto": "Il n'est pas nécessaire de tout enregistrer. Un nouvel aliment par semaine, sur quelques mois, donne déjà une excellente série et ne transforme pas le repas en séance photo."
+    },
+    {
+      "titulo": "Attention à l'ambiance à table",
+      "texto": "Si le téléphone gêne le repas, rangez-le. La grimace de demain vaut celle d'aujourd'hui, et manger avec une caméra sous le nez fatigue n'importe qui."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "titulo": "La prima Festa del Papà",
+  "resumo": "Un audio del padre che parla a lei a diciotto anni vale più di qualsiasi regalo possa ricevere oggi.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Documentare il cambiamento, non la data",
+      "texto": "La prima Festa del Papà con la bambina in casa segna un cambio di ruolo che non si ripete. È questo che vale la pena conservare: com'era prima, com'è adesso, e cosa è cambiato in chi è diventato padre quest'anno."
+    },
+    {
+      "titulo": "Idee semplici",
+      "itens": [
+        "La foto delle tre generazioni, quando la possibilità c'è.",
+        "L'impronta del suo piede o della sua mano su un foglio, con la data.",
+        "Una lettera scritta da lui, da leggere quando lei sarà adulta, su questo primo anno.",
+        "Un video dei due mentre fanno la cosa più banale della giornata: cambiare un pannolino, guardare la partita, dormire sul divano.",
+        "La foto dei due addormentati, che è il classico ed è un classico per un motivo."
+      ]
+    },
+    {
+      "titulo": "Anche chi fotografa deve comparire",
+      "texto": "Vale la stessa regola: chiedilo a qualcuno, o usa l'autoscatto. Un archivio senza il padre nelle foto racconta una storia sbagliata, ed è l'errore più comune di tutti."
+    },
+    {
+      "titulo": "La domanda che rende ogni anno",
+      "texto": "Registra un video corto rispondendo: \"cosa ho imparato quest'anno?\" A ogni Festa del Papà, la stessa domanda. È l'intervista annuale, dall'altro lato della telecamera."
+    }
+  ]
+}

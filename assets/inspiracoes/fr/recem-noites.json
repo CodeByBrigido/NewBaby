@@ -1,0 +1,33 @@
+{
+  "titulo": "Notez une ligne par nuit difficile",
+  "resumo": "Cela semble la dernière chose dont vous ayez envie à trois heures du matin. Mais c'est l'étape qui disparaît le plus vite de la mémoire, et celle qu'on est le plus content d'avoir notée ensuite.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Noter ce qui est difficile, c'est aussi noter",
+      "texto": "La capsule a tendance à ne garder que le joli, et une collection faite uniquement de sourires est une demi-vérité. Les nuits blanches des premiers mois sont la partie de l'histoire que les photos ne racontent pas, et que personne ne parvient à reconstituer après, parce que la fatigue efface la mémoire elle-même."
+    },
+    {
+      "titulo": "Une ligne, et c'est tout",
+      "texto": "Ce n'est pas un journal. C'est une ligne, écrite dans le noir, sans relecture. « Troisième nuit d'affilée debout. 4h12. Elle s'est endormie sur ma poitrine et moi non. » Cela suffit, et c'est plus fort qu'un paragraphe bien écrit le mois suivant."
+    },
+    {
+      "titulo": "À qui cela sert",
+      "itens": [
+        "À vous, dans deux ans, quand tout cela sera devenu du brouillard.",
+        "À elle, adulte, comprenant ce que cela a coûté et ce que cela a valu.",
+        "À quelqu'un d'autre dans la famille qui traverse la même chose et croit être seul à le ressentir."
+      ]
+    },
+    {
+      "titulo": "Rien de tout cela n'est une plainte",
+      "texto": "Écrire que ce fut dur n'enlève pas l'amour de la phrase. Les deux tiennent dans la même nuit, et le témoignage est plus vrai quand les deux apparaissent. Si un jour vous trouvez qu'une ligne est allée trop loin, elle est à vous : on peut l'effacer."
+    }
+  ]
+}

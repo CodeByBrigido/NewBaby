@@ -1,0 +1,35 @@
+{
+  "titulo": "Filmen Sie das Gewöhnliche",
+  "resumo": "Das Bad, die Mahlzeit, der Weg nach Hause. Niemand filmt das Gewöhnliche, weil es aussieht, als würde es ewig dauern, und gerade das Gewöhnliche verschwindet ohne Vorwarnung.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Was niemand filmt",
+      "texto": "Wir filmen Geburtstage, Reisen und erste Male. Wir filmen nicht das Windelwechseln um sieben Uhr morgens, die Mahlzeit mitten in der Nacht, den Weg zur Kita. Und genau das verschwindet vollständig, weil es das ist, was ewig zu dauern scheint."
+    },
+    {
+      "titulo": "Was Sie diese Woche filmen sollten",
+      "itens": [
+        "Eine ganze Mahlzeit, von Anfang bis Ende, mit dem Chaos und Ihrer schwindenden Geduld.",
+        "Das Einschlafritual, mit dem Lied, das Sie benutzen.",
+        "Zwanzig Sekunden vom Baden, mit der Stimme dessen, der badet.",
+        "Der Weg von zu Hause zu einem Ort, zu dem Sie jede Woche gehen.",
+        "Die Ecke der Wohnung, in der es die meiste Zeit verbringt, langsam gefilmt, ohne jemanden im Bild."
+      ]
+    },
+    {
+      "titulo": "Wie filmen, ohne zu inszenieren",
+      "texto": "Kurzes Video, quer, ohne in die Kamera zu sprechen. Bitten Sie es nicht hinzusehen und rufen Sie seinen Namen nicht: die natürliche Szene ist die wertvolle, und sie stirbt in dem Moment, in dem jemand merkt, dass gefilmt wird."
+    },
+    {
+      "titulo": "Warum jetzt",
+      "texto": "Der Alltag von heute wird es in sechs Monaten nicht mehr geben. Nicht das Wachsen löscht ihn, sondern die Ablösung: jede Phase tauscht den ganzen Alltag aus, und die vorherige verschwindet, ohne dass jemand etwas festgehalten hätte."
+    }
+  ]
+}

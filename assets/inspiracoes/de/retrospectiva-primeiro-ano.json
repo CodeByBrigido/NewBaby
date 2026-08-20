@@ -1,0 +1,27 @@
+{
+  "titulo": "Den Rückblick auf das erste Jahr bauen",
+  "resumo": "Ein Ablauf, um die Sammlung des Jahres in ein Video oder ein Album zu verwandeln, das die ganze Familie sehen will.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Der einfachste Ablauf, der funktioniert",
+      "itens": [
+        "Ein Foto aus jedem Monat, vom selben Ort, falls vorhanden.",
+        "Drei kurze Videos: eines vom Anfang, eines aus der Mitte, eines von kürzlich.",
+        "Ihre Stimme darüber, die erzählt, was in jenem Monat passiert ist.",
+        "Enden Sie mit dem Foto vom Tag der Geburt und dem von heute, nebeneinander."
+      ]
+    },
+    {
+      "titulo": "Wo die Leute stecken bleiben",
+      "texto": "Alle bleiben beim Versuch stecken, aus dreihundert Fotos auszuwählen. Wählen Sie nicht die besten: wählen Sie eines pro Monat, der Reihe nach, und machen Sie weiter. Ein fertiger Rückblick ist unendlich viel mehr wert als ein perfekter, den es nie gab."
+    }
+  ]
+}
