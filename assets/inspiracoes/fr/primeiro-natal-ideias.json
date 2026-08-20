@@ -1,0 +1,36 @@
+{
+  "titulo": "Le premier Noël",
+  "resumo": "Les cadeaux, les photos, et quoi faire d'un bébé qui ne se souviendra de rien de tout cela.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Le cadeau qui reste",
+      "texto": "Un jouet de premier Noël dure six mois. Ce qui dure, c'est ce qui a été gardé.",
+      "itens": [
+        "Une lettre de Noël écrite par chacun des parents, rangée pour ses dix-huit ans.",
+        "Une décoration de sapin avec l'année écrite dessus. Chaque année en apporte une nouvelle, et en vingt ans le sapin raconte toute l'histoire.",
+        "Un livre avec une dédicace et une date."
+      ]
+    },
+    {
+      "titulo": "La photo",
+      "itens": [
+        "Les lumières du sapin au fond, la lumière de la fenêtre sur le visage. Sans flash : le flash efface les petites lumières.",
+        "Une photo dans le même coin de la maison, chaque année. En cinq ans, cela devient la série que tout le monde s'arrête pour regarder.",
+        "La photo de toute la famille, au trépied ou au retardateur. Chaque année quelqu'un manque sur les photos, et c'est presque toujours celui qui tenait le téléphone."
+      ]
+    },
+    {
+      "titulo": "Des attentes réalistes",
+      "texto": "Un bébé à Noël s'endort souvent, s'étonne du bruit ou pleure au moment du repas. Rien de tout cela n'est un problème, et tout cela donne de bonnes photos. Ne forcez pas un sourire pour la caméra : la tête endormie du premier Noël est plus drôle dans vingt ans qu'un sourire arraché."
+    }
+  ]
+}

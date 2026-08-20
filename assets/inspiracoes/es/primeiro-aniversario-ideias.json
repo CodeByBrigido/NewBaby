@@ -1,0 +1,69 @@
+{
+  "titulo": "Ideas para el primer cumpleaños",
+  "resumo": "Queda poco. Dónde hacerlo, qué servir, a quién invitar y, sobre todo, qué registrar antes de que el día pase volando.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Antes de nada: para quién es la fiesta",
+      "texto": "Con un año, la criatura no entiende de fiestas, le extraña el ruido y suele dormirse a mitad. La fiesta es para vosotros y para quien os quiere, y asumirlo desde el principio quita la mitad de la presión. Una fiesta pequeña no es una fiesta menor."
+    },
+    {
+      "titulo": "Dónde hacerla",
+      "texto": "El sitio define casi todo lo que viene después: cantidad de gente, coste y cansancio.",
+      "itens": [
+        "En casa: más barato, más cómodo para que la criatura duerma, y limpias tú después. Funciona muy bien hasta unos quince invitados.",
+        "Un local de fiestas infantiles: resuelve comida, decoración y limpieza de una vez. Reserva con dos o tres meses de antelación, porque los sábados por la tarde se agotan pronto.",
+        "El salón del edificio: un término medio común y barato. Comprueba antes que tenga enchufes, nevera y baño cerca.",
+        "Un parque o una plaza: sombra, hierba y niños corriendo. Lleva manta, toldo y un plan B para la lluvia.",
+        "Una casa de campo: buena cuando la familia es grande y viene de lejos. Suma el coste del desplazamiento de todos antes de decidir."
+      ]
+    },
+    {
+      "titulo": "Un tema, sin complicarse",
+      "texto": "El tema sirve para que no tengas que decidir cada detalle desde cero. Elige uno que ya exista en vuestra vida.",
+      "itens": [
+        "El animal preferido, el libro que pide todas las noches, la fruta que adora.",
+        "Dos colores y ya está: con dos colores, cualquier cosa que compres combina.",
+        "Una fiesta de pañales al revés: cada invitado trae un libro infantil con una dedicatoria. Se convierte en una biblioteca firmada por la familia."
+      ]
+    },
+    {
+      "titulo": "Comida",
+      "texto": "Recuerda que buena parte de los invitados son adultos con prisa y niños con hambre.",
+      "itens": [
+        "Tarta de cumpleaños para las fotos, y un bizcochito aparte sin azúcar para ella, si la pediatra ya lo ha autorizado.",
+        "La fruta cortada desaparece más rápido que los dulces y ensucia menos.",
+        "La comida para comer con la mano evita platos, cubiertos y vajilla que fregar."
+      ]
+    },
+    {
+      "titulo": "Qué registrar, y qué olvida casi todo el mundo",
+      "texto": "El mismo día no se acuerda nadie de nada. Déjalo acordado antes.",
+      "itens": [
+        "Pídele a alguien que sea el fotógrafo del día. Sin eso, acabas la fiesta sin una sola foto tuya con ella.",
+        "Una foto con cada grupo: abuelos, padrinos, primos. Es la foto que la familia va a querer dentro de veinte años.",
+        "Un vídeo corto de diez segundos de cada invitado mandándole un mensaje para sus dieciocho años.",
+        "El ruido de la fiesta grabado en audio, por desordenado que sea: es lo que más devuelve el día después.",
+        "La carta. Antes de dormir, escribe cómo fue el primer año. Vas a creer que lo recuerdas para siempre. No va a ser así."
+      ]
+    },
+    {
+      "titulo": "Dos semanas antes",
+      "itens": [
+        "Confirmar sitio y horario",
+        "Cerrar la lista de invitados y mandar la invitación",
+        "Encargar o acordar la tarta",
+        "Preparar su ropa y la tuya",
+        "Acordar quién fotografía",
+        "Escribir la carta con calma, sin las prisas del día"
+      ]
+    }
+  ]
+}

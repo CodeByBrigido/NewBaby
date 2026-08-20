@@ -1,0 +1,35 @@
+{
+  "titulo": "The mark on the wall",
+  "resumo": "A door frame, a pencil and the date. It is the most analogue record there is and the one that moves people most when the family moves house. Photograph it before you go.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "The mark on the wall, made to last",
+      "texto": "Marking heights on the door frame is an old tradition with a known problem: the wall stays in the house when the family moves out. A few precautions solve that and turn the game into a real record."
+    },
+    {
+      "titulo": "How to do it",
+      "itens": [
+        "Pick a corner that will not be painted any time soon, and always the same one.",
+        "No shoes, heels against the wall, looking straight ahead.",
+        "Rest a book flat on top of her head, level, to mark it straight.",
+        "Write the date beside the mark, always. A mark without a date is no use to anyone.",
+        "Photograph the whole wall at every new mark. That is the photo that survives moving house."
+      ]
+    },
+    {
+      "titulo": "If you cannot mark the wall",
+      "texto": "A fabric or wooden height chart fixed to the wall does the job, and it comes with you when you move. A long strip of paper taped behind the door also works, and can be rolled up and put away."
+    },
+    {
+      "titulo": "How often",
+      "texto": "Every three months in the first year and every birthday after that. Marking every week fills the wall without telling any story; it is the distance between the marks that is the record."
+    }
+  ]
+}

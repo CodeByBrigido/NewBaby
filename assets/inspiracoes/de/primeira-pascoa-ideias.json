@@ -1,0 +1,42 @@
+{
+  "titulo": "Das erste Ostern",
+  "resumo": "Schokolade wohl noch nicht. Aber das Foto mit den Öhrchen und der Osterbrief halten viel länger als das Ei.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "pascoa",
+    "diasAntes": 18,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Was geht, nach Alter",
+      "itens": [
+        "Vor der Schokolade: die Suche kann mit Spielzeug oder Kuscheltieren stattfinden, die in der Wohnung versteckt sind.",
+        "Ein Korb mit wenigen Dingen, an einer leichten Stelle versteckt. Zwei oder drei Funde genügen.",
+        "Hasenohren aus Papier, in fünf Minuten gebastelt, die das beste Foto des Tages bringen.",
+        "Gekochte Eier mit abwaschbarer Farbe bemalen, mit Zeitung darunter.",
+        "Wenn es das allererste ist, nehmen Sie hin, dass es nichts davon versteht. Das Fest ist für Sie."
+      ]
+    },
+    {
+      "titulo": "Zur Schokolade",
+      "texto": "Ab welchem Alter Schokolade infrage kommt, ist ein Gespräch mit der Person, die die Gesundheit Ihres Kindes betreut, und nicht mit dem Internet. Bis dahin funktioniert die Suche mit Spielzeug genauso, und niemand vermisst etwas: der Spaß liegt im Suchen und Finden."
+    },
+    {
+      "titulo": "Was festhalten",
+      "itens": [
+        "Der fertig gepackte Korb, vor allem anderen.",
+        "Das Gesicht in dem Moment, in dem es das Erste findet. Halten Sie die Kamera bereit und bleiben Sie vor ihm.",
+        "Der verschmierte Mund, falls es Schokolade gibt.",
+        "Ein Foto der ganzen Familie, das fast immer fehlt.",
+        "Ein Fünfzehn-Sekunden-Video der Suche, mit Ton."
+      ]
+    },
+    {
+      "titulo": "Der Brief",
+      "texto": "Zwei Zeilen am Abend: wie alt es war, wer dabei war, und was es am komischsten gemacht hat. Jedes Jahr im selben Format. In zehn Jahren haben Sie Ostern der ganzen Familie dokumentiert."
+    }
+  ]
+}

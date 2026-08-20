@@ -1,0 +1,36 @@
+{
+  "titulo": "La première fête des Mères",
+  "resumo": "La photo qui n'existe presque jamais est celle de la mère avec le bébé, parce que c'est elle qui photographie. Demandez à quelqu'un. C'est aujourd'hui.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDasMaes",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La première n'est pas comme les autres",
+      "texto": "Cette année, la date change de camp : celle qui a toujours fêté devient celle qu'on fête, ou fête à nouveau avec une personne de plus sur la photo. C'est un basculement qui n'arrive qu'une fois, et il mérite d'être enregistré comme un basculement, et non comme un dimanche de plus."
+    },
+    {
+      "titulo": "Des idées qui ne dépendent pas de l'argent",
+      "itens": [
+        "La photo des trois générations ensemble, si c'est possible. C'est celle qui manque le plus dans les collections.",
+        "Sa main peinte à la peinture lavable, imprimée sur un papier avec la date.",
+        "Une lettre écrite par l'autre adulte de la maison, à la place de l'enfant, racontant la première année.",
+        "Un enregistrement de l'enfant, même sans un seul mot, gardé avec la date.",
+        "Un petit-déjeuner au lit, avec elle au milieu du désordre."
+      ]
+    },
+    {
+      "titulo": "La photo qui manque presque toujours",
+      "texto": "Celle qui prend les photos apparaît rarement dessus. Demandez, ce jour-là, que quelqu'un vous photographie avec elle : pas la photo posée, celle de vous deux en train de faire quelque chose. S'il n'y a personne, utilisez le retardateur et calez le téléphone."
+    },
+    {
+      "titulo": "Répétez chaque année",
+      "texto": "La même pose, le même endroit, à chaque fête des Mères. Cinq ans plus tard, cette série est le cadeau."
+    }
+  ]
+}

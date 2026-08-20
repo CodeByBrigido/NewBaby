@@ -1,0 +1,35 @@
+{
+  "titulo": "Déjale contar la historia",
+  "resumo": "Coge un libro conocido y pídele que te lo cuente ella, mirando los dibujos. Su versión suele ser mejor que la original.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Invierte los papeles",
+      "texto": "Después de meses escuchando, empieza a poder contar. Pídele que te cuente la historia, mirando los dibujos de un libro que ya conoce. Lo que sale no es la historia del libro, y justamente eso es lo que vale."
+    },
+    {
+      "titulo": "Cómo tirar del hilo",
+      "itens": [
+        "Coge un libro que ya haya oído muchas veces, y ve pasando las páginas.",
+        "Pregunta \"¿y entonces qué pasó?\" en vez de corregir lo que ha dicho.",
+        "Acepta desvíos completos del argumento. Su versión es el documento.",
+        "Si se bloquea, señala un dibujo y espera. Espera más de lo que parece cómodo.",
+        "Termina antes de que se canse, aunque sea a la mitad."
+      ]
+    },
+    {
+      "titulo": "Grábalo, siempre",
+      "texto": "Esta es una de esas cosas que el texto no guarda. La manera de contar, las pausas, la entonación copiada de ti: todo eso solo existe en audio o en vídeo. Un minuto cada vez, unas cuantas veces al año."
+    },
+    {
+      "titulo": "Inventad una historia juntos",
+      "texto": "Empieza con una frase y déjale continuar, alternando. Grábalo. Es el juego que más da de sí a esta edad y el que produce el material más divertido de todo el archivo."
+    }
+  ]
+}

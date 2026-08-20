@@ -1,0 +1,25 @@
+{
+  "titulo": "When a sibling arrives",
+  "resumo": "How to prepare, and what to record before the house changes shape for good.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "The record you can only make beforehand",
+      "texto": "There is a last photo of you as a family of three, and nobody knows it is the last one while they are taking it. If a sibling is on the way, set aside an afternoon and take that photo on purpose."
+    },
+    {
+      "titulo": "Helping her settle in",
+      "itens": [
+        "Let her help with something small and real: choosing an outfit, putting the nappies away.",
+        "Time that is only hers, every day, even if it is ten minutes.",
+        "A letter written to her, about her, in the middle of the other one's arrival. That is what she will want to read later, when she thinks the attention has moved elsewhere."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "titulo": "La adaptación a la guardería",
+  "resumo": "Cómo suele ser la primera semana, qué acordar con la escuela, y el registro que nadie hace.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Cómo suele ser",
+      "texto": "Casi siempre la primera semana es corta y va creciendo poco a poco: una hora, después dos, después la jornada. Llorar en la puerta es común y suele pasar rápido en cuanto te vas, aunque no lo parezca. Cada escuela tiene su método, y vale la pena preguntar por el suyo antes de empezar."
+    },
+    {
+      "titulo": "Qué acordar antes",
+      "itens": [
+        "Quién la lleva y quién la recoge cada día de la semana.",
+        "Cómo avisa la escuela si pasa algo, y en cuánto tiempo.",
+        "Si puede llevar el objeto de apego de casa.",
+        "El nombre en todo. Absolutamente todo."
+      ]
+    },
+    {
+      "titulo": "El registro que nadie hace",
+      "texto": "Todo el mundo fotografía a la niña en la puerta de la escuela. Casi nadie escribe cómo fue para quien se quedó fuera. Escríbelo el mismo día: lo que sentiste volviendo solo al coche. Dentro de veinte años, esa parte vale más que la foto."
+    }
+  ]
+}

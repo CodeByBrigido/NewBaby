@@ -1,0 +1,34 @@
+{
+  "titulo": "La etapa de los porqués",
+  "resumo": "Apunta las preguntas que no supiste responder. Es el retrato más fiel de cómo pensaba a esta edad, y desaparece en pocos meses.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Qué está pasando",
+      "texto": "La pregunta repetida no es cabezonería ni provocación. Es el descubrimiento de que hay una causa detrás de las cosas, y de que tú eres la fuente. El cansancio es real y la etapa pasa; mientras dura, es la mejor materia prima de archivo que vais a tener."
+    },
+    {
+      "titulo": "Cómo responder sin volverte loco",
+      "itens": [
+        "Responde de verdad a las dos o tres primeras. Vale mucho la pena.",
+        "Después devuélvesela: \"¿y por qué crees tú?\" Su respuesta suele ser mejor que la tuya.",
+        "\"No lo sé\" es una respuesta legítima. Buscarlo juntos es todavía mejor.",
+        "Cuando ya no puedas más, di que ya no puedes más ahora. Fingir una paciencia que se acabó no engaña a nadie."
+      ]
+    },
+    {
+      "titulo": "Apunta las preguntas, no las respuestas",
+      "texto": "Las preguntas de esta etapa son el registro. \"¿Por qué se va el sol?\", \"¿Por qué el abuelo es viejo?\", \"¿Por qué nos morimos?\". Apunta la pregunta exacta y la fecha, en una carta que vas alimentando. En seis meses tienes un documento que vale más que un álbum."
+    },
+    {
+      "titulo": "Graba una tanda",
+      "texto": "Un minuto de audio de una serie de porqués, con tu voz respondiendo. Es gracioso hoy y es conmovedor dentro de veinte años, cuando quien pregunte sea otra persona."
+    }
+  ]
+}

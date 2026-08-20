@@ -1,0 +1,35 @@
+{
+  "titulo": "Ein Tunnel aus Kissen",
+  "resumo": "Die Sofakissen, ein an beiden Enden offener Karton, ein Laken über zwei Stühlen. Verbraucht Energie, kostet nichts.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Ein Tunnel aus dem, was schon da ist",
+      "texto": "Kissen, das Sofa, ein an beiden Seiten offener Karton und ein Laken über zwei Stühlen. Eine kurze Strecke zum Durchkrabbeln beschäftigt besser als die meisten Spielsachen und sieht bei jedem Aufbau anders aus."
+    },
+    {
+      "titulo": "Wie aufbauen",
+      "itens": [
+        "Kurz: anderthalb Meter sind schon ein Abenteuer. Zu lang macht Angst.",
+        "Immer mit beiden Ausgängen offen und sichtbar. Ein geschlossener Tunnel wird zur Falle.",
+        "Weicher Boden darunter, Teppich oder gefaltete Decke.",
+        "Sie am anderen Ende, rufend. Das ist es, was beim ersten Mal hindurchführt.",
+        "Ein Spielzeug am Ende, als Grund."
+      ]
+    },
+    {
+      "titulo": "Sicherheit, in drei Zeilen",
+      "texto": "Nichts, was darauf zusammenfallen kann, keine schweren Möbel als Wände, und Sie die ganze Zeit in der Nähe. Bleibt es in der Mitte stecken und beschwert sich, bauen Sie ein Stück ab, statt zu ziehen."
+    },
+    {
+      "titulo": "Der Eintrag",
+      "texto": "Legen Sie sich außen auf den Boden und filmen Sie den Tunnelausgang. Das auftauchende Gesicht ist die Aufnahme. Das ist mehr wert als jedes Foto des fertigen Tunnels."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Kuckuck!",
+  "resumo": "Das Gesicht hinter den Händen verstecken und wieder auftauchen. Das Lachen, das daraus entsteht, ist kurz im Leben und ewig im Video.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Warum dieses Spiel so lange trägt",
+      "texto": "Verschwinden und Wiederkommen ist der erste Witz, den die meisten Kinder verstehen, und er funktioniert, weil Erwartung und Erleichterung in zwei Sekunden passieren. Er braucht kein Material, keinen Platz und keine Vorbereitung, und Sie haben schon alles, was er verlangt: Ihr Gesicht."
+    },
+    {
+      "titulo": "Abwandlungen, damit es nicht langweilig wird",
+      "itens": [
+        "Die Hände vors Gesicht, der Klassiker. Fangen Sie damit an.",
+        "Hinter einem leichten Tuch, das es selbst wegziehen kann. Das Wegziehen ist der beste Teil.",
+        "Hinter der Tür oder der Sofaecke, mit dem ganzen Körper.",
+        "Einen Gegenstand unter einem Tuch verstecken, statt sich selbst. Eine andere Fassung desselben Witzes.",
+        "Lassen Sie sich von ihm verstecken. Es ändert alles, wenn es die Regie hat."
+      ]
+    },
+    {
+      "titulo": "Das Timing zählt mehr als die Abwandlung",
+      "texto": "Der Reiz liegt in der Pause vor dem Auftauchen. Warten Sie eine Sekunde länger, als es natürlich scheint, und beobachten Sie: dort entsteht das Lachen. Zu schnell baut gar keine Erwartung auf."
+    },
+    {
+      "titulo": "Das Video, das sich lohnt",
+      "texto": "Bitten Sie jemanden, Sie beim Spielen zu filmen, statt selbst zu filmen. Was hier bewahrt wird, ist nicht das lachende Kind, sondern die Szene der beiden Personen. Zwanzig Sekunden genügen."
+    }
+  ]
+}

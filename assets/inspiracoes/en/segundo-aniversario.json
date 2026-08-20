@@ -1,0 +1,31 @@
+{
+  "titulo": "Ideas for the second birthday",
+  "resumo": "At two she takes part. That changes everything compared with the first one.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 2,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "What is different from the first",
+      "texto": "At two she chooses, has opinions and remembers for weeks. Let her choose the theme, even if the choice is odd. Her party with her choice is worth more than the perfect party with yours."
+    },
+    {
+      "titulo": "What works at this age",
+      "itens": [
+        "Few children and plenty of room to run.",
+        "One activity only: bubbles, washable paint, a sandpit. More than one turns into chaos.",
+        "A short slot: two hours is enough for everybody.",
+        "A simple cake. She wants the icing, not the architecture."
+      ]
+    },
+    {
+      "titulo": "The interview",
+      "texto": "At two she can answer. Record three questions as audio: what is your favourite colour, what do you most like doing, what do you want to be when you grow up. Ask the same three every year. In ten years you will have the most priceless collection in the whole archive."
+    }
+  ]
+}

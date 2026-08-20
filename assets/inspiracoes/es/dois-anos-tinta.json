@@ -1,0 +1,35 @@
+{
+  "titulo": "Pintura lavable y papel grande",
+  "resumo": "Papel de estraza en el suelo, témpera y la mano entera. La guarrada es el objetivo. Guarda la huella de la mano con la fecha.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Antes de empezar, resuelve la suciedad",
+      "texto": "La mitad del estrés de pintar viene de improvisar la limpieza después. Resuelto eso antes, queda solo la parte buena. Hazlo en el suelo del lavadero, en el patio, o sobre un plástico grande, y con ella solo con el pañal: la piel se lava más fácil que la ropa."
+    },
+    {
+      "titulo": "Qué usar",
+      "itens": [
+        "Pintura lavable atóxica, apropiada para la edad, y comprueba la etiqueta.",
+        "Papel grande. El papel de estraza en rollo es barato y es la mejor inversión aquí.",
+        "Pincel grueso, esponja, rodillo pequeño, y sobre todo las manos.",
+        "Dos o tres colores como mucho. Con más, todo se vuelve marrón en dos minutos y la frustración es suya.",
+        "Un cubo de agua templada y una toalla vieja al lado, listos antes de abrir la pintura."
+      ]
+    },
+    {
+      "titulo": "El proceso importa más que el resultado",
+      "texto": "No se trata de que salga un dibujo. Se trata de descubrir qué hace la mano con la pintura. No dirijas, no pidas que haga una casa, no corrijas el color del cielo. Siéntate al lado y pinta tu propio folio."
+    },
+    {
+      "titulo": "Qué guardar",
+      "texto": "Fotografía las manos sucias, el papel a mitad del proceso y la cara concentrada. Después, una foto del dibujo seco y entero, con la fecha. Tres fotos, y el folio puede irse sin ninguna culpa."
+    }
+  ]
+}

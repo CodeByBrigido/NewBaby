@@ -1,0 +1,69 @@
+{
+  "titulo": "Idées pour le premier anniversaire",
+  "resumo": "Ce n'est plus très loin. Où le faire, quoi servir, qui inviter et, surtout, quoi enregistrer avant que la journée ne file.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "D'abord : pour qui est la fête",
+      "texto": "À un an, l'enfant ne comprend pas la fête, s'étonne du bruit et s'endort souvent au milieu. La fête est pour vous et pour ceux qui vous aiment, et l'assumer dès le départ enlève la moitié de la pression. Une petite fête n'est pas une fête moindre."
+    },
+    {
+      "titulo": "Où la faire",
+      "texto": "Le lieu détermine presque tout le reste : le nombre de personnes, le coût et la fatigue.",
+      "itens": [
+        "À la maison : moins cher, plus confortable pour que l'enfant dorme, et c'est vous qui nettoyez après. Cela marche très bien jusqu'à une quinzaine d'invités.",
+        "Une salle de fête pour enfants : cela règle la nourriture, la décoration et le ménage d'un coup. Réservez deux à trois mois à l'avance, parce que les samedis après-midi partent tôt.",
+        "La salle commune de l'immeuble : un entre-deux courant et bon marché. Vérifiez d'avance qu'il y a des prises, un frigo et des toilettes à proximité.",
+        "Un parc ou une place : de l'ombre, de l'herbe et des enfants qui courent. Emportez une couverture, un abri et un plan B pour la pluie.",
+        "Une maison à la campagne : bien quand la famille est nombreuse et vient de loin. Additionnez le coût du déplacement de tout le monde avant de décider."
+      ]
+    },
+    {
+      "titulo": "Un thème, sans se compliquer",
+      "texto": "Le thème sert à ne pas avoir à décider chaque détail depuis zéro. Choisissez-en un qui existe déjà dans votre vie.",
+      "itens": [
+        "L'animal préféré, le livre qu'elle réclame tous les soirs, le fruit qu'elle adore.",
+        "Deux couleurs et c'est tout : avec deux couleurs, tout ce que vous achetez s'accorde.",
+        "Une liste de naissance à l'envers : chaque invité apporte un livre pour enfant avec une dédicace. Cela devient une bibliothèque signée par la famille."
+      ]
+    },
+    {
+      "titulo": "La nourriture",
+      "texto": "Rappelez-vous qu'une bonne partie des invités sont des adultes pressés et des enfants affamés.",
+      "itens": [
+        "Un gâteau d'anniversaire pour les photos, et un petit gâteau sans sucre à part pour elle, si le pédiatre a déjà donné son accord.",
+        "Les fruits coupés disparaissent plus vite que les sucreries et salissent moins.",
+        "Ce qui se mange avec les doigts évite les assiettes, les couverts et la vaisselle."
+      ]
+    },
+    {
+      "titulo": "Quoi enregistrer, et ce que presque tout le monde oublie",
+      "texto": "Le jour même, personne ne pense à rien. Convenez-en d'avance.",
+      "itens": [
+        "Demandez à quelqu'un d'être le photographe de la journée. Sans cela, vous finissez la fête sans une seule photo de vous avec elle.",
+        "Une photo avec chaque groupe : grands-parents, parrain et marraine, cousins. C'est la photo que la famille voudra dans vingt ans.",
+        "Une courte vidéo de dix secondes de chaque invité lui laissant un message pour ses dix-huit ans.",
+        "Le bruit de la fête enregistré en son, même en désordre : c'est ce qui rend le mieux la journée après coup.",
+        "La lettre. Avant de dormir, écrivez comment s'est passée la première année. Vous croirez vous en souvenir toujours. Ce ne sera pas le cas."
+      ]
+    },
+    {
+      "titulo": "Deux semaines avant",
+      "itens": [
+        "Confirmer le lieu et l'heure",
+        "Arrêter la liste des invités et envoyer l'invitation",
+        "Commander ou organiser le gâteau",
+        "Préparer sa tenue et la vôtre",
+        "Convenir de qui photographie",
+        "Écrire la lettre au calme, sans la course du jour J"
+      ]
+    }
+  ]
+}

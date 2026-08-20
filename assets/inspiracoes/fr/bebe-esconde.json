@@ -1,0 +1,35 @@
+{
+  "titulo": "Coucou !",
+  "resumo": "Cacher son visage derrière ses mains et réapparaître. Le fou rire qui suit est court dans une vie et éternel en vidéo.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Pourquoi ce jeu dure si longtemps",
+      "texto": "Disparaître et revenir est la première blague que la plupart des enfants comprennent, et elle marche parce que l'attente et le soulagement tiennent en deux secondes. Elle ne demande ni matériel, ni place, ni préparation, et vous avez déjà tout ce qu'elle réclame : votre visage."
+    },
+    {
+      "titulo": "Variantes, pour que cela ne lasse pas",
+      "itens": [
+        "Les mains sur le visage, le classique. Commencez par là.",
+        "Derrière un tissu léger, qu'elle peut tirer elle-même. La partie où elle tire est la meilleure.",
+        "Derrière la porte ou le coin du canapé, avec tout le corps.",
+        "Cacher un objet sous un tissu, et non vous. Une autre version de la même blague.",
+        "Laissez-la vous cacher. Tout change quand c'est elle qui commande."
+      ]
+    },
+    {
+      "titulo": "Le rythme compte plus que la variante",
+      "texto": "Le charme est dans la pause avant d'apparaître. Attendez une seconde de plus que ce qui paraît naturel, et observez : c'est là que naît le rire. Trop vite, cela ne construit aucune attente."
+    },
+    {
+      "titulo": "La vidéo qui vaut",
+      "texto": "Demandez à quelqu'un de vous filmer en train de jouer, plutôt que de filmer vous-même. Ce qu'on garde ici, ce n'est pas l'enfant qui rit, c'est la scène des deux personnes. Vingt secondes suffisent."
+    }
+  ]
+}

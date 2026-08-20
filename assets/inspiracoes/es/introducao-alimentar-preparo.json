@@ -1,0 +1,35 @@
+{
+  "titulo": "Preparando la alimentación complementaria",
+  "resumo": "Qué tener a mano en casa y cómo registrarlo. Cuándo y qué ofrecer lo dice la pediatra.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Esto no es una orientación de salud",
+      "texto": "Cuándo empezar, qué ofrecer y en qué orden es una conversación con la pediatra, y solo con ella. Lo que hay aquí es la parte práctica: qué dejar listo en casa y cómo guardar el recuerdo de esta etapa, que es corta y muy divertida."
+    },
+    {
+      "titulo": "Lo que facilita la vida",
+      "itens": [
+        "Una trona que se pueda lavar entera, o un plástico grande debajo.",
+        "Babero de manga larga. Los pequeños no sirven de nada en esta etapa.",
+        "Plato con ventosa, que gana unos días antes de convertirse en juguete.",
+        "Dos cucharas: una para que ella sujete y otra para que uses tú."
+      ]
+    },
+    {
+      "titulo": "El recuerdo que vale",
+      "itens": [
+        "La cara de cada sabor nuevo. Haz la foto de la cara, no del plato.",
+        "Un vídeo corto del primer día sentada en la trona.",
+        "La lista de los alimentos que adoró y de los que escupió. Dentro de quince años, compararla con su gusto es desternillante."
+      ]
+    }
+  ]
+}

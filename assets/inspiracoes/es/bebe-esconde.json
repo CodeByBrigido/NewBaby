@@ -1,0 +1,35 @@
+{
+  "titulo": "¡Cucú!",
+  "resumo": "Esconder la cara detrás de las manos y reaparecer. La carcajada que sale de ahí es corta en la vida y eterna en vídeo.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Por qué este juego dura tanto",
+      "texto": "Desaparecer y volver es el primer chiste que entienden casi todas las criaturas, y funciona porque la expectativa y el alivio ocurren en dos segundos. No necesita material, ni espacio, ni preparación, y ya tienes todo lo que pide: tu cara."
+    },
+    {
+      "titulo": "Variaciones, para que no canse",
+      "itens": [
+        "Las manos en la cara, el clásico. Empieza por ahí.",
+        "Detrás de un paño ligero, que ella misma pueda tirar. La parte de tirar es la mejor.",
+        "Detrás de la puerta o de la esquina del sofá, con el cuerpo entero.",
+        "Esconder un objeto bajo un paño, y no a ti. Una versión distinta del mismo chiste.",
+        "Déjale que te esconda a ti. Cambia todo cuando quien controla es ella."
+      ]
+    },
+    {
+      "titulo": "El ritmo importa más que la variación",
+      "texto": "La gracia está en la pausa antes de aparecer. Espera un segundo más de lo que parece natural, y observa: ahí es donde nace la risa. Demasiado rápido no construye ninguna expectativa."
+    },
+    {
+      "titulo": "El vídeo que vale",
+      "texto": "Pídele a alguien que os grabe jugando, en lugar de grabar tú. Lo que se guarda aquí no es la criatura riéndose, es la escena de las dos personas. Con veinte segundos basta."
+    }
+  ]
+}

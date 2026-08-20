@@ -1,0 +1,35 @@
+{
+  "titulo": "Filma l'ordinario",
+  "resumo": "Il bagnetto, la poppata, la strada di casa. Nessuno filma l'ordinario perché sembra che debba durare per sempre, ed è l'ordinario che sparisce senza avvisare.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Quello che nessuno filma",
+      "texto": "Filmiamo compleanni, viaggi e prime volte. Non filmiamo il cambio di pannolino delle sette del mattino, la poppata notturna, la strada fino al nido. Ed è proprio quello che sparisce del tutto, perché è quello che sembra debba durare per sempre."
+    },
+    {
+      "titulo": "Cosa filmare questa settimana",
+      "itens": [
+        "Un pasto intero, dall'inizio alla fine, con il disordine e la tua pazienza che finisce.",
+        "Il rituale della nanna, con la canzone che usate.",
+        "Venti secondi del bagnetto, con la voce di chi lo sta facendo.",
+        "La strada da casa fino a un posto in cui andate ogni settimana.",
+        "L'angolo della casa dove passa più tempo, filmato piano, senza nessuno nell'inquadratura."
+      ]
+    },
+    {
+      "titulo": "Come filmare senza costruire niente",
+      "texto": "Video corto, in orizzontale, senza parlare alla telecamera. Non chiederle di guardare e non chiamarla per nome: è la scena naturale che ha valore, e muore nell'istante in cui qualcuno si accorge di essere filmato."
+    },
+    {
+      "titulo": "Perché adesso",
+      "texto": "La routine di oggi fra sei mesi non esisterà più. Non è la crescita a cancellarla, è la sostituzione: ogni fase cambia l'intera routine, e la precedente sparisce senza che nessuno abbia registrato niente."
+    }
+  ]
+}

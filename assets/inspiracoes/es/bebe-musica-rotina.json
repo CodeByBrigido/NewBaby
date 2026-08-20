@@ -1,0 +1,34 @@
+{
+  "titulo": "Una canción para cada hora",
+  "resumo": "La misma canción en el baño, otra a la hora de dormir. Se convierte en aviso de lo que viene, calma, y dentro de veinte años esa canción devuelve la casa entera.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Música como aviso, no como banda sonora",
+      "texto": "Una canción fija para cada momento del día funciona como una señal: antes de entender palabras, entiende que esa melodía significa baño, o que la otra significa dormir. Y de regalo os queda un archivo sonoro con fecha."
+    },
+    {
+      "titulo": "Eligiendo",
+      "itens": [
+        "Una para despertar, una para el baño, una para dormir. Con tres basta.",
+        "Cortas, de menos de dos minutos, y que aguantes escuchar mil veces.",
+        "Puede ser cantada por ti, sin instrumento. Funciona igual y vale más después.",
+        "Nada de cambiarlas cada semana: la repetición es el punto entero."
+      ]
+    },
+    {
+      "titulo": "Grábate cantando",
+      "texto": "Una vez, en el móvil, sin ensayo. Es el archivo que ella va a querer escuchar de adulta, y el que ningún servicio de música sustituye. Guárdalo en la cápsula con el nombre de la canción y la fecha."
+    },
+    {
+      "titulo": "La prueba del tiempo",
+      "texto": "Dentro de unos años, pon la canción del sueño. La reacción es inmediata incluso en una criatura que ya ni recuerda por qué. Ese día también vale la pena grabarlo."
+    }
+  ]
+}

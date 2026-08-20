@@ -1,0 +1,35 @@
+{
+  "titulo": "Getting ready for first foods",
+  "resumo": "What to set aside at home and how to record it. When to start and what to offer is for your paediatrician to say.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "This is not health advice",
+      "texto": "When to start, what to offer and in what order is a conversation with your paediatrician, and only with them. What is here is the practical part: what to have ready at home and how to keep the memory of this stage, which is short and very funny."
+    },
+    {
+      "titulo": "What makes life easier",
+      "itens": [
+        "A highchair you can wash all over, or a large sheet of plastic underneath.",
+        "A long-sleeved bib. The small ones are useless at this stage.",
+        "A suction plate, which buys you a few days before it becomes a toy.",
+        "Two spoons: one for her to hold and one for you to use."
+      ]
+    },
+    {
+      "titulo": "The memories worth having",
+      "itens": [
+        "The face at each new flavour. Photograph the face, not the plate.",
+        "A short video of the first day sitting in the highchair.",
+        "The list of foods she loved and the ones she spat out. Fifteen years from now, comparing it with her taste is hilarious."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "La foto delle mani",
+  "resumo": "La vostra mano accanto alla sua, nella stessa foto. È l'immagine che colpisce di più anni dopo, perché quella scala non torna mai più.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Perché questa foto e non un'altra",
+      "texto": "La mano è la parte che cambia di più e che si fotografa di meno. Il viso lo documentano tutti. La mano intera che sta dentro il tuo dito è una scala che la memoria cancella: fra due anni non crederai che fosse di quella misura, e senza la foto non avrai modo di verificarlo."
+    },
+    {
+      "titulo": "Come farlo, in pratica",
+      "itens": [
+        "Vicino alla finestra, con la luce che arriva di lato. Senza flash, che cancella il disegno della pelle.",
+        "Sfondo scuro e liscio: una maglietta scura, il divano, la coperta piegata. Uno sfondo disordinato ruba attenzione alla mano.",
+        "Tocca leggermente il dorso della sua mano e aspetta: il riflesso di afferrare fa il resto da solo.",
+        "Metti la tua mano accanto, per dare la scala. È la differenza fra una bella foto e un documento.",
+        "Fai una decina di scatti. Una mano di neonato non sta ferma, e quella buona la scopri solo dopo."
+      ]
+    },
+    {
+      "titulo": "Ripetila",
+      "texto": "Rifai la stessa foto al primo mese, a sei mesi e al compleanno, allo stesso modo e con la stessa tua mano accanto. Tre foto che da sole sono belle e insieme sono impressionanti."
+    },
+    {
+      "titulo": "E i piedi",
+      "texto": "Vale lo stesso, e la pianta grinzosa dei primi giorni dura ancora meno. Se ne fai una sola, fai quella delle mani; se puoi farne due, falle lo stesso giorno."
+    }
+  ]
+}

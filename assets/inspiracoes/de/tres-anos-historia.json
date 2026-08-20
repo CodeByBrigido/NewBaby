@@ -1,0 +1,35 @@
+{
+  "titulo": "Lassen Sie das Kind die Geschichte erzählen",
+  "resumo": "Nehmen Sie ein bekanntes Buch und bitten Sie es, Ihnen die Geschichte anhand der Bilder zu erzählen. Seine Fassung ist meist besser als das Original.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2400
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Tauschen Sie die Rollen",
+      "texto": "Nach Monaten des Zuhörens kann es selbst erzählen. Bitten Sie es, Ihnen die Geschichte zu erzählen, mit Blick auf die Bilder eines Buches, das es schon kennt. Was dabei herauskommt, ist nicht die Geschichte des Buches, und genau das ist das Wertvolle."
+    },
+    {
+      "titulo": "Wie man es anstößt",
+      "itens": [
+        "Nehmen Sie ein Buch, das es schon oft gehört hat, und blättern Sie weiter.",
+        "Fragen Sie \"und was ist dann passiert?\", statt zu verbessern, was es gesagt hat.",
+        "Nehmen Sie völlige Abweichungen von der Handlung hin. Seine Fassung ist das Dokument.",
+        "Wenn es stockt, zeigen Sie auf ein Bild und warten Sie. Warten Sie länger, als es angenehm scheint.",
+        "Hören Sie auf, bevor es müde wird, auch mittendrin."
+      ]
+    },
+    {
+      "titulo": "Nehmen Sie es auf, immer",
+      "texto": "Das ist eines der Dinge, die der Text nicht bewahrt. Die Art zu erzählen, die Pausen, die von Ihnen abgeschaute Betonung: all das gibt es nur als Ton oder Video. Eine Minute am Stück, ein paar Mal im Jahr."
+    },
+    {
+      "titulo": "Erfinden Sie zusammen eine Geschichte",
+      "texto": "Beginnen Sie mit einem Satz und lassen Sie es weitermachen, abwechselnd. Nehmen Sie auf. Es ist das ergiebigste Spiel in diesem Alter und das, welches das komischste Material der ganzen Sammlung hervorbringt."
+    }
+  ]
+}

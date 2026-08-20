@@ -1,0 +1,43 @@
+{
+  "titulo": "L'entretien annuel",
+  "resumo": "Trois questions, toujours les mêmes, à chaque anniversaire. Enregistrez le son. Dans dix ans, vous aurez une collection inestimable.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 700,
+    "ateDias": 6000
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Les mêmes questions, tous les ans",
+      "texto": "Une vidéo courte, le jour de l'anniversaire, avec les mêmes cinq ou six questions. Seule, ce n'est pas grand-chose. Quinze ans plus tard, toutes à la suite, c'est probablement ce qu'il y a de plus précieux dans toute la capsule."
+    },
+    {
+      "titulo": "Les questions",
+      "itens": [
+        "Quel âge as-tu ?",
+        "Quelle est ta couleur préférée ?",
+        "Que veux-tu faire quand tu seras grande ?",
+        "Quel est ton plat préféré ?",
+        "Qui est ton meilleur ami ?",
+        "Qu'est-ce que tu aimes le plus faire ?",
+        "Qu'est-ce que tu veux dire à toi-même quand tu seras grande ?"
+      ]
+    },
+    {
+      "titulo": "Les règles qui font marcher la série",
+      "itens": [
+        "Les mêmes questions, dans le même ordre, tous les ans. En changer casse la comparaison.",
+        "Toujours le même jour, celui de l'anniversaire, pour ne dépendre d'aucune décision.",
+        "Ne la corrigez pas et n'insistez pas. « Je ne sais pas » est une excellente réponse et vieillit très bien.",
+        "Vidéo courte et à l'horizontale, toujours. Une minute suffit.",
+        "À deux ans, elle ne répondra presque rien. Enregistrez quand même : c'est le premier de la série."
+      ]
+    },
+    {
+      "titulo": "Où le ranger",
+      "texto": "Dans la capsule, avec le titre « Entretien, X ans », toujours pareil. Le nom constant est ce qui permet de les retrouver tous ensemble et de monter la série plus tard."
+    }
+  ]
+}

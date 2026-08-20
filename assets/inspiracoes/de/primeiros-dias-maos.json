@@ -1,0 +1,35 @@
+{
+  "titulo": "Das Foto der Hände",
+  "resumo": "Ihre Hand neben seiner, auf demselben Foto. Es ist das Bild, das Jahre später am meisten beeindruckt, weil dieser Maßstab nie wiederkommt.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Warum dieses Foto und kein anderes",
+      "texto": "Die Hand ist der Teil, der sich am stärksten verändert und am seltensten fotografiert wird. Das Gesicht hält jeder fest. Die ganze Hand, die um Ihren Finger passt, ist ein Maßstab, den die Erinnerung löscht: in zwei Jahren werden Sie nicht glauben, dass sie so klein war, und ohne das Foto können Sie es nicht nachprüfen."
+    },
+    {
+      "titulo": "Wie es praktisch geht",
+      "itens": [
+        "Nah am Fenster, mit seitlich einfallendem Licht. Ohne Blitz, der die Zeichnung der Haut auslöscht.",
+        "Dunkler, glatter Hintergrund: ein dunkles Shirt, das Sofa, die gefaltete Decke. Ein unruhiger Hintergrund stiehlt der Hand die Aufmerksamkeit.",
+        "Berühren Sie den Handrücken leicht und warten Sie: der Greifreflex erledigt den Rest von allein.",
+        "Legen Sie Ihre eigene Hand daneben, als Maßstab. Das ist der Unterschied zwischen einem schönen Foto und einem Dokument.",
+        "Machen Sie etwa zehn Aufnahmen. Eine Neugeborenenhand hält nicht still, und die gute entdeckt man erst hinterher."
+      ]
+    },
+    {
+      "titulo": "Wiederholen",
+      "texto": "Machen Sie dasselbe Foto im ersten Monat, mit sechs Monaten und am Geburtstag noch einmal, auf dieselbe Weise und mit derselben Hand von Ihnen daneben. Drei Fotos, die einzeln schön und zusammen beeindruckend sind."
+    },
+    {
+      "titulo": "Und die Füße",
+      "texto": "Dasselbe gilt, und die faltige Fußsohle der ersten Tage hält noch kürzer. Wenn Sie nur eines machen, machen Sie das der Hände; wenn zwei möglich sind, machen Sie beide am selben Tag."
+    }
+  ]
+}

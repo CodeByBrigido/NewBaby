@@ -1,0 +1,38 @@
+{
+  "titulo": "Documenta un'intera giornata qualunque",
+  "resumo": "Scegli un sabato qualsiasi e fotografa di ora in ora, senza costruire niente. Una giornata senza niente di speciale è quella che vorrai rivedere di più.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Una giornata intera, così com'è",
+      "texto": "Scegli una giornata senza niente di speciale e documenta la routine da un capo all'altro. Non è la giornata bella: è la giornata qualunque, quella che si ripete e che, proprio perché si ripete, sembra non debba finire mai. Finisce, e senza avvisare."
+    },
+    {
+      "titulo": "La scaletta",
+      "itens": [
+        "La faccia di chi si è appena svegliata, prima di ogni altra cosa.",
+        "La colazione, con la tavola com'è davvero.",
+        "La strada per il nido o per il parco.",
+        "Quello che fa da sola quando nessuno le propone niente.",
+        "Il pranzo, disordine compreso.",
+        "Il sonnellino, se c'è.",
+        "Il bagnetto.",
+        "Il rituale della nanna, e l'ultima scena prima di spegnere la luce."
+      ]
+    },
+    {
+      "titulo": "Le regole",
+      "texto": "Niente riordino della casa prima, niente cambio di vestiti per la foto, niente richieste di guardare in camera. Il valore di questo documento è essere vero. Una foto per tappa basta già, e due o tre video di dieci secondi completano."
+    },
+    {
+      "titulo": "Ripetilo una volta all'anno",
+      "texto": "Sempre nello stesso mese. Confrontare la giornata qualunque di un anno con quella dell'anno dopo mostra più cambiamento di qualsiasi foto di compleanno, perché cambiano la casa, la routine e le persone insieme a lei."
+    }
+  ]
+}

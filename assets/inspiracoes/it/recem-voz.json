@@ -1,0 +1,35 @@
+{
+  "titulo": "Registra la tua voce, non la sua",
+  "resumo": "Cantare, leggere ad alta voce, raccontare la giornata. Fra trent'anni chi vorrà risentirsi è lei, ma chi vorrà sentire di più sei tu.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 900
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "La voce che mancherà è la tua",
+      "texto": "Tutti provano a registrare il suono della bambina. Quello che la bambina adulta vorrà sentire è la tua voce, mentre le parlava quando ancora non capiva niente. Fra trent'anni è quello il file che non ha sostituto."
+    },
+    {
+      "titulo": "Cosa registrare",
+      "itens": [
+        "La canzone che canti per farla dormire, cantata male e va bene così.",
+        "Tu che racconti ad alta voce com'è andato il giorno della nascita, a modo tuo.",
+        "Una conversazione qualunque mentre le cambi il pannolino. È il tono del quotidiano che si perde.",
+        "Il suo nome detto da te, tante volte, in situazioni diverse.",
+        "I nonni che le parlano. È la registrazione che diventa insostituibile più in fretta di quanto si immagini."
+      ]
+    },
+    {
+      "titulo": "Come, senza produrre niente",
+      "texto": "Il registratore del telefono basta. Un minuto è abbastanza, e oltre i tre non ascolta nessuno. Parla vicino, in una stanza con tessuti e divano, che smorza l'eco. Non rifare la registrazione per farla venire bella: l'inciampo e la risata in mezzo sono ciò che dà vita al file."
+    },
+    {
+      "titulo": "Dove conservarlo",
+      "texto": "Registra, mandalo nella capsula e scrivi nella descrizione la data e di cosa si tratta. Un audio senza etichetta diventa un file senza padrone, e fra vent'anni nessuno sa se era una canzone o una prova di microfono."
+    }
+  ]
+}

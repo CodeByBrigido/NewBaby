@@ -1,0 +1,42 @@
+{
+  "titulo": "The first Easter",
+  "resumo": "Probably no chocolate yet. But the photo with the little ears and the Easter letter last far longer than the egg.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "pascoa",
+    "diasAntes": 18,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "What you can do, by age",
+      "itens": [
+        "Before chocolate: the hunt can be for toys or soft animals hidden around the house.",
+        "A basket with only a few things in it, hidden somewhere easy. Two or three discoveries are plenty.",
+        "Paper bunny ears, made in five minutes, which produce the best photo of the day.",
+        "Painting boiled eggs with washable paint, with newspaper underneath.",
+        "If it is the very first one, accept that she will understand none of it. The celebration is yours."
+      ]
+    },
+    {
+      "titulo": "About chocolate",
+      "texto": "What age to introduce chocolate is a conversation with whoever looks after her health, not with the internet. In the meantime the hunt works just as well with toys, and nobody misses anything: the fun is in looking and finding."
+    },
+    {
+      "titulo": "What to record",
+      "itens": [
+        "The basket laid out, before anything else.",
+        "The face at the instant she finds the first one. Have the camera ready and stay ahead of her.",
+        "The messy mouth, if there is chocolate.",
+        "A photo of the whole family, which is almost always the one that is missing.",
+        "A fifteen second video of the hunt, with the sound."
+      ]
+    },
+    {
+      "titulo": "The letter",
+      "texto": "Two lines in the evening: how old she was, who was there, and the funniest thing she did. Every year in the same format. In ten years you have the whole family's Easters documented."
+    }
+  ]
+}

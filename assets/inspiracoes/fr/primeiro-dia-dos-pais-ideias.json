@@ -1,0 +1,36 @@
+{
+  "titulo": "La première fête des Pères",
+  "resumo": "Un enregistrement du père lui parlant à ses dix-huit ans vaut plus que n'importe quel cadeau qu'il pourrait recevoir aujourd'hui.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Enregistrer le changement, pas la date",
+      "texto": "La première fête des Pères avec l'enfant à la maison marque un basculement de rôle qui ne se répète pas. C'est cela qui mérite d'être gardé : comment c'était avant, comment c'est maintenant, et ce qui a changé chez celui qui est devenu père cette année."
+    },
+    {
+      "titulo": "Des idées simples",
+      "itens": [
+        "La photo des trois générations, quand cette possibilité existe.",
+        "L'empreinte de son pied ou de sa main sur un papier, avec la date.",
+        "Une lettre écrite par lui, à lire par elle adulte, sur cette première année.",
+        "Une vidéo des deux en train de faire la chose la plus banale de la journée : changer une couche, regarder le match, dormir sur le canapé.",
+        "La photo des deux endormis, qui est le classique et qui est un classique pour une raison."
+      ]
+    },
+    {
+      "titulo": "Celui qui photographie doit aussi apparaître",
+      "texto": "La même règle vaut : demandez à quelqu'un, ou utilisez le retardateur. Une collection sans le père sur les photos raconte une histoire fausse, et c'est l'erreur la plus courante de toutes."
+    },
+    {
+      "titulo": "La question qui fonctionne chaque année",
+      "texto": "Enregistrez une courte vidéo en répondant : « qu'est-ce que j'ai appris cette année ? » À chaque fête des Pères, la même question. C'est l'entretien annuel, de l'autre côté de la caméra."
+    }
+  ]
+}

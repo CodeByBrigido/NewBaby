@@ -1,0 +1,35 @@
+{
+  "titulo": "Une bassine d'eau dans le jardin",
+  "resumo": "Une bassine, deux gobelets et une cuillère. Vingt minutes de concentration absolue pour presque rien. Filmez de loin, sans interrompre.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Le jeu le moins cher de l'été",
+      "texto": "Une bassine avec deux centimètres d'eau, au sol, à l'ombre, et quelques récipients. Cela dure plus longtemps que presque tous les jouets, et le matériel est déjà dans votre cuisine."
+    },
+    {
+      "titulo": "Quoi mettre avec",
+      "itens": [
+        "Des récipients de tailles différentes, pour remplir et vider.",
+        "Une passoire et un gobelet percé, pour l'effet.",
+        "Une éponge, qui absorbe et qui goutte.",
+        "Une grande cuillère et un entonnoir, s'il y en a un.",
+        "Des choses qui flottent et des choses qui coulent, pour comparer."
+      ]
+    },
+    {
+      "titulo": "La sécurité, qui ici est la partie sérieuse",
+      "texto": "Un jeune enfant se noie dans très peu d'eau, et en silence. Restez à côté tout le temps, sans exception et sans téléphone. À la fin, videz la bassine tout de suite et retournez-la, même si vous comptez la réutiliser dans une heure."
+    },
+    {
+      "titulo": "Enregistrer",
+      "texto": "Photo de dessus, attrapant les mains dans l'eau et les récipients. Un contre-jour de fin d'après-midi avec des éclaboussures rend bien aussi, et dix secondes de vidéo du transvasement valent mieux que n'importe quelle photo."
+    }
+  ]
+}

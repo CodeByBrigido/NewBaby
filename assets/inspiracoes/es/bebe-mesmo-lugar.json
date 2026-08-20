@@ -1,0 +1,39 @@
+{
+  "titulo": "La misma foto, todos los meses",
+  "resumo": "Elige un sitio fijo y repítelo cada mes. Por separado no dicen mucho. Juntas, a fin de año, son lo más bonito del archivo.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La idea entera en una frase",
+      "texto": "Elige un sitio de la casa y fotografía allí a la criatura, desde el mismo punto, una vez al mes. Cada foto por separado no es nada. Las doce juntas son lo más impresionante que vas a tener a fin de año."
+    },
+    {
+      "titulo": "Eligiendo el sitio",
+      "itens": [
+        "Algo que no vaya a cambiar: un sillón, la esquina del sofá, la misma pared.",
+        "Con un objeto fijo al lado, que dé escala. Un cojín, un oso, la planta.",
+        "Cerca de una ventana, para que la luz sea parecida todos los meses.",
+        "Evita la cuna: se va de escena a mitad de camino y la serie se rompe."
+      ]
+    },
+    {
+      "titulo": "Para que las fotos casen",
+      "itens": [
+        "Marca con cinta en el suelo dónde te pones de pie. Parece exagerado y es lo que salva la serie.",
+        "Siempre en horizontal, o siempre en vertical. Mezclar estropea el montaje después.",
+        "Un día fijo al mes, el del cumpleaños mensual, para que no se convierta en una decisión.",
+        "Una alarma mensual en el móvil. La serie muere por olvido, nunca por falta de ganas."
+      ]
+    },
+    {
+      "titulo": "A fin de año",
+      "texto": "Junta las doce en una cuadrícula de cuatro por tres. Es la imagen que va a querer la familia entera, y es la que acaba en la pared. Si pierdes un mes, sigue igual: once fotos siguen contando toda la historia."
+    }
+  ]
+}

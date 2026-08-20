@@ -114,7 +114,7 @@ class _LetterEditorScreenState extends ConsumerState<LetterEditorScreen> {
     final String title = _title.text.trim();
     final String message = _message.text.trim();
     if (title.isEmpty && message.isEmpty) {
-      showMessage(context, 'Escreva alguma coisa antes de salvar.');
+      showMessage(context, S.writeSomethingFirst);
       return;
     }
 

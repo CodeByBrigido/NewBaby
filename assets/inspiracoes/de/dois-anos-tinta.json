@@ -1,0 +1,35 @@
+{
+  "titulo": "Abwaschbare Farbe und großes Papier",
+  "resumo": "Packpapier auf dem Boden, Fingerfarbe und die ganze Hand. Die Sauerei ist der Sinn der Sache. Bewahren Sie den Handabdruck mit dem Datum auf.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Klären Sie die Sauerei, bevor Sie anfangen",
+      "texto": "Die Hälfte des Stresses beim Malen entsteht daraus, das Aufräumen hinterher zu improvisieren. Ist das vorher geklärt, bleibt nur der schöne Teil. Machen Sie es auf dem Boden der Waschküche, im Garten, oder auf einer großen Plastikplane, und das Kind nur in der Windel: Haut lässt sich leichter waschen als Kleidung."
+    },
+    {
+      "titulo": "Was benutzen",
+      "itens": [
+        "Abwaschbare, ungiftige Farbe, für das Alter geeignet, und prüfen Sie das Etikett.",
+        "Großes Papier. Packpapier von der Rolle ist billig und hier die beste Investition.",
+        "Ein dicker Pinsel, ein Schwamm, eine kleine Rolle, und vor allem die Hände.",
+        "Höchstens zwei oder drei Farben. Mit mehr wird in zwei Minuten alles braun, und der Frust ist seiner.",
+        "Ein Eimer lauwarmes Wasser und ein altes Handtuch daneben, bereit, bevor die Farbe aufgeht."
+      ]
+    },
+    {
+      "titulo": "Der Weg zählt mehr als das Ergebnis",
+      "texto": "Es soll keine Zeichnung dabei herauskommen. Es soll herauskommen, was die Hand mit der Farbe macht. Führen Sie nicht, bestellen Sie kein Haus, verbessern Sie nicht die Farbe des Himmels. Setzen Sie sich daneben und bemalen Sie Ihr eigenes Blatt."
+    },
+    {
+      "titulo": "Was aufheben",
+      "texto": "Fotografieren Sie die schmutzigen Hände, das Papier mittendrin und das konzentrierte Gesicht. Danach ein Foto der trockenen, ganzen Zeichnung mit dem Datum. Drei Fotos, und das Blatt darf ohne schlechtes Gewissen gehen."
+    }
+  ]
+}

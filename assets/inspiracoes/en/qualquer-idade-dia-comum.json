@@ -1,0 +1,38 @@
+{
+  "titulo": "Document one whole ordinary day",
+  "resumo": "Pick any Saturday and photograph it hour by hour, staging nothing. A day with nothing special about it is the one you will most want to see again.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "A whole day, exactly as it is",
+      "texto": "Pick a day with nothing special about it and record the routine from end to end. It is not the beautiful day: it is the ordinary one, the one that repeats and that, because it repeats, seems like it will never end. It does end, and without warning."
+    },
+    {
+      "titulo": "The running order",
+      "itens": [
+        "The just-woken-up face, before anything else.",
+        "Breakfast, with the table exactly as it really is.",
+        "The trip to nursery or to the park.",
+        "What she does on her own when nobody is suggesting anything.",
+        "Lunch, mess included.",
+        "The nap, if there is one.",
+        "The bath.",
+        "The bedtime ritual, and the last scene before the light goes out."
+      ]
+    },
+    {
+      "titulo": "The rules",
+      "texto": "No tidying the house first, no changing clothes for the photo, no asking her to look at the camera. The value of this record is that it is true. One photo per stage is plenty, and two or three ten second videos round it off."
+    },
+    {
+      "titulo": "Repeat it once a year",
+      "texto": "Always in the same month. Comparing an ordinary day one year with the next shows more change than any birthday photo, because the house, the routine and the people change along with her."
+    }
+  ]
+}

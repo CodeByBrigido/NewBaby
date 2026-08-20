@@ -1,0 +1,35 @@
+{
+  "titulo": "A basin of water in the garden",
+  "resumo": "A basin, two cups and a spoon. Twenty minutes of absolute concentration for practically nothing. Film from a distance, without interrupting.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "The cheapest game of the summer",
+      "texto": "A basin with a couple of centimetres of water, on the ground, in the shade, and a few containers. It lasts longer than almost any toy, and the equipment is already in your kitchen."
+    },
+    {
+      "titulo": "What to put in with it",
+      "itens": [
+        "Containers of different sizes, for filling and pouring.",
+        "A sieve and a cup with holes in it, for the effect.",
+        "A sponge, which soaks up and drips.",
+        "A large spoon and a funnel, if you have one.",
+        "Things that float and things that sink, to compare."
+      ]
+    },
+    {
+      "titulo": "Safety, which here is the serious part",
+      "texto": "A small child can drown in very little water, and silently. Stay with her the whole time, without exception and without your phone. When you finish, empty the basin straight away and turn it upside down, even if you are going to use it again in an hour."
+    },
+    {
+      "titulo": "Recording it",
+      "texto": "A photo from above, catching the hands in the water and the containers. Backlight late in the afternoon with splashes works too, and ten seconds of video of the pouring beats any photo."
+    }
+  ]
+}

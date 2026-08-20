@@ -1,0 +1,36 @@
+{
+  "titulo": "Schreiben Sie auf, woran sich niemand erinnern wird",
+  "resumo": "Der Geruch des Kopfes, das Geräusch beim Trinken, wie es einen Finger festhält. Genau das verschwindet zuerst aus der Erinnerung. Ein Satz genügt.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Was zuerst verschwindet",
+      "texto": "Das Gedächtnis behält ausgerechnet das schlecht, was gleich bleibt. Der Geruch seines Kopfes, das genaue Gewicht auf dem Arm, der Laut, den es macht, bevor es richtig weint: nichts davon wird ein Foto, und es verschwindet ohne Vorwarnung. Nicht die Geburt werden Sie vergessen, sondern wie es war, dabei zu sein."
+    },
+    {
+      "titulo": "Schreiben Sie jetzt, schlecht geschrieben",
+      "texto": "Dieser Brief muss nicht schön sein. Er muss existieren, solange die Information noch frisch ist. Zehn Minuten, am Handy, mit einer Hand, mitten in der Nacht. Der schiefe Text gehört zum Dokument.",
+      "itens": [
+        "Der Geruch. Versuchen Sie ihn zu beschreiben, auch wenn es albern klingt.",
+        "Das Gewicht auf dem Arm, und wie es sich ändert, wenn es einschläft.",
+        "Der genaue Klang des Weinens, und der andere Laut, der davor kommt.",
+        "Was Sie um drei Uhr nachts fühlen, ungefiltert.",
+        "Wovor Sie Angst haben. Auch das ist die Wahrheit jenes Tages."
+      ]
+    },
+    {
+      "titulo": "Schreiben Sie noch nicht an das Kind",
+      "texto": "Die Versuchung ist, einen Brief mit Ratschlägen für die Zukunft zu schreiben. Heben Sie das für später auf. Wert hat heute der Bericht über die Gegenwart, denn den kann zwanzig Jahre später niemand rekonstruieren. Ratschläge geben Sie persönlich; den Geruch der ersten Tage nicht."
+    },
+    {
+      "titulo": "Einer pro Woche, im ersten Monat",
+      "texto": "Vier kurze Briefe sind mehr wert als ein langer, der nie entsteht. Und die vier zusammen zeigen etwas, das ein einzelner nicht zeigt: wie viel sich in dreißig Tagen ändert, beim Kind und bei Ihnen."
+    }
+  ]
+}

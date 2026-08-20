@@ -32,7 +32,7 @@ class SealedScreen extends ConsumerWidget {
         );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Guardado para o futuro')),
+      appBar: AppBar(title: Text(S.savedForFuture)),
       body: lacradas.isEmpty
           ? EmptyState(
               icon: Icons.lock_clock,
@@ -90,9 +90,9 @@ class _SealedTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // Só o tipo. O título já contaria demais.
-                Text('Um ${entry.type.one}', style: text.titleSmall),
+                Text(S.umDoTipo(entry.type.one), style: text.titleSmall),
                 const SizedBox(height: Space.x4),
-                Text('Abre em ${Fmt.longDate(abre)}', style: text.bodySmall),
+                Text(S.opensOn(Fmt.longDate(abre)), style: text.bodySmall),
                 const SizedBox(height: Space.x4),
                 Text(
                   _espera(dias),
@@ -122,10 +122,9 @@ class _SealedTile extends StatelessWidget {
 
     if (dias > 365) {
       final int anosFaltando = dias ~/ 365;
-      return 'Daqui a ${anosFaltando == 1 ? "1 ano" : "$anosFaltando anos"}, '
-          'quando tiver $idade';
+      return S.opensInYearsAtAge(anosFaltando, idade);
     }
-    return dias == 0 ? 'Abre hoje' : S.daysLeft(dias);
+    return dias == 0 ? S.opensToday : S.daysLeft(dias);
   }
 }
 
@@ -154,7 +153,7 @@ class SealedNotice extends StatelessWidget {
           const SizedBox(width: Space.x12),
           Expanded(
             child: Text(
-              'Guardado para abrir em ${Fmt.longDate(abre)}.',
+              S.sealedUntilNotice(Fmt.longDate(abre)),
               style: text.bodySmall,
             ),
           ),

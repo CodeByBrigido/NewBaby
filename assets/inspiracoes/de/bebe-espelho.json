@@ -1,0 +1,34 @@
+{
+  "titulo": "Der Spiegel",
+  "resumo": "Setzen Sie sich mit dem Kind vor einen Spiegel und reden Sie. Die Reaktion ändert sich von Monat zu Monat, und dieselbe Szene alle zwei Monate gefilmt ergibt eine wunderschöne Reihe.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Das billigste Spiel überhaupt",
+      "texto": "Ein sicherer Spiegel auf Bodenhöhe beschäftigt länger als fast jedes gekaufte Spielzeug und kostet nichts, wenn Sie ohnehin einen haben. Die Reaktion allein lohnt sich: erst Befremden, dann Lächeln, dann der Versuch zu greifen."
+    },
+    {
+      "titulo": "Wie aufbauen",
+      "itens": [
+        "Ein Acrylspiegel oder ein fest an der Wand verschraubter Glasspiegel, quer, direkt über dem Boden.",
+        "Legen Sie das Kind auf den Bauch vor den Spiegel: das verbindet beide Spiele.",
+        "Setzen Sie sich mit ihm auf dem Schoß hin und reden Sie in den Spiegel, mit Zeigen: \"das bist du, das bin ich\".",
+        "Der Badezimmerspiegel nach dem Bad, mit dem Kind im Handtuch, funktioniert genauso."
+      ]
+    },
+    {
+      "titulo": "Was sich mit der Zeit ändert",
+      "texto": "Das Verhältnis zum Spiegelbild verändert sich über die Monate stark, und genau deshalb lohnt es sich, von Zeit zu Zeit zu diesem Spiel zurückzukehren. Dieselbe Szene, mit ein paar Monaten Abstand gefilmt, zeigt die Veränderung ganz ohne Bildunterschrift."
+    },
+    {
+      "titulo": "Das Foto",
+      "texto": "Fotografieren Sie von der Seite, sodass Kind und Spiegelbild im selben Bild sind. Das ist eine Komposition, die sogar mit dem Handy schön wird und das ganze Spiel in einem einzigen Bild erzählt."
+    }
+  ]
+}

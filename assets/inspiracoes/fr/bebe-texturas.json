@@ -1,0 +1,39 @@
+{
+  "titulo": "Une boîte de textures",
+  "resumo": "Une chute de tissu duveteuse, du papier qui se froisse, une cuillère en bois, une éponge sèche. Rien d'assez petit pour tenir entier dans une bouche. Cela occupe mieux qu'un jouet cher.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "Une boîte, cinq choses",
+      "texto": "Il n'y a rien à acheter. Réunissez cinq objets aux surfaces bien différentes dans une boîte à chaussures et proposez-les un par un, avec vous à côté tout le temps. Le jeu, c'est la différence entre eux, pas la quantité."
+    },
+    {
+      "titulo": "Quoi mettre dedans",
+      "itens": [
+        "Un morceau de laine ou une écharpe tricotée.",
+        "Une éponge propre et sèche, parmi les douces.",
+        "Du papier cellophane ou du papier de soie, pour le bruit.",
+        "Une cuillère en bois et une autre en métal, pour comparer la température et le poids.",
+        "Une boîte en plastique avec couvercle, qui sert aussi à taper."
+      ]
+    },
+    {
+      "titulo": "Les règles de sécurité, qui ici ne sont pas un détail",
+      "itens": [
+        "Rien qui passe à l'intérieur d'un rouleau de papier toilette : si cela passe, cela étouffe.",
+        "Rien avec des pièces collées, des aimants, des piles ou de la ficelle longue.",
+        "Tout va à la bouche, donc tout doit pouvoir se laver.",
+        "Vous restez à côté tout le temps. Ce n'est pas un jeu à laisser seule."
+      ]
+    },
+    {
+      "titulo": "Garder",
+      "texto": "Photographiez la boîte préparée, avec les cinq objets, avant de la proposer. Dans quelques années, cette photo banale rappellera exactement ce qu'il y avait chez vous cette année-là."
+    }
+  ]
+}

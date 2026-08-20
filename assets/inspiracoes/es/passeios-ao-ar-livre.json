@@ -1,0 +1,39 @@
+{
+  "titulo": "Dónde ir con una criatura pequeña",
+  "resumo": "Sitios que funcionan de verdad, por franja de edad, y qué llevar para no volver antes de tiempo.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Un bebé que todavía no anda",
+      "itens": [
+        "Un parque con sombra y una manta en el suelo. Mirar hojas moviéndose entretiene más de lo que parece.",
+        "El mercado por la mañana: ruido, color y olores, y encima resuelves la compra de la semana.",
+        "La playa o un lago al final de la tarde, cuando el sol está flojo."
+      ]
+    },
+    {
+      "titulo": "Cuando ya anda",
+      "itens": [
+        "Una plaza con suelo irregular: hierba, arena, gravilla. Cansa y divierte a la vez.",
+        "Un vivero, un jardín botánico o un centro de jardinería. Suele ser barato o gratis y tiene sombra.",
+        "Un acuario o un mariposario, si los hay en la ciudad.",
+        "Un sendero corto y llano, con un objetivo al final: un puente, un arroyo, una piedra grande."
+      ]
+    },
+    {
+      "titulo": "Lo que siempre falta",
+      "itens": [
+        "Agua y una fruta.",
+        "Una muda de ropa completa.",
+        "Protector solar y sombrero.",
+        "Salir de casa antes de las diez o después de las cuatro. A mediodía no aguanta nadie."
+      ]
+    }
+  ]
+}

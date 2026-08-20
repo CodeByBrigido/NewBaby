@@ -1,0 +1,38 @@
+{
+  "titulo": "Documentez une journée ordinaire entière",
+  "resumo": "Choisissez un samedi quelconque et photographiez d'heure en heure, sans rien mettre en scène. Une journée sans rien de spécial est celle que vous voudrez le plus revoir.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Une journée entière, telle qu'elle est",
+      "texto": "Choisissez une journée sans rien de spécial et enregistrez la routine d'un bout à l'autre. Ce n'est pas la belle journée : c'est la journée ordinaire, celle qui se répète et qui, parce qu'elle se répète, semble ne jamais devoir finir. Elle finit, et sans prévenir."
+    },
+    {
+      "titulo": "Le déroulé",
+      "itens": [
+        "La tête de quelqu'un qui vient de se réveiller, avant toute chose.",
+        "Le petit-déjeuner, avec la table telle qu'elle est vraiment.",
+        "Le trajet jusqu'à la crèche ou au parc.",
+        "Ce qu'elle fait toute seule quand personne ne lui propose rien.",
+        "Le déjeuner, désordre compris.",
+        "La sieste, s'il y en a une.",
+        "Le bain.",
+        "Le rituel du coucher, et la dernière scène avant d'éteindre la lumière."
+      ]
+    },
+    {
+      "titulo": "Les règles",
+      "texto": "Pas de rangement de la maison avant, pas de changement de tenue pour la photo, pas de demande de regarder l'objectif. La valeur de cet enregistrement est d'être vrai. Une photo par étape suffit, et deux ou trois vidéos de dix secondes complètent."
+    },
+    {
+      "titulo": "Répétez une fois par an",
+      "texto": "Toujours au même mois. Comparer la journée ordinaire d'une année à celle de l'année suivante montre plus de changement que n'importe quelle photo d'anniversaire, parce que la maison, la routine et les gens changent en même temps qu'elle."
+    }
+  ]
+}

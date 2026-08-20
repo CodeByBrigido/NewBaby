@@ -1,0 +1,27 @@
+{
+  "titulo": "Putting together the first year retrospective",
+  "resumo": "A recipe for turning the year's collection into a video or an album the whole family will want to see.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "The simplest running order that works",
+      "itens": [
+        "One photo from each month, from the same spot if you have it.",
+        "Three short videos: one from the beginning, one from the middle, one recent.",
+        "Your voice over the top, saying what happened in that month.",
+        "End with the photo from the day she was born and today's photo, side by side."
+      ]
+    },
+    {
+      "titulo": "Where people get stuck",
+      "texto": "Everyone gets stuck trying to choose between three hundred photos. Do not choose the best ones: choose one per month, in order, and carry on. A retrospective that got made is worth infinitely more than a perfect one that did not."
+    }
+  ]
+}

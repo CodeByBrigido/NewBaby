@@ -49,7 +49,7 @@ class _SealSheet extends StatelessWidget {
       return <(String, DateTime)>[
         for (final int anos in <int>[15, 18, 21, 25, 30])
           (
-            'Quando fizer $anos anos',
+            S.whenTurns(anos),
             DateTime(p.birth.year + anos, p.birth.month, p.birth.day),
           ),
       ].where(((String, DateTime) o) => o.$2.isAfter(hoje)).toList();
@@ -67,7 +67,7 @@ class _SealSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Guardar para o futuro', style: text.titleMedium),
+            Text(S.keepForFuture, style: text.titleMedium),
             SizedBox(height: Space.x8),
             Text(S.sealBody, style: text.bodySmall),
             const SizedBox(height: Space.x20),
@@ -87,7 +87,7 @@ class _SealSheet extends StatelessWidget {
                 Icons.event_outlined,
                 color: context.cores.textSecondary,
               ),
-              title: const Text('Escolher outra data'),
+              title: Text(S.chooseAnotherDate),
               onTap: () async {
                 final DateTime? escolhida = await showDatePicker(
                   context: context,
@@ -106,7 +106,7 @@ class _SealSheet extends StatelessWidget {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.lock_open, color: AppPalette.danger),
-                title: const Text('Tirar o lacre'),
+                title: Text(S.removeSeal),
                 onTap: () => Navigator.of(context).pop(const SealChoice(null)),
               ),
           ],

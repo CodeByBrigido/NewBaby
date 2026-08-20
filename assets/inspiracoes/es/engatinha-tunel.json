@@ -1,0 +1,35 @@
+{
+  "titulo": "Un túnel de cojines",
+  "resumo": "Los cojines del sofá, una caja de cartón abierta por los dos extremos, una sábana sobre dos sillas. Gasta energía, no cuesta nada.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Un túnel con lo que ya hay en casa",
+      "texto": "Cojines, el sofá, una caja abierta por los dos lados y una sábana sobre dos sillas. Un recorrido corto que atraviese gateando entretiene más que la mayoría de los juguetes, y cambia de forma cada vez que lo montáis."
+    },
+    {
+      "titulo": "Cómo montarlo",
+      "itens": [
+        "Corto: metro y medio ya es una aventura. Demasiado largo asusta.",
+        "Siempre con las dos salidas abiertas y visibles. Un túnel cerrado se convierte en trampa.",
+        "Suelo blando debajo, alfombra o edredón doblado.",
+        "Tú al otro lado, llamándola. Es lo que la hace atravesarlo la primera vez.",
+        "Un juguete al final, para darle un motivo."
+      ]
+    },
+    {
+      "titulo": "Seguridad, en tres líneas",
+      "texto": "Nada que pueda derrumbarse encima, nada de muebles pesados como paredes, y tú cerca todo el rato. Si se queda atascada a mitad y protesta, desmonta un trozo en vez de tirar de ella."
+    },
+    {
+      "titulo": "El registro",
+      "texto": "Túmbate en el suelo, por fuera, y graba la salida del túnel. La cara apareciendo es el plano. Vale más que cualquier foto del túnel montado."
+    }
+  ]
+}

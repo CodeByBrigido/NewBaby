@@ -1,0 +1,34 @@
+{
+  "titulo": "L'âge des pourquoi",
+  "resumo": "Notez les questions auxquelles vous n'avez pas su répondre. C'est le portrait le plus fidèle de sa façon de penser à cet âge, et cela disparaît en quelques mois.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Ce qui se passe",
+      "texto": "La question répétée n'est ni de l'entêtement ni de la provocation. C'est la découverte qu'il y a une cause derrière les choses, et que vous en êtes la source. La fatigue est réelle et l'étape passe ; tant qu'elle dure, c'est la meilleure matière première d'archive que vous aurez."
+    },
+    {
+      "titulo": "Comment répondre sans devenir fou",
+      "itens": [
+        "Répondez vraiment aux deux ou trois premières. Cela vaut beaucoup.",
+        "Ensuite renvoyez la question : « et toi, pourquoi tu crois ? » Sa réponse est souvent meilleure que la vôtre.",
+        "« Je ne sais pas » est une réponse légitime. Chercher ensemble est encore mieux.",
+        "Quand vous n'en pouvez plus, dites que vous n'en pouvez plus pour l'instant. Feindre une patience épuisée ne trompe personne."
+      ]
+    },
+    {
+      "titulo": "Notez les questions, pas les réponses",
+      "texto": "Les questions de cette étape sont l'enregistrement. « Pourquoi le soleil s'en va ? », « Pourquoi papi est vieux ? », « Pourquoi on meurt ? ». Notez la question exacte et la date, dans une lettre que vous alimentez. En six mois vous avez un document qui vaut plus qu'un album."
+    },
+    {
+      "titulo": "Enregistrez une série",
+      "texto": "Une minute de son d'une série de pourquoi, avec votre voix qui répond. C'est drôle aujourd'hui et c'est bouleversant dans vingt ans, quand celle qui pose les questions sera quelqu'un d'autre."
+    }
+  ]
+}

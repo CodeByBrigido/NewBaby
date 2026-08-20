@@ -122,7 +122,7 @@ class _DetailsEditorState extends ConsumerState<_DetailsEditor> {
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 labelText: S.titleField,
-                hintText: 'Primeiro sorriso',
+                hintText: S.titleHintExample,
               ),
             ),
             const SizedBox(height: Space.x12),
@@ -242,9 +242,7 @@ class _SealRow extends StatelessWidget {
             const SizedBox(width: Space.x12),
             Expanded(
               child: Text(
-                lacrado
-                    ? 'Abre em ${Fmt.longDate(until!)}'
-                    : 'Guardar para o futuro',
+                lacrado ? S.opensOn(Fmt.longDate(until!)) : S.keepForFuture,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

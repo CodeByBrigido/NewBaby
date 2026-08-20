@@ -43,7 +43,7 @@ class DrawingsScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.brush_outlined,
               title: S.emptyDrawings,
-              message: 'Fotografe um desenho e ele fica guardado para sempre.',
+              message: S.drawingsEmptyBody,
             )
           : GridView.builder(
               padding: const EdgeInsets.all(Space.x12),

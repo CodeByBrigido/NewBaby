@@ -1,0 +1,34 @@
+{
+  "titulo": "La faccia del cibo nuovo",
+  "resumo": "Avocado, mango, barbabietola. La smorfia del primo cucchiaio di ogni sapore dà una serie di foto che invecchia molto bene.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La serie più divertente dell'archivio",
+      "texto": "La smorfia del primo cucchiaio di ogni alimento nuovo è una serie che si costruisce da sola e che fa ridere a qualsiasi riunione di famiglia dieci anni dopo. Non richiede nessuna abilità fotografica, solo costanza."
+    },
+    {
+      "titulo": "Come farla rendere",
+      "itens": [
+        "Un alimento per foto, e annota il nome nella descrizione. Senza il nome la serie resta solo una raccolta di smorfie.",
+        "Fotografa nel primo secondo. La smorfia se ne va in fretta e il secondo cucchiaio non fa già più ridere.",
+        "Lascia che il vasetto o il frutto compaiano nell'inquadratura, per capire di cosa si tratta.",
+        "Raffica di scatti: la migliore la scegli dopo, e non è quasi mai la prima."
+      ]
+    },
+    {
+      "titulo": "Una foto a settimana basta già",
+      "texto": "Non serve documentare tutto. Un alimento nuovo a settimana, per qualche mese, costruisce già una serie ottima e non trasforma il pasto in una sessione fotografica."
+    },
+    {
+      "titulo": "Attenzione al clima a tavola",
+      "texto": "Se il telefono sta disturbando il pasto, mettilo via. La smorfia di domani è buona quanto quella di oggi, e mangiare con una telecamera in faccia stanca chiunque."
+    }
+  ]
+}

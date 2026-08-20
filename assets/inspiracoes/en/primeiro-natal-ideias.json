@@ -1,0 +1,36 @@
+{
+  "titulo": "The first Christmas",
+  "resumo": "Presents, photos, and what to do with a baby who will remember none of it.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "The present that lasts",
+      "texto": "A first Christmas toy lasts six months. What lasts is what was kept.",
+      "itens": [
+        "A Christmas letter written by each of the parents, put away for her eighteenth birthday.",
+        "A tree decoration with the year written on it. Every year a new one arrives, and in twenty years the tree tells the whole story.",
+        "A book with a dedication and a date."
+      ]
+    },
+    {
+      "titulo": "The photo",
+      "itens": [
+        "Tree lights behind, window light on the face. No flash: the flash wipes out the little lights.",
+        "A photo in the same corner of the house, every year. In five years it becomes the sequence everyone stops to look at.",
+        "The photo of the whole family, with a tripod or the timer. Every year someone is missing from the photos, and it is almost always whoever was holding the phone."
+      ]
+    },
+    {
+      "titulo": "Realistic expectations",
+      "texto": "A baby at Christmas usually falls asleep, finds the noise strange or cries during dinner. None of that is a problem, and all of it makes a good photo. Do not force a smile for the camera: the sleepy face of the first Christmas is funnier twenty years from now than a smile that had to be dragged out."
+    }
+  ]
+}

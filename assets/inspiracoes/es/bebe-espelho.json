@@ -1,0 +1,34 @@
+{
+  "titulo": "El espejo",
+  "resumo": "Siéntate con ella frente a un espejo y habla. La reacción cambia de mes en mes, y grabar la misma escena cada dos meses se convierte en una secuencia preciosa.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "El juego más barato que existe",
+      "texto": "Un espejo seguro a la altura del suelo entretiene más tiempo que casi cualquier juguete comprado, y no cuesta nada si ya tienes uno en casa. La reacción vale por sí sola: primero extrañeza, después sonrisa, después intentar tocarlo."
+    },
+    {
+      "titulo": "Cómo montarlo",
+      "itens": [
+        "Un espejo de acrílico, o uno de cristal bien fijado a la pared, en horizontal, a ras del suelo.",
+        "Acuéstala boca abajo frente al espejo: junta los dos juegos.",
+        "Siéntate con ella en brazos y habla mirando al reflejo, señalando: \"esa eres tú, ese soy yo\".",
+        "El espejo del baño, después del baño, con ella envuelta en la toalla, funciona igual."
+      ]
+    },
+    {
+      "titulo": "Qué cambia con el tiempo",
+      "texto": "La relación con el reflejo cambia mucho a lo largo de los meses, y justamente por eso vale la pena volver a este juego cada cierto tiempo. La misma escena, grabada con unos meses de diferencia, muestra el cambio sin necesidad de ningún pie de foto."
+    },
+    {
+      "titulo": "La foto",
+      "texto": "Fotografía de lado, cogiendo a la criatura y al reflejo en el mismo encuadre. Es una composición que queda bonita incluso con el móvil, y cuenta el juego entero en una sola imagen."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Prepararsi allo svezzamento",
+  "resumo": "Cosa tenere pronto in casa e come documentarlo. Quando e cosa offrire lo dice la pediatra.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Questa non è indicazione sanitaria",
+      "texto": "Quando cominciare, cosa offrire e in che ordine è una conversazione con la pediatra, e solo con lei. Qui c'è la parte pratica: cosa tenere pronto in casa e come conservare il ricordo di questa fase, che è corta e molto divertente."
+    },
+    {
+      "titulo": "Cosa semplifica la vita",
+      "itens": [
+        "Un seggiolone che si possa lavare tutto, o un telo di plastica grande sotto.",
+        "Un bavaglino a maniche lunghe. Quelli piccoli in questa fase non servono a niente.",
+        "Un piattino con la ventosa, che guadagna qualche giorno prima di diventare un gioco.",
+        "Due cucchiai: uno da tenere per lei e uno da usare per te."
+      ]
+    },
+    {
+      "titulo": "Il ricordo che vale",
+      "itens": [
+        "La smorfia di ogni sapore nuovo. Fotografa il viso, non il piatto.",
+        "Un video corto del primo giorno seduta nel seggiolone.",
+        "La lista degli alimenti che ha adorato e di quelli che ha sputato. Fra quindici anni confrontarla con i suoi gusti è esilarante."
+      ]
+    }
+  ]
+}

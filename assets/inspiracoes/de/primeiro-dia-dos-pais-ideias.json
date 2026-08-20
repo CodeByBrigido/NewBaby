@@ -1,0 +1,36 @@
+{
+  "titulo": "Der erste Vatertag",
+  "resumo": "Eine Aufnahme des Vaters, der zu seinem Kind mit achtzehn spricht, ist mehr wert als jedes Geschenk, das er heute bekommen könnte.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Halten Sie die Veränderung fest, nicht das Datum",
+      "texto": "Der erste Vatertag mit dem Kind im Haus markiert einen Rollenwechsel, der sich nicht wiederholt. Genau das lohnt sich zu bewahren: wie es vorher war, wie es jetzt ist, und was sich in dem verändert hat, der in diesem Jahr Vater geworden ist."
+    },
+    {
+      "titulo": "Einfache Ideen",
+      "itens": [
+        "Das Foto der drei Generationen, wenn diese Möglichkeit besteht.",
+        "Der Abdruck seines Fußes oder seiner Hand auf Papier, mit dem Datum.",
+        "Ein Brief, von ihm geschrieben, zum Lesen für das erwachsene Kind, über dieses erste Jahr.",
+        "Ein Video der beiden beim Banalsten des Tages: Windeln wechseln, das Spiel schauen, auf dem Sofa einschlafen.",
+        "Das Foto der beiden schlafend, das der Klassiker ist und aus gutem Grund ein Klassiker."
+      ]
+    },
+    {
+      "titulo": "Wer fotografiert, muss auch vorkommen",
+      "texto": "Dieselbe Regel gilt: bitten Sie jemanden, oder nehmen Sie den Selbstauslöser. Eine Sammlung ohne den Vater auf den Fotos erzählt eine falsche Geschichte, und das ist der häufigste Fehler von allen."
+    },
+    {
+      "titulo": "Die Frage, die jedes Jahr trägt",
+      "texto": "Nehmen Sie ein kurzes Video auf, in dem Sie antworten: \"was habe ich in diesem Jahr gelernt?\" An jedem Vatertag dieselbe Frage. Das ist das jährliche Interview, von der anderen Seite der Kamera."
+    }
+  ]
+}

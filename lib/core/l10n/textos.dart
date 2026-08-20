@@ -818,9 +818,22 @@ abstract interface class Textos {
 
   String contarSemanas(int n);
 
-  String semanaNumero(int n);
+  String semanaNumero(String n);
 
-  String mesNumero(int n);
+  String mesNumero(String n);
+
+  /// `Ano 3`, o rótulo do balde da galeria.
+  ///
+  /// Recebe o número **já formatado**, e não um `int`, porque os dois
+  /// lugares que montam esse rótulo querem larguras diferentes: a
+  /// galeria alinha em duas casas (`Semana 07`) e as seções de dentro
+  /// de um balde contam a partir de 1 sem zero à esquerda (`Semana 1`).
+  /// À língua cabe só a ordem das palavras.
+  ///
+  /// Irmão de [semanaNumero] e [mesNumero]. Não confundir com o nome da
+  /// pasta do Drive, que sai de `NomesDePasta` e segue a língua da
+  /// cápsula, não a da interface.
+  String anoNumero(String n);
 
   String uploadWithDate(String oQue, String data);
 
@@ -955,4 +968,232 @@ abstract interface class Textos {
   String get languageStepTitle;
 
   String get languageStepNote;
+
+  // ------------------------------------------- recolhidos das telas, 2
+  //
+  // A primeira leva de recolhimento pegou o que estava à vista. Esta
+  // pegou o resto: o que só aparece numa caixa de diálogo, num estado
+  // vazio ou num cartão que só existe em certas datas. Enquanto
+  // estivessem escritos dentro dos widgets, trocar o idioma deixava
+  // metade de cada tela em português.
+
+  /// Fechar uma tela que não decide nada: a apresentação, o aviso de
+  /// envio. Separado de [cancel], que desfaz uma ação em andamento.
+  String get closeLabel;
+
+  /// Pular a apresentação inicial.
+  String get skip;
+
+  /// O botão que leva a criar uma conta do Google só para a cápsula.
+  String get createRecommendedAccount;
+
+  /// O botão que entra com a conta que já está no aparelho.
+  String get useCurrentAccount;
+
+  /// O rótulo do cartão de marco redondo: hoje a conta fecha exata.
+  String get exactlyToday;
+
+  /// A sobrancelha do bloco que mostra há quanto tempo cada tipo de
+  /// memória não recebe nada.
+  String get beenAWhile;
+
+  /// A etiqueta da inspiração quando não há nome no cadastro.
+  String get toLiveNow;
+
+  /// `Para a Maria, agora`. A frase inteira, e não só o nome, porque a
+  /// preposição e a ordem mudam de língua para língua.
+  String forNameNow(String nome);
+
+  /// O convite para abrir a postagem inteira do blog.
+  String get readThePost;
+
+  /// O corpo do estado vazio das inspirações.
+  String get inspirationsChangeNote;
+
+  /// O título do aviso enquanto o envio ainda está acontecendo.
+  String get savingEllipsis;
+
+  /// O botão que abre a pasta onde a memória acabou de ser guardada.
+  String get viewFolder;
+
+  /// O mesmo botão, quando o que foi guardado é um desenho: ele abre a
+  /// tela de desenhos, e não uma pasta por idade.
+  String get viewDrawing;
+
+  /// O título da caixa que pergunta como chamar o documento.
+  String get documentName;
+
+  /// O mesmo título quando há vários documentos na fila:
+  /// `Nome do documento 2 de 5`.
+  String documentNameOf(int atual, int total);
+
+  /// Guardar, no sentido de conservar, que é o verbo do produto.
+  ///
+  /// Separado de [save], que é o "salvar" comum de formulário: aqui a
+  /// ação é pôr uma memória na cápsula, e o português distingue os dois.
+  String get keep;
+
+  /// A ação de lacrar uma memória para abrir numa data futura.
+  String get keepForFuture;
+
+  /// O nome da tela que lista o que está lacrado.
+  String get savedForFuture;
+
+  /// Um lacre que vence hoje.
+  String get opensToday;
+
+  /// `Abre em 22 de janeiro de 2045`.
+  String opensOn(String data);
+
+  /// O aviso no lugar do conteúdo lacrado.
+  String sealedUntilNotice(String data);
+
+  /// Uma das datas sugeridas para o lacre: `Quando fizer 18 anos`.
+  String whenTurns(int anos);
+
+  /// Quanto falta para um lacre distante, e com que idade ele abre.
+  String opensInYearsAtAge(int anos, int idade);
+
+  /// Salvar uma carta em branco não guarda nada, e o silêncio faria
+  /// parecer que guardou.
+  String get writeSomethingFirst;
+
+  /// O aparelho não tem com que abrir aquele documento.
+  String get noAppForFile;
+
+  /// O corpo do estado vazio dos desenhos.
+  String get drawingsEmptyBody;
+
+  /// O valor do cartão de aniversário: `1 ano da Maria`.
+  ///
+  /// Recebe o possessivo já montado por `Copy`, porque ele muda de
+  /// posição: o português o põe depois da idade e o inglês antes.
+  String birthdayAgeOf(int anos, String deQuem);
+
+  /// A idade no próprio dia do nascimento.
+  ///
+  /// Descreve o momento, e não a criança, justamente para não precisar
+  /// de concordância de gênero.
+  String get atBirth;
+
+  /// A conjunção que fecha uma enumeração: `1 ano, 9 meses **e** 14
+  /// dias`.
+  ///
+  /// Só a palavra, porque a montagem da idade é igual nas seis línguas:
+  /// vírgula entre as primeiras parcelas e a conjunção antes da última.
+  /// O espanhol troca `y` por `e` diante de som de i, mas as parcelas
+  /// aqui sempre começam por número, então isso nunca acontece.
+  String get conjuncaoE;
+
+  /// Onde a memória acabou de ficar, com a pasta e a conta.
+  String savedInFolder(String pasta, String conta);
+
+  /// A mesma frase antes de o envio terminar, sem citar a conta: o que
+  /// importa enquanto se espera é onde vai parar.
+  String willBeSavedInFolder(String pasta);
+
+  // ------------------------------------------- recolhidos das telas, 3
+  //
+  // Esta leva saiu da guarda automática, e não de leitura à mão: o
+  // teste `nenhum_texto_solto_test.dart` olha a posição do literal em vez
+  // de procurar palavra portuguesa, e por isso achou o que as duas
+  // varreduras anteriores não acharam.
+
+  /// O título da caixa que troca o nome de um documento já guardado.
+  String get renameDocument;
+
+  /// O botão que confirma a troca de nome.
+  String get rename;
+
+  /// Rótulo da data em que o documento entrou na cápsula.
+  String get addedOn;
+
+  /// Rótulo do tamanho do arquivo.
+  String get sizeLabel;
+
+  /// O gráfico de crescimento precisa de duas medições para dizer algo.
+  String get fewRecords;
+
+  /// A sobrancelha do bloco de fotos recentes, na tela inicial.
+  String get recentPhotos;
+
+  /// O atalho que abre a galeria inteira.
+  String get seeAll;
+
+  /// O verbo do botão que transforma uma sugestão em memória guardada.
+  String get record;
+
+  /// Buscar dentro do blog.
+  String get searchPosts;
+
+  /// O mesmo, dentro do campo de busca.
+  String get searchPostsHint;
+
+  /// Limpar o campo de busca.
+  String get clearLabel;
+
+  /// O catálogo não carregou; não é erro de quem está lendo.
+  String get tryAgainShortly;
+
+  /// O botão que abre uma carta em branco.
+  String get write;
+
+  /// A tela das sugestões marcadas, e o item dela no menu lateral.
+  String get importantMoments;
+
+  /// O rótulo do hospital, já preenchido, sem o "(opcional)" do cadastro.
+  String get hospital;
+
+  /// A opção de sexo no cadastro.
+  String get girl;
+
+  /// A outra opção de sexo no cadastro.
+  String get boy;
+
+  /// O título da tela que escolhe a foto de perfil.
+  String get profilePhoto;
+
+  /// O atalho, no perfil, que leva a essa tela.
+  String get changeProfilePhoto;
+
+  /// A chave que liga e desliga os lembretes.
+  String get receiveReminders;
+
+  /// A que horas do dia os lembretes chegam.
+  String get atWhatTime;
+
+  /// Abrir o calendário em vez de usar uma das datas sugeridas.
+  String get chooseAnotherDate;
+
+  /// Desfazer o lacre, deixando a memória visível de novo.
+  String get removeSeal;
+
+  /// O título da caixa que confirma a data antes de guardar.
+  String get checkTheDate;
+
+  /// O aviso enquanto a foto do desenho é preparada.
+  String get savingDrawing;
+
+  /// O aviso enquanto o vídeo é convertido e enviado.
+  String get convertingAndSending;
+
+  /// O botão que abre o documento recém-guardado.
+  String get viewDocument;
+
+  /// O mesmo botão quando foram vários de uma vez.
+  String get viewDocuments;
+
+  /// Por qual período a linha do tempo agrupa.
+  String get groupBy;
+
+  /// `Um desenho`, `Uma carta`. O artigo é da língua, e o alemão e o
+  /// italiano ainda o flexionam conforme o substantivo, então a frase
+  /// inteira mora aqui.
+  String umDoTipo(String tipo);
+
+  /// O exemplo dentro do campo de título de uma memória.
+  ///
+  /// É um dos marcos da lista de sugestões, escrito à parte porque o campo
+  /// mostra um só e a lista muda de ordem sem aviso.
+  String get titleHintExample;
 }

@@ -53,7 +53,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
       () => OpenFilex.open(local.path),
     );
     if (result.type != ResultType.done && mounted) {
-      showMessage(context, 'Nenhum aplicativo consegue abrir este arquivo.');
+      showMessage(context, S.noAppForFile);
     }
   }
 
@@ -78,7 +78,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     final String? nome = await perguntarNomeDoDocumento(
       context,
       sugestao: entry.title ?? entry.coverFile?.name ?? '',
-      titulo: 'Renomear documento',
+      titulo: S.renameDocument,
     );
     if (nome == null || !mounted) return;
     final String? uid = ref.read(uidProvider);
@@ -129,7 +129,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Documento'),
+        title: Text(S.addDocument),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
@@ -138,7 +138,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.drive_file_rename_outline),
-            tooltip: 'Renomear',
+            tooltip: S.rename,
             onPressed: () => _renomear(entry),
           ),
           IconButton(
@@ -184,10 +184,10 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
           SoftCard(
             child: Column(
               children: <Widget>[
-                _Row(label: 'Adicionado em', value: Fmt.date(entry.date)),
+                _Row(label: S.addedOn, value: Fmt.date(entry.date)),
                 if (file != null && file.sizeBytes > 0) ...<Widget>[
                   const Divider(height: 24),
-                  _Row(label: 'Tamanho', value: Fmt.bytes(file.sizeBytes)),
+                  _Row(label: S.sizeLabel, value: Fmt.bytes(file.sizeBytes)),
                 ],
               ],
             ),

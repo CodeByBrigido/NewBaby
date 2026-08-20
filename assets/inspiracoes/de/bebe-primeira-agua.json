@@ -1,0 +1,39 @@
+{
+  "titulo": "Wasser zum ersten Mal",
+  "resumo": "Das Meer, ein Schwimmbad, ein Bach oder eine Wanne im Garten. Das Gesicht in dem Moment, in dem der Fuß kaltes Wasser berührt, ist ein Foto, das man nur einmal macht.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 900
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Bevor Sie das Haus verlassen",
+      "itens": [
+        "Klären Sie mit der Ärztin oder dem Arzt Ihres Kindes Sonnenschutz und Sonnenexposition, die sich mit dem Alter ändern.",
+        "Gehen Sie früh am Morgen oder am späten Nachmittag. Die Mittagssonne ist unangenehm und das Wasser wird zu warm.",
+        "Nehmen Sie mehr Kleidung mit, als nötig scheint: Sie werden dreimal wechseln.",
+        "Ein großes Kapuzenhandtuch, ein Hut mit breiter Krempe und garantierter Schatten, Sonnenschirm oder Zelt."
+      ]
+    },
+    {
+      "titulo": "Die erste Reaktion ist meist kein Lächeln",
+      "texto": "Erschrecken, Weinen und sich an Ihrem Hals festhalten sind übliche Reaktionen. Das heißt nicht, dass es kein Wasser mag; es heißt, dass das eine neue und gewaltige Empfindung ist. Gehen Sie mit ihm auf dem Arm hinein, langsam, zuerst nur die Füße."
+    },
+    {
+      "titulo": "Festhalten, ohne den Moment zu verpassen",
+      "itens": [
+        "Bitten Sie jemanden zu fotografieren. Sie werden beide Hände voll haben.",
+        "Das Foto, auf das es ankommt, ist das Gesicht im Augenblick der ersten Berührung, und es dauert zwei Sekunden.",
+        "Filmen Sie fünfzehn Sekunden mit Ton: das Rauschen des Wassers mit seinem Quietschen ist die halbe Erinnerung.",
+        "Ein Foto der Füße im Sand oder im Wasser, von oben. Schlicht und immer schön."
+      ]
+    },
+    {
+      "titulo": "Danach",
+      "texto": "Schreiben Sie noch am selben Tag zwei Zeilen: wo es war, wie alt es war, und wie es wirklich reagiert hat. In zehn Jahren werden Sie wissen, dass es ein erstes Mal gab, aber nicht, wie es war."
+    }
+  ]
+}

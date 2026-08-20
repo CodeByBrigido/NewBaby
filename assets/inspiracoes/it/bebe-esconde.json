@@ -1,0 +1,35 @@
+{
+  "titulo": "Cucù!",
+  "resumo": "Nascondere il viso dietro le mani e ricomparire. La risata che ne esce è corta nella vita ed eterna in video.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 180,
+    "ateDias": 700
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Perché questo gioco dura tanto",
+      "texto": "Sparire e tornare è la prima battuta che quasi tutte le bambine capiscono, e funziona perché l'attesa e il sollievo stanno in due secondi. Non serve materiale, né spazio, né preparazione, e hai già tutto quello che chiede: la tua faccia."
+    },
+    {
+      "titulo": "Varianti, per non stancare",
+      "itens": [
+        "Le mani sul viso, il classico. Comincia da lì.",
+        "Dietro un panno leggero, che possa tirare via lei. La parte in cui tira è la migliore.",
+        "Dietro la porta o l'angolo del divano, con tutto il corpo.",
+        "Nascondere un oggetto sotto un panno, invece di te. Una versione diversa della stessa battuta.",
+        "Lascia che nasconda te. Cambia tutto quando è lei a comandare."
+      ]
+    },
+    {
+      "titulo": "Il ritmo conta più della variante",
+      "texto": "Il bello sta nella pausa prima di ricomparire. Aspetta un secondo in più di quanto sembri naturale, e guarda: è lì che nasce la risata. Troppo veloce non costruisce nessuna attesa."
+    },
+    {
+      "titulo": "Il video che vale",
+      "texto": "Chiedi a qualcuno di filmarti mentre giochi, invece di filmare tu. Quello che si conserva qui non è la bambina che ride, è la scena delle due persone. Venti secondi bastano."
+    }
+  ]
+}

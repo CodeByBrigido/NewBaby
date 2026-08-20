@@ -119,6 +119,15 @@ flutter:
     # tempo de execução. Publicar é soltar dois arquivos aqui.
     # Ver assets/inspiracoes/LEIA-ME.md.
     - assets/inspiracoes/
+    # As traduções, uma subpasta por língua. Precisam de uma linha cada:
+    # declarar uma pasta no Flutter **não** alcança as subpastas dela, e
+    # sem estas linhas o AssetManifest não enxergaria as traduções e todo
+    # mundo leria em português sem nenhum erro aparecendo.
+    - assets/inspiracoes/en/
+    - assets/inspiracoes/es/
+    - assets/inspiracoes/fr/
+    - assets/inspiracoes/de/
+    - assets/inspiracoes/it/
 
   # Só os quatro pesos que a escala tipográfica usa. A pasta traz catorze
   # arquivos, incluindo itálicos e pesos extremos que o Design System proíbe:

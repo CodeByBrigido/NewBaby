@@ -1,0 +1,31 @@
+{
+  "titulo": "Quando non sai cosa scrivere",
+  "resumo": "Cinque inizi di frase che risolvono la pagina bianca.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Comincia da uno di questi",
+      "itens": [
+        "Oggi hai fatto una cosa che voglio tu sappia...",
+        "Una cosa che ho paura di dimenticare è...",
+        "Se potessi raccontarti com'è essere tua madre (o tuo padre) oggi, direi...",
+        "Quando leggerai questo avrai X anni, e volevo che sapessi...",
+        "Oggi è stata una giornata difficile, e nonostante questo..."
+      ]
+    },
+    {
+      "titulo": "Non deve essere bella",
+      "texto": "Le lettere che commuovono di più non sono quelle scritte bene: sono quelle che raccontano una cosa precisa. \"Hai pianto tutta la notte e io ho pianto con te alle quattro del mattino\" vale più di qualsiasi paragrafo sull'amore incondizionato. Scrivi brutto, scrivi corto, ma scrivi concreto."
+    },
+    {
+      "titulo": "Sigilla",
+      "texto": "Quando la archivi, scegli una data di apertura: i quindici anni, i diciotto. La lettera che lei sa che esiste e non può ancora leggere è un regalo che dura anni prima di essere aperto."
+    }
+  ]
+}

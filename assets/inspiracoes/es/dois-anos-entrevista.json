@@ -1,0 +1,43 @@
+{
+  "titulo": "La entrevista anual",
+  "resumo": "Tres preguntas, siempre las mismas, cada cumpleaños. Grábalo en audio. En diez años vas a tener una colección impagable.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 700,
+    "ateDias": 6000
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Las mismas preguntas, todos los años",
+      "texto": "Un vídeo corto, el día del cumpleaños, con las mismas cinco o seis preguntas. Por sí solo no es gran cosa. Quince años después, con todos en secuencia, es probablemente lo más valioso de la cápsula entera."
+    },
+    {
+      "titulo": "Las preguntas",
+      "itens": [
+        "¿Cuántos años tienes?",
+        "¿Cuál es tu color preferido?",
+        "¿Qué quieres ser de mayor?",
+        "¿Cuál es tu comida preferida?",
+        "¿Quién es tu mejor amigo?",
+        "¿Qué es lo que más te gusta hacer?",
+        "¿Qué le quieres decir a ti misma cuando seas mayor?"
+      ]
+    },
+    {
+      "titulo": "Reglas que hacen que la serie funcione",
+      "itens": [
+        "Las mismas preguntas, en el mismo orden, todos los años. Cambiarlas rompe la comparación.",
+        "Siempre el mismo día, el del cumpleaños, para no depender de una decisión.",
+        "No la corrijas ni insistas. \"No sé\" es una respuesta estupenda y envejece muy bien.",
+        "Vídeo corto y en horizontal, siempre. Con un minuto basta.",
+        "A los dos años no va a responder casi nada. Grábalo igual: es el primero de la serie."
+      ]
+    },
+    {
+      "titulo": "Dónde guardarlo",
+      "texto": "En la cápsula, con el título \"Entrevista, X años\", siempre igual. El nombre consistente es lo que permite encontrarlos todos juntos y montar la secuencia después."
+    }
+  ]
+}

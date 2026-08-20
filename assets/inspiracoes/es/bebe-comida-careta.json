@@ -1,0 +1,34 @@
+{
+  "titulo": "La cara de la comida nueva",
+  "resumo": "Aguacate, mango, remolacha. La cara de la primera cucharada de cada sabor da para una secuencia de fotos que envejece muy bien.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 600
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La serie más divertida del archivo",
+      "texto": "La cara de la primera cucharada de cada alimento nuevo es una secuencia que se monta sola y que da risa en cualquier reunión familiar diez años después. No requiere ninguna habilidad fotográfica, solo constancia."
+    },
+    {
+      "titulo": "Cómo hacer que cunda",
+      "itens": [
+        "Un alimento por foto, y apunta el nombre en la descripción. Sin el nombre, la serie se queda en caras raras.",
+        "Fotografía en el primer segundo. La cara se va rápido y la segunda cucharada ya no tiene gracia.",
+        "Deja que el bote o la fruta aparezcan en el encuadre, para saber de qué se trata.",
+        "Ráfaga de fotos: eliges la mejor después, y casi nunca es la primera."
+      ]
+    },
+    {
+      "titulo": "Una foto por semana ya basta",
+      "texto": "No hace falta registrarlo todo. Un alimento nuevo por semana, a lo largo de unos meses, ya monta una secuencia estupenda y no convierte la comida en una sesión de fotos."
+    },
+    {
+      "titulo": "Cuidado con el ambiente de la mesa",
+      "texto": "Si el móvil está estorbando la comida, guárdalo. La cara de mañana es tan buena como la de hoy, y comer con una cámara en la cara cansa a cualquiera."
+    }
+  ]
+}

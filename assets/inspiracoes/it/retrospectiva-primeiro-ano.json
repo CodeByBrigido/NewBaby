@@ -1,0 +1,27 @@
+{
+  "titulo": "Montare la retrospettiva del primo anno",
+  "resumo": "Una scaletta per trasformare l'archivio dell'anno in un video o in un album che tutta la famiglia vorrà vedere.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 60
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "La scaletta più semplice che funziona",
+      "itens": [
+        "Una foto per ogni mese, dallo stesso posto se ce l'hai.",
+        "Tre video corti: uno dell'inizio, uno di metà, uno recente.",
+        "La vostra voce sopra, che racconta cos'è successo in quel mese.",
+        "Finisci con la foto del giorno della nascita e quella di oggi, una accanto all'altra."
+      ]
+    },
+    {
+      "titulo": "Dove la gente si blocca",
+      "texto": "Tutti si bloccano cercando di scegliere fra trecento foto. Non scegliere le migliori: scegline una al mese, in ordine, e vai avanti. Una retrospettiva fatta vale infinitamente più di una retrospettiva perfetta mai fatta."
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/l10n/strings.dart';
 import '../models/inspiration.dart';
 
 /// De onde vem o conteúdo das inspirações.
@@ -27,6 +28,21 @@ abstract interface class InspirationSource {
 /// [AssetManifest] descobre em tempo de execução o que existe dentro dela.
 ///
 /// Publicar uma postagem é soltar dois arquivos com o mesmo nome na pasta.
+///
+/// ## As línguas
+///
+/// O português mora na raiz da pasta e as demais línguas em subpastas de um
+/// nível: `assets/inspiracoes/en/<id>.json`. A raiz é a lista de verdade,
+/// e é ela que decide **quais** postagens existem: uma tradução só é lida
+/// se houver um arquivo com o mesmo id na raiz.
+///
+/// Isso mantém a promessa de que o catálogo é o mesmo em toda língua. Uma
+/// postagem traduzida e esquecida na raiz não apareceria em lugar nenhum,
+/// e uma tradução faltando cai no português em vez de sumir da lista: quem
+/// lê em alemão vê 46 postagens, e as que ainda não foram traduzidas
+/// aparecem em português, que é melhor que um buraco.
+///
+/// A capa não se traduz: ela mora na raiz e é a mesma em todas as línguas.
 class AssetInspirationSource implements InspirationSource {
   const AssetInspirationSource({this.pasta = 'assets/inspiracoes/'});
 
@@ -38,21 +54,36 @@ class AssetInspirationSource implements InspirationSource {
       rootBundle,
     );
 
-    final List<String> arquivos =
-        manifest
-            .listAssets()
-            .where((String a) => a.startsWith(pasta) && a.endsWith('.json'))
+    final List<String> todos = manifest.listAssets();
+
+    // A raiz manda: só o que está aqui existe como postagem. Um arquivo
+    // solto numa subpasta de língua, sem par na raiz, é tradução de uma
+    // postagem que já saiu do ar, e ignorá-lo é o certo.
+    final List<String> daRaiz =
+        todos
+            .where(
+              (String a) =>
+                  a.startsWith(pasta) &&
+                  a.endsWith('.json') &&
+                  !a.substring(pasta.length).contains('/'),
+            )
             .toList()
           // Ordem estável, para a lista não depender do sistema de arquivos
           // de quem compilou.
           ..sort();
 
+    final Set<String> existentes = todos.toSet();
+    final String lingua = codigoAtivo;
+
     final List<Inspiration> postagens = <Inspiration>[];
-    for (final String arquivo in arquivos) {
-      final String cru = await rootBundle.loadString(arquivo);
-      postagens.add(
-        parseInspiration(cru, id: idDoArquivo(arquivo, pasta: pasta)),
-      );
+    for (final String arquivo in daRaiz) {
+      final String id = idDoArquivo(arquivo, pasta: pasta);
+      final String traduzido = '$pasta$lingua/$id.json';
+      final String escolhido = existentes.contains(traduzido)
+          ? traduzido
+          : arquivo;
+      final String cru = await rootBundle.loadString(escolhido);
+      postagens.add(parseInspiration(cru, id: id));
     }
     return postagens;
   }

@@ -1,0 +1,36 @@
+{
+  "titulo": "Das erste Weihnachten",
+  "resumo": "Geschenke, Fotos, und was man mit einem Baby macht, das sich an nichts davon erinnern wird.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "natal",
+    "diasAntes": 25,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Das Geschenk, das bleibt",
+      "texto": "Ein Spielzeug vom ersten Weihnachten hält sechs Monate. Was hält, ist das, was aufbewahrt wurde.",
+      "itens": [
+        "Ein Weihnachtsbrief, von jedem Elternteil geschrieben, aufbewahrt für den achtzehnten Geburtstag.",
+        "Ein Christbaumschmuck mit der Jahreszahl darauf. Jedes Jahr kommt ein neuer dazu, und in zwanzig Jahren erzählt der Baum die ganze Geschichte.",
+        "Ein Buch mit Widmung und Datum."
+      ]
+    },
+    {
+      "titulo": "Das Foto",
+      "itens": [
+        "Die Lichter des Baums im Hintergrund, Fensterlicht auf dem Gesicht. Ohne Blitz: der Blitz löscht die Lichter.",
+        "Ein Foto in derselben Ecke der Wohnung, jedes Jahr. In fünf Jahren wird daraus die Reihe, vor der alle stehen bleiben.",
+        "Das Foto der ganzen Familie, mit Stativ oder Selbstauslöser. Jedes Jahr fehlt jemand auf den Fotos, und es ist fast immer der, der das Handy hielt."
+      ]
+    },
+    {
+      "titulo": "Realistische Erwartungen",
+      "texto": "Ein Baby schläft an Weihnachten meist ein, findet den Lärm befremdlich oder weint mitten beim Essen. Nichts davon ist ein Problem, und alles davon ergibt gute Fotos. Erzwingen Sie kein Lächeln für die Kamera: das müde Gesicht vom ersten Weihnachten ist in zwanzig Jahren komischer als ein abgerungenes Lächeln."
+    }
+  ]
+}

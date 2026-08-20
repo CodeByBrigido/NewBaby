@@ -1,0 +1,35 @@
+{
+  "titulo": "Filmez l'ordinaire",
+  "resumo": "Le bain, la tétée, le trajet du retour. Personne ne filme l'ordinaire parce qu'il semble devoir durer toujours, et c'est l'ordinaire qui disparaît sans prévenir.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Ce que personne ne filme",
+      "texto": "On filme les anniversaires, les voyages et les premières fois. On ne filme pas le change de sept heures du matin, la tétée de la nuit, le trajet jusqu'à la crèche. Et c'est justement cela qui disparaît entièrement, parce que c'est ce qui semble devoir durer toujours."
+    },
+    {
+      "titulo": "Quoi filmer cette semaine",
+      "itens": [
+        "Un repas entier, du début à la fin, avec le désordre et votre patience qui s'épuise.",
+        "Le rituel du coucher, avec la chanson que vous utilisez.",
+        "Vingt secondes du bain, avec la voix de celui qui le donne.",
+        "Le trajet de la maison à un endroit où vous allez toutes les semaines.",
+        "Le coin de la maison où elle passe le plus de temps, filmé lentement, sans personne dans le cadre."
+      ]
+    },
+    {
+      "titulo": "Comment filmer sans mettre en scène",
+      "texto": "Vidéo courte, à l'horizontale, sans parler à la caméra. Ne lui demandez pas de regarder et ne l'appelez pas par son prénom : c'est la scène naturelle qui a de la valeur, et elle meurt à l'instant où quelqu'un se rend compte qu'il est filmé."
+    },
+    {
+      "titulo": "Pourquoi maintenant",
+      "texto": "La routine d'aujourd'hui n'existera plus dans six mois. Ce n'est pas la croissance qui l'efface, c'est le remplacement : chaque étape change toute la routine, et la précédente disparaît sans que personne n'ait rien enregistré."
+    }
+  ]
+}

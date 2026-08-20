@@ -1,0 +1,41 @@
+{
+  "titulo": "Der erste Schultag",
+  "resumo": "Das Foto an der Tür, der Ranzen größer als das Kind, und der Text, auf den es ankommt: wie Sie sich gefühlt haben, als Sie es dort ließen.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 600,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Vor dem Tag",
+      "itens": [
+        "Besuchen Sie die Schule vorher gemeinsam, wenn es geht. Den Ort zu kennen nimmt die halbe Angst.",
+        "Erzählen Sie in den Tagen davor der Reihe nach, was passieren wird, in kurzen Sätzen.",
+        "Lassen Sie es eine Sache aussuchen: den Ranzen, die Trinkflasche, die Kleidung. Aussuchen gibt Kontrolle.",
+        "Sprechen Sie vorher mit der Schule ab, wie der Abschied abläuft, und halten Sie sich daran.",
+        "Packen Sie den Ranzen am Vorabend gemeinsam, und fotografieren Sie ihn fertig gepackt."
+      ]
+    },
+    {
+      "titulo": "Am Tag selbst",
+      "texto": "Kommen Sie mit Zeitpuffer an, ohne Hetze. Verabschieden Sie sich ein einziges Mal, klar, und gehen Sie. Für eine weitere Umarmung zurückzukommen setzt das Weinen neu in Gang und lehrt, dass Weinen Sie zurückholt. Es ist hart, und es ist das, was für das Kind am besten funktioniert."
+    },
+    {
+      "titulo": "Was festhalten, in fünf Minuten",
+      "itens": [
+        "Das Foto an der eigenen Haustür, vor dem Losgehen, ganzer Körper mit Ranzen.",
+        "Dasselbe Foto am Schuleingang, zum Vergleich mit allen folgenden Jahren.",
+        "Der offene Ranzen, mit allem, was darin mitgegangen ist.",
+        "Ein Zehn-Sekunden-Video auf dem Weg, mit Ihrer Frage, wie es sich fühlt.",
+        "Das Gesicht beim Abholen, das fast immer das Gegenteil des Gesichts beim Bringen ist."
+      ]
+    },
+    {
+      "titulo": "Schreiben Sie es am selben Tag",
+      "texto": "Ein kurzer Brief, abends, darüber, wie es für Sie war. Das ist der Teil, den niemand festhält, und der, den das erwachsene Kind am liebsten lesen wird. Wiederholen Sie dasselbe Türfoto und denselben Brief an jedem ersten Schultag, jahrelang."
+    }
+  ]
+}

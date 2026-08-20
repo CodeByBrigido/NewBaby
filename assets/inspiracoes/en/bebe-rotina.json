@@ -1,0 +1,35 @@
+{
+  "titulo": "Film the ordinary",
+  "resumo": "The bath, the feed, the walk home. Nobody films the ordinary because it feels like it will last forever, and the ordinary is what vanishes without warning.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 2000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "What nobody films",
+      "texto": "We film birthdays, holidays and firsts. We do not film the seven in the morning nappy change, the middle-of-the-night feed, the walk to nursery. And that is exactly what disappears completely, because it is what feels like it will last forever."
+    },
+    {
+      "titulo": "What to film this week",
+      "itens": [
+        "A whole meal, start to finish, with the mess and your patience running out.",
+        "The bedtime ritual, with the song you use.",
+        "Twenty seconds of the bath, with the voice of whoever is giving it.",
+        "The walk from home to somewhere you go every week.",
+        "The corner of the house where she spends the most time, filmed slowly, with nobody in the frame."
+      ]
+    },
+    {
+      "titulo": "How to film without staging",
+      "texto": "A short clip, landscape, without talking to the camera. Do not ask her to look or call her name: it is the natural scene that has value, and it dies the moment anyone notices they are being filmed."
+    },
+    {
+      "titulo": "Why now",
+      "texto": "Today's routine will no longer exist six months from now. It is not growth that erases it, it is replacement: every stage swaps the whole routine, and the previous one disappears without anyone having recorded a thing."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "titulo": "The first Carnival",
+  "resumo": "A costume improvised at home makes as many photos as a packed street parade, and nobody comes home exhausted.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Carnival with a small child happens at home",
+      "texto": "A street parade means crowds, loud music and strong sun, and none of that suits someone a few months old. The costume, the music and the mayhem work perfectly in the living room, and produce the same photos with none of the problems."
+    },
+    {
+      "titulo": "If you do go out",
+      "itens": [
+        "Children's ear defenders. Parade sound is far too loud for small ears.",
+        "Guaranteed shade and a time outside the peak sun.",
+        "Stay at the edge, never in the middle, and know your way out.",
+        "A children's street parade, in the morning, is another matter entirely: smaller, shorter and made for this.",
+        "Agree beforehand with whoever is with you how long you are staying, and stick to it."
+      ]
+    },
+    {
+      "titulo": "The costume",
+      "texto": "Comfortable beats pretty. Light fabric, no tight elastic, no hood that makes her hot, nothing glued on that could end up in her mouth. A costume improvised from what you have at home usually makes a better photo than a bought one."
+    },
+    {
+      "titulo": "What to keep",
+      "itens": [
+        "The photo of the whole costume, full length, in the best light there is.",
+        "The face, close up, with the paint or the accessory.",
+        "A short video dancing with her in your arms.",
+        "The sleepy face at the end, which is always the best photo of the day.",
+        "Two written lines: what the costume was, who chose it and why."
+      ]
+    }
+  ]
+}

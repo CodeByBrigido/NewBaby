@@ -1,0 +1,33 @@
+{
+  "titulo": "A cloth book, chewed and all",
+  "resumo": "At this stage a book is an object before it is a story: something to crumple, chew and turn inside out. Reading together now is about linking books to your lap.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "A book at this stage is an object, not reading",
+      "texto": "She will chew it, crumple it and hold it upside down. That is right. What is being built here is not understanding of the story, it is the link between book, lap and voice. A book destroyed by use is a book that worked."
+    },
+    {
+      "titulo": "What works",
+      "itens": [
+        "A cloth or bath book, which survives mouths and washing.",
+        "A board book with thick pages, which a still clumsy hand can turn.",
+        "Few pages. Five is great, twenty is far too many for now.",
+        "Large, high-contrast pictures, one per page, with no busy background."
+      ]
+    },
+    {
+      "titulo": "How to read",
+      "texto": "You do not have to read what is written. Point, name things, make the animal noise, and stop halfway through if she turns her face away. Three minutes a day, always at the same time, are worth more than half an hour at the weekend."
+    },
+    {
+      "titulo": "Worth keeping",
+      "texto": "Photograph her favourite book now, chewed edges included. Years from now that battered book is an object with a date on it, and the photo is worth more than the book was intact."
+    }
+  ]
+}

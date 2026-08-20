@@ -1,0 +1,35 @@
+{
+  "titulo": "Préparer la diversification alimentaire",
+  "resumo": "Quoi mettre de côté à la maison et comment l'enregistrer. Quand et quoi proposer, c'est le pédiatre qui le dit.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 140,
+    "ateDias": 220
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Ceci n'est pas un conseil de santé",
+      "texto": "Quand commencer, quoi proposer et dans quel ordre est une conversation avec le pédiatre, et avec lui seulement. Ce qui est ici, c'est la partie pratique : quoi préparer à la maison et comment garder le souvenir de cette étape, qui est courte et très drôle."
+    },
+    {
+      "titulo": "Ce qui facilite la vie",
+      "itens": [
+        "Une chaise haute qui se lave entièrement, ou un grand plastique en dessous.",
+        "Un bavoir à manches longues. Les petits ne servent à rien à cette étape.",
+        "Une assiette à ventouse, qui gagne quelques jours avant de devenir un jouet.",
+        "Deux cuillères : une qu'elle tient et une que vous utilisez."
+      ]
+    },
+    {
+      "titulo": "Le souvenir qui vaut",
+      "itens": [
+        "La grimace de chaque nouvelle saveur. Photographiez le visage, pas l'assiette.",
+        "Une courte vidéo du premier jour assise dans la chaise haute.",
+        "La liste des aliments qu'elle a adorés et de ceux qu'elle a recrachés. Dans quinze ans, la comparer à ses goûts est hilarant."
+      ]
+    }
+  ]
+}

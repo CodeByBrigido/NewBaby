@@ -1,0 +1,34 @@
+{
+  "titulo": "Elle imite tout ce que vous faites",
+  "resumo": "Balayer, parler au téléphone, remuer une casserole. Donnez-lui une petite version d'un objet réel et filmez : c'est là que votre façon d'être apparaît chez elle.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Vous êtes devenu le jouet préféré",
+      "texto": "Balayer, remuer une casserole, répondre au téléphone, enfiler vos chaussures : imiter l'adulte est le jeu le plus sérieux de cette étape, et celui qui demande le moins de préparation, parce que le scénario, c'est votre journée."
+    },
+    {
+      "titulo": "Comment en profiter au lieu de gêner",
+      "itens": [
+        "Donnez-lui une petite version de ce que vous utilisez : un chiffon, une brosse, une cuillère.",
+        "Réservez un tiroir bas de la cuisine aux boîtes et aux torchons, qu'elle puisse toujours ouvrir.",
+        "Faites lentement et en racontant. La partie racontée est celle dont elle profite le plus.",
+        "Acceptez que cela prendra trois fois plus de temps. Si vous êtes pressé aujourd'hui, faites-le demain."
+      ]
+    },
+    {
+      "titulo": "Ce qu'il ne faut pas lui laisser imiter",
+      "texto": "La cuisinière, les prises, les produits ménagers, les couteaux et l'escalier. L'imitation ne distingue pas le danger, et à cette étape l'intérêt pour ces choses est justement plus grand parce que ce sont celles que vous utilisez et qu'elle n'a pas le droit de toucher."
+    },
+    {
+      "titulo": "La vidéo",
+      "texto": "Filmez de loin, sans l'appeler. À l'instant où elle remarque la caméra, elle cesse d'imiter et se met à jouer un rôle, et la scène perd tout son charme. Vingt secondes en cachette valent mieux que deux minutes sur commande."
+    }
+  ]
+}

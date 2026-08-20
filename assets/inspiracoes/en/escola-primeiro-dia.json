@@ -1,0 +1,41 @@
+{
+  "titulo": "The first day of school",
+  "resumo": "The photo at the door, the backpack bigger than she is, and the text that matters: how you felt leaving her there.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 600,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Before the day",
+      "itens": [
+        "Visit the school with her beforehand if you can. Knowing the place takes away half the fright.",
+        "Talk through what will happen, in order, in short sentences, in the days before.",
+        "Let her choose one thing: the backpack, the bottle, the outfit. Choosing gives her control.",
+        "Agree with the school in advance how the goodbye will go, and stick to it.",
+        "Pack the backpack with her the night before, and photograph it ready."
+      ]
+    },
+    {
+      "titulo": "On the day",
+      "texto": "Arrive with time to spare, without rushing. Say goodbye once, clearly, and go. Coming back for one more hug restarts the crying and teaches her that crying brings you back. It is hard, and it is what works best for her."
+    },
+    {
+      "titulo": "What to record, in five minutes",
+      "itens": [
+        "The photo at your own front door, before leaving, full length with the backpack.",
+        "The same photo at the school gate, to compare with every year that follows.",
+        "The backpack open, with everything that went inside it.",
+        "A ten second video on the way, with you asking how she is feeling.",
+        "The face at pick-up, which is almost always the opposite of the face at drop-off."
+      ]
+    },
+    {
+      "titulo": "Write it the same day",
+      "texto": "A short letter, in the evening, about how it was for you. That is the part nobody records, and the part the grown child will most want to read. Repeat the same doorway photo and the same letter every first day of school, for years."
+    }
+  ]
+}

@@ -59,23 +59,23 @@ extension EntryTypeVisuals on EntryType {
 
   /// No singular, para frases como "nenhuma foto ainda".
   String get singular => switch (this) {
-    EntryType.birth => 'nascimento',
-    EntryType.photo => 'foto',
+    EntryType.birth => S.typeOneBirth,
+    EntryType.photo => S.typeOnePhoto,
     EntryType.video => S.oneVideo,
-    EntryType.letter => 'carta',
-    EntryType.drawing => 'desenho',
-    EntryType.document => 'documento',
+    EntryType.letter => S.typeOneLetter,
+    EntryType.drawing => S.typeOneDrawing,
+    EntryType.document => S.typeOneDocument,
     EntryType.growth => S.oneGrowth,
   };
 
   String get label => switch (this) {
-    EntryType.birth => 'Nascimento',
-    EntryType.photo => 'Fotos',
+    EntryType.birth => S.birth,
+    EntryType.photo => S.photos,
     EntryType.video => S.videosLabel,
-    EntryType.letter => 'Cartas',
-    EntryType.drawing => 'Desenhos',
-    EntryType.document => 'Documentos',
-    EntryType.growth => 'Crescimento',
+    EntryType.letter => S.letters,
+    EntryType.drawing => S.drawings,
+    EntryType.document => S.documents,
+    EntryType.growth => S.growth,
   };
 }
 
@@ -352,7 +352,7 @@ Future<bool> confirm(
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Cancelar'),
+          child: Text(S.cancel),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),

@@ -1,0 +1,35 @@
+{
+  "titulo": "Eine Wanne Wasser im Garten",
+  "resumo": "Eine Wanne, zwei Becher und ein Löffel. Zwanzig Minuten vollkommene Konzentration für so gut wie nichts. Filmen Sie aus der Ferne, ohne zu stören.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Das billigste Spiel des Sommers",
+      "texto": "Eine Wanne mit zwei Fingern Wasser, auf dem Boden, im Schatten, und ein paar Gefäße. Das trägt länger als fast jedes Spielzeug, und das Material steht schon in Ihrer Küche."
+    },
+    {
+      "titulo": "Was dazugehört",
+      "itens": [
+        "Gefäße in verschiedenen Größen, zum Füllen und Ausgießen.",
+        "Ein Sieb und ein Becher mit Löchern, wegen des Effekts.",
+        "Ein Schwamm, der aufsaugt und tropft.",
+        "Ein großer Löffel und ein Trichter, falls vorhanden.",
+        "Dinge, die schwimmen, und Dinge, die sinken, zum Vergleich."
+      ]
+    },
+    {
+      "titulo": "Sicherheit, und hier ist sie der ernste Teil",
+      "texto": "Ein kleines Kind ertrinkt in sehr wenig Wasser, und lautlos. Bleiben Sie die ganze Zeit daneben, ohne Ausnahme und ohne Handy. Leeren Sie die Wanne danach sofort und stellen Sie sie umgedreht hin, auch wenn Sie sie in einer Stunde wieder benutzen wollen."
+    },
+    {
+      "titulo": "Festhalten",
+      "texto": "Foto von oben, mit den Händen im Wasser und den Gefäßen. Gegenlicht am späten Nachmittag mit Spritzern trägt ebenfalls, und zehn Sekunden Video vom Umgießen sind besser als jedes Foto."
+    }
+  ]
+}

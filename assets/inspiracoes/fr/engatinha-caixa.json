@@ -1,0 +1,39 @@
+{
+  "titulo": "Le carton bat le jouet",
+  "resumo": "Un grand carton devient voiture, maison et cachette, et occupe mieux que le jouet qui était dedans. Cette injustice mérite d'être enregistrée.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 240,
+    "ateDias": 1200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Pourquoi le carton gagne",
+      "texto": "Le carton ne fait rien, et c'est exactement pour cela qu'il marche : c'est l'enfant qui fait. Le jouet qui joue de la musique et s'allume occupe trois jours ; le carton redevient autre chose chaque semaine."
+    },
+    {
+      "titulo": "Quoi faire d'un grand carton",
+      "itens": [
+        "Ouvrir les deux côtés et en faire un tunnel.",
+        "Le laisser fermé avec une porte découpée et en faire une maison.",
+        "Le coucher et en faire une charrette, avec vous qui tirez sur le sol lisse.",
+        "La laisser dessiner à l'intérieur, aux craies grasses, quand elle saura les tenir.",
+        "Le remplir d'autres cartons plus petits, à sortir et à remettre. C'est le jeu le plus long de la liste."
+      ]
+    },
+    {
+      "titulo": "Précautions",
+      "itens": [
+        "Retirez les agrafes, les rubans et les étiquettes avant.",
+        "Repliez les bords vers l'intérieur ou passez du ruban large : le carton coupe.",
+        "Pas de carton ayant contenu des produits ménagers."
+      ]
+    },
+    {
+      "titulo": "Gardez la preuve",
+      "texto": "Photographiez le carton une fois terminé, avec elle dedans, et écrivez dans la description ce qu'il est devenu ce jour-là. C'est le genre de détail dont personne ne se souvient et qui fait beaucoup rire plus tard."
+    }
+  ]
+}

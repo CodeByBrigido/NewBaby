@@ -1,0 +1,34 @@
+{
+  "titulo": "Imita todo lo que haces",
+  "resumo": "Barrer, hablar por teléfono, remover una olla. Dale una versión pequeña de un objeto real y grábalo: ahí es donde aparece vuestra manera de ser en ella.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Te has convertido en el juguete preferido",
+      "texto": "Barrer, remover una olla, contestar el teléfono, ponerse tus zapatos: imitar al adulto es el juego más serio de esta etapa, y el que menos preparación exige de todos, porque el guion es tu propio día."
+    },
+    {
+      "titulo": "Cómo aprovecharlo en vez de estorbar",
+      "itens": [
+        "Dale una versión pequeña de lo que estás usando: un trapo, un cepillo, una cuchara.",
+        "Deja un cajón bajo de la cocina solo con fiambreras y trapos, que pueda abrir siempre.",
+        "Hazlo despacio y narrando. La parte de narrar es la que más le aprovecha.",
+        "Acepta que llevará el triple de tiempo. Si hoy tienes prisa, hazlo mañana."
+      ]
+    },
+    {
+      "titulo": "Qué no dejarle imitar",
+      "texto": "La cocina, los enchufes, los productos de limpieza, los cuchillos y las escaleras. La imitación no distingue el peligro, y en esta etapa el interés por esas cosas es justamente mayor porque son las que tú usas y ella no puede."
+    },
+    {
+      "titulo": "El vídeo",
+      "texto": "Graba desde lejos, sin llamarla. En el instante en que nota la cámara, deja de imitar y pasa a actuar, y la escena pierde toda la gracia. Veinte segundos a escondidas valen más que dos minutos pedidos."
+    }
+  ]
+}

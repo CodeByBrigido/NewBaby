@@ -1,0 +1,35 @@
+{
+  "titulo": "Un barreño de agua en el patio",
+  "resumo": "Un barreño, dos vasos y una cuchara. Veinte minutos de concentración absoluta por prácticamente nada. Graba de lejos, sin interrumpir.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1400
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "El juego más barato del verano",
+      "texto": "Un barreño con dos dedos de agua, en el suelo, a la sombra, y unos cuantos recipientes. Da más tiempo que casi cualquier juguete, y el material ya está en tu cocina."
+    },
+    {
+      "titulo": "Qué poner con él",
+      "itens": [
+        "Recipientes de tamaños distintos, para llenar y vaciar.",
+        "Un colador y un vaso agujereado, por el efecto.",
+        "Una esponja, que absorbe y chorrea.",
+        "Una cuchara grande y un embudo, si hay.",
+        "Cosas que flotan y cosas que se hunden, para comparar."
+      ]
+    },
+    {
+      "titulo": "Seguridad, que aquí es la parte seria",
+      "texto": "Una criatura pequeña se ahoga con muy poca agua, y en silencio. Quédate al lado todo el rato, sin excepción y sin móvil. Al terminar, vacía el barreño en el momento y ponlo boca abajo, aunque lo vayas a usar otra vez dentro de una hora."
+    },
+    {
+      "titulo": "Registrarlo",
+      "texto": "Foto desde arriba, cogiendo las manos dentro del agua y los recipientes. El contraluz de última hora de la tarde con salpicaduras también da juego, y el vídeo de diez segundos del trasvase es mejor que cualquier foto."
+    }
+  ]
+}

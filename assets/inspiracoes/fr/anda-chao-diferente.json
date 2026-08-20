@@ -1,0 +1,35 @@
+{
+  "titulo": "Un sol différent chaque week-end",
+  "resumo": "Herbe, sable, gravier, feuilles mortes. Marcher sur des surfaces différentes est un jeu et un entraînement à la fois, et le parc du quartier suffit.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Pourquoi changer de sol",
+      "texto": "Quand on apprend à marcher, on passe le plus clair de son temps sur le même sol lisse de la maison. Chaque surface différente est un nouveau problème que le corps doit résoudre, et c'est aussi une sortie qui ne coûte rien : elle existe déjà à quelques rues de chez vous."
+    },
+    {
+      "titulo": "Une surface par week-end",
+      "itens": [
+        "L'herbe, qui s'enfonce un peu et change l'équilibre.",
+        "Le sable sec et le sable mouillé, qui sont deux choses complètement différentes.",
+        "Le gravier d'une place, avec vous qui tenez la main.",
+        "Les lames de bois d'une terrasse, avec les interstices.",
+        "Une flaque peu profonde, en bottes, le lendemain de la pluie.",
+        "Une pente douce, en montant et en descendant, qui est un autre exercice."
+      ]
+    },
+    {
+      "titulo": "Quoi emporter",
+      "texto": "Des vêtements qui peuvent se salir sans que cela pose problème, une tenue de rechange complète, de l'eau et le moins de choses possible. Une sortie avec beaucoup de bagages fatigue celui qui porte et écourte le programme."
+    },
+    {
+      "titulo": "Le témoignage qui vaut",
+      "texto": "Une photo de ses pieds sur la surface du jour, toujours sous le même angle, de dessus. Sur une année cela devient une très belle série, et c'est la photo la plus facile à prendre d'un enfant qui ne tient pas en place."
+    }
+  ]
+}

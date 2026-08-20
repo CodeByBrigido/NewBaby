@@ -55,7 +55,7 @@ class FazUmTempo extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Sobrancelha('Faz um tempo'),
+          Sobrancelha(S.beenAWhile),
           const SizedBox(height: Space.x4),
           for (final (EntryType tipo, String rota) in _tipos)
             _Linha(

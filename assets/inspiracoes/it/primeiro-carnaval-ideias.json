@@ -1,0 +1,42 @@
+{
+  "titulo": "Il primo Carnevale",
+  "resumo": "Un costume improvvisato in casa rende quanto una sfilata affollata, e nessuno torna distrutto.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Il Carnevale con una bambina piccola si fa in casa",
+      "texto": "Una sfilata significa folla, audio a volume alto e sole forte, e niente di tutto questo va d'accordo con chi ha pochi mesi. Il costume, la musica e il caos funzionano benissimo in salotto, e regalano le stesse foto senza nessuno dei problemi."
+    },
+    {
+      "titulo": "Se uscite",
+      "itens": [
+        "Cuffie antirumore per bambini. L'audio di una sfilata è troppo alto per orecchie piccole.",
+        "Ombra garantita e un orario fuori dal picco del sole.",
+        "State al bordo, mai in mezzo, e con una via d'uscita conosciuta.",
+        "Una sfilata per bambini, la mattina, è un'altra cosa: più piccola, più corta e fatta apposta.",
+        "Concordate prima con chi è con voi quanto restate, e rispettatelo."
+      ]
+    },
+    {
+      "titulo": "Il costume",
+      "texto": "Comodo batte bello. Tessuto leggero, senza elastici stretti, senza cappucci che scaldano, senza niente incollato che possa finire in bocca. Un costume improvvisato con quello che c'è in casa di solito rende una foto migliore di quello comprato."
+    },
+    {
+      "titulo": "Cosa conservare",
+      "itens": [
+        "La foto del costume intero, a figura intera, con la luce migliore che c'è.",
+        "Il viso, da vicino, con il trucco o l'accessorio.",
+        "Un video corto mentre balla in braccio a te.",
+        "La faccia assonnata alla fine, che è sempre la foto migliore della giornata.",
+        "Due righe scritte: qual era il costume, chi l'ha scelto e perché."
+      ]
+    }
+  ]
+}

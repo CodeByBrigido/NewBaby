@@ -1,0 +1,39 @@
+{
+  "titulo": "Dove andare con una bambina piccola",
+  "resumo": "Posti che funzionano davvero, per fascia d'età, e cosa portare per non rientrare prima del tempo.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Una bambina che non cammina ancora",
+      "itens": [
+        "Un parco con ombra e un telo per terra. Guardare le foglie che si muovono intrattiene più di quanto sembri.",
+        "Il mercato la mattina: rumore, colore e odori, e in più risolvi la spesa della settimana.",
+        "La spiaggia o un lago nel tardo pomeriggio, quando il sole è debole."
+      ]
+    },
+    {
+      "titulo": "Quando già cammina",
+      "itens": [
+        "Una piazza con terreno irregolare: erba, sabbia, ghiaia. Stanca e diverte insieme.",
+        "Un vivaio, un orto botanico o un garden center. Di solito costa poco o niente e ha ombra.",
+        "Un acquario o una casa delle farfalle, se c'è in città.",
+        "Un sentiero corto e pianeggiante, con un obiettivo alla fine: un ponte, un ruscello, un masso."
+      ]
+    },
+    {
+      "titulo": "Quello che manca sempre",
+      "itens": [
+        "Acqua e un frutto.",
+        "Un cambio completo.",
+        "Protezione solare e cappello.",
+        "Uscire di casa prima delle dieci o dopo le quattro. A metà giornata non regge nessuno."
+      ]
+    }
+  ]
+}

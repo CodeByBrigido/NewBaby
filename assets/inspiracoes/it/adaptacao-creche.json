@@ -1,0 +1,31 @@
+{
+  "titulo": "L'inserimento al nido",
+  "resumo": "Com'è di solito la prima settimana, cosa concordare con il nido, e il documento che nessuno crea.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Come va di solito",
+      "texto": "Quasi sempre la prima settimana è corta e cresce poco alla volta: un'ora, poi due, poi il turno intero. Piangere alla porta è comune e di solito passa in fretta appena te ne vai, anche quando non sembra. Ogni nido ha il suo metodo, e vale la pena chiedere il loro prima di cominciare."
+    },
+    {
+      "titulo": "Cosa concordare prima",
+      "itens": [
+        "Chi la porta e chi la riprende, in ogni giorno della settimana.",
+        "Come avvisa il nido se succede qualcosa, e in quanto tempo.",
+        "Se può portare l'oggetto di conforto da casa.",
+        "Il nome su tutto. Assolutamente tutto."
+      ]
+    },
+    {
+      "titulo": "Il documento che nessuno crea",
+      "texto": "Tutti fotografano la bambina sulla porta del nido. Quasi nessuno scrive com'è stata per chi è rimasto fuori. Scrivilo lo stesso giorno: cosa hai provato tornando da solo alla macchina. Fra vent'anni quella parte vale più della foto."
+    }
+  ]
+}

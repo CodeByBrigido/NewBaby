@@ -1,0 +1,35 @@
+{
+  "titulo": "La marca en la pared",
+  "resumo": "Una esquina de puerta, un lápiz y la fecha. Es el registro más analógico que existe y el que más emociona cuando la familia cambia de casa. Fotografíala antes de mudaros.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La marca en la pared, hecha para durar",
+      "texto": "Marcar la altura en el marco es una tradición antigua y tiene un problema conocido: la pared se queda en la casa cuando la familia se muda. Unos cuantos cuidados lo resuelven y convierten el juego en un archivo de verdad."
+    },
+    {
+      "titulo": "Cómo hacerlo",
+      "itens": [
+        "Elige una esquina que no vaya a pintarse pronto, y siempre la misma.",
+        "Sin zapatos, talones contra la pared, mirando al frente.",
+        "Usa un libro apoyado en lo alto de la cabeza, en horizontal, para marcar recto.",
+        "Escribe la fecha al lado de la marca, siempre. Una marca sin fecha no sirve de nada.",
+        "Fotografía la pared entera en cada marca nueva. Es la foto que sobrevive a la mudanza."
+      ]
+    },
+    {
+      "titulo": "Si no puedes marcar la pared",
+      "texto": "Un metro de tela o de madera fijado a la pared lo resuelve, y se va contigo en la mudanza. Una tira larga de papel pegada detrás de la puerta también funciona, y se puede enrollar y guardar."
+    },
+    {
+      "titulo": "Cada cuánto tiempo",
+      "texto": "Cada tres meses el primer año y cada cumpleaños después. Marcar todas las semanas llena la pared sin contar ninguna historia; la distancia entre las marcas es lo que es el registro."
+    }
+  ]
+}

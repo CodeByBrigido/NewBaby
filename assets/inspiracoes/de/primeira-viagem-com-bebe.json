@@ -1,0 +1,39 @@
+{
+  "titulo": "Die erste Reise",
+  "resumo": "Was mitnehmen, wie viel Fahrtzeit zumutbar ist, und wie Sie nicht ohne ein einziges Foto zu dritt zurückkommen.",
+  "tipo": "passeio",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 1000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Das Ziel wählen",
+      "itens": [
+        "Nah schlägt schön. Drei Stunden Auto mit Pausen sind in den ersten Monaten eine bequeme Grenze.",
+        "Eine Unterkunft mit Küche ist mehr wert als eine mit Pool.",
+        "Wenn Sie fliegen, klappt ein Flug zur Schlafenszeit meist besser als einer am frühen Morgen."
+      ]
+    },
+    {
+      "titulo": "Der Koffer",
+      "itens": [
+        "Kleidung für die doppelte Anzahl Tage. Irgendetwas passiert immer.",
+        "Regelmäßige Medikamente, Rezepte und das Impfbuch.",
+        "Ein vertrautes Spielzeug und eine Decke von zu Hause: der bekannte Geruch hilft beim Schlafen in einem fremden Bett.",
+        "Müllbeutel und Feuchttücher überall: Rucksack, Auto, Tasche."
+      ]
+    },
+    {
+      "titulo": "Die Fotos, die hinterher fehlen",
+      "itens": [
+        "Das Foto zu dritt. Bitten Sie eine fremde Person darum, auch wenn Sie keine Lust dazu haben. Von jeder Reise kommt man nur mit den Fotos zurück, die man selbst gemacht hat.",
+        "Das Landschaftsfoto mit dem Kind ganz klein in einer Ecke, als Maßstab.",
+        "Ein Zehn-Sekunden-Video pro Tag, ungeschnitten. Zusammen ergeben sie die beste Zusammenfassung der Reise."
+      ]
+    }
+  ]
+}

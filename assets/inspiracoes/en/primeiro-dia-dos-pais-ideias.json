@@ -1,0 +1,36 @@
+{
+  "titulo": "The first Father's Day",
+  "resumo": "A recording of her father speaking to her at eighteen is worth more than any present he could be given today.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDosPais",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Record the change, not the date",
+      "texto": "The first Father's Day with the child in the house marks a change of role that does not happen twice. That is what is worth keeping: how it was before, how it is now, and what changed in the person who became a father this year."
+    },
+    {
+      "titulo": "Simple ideas",
+      "itens": [
+        "The photo of three generations, whenever that is possible.",
+        "A print of her foot or her hand on paper, with the date.",
+        "A letter written by him, for her to read as an adult, about this first year.",
+        "A video of the two of them doing the silliest thing of the day: changing a nappy, watching the match, asleep on the sofa.",
+        "The photo of the two of them asleep, which is the classic and is a classic for a reason."
+      ]
+    },
+    {
+      "titulo": "Whoever takes the photos needs to appear too",
+      "texto": "The same rule applies: ask someone, or use the timer. A collection with no father in the photos tells the wrong story, and it is the most common mistake of all."
+    },
+    {
+      "titulo": "The question that works every year",
+      "texto": "Record a short video answering: \"what did I learn this year?\" Every Father's Day, the same question. It is the yearly interview, from the other side of the camera."
+    }
+  ]
+}

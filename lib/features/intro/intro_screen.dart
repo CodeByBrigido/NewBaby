@@ -110,7 +110,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                 padding: const EdgeInsets.only(right: Space.x8),
                 child: TextButton(
                   onPressed: _sair,
-                  child: Text(ultimo ? 'Fechar' : 'Pular'),
+                  child: Text(ultimo ? S.closeLabel : S.skip),
                 ),
               ),
             ),
@@ -143,7 +143,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
                   if (ultimo)
                     _EscolhaDaConta(aoEscolher: _sair)
                   else
-                    _BotaoPilula(rotulo: 'Continuar', aoTocar: _avancar),
+                    _BotaoPilula(rotulo: S.continueLabel, aoTocar: _avancar),
                 ],
               ),
             ),
@@ -195,14 +195,14 @@ class _EscolhaDaConta extends StatelessWidget {
     return Column(
       children: <Widget>[
         _BotaoPilula(
-          rotulo: 'Criar conta recomendada',
+          rotulo: S.createRecommendedAccount,
           aoTocar: () => aoEscolher(contaNova: true),
         ),
         const SizedBox(height: Space.x12),
         OutlinedButton.icon(
           onPressed: () => aoEscolher(),
           icon: const GoogleG(),
-          label: const Text('Usar minha conta atual'),
+          label: Text(S.useCurrentAccount),
           style: OutlinedButton.styleFrom(
             minimumSize: const Size.fromHeight(Sizes.button),
             shape: RoundedRectangleBorder(borderRadius: Radii.pillR),

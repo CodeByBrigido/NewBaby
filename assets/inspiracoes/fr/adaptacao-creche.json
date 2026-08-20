@@ -1,0 +1,31 @@
+{
+  "titulo": "L'adaptation à la crèche",
+  "resumo": "À quoi ressemble en général la première semaine, ce qu'il faut convenir avec la crèche, et le témoignage que personne ne garde.",
+  "tipo": "rotina",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1400
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Comment cela se passe en général",
+      "texto": "Presque toujours, la première semaine est courte et s'allonge peu à peu : une heure, puis deux, puis la journée. Pleurer à la porte est courant et cela passe souvent vite une fois que vous êtes parti, même quand cela n'en a pas l'air. Chaque crèche a sa méthode, et il vaut la peine de demander la leur avant de commencer."
+    },
+    {
+      "titulo": "Ce qu'il faut convenir avant",
+      "itens": [
+        "Qui l'amène et qui vient la chercher chaque jour de la semaine.",
+        "Comment la crèche prévient s'il se passe quelque chose, et en combien de temps.",
+        "Si le doudou de la maison peut venir.",
+        "Le prénom sur tout. Absolument tout."
+      ]
+    },
+    {
+      "titulo": "Le témoignage que personne ne garde",
+      "texto": "Tout le monde photographie l'enfant à la porte de la crèche. Presque personne n'écrit comment cela s'est passé pour celui qui est resté dehors. Écrivez-le le jour même : ce que vous avez ressenti en revenant seul à la voiture. Dans vingt ans, cette partie vaut plus que la photo."
+    }
+  ]
+}

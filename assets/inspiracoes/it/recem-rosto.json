@@ -1,0 +1,39 @@
+{
+  "titulo": "Il viso da vicino, con la luce della finestra",
+  "resumo": "Un neonato vede bene a una trentina di centimetri, più o meno la distanza delle tue braccia. Stai a quella distanza, senza flash, con la luce della finestra di lato.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 150
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "La luce risolve quasi tutto",
+      "texto": "Una foto di neonato non ha bisogno di attrezzatura, ha bisogno di una finestra. La luce del giorno, diffusa, lascia alla pelle la sua vera consistenza. Il flash del telefono appiattisce il viso, cancella le ciglia e per giunta la spaventa."
+    },
+    {
+      "titulo": "Dove metterla",
+      "itens": [
+        "Sdraiala di lato, a un metro dalla finestra, con la luce che arriva dal lato del viso.",
+        "Una giornata nuvolosa è la giornata migliore. Il sole diretto crea ombre dure e la fa strizzare gli occhi.",
+        "Se la luce è forte, appendi un lenzuolo bianco sottile alla finestra. Diventa un diffusore.",
+        "Spegni le luci del soffitto: mescolano due colori di luce e rendono la pelle verdastra."
+      ]
+    },
+    {
+      "titulo": "Avvicinati più di quanto sembri giusto",
+      "texto": "La foto che commuove dopo è quella che taglia fuori il resto del mondo: solo il viso, o solo la bocca e il mento, o solo un orecchio. Inquadra molto stretto, e fai anche un piano largo per il contesto. Servono a cose diverse."
+    },
+    {
+      "titulo": "Quello che nessuno fotografa e poi manca",
+      "itens": [
+        "Il viso addormentato, con la bocca che si muove ancora.",
+        "Il vortice dei capelli, visto dall'alto.",
+        "L'orecchio, che ha un disegno tutto suo e cambia forma nel primo anno.",
+        "La voglia, se c'è. Di solito schiarisce e sparisce."
+      ]
+    }
+  ]
+}

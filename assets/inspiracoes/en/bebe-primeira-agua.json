@@ -1,0 +1,39 @@
+{
+  "titulo": "Water for the first time",
+  "resumo": "The sea, a pool, a stream or a basin in the garden. The face when a foot touches cold water is a photo you only get to take once.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 900
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Before leaving the house",
+      "itens": [
+        "Check with whoever looks after her health about sunscreen and sun exposure, which changes with age.",
+        "Go early in the morning or late in the afternoon. Midday sun is uncomfortable and the water gets too warm.",
+        "Take more clothes than seems necessary: you will be changing her three times.",
+        "A large hooded towel, a wide-brimmed hat and guaranteed shade, a parasol or a tent."
+      ]
+    },
+    {
+      "titulo": "The first reaction is usually not a smile",
+      "texto": "A fright, crying and clinging to your neck are all common reactions. It does not mean she dislikes water; it means this is a new and enormous sensation. Go in holding her, slowly, wetting her feet first."
+    },
+    {
+      "titulo": "Recording it without missing it",
+      "itens": [
+        "Ask someone else to take the photos. Both your hands will be busy.",
+        "The photo that matters is the face at the instant of first contact, and it lasts two seconds.",
+        "Film fifteen seconds with sound: the noise of the water with her squeal is half the memory.",
+        "One photo of the feet in the sand or the water, from above. Simple and always lovely."
+      ]
+    },
+    {
+      "titulo": "Afterwards",
+      "texto": "Write two lines the same day: where it was, how old she was, and how she really reacted. Ten years from now you will remember that there was a first time, not what it was like."
+    }
+  ]
+}

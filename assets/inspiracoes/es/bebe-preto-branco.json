@@ -1,0 +1,33 @@
+{
+  "titulo": "El contraste fuerte divierte",
+  "resumo": "En las primeras semanas el contraste alto llama más la atención que el color. Un papel con rayas negras y blancas, movido despacio, da minutos de fascinación y caras estupendas.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Por qué el contraste",
+      "texto": "En los primeros meses la vista todavía distingue mejor las diferencias fuertes de claro y oscuro que los colores suaves. Las formas de contraste alto retienen la atención más tiempo, y eso es lo que hace que el juego le resulte interesante a ella, y no una tarea."
+    },
+    {
+      "titulo": "Qué se puede hacer en casa, hoy",
+      "itens": [
+        "Dibuja rayas gruesas, espirales y dianas con rotulador negro en un folio blanco. Un folio por dibujo.",
+        "Sujeta un folio en el lateral de la cuna o en el suelo, a la altura a la que mira.",
+        "Un tablero de ajedrez en blanco y negro funciona muy bien, y lo dibujas en dos minutos.",
+        "Vale también lo que ya existe: una camiseta de rayas, el rodapié oscuro contra la pared clara."
+      ]
+    },
+    {
+      "titulo": "Cuánto tiempo",
+      "texto": "Mientras ella esté interesada, y ni un minuto más. Girar la cara es una respuesta, no un rechazo. De uno a dos minutos cada vez, unas cuantas veces al día, es el formato que funciona."
+    },
+    {
+      "titulo": "Vale la pena registrarlo",
+      "texto": "Graba quince segundos de su mirada siguiendo el dibujo, con el papel apareciendo en el encuadre. Es un vídeo que envejece muy bien, porque muestra la atención naciendo."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "titulo": "Le fort contraste amuse",
+  "resumo": "Les premières semaines, le contraste élevé attire plus l'attention que la couleur. Une feuille à rayures noires et blanches, déplacée lentement, donne des minutes de fascination et d'excellentes grimaces.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 20,
+    "ateDias": 150
+  },
+  "secoes": [
+    {
+      "titulo": "Pourquoi le contraste",
+      "texto": "Les premiers mois, la vue distingue encore mieux les fortes différences de clair et de sombre que les couleurs douces. Les formes très contrastées retiennent l'attention plus longtemps, et c'est ce qui rend le jeu intéressant pour elle, et non une corvée."
+    },
+    {
+      "titulo": "Ce qu'on peut fabriquer à la maison, aujourd'hui",
+      "itens": [
+        "Dessinez des rayures épaisses, des spirales et des cibles au feutre noir sur une feuille blanche. Une feuille par dessin.",
+        "Fixez une feuille sur le côté du lit ou au sol, à la hauteur où elle regarde.",
+        "Un damier noir et blanc marche très bien, et vous le dessinez en deux minutes.",
+        "Ce qui existe déjà compte aussi : un tee-shirt rayé, la plinthe sombre contre le mur clair."
+      ]
+    },
+    {
+      "titulo": "Combien de temps",
+      "texto": "Tant qu'elle est intéressée, et pas une minute de plus. Tourner la tête est une réponse, pas un refus. Une à deux minutes à la fois, quelques fois par jour, est le format qui marche."
+    },
+    {
+      "titulo": "À enregistrer",
+      "texto": "Filmez quinze secondes de son regard suivant le dessin, avec la feuille visible dans le cadre. C'est une vidéo qui vieillit très bien, parce qu'elle montre l'attention en train de naître."
+    }
+  ]
+}

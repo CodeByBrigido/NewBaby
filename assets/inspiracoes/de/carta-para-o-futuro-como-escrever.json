@@ -1,0 +1,31 @@
+{
+  "titulo": "Wenn Sie nicht wissen, was Sie schreiben sollen",
+  "resumo": "Fünf Satzanfänge, die das leere Blatt lösen.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Fangen Sie mit einem davon an",
+      "itens": [
+        "Heute hast du etwas getan, von dem ich möchte, dass du es weißt...",
+        "Eine Sache, die ich fürchte zu vergessen, ist...",
+        "Wenn ich dir erzählen könnte, wie es ist, heute deine Mutter (oder dein Vater) zu sein, würde ich sagen...",
+        "Wenn du das liest, bist du X Jahre alt, und ich wollte, dass du weißt...",
+        "Heute war ein schwerer Tag, und trotzdem..."
+      ]
+    },
+    {
+      "titulo": "Es muss nicht schön sein",
+      "texto": "Die Briefe, die am meisten bewegen, sind nicht die gut geschriebenen: es sind die, die eine bestimmte Sache erzählen. \"Du hast die ganze Nacht geweint und ich habe um vier Uhr morgens mitgeweint\" ist mehr wert als jeder Absatz über bedingungslose Liebe. Schreiben Sie hässlich, schreiben Sie kurz, aber schreiben Sie konkret."
+    },
+    {
+      "titulo": "Versiegeln",
+      "texto": "Wählen Sie beim Ablegen ein Öffnungsdatum: der fünfzehnte Geburtstag, der achtzehnte. Ein Brief, von dem das Kind weiß, dass es ihn gibt und den es noch nicht lesen darf, ist ein Geschenk, das Jahre dauert, bevor es geöffnet wird."
+    }
+  ]
+}

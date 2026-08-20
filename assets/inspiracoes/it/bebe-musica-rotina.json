@@ -1,0 +1,34 @@
+{
+  "titulo": "Una canzone per ogni ora",
+  "resumo": "La stessa canzone al bagnetto, un'altra per andare a dormire. Diventa l'annuncio di quello che viene, calma, e fra vent'anni quella canzone restituisce la casa intera.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "Musica come segnale, non come colonna sonora",
+      "texto": "Una canzone fissa per ogni momento della giornata funziona come un segnale: prima di capire le parole, capisce che quella melodia vuol dire bagnetto, o che l'altra vuol dire dormire. E in regalo vi resta un archivio sonoro con la data."
+    },
+    {
+      "titulo": "Scegliere",
+      "itens": [
+        "Una per svegliarsi, una per il bagnetto, una per dormire. Tre bastano.",
+        "Corte, sotto i due minuti, e che tu regga di sentire mille volte.",
+        "Può essere cantata da te, senza strumenti. Funziona uguale e dopo vale di più.",
+        "Niente cambi ogni settimana: la ripetizione è tutto il senso."
+      ]
+    },
+    {
+      "titulo": "Registrati mentre canti",
+      "texto": "Una volta, sul telefono, senza prove. È il file che vorrà ascoltare da adulta, e quello che nessun servizio di musica sostituisce. Conservalo nella capsula con il titolo della canzone e la data."
+    },
+    {
+      "titulo": "La prova del tempo",
+      "texto": "Fra qualche anno metti su la canzone del sonno. La reazione è immediata anche in una bambina che ormai non ricorda nemmeno perché. Vale la pena filmare anche quel giorno."
+    }
+  ]
+}

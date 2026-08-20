@@ -1,18 +1,25 @@
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
+import '../l10n/strings.dart';
 import 'formatters.dart';
 
 /// A lente pela qual a linha do tempo agrupa as memórias.
 enum Periodo {
-  ano('Anos'),
-  mes('Meses'),
-  semana('Semanas');
-
-  const Periodo(this.plural);
+  ano,
+  mes,
+  semana;
 
   /// O nome como aparece no menu de escolha.
-  final String plural;
+  ///
+  /// Getter, e não campo do enum: um campo precisaria de valor constante, e
+  /// o texto depende do idioma escolhido em tempo de execução. Como campo,
+  /// ele congelava o menu em português.
+  String get plural => switch (this) {
+    Periodo.ano => S.years,
+    Periodo.mes => S.months,
+    Periodo.semana => S.weeks,
+  };
 }
 
 /// Um período com as memórias que caíram dentro dele.

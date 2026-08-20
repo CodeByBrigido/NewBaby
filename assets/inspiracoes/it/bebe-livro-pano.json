@@ -1,0 +1,33 @@
+{
+  "titulo": "Un libro di stoffa, morsicato e va bene così",
+  "resumo": "In questa fase il libro è un oggetto prima di essere una storia: da sgualcire, mordere e rigirare. Leggere insieme adesso serve ad associare il libro alle braccia.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "Un libro in questa fase è oggetto, non lettura",
+      "texto": "Lo morderà, lo sgualcirà e lo terrà al contrario. È giusto così. Quello che si costruisce qui non è la comprensione della storia, è l'associazione fra libro, braccia e voce. Un libro distrutto dall'uso è un libro che ha funzionato."
+    },
+    {
+      "titulo": "Cosa funziona",
+      "itens": [
+        "Un libro di stoffa o da bagnetto, che regge bocca e lavaggio.",
+        "Un cartonato a pagine spesse, che una mano ancora goffa riesce a girare.",
+        "Poche pagine. Cinque è ottimo, venti è troppo lontano per adesso.",
+        "Immagini grandi e contrastate, una per pagina, senza sfondi pieni di dettagli."
+      ]
+    },
+    {
+      "titulo": "Come leggere",
+      "texto": "Non serve leggere quello che c'è scritto. Indica, nomina, fai il verso dell'animale, e fermati a metà se gira la faccia. Tre minuti al giorno, sempre alla stessa ora, valgono più di mezz'ora nel fine settimana."
+    },
+    {
+      "titulo": "Vale la pena conservare",
+      "texto": "Fotografa adesso il suo libro preferito, sbocconcellato compreso. Fra qualche anno quel libro rovinato è un oggetto con una data, e la foto vale più di lui intero."
+    }
+  ]
+}

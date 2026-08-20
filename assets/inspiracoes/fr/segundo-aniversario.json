@@ -1,0 +1,31 @@
+{
+  "titulo": "Idées pour le deuxième anniversaire",
+  "resumo": "À deux ans, elle participe déjà. Tout change par rapport au premier.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 2,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "La différence avec le premier",
+      "texto": "À deux ans, elle choisit, donne son avis et s'en souvient pendant des semaines. Laissez-la choisir le thème, même si le choix est étrange. Sa fête avec son choix vaut mieux que la fête parfaite avec le vôtre."
+    },
+    {
+      "titulo": "Ce qui marche à cet âge",
+      "itens": [
+        "Peu d'enfants et beaucoup de place pour courir.",
+        "Une seule activité : bulles de savon, peinture lavable, bac à sable. Plus d'une, cela devient la pagaille.",
+        "Un créneau court : deux heures suffisent à tout le monde.",
+        "Un gâteau simple. Elle veut le glaçage, pas l'architecture."
+      ]
+    },
+    {
+      "titulo": "L'entretien",
+      "texto": "À deux ans, elle répond déjà. Enregistrez en son trois questions : quelle est ta couleur préférée, qu'est-ce que tu aimes le plus faire, que veux-tu faire quand tu seras grande. Posez les mêmes trois chaque année. En dix ans, vous aurez la collection la plus inestimable de toute la capsule."
+    }
+  ]
+}

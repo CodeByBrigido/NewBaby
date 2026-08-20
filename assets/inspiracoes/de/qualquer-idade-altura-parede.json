@@ -1,0 +1,35 @@
+{
+  "titulo": "Der Strich an der Wand",
+  "resumo": "Ein Türrahmen, ein Bleistift und das Datum. Es ist der analogste Eintrag, den es gibt, und der, der beim Umzug am meisten bewegt. Fotografieren Sie ihn, bevor Sie ausziehen.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Der Strich an der Wand, gemacht um zu bleiben",
+      "texto": "Die Größe am Türrahmen zu markieren ist eine alte Tradition mit einem bekannten Problem: die Wand bleibt in der Wohnung, wenn die Familie auszieht. Ein paar Vorkehrungen lösen das und machen aus dem Spiel ein echtes Archiv."
+    },
+    {
+      "titulo": "Wie es geht",
+      "itens": [
+        "Wählen Sie eine Ecke, die so bald nicht gestrichen wird, und immer dieselbe.",
+        "Ohne Schuhe, Fersen an der Wand, Blick nach vorn.",
+        "Legen Sie ein Buch waagerecht auf den Kopf, um gerade zu markieren.",
+        "Schreiben Sie das Datum neben den Strich, immer. Ein Strich ohne Datum nützt nichts.",
+        "Fotografieren Sie bei jedem neuen Strich die ganze Wand. Das ist das Foto, das den Umzug überlebt."
+      ]
+    },
+    {
+      "titulo": "Wenn Sie die Wand nicht markieren dürfen",
+      "texto": "Eine Messlatte aus Stoff oder Holz an der Wand löst das, und sie zieht mit um. Ein langer Papierstreifen hinter der Tür funktioniert ebenfalls und lässt sich aufrollen und verstauen."
+    },
+    {
+      "titulo": "Wie oft",
+      "texto": "Alle drei Monate im ersten Jahr und danach an jedem Geburtstag. Jede Woche zu markieren füllt die Wand, ohne eine Geschichte zu erzählen; der Abstand zwischen den Strichen ist der eigentliche Eintrag."
+    }
+  ]
+}

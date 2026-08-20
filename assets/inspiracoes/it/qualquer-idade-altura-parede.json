@@ -1,0 +1,35 @@
+{
+  "titulo": "Il segno sul muro",
+  "resumo": "Uno stipite, una matita e la data. È il documento più analogico che esista e quello che commuove di più quando la famiglia cambia casa. Fotografalo prima del trasloco.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Il segno sul muro, fatto per durare",
+      "texto": "Segnare l'altezza sullo stipite è una tradizione antica e ha un problema noto: il muro resta nella casa quando la famiglia trasloca. Qualche accorgimento risolve la cosa e trasforma il gioco in un archivio vero."
+    },
+    {
+      "titulo": "Come farlo",
+      "itens": [
+        "Scegli un angolo che non verrà ridipinto a breve, e sempre lo stesso.",
+        "Senza scarpe, talloni al muro, sguardo in avanti.",
+        "Usa un libro appoggiato in cima alla testa, in orizzontale, per segnare dritto.",
+        "Scrivi la data accanto al segno, sempre. Un segno senza data non serve a niente.",
+        "Fotografa tutto il muro a ogni nuovo segno. È la foto che sopravvive al trasloco."
+      ]
+    },
+    {
+      "titulo": "Se non puoi segnare il muro",
+      "texto": "Un metro di stoffa o di legno fissato al muro risolve, e viene via con te al trasloco. Anche una lunga striscia di carta attaccata dietro la porta funziona, e si può arrotolare e conservare."
+    },
+    {
+      "titulo": "Ogni quanto",
+      "texto": "Ogni tre mesi nel primo anno e a ogni compleanno dopo. Segnare ogni settimana riempie il muro senza raccontare nessuna storia; è la distanza fra i segni a essere il documento."
+    }
+  ]
+}

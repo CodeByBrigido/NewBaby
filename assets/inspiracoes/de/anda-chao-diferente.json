@@ -1,0 +1,35 @@
+{
+  "titulo": "Jedes Wochenende ein anderer Untergrund",
+  "resumo": "Gras, Sand, Kies, trockenes Laub. Auf verschiedenen Untergründen zu laufen ist Spaß und Training zugleich, und der Park um die Ecke genügt.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 330,
+    "ateDias": 900
+  },
+  "secoes": [
+    {
+      "titulo": "Warum den Boden wechseln",
+      "texto": "Wer gerade laufen lernt, verbringt die meiste Zeit auf demselben glatten Boden zu Hause. Jeder andere Untergrund ist eine neue Aufgabe für den Körper, und zugleich ein Ausflug, der nichts kostet: es gibt ihn schon ein paar Straßen weiter."
+    },
+    {
+      "titulo": "Ein Untergrund pro Wochenende",
+      "itens": [
+        "Gras, das ein wenig nachgibt und das Gleichgewicht verändert.",
+        "Trockener Sand und nasser Sand, die zwei völlig verschiedene Dinge sind.",
+        "Kies auf einem Platz, mit Ihnen an der Hand.",
+        "Die Holzbohlen einer Terrasse, mit den Fugen dazwischen.",
+        "Eine flache Pfütze, in Gummistiefeln, am Tag nach dem Regen.",
+        "Eine sanfte Steigung, hinauf und hinunter, was noch einmal eine andere Übung ist."
+      ]
+    },
+    {
+      "titulo": "Was mitnehmen",
+      "texto": "Kleidung, die schmutzig werden darf, eine komplette Wechselgarnitur, Wasser und sonst so wenig wie möglich. Ein Ausflug mit viel Gepäck erschöpft den, der es trägt, und verkürzt das Programm."
+    },
+    {
+      "titulo": "Der Eintrag, der sich lohnt",
+      "texto": "Ein Foto seiner Füße auf dem Untergrund des Tages, immer aus demselben Winkel, von oben. Über ein Jahr wird daraus eine großartige Serie, und es ist das einfachste Foto von einem Kind, das nicht stillhält."
+    }
+  ]
+}

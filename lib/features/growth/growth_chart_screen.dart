@@ -38,7 +38,7 @@ class GrowthChartScreen extends ConsumerWidget {
       body: records.length < 2 || profile == null
           ? EmptyState(
               icon: Icons.show_chart,
-              title: 'Poucos registros',
+              title: S.fewRecords,
               message: S.growthChartHint,
             )
           : ListView(

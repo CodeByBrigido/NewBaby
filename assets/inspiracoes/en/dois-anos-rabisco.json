@@ -1,0 +1,34 @@
+{
+  "titulo": "Keep the first scribble",
+  "resumo": "Photograph the drawing together with the hand that drew it. Paper yellows, goes missing, ends up as wrapping. The photo stays.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "The first scribble has a date and it disappears",
+      "texto": "Children's drawings pile up fast and go in the bin by sheer volume. The first one, though, is a document: it is the first time she left a mark on the world on purpose. Without a photo and a date, it becomes just another sheet in the stack."
+    },
+    {
+      "titulo": "How to keep it properly",
+      "itens": [
+        "Shoot from above, with the whole sheet in the frame and window light, with no shadow from your hand.",
+        "Write the date and the age in the description, not on the paper, so you do not spoil the drawing.",
+        "If she can already talk, ask what it is and write the answer down word for word. That sentence is worth more than the drawing.",
+        "Photograph her hand holding the crayon too: it gives scale and tells you the stage."
+      ]
+    },
+    {
+      "titulo": "What to offer",
+      "texto": "Thick wax crayons, the stubby ones a closed fist can hold, and large paper, the bigger the better. Small paper turns into frustration; a roll of parcel paper or the back of a poster does the job."
+    },
+    {
+      "titulo": "After the first one",
+      "texto": "Do not keep them all. Pick one a month, photograph it, and let the rest meet their natural fate. One a month over twelve months is a collection; all of them is a full cupboard nobody opens."
+    }
+  ]
+}

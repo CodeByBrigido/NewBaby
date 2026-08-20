@@ -1,0 +1,33 @@
+{
+  "titulo": "Un livre en tissu, mâchouillé et tout",
+  "resumo": "À cette étape, le livre est un objet avant d'être une histoire : à froisser, à mordre et à retourner. Lire ensemble maintenant, c'est associer le livre aux bras.",
+  "tipo": "leitura",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 700
+  },
+  "secoes": [
+    {
+      "titulo": "Un livre à cette étape est un objet, pas une lecture",
+      "texto": "Elle va le mordre, le froisser et le tenir à l'envers. C'est normal. Ce qui se construit ici n'est pas la compréhension de l'histoire, c'est l'association entre livre, bras et voix. Un livre détruit à force d'usage est un livre qui a marché."
+    },
+    {
+      "titulo": "Ce qui marche",
+      "itens": [
+        "Un livre en tissu ou de bain, qui supporte la bouche et le lavage.",
+        "Un livre cartonné à pages épaisses, qu'une main encore maladroite arrive à tourner.",
+        "Peu de pages. Cinq, c'est parfait ; vingt, c'est bien trop loin pour l'instant.",
+        "Des images grandes et contrastées, une par page, sans décor plein de détails."
+      ]
+    },
+    {
+      "titulo": "Comment lire",
+      "texto": "Il n'est pas nécessaire de lire ce qui est écrit. Montrez, nommez, faites le cri de l'animal, et arrêtez-vous au milieu si elle tourne la tête. Trois minutes par jour, toujours à la même heure, valent mieux qu'une demi-heure le week-end."
+    },
+    {
+      "titulo": "À garder",
+      "texto": "Photographiez son livre préféré maintenant, mâchouillé compris. Dans quelques années, ce livre abîmé est un objet daté, et la photo vaut plus que lui intact."
+    }
+  ]
+}

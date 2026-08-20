@@ -1,0 +1,36 @@
+{
+  "titulo": "The first Mother's Day",
+  "resumo": "The photo that almost never exists is the mother with the baby, because she is the one taking the photos. Ask someone. Today is the day.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "diaDasMaes",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "The first one is different from the rest",
+      "texto": "This year the date changes sides: the person who always celebrated becomes the one being celebrated, or celebrates again with one more person in the photo. It is a turning point that only happens once, and it is worth recording as a turning point, not as another Sunday."
+    },
+    {
+      "titulo": "Ideas that do not depend on money",
+      "itens": [
+        "The photo of three generations together, if you can. It is the one most missing from family collections.",
+        "Her hand painted with washable paint, stamped on paper with the date.",
+        "A letter written by the other adult in the house, on the child's behalf, telling the story of the first year.",
+        "A recording of the child, even without a single word, kept with the date.",
+        "Breakfast in bed, with her in the middle of the mess."
+      ]
+    },
+    {
+      "titulo": "The photo that is almost always missing",
+      "texto": "Whoever takes the photos rarely appears in them. Ask, on the day, for someone to photograph you with her: not the posed photo, the one of the two of you doing something. If there is nobody, use the timer and prop the phone up."
+    },
+    {
+      "titulo": "Repeat it every year",
+      "texto": "The same pose, the same place, every Mother's Day. Five years later, that series is the present."
+    }
+  ]
+}

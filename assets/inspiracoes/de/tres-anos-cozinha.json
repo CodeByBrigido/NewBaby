@@ -1,0 +1,41 @@
+{
+  "titulo": "Zusammen kochen, Sauerei inklusive",
+  "resumo": "Rühren, gießen, Teig drücken. Das Chaos ist der Sinn, nicht der Nebeneffekt. Ein Tuch auf dem Boden löst das, und die Erinnerung bleibt.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "Was ein dreijähriges Kind wirklich kann",
+      "itens": [
+        "Mit dem Löffel in einer großen, tiefen Schüssel rühren.",
+        "Banane, Avocado oder Kartoffel mit der Gabel zerdrücken.",
+        "Salat- und Kohlblätter mit den Händen zerreißen.",
+        "Butter aufpinseln, Mehl streuen, einen Ausstecher drücken.",
+        "Aus einem kleinen Gefäß in ein größeres gießen, mit Ihnen als zweiter Hand.",
+        "Zwischen zwei Möglichkeiten wählen, die Sie anbieten. Wählen ist der halbe Spaß."
+      ]
+    },
+    {
+      "titulo": "Die Regeln, die das möglich machen",
+      "texto": "Ein stabiler Tritthocker, alles Scharfe und alles Heiße außer Reichweite und auf der anderen Seite der Arbeitsplatte, und die Erwartung angepasst: das Rezept dauert doppelt so lange und wird nicht schön. Wenn es heute schön werden muss, kochen Sie morgen zusammen."
+    },
+    {
+      "titulo": "Rezepte, die Chaos aushalten",
+      "itens": [
+        "Tassenkuchen oder Mixerkuchen, bei dem Rühren das ganze Rezept ist.",
+        "Butterplätzchen mit Ausstecher, was reines Formen ist.",
+        "Gerollte Käsebrötchen, die essbare Knetmasse sind.",
+        "Obstsalat, mit Plastikmesser und weichem Obst.",
+        "Pizza auf Brot, bei der es den Belag allein zusammenstellt."
+      ]
+    },
+    {
+      "titulo": "Aufbewahren",
+      "texto": "Ein Foto der Hände im Teig, danach eines vom Kind mit dem Ergebnis, so schief es auch ist. Schreiben Sie Rezept und Alter in die Beschreibung. In ein paar Jahren wird aus diesem banalen Rezept eine Tradition mit Geburtsdatum."
+    }
+  ]
+}

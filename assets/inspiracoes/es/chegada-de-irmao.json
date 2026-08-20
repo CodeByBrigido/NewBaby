@@ -1,0 +1,25 @@
+{
+  "titulo": "Cuando llega un hermano",
+  "resumo": "Cómo prepararlo y qué registrar antes de que la casa cambie de forma para siempre.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 2500
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "El registro que solo se puede hacer antes",
+      "texto": "Existe una última foto de vosotros como familia de tres, y nadie sabe que es la última en el momento de hacerla. Si viene un hermano de camino, reserva una tarde y haz esa foto a propósito."
+    },
+    {
+      "titulo": "Ayuda en la adaptación",
+      "itens": [
+        "Déjale ayudar en algo pequeño y real: elegir una ropita, guardar los pañales.",
+        "Un rato solo suyo, todos los días, aunque sean diez minutos.",
+        "Una carta escrita para ella, sobre ella, en plena llegada del otro. Es lo que va a querer leer después, cuando piense que la atención cambió de sitio."
+      ]
+    }
+  ]
+}

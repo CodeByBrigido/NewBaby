@@ -1,0 +1,35 @@
+{
+  "titulo": "Peinture lavable et grand papier",
+  "resumo": "Du papier kraft au sol, de la gouache et la main entière. Le désordre est le but. Gardez l'empreinte de la main avec la date.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 540,
+    "ateDias": 1800
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Avant de commencer, réglez le désordre",
+      "texto": "La moitié du stress de la peinture vient du fait d'improviser le nettoyage après. Une fois cela réglé d'avance, il ne reste que la bonne partie. Faites-le sur le sol de la buanderie, dans le jardin, ou sur un grand plastique, et avec elle en couche seulement : la peau se lave plus facilement que les vêtements."
+    },
+    {
+      "titulo": "Quoi utiliser",
+      "itens": [
+        "De la peinture lavable non toxique, adaptée à l'âge, et vérifiez l'étiquette.",
+        "Du grand papier. Le papier kraft en rouleau est bon marché et c'est le meilleur investissement ici.",
+        "Un gros pinceau, une éponge, un petit rouleau, et surtout les mains.",
+        "Deux ou trois couleurs au maximum. Au-delà, tout devient marron en deux minutes et la frustration est pour elle.",
+        "Un seau d'eau tiède et une vieille serviette à côté, prêts avant d'ouvrir la peinture."
+      ]
+    },
+    {
+      "titulo": "Le processus compte plus que le résultat",
+      "texto": "Il ne s'agit pas d'obtenir un dessin. Il s'agit de découvrir ce que la main fait avec la peinture. Ne guidez pas, ne demandez pas une maison, ne corrigez pas la couleur du ciel. Asseyez-vous à côté et peignez votre propre feuille."
+    },
+    {
+      "titulo": "Quoi garder",
+      "texto": "Photographiez les mains sales, le papier en cours de route et le visage concentré. Ensuite, une photo du dessin sec et entier, avec la date. Trois photos, et la feuille peut partir sans culpabilité."
+    }
+  ]
+}

@@ -64,8 +64,8 @@ List<SecaoDoBalde<T>> secoesDoBalde<T>({
     for (final int i in indices)
       SecaoDoBalde<T>(
         titulo: balde.unit == AgeBucketUnit.month
-            ? S.semanaNumero(i)
-            : S.mesNumero(i),
+            ? S.semanaNumero('$i')
+            : S.mesNumero('$i'),
         itens: porIndice[i]!,
       ),
   ];

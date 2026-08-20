@@ -65,7 +65,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               children: <Widget>[
                 _Fixed(
                   icon: Icons.photo_outlined,
-                  title: 'Fotos',
+                  title: S.photos,
                   value: S.photoMaxSide,
                 ),
                 Divider(height: 24),

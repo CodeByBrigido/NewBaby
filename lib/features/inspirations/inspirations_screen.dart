@@ -75,7 +75,7 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
           // primeira viagem não está procurando uma foto antiga.
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Buscar nas postagens',
+            tooltip: S.searchPosts,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => const InspirationSearchScreen(),
@@ -89,7 +89,7 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
         error: (Object e, _) => EmptyState(
           icon: Icons.lightbulb_outline,
           title: S.inspirationsLoadFailed,
-          message: 'Tente abrir de novo daqui a pouco.',
+          message: S.tryAgainShortly,
         ),
         data: (List<ActiveInspiration> itens) {
           _anotarVisita(itens);
@@ -97,7 +97,7 @@ class _InspirationsScreenState extends ConsumerState<InspirationsScreen> {
             return EmptyState(
               icon: Icons.lightbulb_outline,
               title: S.emptyInspirations,
-              message: 'As ideias mudam conforme a idade. Volte em breve.',
+              message: S.inspirationsChangeNote,
             );
           }
           return ListView.separated(
@@ -228,7 +228,7 @@ class _Card extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    'Ler a postagem',
+                    S.readThePost,
                     style: text.labelLarge?.copyWith(
                       color: context.cores.primaryDark,
                     ),

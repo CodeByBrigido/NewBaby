@@ -1,0 +1,34 @@
+{
+  "titulo": "Une chanson pour chaque heure",
+  "resumo": "La même chanson au bain, une autre au coucher. Elle devient l'annonce de ce qui vient, elle apaise, et dans vingt ans cette chanson rend la maison entière.",
+  "tipo": "rotina",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 1200
+  },
+  "registrar": "audio",
+  "secoes": [
+    {
+      "titulo": "La musique comme signal, pas comme bande-son",
+      "texto": "Une chanson fixe pour chaque moment de la journée fonctionne comme un signal : avant de comprendre les mots, elle comprend que cette mélodie veut dire bain, ou que l'autre veut dire dormir. Et en prime, vous vous retrouvez avec une collection sonore datée."
+    },
+    {
+      "titulo": "Choisir",
+      "itens": [
+        "Une pour le réveil, une pour le bain, une pour le coucher. Trois suffisent.",
+        "Courtes, moins de deux minutes, et que vous supportiez d'entendre mille fois.",
+        "Elle peut être chantée par vous, sans instrument. Cela marche aussi bien et vaut plus cher ensuite.",
+        "Pas question d'en changer chaque semaine : la répétition est tout l'intérêt."
+      ]
+    },
+    {
+      "titulo": "Enregistrez-vous en train de chanter",
+      "texto": "Une fois, sur le téléphone, sans répétition. C'est le fichier qu'elle voudra écouter adulte, et celui qu'aucun service de musique ne remplace. Rangez-le dans la capsule avec le titre de la chanson et la date."
+    },
+    {
+      "titulo": "L'épreuve du temps",
+      "texto": "Dans quelques années, mettez la chanson du coucher. La réaction est immédiate même chez un enfant qui ne se rappelle plus pourquoi. Ce jour-là vaut aussi d'être filmé."
+    }
+  ]
+}

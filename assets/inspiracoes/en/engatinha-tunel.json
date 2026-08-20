@@ -1,0 +1,35 @@
+{
+  "titulo": "A tunnel of cushions",
+  "resumo": "Sofa cushions, a cardboard box open at both ends, a sheet over two chairs. Burns energy, costs nothing.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 210,
+    "ateDias": 600
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "A tunnel out of what the house already has",
+      "texto": "Cushions, the sofa, a box open at both ends and a sheet over two chairs. A short route for her to crawl through entertains better than most toys, and it changes shape every time you build it."
+    },
+    {
+      "titulo": "How to build it",
+      "itens": [
+        "Short: a metre and a half is already an adventure. Too long is frightening.",
+        "Always with both exits open and visible. A closed tunnel becomes a trap.",
+        "Something soft underneath, a rug or a folded duvet.",
+        "You at the other end, calling. That is what gets her through the first time.",
+        "A toy at the end, to give her a reason."
+      ]
+    },
+    {
+      "titulo": "Safety, in three lines",
+      "texto": "Nothing that could collapse on top of her, no heavy furniture as walls, and you nearby the whole time. If she gets stuck halfway and complains, take a piece apart rather than pulling her."
+    },
+    {
+      "titulo": "The record",
+      "texto": "Lie on the floor outside and film the exit of the tunnel. The face appearing is the shot. It is worth more than any photo of the finished tunnel."
+    }
+  ]
+}

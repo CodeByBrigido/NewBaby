@@ -1,0 +1,31 @@
+{
+  "titulo": "Ideen für den zweiten Geburtstag",
+  "resumo": "Mit zwei macht es schon mit. Das ändert alles gegenüber dem ersten.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 2,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Der Unterschied zum ersten",
+      "texto": "Mit zwei Jahren wählt es, hat eine Meinung und erinnert sich wochenlang. Lassen Sie es das Motto aussuchen, auch wenn die Wahl seltsam ist. Sein Fest mit seiner Wahl ist mehr wert als das perfekte Fest mit Ihrer."
+    },
+    {
+      "titulo": "Was in diesem Alter funktioniert",
+      "itens": [
+        "Wenige Kinder und viel Platz zum Rennen.",
+        "Nur eine Aktivität: Seifenblasen, abwaschbare Farbe, ein Sandkasten. Mehr als eine wird zum Durcheinander.",
+        "Kurze Dauer: zwei Stunden reichen allen.",
+        "Eine schlichte Torte. Es will die Creme, nicht die Architektur."
+      ]
+    },
+    {
+      "titulo": "Das Interview",
+      "texto": "Mit zwei antwortet es schon. Nehmen Sie drei Fragen als Ton auf: was ist deine Lieblingsfarbe, was machst du am liebsten, was willst du werden, wenn du groß bist. Stellen Sie jedes Jahr dieselben drei. In zehn Jahren haben Sie die unbezahlbarste Sammlung des ganzen Archivs."
+    }
+  ]
+}

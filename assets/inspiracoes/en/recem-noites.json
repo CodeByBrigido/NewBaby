@@ -1,0 +1,33 @@
+{
+  "titulo": "One line per hard night",
+  "resumo": "It sounds like the last thing you want to do at three in the morning. But this is the stage that vanishes from memory fastest, and the one most worth having written down.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Recording the hard part is recording too",
+      "texto": "A capsule tends to keep only the lovely things, and an archive of nothing but smiles is half the truth. The sleepless nights of the first months are the part of the story photos do not tell, and the part nobody can reconstruct afterwards, because exhaustion erases its own memory."
+    },
+    {
+      "titulo": "One line, and that is it",
+      "texto": "This is not a diary. It is one line, written in the dark, unedited. \"Third night awake in a row. 4:12. She slept on my chest and I did not.\" That is enough, and it is stronger than a well-written paragraph a month later."
+    },
+    {
+      "titulo": "Who this is for",
+      "itens": [
+        "For you, two years from now, when all of it has turned into a fog.",
+        "For her, grown up, understanding what it cost and what it was worth.",
+        "For someone else in the family going through the same thing and thinking they are the only one who feels it."
+      ]
+    },
+    {
+      "titulo": "None of this is complaining",
+      "texto": "Writing that it was hard does not take the love out of the sentence. Both fit in the same night, and the record is truer when both show up. If one day you decide a line went too far, it is yours: you can delete it."
+    }
+  ]
+}

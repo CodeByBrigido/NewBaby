@@ -1,0 +1,35 @@
+{
+  "titulo": "Filmez les grands-parents avec elle",
+  "resumo": "Pas l'enfant seule : les deux ensemble, en train de parler. C'est l'enregistrement que la famille voudra le plus avoir, et la fenêtre ne reste pas ouverte pour toujours.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Pourquoi c'est le plus urgent de la liste",
+      "texto": "Toutes les autres idées d'ici peuvent se faire le mois prochain. Pas celle-ci. La voix et la façon d'être des grands-parents sont ce que les familles regrettent le plus de ne pas avoir, et cela ne se rattrape pas. Si vous ne faites qu'une seule chose de toute cette liste, faites celle-ci."
+    },
+    {
+      "titulo": "Quoi enregistrer",
+      "itens": [
+        "Les deux ensemble, en train de jouer, sans parler à la caméra. Filmez de loin.",
+        "Le grand-père ou la grand-mère racontant une histoire de sa propre enfance. Une seule, avec des détails.",
+        "La recette de famille en train de se faire, avec les mains dans le cadre et l'explication à voix haute.",
+        "Un message d'une minute pour elle à dix-huit ans.",
+        "Comment était le monde quand ils avaient l'âge qu'elle a aujourd'hui."
+      ]
+    },
+    {
+      "titulo": "Comment le demander sans gêner",
+      "texto": "Beaucoup de gens se figent devant une caméra. Filmez pendant quelque chose qui est déjà en train de se passer, plutôt que d'organiser une séance. Si quelqu'un se fige, calez le téléphone, laissez-le enregistrer, et discutez normalement : en deux minutes, tout le monde oublie qu'il est là."
+    },
+    {
+      "titulo": "Rangez avec le nom complet",
+      "texto": "Écrivez dans la description le nom entier, le lien de parenté et l'année. Dans cinquante ans, celui qui regardera ne saura peut-être pas de qui il s'agit. « Mamie » n'identifie personne pour un arrière-petit-enfant."
+    }
+  ]
+}

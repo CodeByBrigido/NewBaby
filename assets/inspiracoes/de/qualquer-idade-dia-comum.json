@@ -1,0 +1,38 @@
+{
+  "titulo": "Dokumentieren Sie einen ganz gewöhnlichen Tag",
+  "resumo": "Wählen Sie irgendeinen Samstag und fotografieren Sie stündlich, ohne irgendetwas herzurichten. Ein Tag ohne alles Besondere ist der, den Sie am liebsten wiedersehen werden.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 60,
+    "ateDias": 6000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Ein ganzer Tag, so wie er ist",
+      "texto": "Wählen Sie einen Tag ohne alles Besondere und halten Sie den Ablauf von Anfang bis Ende fest. Es ist nicht der schöne Tag: es ist der gewöhnliche, der sich wiederholt und der gerade deshalb aussieht, als würde er nie enden. Er endet, und ohne Vorwarnung."
+    },
+    {
+      "titulo": "Der Ablauf",
+      "itens": [
+        "Das Gesicht direkt nach dem Aufwachen, vor allem anderen.",
+        "Das Frühstück, mit dem Tisch so, wie er wirklich aussieht.",
+        "Der Weg zur Kita oder zum Park.",
+        "Was es allein macht, wenn niemand etwas vorschlägt.",
+        "Das Mittagessen, Chaos inklusive.",
+        "Der Mittagsschlaf, falls es einen gibt.",
+        "Das Bad.",
+        "Das Einschlafritual, und die letzte Szene vor dem Ausschalten des Lichts."
+      ]
+    },
+    {
+      "titulo": "Die Regeln",
+      "texto": "Vorher nicht aufräumen, für das Foto nicht umziehen, nicht bitten, in die Kamera zu sehen. Der Wert dieses Eintrags liegt darin, wahr zu sein. Ein Foto pro Abschnitt genügt, und zwei oder drei Zehn-Sekunden-Videos runden es ab."
+    },
+    {
+      "titulo": "Einmal im Jahr wiederholen",
+      "texto": "Immer im selben Monat. Den gewöhnlichen Tag eines Jahres mit dem des nächsten zu vergleichen zeigt mehr Veränderung als jedes Geburtstagsfoto, weil sich Wohnung, Alltag und Menschen zusammen mit dem Kind verändern."
+    }
+  ]
+}

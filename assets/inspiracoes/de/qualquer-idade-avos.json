@@ -1,0 +1,35 @@
+{
+  "titulo": "Filmen Sie die Großeltern mit dem Kind",
+  "resumo": "Nicht das Kind allein: die beiden zusammen, im Gespräch. Das ist der Eintrag, den die Familie am meisten haben will, und das Fenster steht nicht ewig offen.",
+  "tipo": "cuidado",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 6000
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Warum das der dringendste Eintrag der Liste ist",
+      "texto": "Alle anderen Ideen hier können auch nächsten Monat entstehen. Diese nicht. Die Stimme und die Art der Großeltern sind das Material, dessen Fehlen Familien am meisten bedauern, und es lässt sich später nicht nachholen. Wenn Sie aus dieser ganzen Liste nur eine Sache tun, tun Sie diese."
+    },
+    {
+      "titulo": "Was aufnehmen",
+      "itens": [
+        "Die beiden zusammen beim Spielen, ohne in die Kamera zu sprechen. Filmen Sie aus der Ferne.",
+        "Der Großvater oder die Großmutter erzählt eine Geschichte aus der eigenen Kindheit. Eine einzige, mit Details.",
+        "Das Familienrezept beim Entstehen, mit den Händen im Bild und der Erklärung laut gesprochen.",
+        "Eine Botschaft von einer Minute für das Kind mit achtzehn.",
+        "Wie die Welt war, als sie so alt waren, wie das Kind jetzt ist."
+      ]
+    },
+    {
+      "titulo": "Wie man darum bittet, ohne jemanden zu verlegen zu machen",
+      "texto": "Viele Menschen erstarren vor der Kamera. Filmen Sie während etwas, das ohnehin gerade passiert, statt einen Termin anzusetzen. Erstarrt doch jemand, stellen Sie das Handy ab, lassen Sie es laufen und reden Sie normal weiter: nach zwei Minuten vergisst jeder, dass es da ist."
+    },
+    {
+      "titulo": "Legen Sie es mit vollem Namen ab",
+      "texto": "Schreiben Sie den vollen Namen, das Verwandtschaftsverhältnis und das Jahr in die Beschreibung. In fünfzig Jahren weiß der, der es sieht, vielleicht nicht, um wen es geht. \"Oma\" identifiziert für ein Urenkelkind niemanden."
+    }
+  ]
+}

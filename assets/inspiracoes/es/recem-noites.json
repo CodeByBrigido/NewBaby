@@ -1,0 +1,33 @@
+{
+  "titulo": "Anota una línea por cada noche difícil",
+  "resumo": "Parece lo último que quieres hacer a las tres de la mañana. Pero esta es la etapa que desaparece más rápido de la memoria, y la que más vale tener registrada después.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Registrar lo difícil también es registrar",
+      "texto": "La cápsula tiende a guardar solo lo bonito, y un archivo hecho solo de sonrisas es media verdad. Las noches en vela de los primeros meses son la parte de la historia que las fotos no cuentan, y que nadie consigue reconstruir después, porque el cansancio borra la propia memoria."
+    },
+    {
+      "titulo": "Una línea, y ya",
+      "texto": "No es un diario. Es una línea, escrita a oscuras, sin revisar. \"Tercera noche seguida en vela. 4:12. Ella durmió sobre mi pecho y yo no.\" Con eso basta, y es más fuerte que un párrafo bien escrito al mes siguiente."
+    },
+    {
+      "titulo": "Para quién sirve esto",
+      "itens": [
+        "Para ti, dentro de dos años, cuando todo esto se haya vuelto una niebla.",
+        "Para ella, adulta, entendiendo lo que costó y lo que valió.",
+        "Para otra persona de la familia que esté pasando por lo mismo y crea que es la única que lo siente."
+      ]
+    },
+    {
+      "titulo": "Nada de esto es una queja",
+      "texto": "Escribir que fue duro no le quita el amor a la frase. Las dos cosas caben en la misma noche, y el registro queda más verdadero cuando aparecen las dos. Si algún día te parece que una línea fue demasiado lejos, es tuya: se puede borrar."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "titulo": "La prima Pasqua",
+  "resumo": "Cioccolato ancora no, probabilmente. Ma la foto con le orecchie e la lettera di Pasqua durano molto più dell'uovo.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "pascoa",
+    "diasAntes": 18,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Cosa si può fare, per età",
+      "itens": [
+        "Prima del cioccolato: la caccia può essere di giochi o di peluche nascosti per casa.",
+        "Un cestino con poche cose, nascosto in un posto facile. Due o tre scoperte bastano.",
+        "Orecchie da coniglio di carta, fatte in cinque minuti, che regalano la foto migliore della giornata.",
+        "Dipingere uova sode con colori lavabili, con del giornale sotto.",
+        "Se è la primissima, accetta che non capirà niente. La festa è vostra."
+      ]
+    },
+    {
+      "titulo": "Sul cioccolato",
+      "texto": "A che età introdurre il cioccolato è una conversazione con chi segue la sua salute, non con internet. Nel frattempo la caccia funziona uguale con i giochi, e nessuno sente la mancanza di niente: quello che diverte è cercare e trovare."
+    },
+    {
+      "titulo": "Cosa documentare",
+      "itens": [
+        "Il cestino preparato, prima di ogni altra cosa.",
+        "Il viso nell'istante in cui trova il primo. Tieni la fotocamera pronta e stai davanti a lei.",
+        "La bocca sporca, se c'è cioccolato.",
+        "Una foto di tutta la famiglia, che quasi sempre manca.",
+        "Un video di quindici secondi della caccia, con l'audio."
+      ]
+    },
+    {
+      "titulo": "La lettera",
+      "texto": "Due righe la sera: quanti anni aveva, chi c'era, e la cosa più buffa che ha fatto. Ogni anno con lo stesso formato. In dieci anni hai la Pasqua di tutta la famiglia documentata."
+    }
+  ]
+}

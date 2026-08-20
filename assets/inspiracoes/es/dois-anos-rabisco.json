@@ -1,0 +1,34 @@
+{
+  "titulo": "Guarda el primer garabato",
+  "resumo": "Fotografía el dibujo junto con la mano que lo hizo. El papel amarillea, se pierde, acaba de envoltorio. La foto se queda.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "El primer garabato tiene fecha y desaparece",
+      "texto": "Los dibujos infantiles se acumulan rápido y acaban en la basura por puro volumen. El primero, sin embargo, es un documento: es la primera vez que dejó una marca en el mundo a propósito. Sin foto y sin fecha, se convierte en un folio más del montón."
+    },
+    {
+      "titulo": "Cómo guardarlo bien",
+      "itens": [
+        "Fotografía desde arriba, con el folio entero en el encuadre y luz de ventana, sin la sombra de tu mano.",
+        "Escribe la fecha y la edad en la descripción, no en el papel, para no estropear el dibujo.",
+        "Si ya habla, pregúntale qué es y apunta la respuesta, palabra por palabra. Esa frase vale más que el dibujo.",
+        "Fotografía también su mano sujetando la cera: da escala y cuenta la etapa."
+      ]
+    },
+    {
+      "titulo": "Qué ofrecerle",
+      "texto": "Ceras gruesas, de esas rechonchas que la mano cerrada sujeta, y papel grande, cuanto más grande mejor. El papel pequeño se convierte en frustración; un rollo de papel de estraza o el reverso de un cartel lo resuelve."
+    },
+    {
+      "titulo": "Después del primero",
+      "texto": "No los guardes todos. Elige uno al mes, fotografíalo, y deja que el resto siga su destino natural. Uno al mes durante doce meses es una colección; todos es un armario lleno que nadie abre."
+    }
+  ]
+}

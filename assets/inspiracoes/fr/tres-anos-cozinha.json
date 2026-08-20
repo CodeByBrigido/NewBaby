@@ -1,0 +1,41 @@
+{
+  "titulo": "Cuisiner ensemble, désordre compris",
+  "resumo": "Mélanger, verser, presser la pâte. Le désordre est le but, pas l'effet secondaire. Un torchon au sol règle la question et le souvenir reste.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "Ce qu'un enfant de trois ans sait vraiment faire",
+      "itens": [
+        "Mélanger à la cuillère dans un grand saladier profond.",
+        "Écraser une banane, un avocat ou une pomme de terre à la fourchette.",
+        "Déchirer des feuilles de salade et de chou à la main.",
+        "Badigeonner du beurre, saupoudrer de la farine, presser un emporte-pièce.",
+        "Verser d'un petit récipient dans un plus grand, avec vous qui tenez aussi.",
+        "Choisir entre deux options que vous proposez. Choisir, c'est la moitié du plaisir."
+      ]
+    },
+    {
+      "titulo": "Les règles qui rendent cela possible",
+      "texto": "Un marchepied stable, tout ce qui coupe et tout ce qui brûle hors de portée et de l'autre côté du plan de travail, et les attentes ajustées : la recette prendra deux fois plus de temps et ne sera pas belle. Si vous avez besoin qu'elle soit belle aujourd'hui, cuisinez ensemble demain."
+    },
+    {
+      "titulo": "Des recettes qui supportent le désordre",
+      "itens": [
+        "Un gâteau en tasse ou au mixeur, où mélanger est toute la recette.",
+        "Des sablés à l'emporte-pièce, qui sont du modelage pur.",
+        "Des roulés au fromage, qui sont de la pâte à modeler comestible.",
+        "Une salade de fruits, avec un couteau en plastique et des fruits tendres.",
+        "Une pizza sur pain, où elle compose la garniture toute seule."
+      ]
+    },
+    {
+      "titulo": "Garder",
+      "texto": "Photo des mains dans la pâte, puis une d'elle avec le résultat, même de travers. Écrivez la recette et l'âge dans la description. Dans quelques années, cette recette banale devient une tradition avec une date de naissance."
+    }
+  ]
+}

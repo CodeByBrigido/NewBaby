@@ -24,13 +24,20 @@ const int limiteDoNome = 200;
 Future<String?> perguntarNomeDoDocumento(
   BuildContext context, {
   required String sugestao,
-  String titulo = 'Nome do documento',
-  String botao = 'Guardar',
+  String? titulo,
+  String? botao,
 }) {
+  // Os padrões são resolvidos aqui, e não na assinatura, porque um valor
+  // padrão de parâmetro precisa ser constante em Dart e o texto depende do
+  // idioma escolhido em tempo de execução. Escrevê-lo na assinatura
+  // congelaria a caixa em português.
   return showDialog<String>(
     context: context,
-    builder: (BuildContext context) =>
-        _Dialogo(sugestao: sugestao, titulo: titulo, botao: botao),
+    builder: (BuildContext context) => _Dialogo(
+      sugestao: sugestao,
+      titulo: titulo ?? S.documentName,
+      botao: botao ?? S.keep,
+    ),
   );
 }
 
@@ -109,7 +116,7 @@ class _DialogoState extends State<_Dialogo> {
             Expanded(
               child: TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancelar'),
+                child: Text(S.cancel),
               ),
             ),
             const SizedBox(width: Space.x12),

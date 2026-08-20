@@ -1,0 +1,36 @@
+{
+  "titulo": "Écrivez ce dont personne ne se souviendra",
+  "resumo": "L'odeur de sa tête, le bruit qu'elle fait en tétant, sa façon de serrer un doigt. Ce sont les choses qui disparaissent en premier de la mémoire. Une phrase suffit.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Ce qui disparaît en premier",
+      "texto": "La mémoire retient mal précisément ce qui est constant. L'odeur de sa tête, le poids exact dans les bras, le son qu'elle fait avant de pleurer pour de bon : rien de tout cela ne devient une photo, et cela disparaît sans prévenir. Ce n'est pas la naissance que vous oublierez ; c'est ce que cela faisait d'être là."
+    },
+    {
+      "titulo": "Écrivez maintenant, mal écrit",
+      "texto": "Cette lettre n'a pas besoin d'être belle. Elle a besoin d'exister tant que l'information est encore fraîche. Dix minutes, sur le téléphone, d'une seule main, en pleine nuit. Le texte de travers fait partie du document.",
+      "itens": [
+        "L'odeur. Essayez de la décrire, même si cela sort ridicule.",
+        "Le poids dans les bras, et comment il change quand elle s'endort.",
+        "Le son exact des pleurs, et l'autre son, celui d'avant les pleurs.",
+        "Ce que vous ressentez à trois heures du matin, sans filtrer pour faire joli.",
+        "Ce qui vous fait peur. Cela aussi est la vérité de ce jour-là."
+      ]
+    },
+    {
+      "titulo": "Ne lui écrivez pas à elle pour l'instant",
+      "texto": "La tentation est d'écrire une lettre de conseils pour l'avenir. Gardez cela pour plus tard. Ce qui a de la valeur aujourd'hui, c'est le récit du présent, parce que c'est lui que personne ne peut reconstituer vingt ans après. Les conseils, vous les donnerez en personne ; l'odeur des premiers jours, non."
+    },
+    {
+      "titulo": "Une par semaine, le premier mois",
+      "texto": "Quatre lettres courtes valent mieux qu'une longue qui ne sort jamais. Et les quatre ensemble montrent une chose qu'une seule ne montre pas : à quel point tout change en trente jours, chez elle et chez vous."
+    }
+  ]
+}

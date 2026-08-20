@@ -48,7 +48,7 @@ class LettersScreen extends ConsumerWidget {
               ? Icons.edit_outlined
               : Icons.lock_outline,
         ),
-        label: const Text('Escrever'),
+        label: Text(S.write),
       ),
       body: letters.isEmpty
           ? EmptyState(

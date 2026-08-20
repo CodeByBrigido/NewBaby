@@ -1,0 +1,39 @@
+{
+  "titulo": "L'acqua per la prima volta",
+  "resumo": "Il mare, una piscina, un ruscello o una bacinella in giardino. La faccia di quando il piede tocca l'acqua fredda è una foto che si fa una volta sola.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 150,
+    "ateDias": 900
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Prima di uscire di casa",
+      "itens": [
+        "Chiedi a chi segue la sua salute a proposito di protezione solare ed esposizione, che cambiano con l'età.",
+        "Andate presto la mattina o nel tardo pomeriggio. Il sole di mezzogiorno è scomodo e l'acqua diventa troppo calda.",
+        "Porta più vestiti di quanti sembrino necessari: la cambierai tre volte.",
+        "Un telo grande con cappuccio, un cappello a tesa larga e ombra garantita, ombrellone o tenda."
+      ]
+    },
+    {
+      "titulo": "La prima reazione di solito non è un sorriso",
+      "texto": "Spavento, pianto e aggrapparsi al tuo collo sono reazioni comuni. Non vuol dire che non le piaccia l'acqua; vuol dire che quella è una sensazione nuova ed enorme. Entra con lei in braccio, piano, bagnandole prima i piedi."
+    },
+    {
+      "titulo": "Documentare senza perdersi il momento",
+      "itens": [
+        "Chiedi a qualcuno di fotografare. Tu avrai entrambe le mani occupate.",
+        "La foto che conta è quella del viso nell'istante del primo contatto, e dura due secondi.",
+        "Filma quindici secondi con l'audio: il rumore dell'acqua con il suo strillo è metà del ricordo.",
+        "Una foto dei piedi nella sabbia o nell'acqua, dall'alto. Semplice e sempre bella."
+      ]
+    },
+    {
+      "titulo": "Dopo",
+      "texto": "Scrivi due righe lo stesso giorno: dov'era, quanti anni aveva, e come ha reagito davvero. Fra dieci anni ricorderai che c'è stata una prima volta, non com'è andata."
+    }
+  ]
+}

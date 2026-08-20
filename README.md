@@ -167,6 +167,12 @@ test/              idade, formatação, modelos, privacidade e linha do tempo
 O caminho sem instalar nada no computador: o GitHub compila e você baixa o
 APK. O passo a passo está em **[INSTALAR.md](INSTALAR.md)**.
 
+## Quero mexer no texto do aplicativo
+
+O aplicativo fala seis línguas, e nenhuma frase está escrita dentro de uma
+tela. Onde cada texto mora, como acrescentar um, e o que quebra quando algo
+fica para trás está em **[TRADUZIR.md](TRADUZIR.md)**.
+
 ## Quero publicar na Google Play
 
 O guia completo - OAuth em produção, chave de assinatura, política de

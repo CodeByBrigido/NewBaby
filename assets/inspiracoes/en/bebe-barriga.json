@@ -1,0 +1,35 @@
+{
+  "titulo": "A little time on her tummy",
+  "resumo": "Awake and with company, a few minutes a day. She gets stronger, complains a bit and pulls some priceless faces. Keep your phone nearby.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 240
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "What it is",
+      "texto": "Lying on her tummy, awake and with someone alongside, is what strengthens the neck, shoulders and back. It is also the position most babies hate at first, and that is expected: the whole body is working."
+    },
+    {
+      "titulo": "How to make it bearable",
+      "itens": [
+        "Start with one minute, several times a day, not ten minutes in one go.",
+        "Lie down in front of her, your face at her level. With company, the time goes further.",
+        "On your chest, with you reclined, counts too and is usually easier at the start.",
+        "Avoid right after a feed, because of the spit-up.",
+        "A mirror or a high-contrast toy in front buys a few precious seconds."
+      ]
+    },
+    {
+      "titulo": "If she cries",
+      "texto": "Take her off and try again later. Pushing through the crying turns the exercise into a daily fight, and the maths does not work out. Some days go better than others, and that says nothing about her."
+    },
+    {
+      "titulo": "The record",
+      "texto": "Film from close up, at floor level, when she lifts her head. It is one of those videos where the whole effort shows on her face, and it is worth more than any posed photo."
+    }
+  ]
+}

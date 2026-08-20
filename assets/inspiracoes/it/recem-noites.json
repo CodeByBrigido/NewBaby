@@ -1,0 +1,33 @@
+{
+  "titulo": "Scrivi una riga per ogni notte difficile",
+  "resumo": "Sembra l'ultima cosa che vuoi fare alle tre del mattino. Ma è la fase che sparisce più in fretta dalla memoria, e quella che più vale aver messo per iscritto.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 180
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Registrare ciò che è difficile è comunque registrare",
+      "texto": "La capsula tende a conservare solo il bello, e un archivio fatto solo di sorrisi è una mezza verità. Le notti in bianco dei primi mesi sono la parte della storia che le foto non raccontano, e che nessuno riesce a ricostruire dopo, perché la stanchezza cancella la memoria stessa."
+    },
+    {
+      "titulo": "Una riga, e basta",
+      "texto": "Non è un diario. È una riga, scritta al buio, senza rileggere. \"Terza notte di fila sveglio. 4:12. Si è addormentata sul mio petto e io no.\" Basta questo, ed è più forte di un paragrafo ben scritto il mese dopo."
+    },
+    {
+      "titulo": "A chi serve",
+      "itens": [
+        "A te, fra due anni, quando tutto questo sarà diventato nebbia.",
+        "A lei, adulta, per capire quanto è costato e quanto è valso.",
+        "A qualcun altro in famiglia che sta passando la stessa cosa e crede di essere l'unico a sentirsi così."
+      ]
+    },
+    {
+      "titulo": "Niente di tutto questo è una lamentela",
+      "texto": "Scrivere che è stato duro non toglie l'amore alla frase. Le due cose stanno nella stessa notte, e il racconto è più vero quando compaiono entrambe. Se un giorno ti sembrerà che una riga sia andata troppo in là, è tua: si può cancellare."
+    }
+  ]
+}

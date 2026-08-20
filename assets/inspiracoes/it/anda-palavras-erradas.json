@@ -1,0 +1,34 @@
+{
+  "titulo": "Annota le parole sbagliate",
+  "resumo": "Le prime parole escono storte, e la versione storta è quella che la famiglia adotta per sempre. Scrivile prima che la pronuncia giusta cancelli la grazia.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 300,
+    "ateDias": 1200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "La fase più corta di tutte",
+      "texto": "Le parole storpiate durano mesi, non anni. E spariscono senza cerimonie: un giorno la bambina semplicemente comincia a dirlo giusto, e nessuno ricorda qual era la versione vecchia. È il documento che le famiglie rimpiangono di più di non aver fatto."
+    },
+    {
+      "titulo": "Come annotarle",
+      "itens": [
+        "Una lettera sola, che vai modificando man mano che compaiono parole nuove.",
+        "La parola sbagliata, la parola giusta, e la data. Tutte e tre.",
+        "Annota lo stesso giorno. Annotare a fine mese significa annotarne la metà.",
+        "Vale anche la frase intera, quando la grazia sta nella costruzione e non nella parola."
+      ]
+    },
+    {
+      "titulo": "Registra la voce, non solo il testo",
+      "texto": "Il testo conserva qual era la parola; l'audio conserva com'era il suono, e quella è la parte insostituibile. Quindici secondi di conversazione normale, senza chiederle di ripetere. Una parola su richiesta esce diversa da una spontanea."
+    },
+    {
+      "titulo": "Non correggerla durante la registrazione",
+      "texto": "Correggere sul momento chiude la fase prima e, soprattutto, chiude la conversazione. Alla forma giusta ci arriva comunque. Finché non ci arriva, è materiale d'archivio."
+    }
+  ]
+}

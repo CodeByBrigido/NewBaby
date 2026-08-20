@@ -1,0 +1,69 @@
+{
+  "titulo": "Idee per il primo compleanno",
+  "resumo": "Manca poco. Dove farlo, cosa servire, chi invitare e, soprattutto, cosa documentare prima che la giornata voli via.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Prima di tutto: per chi è la festa",
+      "texto": "A un anno la bambina non capisce la festa, si stupisce del rumore e di solito si addormenta a metà. La festa è per voi e per chi vi vuole bene, e ammetterlo dall'inizio toglie metà della pressione. Una festa piccola non è una festa minore."
+    },
+    {
+      "titulo": "Dove farla",
+      "texto": "Il posto decide quasi tutto il resto: quantità di gente, costo e stanchezza.",
+      "itens": [
+        "In casa: più economico, più comodo per farla dormire, e pulisci tu dopo. Funziona benissimo fino a una quindicina di invitati.",
+        "Una sala per feste per bambini: risolve cibo, decorazioni e pulizia in un colpo solo. Prenota con due o tre mesi di anticipo, perché i sabati pomeriggio finiscono presto.",
+        "La sala condominiale: una via di mezzo comune ed economica. Controlla prima che ci siano prese, frigorifero e bagno vicino.",
+        "Un parco o una piazza: ombra, erba e bambini che corrono. Porta un telo, un gazebo e un piano B per la pioggia.",
+        "Una casa in campagna: buona quando la famiglia è numerosa e viene da lontano. Somma il costo degli spostamenti di tutti prima di decidere."
+      ]
+    },
+    {
+      "titulo": "Un tema, senza complicarsi",
+      "texto": "Il tema serve per non dover decidere ogni dettaglio da zero. Scegline uno che esista già nella vostra vita.",
+      "itens": [
+        "L'animale preferito, il libro che chiede tutte le sere, il frutto che adora.",
+        "Due colori e basta: con due colori, qualsiasi cosa compri si abbina.",
+        "Un baby shower al contrario: ogni invitato porta un libro per bambini con una dedica. Diventa una biblioteca firmata dalla famiglia."
+      ]
+    },
+    {
+      "titulo": "Il cibo",
+      "texto": "Ricorda che buona parte degli invitati sono adulti di fretta e bambini affamati.",
+      "itens": [
+        "Una torta di compleanno per le foto, e un dolcetto a parte senza zucchero per lei, se la pediatra ha già dato il via libera.",
+        "La frutta tagliata sparisce più in fretta dei dolci e sporca meno.",
+        "Il cibo da mangiare con le mani evita piatti, posate e stoviglie da lavare."
+      ]
+    },
+    {
+      "titulo": "Cosa documentare, e cosa dimenticano quasi tutti",
+      "texto": "Il giorno stesso nessuno si ricorda di niente. Mettetevi d'accordo prima.",
+      "itens": [
+        "Chiedi a qualcuno di fare il fotografo della giornata. Senza, finisci la festa senza una sola foto tua con lei.",
+        "Una foto con ogni gruppo: nonni, padrini, cugini. È la foto che la famiglia vorrà fra vent'anni.",
+        "Un video corto di dieci secondi di ogni invitato che le manda un messaggio per i suoi diciotto anni.",
+        "Il rumore della festa registrato in audio, per quanto confuso: è la cosa che restituisce di più la giornata dopo.",
+        "La lettera. Prima di dormire, scrivi com'è stato il primo anno. Penserai di ricordartelo per sempre. Non sarà così."
+      ]
+    },
+    {
+      "titulo": "Due settimane prima",
+      "itens": [
+        "Confermare posto e orario",
+        "Chiudere la lista degli invitati e mandare l'invito",
+        "Ordinare o concordare la torta",
+        "Preparare il vestito suo e il tuo",
+        "Concordare chi fotografa",
+        "Scrivere la lettera con calma, senza la corsa del giorno stesso"
+      ]
+    }
+  ]
+}

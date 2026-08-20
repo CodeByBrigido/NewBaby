@@ -1,0 +1,34 @@
+{
+  "titulo": "Conserva il primo scarabocchio",
+  "resumo": "Fotografa il disegno insieme alla mano che l'ha fatto. La carta ingiallisce, sparisce, finisce come carta da pacchi. La foto resta.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 500,
+    "ateDias": 1500
+  },
+  "registrar": "desenho",
+  "secoes": [
+    {
+      "titulo": "Il primo scarabocchio ha una data e sparisce",
+      "texto": "I disegni dei bambini si accumulano in fretta e finiscono nel cestino per puro volume. Il primo, però, è un documento: è la prima volta che ha lasciato un segno nel mondo di proposito. Senza foto e senza data diventa un foglio in più nella pila."
+    },
+    {
+      "titulo": "Come conservarlo per bene",
+      "itens": [
+        "Fotografa dall'alto, con tutto il foglio nell'inquadratura e la luce della finestra, senza l'ombra della tua mano.",
+        "Scrivi la data e l'età nella descrizione, non sul foglio, per non rovinare il disegno.",
+        "Se già parla, chiedile cos'è e annota la risposta, parola per parola. È quella frase a valere più del disegno.",
+        "Fotografa anche la sua mano che tiene il pastello: dà la scala e racconta la fase."
+      ]
+    },
+    {
+      "titulo": "Cosa offrirle",
+      "texto": "Pastelli a cera spessi, di quelli tozzi che una mano chiusa riesce a tenere, e carta grande, più grande è meglio è. La carta piccola diventa frustrazione; un rotolo di carta da pacchi o il retro di un manifesto risolve."
+    },
+    {
+      "titulo": "Dopo il primo",
+      "texto": "Non conservarli tutti. Scegline uno al mese, fotografalo, e lascia che il resto segua il suo destino naturale. Uno al mese per dodici mesi è una raccolta; tutti sono un armadio pieno che nessuno apre."
+    }
+  ]
+}

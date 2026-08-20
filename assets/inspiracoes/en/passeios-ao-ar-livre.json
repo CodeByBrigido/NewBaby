@@ -1,0 +1,39 @@
+{
+  "titulo": "Where to go with a small child",
+  "resumo": "Places that actually work, by age range, and what to bring so you do not have to head home early.",
+  "tipo": "passeio",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 2200
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "A baby who is not walking yet",
+      "itens": [
+        "A park with shade and a blanket on the ground. Watching leaves move is more entertaining than it sounds.",
+        "The market in the morning: noise, colour and smells, and you get the week's shopping done as well.",
+        "The beach or a lake late in the afternoon, when the sun is weak."
+      ]
+    },
+    {
+      "titulo": "Once she is walking",
+      "itens": [
+        "A square with uneven ground: grass, sand, gravel. Tiring and fun at the same time.",
+        "A nursery, botanical garden or plant centre. Usually cheap or free, and shaded.",
+        "An aquarium or a butterfly house, if your town has one.",
+        "A short flat trail with a goal at the end: a bridge, a stream, a big rock."
+      ]
+    },
+    {
+      "titulo": "What is always missing",
+      "itens": [
+        "Water and a piece of fruit.",
+        "A complete change of clothes.",
+        "Sunscreen and a hat.",
+        "Leaving the house before ten or after four. Nobody copes in the middle of the day."
+      ]
+    }
+  ]
+}

@@ -110,10 +110,10 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
     return AlertDialog(
       title: Text(
         pronto
-            ? 'Guardado'
+            ? S.savedTitle
             : falhou
             ? S.uploadFailed
-            : 'Guardando...',
+            : S.savingEllipsis,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -142,7 +142,7 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
             Expanded(
               child: TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Fechar'),
+                child: Text(S.closeLabel),
               ),
             ),
             if (pronto)
@@ -176,7 +176,6 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
   String _onde({required bool pronto}) {
     final BabyProfile? profile = ref.watch(profileProvider).value;
     final Copy g = Copy.of(profile);
-    final String verbo = pronto ? S.savedTitle : S.willBeSaved;
 
     // "no Google Drive da sua filha", e não "na sua conta do Google Drive".
     // A conta é da criança desde o primeiro dia, e esta é a frase que a
@@ -198,7 +197,12 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
     // e mandar procurar `Semana 12` no Drive é mandar procurar uma pasta que
     // não existe mais.
     final String pasta = ondeNoDrive(profile, _tipo, widget.entries.first.date);
-    return '$verbo em $pasta${pronto ? ", $conta." : "."}';
+    // A frase inteira vem da língua, e não montada aqui com um "em" fixo:
+    // a preposição e a ordem das partes mudam de língua para língua, e foi
+    // exatamente essa montagem que deixava a caixa metade em português.
+    return pronto
+        ? S.savedInFolder(pasta, conta)
+        : S.willBeSavedInFolder(pasta);
   }
 
   /// Para onde o botão leva, ou `null` quando não há tela para aquilo.
@@ -206,28 +210,25 @@ class _EnvioEmAndamentoState extends ConsumerState<EnvioEmAndamento> {
     switch (_tipo) {
       case EntryType.photo:
         return _Destino(
-          rotulo: 'Ver a pasta',
+          rotulo: S.viewFolder,
           rota: Routes.bucket('fotos', widget.bucket.key),
         );
       case EntryType.video:
         return _Destino(
-          rotulo: 'Ver a pasta',
+          rotulo: S.viewFolder,
           rota: Routes.bucket('videos', widget.bucket.key),
         );
       case EntryType.drawing:
-        return const _Destino(rotulo: 'Ver o desenho', rota: Routes.drawings);
+        return _Destino(rotulo: S.viewDrawing, rota: Routes.drawings);
       case EntryType.document:
         // Um documento abre direto; vários abrem a lista, porque não há uma
         // tela que mostre três de uma vez.
         return widget.entries.length == 1
             ? _Destino(
-                rotulo: 'Ver o documento',
+                rotulo: S.viewDocument,
                 rota: Routes.document(widget.entries.first.id),
               )
-            : const _Destino(
-                rotulo: 'Ver os documentos',
-                rota: Routes.documents,
-              );
+            : _Destino(rotulo: S.viewDocuments, rota: Routes.documents);
       case EntryType.letter:
       case EntryType.growth:
       case EntryType.birth:

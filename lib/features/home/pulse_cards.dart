@@ -34,10 +34,8 @@ class PulseCards extends StatelessWidget {
       if (pulse.isBirthday)
         _PulseCard(
           icon: Icons.cake_outlined,
-          label: 'Hoje',
-          value: pulse.birthdayYears == 1
-              ? '1 ano ${copy.ofName}'
-              : '${pulse.birthdayYears} anos ${copy.ofName}',
+          label: S.hoje,
+          value: S.birthdayAgeOf(pulse.birthdayYears, copy.ofName),
           accent: context.cores.primary,
           background: context.cores.primarySoft,
         )
@@ -45,7 +43,7 @@ class PulseCards extends StatelessWidget {
         if (pulse.exactMilestone != null)
           _PulseCard(
             icon: Icons.auto_awesome_outlined,
-            label: 'Hoje faz exatamente',
+            label: S.exactlyToday,
             value: pulse.exactMilestone!,
             accent: context.cores.primary,
             background: context.cores.primarySoft,
@@ -54,9 +52,7 @@ class PulseCards extends StatelessWidget {
           _PulseCard(
             icon: Icons.cake_outlined,
             label: S.birthdayOrdinal(pulse.birthdayYears),
-            value: pulse.daysToBirthday == 1
-                ? 'falta 1 dia'
-                : 'faltam ${pulse.daysToBirthday} dias',
+            value: S.daysLeft(pulse.daysToBirthday),
             accent: context.cores.accent,
             background: context.cores.accentSoft,
           ),

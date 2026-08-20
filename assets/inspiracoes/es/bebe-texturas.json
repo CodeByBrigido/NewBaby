@@ -1,0 +1,39 @@
+{
+  "titulo": "Una caja de texturas",
+  "resumo": "Un retal peludo, papel que se arruga, una cuchara de madera, una esponja seca. Nada lo bastante pequeño para caber entero en la boca. Entretiene más que un juguete caro.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 120,
+    "ateDias": 500
+  },
+  "secoes": [
+    {
+      "titulo": "Una caja, cinco cosas",
+      "texto": "No hace falta comprar nada. Junta cinco objetos con superficies bien distintas en una caja de zapatos y ofrécele uno cada vez, contigo al lado todo el rato. El juego es la diferencia entre ellos, no la cantidad."
+    },
+    {
+      "titulo": "Qué meter",
+      "itens": [
+        "Un trozo de lana o una bufanda de punto.",
+        "Una esponja limpia y seca, de las blandas.",
+        "Papel celofán o papel de seda, por el ruido.",
+        "Una cuchara de madera y otra de metal, para comparar temperatura y peso.",
+        "Una fiambrera de plástico con tapa, que además sirve para golpear."
+      ]
+    },
+    {
+      "titulo": "Las reglas de seguridad, que aquí no son un detalle",
+      "itens": [
+        "Nada que pase por dentro de un tubo de papel higiénico: si pasa, atraganta.",
+        "Nada con piezas pegadas, imanes, pilas o cuerdas largas.",
+        "Todo va a la boca, así que todo tiene que poder lavarse.",
+        "Tú te quedas al lado todo el rato. Este no es un juego para dejarla sola."
+      ]
+    },
+    {
+      "titulo": "Guardar",
+      "texto": "Fotografía la caja montada, con los cinco objetos, antes de ofrecerla. Dentro de unos años, esa foto tonta va a recordar exactamente lo que había en vuestra casa aquel año."
+    }
+  ]
+}

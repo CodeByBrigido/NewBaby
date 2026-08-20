@@ -1,0 +1,39 @@
+{
+  "titulo": "La stessa foto, ogni mese",
+  "resumo": "Scegli un posto fisso e ripetilo ogni mese. Separate non dicono granché. Insieme, a fine anno, sono la cosa più bella dell'archivio.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Tutta l'idea in una frase",
+      "texto": "Scegli un posto della casa e fotografa lì la bambina, dallo stesso punto, una volta al mese. Ogni foto da sola non è niente. Le dodici insieme sono la cosa più impressionante che avrai a fine anno."
+    },
+    {
+      "titulo": "Scegliere il posto",
+      "itens": [
+        "Qualcosa che non cambierà: una poltrona, l'angolo del divano, la stessa parete.",
+        "Con un oggetto fisso accanto, che dia la scala. Un cuscino, un orso, la pianta.",
+        "Vicino a una finestra, perché la luce si somigli in tutti i mesi.",
+        "Evita il lettino: esce di scena a metà strada e la serie si spezza."
+      ]
+    },
+    {
+      "titulo": "Perché le foto combacino",
+      "itens": [
+        "Segna con del nastro sul pavimento dove ti metti in piedi. Sembra esagerato ed è ciò che salva la serie.",
+        "Sempre in orizzontale, o sempre in verticale. Mescolare rovina il montaggio dopo.",
+        "Un giorno fisso al mese, quello del compleanno mensile, perché non diventi mai una decisione.",
+        "Una sveglia mensile sul telefono. La serie muore di dimenticanza, mai di poca voglia."
+      ]
+    },
+    {
+      "titulo": "A fine anno",
+      "texto": "Metti insieme le dodici in una griglia da quattro per tre. È l'immagine che vorrà tutta la famiglia, ed è quella che finisce al muro. Se salti un mese, vai avanti lo stesso: undici foto raccontano ancora tutta la storia."
+    }
+  ]
+}

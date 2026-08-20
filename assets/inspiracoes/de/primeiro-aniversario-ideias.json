@@ -1,0 +1,69 @@
+{
+  "titulo": "Ideen für den ersten Geburtstag",
+  "resumo": "Es ist bald so weit. Wo feiern, was auftischen, wen einladen und vor allem: was festhalten, bevor der Tag vorbeifliegt.",
+  "tipo": "preparo",
+  "destaque": true,
+  "quando": {
+    "tipo": "antesDoAniversario",
+    "anos": 1,
+    "diasAntes": 21
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Zuerst: für wen ist das Fest",
+      "texto": "Mit einem Jahr versteht ein Kind kein Fest, findet den Lärm befremdlich und schläft meist mittendrin ein. Das Fest ist für Sie und für die, die Sie lieben, und das von Anfang an zuzugeben nimmt den halben Druck. Ein kleines Fest ist kein geringeres Fest."
+    },
+    {
+      "titulo": "Wo feiern",
+      "texto": "Der Ort bestimmt fast alles Weitere: die Zahl der Gäste, die Kosten und die Erschöpfung.",
+      "itens": [
+        "Zu Hause: billiger, bequemer zum Schlafen für das Kind, und Sie räumen hinterher auf. Bis etwa fünfzehn Gäste funktioniert das sehr gut.",
+        "Ein Kindergeburtstagslokal: Essen, Deko und Aufräumen auf einen Schlag erledigt. Reservieren Sie zwei bis drei Monate vorher, denn Samstagnachmittage sind früh vergeben.",
+        "Der Gemeinschaftsraum im Haus: ein verbreiteter und günstiger Mittelweg. Prüfen Sie vorher, ob es Steckdosen, einen Kühlschrank und eine Toilette in der Nähe gibt.",
+        "Ein Park oder ein Platz: Schatten, Gras und rennende Kinder. Nehmen Sie eine Decke, ein Sonnensegel und einen Plan B für Regen mit.",
+        "Ein Haus auf dem Land: gut, wenn die Familie groß ist und von weit kommt. Rechnen Sie die Anfahrtskosten aller zusammen, bevor Sie sich entscheiden."
+      ]
+    },
+    {
+      "titulo": "Ein Motto, ohne es kompliziert zu machen",
+      "texto": "Ein Motto gibt es, damit Sie nicht jedes Detail bei null entscheiden müssen. Wählen Sie eines, das es in Ihrem Leben schon gibt.",
+      "itens": [
+        "Das Lieblingstier, das Buch, das es jeden Abend verlangt, die Frucht, die es liebt.",
+        "Zwei Farben, und fertig: mit zwei Farben passt alles zusammen, was Sie kaufen.",
+        "Eine Babyparty andersherum: jeder Gast bringt ein Kinderbuch mit einer Widmung mit. Daraus wird eine von der Familie signierte Bibliothek."
+      ]
+    },
+    {
+      "titulo": "Essen",
+      "texto": "Denken Sie daran, dass ein guter Teil der Gäste Erwachsene in Eile und hungrige Kinder sind.",
+      "itens": [
+        "Eine Geburtstagstorte für die Fotos, und ein separates kleines Küchlein ohne Zucker für das Kind, falls die Kinderärztin es schon erlaubt hat.",
+        "Geschnittenes Obst verschwindet schneller als Süßes und macht weniger Flecken.",
+        "Fingerfood für die Erwachsenen spart Teller, Besteck und Abwasch."
+      ]
+    },
+    {
+      "titulo": "Was festhalten, und was fast alle vergessen",
+      "texto": "Am Tag selbst denkt niemand an irgendetwas. Klären Sie es vorher.",
+      "itens": [
+        "Bitten Sie jemanden, an diesem Tag Fotograf zu sein. Sonst endet das Fest ohne ein einziges Foto von Ihnen mit dem Kind.",
+        "Ein Foto mit jeder Gruppe: Großeltern, Paten, Cousins. Das ist das Foto, das die Familie in zwanzig Jahren haben will.",
+        "Ein kurzes Zehn-Sekunden-Video von jedem Gast mit einer Botschaft für den achtzehnten Geburtstag.",
+        "Der Lärm des Festes als Tonaufnahme, so chaotisch wie er ist: er ist es, der den Tag hinterher am stärksten zurückgibt.",
+        "Der Brief. Schreiben Sie vor dem Schlafengehen auf, wie das erste Jahr war. Sie werden glauben, sich für immer zu erinnern. Werden Sie nicht."
+      ]
+    },
+    {
+      "titulo": "Zwei Wochen vorher",
+      "itens": [
+        "Ort und Uhrzeit bestätigen",
+        "Die Gästeliste abschließen und die Einladung verschicken",
+        "Die Torte bestellen oder verabreden",
+        "Die Kleidung des Kindes und Ihre eigene bereitlegen",
+        "Verabreden, wer fotografiert",
+        "Den Brief in Ruhe schreiben, ohne die Hetze des Festtags"
+      ]
+    }
+  ]
+}

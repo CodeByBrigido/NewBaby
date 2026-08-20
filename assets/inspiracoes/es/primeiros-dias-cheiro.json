@@ -1,0 +1,36 @@
+{
+  "titulo": "Escribe lo que nadie va a recordar",
+  "resumo": "El olor de la cabeza, el ruido que hace al mamar, la forma en que agarra un dedo. Son las cosas que desaparecen primero de la memoria. Basta con una frase.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "Lo que desaparece primero",
+      "texto": "La memoria guarda mal justamente lo que es constante. El olor de su cabeza, el peso exacto en brazos, el sonido que hace antes de llorar de verdad: nada de eso se convierte en foto, y desaparece sin avisar. No es que vayas a olvidar el nacimiento; vas a olvidar cómo era estar allí."
+    },
+    {
+      "titulo": "Escribe ahora, mal escrito",
+      "texto": "Esta carta no tiene que ser bonita. Tiene que existir mientras la información sigue fresca. Diez minutos, en el móvil, con una sola mano, de madrugada. El texto torcido es parte del documento.",
+      "itens": [
+        "El olor. Intenta describirlo, aunque salga ridículo.",
+        "El peso en brazos, y cómo cambia cuando ella se duerme.",
+        "El sonido exacto del llanto, y el otro sonido, el de antes del llanto.",
+        "Lo que sientes a las tres de la mañana, sin filtrar para que quede bonito.",
+        "Lo que te asusta. Eso también es verdad de aquel día."
+      ]
+    },
+    {
+      "titulo": "No le escribas a ella todavía",
+      "texto": "La tentación es escribir una carta de consejos para el futuro. Guarda eso para después. Lo que tiene valor hoy es el relato del presente, porque es lo que nadie consigue reconstruir veinte años más tarde. Los consejos los das en persona; el olor de los primeros días, no."
+    },
+    {
+      "titulo": "Una por semana, en el primer mes",
+      "texto": "Cuatro cartas cortas valen más que una larga que nunca se escribe. Y las cuatro juntas muestran algo que una sola no muestra: cuánto cambia en treinta días, en ella y en ti."
+    }
+  ]
+}

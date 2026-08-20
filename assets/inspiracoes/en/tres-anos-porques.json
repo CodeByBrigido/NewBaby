@@ -1,0 +1,34 @@
+{
+  "titulo": "The why stage",
+  "resumo": "Write down the questions you could not answer. It is the truest portrait of how she thought at this age, and it disappears within a few months.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "What is going on",
+      "texto": "The repeated question is not stubbornness or provocation. It is the discovery that things have causes, and that you are the source. The exhaustion is real and the stage passes; while it lasts, it is the best raw material for the archive you will ever have."
+    },
+    {
+      "titulo": "How to answer without losing your mind",
+      "itens": [
+        "Genuinely answer the first two or three. It is well worth it.",
+        "Then hand it back: \"and why do you think?\" Her answer is usually better than yours.",
+        "\"I don't know\" is a legitimate answer. Looking it up together is better still.",
+        "When you have had enough, say you have had enough for now. Faking patience you have run out of fools nobody."
+      ]
+    },
+    {
+      "titulo": "Write down the questions, not the answers",
+      "texto": "The questions of this stage are the record. \"Why does the sun go away?\", \"Why is grandad old?\", \"Why do we die?\". Write down the exact question and the date, in a letter you keep adding to. In six months you have a document worth more than an album."
+    },
+    {
+      "titulo": "Record one round",
+      "texto": "A minute of audio of a run of whys, with your voice answering. It is funny today and it is moving twenty years from now, when the person asking is someone else."
+    }
+  ]
+}

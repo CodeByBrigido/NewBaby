@@ -1,0 +1,39 @@
+{
+  "titulo": "Il primo viaggio",
+  "resumo": "Cosa portare, quanto tragitto regge, e come non tornare senza nemmeno una foto di voi tre insieme.",
+  "tipo": "passeio",
+  "destaque": true,
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 1000
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Scegliere la destinazione",
+      "itens": [
+        "Vicino batte bello. Tre ore di macchina con le soste sono un limite comodo nei primi mesi.",
+        "Un posto con la cucina vale più di un posto con la piscina.",
+        "Se andate in aereo, un volo all'ora del sonno di solito rende più di uno all'alba."
+      ]
+    },
+    {
+      "titulo": "La valigia",
+      "itens": [
+        "Vestiti per il doppio dei giorni. Qualcosa succede sempre.",
+        "Farmaci abituali, ricette e libretto delle vaccinazioni.",
+        "Un gioco conosciuto e una copertina di casa: l'odore familiare aiuta a dormire in un letto estraneo.",
+        "Sacchetti per i rifiuti e salviette ovunque: zaino, macchina, borsa."
+      ]
+    },
+    {
+      "titulo": "Le foto che mancano dopo",
+      "itens": [
+        "La foto di voi tre. Chiedila a uno sconosciuto, anche se non ne hai voglia. Da ogni viaggio si torna solo con le foto che hai scattato tu.",
+        "La foto del paesaggio con lei piccolissima in un angolo, per dare la scala.",
+        "Un video di dieci secondi al giorno, senza montaggio. Insieme diventano il miglior riassunto del viaggio."
+      ]
+    }
+  ]
+}

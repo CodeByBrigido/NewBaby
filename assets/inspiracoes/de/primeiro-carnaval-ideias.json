@@ -1,0 +1,42 @@
+{
+  "titulo": "Der erste Karneval",
+  "resumo": "Ein zu Hause improvisiertes Kostüm bringt so viele Fotos wie ein überfüllter Umzug, und niemand kommt erschöpft zurück.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "Karneval mit einem kleinen Kind findet zu Hause statt",
+      "texto": "Ein Umzug bedeutet Menschenmenge, lauten Ton und starke Sonne, und nichts davon passt zu jemandem, der wenige Monate alt ist. Kostüm, Musik und Trubel funktionieren im Wohnzimmer bestens und bringen dieselben Fotos, ohne eines der Probleme."
+    },
+    {
+      "titulo": "Wenn Sie doch hingehen",
+      "itens": [
+        "Gehörschutz für Kinder. Der Ton eines Umzugs ist für kleine Ohren viel zu laut.",
+        "Garantierter Schatten und eine Uhrzeit außerhalb der Mittagssonne.",
+        "Bleiben Sie am Rand, nie in der Mitte, und mit bekanntem Fluchtweg.",
+        "Ein Kinderumzug am Vormittag ist etwas ganz anderes: kleiner, kürzer und genau dafür gemacht.",
+        "Sprechen Sie vorher mit Ihrer Begleitung ab, wie lange Sie bleiben, und halten Sie sich daran."
+      ]
+    },
+    {
+      "titulo": "Das Kostüm",
+      "texto": "Bequem schlägt schön. Leichter Stoff, kein enges Gummiband, keine Kapuze, die aufheizt, nichts Aufgeklebtes, das in den Mund wandern kann. Ein aus Vorhandenem improvisiertes Kostüm bringt meist ein besseres Foto als ein gekauftes."
+    },
+    {
+      "titulo": "Was aufheben",
+      "itens": [
+        "Das Foto des ganzen Kostüms, in voller Größe, im besten verfügbaren Licht.",
+        "Das Gesicht, aus der Nähe, mit der Schminke oder dem Accessoire.",
+        "Ein kurzes Video, wie es auf Ihrem Arm tanzt.",
+        "Das müde Gesicht am Ende, das immer das beste Foto des Tages ist.",
+        "Zwei geschriebene Zeilen: welches Kostüm es war, wer es ausgesucht hat und warum."
+      ]
+    }
+  ]
+}

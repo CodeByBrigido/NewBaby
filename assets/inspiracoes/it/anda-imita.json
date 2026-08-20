@@ -1,0 +1,34 @@
+{
+  "titulo": "Imita tutto quello che fai",
+  "resumo": "Spazzare, parlare al telefono, girare nella pentola. Dalle una versione piccola di un oggetto vero e filma: è lì che il vostro modo di essere compare in lei.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 360,
+    "ateDias": 1200
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Sei diventato il gioco preferito",
+      "texto": "Spazzare, girare nella pentola, rispondere al telefono, infilarsi le tue scarpe: imitare l'adulto è il gioco più serio di questa fase, e quello che richiede meno preparazione di tutti, perché il copione è la tua giornata."
+    },
+    {
+      "titulo": "Come approfittarne invece di ostacolare",
+      "itens": [
+        "Dalle una versione piccola di quello che stai usando: uno straccio, una spazzola, un cucchiaio.",
+        "Lascia un cassetto basso in cucina solo con contenitori e strofinacci, che possa aprire sempre.",
+        "Fai piano e racconta mentre fai. La parte raccontata è quella da cui trae di più.",
+        "Accetta che ci vorrà il triplo del tempo. Se oggi hai fretta, fallo domani."
+      ]
+    },
+    {
+      "titulo": "Cosa non lasciarle imitare",
+      "texto": "I fornelli, le prese, i detersivi, i coltelli e le scale. L'imitazione non distingue il pericolo, e in questa fase l'interesse per quelle cose è proprio più grande perché sono quelle che usi tu e che lei non può toccare."
+    },
+    {
+      "titulo": "Il video",
+      "texto": "Filma da lontano, senza chiamarla. Nell'istante in cui si accorge della telecamera smette di imitare e comincia a recitare, e la scena perde tutto il suo fascino. Venti secondi di nascosto valgono più di due minuti su richiesta."
+    }
+  ]
+}

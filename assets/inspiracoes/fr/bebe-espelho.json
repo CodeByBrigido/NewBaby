@@ -1,0 +1,34 @@
+{
+  "titulo": "Le miroir",
+  "resumo": "Asseyez-vous avec elle face à un miroir et parlez. La réaction change de mois en mois, et filmer la même scène tous les deux mois donne une très belle série.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 90,
+    "ateDias": 500
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Le jeu le moins cher qui soit",
+      "texto": "Un miroir sûr à hauteur du sol occupe plus longtemps que presque tous les jouets achetés, et ne coûte rien si vous en avez déjà un. La réaction vaut à elle seule le détour : d'abord la surprise, puis le sourire, puis la tentative d'attraper."
+    },
+    {
+      "titulo": "Comment l'installer",
+      "itens": [
+        "Un miroir en acrylique, ou un miroir en verre bien fixé au mur, à l'horizontale, au ras du sol.",
+        "Allongez-la sur le ventre face au miroir : cela réunit les deux jeux.",
+        "Asseyez-vous avec elle sur les genoux et parlez en regardant le reflet, en montrant : « ça c'est toi, ça c'est moi ».",
+        "Le miroir de la salle de bains, après le bain, avec elle enroulée dans la serviette, marche aussi bien."
+      ]
+    },
+    {
+      "titulo": "Ce qui change avec le temps",
+      "texto": "Le rapport au reflet change beaucoup au fil des mois, et c'est précisément pour cela qu'il vaut la peine de revenir à ce jeu de temps en temps. La même scène, filmée à quelques mois d'écart, montre le changement sans avoir besoin de légende."
+    },
+    {
+      "titulo": "La photo",
+      "texto": "Photographiez de côté, en attrapant l'enfant et le reflet dans le même cadre. C'est une composition qui rend bien même au téléphone, et qui raconte tout le jeu en une seule image."
+    }
+  ]
+}

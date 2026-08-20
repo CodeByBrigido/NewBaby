@@ -1,0 +1,39 @@
+{
+  "titulo": "La même photo, tous les mois",
+  "resumo": "Choisissez un endroit fixe et répétez chaque mois. Séparées, elles ne disent pas grand-chose. Ensemble, en fin d'année, elles sont ce qu'il y a de plus beau dans la collection.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "L'idée entière en une phrase",
+      "texto": "Choisissez un endroit de la maison et photographiez l'enfant là, depuis le même point, une fois par mois. Chaque photo seule n'est rien. Les douze ensemble sont la chose la plus frappante que vous aurez en fin d'année."
+    },
+    {
+      "titulo": "Choisir l'endroit",
+      "itens": [
+        "Quelque chose qui ne changera pas : un fauteuil, le coin du canapé, le même mur.",
+        "Avec un objet fixe à côté, qui donne l'échelle. Un coussin, un ours, la plante.",
+        "Près d'une fenêtre, pour que la lumière se ressemble tous les mois.",
+        "Évitez le lit à barreaux : il quitte la scène en cours de route et la série se casse."
+      ]
+    },
+    {
+      "titulo": "Pour que les photos s'accordent",
+      "itens": [
+        "Marquez au ruban adhésif l'endroit où vous vous tenez. Cela paraît excessif et c'est ce qui sauve la série.",
+        "Toujours à l'horizontale, ou toujours à la verticale. Mélanger gâche le montage ensuite.",
+        "Un jour fixe par mois, celui de l'anniversaire mensuel, pour que cela ne devienne jamais une décision.",
+        "Une alarme mensuelle sur le téléphone. La série meurt d'oubli, jamais de mauvaise volonté."
+      ]
+    },
+    {
+      "titulo": "En fin d'année",
+      "texto": "Réunissez les douze dans une grille de quatre sur trois. C'est l'image que toute la famille voudra, et c'est celle qui finit au mur. Si vous ratez un mois, continuez quand même : onze photos racontent encore toute l'histoire."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "titulo": "Un po' di tempo a pancia in giù",
+  "resumo": "Sveglia e accompagnata, qualche minuto al giorno. Si rinforza, protesta un po' e fa delle facce impagabili. Tieni il telefono a portata di mano.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 240
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "Di cosa si tratta",
+      "texto": "Stare a pancia in giù, sveglia e con qualcuno accanto, è ciò che rinforza collo, spalle e schiena. È anche la posizione che la maggior parte detesta all'inizio, ed è previsto: tutto il corpo sta lavorando."
+    },
+    {
+      "titulo": "Come renderla sopportabile",
+      "itens": [
+        "Comincia con un minuto, più volte al giorno, e non con dieci tutti insieme.",
+        "Sdraiati davanti a lei, con il viso alla stessa altezza. In compagnia il momento dura di più.",
+        "Sul tuo petto, con te appoggiata all'indietro, conta lo stesso e all'inizio di solito è più facile.",
+        "Evita subito dopo la poppata, per i rigurgiti.",
+        "Uno specchio o un gioco a forte contrasto davanti compra qualche secondo prezioso."
+      ]
+    },
+    {
+      "titulo": "Se piange",
+      "texto": "Toglila e riprova più tardi. Insistere col pianto trasforma l'esercizio in una lite quotidiana, e il conto non torna. Certi giorni rendono più di altri, e questo non dice niente su di lei."
+    },
+    {
+      "titulo": "Il documento",
+      "texto": "Filma da vicino, a livello del pavimento, quando alza la testa. È uno di quei video in cui lo sforzo si vede tutto in faccia, e vale più di qualsiasi foto in posa."
+    }
+  ]
+}

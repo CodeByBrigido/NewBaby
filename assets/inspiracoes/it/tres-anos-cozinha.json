@@ -1,0 +1,41 @@
+{
+  "titulo": "Cucinare insieme, pasticcio compreso",
+  "resumo": "Mescolare, versare, schiacciare l'impasto. Il disordine è il senso, non l'effetto collaterale. Uno straccio per terra risolve e il ricordo resta.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 900,
+    "ateDias": 2200
+  },
+  "secoes": [
+    {
+      "titulo": "Cosa sa fare davvero una bambina di tre anni",
+      "itens": [
+        "Mescolare col cucchiaio in una ciotola grande e profonda.",
+        "Schiacciare banana, avocado o patata con la forchetta.",
+        "Strappare foglie di insalata e di cavolo con le mani.",
+        "Spennellare burro, spolverare farina, premere una formina per biscotti.",
+        "Versare da un contenitore piccolo a uno più grande, con te che reggi insieme a lei.",
+        "Scegliere fra due opzioni che le offri. Scegliere è metà del divertimento."
+      ]
+    },
+    {
+      "titulo": "Le regole che rendono tutto questo possibile",
+      "texto": "Uno sgabello stabile, tutto ciò che taglia e tutto ciò che scotta fuori portata e dall'altro lato del piano, e le aspettative aggiustate: la ricetta ci metterà il doppio e non verrà bella. Se hai bisogno che venga bella oggi, cucinate insieme domani."
+    },
+    {
+      "titulo": "Ricette che reggono il disordine",
+      "itens": [
+        "Torta in tazza o al frullatore, in cui mescolare è tutta la ricetta.",
+        "Biscotti di frolla con le formine, che sono pura modellazione.",
+        "Panini al formaggio arrotolati, che sono pasta da gioco commestibile.",
+        "Macedonia, con coltello di plastica e frutta morbida.",
+        "Pizza sul pane, in cui compone il condimento da sola."
+      ]
+    },
+    {
+      "titulo": "Conservare",
+      "texto": "Foto delle mani nell'impasto, e poi una di lei con il risultato, anche storto. Scrivi la ricetta e l'età nella descrizione. Fra qualche anno quella ricetta sciocca diventa una tradizione con una data di nascita."
+    }
+  ]
+}

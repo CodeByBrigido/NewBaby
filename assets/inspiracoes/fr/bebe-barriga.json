@@ -1,0 +1,35 @@
+{
+  "titulo": "Un petit moment sur le ventre",
+  "resumo": "Éveillée et accompagnée, quelques minutes par jour. Elle se muscle, râle un peu et fait des têtes impayables. Gardez le téléphone à portée.",
+  "tipo": "brincadeira",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 240
+  },
+  "registrar": "video",
+  "secoes": [
+    {
+      "titulo": "De quoi il s'agit",
+      "texto": "Être allongée sur le ventre, éveillée et avec quelqu'un à côté, c'est ce qui renforce le cou, les épaules et le dos. C'est aussi la position que la plupart détestent au début, et c'est attendu : tout le corps travaille."
+    },
+    {
+      "titulo": "Comment la rendre supportable",
+      "itens": [
+        "Commencez par une minute, plusieurs fois par jour, et non par dix d'un coup.",
+        "Allongez-vous devant elle, visage à la même hauteur. Avec de la compagnie, le moment dure plus longtemps.",
+        "Sur votre poitrine, vous adossée, cela compte aussi et c'est souvent plus facile au début.",
+        "Évitez juste après la tétée, à cause des renvois.",
+        "Un miroir ou un jouet contrasté devant elle achète quelques secondes précieuses."
+      ]
+    },
+    {
+      "titulo": "Si elle pleure",
+      "texto": "Retirez-la et réessayez plus tard. Insister avec des pleurs transforme l'exercice en dispute quotidienne, et le compte n'y est pas. Certains jours donnent plus que d'autres, et cela ne dit rien sur elle."
+    },
+    {
+      "titulo": "Le témoignage",
+      "texto": "Filmez de près, au ras du sol, quand elle lève la tête. C'est une de ces vidéos où l'effort apparaît entièrement sur le visage, et cela vaut mieux que n'importe quelle photo posée."
+    }
+  ]
+}

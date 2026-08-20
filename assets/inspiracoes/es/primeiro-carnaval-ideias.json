@@ -1,0 +1,42 @@
+{
+  "titulo": "El primer Carnaval",
+  "resumo": "Un disfraz improvisado en casa da tantas fotos como un desfile abarrotado, y nadie vuelve agotado.",
+  "tipo": "preparo",
+  "quando": {
+    "tipo": "dataEspecial",
+    "data": "carnaval",
+    "diasAntes": 14,
+    "apenasPrimeira": true
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "El Carnaval con una criatura pequeña es en casa",
+      "texto": "Un desfile tiene multitud, sonido alto y sol fuerte, y nada de eso encaja con quien tiene pocos meses. El disfraz, la música y el jaleo funcionan perfectamente en el salón, y dan las mismas fotos sin ninguno de los problemas."
+    },
+    {
+      "titulo": "Si vais a salir",
+      "itens": [
+        "Protectores auditivos infantiles. El sonido de un desfile es demasiado alto para un oído pequeño.",
+        "Sombra garantizada y un horario fuera del pico de sol.",
+        "Quedaos en el borde, nunca en medio, y con una ruta de salida conocida.",
+        "Un desfile infantil de calle, por la mañana, es otra cosa: más pequeño, más corto y hecho para esto.",
+        "Acordad antes con quien vaya con vosotros cuánto tiempo os quedáis, y cumplidlo."
+      ]
+    },
+    {
+      "titulo": "El disfraz",
+      "texto": "Cómodo le gana a bonito. Tejido ligero, sin elásticos apretados, sin capucha que dé calor, sin nada pegado que pueda ir a la boca. Un disfraz improvisado con lo que hay en casa suele dar mejor foto que el comprado."
+    },
+    {
+      "titulo": "Qué guardar",
+      "itens": [
+        "La foto del disfraz entero, de cuerpo entero, con la mejor luz que haya.",
+        "La cara, de cerca, con la pintura o el adorno.",
+        "Un vídeo corto bailando contigo en brazos.",
+        "La cara de sueño del final, que siempre es la mejor foto del día.",
+        "Dos líneas escritas: cuál fue el disfraz, quién lo eligió y por qué."
+      ]
+    }
+  ]
+}

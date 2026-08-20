@@ -1,0 +1,36 @@
+{
+  "titulo": "Write down what nobody will remember",
+  "resumo": "The smell of her head, the sound she makes while feeding, the way she grips your finger. These are the first things to go. One sentence is enough.",
+  "tipo": "carta",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 0,
+    "ateDias": 120
+  },
+  "registrar": "carta",
+  "secoes": [
+    {
+      "titulo": "What goes first",
+      "texto": "Memory holds on badly to exactly the things that are constant. The smell of her head, the precise weight in your arms, the sound she makes before crying for real: none of that becomes a photo, and it goes without warning. It is not that you will forget the birth; you will forget what it was like to be there."
+    },
+    {
+      "titulo": "Write it now, badly",
+      "texto": "This letter does not need to be beautiful. It needs to exist while the information is still fresh. Ten minutes, on your phone, one-handed, in the middle of the night. The clumsy text is part of the document.",
+      "itens": [
+        "The smell. Try to describe it, even if it comes out silly.",
+        "The weight in your arms, and how it changes when she falls asleep.",
+        "The exact sound of the crying, and the other sound, the one before the crying.",
+        "What you feel at three in the morning, unfiltered.",
+        "What frightens you. That is also the truth of that day."
+      ]
+    },
+    {
+      "titulo": "Do not write to her yet",
+      "texto": "The temptation is to write a letter of advice for the future. Save that for later. What has value today is the account of the present, because that is what nobody can reconstruct twenty years on. Advice you give in person; the smell of the first days, you cannot."
+    },
+    {
+      "titulo": "One a week, in the first month",
+      "texto": "Four short letters are worth more than one long one that never gets written. And the four together show something one alone cannot: how much changes in thirty days, in her and in you."
+    }
+  ]
+}

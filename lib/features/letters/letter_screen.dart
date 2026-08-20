@@ -42,7 +42,7 @@ class LetterScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carta'),
+        title: Text(S.addLetter),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>

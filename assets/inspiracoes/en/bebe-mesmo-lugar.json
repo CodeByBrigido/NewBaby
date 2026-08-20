@@ -1,0 +1,39 @@
+{
+  "titulo": "The same photo, every month",
+  "resumo": "Pick one fixed spot and repeat it every month. On their own they say little. Together, at the end of the year, they are the loveliest thing in the collection.",
+  "tipo": "foto",
+  "quando": {
+    "tipo": "idade",
+    "deDias": 30,
+    "ateDias": 400
+  },
+  "registrar": "foto",
+  "secoes": [
+    {
+      "titulo": "The whole idea in one sentence",
+      "texto": "Pick a place in the house and photograph the child there, from the same spot, once a month. Each photo on its own is nothing. The twelve together are the most striking thing you will have by the end of the year."
+    },
+    {
+      "titulo": "Choosing the place",
+      "itens": [
+        "Something that will not change: an armchair, the corner of the sofa, the same wall.",
+        "With a fixed object beside it to give scale. A cushion, a teddy, the plant.",
+        "Near a window, so the light is similar in every month.",
+        "Avoid the cot: it leaves the scene halfway through and the series breaks."
+      ]
+    },
+    {
+      "titulo": "So the photos match",
+      "itens": [
+        "Mark the floor with tape where you stand. It looks excessive and it is what saves the series.",
+        "Always landscape, or always portrait. Mixing them ruins the layout later.",
+        "One fixed day a month, the monthly birthday, so it never becomes a decision.",
+        "A monthly alarm on your phone. The series dies of forgetting, never of unwillingness."
+      ]
+    },
+    {
+      "titulo": "At the end of the year",
+      "texto": "Put the twelve together in a grid of four by three. It is the image the whole family will want, and it is the one that ends up on the wall. If you miss a month, carry on anyway: eleven photos still tell the whole story."
+    }
+  ]
+}
