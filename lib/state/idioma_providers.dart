@@ -69,8 +69,37 @@ final NotifierProvider<IdiomaNotifier, Idioma> idiomaProvider =
 class IdiomaNotifier extends Notifier<Idioma> {
   static const String chave = 'idioma';
 
+  /// A escolha lida do disco antes do primeiro quadro.
+  ///
+  /// [build] é síncrono e o disco não é. Sem esta semente, o primeiro quadro
+  /// nasce na língua do aparelho e a escolha guardada chega um quadro
+  /// depois: quem escolheu alemão vê o aplicativo abrir em português e virar
+  /// em seguida, e essa virada ainda refaz o roteador à toa.
+  ///
+  /// Esquecer de semear não deixa o aplicativo na língua errada, só o faz
+  /// piscar: a escolha chega mesmo assim, um quadro depois, e agora o
+  /// roteador acompanha.
+  static Idioma? _semente;
+
+  /// Lê a escolha guardada. `main()` chama isto antes de `runApp`.
+  static Future<void> semearDoDisco() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? guardado = prefs.getString(chave);
+      if (guardado != null) _semente = Idioma.deCodigo(guardado);
+    } on Object {
+      // Fica no que o aparelho sugerir.
+    }
+  }
+
+  /// A semente é estática e atravessaria de um teste para o outro.
+  @visibleForTesting
+  static void esquecerSemente() => _semente = null;
+
   @override
   Idioma build() {
+    final Idioma? semeado = _semente;
+    if (semeado != null) return semeado;
     unawaited(_carregar());
     return doAparelho();
   }

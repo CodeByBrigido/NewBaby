@@ -930,8 +930,9 @@ class TextosDe implements Textos {
 
   @override
   String get languageNote =>
-      'Die Auswahl wird bereits gespeichert, aber die Übersetzung wird '
-      'noch erstellt: Vorerst bleibt die App auf Portugiesisch.';
+      'Die Auswahl wird auf diesem Gerät gespeichert und gilt für alle '
+      'Bildschirme. Bereits angelegte Ordner in Google Drive behalten die '
+      'Namen, die sie bekommen haben.';
 
   @override
   String get videoOptimizedShort => '540p mit optimierter Bitrate';

@@ -218,7 +218,9 @@ class MemoryRepository {
         ageDays: 0,
         bucketKey: bucket.key,
         bucketName: bucket.folderName,
-        title: S.birth,
+        // Sem título gravado: o rótulo "Nascimento" é calculado na hora de
+        // desenhar, e por isso acompanha a língua de quem está lendo.
+        // Gravá-lo congelava a cápsula na língua do dia do cadastro.
         description: profile.hospital,
         growth:
             profile.birthWeightGrams != null && profile.birthHeightCm != null
